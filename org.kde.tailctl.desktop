@@ -1,0 +1,13 @@
+# SPDX-License-Identifier: CC0-1.0
+# SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
+[Desktop Entry]
+Name=Tailctl
+Comment=Tailctl Kirigami Application
+Version=1.0
+Exec=tailctl
+Icon=applications-development
+Type=Application
+Terminal=false
+# Add an actual main category here (and possibly applicable additional ones)
+#   https://specifications.freedesktop.org/menu-spec/latest/apa.html#main-category-registry
+Categories=Qt;KDE;

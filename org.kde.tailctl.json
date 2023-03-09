@@ -1,0 +1,28 @@
+{
+    "id": "org.kde.tailctl",
+    "runtime": "org.kde.Platform",
+    "runtime-version": "5.15",
+    "sdk": "org.kde.Sdk",
+    "command": "tailctl",
+    "tags": ["nightly"],
+    "desktop-file-name-suffix": " (Nightly)",
+    "finish-args": [
+        "--share=ipc",
+        "--share=network",
+        "--socket=x11",
+        "--socket=wayland",
+        "--device=dri",
+        "--filesystem=home"
+    ],
+    "separate-locales": false,
+
+    "modules": [
+        {
+            "name": "tailctl",
+            "buildsystem": "cmake-ninja",
+            "builddir": true,
+            "sources": [ { "type": "dir", "path": ".", "skip": [".git"] } ]
+        }
+    ]
+}
+

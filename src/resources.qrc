@@ -1,0 +1,10 @@
+<!--
+    SPDX-License-Identifier: CC0-1.0
+    SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
+-->
+<RCC>
+    <qresource prefix="/">
+        <file alias="main.qml">contents/ui/main.qml</file>
+        <file alias="About.qml">contents/ui/About.qml</file>
+    </qresource>
+</RCC>

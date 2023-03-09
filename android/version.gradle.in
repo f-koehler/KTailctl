@@ -1,0 +1,7 @@
+// SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
+// SPDX-License-Identifier: BSD-3-Clause
+
+ext {
+    projectVersionFull = "@PROJECT_VERSION@"
+}
+

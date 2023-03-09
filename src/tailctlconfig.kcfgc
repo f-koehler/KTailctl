@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
+# SPDX-License-Identifier: LGPL-2.0-or-later
+
+File=tailctlconfig.kcfg
+ClassName=TailctlConfig
+Mutators=true
+DefaultValueGetters=true
+GenerateProperties=true
+ParentInConstructor=true
+Singleton=true
