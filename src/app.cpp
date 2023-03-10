@@ -23,8 +23,8 @@ void App::saveWindowGeometry(QQuickWindow *window, const QString &group) const
     dataResource.sync();
 }
 
-void App::refreshStatus(QQuickWindow *window)
+void App::refreshStatus(QQuickWindow *window, const QString& executable)
 {
-    m_status.refresh();
+    m_status.refresh(executable);
     window->setProperty("backend_state", m_status.getBackendState());
 }

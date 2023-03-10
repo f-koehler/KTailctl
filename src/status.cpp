@@ -99,9 +99,9 @@ bool Peer::isActive() const {
 
 
 
-void Status::refresh() {
+void Status::refresh(const QString& executable) {
     QProcess process;
-    process.start("tailscale", {"status", "--json"});
+    process.start(executable, {"status", "--json"});
 
     if(!process.waitForFinished(1000)) {
         qWarning() << "Failed to get tailscale status";

@@ -46,7 +46,7 @@ private:
   QVector<Peer> m_peers;
 
 public:
-    void refresh();
+    void refresh(const QString& executable = QStringLiteral("tailscale"));
     void read(const QJsonObject& json);
 
     const QString& getVersion() const;

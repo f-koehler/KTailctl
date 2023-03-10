@@ -27,7 +27,7 @@ public:
                      const QString &group = QStringLiteral("main")) const;
 
   Q_INVOKABLE void
-  refreshStatus(QQuickWindow *window);
+  refreshStatus(QQuickWindow *window, const QString& executable);
 };
 
 #endif /* TAILCTL_APP_H */

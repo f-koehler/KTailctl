@@ -12,5 +12,9 @@ SPDX-License-Identifier: LGPL-2.0-or-later
             <label>Refresh interval for the tailscale status in milliseconds</label>
             <default>500</default>
         </entry>
+        <entry name="tailscaleExecutable" type="String">
+            <label>Path to the tailscale executable</label>
+            <default>tailscale</default>
+        </entry>
     </group>
 </kcfg>

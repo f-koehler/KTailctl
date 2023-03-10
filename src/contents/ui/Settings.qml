@@ -39,5 +39,16 @@ Kirigami.Page {
             }
             Kirigami.FormData.label: i18n("Refresh rate (ms)")
         }
+
+        Controls.TextField {
+            id: textTailscaleExecutable
+            text: Config.tailscaleExecutable
+            Kirigami.FormData.label: i18n("Tailscale executable")
+
+            onEditingFinished: {
+                Config.tailscaleExecutable = textTailscaleExecutable.text;
+                Config.save();
+            }
+        }
     }
 }
