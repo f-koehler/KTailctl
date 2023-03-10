@@ -114,6 +114,8 @@ Kirigami.ApplicationWindow {
 
                     Kirigami.Icon {
                         source: getOSIcon(os)
+                        //color: "#ffffff"
+                        isMask: true
                     }
 
                     Controls.Label {
