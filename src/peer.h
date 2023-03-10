@@ -9,8 +9,8 @@
 #include <QJsonObject>
 #include <QObject>
 
-struct Peer {
-    Q_GADGET
+struct Peer : public QObject {
+    Q_OBJECT
 
 private:
     QString m_id;

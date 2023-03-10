@@ -23,7 +23,7 @@ public:
     };
 
 private:
-    QList<Peer> m_peers;
+    QVector<Peer*> m_peers;
 
 public:
     explicit ModelPeers(QObject* parent = nullptr);
@@ -32,7 +32,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
     QVariant data(const QModelIndex& index, int role) const override;
 
-    void updatePeers(const QVector<Peer>& peers);
+    void updatePeers(const QVector<Peer*>& peers);
 };
 
 #endif //TAILCTL_PEER_MODEL_H

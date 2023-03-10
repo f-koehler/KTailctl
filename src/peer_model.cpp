@@ -29,25 +29,25 @@ QVariant ModelPeers::data(const QModelIndex& index, int role) const {
 
     switch(role) {
         case IDRole:
-            return m_peers[index.row()].getID();
+            return m_peers[index.row()]->getID();
         case PublicKeyRole:
-            return m_peers[index.row()].getPublicKey();
+            return m_peers[index.row()]->getPublicKey();
         case HostNameRole:
-            return m_peers[index.row()].getHostName();
+            return m_peers[index.row()]->getHostName();
         case DNSNameRole:
-            return m_peers[index.row()].getDNSName();
+            return m_peers[index.row()]->getDNSName();
         case OSRole:
-            return m_peers[index.row()].getOS();
+            return m_peers[index.row()]->getOS();
         case OnlineRole:
-            return m_peers[index.row()].isOnline();
+            return m_peers[index.row()]->isOnline();
         case ActiveRole:
-            return m_peers[index.row()].isActive();
+            return m_peers[index.row()]->isActive();
         default:
             return {};
     }
 }
 
-void ModelPeers::updatePeers(const QVector<Peer> &peers) {
+void ModelPeers::updatePeers(const QVector<Peer*> &peers) {
     beginResetModel();
     m_peers.clear();
     for(const auto& peer : peers) {

@@ -40,7 +40,10 @@ void Status::read(const QJsonObject &json) {
     }
 
     if(json.contains("Self") && json["Self"].isObject()) {
-        m_self.read(json["Self"].toObject());
+        if(m_self == nullptr) {
+            m_self = new Peer();
+        }
+        m_self->read(json["Self"].toObject());
     } else {
         qWarning() << "Cannot find object \"Self\"";
     }
@@ -49,16 +52,16 @@ void Status::read(const QJsonObject &json) {
     if(json.contains("Peer") && json["Peer"].isObject()) {
         const auto peers_object = json["Peer"].toObject();
         for(const auto& key : peers_object.keys()) {
-            Peer peer;
-            peer.read(peers_object[key].toObject());
+            Peer* peer = new Peer();
+            peer->read(peers_object[key].toObject());
             m_peers.append(peer);
         }
     } else {
         qWarning() << "Cannot find object \"Peer\"";
     }
 
-    std::sort(m_peers.begin(), m_peers.end(), [](const Peer& a, const Peer& b) {
-        return a.getID() < b.getID();
+    std::sort(m_peers.begin(), m_peers.end(), [](const Peer* a, const Peer* b) {
+        return a->getID() < b->getID();
     });
 }
 
@@ -74,10 +77,10 @@ const QString &Status::getBackendState() const {
     return m_backend_state;
 }
 
-const Peer &Status::getSelf() const {
+const Peer* Status::getSelf() const {
     return m_self;
 }
 
-const QVector<Peer> & Status::getPeers() const {
+const QVector<Peer*> & Status::getPeers() const {
     return m_peers;
 }
