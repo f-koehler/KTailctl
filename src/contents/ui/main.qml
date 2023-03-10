@@ -34,6 +34,15 @@ Kirigami.ApplicationWindow {
         onTriggered: App.saveWindowGeometry(root)
     }
 
+    Timer {
+        id: refreshStatusTimer
+        interval: 500
+        onTriggered: App.refreshStatus(root)
+        triggeredOnStart: true
+        running: true
+        repeat: true
+    }
+
     property int counter: 0
 
     globalDrawer: Kirigami.GlobalDrawer {
@@ -65,14 +74,14 @@ Kirigami.ApplicationWindow {
         id: contextDrawer
     }
 
-    pageStack.initialPage: page
+    pageStack.initialPage: peers
 
     Kirigami.Page {
-        id: page
+        id: peers
 
         Layout.fillWidth: true
 
-        title: i18n("Main Page")
+        title: i18n("Peers")
 
         actions.main: Kirigami.Action {
             text: i18n("Plus One")
@@ -84,7 +93,7 @@ Kirigami.ApplicationWindow {
         }
 
         ColumnLayout {
-            width: page.width
+            width: peers.width
 
             anchors.centerIn: parent
 

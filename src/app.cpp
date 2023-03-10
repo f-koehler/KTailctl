@@ -22,3 +22,9 @@ void App::saveWindowGeometry(QQuickWindow *window, const QString &group) const
     KWindowConfig::saveWindowSize(window, windowGroup);
     dataResource.sync();
 }
+
+void App::refreshStatus(QQuickWindow *window)
+{
+    (void)window;
+    m_status.refresh();
+}
