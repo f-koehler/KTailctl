@@ -8,12 +8,12 @@
 #include <QVector>
 #include <QJsonObject>
 #include <QList>
-
+#include <QObject>
 
 #include "peer.h"
 
-struct Status {
-    Q_GADGET
+struct Status : public QObject {
+    Q_OBJECT
 
 private:
   QString m_version;
@@ -22,10 +22,13 @@ private:
   Peer m_self;
   QVector<Peer> m_peers;
 
-public:
-    void refresh(const QString& executable = QStringLiteral("tailscale"));
+protected:
     void read(const QJsonObject& json);
 
+public slots:
+    void refresh(const QString& executable = QStringLiteral("tailscale"));
+
+public:
     const QString& getVersion() const;
     bool isTUN() const;
     const QString& getBackendState() const;
