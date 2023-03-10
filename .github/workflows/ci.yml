@@ -31,7 +31,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: build
-          key: ${{ toolchain.os }}-${{ toolchain.cc }}-${{ toolchain.cxx }}
+          key: ${{ matrix.toolchain.os }}-${{ matrix.toolchain.cc }}-${{ matrix.toolchain.cxx }}
       - name: Configure CMake project.
         run: CC=${{ matrix.toolchain.cc }} CXX=${{ matrix.toolchain.cxx }} cmake -B build
       - name: Build CMake project.
