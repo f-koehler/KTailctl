@@ -27,6 +27,7 @@ if (ANDROID)
         help-about
         application-exit
         applications-graphics
+        settings-configure
     )
 endif()
 

@@ -6,5 +6,6 @@
     <qresource prefix="/">
         <file alias="main.qml">contents/ui/main.qml</file>
         <file alias="About.qml">contents/ui/About.qml</file>
+        <file alias="Settings.qml">contents/ui/Settings.qml</file>
     </qresource>
 </RCC>

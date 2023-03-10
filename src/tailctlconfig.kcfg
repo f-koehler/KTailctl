@@ -8,9 +8,9 @@ SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 SPDX-License-Identifier: LGPL-2.0-or-later
 -->
     <group name="General">
-        <entry name="someSetting" type="Bool">
-            <label>Some setting description</label>
-            <default>true</default>
+        <entry name="refreshInterval" type="Int">
+            <label>Refresh interval for the tailscale status in milliseconds</label>
+            <default>500</default>
         </entry>
     </group>
 </kcfg>

@@ -27,4 +27,5 @@ void App::refreshStatus(QQuickWindow *window)
 {
     m_status.refresh();
     window->setProperty("backend_state", m_status.getBackendState());
+    qDebug() << "Refresh";
 }

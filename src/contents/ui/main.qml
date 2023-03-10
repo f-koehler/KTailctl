@@ -36,7 +36,7 @@ Kirigami.ApplicationWindow {
 
     Timer {
         id: refreshStatusTimer
-        interval: 500
+        interval: Config.refreshInterval ? Config.refreshInterval : 500
         onTriggered: App.refreshStatus(root)
         triggeredOnStart: true
         running: true
@@ -52,11 +52,9 @@ Kirigami.ApplicationWindow {
         isMenu: !root.isMobile
         actions: [
             Kirigami.Action {
-                text: i18n("Plus One")
-                icon.name: "list-add"
-                onTriggered: {
-                    counter += 1
-                }
+                text: i18n("Settings")
+                icon.name: "settings-configure"
+                onTriggered: pageStack.layers.push('qrc:Settings.qml')
             },
             Kirigami.Action {
                 text: i18n("About Tailctl")
@@ -101,12 +99,6 @@ Kirigami.ApplicationWindow {
             Kirigami.Heading {
                 Layout.alignment: Qt.AlignCenter
                 text: backend_state
-            }
-
-            Controls.Button {
-                Layout.alignment: Qt.AlignHCenter
-                text: "+ 1"
-                onClicked: counter += 1
             }
         }
     }
