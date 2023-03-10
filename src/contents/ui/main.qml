@@ -81,23 +81,36 @@ Kirigami.ApplicationWindow {
 
         title: i18n("Peers")
 
-        // actions.main: Kirigami.Action {
-        //     text: i18n("Plus One")
-        //     icon.name: "list-add"
-        //     tooltip: i18n("Add one to the counter")
-        //     onTriggered: {
-        //         counter += 1
-        //     }
-        // }
+        Kirigami.CardsListView {
+            id: listPeers
+            model: ModelPeers
+            delegate: delegatePeers
+        }
+    }
 
-        ColumnLayout {
-            width: peers.width
+    Component {
+        id: delegatePeers
+        Kirigami.AbstractCard {
+            contentItem: Item {
+                implicitWidth: delegateLayout.implicitWidth
+                implicitHeight: delegateLayout.implicitHeight
+                GridLayout {
+                    id: delegateLayout
 
-            anchors.centerIn: parent
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        top: parent.top
+                    }
 
-            Kirigami.Heading {
-                Layout.alignment: Qt.AlignCenter
-                text: backend_state
+                    rowSpacing: Kirigami.Units.largeSpacing
+                    columnSpacing: Kirigami.Units.smallSpacing
+                    columns: 3
+
+                    Controls.Label {
+                        text: host_name
+                    }
+                }
             }
         }
     }

@@ -10,6 +10,7 @@
 
 #include "about.h"
 #include "app.h"
+#include "peer_model.h"
 #include "version-tailctl.h"
 #include <KAboutData>
 #include <KLocalizedContext>
@@ -53,6 +54,12 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
 
   App application;
   qmlRegisterSingletonInstance("org.kde.Tailctl", 1, 0, "App", &application);
+
+  ModelPeers modelPeers;
+  Status status;
+  status.refresh();
+  modelPeers.updatePeers(status.getPeers());
+  qmlRegisterSingletonInstance("org.kde.Tailctl", 1, 0, "ModelPeers", &modelPeers);
 
   engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
   engine.load(QUrl(QStringLiteral("qrc:///main.qml")));

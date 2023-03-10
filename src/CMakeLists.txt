@@ -8,6 +8,7 @@ add_executable(tailctl
     status.cpp
     peer.cpp
     resources.qrc
+    peer_model.cpp
 )
 
 target_link_libraries(tailctl
