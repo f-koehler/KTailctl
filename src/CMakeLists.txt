@@ -6,7 +6,9 @@ add_executable(tailctl
     about.cpp
     app.cpp
     status.cpp
-    resources.qrc)
+    peer.cpp
+    resources.qrc
+)
 
 target_link_libraries(tailctl
     Qt5::Core

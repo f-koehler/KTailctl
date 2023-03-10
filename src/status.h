@@ -9,31 +9,8 @@
 #include <QJsonObject>
 #include <QList>
 
-struct Peer {
-    Q_GADGET
 
-private:
-  QString m_id;
-  QString m_public_key;
-  QString m_host_name;
-  QString m_dns_name;
-  QString m_os;
-  QVector<QString> m_tailscale_ips;
-  bool m_online;
-  bool m_active;
-
-public:
-    void read(const QJsonObject& json);
-
-    const QString& getID() const;
-    const QString& getPublicKey() const;
-    const QString& getHostName() const;
-    const QString& getDNSName() const;
-    const QString& getOS() const;
-    const QVector<QString>& getTailscaleIPs() const;
-    bool isOnline() const;
-    bool isActive() const;
-};
+#include "peer.h"
 
 struct Status {
     Q_GADGET
