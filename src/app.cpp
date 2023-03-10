@@ -25,6 +25,6 @@ void App::saveWindowGeometry(QQuickWindow *window, const QString &group) const
 
 void App::refreshStatus(QQuickWindow *window)
 {
-    (void)window;
     m_status.refresh();
+    window->setProperty("backend_state", m_status.getBackendState());
 }

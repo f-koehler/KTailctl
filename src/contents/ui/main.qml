@@ -44,6 +44,7 @@ Kirigami.ApplicationWindow {
     }
 
     property int counter: 0
+    property string backend_state: "Unknown"
 
     globalDrawer: Kirigami.GlobalDrawer {
         title: i18n("Tailctl")
@@ -99,7 +100,7 @@ Kirigami.ApplicationWindow {
 
             Kirigami.Heading {
                 Layout.alignment: Qt.AlignCenter
-                text: counter == 0 ? i18n("Hello, World!") : counter
+                text: backend_state
             }
 
             Controls.Button {
