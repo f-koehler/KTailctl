@@ -1,0 +1,33 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ${{ matrix.toolchain.os }}
+    strategy:
+      matrix:
+        toolchain:
+          - name: "Ubuntu 22.04"
+            os: ubuntu-22.04
+            cc: gcc
+            cxx: g++
+    steps:
+      - name: Checkout repository.
+        uses: actions/checkout@v3
+      - name: Update apt cache.
+        run: sudo apt-get update -yq
+      - name: Install compiler and CMake.
+        run: sudo apt-get install -yq gcc g++ cmake
+      - name: Install Qt dependencies.
+        run: sudo apt-get install -yq qtbase5-dev qtdeclarative5-dev qtquickcontrols2-5-dev libqt5svg5-dev
+      - name: Install KDE dependencies.
+        run: sudo apt-get install -yq extra-cmake-modules kirigami2-dev libkf5coreaddons-dev libkf5i18n-dev libkf5config-dev
+      - name: Configure CMake project.
+        run: CC=${{ matrix.toolchain.cc }} CXX=${{ matrix.toolchain.cxx }} cmake -B build
+      - name: Build CMake project.
+        run: cmake --build build
