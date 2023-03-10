@@ -5,6 +5,7 @@ add_executable(tailctl
     main.cpp
     about.cpp
     app.cpp
+    status.cpp
     resources.qrc)
 
 target_link_libraries(tailctl
@@ -17,7 +18,8 @@ target_link_libraries(tailctl
     KF5::I18n
     KF5::CoreAddons
     KF5::ConfigCore
-    KF5::ConfigGui)
+    KF5::ConfigGui
+)
 
 if (ANDROID)
     kirigami_package_breeze_icons(ICONS
