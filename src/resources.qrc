@@ -8,7 +8,7 @@
         <file alias="About.qml">contents/ui/About.qml</file>
         <file alias="Settings.qml">contents/ui/Settings.qml</file>
     </qresource>
-    <qresource prefix="/icons/">
+    <qresource prefix="/icon/">
         <file alias="android.svg">contents/icon/android.svg</file>
         <file alias="ios.svg">contents/icon/ios.svg</file>
         <file alias="linux.svg">contents/icon/linux.svg</file>

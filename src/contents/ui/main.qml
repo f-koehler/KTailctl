@@ -44,6 +44,9 @@ Kirigami.ApplicationWindow {
     }
 
     property string backend_state: "Unknown"
+    function getOSIcon(os) {
+        return "qrc:/icon/" + os.toLowerCase() + ".svg"
+    }
 
     globalDrawer: Kirigami.GlobalDrawer {
         title: i18n("Tailctl")
@@ -106,6 +109,12 @@ Kirigami.ApplicationWindow {
                     rowSpacing: Kirigami.Units.largeSpacing
                     columnSpacing: Kirigami.Units.smallSpacing
                     columns: 3
+
+
+
+                    Kirigami.Icon {
+                        source: getOSIcon(os)
+                    }
 
                     Controls.Label {
                         text: host_name
