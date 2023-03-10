@@ -43,7 +43,6 @@ Kirigami.ApplicationWindow {
         repeat: true
     }
 
-    property int counter: 0
     property string backend_state: "Unknown"
 
     globalDrawer: Kirigami.GlobalDrawer {
@@ -75,21 +74,21 @@ Kirigami.ApplicationWindow {
 
     pageStack.initialPage: peers
 
-    Kirigami.Page {
+    Kirigami.ScrollablePage {
         id: peers
 
         Layout.fillWidth: true
 
         title: i18n("Peers")
 
-        actions.main: Kirigami.Action {
-            text: i18n("Plus One")
-            icon.name: "list-add"
-            tooltip: i18n("Add one to the counter")
-            onTriggered: {
-                counter += 1
-            }
-        }
+        // actions.main: Kirigami.Action {
+        //     text: i18n("Plus One")
+        //     icon.name: "list-add"
+        //     tooltip: i18n("Add one to the counter")
+        //     onTriggered: {
+        //         counter += 1
+        //     }
+        // }
 
         ColumnLayout {
             width: peers.width
