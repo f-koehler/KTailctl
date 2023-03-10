@@ -110,8 +110,6 @@ Kirigami.ApplicationWindow {
                     columnSpacing: Kirigami.Units.smallSpacing
                     columns: 3
 
-
-
                     Kirigami.Icon {
                         source: getOSIcon(os)
                         //color: "#ffffff"
@@ -120,6 +118,10 @@ Kirigami.ApplicationWindow {
 
                     Controls.Label {
                         text: host_name
+                    }
+
+                    Kirigami.Icon {
+                        source: online ? "online" : "offline"
                     }
                 }
             }

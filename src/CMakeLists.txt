@@ -31,6 +31,8 @@ if (ANDROID)
         application-exit
         applications-graphics
         settings-configure
+        online
+        offline
     )
 endif()
 
