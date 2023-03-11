@@ -22,6 +22,7 @@ signals:
     void statusChanged(const Status &);
 
 public:
+    App(QObject *parent = nullptr);
     const Status *getStatus() const;
 
     // Restore current window geometry

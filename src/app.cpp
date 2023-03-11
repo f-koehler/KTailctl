@@ -6,6 +6,12 @@
 #include <KWindowConfig>
 #include <QQuickWindow>
 
+App::App(QObject *parent)
+    : QObject(parent)
+    , m_status(new Status())
+{
+}
+
 const Status *App::getStatus() const
 {
     return m_status;
