@@ -64,7 +64,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     ModelPeers modelPeers;
     Status status;
     status.refresh();
-    modelPeers.updatePeers(status.getPeers());
+    modelPeers.updatePeers(status.peers());
     qmlRegisterSingletonInstance("org.kde.Tailctl", 1, 0, "ModelPeers", &modelPeers);
 
     engine.rootContext()->setContextObject(new KLocalizedContext(&engine));

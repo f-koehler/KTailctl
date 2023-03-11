@@ -15,14 +15,14 @@
 struct Status : public QObject {
     Q_OBJECT
 
-    Q_PROPERTY(QString version READ getVersion)
+    Q_PROPERTY(QString version READ version)
     Q_PROPERTY(bool tun READ isTUN)
-    Q_PROPERTY(QString backendState READ getBackendState)
-    Q_PROPERTY(QVector<Peer *> peers READ getPeers)
+    Q_PROPERTY(QString backendState READ backendState)
+    Q_PROPERTY(QVector<Peer *> peers READ peers)
 
 private:
     QString m_version;
-    bool m_tun;
+    bool m_is_tun;
     QString m_backend_state;
     Peer *m_self;
     QVector<Peer *> m_peers;
@@ -31,11 +31,11 @@ public:
     void refresh(const QString &executable = QStringLiteral("tailscale"));
     void read(const QJsonObject &json);
 
-    const QString &getVersion() const;
+    const QString &version() const;
     bool isTUN() const;
-    const QString &getBackendState() const;
-    const Peer *getSelf() const;
-    const QVector<Peer *> &getPeers() const;
+    const QString &backendState() const;
+    const Peer *self() const;
+    const QVector<Peer *> &peers() const;
 };
 
 #endif /* TAILCTL_STATUS_H */

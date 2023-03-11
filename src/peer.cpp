@@ -51,54 +51,54 @@ void Peer::read(const QJsonObject &json)
     }
 
     if (json.contains("Online") && json["Online"].isBool()) {
-        m_online = json["Online"].toBool();
+        m_is_online = json["Online"].toBool();
     } else {
         qWarning() << "Cannot find bool \"Online\"";
     }
 
     if (json.contains("Active") && json["Active"].isBool()) {
-        m_active = json["Active"].toBool();
+        m_is_active = json["Active"].toBool();
     } else {
         qWarning() << "Cannot find bool \"Active\"";
     }
 }
 
-const QString &Peer::getID() const
+const QString &Peer::id() const
 {
     return m_id;
 }
 
-const QString &Peer::getPublicKey() const
+const QString &Peer::publicKey() const
 {
     return m_public_key;
 }
 
-const QString &Peer::getHostName() const
+const QString &Peer::hostName() const
 {
     return m_host_name;
 }
 
-const QString &Peer::getDNSName() const
+const QString &Peer::dnsName() const
 {
     return m_dns_name;
 }
 
-const QString &Peer::getOS() const
+const QString &Peer::os() const
 {
     return m_os;
 }
 
-const QVector<QString> &Peer::getTailscaleIPs() const
+const QVector<QString> &Peer::tailscaleIPs() const
 {
     return m_tailscale_ips;
 }
 
 bool Peer::isOnline() const
 {
-    return m_online;
+    return m_is_online;
 }
 
 bool Peer::isActive() const
 {
-    return m_active;
+    return m_is_active;
 }

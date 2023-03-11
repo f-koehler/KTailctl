@@ -30,7 +30,7 @@ void Status::read(const QJsonObject &json)
     }
 
     if (json.contains("TUN") && json["TUN"].isBool()) {
-        m_tun = json["TUN"].toBool();
+        m_is_tun = json["TUN"].toBool();
     } else {
         qWarning() << "Cannot find bool \"TUN\"";
     }
@@ -63,31 +63,31 @@ void Status::read(const QJsonObject &json)
     }
 
     std::sort(m_peers.begin(), m_peers.end(), [](const Peer *a, const Peer *b) {
-        return a->getID() < b->getID();
+        return a->id() < b->id();
     });
 }
 
-const QString &Status::getVersion() const
+const QString &Status::version() const
 {
     return m_version;
 }
 
 bool Status::isTUN() const
 {
-    return m_tun;
+    return m_is_tun;
 }
 
-const QString &Status::getBackendState() const
+const QString &Status::backendState() const
 {
     return m_backend_state;
 }
 
-const Peer *Status::getSelf() const
+const Peer *Status::self() const
 {
     return m_self;
 }
 
-const QVector<Peer *> &Status::getPeers() const
+const QVector<Peer *> &Status::peers() const
 {
     return m_peers;
 }

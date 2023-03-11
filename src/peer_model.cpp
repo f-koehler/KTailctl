@@ -34,15 +34,15 @@ QVariant ModelPeers::data(const QModelIndex &index, int role) const
 
     switch (role) {
     case IDRole:
-        return m_peers[index.row()]->getID();
+        return m_peers[index.row()]->id();
     case PublicKeyRole:
-        return m_peers[index.row()]->getPublicKey();
+        return m_peers[index.row()]->publicKey();
     case HostNameRole:
-        return m_peers[index.row()]->getHostName();
+        return m_peers[index.row()]->hostName();
     case DNSNameRole:
-        return m_peers[index.row()]->getDNSName();
+        return m_peers[index.row()]->dnsName();
     case OSRole:
-        return m_peers[index.row()]->getOS();
+        return m_peers[index.row()]->os();
     case OnlineRole:
         return m_peers[index.row()]->isOnline();
     case ActiveRole:
