@@ -6,16 +6,18 @@
 #include <KWindowConfig>
 #include <QQuickWindow>
 
-void App::restoreWindowGeometry(QQuickWindow *window, const QString &group) const
-{
+const Status *App::getStatus() const {
+    return m_status;
+}
+
+void App::restoreWindowGeometry(QQuickWindow *window, const QString &group) const {
     KConfig dataResource(QStringLiteral("data"), KConfig::SimpleConfig, QStandardPaths::AppDataLocation);
     KConfigGroup windowGroup(&dataResource, QStringLiteral("Window-") + group);
     KWindowConfig::restoreWindowSize(window, windowGroup);
     KWindowConfig::restoreWindowPosition(window, windowGroup);
 }
 
-void App::saveWindowGeometry(QQuickWindow *window, const QString &group) const
-{
+void App::saveWindowGeometry(QQuickWindow *window, const QString &group) const {
     KConfig dataResource(QStringLiteral("data"), KConfig::SimpleConfig, QStandardPaths::AppDataLocation);
     KConfigGroup windowGroup(&dataResource, QStringLiteral("Window-") + group);
     KWindowConfig::saveWindowPosition(window, windowGroup);
@@ -23,8 +25,7 @@ void App::saveWindowGeometry(QQuickWindow *window, const QString &group) const
     dataResource.sync();
 }
 
-void App::refreshStatus(QQuickWindow *window, const QString& executable)
-{
-    m_status.refresh(executable);
-    window->setProperty("backend_state", m_status.getBackendState());
+void App::refreshStatus(QQuickWindow *window, const QString &executable) {
+    m_status->refresh(executable);
+    window->setProperty("backend_state", m_status->getBackendState());
 }
