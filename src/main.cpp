@@ -10,7 +10,9 @@
 
 #include "about.h"
 #include "app.h"
+#include "peer.h"
 #include "peer_model.h"
+#include "status.h"
 #include "version-tailctl.h"
 #include <KAboutData>
 #include <KLocalizedContext>
@@ -55,6 +57,9 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     App application;
     qmlRegisterSingletonInstance("org.kde.Tailctl", 1, 0, "App", &application);
+
+    qmlRegisterType<Peer>("org.kde.Tailctl", 1, 0, "Peer");
+    qmlRegisterType<Status>("org.kde.Tailctl", 1, 0, "Status");
 
     ModelPeers modelPeers;
     Status status;
