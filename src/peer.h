@@ -6,6 +6,7 @@
 
 #include <QJsonObject>
 #include <QObject>
+#include <QQmlEngine>
 #include <QString>
 #include <QVector>
 
@@ -20,6 +21,8 @@ struct Peer : public QObject {
     Q_PROPERTY(QVector<QString> tailscaleIPs READ getTailscaleIPs MEMBER m_tailscale_ips NOTIFY tailscaleIPsChanged)
     Q_PROPERTY(bool online READ isOnline MEMBER m_online NOTIFY onlineChanged)
     Q_PROPERTY(bool active READ isActive MEMBER m_active NOTIFY activeChanged)
+
+    QML_ELEMENT
 
 private:
     QString m_id;
