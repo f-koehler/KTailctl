@@ -2,3 +2,4 @@ build/
 cmake-build-*/
 *.kdev4
 .kdev4/
+.clang-format

@@ -8,31 +8,24 @@
 
 #include <QAbstractListModel>
 
-class ModelPeers : public QAbstractListModel {
+class ModelPeers : public QAbstractListModel
+{
     Q_OBJECT
 
 public:
-    enum Roles {
-        IDRole = Qt::UserRole + 1,
-        PublicKeyRole,
-        HostNameRole,
-        DNSNameRole,
-        OSRole,
-        OnlineRole,
-        ActiveRole
-    };
+    enum Roles { IDRole = Qt::UserRole + 1, PublicKeyRole, HostNameRole, DNSNameRole, OSRole, OnlineRole, ActiveRole };
 
 private:
-    QVector<Peer*> m_peers;
+    QVector<Peer *> m_peers;
 
 public:
-    explicit ModelPeers(QObject* parent = nullptr);
+    explicit ModelPeers(QObject *parent = nullptr);
 
-    int rowCount(const QModelIndex& parent) const override;
+    int rowCount(const QModelIndex &parent) const override;
     QHash<int, QByteArray> roleNames() const override;
-    QVariant data(const QModelIndex& index, int role) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
 
-    void updatePeers(const QVector<Peer*>& peers);
+    void updatePeers(const QVector<Peer *> &peers);
 };
 
-#endif //TAILCTL_PEER_MODEL_H
+#endif // TAILCTL_PEER_MODEL_H

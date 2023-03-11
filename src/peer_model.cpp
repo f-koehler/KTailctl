@@ -3,14 +3,18 @@
 
 #include "peer_model.h"
 
-ModelPeers::ModelPeers(QObject* parent) : QAbstractListModel(parent) {
+ModelPeers::ModelPeers(QObject *parent)
+    : QAbstractListModel(parent)
+{
 }
 
-int ModelPeers::rowCount(const QModelIndex& parent) const {
+int ModelPeers::rowCount(const QModelIndex &parent) const
+{
     Q_UNUSED(parent);
     return m_peers.size();
 }
-QHash<int, QByteArray> ModelPeers::roleNames() const {
+QHash<int, QByteArray> ModelPeers::roleNames() const
+{
     QHash<int, QByteArray> roles;
     roles[IDRole] = "id";
     roles[PublicKeyRole] = "public_key";
@@ -22,35 +26,37 @@ QHash<int, QByteArray> ModelPeers::roleNames() const {
     return roles;
 }
 
-QVariant ModelPeers::data(const QModelIndex& index, int role) const {
-    if(!index.isValid()) {
+QVariant ModelPeers::data(const QModelIndex &index, int role) const
+{
+    if (!index.isValid()) {
         return QStringLiteral("Invalid Index");
     }
 
-    switch(role) {
-        case IDRole:
-            return m_peers[index.row()]->getID();
-        case PublicKeyRole:
-            return m_peers[index.row()]->getPublicKey();
-        case HostNameRole:
-            return m_peers[index.row()]->getHostName();
-        case DNSNameRole:
-            return m_peers[index.row()]->getDNSName();
-        case OSRole:
-            return m_peers[index.row()]->getOS();
-        case OnlineRole:
-            return m_peers[index.row()]->isOnline();
-        case ActiveRole:
-            return m_peers[index.row()]->isActive();
-        default:
-            return {};
+    switch (role) {
+    case IDRole:
+        return m_peers[index.row()]->getID();
+    case PublicKeyRole:
+        return m_peers[index.row()]->getPublicKey();
+    case HostNameRole:
+        return m_peers[index.row()]->getHostName();
+    case DNSNameRole:
+        return m_peers[index.row()]->getDNSName();
+    case OSRole:
+        return m_peers[index.row()]->getOS();
+    case OnlineRole:
+        return m_peers[index.row()]->isOnline();
+    case ActiveRole:
+        return m_peers[index.row()]->isActive();
+    default:
+        return {};
     }
 }
 
-void ModelPeers::updatePeers(const QVector<Peer*> &peers) {
+void ModelPeers::updatePeers(const QVector<Peer *> &peers)
+{
     beginResetModel();
     m_peers.clear();
-    for(const auto& peer : peers) {
+    for (const auto &peer : peers) {
         m_peers.append(peer);
     }
     endResetModel();

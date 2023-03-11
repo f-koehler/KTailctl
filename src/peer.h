@@ -4,10 +4,10 @@
 #ifndef TAILCTL_PEER_H
 #define TAILCTL_PEER_H
 
-#include <QString>
-#include <QVector>
 #include <QJsonObject>
 #include <QObject>
+#include <QString>
+#include <QVector>
 
 struct Peer : public QObject {
     Q_OBJECT
@@ -32,26 +32,26 @@ private:
     bool m_active;
 
 signals:
-    void idChanged(const QString&);
-    void publicKeyChanged(const QString&);
-    void hostNameChanged(const QString&);
-    void dnsNameChanged(const QString&);
-    void osChanged(const QString&);
-    void tailscaleIPsChanged(const QVector<QString>&);
+    void idChanged(const QString &);
+    void publicKeyChanged(const QString &);
+    void hostNameChanged(const QString &);
+    void dnsNameChanged(const QString &);
+    void osChanged(const QString &);
+    void tailscaleIPsChanged(const QVector<QString> &);
     bool onlineChanged(bool);
     bool activeChanged(bool);
 
 public:
-    void read(const QJsonObject& json);
+    void read(const QJsonObject &json);
 
-    const QString& getID() const;
-    const QString& getPublicKey() const;
-    const QString& getHostName() const;
-    const QString& getDNSName() const;
-    const QString& getOS() const;
-    const QVector<QString>& getTailscaleIPs() const;
+    const QString &getID() const;
+    const QString &getPublicKey() const;
+    const QString &getHostName() const;
+    const QString &getDNSName() const;
+    const QString &getOS() const;
+    const QVector<QString> &getTailscaleIPs() const;
     bool isOnline() const;
     bool isActive() const;
 };
 
-#endif //TAILCTL_PEER_H
+#endif // TAILCTL_PEER_H
