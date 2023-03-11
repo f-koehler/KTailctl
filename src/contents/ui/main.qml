@@ -43,7 +43,6 @@ Kirigami.ApplicationWindow {
         repeat: true
     }
 
-    property string backend_state: "Unknown"
     function getOSIcon(os) {
         return "qrc:/icon/" + os.toLowerCase() + ".svg"
     }
