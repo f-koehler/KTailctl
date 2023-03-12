@@ -10,27 +10,28 @@
 
 class QQuickWindow;
 
-class App : public QObject
-{
-    Q_OBJECT
+class App : public QObject {
+  Q_OBJECT
 
 private:
-    Status *m_status;
+  Status *m_status;
 
 signals:
 
-    void statusChanged(const Status &);
+  void statusChanged(const Status &);
 
 public:
-    App(QObject *parent = nullptr);
-    const Status *getStatus() const;
+  App(QObject *parent = nullptr);
+  const Status *getStatus() const;
 
-    // Restore current window geometry
-    Q_INVOKABLE void restoreWindowGeometry(QQuickWindow *window, const QString &group = QStringLiteral("main")) const;
-    // Save current window geometry
-    Q_INVOKABLE void saveWindowGeometry(QQuickWindow *window, const QString &group = QStringLiteral("main")) const;
-
-    Q_INVOKABLE void refreshStatus(QQuickWindow *window, const QString &executable);
+  // Restore current window geometry
+  Q_INVOKABLE void
+  restoreWindowGeometry(QQuickWindow *window,
+                        const QString &group = QStringLiteral("main")) const;
+  // Save current window geometry
+  Q_INVOKABLE void
+  saveWindowGeometry(QQuickWindow *window,
+                     const QString &group = QStringLiteral("main")) const;
 };
 
 #endif /* TAILCTL_APP_H */

@@ -37,7 +37,7 @@ Kirigami.ApplicationWindow {
     Timer {
         id: refreshStatusTimer
         interval: Config.refreshInterval ? Config.refreshInterval : 500
-        onTriggered: App.refreshStatus(root, Config.tailscaleExecutable)
+        onTriggered: Status.refresh(Config.tailscaleExecutable)
         triggeredOnStart: true
         running: true
         repeat: true
@@ -85,7 +85,7 @@ Kirigami.ApplicationWindow {
 
         Kirigami.CardsListView {
             id: listPeers
-            model: ModelPeers
+            // model: Status.peers
             delegate: delegatePeers
         }
     }
@@ -109,19 +109,19 @@ Kirigami.ApplicationWindow {
                     columnSpacing: Kirigami.Units.smallSpacing
                     columns: 3
 
-                    Kirigami.Icon {
-                        source: getOSIcon(os)
-                        //color: "#ffffff"
-                        isMask: true
-                    }
-
-                    Controls.Label {
-                        text: host_name
-                    }
-
-                    Kirigami.Icon {
-                        source: online ? "online" : "offline"
-                    }
+                    // Kirigami.Icon {
+                    //     source: getOSIcon(parent.os)
+                    //     //color: "#ffffff"
+                    //     isMask: true
+                    // }
+                    //
+                    // Controls.Label {
+                    //     text: parent.hostName
+                    // }
+                    //
+                    // Kirigami.Icon {
+                    //     source: parent.isOnline ? "online" : "offline"
+                    // }
                 }
             }
         }

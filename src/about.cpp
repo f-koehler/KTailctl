@@ -3,7 +3,6 @@
 
 #include "about.h"
 
-KAboutData AboutType::aboutData() const
-{
-    return KAboutData::applicationData();
+KAboutData AboutType::aboutData() const {
+  return KAboutData::applicationData();
 }
