@@ -13,33 +13,35 @@
 #include "peer.h"
 
 struct Status : public QObject {
-  Q_OBJECT
+    Q_OBJECT
 
-  Q_PROPERTY(QString version READ version)
-  Q_PROPERTY(bool tun READ isTUN)
-  Q_PROPERTY(QString backendState READ backendState)
-  Q_PROPERTY(QList<Peer *> peers READ peers NOTIFY peersChanged)
+    Q_PROPERTY(QString version READ version)
+    Q_PROPERTY(bool tun READ isTUN)
+    Q_PROPERTY(QString backendState READ backendState)
+    Q_PROPERTY(QList<Peer *> peers READ peers NOTIFY peersChanged)
 
 private:
-  QString m_version;
-  bool m_is_tun;
-  QString m_backend_state;
-  Peer *m_self;
-  QList<Peer *> m_peers;
+    QString m_version;
+    bool m_is_tun;
+    QString m_backend_state;
+    Peer *m_self;
+    QList<Peer *> m_peers;
 
 signals:
-  void peersChanged(const QList<Peer *> &);
+    void peersChanged(const QList<Peer *> &);
 
 public:
-  Q_INVOKABLE void
-  refresh(const QString &executable = QStringLiteral("tailscale"));
-  void read(const QJsonObject &json);
+    Status(QObject *parent = nullptr);
+    virtual ~Status() = default;
 
-  const QString &version() const;
-  bool isTUN() const;
-  const QString &backendState() const;
-  const Peer *self() const;
-  const QList<Peer *> &peers() const;
+    Q_INVOKABLE void refresh(const QString &executable = QStringLiteral("tailscale"));
+    void read(const QJsonObject &json);
+
+    const QString &version() const;
+    bool isTUN() const;
+    const QString &backendState() const;
+    const Peer *self() const;
+    const QList<Peer *> &peers() const;
 };
 
 #endif /* TAILCTL_STATUS_H */

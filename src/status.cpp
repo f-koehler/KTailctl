@@ -8,6 +8,12 @@
 #include <QProcess>
 #include <algorithm>
 
+Status::Status(QObject *parent)
+    : QObject(parent)
+    , m_self(new Peer())
+{
+}
+
 void Status::refresh(const QString &executable) {
   QProcess process;
   process.start(executable, {"status", "--json"});
