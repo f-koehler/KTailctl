@@ -40,10 +40,6 @@ ecm_setup_version(${PROJECT_VERSION}
 find_package(Qt5 ${QT5_MIN_VERSION} REQUIRED COMPONENTS Core Gui Qml QuickControls2 Svg)
 find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Kirigami2 CoreAddons Config I18n)
 
-if (ANDROID)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/android/version.gradle.in ${CMAKE_BINARY_DIR}/version.gradle)
-endif()
-
 add_subdirectory(src)
 
 install(PROGRAMS org.kde.tailctl.desktop DESTINATION ${KDE_INSTALL_APPDIR})
