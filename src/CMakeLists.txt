@@ -7,6 +7,7 @@ add_executable(tailctl
     app.cpp
     status.cpp
     peer.cpp
+    peer_model.cpp
     resources.qrc
 )
 

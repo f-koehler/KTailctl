@@ -64,6 +64,7 @@ void Status::read(const QJsonObject &json) {
       peer->read(peers_object[key].toObject());
       m_peers.append(peer);
     }
+    emit peersChanged(m_peers);
   } else {
     qWarning() << "Cannot find object \"Peer\"";
   }

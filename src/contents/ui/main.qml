@@ -85,7 +85,7 @@ Kirigami.ApplicationWindow {
 
         Kirigami.CardsListView {
             id: listPeers
-            // model: Status.peers
+            model: PeerModel
             delegate: delegatePeers
         }
     }
@@ -115,9 +115,9 @@ Kirigami.ApplicationWindow {
                     //     isMask: true
                     // }
                     //
-                    // Controls.Label {
-                    //     text: parent.hostName
-                    // }
+                    Controls.Label {
+                        text: hostName
+                    }
                     //
                     // Kirigami.Icon {
                     //     source: parent.isOnline ? "online" : "offline"

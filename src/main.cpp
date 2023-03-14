@@ -11,6 +11,7 @@
 #include "about.h"
 #include "app.h"
 #include "peer.h"
+#include "peer_model.h"
 #include "status.h"
 #include "version-tailctl.h"
 #include <KAboutData>
@@ -61,6 +62,10 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
 
   Status status;
   qmlRegisterSingletonInstance("org.kde.Tailctl", 1, 0, "Status", &status);
+
+  PeerModel peerModel;
+  QObject::connect(&status, &Status::peersChanged, &peerModel, &PeerModel::setPeers);
+  qmlRegisterSingletonInstance("org.kde.Tailctl", 1, 0, "PeerModel", &peerModel);
 
   engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
   engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
