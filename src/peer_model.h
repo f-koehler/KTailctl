@@ -8,36 +8,31 @@
 
 #include <QAbstractListModel>
 
-class PeerModel : public QAbstractItemModel
-{
-    Q_OBJECT
+class PeerModel : public QAbstractListModel {
+  Q_OBJECT
 
 private:
-    QList<Peer *> m_peers;
+  QList<Peer *> m_peers;
 
 public slots:
-    void setPeers(const QList<Peer *> &peers);
+  void updatePeers(const QList<Peer *> &peers);
 
 public:
-    enum Roles : int {
-        IdRole = Qt::UserRole + 1,
-        PublicKeyRole,
-        HostNameRole,
-        DnsNameRole,
-        OsRole,
-        TailscaleIPsRole,
-        IsOnlineRole,
-        IsActiveRole,
-    };
+  enum Roles : int {
+    IdRole = Qt::UserRole + 1,
+    PublicKeyRole,
+    HostNameRole,
+    DnsNameRole,
+    OsRole,
+    IsOnlineRole,
+    IsActiveRole,
+  };
 
-    PeerModel(QObject *parent = nullptr);
+  explicit PeerModel(QObject *parent = nullptr);
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
-    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
-    QModelIndex parent(const QModelIndex &child) const override;
-    QHash<int, QByteArray> roleNames() const override;
+  int rowCount(const QModelIndex &parent) const override;
+  QHash<int, QByteArray> roleNames() const override;
+  QVariant data(const QModelIndex &index, int role) const override;
 };
 
 #endif // TAILCTL_PEER_MODEL_H

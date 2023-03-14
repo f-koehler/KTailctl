@@ -3,18 +3,13 @@
 
 #include "peer_model.h"
 
-void PeerModel::setPeers(const QList<Peer *> &peers)
-{
-    beginResetModel();
-    m_peers = peers;
-    endResetModel();
-    emit dataChanged(index(0, 0), index(m_peers.size(), 0));
+void PeerModel::updatePeers(const QList<Peer *> &peers) {
+  beginResetModel();
+  m_peers = peers;
+  endResetModel();
 }
 
-PeerModel::PeerModel(QObject *parent)
-    : QAbstractItemModel(parent)
-{
-}
+PeerModel::PeerModel(QObject *parent) : QAbstractListModel(parent) {}
 
 int PeerModel::rowCount(const QModelIndex &parent) const
 {
@@ -23,17 +18,22 @@ int PeerModel::rowCount(const QModelIndex &parent) const
     return m_peers.size();
 }
 
-int PeerModel::columnCount(const QModelIndex &parent) const
-{
-    Q_UNUSED(parent);
-
-    return 1;
+QHash<int, QByteArray> PeerModel::roleNames() const {
+    QHash<int, QByteArray> roles;
+    roles[IdRole] = "id";
+    roles[PublicKeyRole] = "publicKey";
+    roles[HostNameRole] = "hostName";
+    roles[DnsNameRole] = "dnsName";
+    roles[OsRole] = "os";
+    roles[IsOnlineRole] = "isOnline";
+    roles[IsActiveRole] = "isActive";
+    return roles;
 }
 
 QVariant PeerModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
-        return QVariant();
+      return QStringLiteral("Invalid index");
     }
     switch (role) {
     case IdRole:
@@ -51,30 +51,6 @@ QVariant PeerModel::data(const QModelIndex &index, int role) const
     case IsActiveRole:
         return m_peers.at(index.row())->isActive();
     default:
-        return QVariant();
+        return QStringLiteral("Unknown role");
     }
-}
-
-QModelIndex PeerModel::index(int row, int column, const QModelIndex &parent) const
-{
-    Q_UNUSED(parent);
-    return createIndex(row, column);
-}
-
-QModelIndex PeerModel::parent(const QModelIndex &child) const
-{
-    Q_UNUSED(child);
-    return QModelIndex();
-}
-
-QHash<int, QByteArray> PeerModel::roleNames() const {
-    QHash<int, QByteArray> roles;
-    roles[IdRole] = "id";
-    roles[PublicKeyRole] = "publicKey";
-    roles[HostNameRole] = "hostName";
-    roles[DnsNameRole] = "dnsName";
-    roles[OsRole] = "os";
-    roles[IsOnlineRole] = "isOnline";
-    roles[IsActiveRole] = "isActive";
-    return roles;
 }
