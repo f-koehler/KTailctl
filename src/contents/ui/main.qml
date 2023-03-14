@@ -109,19 +109,19 @@ Kirigami.ApplicationWindow {
                     columnSpacing: Kirigami.Units.smallSpacing
                     columns: 3
 
-                    // Kirigami.Icon {
-                    //     source: getOSIcon(parent.os)
-                    //     //color: "#ffffff"
-                    //     isMask: true
-                    // }
-                    //
+                    Kirigami.Icon {
+                        source: getOSIcon(os)
+                        //color: "#ffffff"
+                        isMask: true
+                    }
+
                     Controls.Label {
                         text: hostName
                     }
-                    //
-                    // Kirigami.Icon {
-                    //     source: parent.isOnline ? "online" : "offline"
-                    // }
+
+                    Kirigami.Icon {
+                        source: parent.isOnline ? "online" : "offline"
+                    }
                 }
             }
         }

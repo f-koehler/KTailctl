@@ -66,3 +66,15 @@ QModelIndex PeerModel::parent(const QModelIndex &child) const
     Q_UNUSED(child);
     return QModelIndex();
 }
+
+QHash<int, QByteArray> PeerModel::roleNames() const {
+    QHash<int, QByteArray> roles;
+    roles[IdRole] = "id";
+    roles[PublicKeyRole] = "publicKey";
+    roles[HostNameRole] = "hostName";
+    roles[DnsNameRole] = "dnsName";
+    roles[OsRole] = "os";
+    roles[IsOnlineRole] = "isOnline";
+    roles[IsActiveRole] = "isActive";
+    return roles;
+}
