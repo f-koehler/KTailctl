@@ -44,20 +44,20 @@ signals:
   void isActiveChanged(bool);
 
 public:
-    Peer(QObject *parent = nullptr);
-    virtual ~Peer() = default;
+  Peer(QObject *parent = nullptr);
+  virtual ~Peer() = default;
 
-    static Peer *fromJSON(const QJsonObject &json);
-    void read(const QJsonObject &json);
+  static Peer *fromJSON(const QJsonObject &json);
+  void read(const QJsonObject &json);
 
-    const QString &id() const;
-    const QString &publicKey() const;
-    const QString &hostName() const;
-    const QString &dnsName() const;
-    const QString &os() const;
-    const QVector<QString> &tailscaleIPs() const;
-    bool isOnline() const;
-    bool isActive() const;
+  const QString &id() const;
+  const QString &publicKey() const;
+  const QString &hostName() const;
+  const QString &dnsName() const;
+  const QString &os() const;
+  const QVector<QString> &tailscaleIPs() const;
+  bool isOnline() const;
+  bool isActive() const;
 };
 
 #endif // TAILCTL_PEER_H

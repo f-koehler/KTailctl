@@ -8,11 +8,7 @@
 #include <QProcess>
 #include <algorithm>
 
-Status::Status(QObject *parent)
-    : QObject(parent)
-    , m_self(new Peer())
-{
-}
+Status::Status(QObject *parent) : QObject(parent), m_self(new Peer()) {}
 
 void Status::refresh(const QString &executable) {
   QProcess process;
@@ -36,13 +32,20 @@ void Status::read(const QJsonObject &json) {
   }
 
   if (json.contains("TUN") && json["TUN"].isBool()) {
-    m_is_tun = json["TUN"].toBool();
+    if (const auto is_tun = json["TUN"].toBool(); is_tun != m_is_tun) {
+      m_is_tun = json["TUN"].toBool();
+      emit isTUNChanged(m_is_tun);
+    }
   } else {
     qWarning() << "Cannot find bool \"TUN\"";
   }
 
   if (json.contains("BackendState") && json["BackendState"].isString()) {
-    m_backend_state = json["BackendState"].toString();
+    if (const auto backend_state = json["BackendState"].toString();
+        backend_state != m_backend_state) {
+      m_backend_state = json["BackendState"].toString();
+      emit backendStateChanged(m_backend_state);
+    }
   } else {
     qWarning() << "Cannot find string \"BackendState\"";
   }

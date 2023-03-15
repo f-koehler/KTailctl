@@ -5,10 +5,7 @@
 
 #include <QJsonArray>
 
-Peer::Peer(QObject *parent)
-    : QObject(parent)
-{
-}
+Peer::Peer(QObject *parent) : QObject(parent) {}
 
 Peer *Peer::fromJSON(const QJsonObject &json) {
   Peer *peer = new Peer();
@@ -19,8 +16,8 @@ Peer *Peer::fromJSON(const QJsonObject &json) {
 void Peer::read(const QJsonObject &json) {
   if (json.contains("ID") && json["ID"].isString()) {
     if (auto id = json["ID"].toString(); id != m_id) {
-        m_id = id;
-        emit idChanged(m_id);
+      m_id = id;
+      emit idChanged(m_id);
     }
   } else {
     qWarning() << "Cannot find string \"ID\"";
@@ -78,7 +75,8 @@ void Peer::read(const QJsonObject &json) {
   }
 
   if (json.contains("Online") && json["Online"].isBool()) {
-    if (const auto is_online = json["Online"].toBool(); is_online != m_is_online) {
+    if (const auto is_online = json["Online"].toBool();
+        is_online != m_is_online) {
       m_is_online = json["Online"].toBool();
       emit isOnlineChanged(m_is_online);
     }
@@ -87,7 +85,8 @@ void Peer::read(const QJsonObject &json) {
   }
 
   if (json.contains("Active") && json["Active"].isBool()) {
-    if (const auto is_active = json["Active"].toBool(); is_active != m_is_active) {
+    if (const auto is_active = json["Active"].toBool();
+        is_active != m_is_active) {
       m_is_active = json["Active"].toBool();
       emit isActiveChanged(m_is_active);
     }
