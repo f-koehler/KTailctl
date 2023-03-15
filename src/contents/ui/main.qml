@@ -74,60 +74,7 @@ Kirigami.ApplicationWindow {
         id: contextDrawer
     }
 
-    pageStack.initialPage: peers
+    pageStack.initialPage: "qrc:Peer.qml"
 
-    Kirigami.ScrollablePage {
-        id: peers
 
-        Layout.fillWidth: true
-
-        title: i18n("Peers")
-
-        actions.main: Kirigami.Action {
-            text: Status.backendState == "Running" ? "Online" : "Offline"
-        }
-
-        Kirigami.CardsListView {
-            id: listPeers
-            model: PeerModel
-            delegate: delegatePeers
-        }
-    }
-
-    Component {
-        id: delegatePeers
-        Kirigami.AbstractCard {
-            contentItem: Item {
-                implicitWidth: delegateLayout.implicitWidth
-                implicitHeight: delegateLayout.implicitHeight
-                GridLayout {
-                    id: delegateLayout
-
-                    anchors {
-                        left: parent.left
-                        right: parent.right
-                        top: parent.top
-                    }
-
-                    rowSpacing: Kirigami.Units.largeSpacing
-                    columnSpacing: Kirigami.Units.smallSpacing
-                    columns: 3
-
-                    Kirigami.Icon {
-                        source: getOSIcon(os)
-                        //color: "#ffffff"
-                        isMask: true
-                    }
-
-                    Controls.Label {
-                        text: hostName
-                    }
-
-                    Kirigami.Icon {
-                        source: parent.isOnline ? "online" : "offline"
-                    }
-                }
-            }
-        }
-    }
 }

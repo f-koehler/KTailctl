@@ -19,6 +19,7 @@ struct Status : public QObject {
   Q_PROPERTY(bool isTUN READ isTUN NOTIFY isTUNChanged)
   Q_PROPERTY(QString backendState READ backendState NOTIFY backendStateChanged)
   Q_PROPERTY(QList<Peer *> peers READ peers NOTIFY peersChanged)
+  // Q_PROPERTY(Peer *self READ self NOTIFY selfChanged)
 
 private:
   QString m_version;
@@ -32,6 +33,7 @@ signals:
   void isTUNChanged(bool);
   void backendStateChanged(const QString &);
   void peersChanged(const QList<Peer *> &);
+  void selfChanged(const Peer *);
 
 public:
   Status(QObject *parent = nullptr);

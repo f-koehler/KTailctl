@@ -6,6 +6,8 @@
     <qresource prefix="/">
         <file alias="main.qml">contents/ui/main.qml</file>
         <file alias="About.qml">contents/ui/About.qml</file>
+        <file alias="Peer.qml">contents/ui/Peer.qml</file>
+        <file alias="Peers.qml">contents/ui/Peers.qml</file>
         <file alias="Settings.qml">contents/ui/Settings.qml</file>
     </qresource>
     <qresource prefix="/icon/">
