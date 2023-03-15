@@ -1,0 +1,23 @@
+[Global]
+IconName=tailctl
+Name=tailctl
+Comment=Tailscale control center for KDE plasma
+DesktopEntry=tailctl.desktop
+
+[Context/status]
+Name=Status
+Comment=Status of Tailscale
+
+[Context/peer]
+Name=Peer
+Comment=Status of a Tailscale peer
+
+[Event/offline]
+Name=Tailscale offline
+Comment=Tailscale is now offline
+Contexts=status
+
+[Event/online]
+Name=Tailscale online
+Comment=Tailscale is now online
+Contexts=status
