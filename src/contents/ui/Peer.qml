@@ -20,16 +20,21 @@ Kirigami.ScrollablePage {
             Kirigami.FormData.label: "Information"
         }
 
+        Controls.TextField {
+            text: PeerDetails.hostName
+            readOnly: true
+            Kirigami.FormData.label: "Hostname:"
+        }
+
+        Controls.TextField {
+            text: PeerDetails.tailscaleID
+            readOnly: true
+            Kirigami.FormData.label: "ID:"
+        }
+
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
             Kirigami.FormData.label: "Adresses"
-        }
-
-        ListView {
-            model: Status.self.tailscaleIPs
-            delegate: Text {
-                text: "test"
-            }
         }
     }
 }

@@ -69,6 +69,15 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterSingletonInstance("org.kde.Tailctl", 1, 0, "PeerModel",
                                &peerModel);
 
+  Peer peerDetails;
+  status.refresh();
+  peerDetails = *status.self();
+
+  QObject::connect(&status, &Status::refreshed, &peerDetails,
+                   &Peer::updateFromStatus);
+  qmlRegisterSingletonInstance("org.kde.Tailctl", 1, 0, "PeerDetails",
+                               &peerDetails);
+
   engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
   engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
 

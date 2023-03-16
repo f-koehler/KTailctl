@@ -2,8 +2,27 @@
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 
 #include "peer.h"
+#include "status.h"
 
 #include <QJsonArray>
+
+#include <algorithm>
+
+void Peer::updateFromStatus(const Status &status) {
+  if (status.self() != nullptr) {
+    if (status.self()->id() == m_id) {
+      *this = *status.self();
+    }
+    return;
+  }
+
+  auto pos =
+      std::find_if(status.peers().begin(), status.peers().end(),
+                   [this](const Peer *peer) { return peer->id() == m_id; });
+  if (pos != status.peers().end()) {
+    *this = **pos;
+  }
+}
 
 Peer::Peer(QObject *parent) : QObject(parent) {}
 

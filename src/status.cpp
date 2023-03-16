@@ -21,7 +21,7 @@ void Status::refresh(const QString &executable) {
 
   read(QJsonDocument::fromJson(process.readAllStandardOutput()).object());
 
-  emit peersChanged(m_peers);
+  emit refreshed(*this);
 }
 
 void Status::read(const QJsonObject &json) {

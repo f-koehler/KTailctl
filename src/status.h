@@ -12,7 +12,7 @@
 
 #include "peer.h"
 
-struct Status : public QObject {
+class Status : public QObject {
   Q_OBJECT
 
   Q_PROPERTY(QString version READ version NOTIFY versionChanged)
@@ -34,6 +34,7 @@ signals:
   void backendStateChanged(const QString &);
   void peersChanged(const QList<Peer *> &);
   void selfChanged(const Peer *);
+  void refreshed(const Status &);
 
 public:
   Status(QObject *parent = nullptr);
