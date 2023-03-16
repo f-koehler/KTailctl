@@ -58,6 +58,8 @@ public:
   const QVector<QString> &tailscaleIPs() const;
   bool isOnline() const;
   bool isActive() const;
+
+  Peer &operator=(const Peer &other);
 };
 
 #endif // TAILCTL_PEER_H

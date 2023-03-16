@@ -110,3 +110,47 @@ const QVector<QString> &Peer::tailscaleIPs() const { return m_tailscale_ips; }
 bool Peer::isOnline() const { return m_is_online; }
 
 bool Peer::isActive() const { return m_is_active; }
+
+Peer &Peer::operator=(const Peer &other) {
+  if (m_id != other.m_id) {
+    m_id = other.m_id;
+    emit idChanged(m_id);
+  }
+
+  if (m_public_key != other.m_public_key) {
+    m_public_key = other.m_public_key;
+    emit publicKeyChanged(m_public_key);
+  }
+
+  if (m_host_name != other.m_host_name) {
+    m_host_name = other.m_host_name;
+    emit hostNameChanged(m_host_name);
+  }
+
+  if (m_dns_name != other.m_dns_name) {
+    m_dns_name = other.m_dns_name;
+    emit dnsNameChanged(m_dns_name);
+  }
+
+  if (m_os != other.m_os) {
+    m_os = other.m_os;
+    emit osChanged(m_os);
+  }
+
+  if (m_tailscale_ips != other.m_tailscale_ips) {
+    m_tailscale_ips = other.m_tailscale_ips;
+    emit tailscaleIPsChanged(m_tailscale_ips);
+  }
+
+  if (m_is_online != other.m_is_online) {
+    m_is_online = other.m_is_online;
+    emit isOnlineChanged(m_is_online);
+  }
+
+  if (m_is_active != other.m_is_active) {
+    m_is_active = other.m_is_active;
+    emit isActiveChanged(m_is_active);
+  }
+
+  return *this;
+}
