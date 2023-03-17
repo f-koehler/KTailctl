@@ -8,6 +8,7 @@
 #include <QObject>
 #include <QQmlEngine>
 #include <QString>
+#include <QStringList>
 #include <QVector>
 
 class Status;
@@ -21,7 +22,7 @@ class Peer : public QObject
     Q_PROPERTY(QString hostName READ hostName NOTIFY hostNameChanged)
     Q_PROPERTY(QString dnsName READ dnsName NOTIFY dnsNameChanged)
     Q_PROPERTY(QString os READ os NOTIFY osChanged)
-    Q_PROPERTY(QVector<QString> tailscaleIPs READ tailscaleIPs NOTIFY tailscaleIPsChanged)
+    Q_PROPERTY(QStringList tailscaleIPs READ tailscaleIPs NOTIFY tailscaleIPsChanged)
     Q_PROPERTY(QString relay READ relay NOTIFY relayChanged)
     Q_PROPERTY(long rxBytes READ rxBytes NOTIFY rxBytesChanged)
     Q_PROPERTY(long txBytes READ txBytes NOTIFY txBytesChanged)
@@ -34,7 +35,7 @@ private:
     QString m_host_name;
     QString m_dns_name;
     QString m_os;
-    QVector<QString> m_tailscale_ips;
+    QStringList m_tailscale_ips;
     QString m_relay;
     long m_rx_bytes;
     long m_tx_bytes;
@@ -47,7 +48,7 @@ signals:
     void hostNameChanged(const QString &);
     void dnsNameChanged(const QString &);
     void osChanged(const QString &);
-    void tailscaleIPsChanged(const QVector<QString> &);
+    void tailscaleIPsChanged(const QStringList &);
     void relayChanged(const QString &);
     void rxBytesChanged(long);
     void txBytesChanged(long);
@@ -69,7 +70,7 @@ public:
     const QString &hostName() const;
     const QString &dnsName() const;
     const QString &os() const;
-    const QVector<QString> &tailscaleIPs() const;
+    const QStringList &tailscaleIPs() const;
     const QString &relay() const;
     long rxBytes() const;
     long txBytes() const;

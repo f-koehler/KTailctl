@@ -54,11 +54,6 @@ Kirigami.ScrollablePage {
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "Adresses"
-        }
-
-        Kirigami.Separator {
-            Kirigami.FormData.isSection: true
             Kirigami.FormData.label: "Statistics"
         }
 
@@ -71,6 +66,20 @@ Kirigami.ScrollablePage {
         Controls.Label {
             Kirigami.FormData.label: "Bytes sent:"
             text: PeerDetails.rxBytes.toString()
+        }
+
+
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: "Adresses"
+        }
+
+        ListView {
+            model: PeerDetails.tailscaleIPs
+            delegate: Controls.TextField {
+                text: modelData
+                readOnly: true
+            }
         }
     }
 }

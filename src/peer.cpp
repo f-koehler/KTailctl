@@ -169,7 +169,7 @@ const QString &Peer::os() const
     return m_os;
 }
 
-const QVector<QString> &Peer::tailscaleIPs() const
+const QStringList &Peer::tailscaleIPs() const
 {
     return m_tailscale_ips;
 }
