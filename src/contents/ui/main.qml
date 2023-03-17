@@ -74,7 +74,7 @@ Kirigami.ApplicationWindow {
         id: contextDrawer
     }
 
-    pageStack.initialPage: "qrc:Peer.qml"
+    pageStack.initialPage: "qrc:Peers.qml"
 
 
 }

@@ -56,7 +56,7 @@ signals:
     void isActiveChanged(bool);
 
 public slots:
-    void updateFromStatus(const Status &status);
+    Q_INVOKABLE void updateFromStatus(const Status &status);
 
 public:
     Peer(QObject *parent = nullptr);

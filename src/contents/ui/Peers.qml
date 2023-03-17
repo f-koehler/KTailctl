@@ -49,7 +49,14 @@ Kirigami.ScrollablePage {
                     }
 
                     Kirigami.Icon {
-                        source: parent.isOnline ? "online" : "offline"
+                        source: isOnline ? "online" : "offline"
+                    }
+
+                    Controls.Button {
+                        text: "Details"
+                        onClicked: {
+                            console.log(tailscaleID);
+                        }
                     }
                 }
             }
