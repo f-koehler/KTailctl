@@ -26,6 +26,13 @@ Kirigami.ScrollablePage {
             Kirigami.FormData.label: "Hostname:"
         }
 
+
+        Controls.TextField {
+            text: PeerDetails.dnsName
+            readOnly: true
+            Kirigami.FormData.label: "DNS name:"
+        }
+
         Controls.TextField {
             text: PeerDetails.tailscaleID
             readOnly: true
