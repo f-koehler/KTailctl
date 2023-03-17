@@ -39,9 +39,38 @@ Kirigami.ScrollablePage {
             Kirigami.FormData.label: "ID:"
         }
 
+        RowLayout {
+            Kirigami.FormData.label: "Operating system:"
+
+            Controls.Label {
+                text: PeerDetails.os
+            }
+
+            Kirigami.Icon {
+                source: getOSIcon(PeerDetails.os)
+                isMask: true
+            }
+        }
+
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
             Kirigami.FormData.label: "Adresses"
+        }
+
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: "Statistics"
+        }
+
+        Controls.Label {
+            Kirigami.FormData.label: "Bytes received:"
+            text: PeerDetails.rxBytes.toString()
+        }
+
+
+        Controls.Label {
+            Kirigami.FormData.label: "Bytes sent:"
+            text: PeerDetails.rxBytes.toString()
         }
     }
 }
