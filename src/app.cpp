@@ -4,6 +4,8 @@
 #include "app.h"
 #include <KSharedConfig>
 #include <KWindowConfig>
+#include <QClipboard>
+#include <QGuiApplication>
 #include <QQuickWindow>
 
 App::App(QObject *parent) : QObject(parent), m_status(new Status()) {
@@ -51,4 +53,9 @@ void App::setPeerDetails(const QString &id) {
       emit peerDetailsChanged();
     }
   }
+}
+
+void App::setClipboardText(const QString &text) {
+  QClipboard *clipboard = QGuiApplication::clipboard();
+  clipboard->setText(text);
 }

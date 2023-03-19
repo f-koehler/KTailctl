@@ -44,6 +44,8 @@ public:
                      const QString &group = QStringLiteral("main")) const;
 
   Q_INVOKABLE void setPeerDetails(const QString &id);
+
+  Q_INVOKABLE void setClipboardText(const QString &text);
 };
 
 #endif /* TAILCTL_APP_H */

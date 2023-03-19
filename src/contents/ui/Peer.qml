@@ -74,14 +74,30 @@ Kirigami.ScrollablePage {
             Kirigami.FormData.label: "Adresses"
         }
 
-        ListView {
-            model: App.peerDetails.tailscaleIPs
-            delegate: Row {
-                Controls.TextField {
+        Flow {
+            Repeater {
+                model: App.peerDetails.tailscaleIPs
+
+                Kirigami.Chip {
                     text: modelData
-                    readOnly: true
+                    closable: false
+                    checkable: false
+                    checked: false
+                    onClicked: {
+                        App.setClipboardText(modelData);
+                    }
                 }
             }
         }
+
+        // ListView {
+        //     model: App.peerDetails.tailscaleIPs
+        //     delegate: Row {
+        //         Controls.TextField {
+        //             text: modelData
+        //             readOnly: true
+        //         }
+        //     }
+        // }
     }
 }
