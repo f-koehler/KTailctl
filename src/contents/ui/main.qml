@@ -37,7 +37,7 @@ Kirigami.ApplicationWindow {
     Timer {
         id: refreshStatusTimer
         interval: Config.refreshInterval ? Config.refreshInterval : 500
-        onTriggered: Status.refresh(Config.tailscaleExecutable)
+        onTriggered: App.status.refresh(Config.tailscaleExecutable)
         triggeredOnStart: true
         running: true
         repeat: true

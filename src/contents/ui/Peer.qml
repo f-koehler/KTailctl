@@ -21,20 +21,20 @@ Kirigami.ScrollablePage {
         }
 
         Controls.TextField {
-            text: PeerDetails.hostName
+            text: App.peerDetails.hostName
             readOnly: true
             Kirigami.FormData.label: "Hostname:"
         }
 
 
         Controls.TextField {
-            text: PeerDetails.dnsName
+            text: App.peerDetails.dnsName
             readOnly: true
             Kirigami.FormData.label: "DNS name:"
         }
 
         Controls.TextField {
-            text: PeerDetails.tailscaleID
+            text: App.peerDetails.tailscaleID
             readOnly: true
             Kirigami.FormData.label: "ID:"
         }
@@ -43,11 +43,11 @@ Kirigami.ScrollablePage {
             Kirigami.FormData.label: "Operating system:"
 
             Controls.Label {
-                text: PeerDetails.os
+                text: App.peerDetails.os
             }
 
             Kirigami.Icon {
-                source: getOSIcon(PeerDetails.os)
+                source: getOSIcon(App.peerDetails.os)
                 isMask: true
             }
         }
@@ -59,13 +59,13 @@ Kirigami.ScrollablePage {
 
         Controls.Label {
             Kirigami.FormData.label: "Bytes received:"
-            text: PeerDetails.rxBytes.toString()
+            text: App.peerDetails.rxBytes.toString()
         }
 
 
         Controls.Label {
             Kirigami.FormData.label: "Bytes sent:"
-            text: PeerDetails.rxBytes.toString()
+            text: App.peerDetails.rxBytes.toString()
         }
 
 
@@ -75,7 +75,7 @@ Kirigami.ScrollablePage {
         }
 
         ListView {
-            model: PeerDetails.tailscaleIPs
+            model: App.peerDetails.tailscaleIPs
             delegate: Controls.TextField {
                 text: modelData
                 readOnly: true

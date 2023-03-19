@@ -20,7 +20,7 @@ Kirigami.ScrollablePage {
 
     Kirigami.CardsListView {
         id: listPeers
-        model: PeerModel
+        model: App.peerModel
         delegate: Kirigami.AbstractCard {
             contentItem: Item {
                 implicitWidth: delegateLayout.implicitWidth
@@ -56,6 +56,7 @@ Kirigami.ScrollablePage {
                         text: "Details"
                         onClicked: {
                             console.log(tailscaleID);
+                            App.setPeerDetails(tailscaleID);
                             pageStack.layers.push('qrc:Peer.qml');
                         }
                     }

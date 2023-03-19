@@ -60,24 +60,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[]) {
   qmlRegisterType<Peer>("org.kde.Tailctl", 1, 0, "Peer");
   qmlRegisterType<Status>("org.kde.Tailctl", 1, 0, "Status");
 
-  Status status;
-  qmlRegisterSingletonInstance("org.kde.Tailctl", 1, 0, "Status", &status);
-
-  PeerModel peerModel;
-  QObject::connect(&status, &Status::peersChanged, &peerModel,
-                   &PeerModel::updatePeers);
-  qmlRegisterSingletonInstance("org.kde.Tailctl", 1, 0, "PeerModel",
-                               &peerModel);
-
-  Peer peerDetails;
-  status.refresh();
-  peerDetails = *status.self();
-
-  QObject::connect(&status, &Status::refreshed, &peerDetails,
-                   &Peer::updateFromStatus);
-  qmlRegisterSingletonInstance("org.kde.Tailctl", 1, 0, "PeerDetails",
-                               &peerDetails);
-
   engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
   engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
 
