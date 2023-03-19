@@ -77,6 +77,8 @@ QIcon loadOSIcon(const QString &os) {
 }
 
 void App::updateTrayMenu() {
+  QMenu *menu = m_tray_icon.contextMenu();
+  menu->clear();
   QClipboard *clipboard = QGuiApplication::clipboard();
   auto create_action = [clipboard](QMenu *menu, const QString &text) {
     auto *action = menu->addAction(text);
@@ -84,7 +86,6 @@ void App::updateTrayMenu() {
             [clipboard, &text]() { clipboard->setText(text); });
     return action;
   };
-  QMenu *menu = new QMenu();
   for (auto peer : m_status.peers()) {
     auto *submenu = menu->addMenu(loadOSIcon(peer->os()), peer->hostName());
     create_action(submenu, peer->dnsName());
