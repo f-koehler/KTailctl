@@ -76,9 +76,11 @@ Kirigami.ScrollablePage {
 
         ListView {
             model: App.peerDetails.tailscaleIPs
-            delegate: Controls.TextField {
-                text: modelData
-                readOnly: true
+            delegate: Row {
+                Controls.TextField {
+                    text: modelData
+                    readOnly: true
+                }
             }
         }
     }

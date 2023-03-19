@@ -225,7 +225,10 @@ const QString &Peer::dnsName() const { return m_dns_name; }
 
 const QString &Peer::os() const { return m_os; }
 
-const QStringList &Peer::tailscaleIPs() const { return m_tailscale_ips; }
+const QStringList &Peer::tailscaleIPs() const {
+  qDebug() << m_tailscale_ips.size();
+  return m_tailscale_ips;
+}
 
 const QString &Peer::relay() const { return m_relay; }
 long Peer::rxBytes() const { return m_rx_bytes; }
