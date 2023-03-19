@@ -89,15 +89,5 @@ Kirigami.ScrollablePage {
                 }
             }
         }
-
-        // ListView {
-        //     model: App.peerDetails.tailscaleIPs
-        //     delegate: Row {
-        //         Controls.TextField {
-        //             text: modelData
-        //             readOnly: true
-        //         }
-        //     }
-        // }
     }
 }
