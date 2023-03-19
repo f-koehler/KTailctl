@@ -15,7 +15,7 @@ Kirigami.ScrollablePage {
     title: i18n("Peers")
 
     actions.main: Kirigami.Action {
-        text: Status.backendState == "Running" ? "Online" : "Offline"
+        text: App.status.backendState == "Running" ? "Online" : "Offline"
     }
 
     Kirigami.CardsListView {
