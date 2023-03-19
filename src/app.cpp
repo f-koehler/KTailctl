@@ -87,7 +87,7 @@ void App::updateTrayMenu() {
   QMenu *menu = new QMenu();
   for (auto peer : m_status.peers()) {
     auto *submenu = menu->addMenu(loadOSIcon(peer->os()), peer->hostName());
-    submenu->addAction(peer->dnsName());
+    create_action(submenu, peer->dnsName());
     for (auto address : peer->tailscaleIPs()) {
       create_action(submenu, address);
     }
