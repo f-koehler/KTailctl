@@ -36,7 +36,7 @@ Kirigami.ScrollablePage {
 
                     rowSpacing: Kirigami.Units.largeSpacing
                     columnSpacing: Kirigami.Units.smallSpacing
-                    columns: 3
+                    columns: 5
 
                     Kirigami.Icon {
                         source: getOSIcon(os)
