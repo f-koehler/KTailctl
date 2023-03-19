@@ -93,5 +93,8 @@ void App::updateTrayMenu() {
       create_action(submenu, address);
     }
   }
+
+  menu->addSeparator();
+  menu->addAction("Quit", this, qApp->quit);
   m_tray_icon.setContextMenu(menu);
 }
