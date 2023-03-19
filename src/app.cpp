@@ -6,13 +6,19 @@
 #include <KWindowConfig>
 #include <QClipboard>
 #include <QGuiApplication>
+#include <QMenu>
 #include <QQuickWindow>
 
-App::App(QObject *parent) : QObject(parent), m_status(new Status()) {
+App::App(QObject *parent) : QObject(parent), m_tray_icon(this) {
   QObject::connect(&m_status, &Status::peersChanged, &m_peer_model,
                    &PeerModel::updatePeers);
   QObject::connect(&m_status, &Status::refreshed, &m_peer_details,
                    &Peer::updateFromStatus);
+  QObject::connect(&m_status, &Status::refreshed, this, &App::updateTrayMenu);
+
+  m_tray_icon.setIcon(QIcon::fromTheme(QStringLiteral("online")));
+
+  m_tray_icon.show();
 }
 
 Status *App::status() { return &m_status; }
@@ -58,4 +64,12 @@ void App::setPeerDetails(const QString &id) {
 void App::setClipboardText(const QString &text) {
   QClipboard *clipboard = QGuiApplication::clipboard();
   clipboard->setText(text);
+}
+
+void App::updateTrayMenu() {
+  QMenu *menu = new QMenu();
+  for (auto peer : m_status.peers()) {
+    menu->addAction(peer->hostName());
+  }
+  m_tray_icon.setContextMenu(menu);
 }

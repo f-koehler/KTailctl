@@ -8,6 +8,7 @@
 #include "status.h"
 
 #include <QObject>
+#include <QSystemTrayIcon>
 
 class QQuickWindow;
 
@@ -22,11 +23,16 @@ private:
   Peer m_peer_details;
   PeerModel m_peer_model;
 
+  QSystemTrayIcon m_tray_icon;
+
 signals:
 
   void statusChanged();
   void peerDetailsChanged();
   void peerModelChanged();
+
+public slots:
+  Q_INVOKABLE void updateTrayMenu();
 
 public:
   App(QObject *parent = nullptr);
