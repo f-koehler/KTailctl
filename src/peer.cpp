@@ -12,7 +12,7 @@
 void Peer::updateFromStatus(const Status &status) {
   if (status.self() != nullptr) {
     if (status.self()->id() == m_id) {
-      *this = *status.self();
+      this->setTo(*status.self());
     }
     return;
   }
@@ -21,7 +21,7 @@ void Peer::updateFromStatus(const Status &status) {
       std::find_if(status.peers().begin(), status.peers().end(),
                    [this](const Peer *peer) { return peer->id() == m_id; });
   if (pos != status.peers().end()) {
-    *this = **pos;
+    this->setTo(**pos);
   }
 }
 
