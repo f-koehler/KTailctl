@@ -56,6 +56,7 @@ Kirigami.ScrollablePage {
                         text: "Details"
                         onClicked: {
                             console.log(tailscaleID);
+                            pageStack.layers.push('qrc:Peer.qml');
                         }
                     }
                 }
