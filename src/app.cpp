@@ -9,15 +9,19 @@
 #include <QMenu>
 #include <QQuickWindow>
 
+#include <functional>
+
 App::App(QObject *parent) : QObject(parent), m_tray_icon(this) {
+  m_tray_icon.setContextMenu(new QMenu());
+
   QObject::connect(&m_status, &Status::peersChanged, &m_peer_model,
                    &PeerModel::updatePeers);
   QObject::connect(&m_status, &Status::refreshed, &m_peer_details,
                    &Peer::updateFromStatus);
-  QObject::connect(&m_status, &Status::refreshed, this, &App::updateTrayMenu);
+  QObject::connect(m_tray_icon.contextMenu(), &QMenu::aboutToShow, this,
+                   &App::updateTrayMenu);
 
   m_tray_icon.setIcon(QIcon::fromTheme(QStringLiteral("online")));
-
   m_tray_icon.show();
 }
 
@@ -66,10 +70,27 @@ void App::setClipboardText(const QString &text) {
   clipboard->setText(text);
 }
 
+QIcon loadOSIcon(const QString &os) {
+  QIcon icon = QIcon(QString(":/icon/%1.svg").arg(os.toLower()));
+  icon.setIsMask(true);
+  return icon;
+}
+
 void App::updateTrayMenu() {
+  QClipboard *clipboard = QGuiApplication::clipboard();
+  auto create_action = [clipboard](QMenu *menu, const QString &text) {
+    auto *action = menu->addAction(text);
+    connect(action, &QAction::triggered,
+            [clipboard, &text]() { clipboard->setText(text); });
+    return action;
+  };
   QMenu *menu = new QMenu();
   for (auto peer : m_status.peers()) {
-    menu->addAction(peer->hostName());
+    auto *submenu = menu->addMenu(loadOSIcon(peer->os()), peer->hostName());
+    submenu->addAction(peer->dnsName());
+    for (auto address : peer->tailscaleIPs()) {
+      create_action(submenu, address);
+    }
   }
   m_tray_icon.setContextMenu(menu);
 }
