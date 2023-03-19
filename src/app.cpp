@@ -9,6 +9,8 @@
 App::App(QObject *parent) : QObject(parent), m_status(new Status()) {
   QObject::connect(&m_status, &Status::peersChanged, &m_peer_model,
                    &PeerModel::updatePeers);
+  QObject::connect(&m_status, &Status::refreshed, &m_peer_details,
+                   &Peer::updateFromStatus);
 }
 
 Status *App::status() { return &m_status; }
@@ -44,7 +46,7 @@ void App::setPeerDetails(const QString &id) {
       qWarning() << "Peer" << id << "not found";
       return;
     }
-    if (m_peer_details.setTo(*pos)) {
+    if (m_peer_details.setTo(**pos)) {
       qDebug() << "Peer details updated";
       emit peerDetailsChanged();
     }
