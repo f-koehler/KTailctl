@@ -5,7 +5,6 @@
 #define TAILCTL_STATUS_H
 
 #include <QJsonObject>
-#include <QList>
 #include <QObject>
 #include <QString>
 #include <QVector>
@@ -18,7 +17,7 @@ class Status : public QObject {
   Q_PROPERTY(QString version READ version NOTIFY versionChanged)
   Q_PROPERTY(bool isTUN READ isTUN NOTIFY isTUNChanged)
   Q_PROPERTY(QString backendState READ backendState NOTIFY backendStateChanged)
-  Q_PROPERTY(QList<Peer *> peers READ peers NOTIFY peersChanged)
+  Q_PROPERTY(QVector<Peer *> peers READ peers NOTIFY peersChanged)
   // Q_PROPERTY(Peer *self READ self NOTIFY selfChanged)
 
 private:
@@ -26,13 +25,13 @@ private:
   bool m_is_tun;
   QString m_backend_state;
   Peer *m_self;
-  QList<Peer *> m_peers;
+  QVector<Peer *> m_peers;
 
 signals:
   void versionChanged(const QString &);
   void isTUNChanged(bool);
   void backendStateChanged(const QString &);
-  void peersChanged(const QList<Peer *> &);
+  void peersChanged(const QVector<Peer *> &);
   void selfChanged(const Peer *);
   void refreshed(const Status &);
 
@@ -48,7 +47,7 @@ public:
   bool isTUN() const;
   const QString &backendState() const;
   const Peer *self() const;
-  const QList<Peer *> &peers() const;
+  const QVector<Peer *> &peers() const;
 };
 
 #endif /* TAILCTL_STATUS_H */

@@ -84,4 +84,4 @@ const QString &Status::backendState() const { return m_backend_state; }
 
 const Peer *Status::self() const { return m_self; }
 
-const QList<Peer *> &Status::peers() const { return m_peers; }
+const QVector<Peer *> &Status::peers() const { return m_peers; }
