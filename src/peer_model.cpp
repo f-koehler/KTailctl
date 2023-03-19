@@ -4,9 +4,22 @@
 #include "peer_model.h"
 
 void PeerModel::updatePeers(const QVector<Peer *> &peers) {
-  beginResetModel();
-  m_peers = peers;
-  endResetModel();
+  if (peers.size() < m_peers.size()) {
+    beginRemoveRows(QModelIndex(), peers.size(), m_peers.size() - 1);
+    m_peers.erase(m_peers.begin() + peers.size(), m_peers.end());
+    endRemoveRows();
+  }
+  for (int i = 0; i < m_peers.size(); ++i) {
+    m_peers[i]->setTo(*peers[i]);
+    emit dataChanged(index(i), index(i));
+  }
+  if (m_peers.size() < peers.size()) {
+    beginInsertRows(QModelIndex(), m_peers.size(), peers.size() - 1);
+    for (int i = m_peers.size(); i < peers.size(); ++i) {
+      m_peers.push_back(peers[i]);
+    }
+    endInsertRows();
+  }
 }
 
 PeerModel::PeerModel(QObject *parent) : QAbstractListModel(parent) {}
