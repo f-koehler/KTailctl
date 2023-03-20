@@ -20,27 +20,42 @@ Kirigami.ScrollablePage {
             Kirigami.FormData.label: "Information"
         }
 
-        Controls.TextField {
-            text: App.peerDetails.hostName
-            readOnly: true
+        Kirigami.Chip {
             Kirigami.FormData.label: "Hostname:"
+            text: App.peerDetails.hostName
+            closable: false
+            checkable: false
+            checked: false
+            onClicked: {
+                App.setClipboardText(App.peerDetails.hostName);
+            }
         }
 
 
-        Controls.TextField {
+        Kirigami.Chip {
+            Kirigami.FormData.label: "DNS Name:"
             text: App.peerDetails.dnsName
-            readOnly: true
-            Kirigami.FormData.label: "DNS name:"
+            closable: false
+            checkable: false
+            checked: false
+            onClicked: {
+                App.setClipboardText(App.peerDetails.dnsName);
+            }
         }
 
-        Controls.TextField {
-            text: App.peerDetails.tailscaleID
-            readOnly: true
+        Kirigami.Chip {
             Kirigami.FormData.label: "ID:"
+            text: App.peerDetails.tailscaleID
+            closable: false
+            checkable: false
+            checked: false
+            onClicked: {
+                App.setClipboardText(App.peerDetails.tailscaleID);
+            }
         }
 
         RowLayout {
-            Kirigami.FormData.label: "Operating system:"
+            Kirigami.FormData.label: "OS:"
 
             Controls.Label {
                 text: App.peerDetails.os
@@ -49,6 +64,23 @@ Kirigami.ScrollablePage {
             Kirigami.Icon {
                 source: getOSIcon(App.peerDetails.os)
                 isMask: true
+            }
+        }
+
+        Flow {
+            Kirigami.FormData.label: "Addresses:"
+            Repeater {
+                model: App.peerDetails.tailscaleIPs
+
+                Kirigami.Chip {
+                    text: modelData
+                    closable: false
+                    checkable: false
+                    checked: false
+                    onClicked: {
+                        App.setClipboardText(modelData);
+                    }
+                }
             }
         }
 
@@ -66,28 +98,6 @@ Kirigami.ScrollablePage {
         Controls.Label {
             Kirigami.FormData.label: "Bytes sent:"
             text: App.peerDetails.rxBytes.toString()
-        }
-
-
-        Kirigami.Separator {
-            Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "Adresses"
-        }
-
-        Flow {
-            Repeater {
-                model: App.peerDetails.tailscaleIPs
-
-                Kirigami.Chip {
-                    text: modelData
-                    closable: false
-                    checkable: false
-                    checked: false
-                    onClicked: {
-                        App.setClipboardText(modelData);
-                    }
-                }
-            }
         }
     }
 }
