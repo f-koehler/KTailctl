@@ -70,6 +70,7 @@ Kirigami.ScrollablePage {
 
             Kirigami.Icon {
                 source: getOSIcon(App.peerDetails.os)
+                height: 20
                 isMask: true
             }
 
