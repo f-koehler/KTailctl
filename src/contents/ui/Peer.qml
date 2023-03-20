@@ -54,6 +54,17 @@ Kirigami.ScrollablePage {
             }
         }
 
+        Controls.Label {
+            Kirigami.FormData.label: "Created:"
+            text: App.peerDetails.created.toString()
+        }
+
+        Controls.Label {
+            Kirigami.FormData.label: "Last seen:"
+            text: App.peerDetails.lastSeen.toString()
+        }
+
+
         Flow {
             Kirigami.FormData.label: "OS:"
 
