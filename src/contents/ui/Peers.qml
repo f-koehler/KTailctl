@@ -55,7 +55,6 @@ Kirigami.ScrollablePage {
                     Controls.Button {
                         text: "Details"
                         onClicked: {
-                            console.log(tailscaleID);
                             App.setPeerDetails(tailscaleID);
                             pageStack.layers.push('qrc:Peer.qml');
                         }
