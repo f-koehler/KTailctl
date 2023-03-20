@@ -4,6 +4,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15 as Controls
 import QtQuick.Layouts 1.15
+import QtQuick.Dialogs 1.0
 import org.kde.kirigami 2.19 as Kirigami
 import org.kde.Tailctl 1.0
 
@@ -40,14 +41,33 @@ Kirigami.Page {
             Kirigami.FormData.label: i18n("Refresh rate (ms)")
         }
 
-        Controls.TextField {
-            id: textTailscaleExecutable
-            text: Config.tailscaleExecutable
+        Flow {
             Kirigami.FormData.label: i18n("Tailscale executable")
 
-            onEditingFinished: {
-                Config.tailscaleExecutable = textTailscaleExecutable.text;
-                Config.save();
+            Controls.TextField {
+                id: textTailscaleExecutable
+                text: Config.tailscaleExecutable
+
+                onEditingFinished: {
+                    Config.tailscaleExecutable = textTailscaleExecutable.text;
+                    Config.save();
+                }
+            }
+
+            FileDialog {
+                id: fileDialogTailscaleExecutable
+                title: "Please select tailscale executable"
+                selectMultiple: false
+                onAccepted: {
+                    Config.tailscaleExecutable = fileDialogTailscaleExecutable.fileUrls[0];
+                }
+            }
+
+            Controls.Button {
+                text: "…"
+                onClicked: {
+                    fileDialogTailscaleExecutable.open()
+                }
             }
         }
     }

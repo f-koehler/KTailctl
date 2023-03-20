@@ -54,16 +54,22 @@ Kirigami.ScrollablePage {
             }
         }
 
-        RowLayout {
+        Flow {
             Kirigami.FormData.label: "OS:"
-
-            Controls.Label {
-                text: App.peerDetails.os
-            }
 
             Kirigami.Icon {
                 source: getOSIcon(App.peerDetails.os)
                 isMask: true
+            }
+
+            Kirigami.Chip {
+                text: App.peerDetails.os
+                closable: false
+                checkable: false
+                checked: false
+                onClicked: {
+                    App.setClipboardText(App.peerDetails.os);
+                }
             }
         }
 
