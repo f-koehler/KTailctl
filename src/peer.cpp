@@ -125,6 +125,26 @@ void Peer::read(const QJsonObject &json)
         qWarning() << "Cannot find int \"TxBytes\"";
     }
 
+    if (json.contains("Created") && json["Created"].isString()) {
+        auto created = QDateTime::fromString(json["Created"].toString(), Qt::ISODateWithMs);
+        if (created != m_created) {
+            m_created = created;
+            emit createdChanged(m_created);
+        }
+    } else {
+        qWarning() << "Cannot find string \"Created\"";
+    }
+
+    if (json.contains("LastSeen") && json["LastSeen"].isString()) {
+        auto last_seen = QDateTime::fromString(json["LastSeen"].toString(), Qt::ISODateWithMs);
+        if (last_seen != m_last_seen) {
+            m_last_seen = last_seen;
+            emit lastSeenChanged(m_last_seen);
+        }
+    } else {
+        qWarning() << "Cannot find string \"LastSeen\"";
+    }
+
     if (json.contains("Online") && json["Online"].isBool()) {
         if (const auto is_online = json["Online"].toBool(); is_online != m_is_online) {
             m_is_online = json["Online"].toBool();
@@ -201,6 +221,18 @@ bool Peer::setTo(const Peer &other)
         result = true;
     }
 
+    if (m_created != other.m_created) {
+        m_created = other.m_created;
+        emit createdChanged(m_created);
+        result = true;
+    }
+
+    if (m_last_seen != other.m_last_seen) {
+        m_last_seen = other.m_last_seen;
+        emit lastSeenChanged(m_last_seen);
+        result = true;
+    }
+
     if (m_is_online != other.m_is_online) {
         m_is_online = other.m_is_online;
         emit isOnlineChanged(m_is_online);
@@ -250,13 +282,25 @@ const QString &Peer::relay() const
 {
     return m_relay;
 }
+
 long Peer::rxBytes() const
 {
     return m_rx_bytes;
 }
+
 long Peer::txBytes() const
 {
     return m_tx_bytes;
+}
+
+const QDateTime &Peer::created() const
+{
+    return m_created;
+}
+
+const QDateTime &Peer::lastSeen() const
+{
+    return m_last_seen;
 }
 
 bool Peer::isOnline() const

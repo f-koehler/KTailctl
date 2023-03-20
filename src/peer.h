@@ -4,6 +4,7 @@
 #ifndef TAILCTL_PEER_H
 #define TAILCTL_PEER_H
 
+#include <QDateTime>
 #include <QJsonObject>
 #include <QObject>
 #include <QQmlEngine>
@@ -26,6 +27,8 @@ class Peer : public QObject
     Q_PROPERTY(QString relay READ relay NOTIFY relayChanged)
     Q_PROPERTY(long rxBytes READ rxBytes NOTIFY rxBytesChanged)
     Q_PROPERTY(long txBytes READ txBytes NOTIFY txBytesChanged)
+    Q_PROPERTY(QDateTime created READ created NOTIFY createdChanged)
+    Q_PROPERTY(QDateTime lastSeen READ lastSeen NOTIFY lastSeenChanged)
     Q_PROPERTY(bool isOnline READ isOnline NOTIFY isOnlineChanged)
     Q_PROPERTY(bool isActive READ isActive NOTIFY isActiveChanged)
 
@@ -39,6 +42,8 @@ private:
     QString m_relay;
     long m_rx_bytes;
     long m_tx_bytes;
+    QDateTime m_created;
+    QDateTime m_last_seen;
     bool m_is_online;
     bool m_is_active;
 
@@ -52,6 +57,8 @@ signals:
     void relayChanged(const QString &);
     void rxBytesChanged(long);
     void txBytesChanged(long);
+    void createdChanged(const QDateTime &);
+    void lastSeenChanged(const QDateTime &);
     void isOnlineChanged(bool);
     void isActiveChanged(bool);
 
@@ -75,6 +82,8 @@ public:
     const QString &relay() const;
     long rxBytes() const;
     long txBytes() const;
+    const QDateTime &created() const;
+    const QDateTime &lastSeen() const;
     bool isOnline() const;
     bool isActive() const;
 
