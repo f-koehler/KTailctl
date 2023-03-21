@@ -32,7 +32,7 @@ void TaildropProcess::restartProcess()
     default:
         strategy = "-conflict=rename";
     }
-    m_process.start(m_tailscale_executable, {"file", "get", "-loop=true", "-wait=true", strategy, m_directory});
+    m_process.start("pkexec", {m_tailscale_executable, "file", "get", "-loop=true", "-wait=true", strategy, m_directory});
 }
 
 void TaildropProcess::stopProcess()
