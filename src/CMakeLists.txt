@@ -13,16 +13,19 @@ add_executable(tailctl
 )
 
 target_link_libraries(tailctl
+    KF5::Auth
+    KF5::AuthCore
+    KF5::ConfigCore
+    KF5::ConfigGui
+    KF5::CoreAddons
+    KF5::I18n
+    KF5::Notifications
     Qt5::Core
     Qt5::Gui
     Qt5::Qml
     Qt5::Quick
     Qt5::QuickControls2
     Qt5::Svg
-    KF5::I18n
-    KF5::CoreAddons
-    KF5::ConfigCore
-    KF5::ConfigGui
 )
 
 if (ANDROID)

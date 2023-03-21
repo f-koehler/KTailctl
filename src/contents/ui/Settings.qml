@@ -87,6 +87,8 @@ Kirigami.Page {
         }
 
         Flow {
+            Kirigami.FormData.label: "Directory:"
+
             Controls.TextField {
                 id: textTaildropDirectory
                 text: App.config.taildropDirectory
@@ -112,6 +114,11 @@ Kirigami.Page {
                 //     }
                 // }
             }
+        }
+
+        ComboBox {
+            Kirigami.FormData.label: "Strategy:"
+            model: ["Rename", "Overwrite", "Skip"]
         }
     }
 }
