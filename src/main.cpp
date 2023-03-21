@@ -54,6 +54,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     qmlRegisterType<Peer>("org.kde.Tailctl", 1, 0, "Peer");
     qmlRegisterType<Status>("org.kde.Tailctl", 1, 0, "Status");
+    qmlRegisterType<TailctlConfig>("org.kde.Tailctl", 1, 0, "TailctlConfig");
 
     engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
     engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
