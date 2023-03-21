@@ -13,7 +13,9 @@
 
 App::App(QObject *parent)
     : QObject(parent)
+    , m_config(TailctlConfig::self())
     , m_tray_icon(this)
+    , m_taildrop_process(m_config)
 {
     m_tray_icon.setContextMenu(new QMenu());
 
@@ -25,6 +27,10 @@ App::App(QObject *parent)
     m_tray_icon.show();
 }
 
+TailctlConfig *App::config()
+{
+    return m_config;
+}
 Status *App::status()
 {
     return &m_status;
@@ -110,4 +116,8 @@ void App::updateTrayMenu()
     menu->addSeparator();
     menu->addAction("Quit", this, qApp->quit);
     m_tray_icon.setContextMenu(menu);
+}
+
+void App::toggleTaildrop()
+{
 }

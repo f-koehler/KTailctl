@@ -35,22 +35,22 @@ Kirigami.Page {
             }
             onValueModified: {
                 refreshStatusTimer.interval = spinRefreshInterval.value;
-                Config.refreshInterval = spinRefreshInterval.value;
-                Config.save();
+                App.config.refreshInterval = spinRefreshInterval.value;
+                App.config.save();
             }
-            Kirigami.FormData.label: i18n("Refresh rate (ms)")
+            Kirigami.FormData.label: i18n("Refresh rate (ms):")
         }
 
         Flow {
-            Kirigami.FormData.label: i18n("Tailscale executable")
+            Kirigami.FormData.label: i18n("Tailscale executable:")
 
             Controls.TextField {
                 id: textTailscaleExecutable
-                text: Config.tailscaleExecutable
+                text: App.config.tailscaleExecutable
 
                 onEditingFinished: {
-                    Config.tailscaleExecutable = textTailscaleExecutable.text;
-                    Config.save();
+                    App.config.tailscaleExecutable = textTailscaleExecutable.text;
+                    App.config.save();
                 }
             }
 
@@ -59,15 +59,58 @@ Kirigami.Page {
                 title: "Please select tailscale executable"
                 selectMultiple: false
                 onAccepted: {
-                    Config.tailscaleExecutable = fileDialogTailscaleExecutable.fileUrls[0];
+                    App.config.tailscaleExecutable = fileDialogTailscaleExecutable.fileUrls[0];
+                    App.config.save();
                 }
             }
 
             Controls.Button {
                 text: "…"
                 onClicked: {
-                    fileDialogTailscaleExecutable.open()
+                    fileDialogTailscaleExecutable.open();
                 }
+            }
+        }
+
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: "Taildrop"
+        }
+
+        Controls.Switch {
+            Kirigami.FormData.label: "Status:"
+            checked: App.config.taildropEnabled
+            onClicked: {
+                App.config.taildropEnabled = !App.config.taildropEnabled;
+                App.config.save();
+            }
+        }
+
+        Flow {
+            Controls.TextField {
+                id: textTaildropDirectory
+                text: App.config.taildropDirectory
+                onEditingFinished: {
+                    App.config.taildropDirectory = textTaildropDirectory.text;
+                    App.config.save();
+                }
+
+                // FolderDialog {
+                //     id: folderDialogTaildropDirectory
+                //     currentFolder: App.config.taildropDirectory
+                //     selectMultiple: false
+                //     onAccepted: {
+                //         App.config.taildropDirectory = folderDialogTaildropDirectory.fileUrls[0];
+                //         App.config.save();
+                //     }
+                // }
+                //
+                // Controls.Button {
+                //     text: "…"
+                //     onClicked: {
+                //         folderDialogTaildropDirectory.open();
+                //     }
+                // }
             }
         }
     }

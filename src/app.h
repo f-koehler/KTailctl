@@ -6,8 +6,11 @@
 
 #include "peer_model.h"
 #include "status.h"
+#include "tailctlconfig.h"
+#include "taildrop.h"
 
 #include <QObject>
+#include <QProcess>
 #include <QSystemTrayIcon>
 
 class QQuickWindow;
@@ -15,28 +18,34 @@ class QQuickWindow;
 class App : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(TailctlConfig *config READ config NOTIFY configChanged)
     Q_PROPERTY(Status *status READ status NOTIFY statusChanged);
     Q_PROPERTY(Peer *peerDetails READ peerDetails NOTIFY peerDetailsChanged);
     Q_PROPERTY(PeerModel *peerModel READ peerModel NOTIFY peerModelChanged);
 
 private:
+    TailctlConfig *m_config;
     Status m_status;
     Peer m_peer_details;
     PeerModel m_peer_model;
 
     QSystemTrayIcon m_tray_icon;
+    TaildropProcess m_taildrop_process;
 
 signals:
-
+    void configChanged();
     void statusChanged();
     void peerDetailsChanged();
     void peerModelChanged();
 
 public slots:
     Q_INVOKABLE void updateTrayMenu();
+    Q_INVOKABLE void toggleTaildrop();
 
 public:
     App(QObject *parent = nullptr);
+
+    TailctlConfig *config();
     Status *status();
     Peer *peerDetails();
     PeerModel *peerModel();

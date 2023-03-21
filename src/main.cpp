@@ -18,8 +18,6 @@
 #include <KLocalizedContext>
 #include <KLocalizedString>
 
-#include "tailctlconfig.h"
-
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -47,10 +45,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     KAboutData::setApplicationData(aboutData);
 
     QQmlApplicationEngine engine;
-
-    auto config = TailctlConfig::self();
-
-    qmlRegisterSingletonInstance("org.kde.Tailctl", 1, 0, "Config", config);
 
     AboutType about;
     qmlRegisterSingletonInstance("org.kde.Tailctl", 1, 0, "AboutType", &about);
