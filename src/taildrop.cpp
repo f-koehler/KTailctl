@@ -38,6 +38,8 @@ void TaildropProcess::restartProcess()
 void TaildropProcess::stopProcess()
 {
     if (m_process.state() != QProcess::NotRunning) {
+        qDebug() << "Stopping taildrop process";
+        m_process.terminate();
         m_process.kill();
     }
 }
