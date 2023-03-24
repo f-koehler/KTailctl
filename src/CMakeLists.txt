@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 
+include(CheckIPOSupported)
+check_ipo_supported(RESULT ipo_supported OUTPUT ipo_output)
+
 add_executable(tailctl
     main.cpp
     about.cpp
@@ -50,3 +53,9 @@ target_link_libraries(tailctl_taildrop_helper
     Qt5::Network
 )
 install(TARGETS tailctl_taildrop_helper ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+
+if(ipo_supported)
+    set_property(TARGET tailctl PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
+    set_property(TARGET tailctl_tailscale_helper PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
+    set_property(TARGET tailctl_taildrop_helper PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
+endif()
