@@ -15,9 +15,27 @@ App::App(QObject *parent)
     : QObject(parent)
     , m_config(TailctlConfig::self())
     , m_tray_icon(this)
-    , m_taildrop_process(m_config)
 {
     m_tray_icon.setContextMenu(new QMenu());
+
+    m_client.setTaildropEnabled(false);
+    m_client.setTailscaleExecutable(m_config->tailscaleExecutable());
+    m_client.setTaildropDirectory(m_config->taildropDirectory());
+    m_client.setTaildropStrategy(m_config->taildropStrategy());
+    m_client.setTaildropEnabled(m_config->taildropEnabled());
+
+    QObject::connect(m_config, &TailctlConfig::tailscaleExecutableChanged, [this]() {
+        this->m_client.setTailscaleExecutable(m_config->tailscaleExecutable());
+    });
+    QObject::connect(m_config, &TailctlConfig::taildropEnabledChanged, [this]() {
+        this->m_client.setTaildropEnabled(m_config->taildropEnabled());
+    });
+    QObject::connect(m_config, &TailctlConfig::taildropDirectoryChanged, [this]() {
+        this->m_client.setTaildropDirectory(m_config->taildropDirectory());
+    });
+    QObject::connect(m_config, &TailctlConfig::taildropStrategyChanged, [this]() {
+        this->m_client.setTaildropStrategy(m_config->taildropStrategy());
+    });
 
     QObject::connect(&m_status, &Status::peersChanged, &m_peer_model, &PeerModel::updatePeers);
     QObject::connect(&m_status, &Status::refreshed, &m_peer_details, &Peer::updateFromStatus);

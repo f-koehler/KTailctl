@@ -40,6 +40,7 @@ ecm_setup_version(${PROJECT_VERSION}
 find_package(Qt5 ${QT5_MIN_VERSION} REQUIRED COMPONENTS
     Core
     Gui
+    Network
     Qml
     QuickControls2
     Svg

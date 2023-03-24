@@ -1,0 +1,5 @@
+[org.fkoehler.tailctl.managetailscale]
+Name=Manage tailscale
+Description=Manage tailscale
+Policy=auth_admin
+Persistence=session

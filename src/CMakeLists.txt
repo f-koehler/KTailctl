@@ -8,7 +8,7 @@ add_executable(tailctl
     status.cpp
     peer.cpp
     peer_model.cpp
-    taildrop.cpp
+    tailscale_client.cpp
     resources.qrc
 )
 
@@ -28,17 +28,25 @@ target_link_libraries(tailctl
     Qt5::Svg
 )
 
-if (ANDROID)
-    kirigami_package_breeze_icons(ICONS
-        list-add
-        help-about
-        application-exit
-        applications-graphics
-        settings-configure
-        online
-        offline
-    )
-endif()
-
 kconfig_add_kcfg_files(tailctl GENERATE_MOC tailctlconfig.kcfgc)
 install(TARGETS tailctl ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+
+add_executable(tailctl_tailscale_helper
+    tailscale_helper.cpp
+)
+target_link_libraries(tailctl_tailscale_helper
+    KF5::AuthCore
+    Qt5::Network
+)
+install(TARGETS tailctl_tailscale_helper DESTINATION ${KAUTH_HELPER_INSTALL_DIR})
+kauth_install_helper_files(tailctl_tailscale_helper org.fkoehler.tailctl root)
+kauth_install_actions(org.fkoehler.tailctl org.fkoehler.tailctl.actions)
+
+add_executable(tailctl_taildrop_helper
+    taildrop_helper.cpp
+)
+target_link_libraries(tailctl_taildrop_helper
+    Qt5::Core
+    Qt5::Network
+)
+install(TARGETS tailctl_taildrop_helper ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
