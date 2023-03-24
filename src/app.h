@@ -19,9 +19,9 @@ class App : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(TailctlConfig *config READ config NOTIFY configChanged)
-    Q_PROPERTY(Status *status READ status NOTIFY statusChanged);
-    Q_PROPERTY(Peer *peerDetails READ peerDetails NOTIFY peerDetailsChanged);
-    Q_PROPERTY(PeerModel *peerModel READ peerModel NOTIFY peerModelChanged);
+    Q_PROPERTY(Status *status READ status NOTIFY statusChanged)
+    Q_PROPERTY(Peer *peerDetails READ peerDetails NOTIFY peerDetailsChanged)
+    Q_PROPERTY(PeerModel *peerModel READ peerModel NOTIFY peerModelChanged)
 
 private:
     TailctlConfig *m_config;
