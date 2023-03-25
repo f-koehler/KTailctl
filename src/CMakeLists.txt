@@ -11,13 +11,11 @@ add_executable(tailctl
     status.cpp
     peer.cpp
     peer_model.cpp
-    tailscale_client.cpp
+    taildrop_process.cpp
     resources.qrc
 )
 
 target_link_libraries(tailctl
-    KF5::Auth
-    KF5::AuthCore
     KF5::ConfigCore
     KF5::ConfigGui
     KF5::CoreAddons
@@ -34,28 +32,6 @@ target_link_libraries(tailctl
 kconfig_add_kcfg_files(tailctl GENERATE_MOC tailctlconfig.kcfgc)
 install(TARGETS tailctl ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
-add_executable(tailctl_tailscale_helper
-    tailscale_helper.cpp
-)
-target_link_libraries(tailctl_tailscale_helper
-    KF5::AuthCore
-    Qt5::Network
-)
-install(TARGETS tailctl_tailscale_helper DESTINATION ${KAUTH_HELPER_INSTALL_DIR})
-kauth_install_helper_files(tailctl_tailscale_helper org.fkoehler.tailctl root)
-kauth_install_actions(org.fkoehler.tailctl org.fkoehler.tailctl.actions)
-
-add_executable(tailctl_taildrop_helper
-    taildrop_helper.cpp
-)
-target_link_libraries(tailctl_taildrop_helper
-    Qt5::Core
-    Qt5::Network
-)
-install(TARGETS tailctl_taildrop_helper ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
-
 if(ipo_supported)
     set_property(TARGET tailctl PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
-    set_property(TARGET tailctl_tailscale_helper PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
-    set_property(TARGET tailctl_taildrop_helper PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
 endif()

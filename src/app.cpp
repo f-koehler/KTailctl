@@ -11,30 +11,41 @@
 
 #include <functional>
 
+QString strategyToString(const TailctlConfig::EnumTaildropStrategy::type &strategy)
+{
+    switch (strategy) {
+    case TailctlConfig::EnumTaildropStrategy::Overwrite:
+        return "overwrite";
+    case TailctlConfig::EnumTaildropStrategy::Skip:
+        return "skip";
+    default:
+        return "rename";
+    }
+}
+
 App::App(QObject *parent)
     : QObject(parent)
     , m_config(TailctlConfig::self())
+    , m_taildrop_process(m_config->tailscaleExecutable(),
+                         m_config->taildropEnabled(),
+                         m_config->taildropDirectory(),
+                         strategyToString(m_config->taildropStrategy()),
+                         this)
     , m_tray_icon(this)
 {
     m_tray_icon.setContextMenu(new QMenu());
 
-    m_client.setTaildropEnabled(false);
-    m_client.setTailscaleExecutable(m_config->tailscaleExecutable());
-    m_client.setTaildropDirectory(m_config->taildropDirectory());
-    m_client.setTaildropStrategy(m_config->taildropStrategy());
-    m_client.setTaildropEnabled(m_config->taildropEnabled());
-
     QObject::connect(m_config, &TailctlConfig::tailscaleExecutableChanged, [this]() {
-        this->m_client.setTailscaleExecutable(m_config->tailscaleExecutable());
+        this->m_taildrop_process.setExecutable(m_config->tailscaleExecutable());
     });
     QObject::connect(m_config, &TailctlConfig::taildropEnabledChanged, [this]() {
-        this->m_client.setTaildropEnabled(m_config->taildropEnabled());
+        this->m_taildrop_process.setEnabled(m_config->taildropEnabled());
     });
     QObject::connect(m_config, &TailctlConfig::taildropDirectoryChanged, [this]() {
-        this->m_client.setTaildropDirectory(m_config->taildropDirectory());
+        this->m_taildrop_process.setDirectory(m_config->taildropDirectory());
     });
     QObject::connect(m_config, &TailctlConfig::taildropStrategyChanged, [this]() {
-        this->m_client.setTaildropStrategy(m_config->taildropStrategy());
+        this->m_taildrop_process.setStrategy(strategyToString(m_config->taildropStrategy()));
     });
 
     QObject::connect(&m_status, &Status::peersChanged, &m_peer_model, &PeerModel::updatePeers);

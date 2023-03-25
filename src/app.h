@@ -7,7 +7,7 @@
 #include "peer_model.h"
 #include "status.h"
 #include "tailctlconfig.h"
-#include "tailscale_client.h"
+#include "taildrop_process.h"
 
 #include <QObject>
 #include <QProcess>
@@ -25,7 +25,7 @@ class App : public QObject
 
 private:
     TailctlConfig *m_config;
-    TailscaleClient m_client;
+    TaildropProcess m_taildrop_process;
     Status m_status;
     Peer m_peer_details;
     PeerModel m_peer_model;
