@@ -68,14 +68,9 @@ Kirigami.ScrollablePage {
         Flow {
             Kirigami.FormData.label: "OS:"
 
-            Kirigami.Icon {
-                source: getOSIcon(App.peerDetails.os)
-                height: 20
-                isMask: true
-            }
-
             Kirigami.Chip {
                 text: App.peerDetails.os
+                icon.source: getOSIcon(App.peerDetails.os)
                 closable: false
                 checkable: false
                 checked: false
