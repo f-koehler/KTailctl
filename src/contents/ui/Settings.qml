@@ -99,21 +99,25 @@ Kirigami.Page {
                 }
             }
 
-            // FolderDialog {
-            //     id: folderDialogTaildropDirectory
-            //     currentFolder: App.config.taildropDirectory
-            //     selectMultiple: false
-            //     onAccepted: {
-            //         App.config.taildropDirectory = folderDialogTaildropDirectory.fileUrls[0];
-            //         App.config.save();
-            //     }
-            // }
+            FileDialog {
+                id: folderDialogTaildropDirectory
+                folder: App.config.taildropDirectory
+                selectMultiple: false
+
+                // TODO: with Qt6 we can use the FolderDialog type instead
+                selectFolder: true
+
+                onAccepted: {
+                    App.config.taildropDirectory = folderDialogTaildropDirectory.fileUrls[0];
+                    App.config.save();
+                }
+            }
 
             Controls.Button {
                 icon.name: "folder-open"
                 text: "Select"
                 onClicked: {
-                    // folderDialogTaildropDirectory.show();
+                    folderDialogTaildropDirectory.open();
                 }
             }
         }
