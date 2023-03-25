@@ -4,7 +4,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15 as Controls
 import QtQuick.Layouts 1.15
-import QtQuick.Dialogs 1.0
+import QtQuick.Dialogs 1.3
 import org.kde.kirigami 2.19 as Kirigami
 import org.kde.Tailctl 1.0
 
@@ -65,7 +65,8 @@ Kirigami.Page {
             }
 
             Controls.Button {
-                text: "…"
+                icon.name: "document-open"
+                text: "Select"
                 onClicked: {
                     fileDialogTailscaleExecutable.open();
                 }
@@ -96,23 +97,24 @@ Kirigami.Page {
                     App.config.taildropDirectory = textTaildropDirectory.text;
                     App.config.save();
                 }
+            }
 
-                // FolderDialog {
-                //     id: folderDialogTaildropDirectory
-                //     currentFolder: App.config.taildropDirectory
-                //     selectMultiple: false
-                //     onAccepted: {
-                //         App.config.taildropDirectory = folderDialogTaildropDirectory.fileUrls[0];
-                //         App.config.save();
-                //     }
-                // }
-                //
-                // Controls.Button {
-                //     text: "…"
-                //     onClicked: {
-                //         folderDialogTaildropDirectory.open();
-                //     }
-                // }
+            // FolderDialog {
+            //     id: folderDialogTaildropDirectory
+            //     currentFolder: App.config.taildropDirectory
+            //     selectMultiple: false
+            //     onAccepted: {
+            //         App.config.taildropDirectory = folderDialogTaildropDirectory.fileUrls[0];
+            //         App.config.save();
+            //     }
+            // }
+
+            Controls.Button {
+                icon.name: "folder-open"
+                text: "Select"
+                onClicked: {
+                    // folderDialogTaildropDirectory.show();
+                }
             }
         }
 
