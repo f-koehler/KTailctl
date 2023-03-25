@@ -102,15 +102,26 @@ Kirigami.ScrollablePage {
             Kirigami.FormData.label: "Statistics"
         }
 
-        Controls.Label {
+        Kirigami.Chip {
             Kirigami.FormData.label: "Bytes received:"
             text: App.peerDetails.rxBytes.toString()
+            closable: false
+            checkable: false
+            checked: false
+            onClicked: {
+                App.setClipboardText(App.peerDetails.rxBytes.toString());
+            }
         }
 
-
-        Controls.Label {
+        Kirigami.Chip {
             Kirigami.FormData.label: "Bytes sent:"
-            text: App.peerDetails.rxBytes.toString()
+            text: App.peerDetails.txBytes.toString()
+            closable: false
+            checkable: false
+            checked: false
+            onClicked: {
+                App.setClipboardText(App.peerDetails.txBytes.toString());
+            }
         }
     }
 }
