@@ -58,6 +58,8 @@ public:
     Q_INVOKABLE void setPeerDetails(const QString &id);
 
     Q_INVOKABLE void setClipboardText(const QString &text);
+
+    Q_INVOKABLE QString formatCapacityHumanReadable(long bytes);
 };
 
 #endif /* TAILCTL_APP_H */

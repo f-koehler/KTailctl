@@ -150,3 +150,15 @@ void App::updateTrayMenu()
 void App::toggleTaildrop()
 {
 }
+
+QString App::formatCapacityHumanReadable(long bytes)
+{
+    static constexpr const char *units[] = {"TiB", "GiB", "MiB", "KiB", "B"};
+    static constexpr long limits[] = {1L << 40, 1L << 30, 1L << 20, 1L << 10, 1L};
+    for (int i = 0; i < 5; i++) {
+        if (bytes >= limits[i]) {
+            return QString("%1 %2").arg(static_cast<double>(bytes) / static_cast<double>(limits[i]), 0, 'f', 3).arg(units[i]);
+        }
+    }
+    return "0 B";
+}

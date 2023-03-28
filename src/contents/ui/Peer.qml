@@ -104,7 +104,7 @@ Kirigami.ScrollablePage {
 
         Kirigami.Chip {
             Kirigami.FormData.label: "Bytes received:"
-            text: App.peerDetails.rxBytes.toString()
+            text: App.formatCapacityHumanReadable(App.peerDetails.rxBytes)
             closable: false
             checkable: false
             checked: false
@@ -115,7 +115,7 @@ Kirigami.ScrollablePage {
 
         Kirigami.Chip {
             Kirigami.FormData.label: "Bytes sent:"
-            text: App.peerDetails.txBytes.toString()
+            text: App.formatCapacityHumanReadable(App.peerDetails.txBytes)
             closable: false
             checkable: false
             checked: false
