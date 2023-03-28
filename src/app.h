@@ -40,7 +40,6 @@ signals:
 
 public slots:
     Q_INVOKABLE void updateTrayMenu();
-    Q_INVOKABLE void toggleTaildrop();
 
 public:
     App(QObject *parent = nullptr);

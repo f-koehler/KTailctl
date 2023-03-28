@@ -147,10 +147,6 @@ void App::updateTrayMenu()
     m_tray_icon.setContextMenu(menu);
 }
 
-void App::toggleTaildrop()
-{
-}
-
 QString App::formatCapacityHumanReadable(long bytes)
 {
     static constexpr const char *units[] = {"TiB", "GiB", "MiB", "KiB", "B"};
