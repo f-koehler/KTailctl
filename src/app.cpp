@@ -126,6 +126,10 @@ void App::updateTrayMenu()
 {
     QMenu *menu = m_tray_icon.contextMenu();
     menu->clear();
+
+    menu->addAction("Open", this, [this]() {});
+    menu->addSeparator();
+
     QClipboard *clipboard = QGuiApplication::clipboard();
     auto create_action = [clipboard](QMenu *menu, const QString &text) {
         auto *action = menu->addAction(text);
