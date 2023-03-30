@@ -56,12 +56,26 @@ Kirigami.ScrollablePage {
 
         Controls.Label {
             Kirigami.FormData.label: "Created:"
-            text: App.peerDetails.created.toString()
+            text: {
+                var duration = App.formatDurationHumanReadable(App.peerDetails.created);
+                if(duration.isEmpty) {
+                    return "now";
+                } else {
+                    return duration + " ago";
+                }
+            }
         }
 
         Controls.Label {
             Kirigami.FormData.label: "Last seen:"
-            text: App.peerDetails.lastSeen.toString()
+            text: {
+                var duration = App.formatDurationHumanReadable(App.peerDetails.lastSeen);
+                if(duration.isEmpty) {
+                    return "now";
+                } else {
+                    return duration + " ago";
+                }
+            }
         }
 
 

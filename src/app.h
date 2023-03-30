@@ -60,6 +60,7 @@ public:
 
     Q_INVOKABLE QString formatCapacityHumanReadable(long bytes) const;
     Q_INVOKABLE QString formatSpeedHumanReadable(double bytes_per_second) const;
+    Q_INVOKABLE QString formatDurationHumanReadable(const QDateTime &from, const QDateTime &to = QDateTime::currentDateTime()) const;
     Q_INVOKABLE QString fileUrlToString(const QUrl &url) const;
 };
 

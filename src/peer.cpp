@@ -96,14 +96,25 @@ Peer *Peer::fromJSON(const QJsonObject &json)
         qWarning() << "Cannot find int \"TxBytes\"";
     }
 
+    static constexpr const char *nowdate = "0001-01-01T00:00:00Z";
     if (json.contains("Created") && json["Created"].isString()) {
-        peer->m_created = QDateTime::fromString(json["Created"].toString(), Qt::ISODateWithMs);
+        const auto string = json["Created"].toString();
+        if (string == nowdate) {
+            peer->m_created = QDateTime::currentDateTime();
+        } else {
+            peer->m_created = QDateTime::fromString(string, Qt::ISODateWithMs);
+        }
     } else {
         qWarning() << "Cannot find string \"Created\"";
     }
 
     if (json.contains("LastSeen") && json["LastSeen"].isString()) {
-        peer->m_last_seen = QDateTime::fromString(json["LastSeen"].toString(), Qt::ISODateWithMs);
+        const auto string = json["LastSeen"].toString();
+        if (string == nowdate) {
+            peer->m_last_seen = QDateTime::currentDateTime();
+        } else {
+            peer->m_last_seen = QDateTime::fromString(string, Qt::ISODateWithMs);
+        }
     } else {
         qWarning() << "Cannot find string \"LastSeen\"";
     }
