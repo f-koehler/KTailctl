@@ -31,9 +31,8 @@ void TaildropProcess::restartProcess()
 {
     stopProcess();
     if (m_enabled) {
-        qDebug() << "Starting taildrop process";
         m_process.setProgram(m_executable);
-        m_process.setArguments({
+        QStringList arguments{
             "file",
             "get",
             "-loop=true",
@@ -42,7 +41,9 @@ void TaildropProcess::restartProcess()
             "-conflict",
             m_strategy,
             m_directory,
-        });
+        };
+        qDebug() << "Starting taildrop process: " << m_executable << arguments;
+        m_process.setArguments(arguments);
         m_process.start();
         if (!m_process.waitForStarted(5000)) {
             qDebug() << "Failed to start taildrop process:" << m_process.errorString();

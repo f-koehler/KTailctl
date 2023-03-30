@@ -59,7 +59,7 @@ Kirigami.Page {
                 title: "Please select tailscale executable"
                 selectMultiple: false
                 onAccepted: {
-                    App.config.tailscaleExecutable = fileDialogTailscaleExecutable.fileUrls[0];
+                    App.config.tailscaleExecutable = App.fileUrlToString(fileDialogTailscaleExecutable.fileUrls[0]);
                     App.config.save();
                 }
             }
@@ -108,7 +108,7 @@ Kirigami.Page {
                 selectFolder: true
 
                 onAccepted: {
-                    App.config.taildropDirectory = folderDialogTaildropDirectory.fileUrls[0];
+                    App.config.taildropDirectory = App.fileUrlToString(folderDialogTaildropDirectory.fileUrls[0]);
                     App.config.save();
                 }
             }

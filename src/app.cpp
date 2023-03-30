@@ -178,3 +178,8 @@ QString App::formatSpeedHumanReadable(double bytes_per_second) const
     }
     return "0 B/s";
 }
+
+QString App::fileUrlToString(const QUrl &url) const
+{
+    return url.toString(QUrl::PreferLocalFile);
+}
