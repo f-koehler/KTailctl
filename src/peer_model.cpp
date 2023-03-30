@@ -11,7 +11,7 @@ void PeerModel::updatePeers(const QVector<Peer *> &peers)
         endRemoveRows();
     }
     for (int i = 0; i < m_peers.size(); ++i) {
-        m_peers[i]->setTo(*peers[i]);
+        m_peers[i]->setTo(peers[i]);
         emit dataChanged(index(i), index(i));
     }
     if (m_peers.size() < peers.size()) {

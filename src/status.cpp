@@ -59,20 +59,29 @@ void Status::read(const QJsonObject &json)
         if (m_self == nullptr) {
             m_self = new Peer();
         }
-        m_self->read(json["Self"].toObject());
+        m_self->setTo(Peer::fromJSON(json["Self"].toObject()));
     } else {
         qWarning() << "Cannot find object \"Self\"";
     }
 
     m_peers.clear();
     if (json.contains("Peer") && json["Peer"].isObject()) {
+        QList<Peer *> new_peers;
         const auto peers_object = json["Peer"].toObject();
         for (const auto &key : peers_object.keys()) {
-            Peer *peer = new Peer();
-            peer->read(peers_object[key].toObject());
+            Peer *peer = Peer::fromJSON(peers_object[key].toObject());
+            auto iter = std::find_if(m_peers.begin(), m_peers.end(), [peer](const Peer *p) {
+                return p->id() == peer->id();
+            });
+            if (iter != m_peers.end()) {
+                (*iter)->setTo(peer);
+            } else {
+                new_peers.append(peer);
+            }
+        }
+        for (auto peer : new_peers) {
             m_peers.append(peer);
         }
-        emit peersChanged(m_peers);
     } else {
         qWarning() << "Cannot find object \"Peer\"";
     }
@@ -80,6 +89,7 @@ void Status::read(const QJsonObject &json)
     std::sort(m_peers.begin(), m_peers.end(), [](const Peer *a, const Peer *b) {
         return a->id() < b->id();
     });
+    emit peersChanged(m_peers);
 }
 
 const QString &Status::version() const

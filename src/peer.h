@@ -66,12 +66,11 @@ public slots:
     Q_INVOKABLE void updateFromStatus(const Status &status);
 
 public:
-    Peer(QObject *parent = nullptr);
+    explicit Peer(QObject *parent = nullptr);
     virtual ~Peer() = default;
 
     static Peer *fromJSON(const QJsonObject &json);
-    void read(const QJsonObject &json);
-    bool setTo(const Peer &other);
+    bool setTo(const Peer *other);
 
     const QString &id() const;
     const QString &publicKey() const;

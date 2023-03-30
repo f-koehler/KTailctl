@@ -103,7 +103,7 @@ void App::setPeerDetails(const QString &id)
             qWarning() << "Peer" << id << "not found";
             return;
         }
-        if (m_peer_details.setTo(**pos)) {
+        if (m_peer_details.setTo(*pos)) {
             emit peerDetailsChanged();
         }
     }
