@@ -6,6 +6,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QProcess>
+#include <QSet>
 #include <algorithm>
 
 Status::Status(QObject *parent)
@@ -67,6 +68,7 @@ void Status::read(const QJsonObject &json)
     m_peers.clear();
     if (json.contains("Peer") && json["Peer"].isObject()) {
         QList<Peer *> new_peers;
+        QSet<QString> ids_to_keep;
         const auto peers_object = json["Peer"].toObject();
         for (const auto &key : peers_object.keys()) {
             Peer *peer = Peer::fromJSON(peers_object[key].toObject());
@@ -75,8 +77,17 @@ void Status::read(const QJsonObject &json)
             });
             if (iter != m_peers.end()) {
                 (*iter)->setTo(peer);
+                ids_to_keep.insert(peer->id());
             } else {
                 new_peers.append(peer);
+            }
+        }
+        auto iter = m_peers.begin();
+        while (iter != m_peers.end()) {
+            if (!ids_to_keep.contains((*iter)->id())) {
+                iter = m_peers.erase(iter);
+            } else {
+                ++iter;
             }
         }
         for (auto peer : new_peers) {
