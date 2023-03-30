@@ -151,7 +151,7 @@ void App::updateTrayMenu()
     m_tray_icon.setContextMenu(menu);
 }
 
-QString App::formatCapacityHumanReadable(long bytes)
+QString App::formatCapacityHumanReadable(long bytes) const
 {
     static constexpr const char *units[] = {"TiB", "GiB", "MiB", "KiB", "B"};
     static constexpr long limits[] = {1L << 40, 1L << 30, 1L << 20, 1L << 10, 1L};
@@ -161,4 +161,20 @@ QString App::formatCapacityHumanReadable(long bytes)
         }
     }
     return "0 B";
+}
+
+QString App::formatSpeedHumanReadable(double bytes_per_second) const
+{
+    static constexpr const char *units[] = {"TiB/s", "GiB/s", "MiB/s", "KiB/s", "B/s"};
+    static constexpr double limits[] = {static_cast<double>(1L << 40),
+                                        static_cast<double>(1L << 30),
+                                        static_cast<double>(1L << 20),
+                                        static_cast<double>(1L << 10),
+                                        1.0};
+    for (int i = 0; i < 5; i++) {
+        if (bytes_per_second >= limits[i]) {
+            return QString("%1 %2").arg(bytes_per_second / static_cast<double>(limits[i]), 0, 'f', 2).arg(units[i]);
+        }
+    }
+    return "0 B/s";
 }

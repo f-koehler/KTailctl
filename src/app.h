@@ -58,7 +58,8 @@ public:
 
     Q_INVOKABLE void setClipboardText(const QString &text);
 
-    Q_INVOKABLE QString formatCapacityHumanReadable(long bytes);
+    Q_INVOKABLE QString formatCapacityHumanReadable(long bytes) const;
+    Q_INVOKABLE QString formatSpeedHumanReadable(double bytes_per_second) const;
 };
 
 #endif /* TAILCTL_APP_H */
