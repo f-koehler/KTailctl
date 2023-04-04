@@ -25,6 +25,7 @@ public:
         HostNameRole,
         DnsNameRole,
         OsRole,
+        TailscaleIpsRole,
         IsOnlineRole,
         IsActiveRole,
     };

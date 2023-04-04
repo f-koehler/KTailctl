@@ -36,19 +36,46 @@ Kirigami.ScrollablePage {
 
                     rowSpacing: Kirigami.Units.largeSpacing
                     columnSpacing: Kirigami.Units.smallSpacing
-                    columns: 4
+                    columns: 3
 
                     Kirigami.Icon {
                         source: Util.loadOsIcon(os)
                     }
 
-                    Controls.Label {
-                        text: hostName
+                    ColumnLayout {
+                        RowLayout {
+                            Controls.Label {
+                                text: hostName
+                            }
+
+                            Kirigami.Icon {
+                                source: isOnline ? "online" : "offline"
+                            }
+                        }
+
+                        Kirigami.Separator {
+                            Layout.fillWidth: true
+                        }
+
+
+                        Flow {
+                            spacing: Kirigami.Units.smallSpacing
+                            Repeater {
+                                model: tailscaleIps
+
+                                Kirigami.Chip {
+                                    text: modelData
+                                    closable: false
+                                    checkable: false
+                                    checked: false
+                                    onClicked: {
+                                        Util.setClipboardText(modelData);
+                                    }
+                                }
+                            }
+                        }
                     }
 
-                    Kirigami.Icon {
-                        source: isOnline ? "online" : "offline"
-                    }
 
                     Controls.Button {
                         text: "Details"

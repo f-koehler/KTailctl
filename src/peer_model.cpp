@@ -43,6 +43,7 @@ QHash<int, QByteArray> PeerModel::roleNames() const
     roles[HostNameRole] = "hostName";
     roles[DnsNameRole] = "dnsName";
     roles[OsRole] = "os";
+    roles[TailscaleIpsRole] = "tailscaleIps";
     roles[IsOnlineRole] = "isOnline";
     roles[IsActiveRole] = "isActive";
     return roles;
@@ -64,6 +65,8 @@ QVariant PeerModel::data(const QModelIndex &index, int role) const
         return mPeers.at(index.row())->dnsName();
     case OsRole:
         return mPeers.at(index.row())->os();
+    case TailscaleIpsRole:
+        return mPeers.at(index.row())->tailscaleIps();
     case IsOnlineRole:
         return mPeers.at(index.row())->isOnline();
     case IsActiveRole:
