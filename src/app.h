@@ -8,11 +8,11 @@
 #include "status.h"
 #include "tailctlconfig.h"
 #include "taildrop_process.h"
+#include "tray_icon.h"
 
 #include <QObject>
 #include <QProcess>
 #include <QQuickWindow>
-#include <QSystemTrayIcon>
 
 class QQuickWindow;
 
@@ -27,21 +27,17 @@ class App : public QObject
 private:
     TailctlConfig *mConfig;
     TaildropProcess mTaildropProcess;
-    Status mStatus;
+    Status *mStatus;
     Peer mPeerDetails;
     PeerModel mPeerModel;
 
-    QSystemTrayIcon mTrayIcon;
-    QQuickWindow *mWindow;
+    TrayIcon *mTrayIcon;
 
 signals:
     void configChanged();
     void statusChanged();
     void peerDetailsChanged();
     void peerModelChanged();
-
-public slots:
-    Q_INVOKABLE void updateTrayMenu();
 
 public:
     App(QObject *parent = nullptr);
@@ -50,8 +46,7 @@ public:
     Status *status();
     Peer *peerDetails();
     PeerModel *peerModel();
-
-    void setWindow(QQuickWindow *window);
+    TrayIcon *trayIcon();
 
     // Restore current window geometry
     Q_INVOKABLE void restoreWindowGeometry(QQuickWindow *window, const QString &group = QStringLiteral("main")) const;
@@ -59,15 +54,6 @@ public:
     Q_INVOKABLE void saveWindowGeometry(QQuickWindow *window, const QString &group = QStringLiteral("main")) const;
 
     Q_INVOKABLE void setPeerDetails(const QString &id);
-
-    Q_INVOKABLE void setClipboardText(const QString &text);
-
-    Q_INVOKABLE QString formatCapacityHumanReadable(long bytes) const;
-    Q_INVOKABLE QString formatSpeedHumanReadable(double bytes_per_second) const;
-    Q_INVOKABLE QString formatDurationHumanReadable(const QDateTime &from, const QDateTime &to = QDateTime::currentDateTime()) const;
-    Q_INVOKABLE QString fileUrlToString(const QUrl &url) const;
-    Q_INVOKABLE qint64 toMSecsSinceEpoch(const QDateTime &dateTime) const;
-    Q_INVOKABLE QIcon loadOsIcon(const QString &os) const;
 };
 
 #endif /* TAILCTL_APP_H */

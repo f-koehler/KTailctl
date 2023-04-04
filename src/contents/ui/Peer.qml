@@ -27,7 +27,7 @@ Kirigami.ScrollablePage {
             checkable: false
             checked: false
             onClicked: {
-                App.setClipboardText(App.peerDetails.hostName);
+                Util.setClipboardText(App.peerDetails.hostName);
             }
         }
 
@@ -39,7 +39,7 @@ Kirigami.ScrollablePage {
             checkable: false
             checked: false
             onClicked: {
-                App.setClipboardText(App.peerDetails.dnsName);
+                Util.setClipboardText(App.peerDetails.dnsName);
             }
         }
 
@@ -50,7 +50,7 @@ Kirigami.ScrollablePage {
             checkable: false
             checked: false
             onClicked: {
-                App.setClipboardText(App.peerDetails.tailscaleID);
+                Util.setClipboardText(App.peerDetails.tailscaleID);
             }
         }
 
@@ -60,7 +60,7 @@ Kirigami.ScrollablePage {
             checkable: false
             checked: false
             text: {
-                var duration = App.formatDurationHumanReadable(App.peerDetails.created);
+                var duration = Util.formatDurationHumanReadable(App.peerDetails.created);
                 if(duration == "") {
                     return "now";
                 } else {
@@ -68,7 +68,7 @@ Kirigami.ScrollablePage {
                 }
             }
             onClicked: {
-                App.setClipboardText(App.toMSecsSinceEpoch(App.peerDetails.created));
+                Util.setClipboardText(Util.toMSecsSinceEpoch(App.peerDetails.created));
             }
         }
 
@@ -78,7 +78,7 @@ Kirigami.ScrollablePage {
             checkable: false
             checked: false
             text: {
-                var duration = App.formatDurationHumanReadable(App.peerDetails.lastSeen);
+                var duration = Util.formatDurationHumanReadable(App.peerDetails.lastSeen);
                 if(duration == "") {
                     return "now";
                 } else {
@@ -86,7 +86,7 @@ Kirigami.ScrollablePage {
                 }
             }
             onClicked: {
-                App.setClipboardText(App.toMSecsSinceEpoch(App.peerDetails.lastSeen));
+                Util.setClipboardText(Util.toMSecsSinceEpoch(App.peerDetails.lastSeen));
             }
         }
 
@@ -100,7 +100,7 @@ Kirigami.ScrollablePage {
                 checkable: false
                 checked: false
                 onClicked: {
-                    App.setClipboardText(App.peerDetails.os);
+                    Util.setClipboardText(App.peerDetails.os);
                 }
             }
         }
@@ -116,7 +116,7 @@ Kirigami.ScrollablePage {
                     checkable: false
                     checked: false
                     onClicked: {
-                        App.setClipboardText(modelData);
+                        Util.setClipboardText(modelData);
                     }
                 }
             }
@@ -129,23 +129,23 @@ Kirigami.ScrollablePage {
 
         Kirigami.Chip {
             Kirigami.FormData.label: "Bytes received:"
-            text: App.formatCapacityHumanReadable(App.peerDetails.rxBytes)
+            text: Util.formatCapacityHumanReadable(App.peerDetails.rxBytes)
             closable: false
             checkable: false
             checked: false
             onClicked: {
-                App.setClipboardText(App.peerDetails.rxBytes.toString());
+                Util.setClipboardText(App.peerDetails.rxBytes.toString());
             }
         }
 
         Kirigami.Chip {
             Kirigami.FormData.label: "Bytes sent:"
-            text: App.formatCapacityHumanReadable(App.peerDetails.txBytes)
+            text: Util.formatCapacityHumanReadable(App.peerDetails.txBytes)
             closable: false
             checkable: false
             checked: false
             onClicked: {
-                App.setClipboardText(App.peerDetails.txBytes.toString());
+                Util.setClipboardText(App.peerDetails.txBytes.toString());
             }
         }
     }

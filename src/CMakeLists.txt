@@ -12,6 +12,8 @@ add_executable(tailctl
     peer.cpp
     peer_model.cpp
     taildrop_process.cpp
+    tray_icon.cpp
+    util.cpp
     resources.qrc
 )
 

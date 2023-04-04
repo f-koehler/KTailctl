@@ -9,15 +9,17 @@
 #include <QUrl>
 #include <QtQml>
 
+#include <KAboutData>
+#include <KLocalizedContext>
+#include <KLocalizedString>
+
 #include "about.h"
 #include "app.h"
 #include "peer.h"
 #include "peer_model.h"
 #include "status.h"
+#include "util.h"
 #include "version-tailctl.h"
-#include <KAboutData>
-#include <KLocalizedContext>
-#include <KLocalizedString>
 
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
@@ -57,6 +59,9 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     qmlRegisterType<Status>("org.kde.Tailctl", 1, 0, "Status");
     qmlRegisterType<TailctlConfig>("org.kde.Tailctl", 1, 0, "TailctlConfig");
 
+    Util util;
+    qmlRegisterSingletonInstance("org.kde.Tailctl", 1, 0, "Util", &util);
+
     engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
     engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
     if (engine.rootObjects().isEmpty()) {
@@ -66,7 +71,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     const auto *config = TailctlConfig::self();
 
     auto *window = (QQuickWindow *)engine.rootObjects().first();
-    application.setWindow(window);
+    application.trayIcon()->setWindow(window);
     if (config->startMinimized()) {
         window->hide();
     } else {

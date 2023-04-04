@@ -39,7 +39,7 @@ Kirigami.ScrollablePage {
                     columns: 5
 
                     Kirigami.Icon {
-                        source: App.loadOsIcon(os)
+                        source: Util.loadOsIcon(os)
                     }
 
                     Controls.Label {
