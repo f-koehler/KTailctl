@@ -109,7 +109,7 @@ Kirigami.ScrollablePage {
         Flow {
             Kirigami.FormData.label: "Addresses:"
             Repeater {
-                model: App.peerDetails.tailscaleIPs
+                model: App.peerDetails.tailscaleIps
 
                 Kirigami.Chip {
                     text: modelData

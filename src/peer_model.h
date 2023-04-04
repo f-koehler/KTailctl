@@ -13,7 +13,7 @@ class PeerModel : public QAbstractListModel
     Q_OBJECT
 
 private:
-    QVector<Peer *> m_peers;
+    QVector<Peer *> mPeers;
 
 public slots:
     void updatePeers(const QVector<Peer *> &peers);
@@ -36,4 +36,4 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
 };
 
-#endif // TAILCTL_PEER_MODEL_H
+#endif /* TAILCTL_PEER_MODEL_H */

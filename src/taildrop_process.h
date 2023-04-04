@@ -9,11 +9,11 @@ class TaildropProcess : public QObject
     Q_OBJECT
 
 private:
-    QProcess m_process;
-    QString m_executable;
-    bool m_enabled;
-    QString m_directory;
-    QString m_strategy;
+    QProcess mProcess;
+    QString mExecutable;
+    bool mEnabled;
+    QString mDirectory;
+    QString mStrategy;
 
 public:
     TaildropProcess(const QString &executable, bool enabled, const QString &directory, const QString &strategy, QObject *parent = nullptr);

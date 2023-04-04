@@ -11,7 +11,7 @@
 
 Status::Status(QObject *parent)
     : QObject(parent)
-    , m_self(new Peer())
+    , mSelf(new Peer())
 {
 }
 
@@ -33,97 +33,97 @@ void Status::refresh(const QString &executable)
 void Status::read(const QJsonObject &json)
 {
     if (json.contains("Version") && json["Version"].isString()) {
-        m_version = json["Version"].toString();
+        mVersion = json["Version"].toString();
     } else {
         qWarning() << "Cannot find string \"Version\"";
     }
 
     if (json.contains("TUN") && json["TUN"].isBool()) {
-        if (const auto is_tun = json["TUN"].toBool(); is_tun != m_is_tun) {
-            m_is_tun = json["TUN"].toBool();
-            emit isTUNChanged(m_is_tun);
+        if (const auto is_tun = json["TUN"].toBool(); is_tun != mIsTun) {
+            mIsTun = json["TUN"].toBool();
+            emit isTUNChanged(mIsTun);
         }
     } else {
         qWarning() << "Cannot find bool \"TUN\"";
     }
 
     if (json.contains("BackendState") && json["BackendState"].isString()) {
-        if (const auto backend_state = json["BackendState"].toString(); backend_state != m_backend_state) {
-            m_backend_state = json["BackendState"].toString();
-            emit backendStateChanged(m_backend_state);
+        if (const auto backend_state = json["BackendState"].toString(); backend_state != mBackendState) {
+            mBackendState = json["BackendState"].toString();
+            emit backendStateChanged(mBackendState);
         }
     } else {
         qWarning() << "Cannot find string \"BackendState\"";
     }
 
     if (json.contains("Self") && json["Self"].isObject()) {
-        if (m_self == nullptr) {
-            m_self = new Peer();
+        if (mSelf == nullptr) {
+            mSelf = new Peer();
         }
-        m_self->setTo(Peer::fromJSON(json["Self"].toObject()));
+        mSelf->setTo(Peer::fromJSON(json["Self"].toObject()));
     } else {
         qWarning() << "Cannot find object \"Self\"";
     }
 
-    m_peers.clear();
+    mPeers.clear();
     if (json.contains("Peer") && json["Peer"].isObject()) {
         QList<Peer *> new_peers;
         QSet<QString> ids_to_keep;
         const auto peers_object = json["Peer"].toObject();
         for (const auto &key : peers_object.keys()) {
             Peer *peer = Peer::fromJSON(peers_object[key].toObject());
-            auto iter = std::find_if(m_peers.begin(), m_peers.end(), [peer](const Peer *p) {
+            auto iter = std::find_if(mPeers.begin(), mPeers.end(), [peer](const Peer *p) {
                 return p->id() == peer->id();
             });
-            if (iter != m_peers.end()) {
+            if (iter != mPeers.end()) {
                 (*iter)->setTo(peer);
                 ids_to_keep.insert(peer->id());
             } else {
                 new_peers.append(peer);
             }
         }
-        auto iter = m_peers.begin();
-        while (iter != m_peers.end()) {
+        auto iter = mPeers.begin();
+        while (iter != mPeers.end()) {
             if (!ids_to_keep.contains((*iter)->id())) {
-                iter = m_peers.erase(iter);
+                iter = mPeers.erase(iter);
             } else {
                 ++iter;
             }
         }
         for (auto peer : new_peers) {
-            m_peers.append(peer);
+            mPeers.append(peer);
         }
     } else {
         qWarning() << "Cannot find object \"Peer\"";
     }
 
-    std::sort(m_peers.begin(), m_peers.end(), [](const Peer *a, const Peer *b) {
+    std::sort(mPeers.begin(), mPeers.end(), [](const Peer *a, const Peer *b) {
         return a->id() < b->id();
     });
-    emit peersChanged(m_peers);
+    emit peersChanged(mPeers);
 }
 
 const QString &Status::version() const
 {
-    return m_version;
+    return mVersion;
 }
 
 bool Status::isTUN() const
 {
-    return m_is_tun;
+    return mIsTun;
 }
 
 const QString &Status::backendState() const
 {
-    return m_backend_state;
+    return mBackendState;
 }
 
 const Peer *Status::self() const
 {
-    return m_self;
+    return mSelf;
 }
 
 const QVector<Peer *> &Status::peers() const
 {
-    return m_peers;
+    return mPeers;
 }

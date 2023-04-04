@@ -3,12 +3,12 @@
 
 TaildropProcess::TaildropProcess(const QString &executable, bool enabled, const QString &directory, const QString &strategy, QObject *parent)
     : QObject(parent)
-    , m_executable(executable)
-    , m_enabled(enabled)
-    , m_directory(directory)
-    , m_strategy(strategy)
+    , mExecutable(executable)
+    , mEnabled(enabled)
+    , mDirectory(directory)
+    , mStrategy(strategy)
 {
-    if (m_enabled) {
+    if (mEnabled) {
         restartProcess();
     }
 }
@@ -16,12 +16,12 @@ TaildropProcess::TaildropProcess(const QString &executable, bool enabled, const 
 void TaildropProcess::stopProcess()
 {
     qDebug() << "Stopping taildrop process";
-    if (m_process.state() != QProcess::NotRunning) {
-        m_process.terminate();
-        if (!m_process.waitForFinished(5000)) {
-            m_process.kill();
-            if (!m_process.waitForFinished(5000)) {
-                qDebug() << "Failed to kill taildrop process:" << m_process.errorString();
+    if (mProcess.state() != QProcess::NotRunning) {
+        mProcess.terminate();
+        if (!mProcess.waitForFinished(5000)) {
+            mProcess.kill();
+            if (!mProcess.waitForFinished(5000)) {
+                qDebug() << "Failed to kill taildrop process:" << mProcess.errorString();
             }
         }
     }
@@ -30,8 +30,8 @@ void TaildropProcess::stopProcess()
 void TaildropProcess::restartProcess()
 {
     stopProcess();
-    if (m_enabled) {
-        m_process.setProgram(m_executable);
+    if (mEnabled) {
+        mProcess.setProgram(mExecutable);
         QStringList arguments{
             "file",
             "get",
@@ -39,33 +39,33 @@ void TaildropProcess::restartProcess()
             "-verbose=true",
             "-wait=true",
             "-conflict",
-            m_strategy,
-            m_directory,
+            mStrategy,
+            mDirectory,
         };
-        qDebug() << "Starting taildrop process: " << m_executable << arguments;
-        m_process.setArguments(arguments);
-        m_process.start();
-        if (!m_process.waitForStarted(5000)) {
-            qDebug() << "Failed to start taildrop process:" << m_process.errorString();
+        qDebug() << "Starting taildrop process: " << mExecutable << arguments;
+        mProcess.setArguments(arguments);
+        mProcess.start();
+        if (!mProcess.waitForStarted(5000)) {
+            qDebug() << "Failed to start taildrop process:" << mProcess.errorString();
         }
-        if (m_process.state() != QProcess::Running) {
-            qDebug() << "Failed to start taildrop process:" << m_process.errorString();
+        if (mProcess.state() != QProcess::Running) {
+            qDebug() << "Failed to start taildrop process:" << mProcess.errorString();
         }
     }
 }
 
 void TaildropProcess::setExecutable(const QString &executable)
 {
-    if (m_executable != executable) {
-        m_executable = executable;
+    if (mExecutable != executable) {
+        mExecutable = executable;
         restartProcess();
     }
 }
 void TaildropProcess::setEnabled(bool enabled)
 {
-    if (m_enabled != enabled) {
-        m_enabled = enabled;
-        if (m_enabled) {
+    if (mEnabled != enabled) {
+        mEnabled = enabled;
+        if (mEnabled) {
             restartProcess();
         } else {
             stopProcess();
@@ -74,15 +74,15 @@ void TaildropProcess::setEnabled(bool enabled)
 }
 void TaildropProcess::setDirectory(const QString &directory)
 {
-    if (m_directory != directory) {
-        m_directory = directory;
+    if (mDirectory != directory) {
+        mDirectory = directory;
         restartProcess();
     }
 }
 void TaildropProcess::setStrategy(const QString &strategy)
 {
-    if (m_strategy != strategy) {
-        m_strategy = strategy;
+    if (mStrategy != strategy) {
+        mStrategy = strategy;
         restartProcess();
     }
 }

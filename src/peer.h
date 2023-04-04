@@ -23,7 +23,7 @@ class Peer : public QObject
     Q_PROPERTY(QString hostName READ hostName NOTIFY hostNameChanged)
     Q_PROPERTY(QString dnsName READ dnsName NOTIFY dnsNameChanged)
     Q_PROPERTY(QString os READ os NOTIFY osChanged)
-    Q_PROPERTY(QStringList tailscaleIPs READ tailscaleIPs NOTIFY tailscaleIPsChanged)
+    Q_PROPERTY(QStringList tailscaleIps READ tailscaleIps NOTIFY tailscaleIpsChanged)
     Q_PROPERTY(QString relay READ relay NOTIFY relayChanged)
     Q_PROPERTY(long rxBytes READ rxBytes NOTIFY rxBytesChanged)
     Q_PROPERTY(long txBytes READ txBytes NOTIFY txBytesChanged)
@@ -33,19 +33,19 @@ class Peer : public QObject
     Q_PROPERTY(bool isActive READ isActive NOTIFY isActiveChanged)
 
 private:
-    QString m_id;
-    QString m_public_key;
-    QString m_host_name;
-    QString m_dns_name;
-    QString m_os;
-    QStringList m_tailscale_ips;
-    QString m_relay;
-    long m_rx_bytes;
-    long m_tx_bytes;
-    QDateTime m_created;
-    QDateTime m_last_seen;
-    bool m_is_online;
-    bool m_is_active;
+    QString mId;
+    QString mPublicKey;
+    QString mHostName;
+    QString mDNSName;
+    QString mOs;
+    QStringList mTailscaleIps;
+    QString mRelay;
+    long mRxBytes;
+    long mTxBytes;
+    QDateTime mCreated;
+    QDateTime mLastSeen;
+    bool mIsOnline;
+    bool mIsActive;
 
 signals:
     void idChanged(const QString &);
@@ -53,7 +53,7 @@ signals:
     void hostNameChanged(const QString &);
     void dnsNameChanged(const QString &);
     void osChanged(const QString &);
-    void tailscaleIPsChanged(const QStringList &);
+    void tailscaleIpsChanged(const QStringList &);
     void relayChanged(const QString &);
     void rxBytesChanged(long);
     void txBytesChanged(long);
@@ -77,7 +77,7 @@ public:
     const QString &hostName() const;
     const QString &dnsName() const;
     const QString &os() const;
-    const QStringList &tailscaleIPs() const;
+    const QStringList &tailscaleIps() const;
     const QString &relay() const;
     long rxBytes() const;
     long txBytes() const;

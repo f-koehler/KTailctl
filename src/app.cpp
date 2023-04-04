@@ -25,57 +25,57 @@ QString strategyToString(const TailctlConfig::EnumTaildropStrategy::type &strate
 
 App::App(QObject *parent)
     : QObject(parent)
-    , m_config(TailctlConfig::self())
-    , m_taildrop_process(m_config->tailscaleExecutable(),
-                         m_config->taildropEnabled(),
-                         m_config->taildropDirectory(),
-                         strategyToString(m_config->taildropStrategy()),
-                         this)
-    , m_tray_icon(this)
+    , mConfig(TailctlConfig::self())
+    , mTaildropProcess(mConfig->tailscaleExecutable(),
+                       mConfig->taildropEnabled(),
+                       mConfig->taildropDirectory(),
+                       strategyToString(mConfig->taildropStrategy()),
+                       this)
+    , mTrayIcon(this)
 {
-    m_tray_icon.setContextMenu(new QMenu());
+    mTrayIcon.setContextMenu(new QMenu());
 
-    QObject::connect(m_config, &TailctlConfig::tailscaleExecutableChanged, [this]() {
-        this->m_taildrop_process.setExecutable(m_config->tailscaleExecutable());
+    QObject::connect(mConfig, &TailctlConfig::tailscaleExecutableChanged, [this]() {
+        this->mTaildropProcess.setExecutable(mConfig->tailscaleExecutable());
     });
-    QObject::connect(m_config, &TailctlConfig::taildropEnabledChanged, [this]() {
-        this->m_taildrop_process.setEnabled(m_config->taildropEnabled());
+    QObject::connect(mConfig, &TailctlConfig::taildropEnabledChanged, [this]() {
+        this->mTaildropProcess.setEnabled(mConfig->taildropEnabled());
     });
-    QObject::connect(m_config, &TailctlConfig::taildropDirectoryChanged, [this]() {
-        this->m_taildrop_process.setDirectory(m_config->taildropDirectory());
+    QObject::connect(mConfig, &TailctlConfig::taildropDirectoryChanged, [this]() {
+        this->mTaildropProcess.setDirectory(mConfig->taildropDirectory());
     });
-    QObject::connect(m_config, &TailctlConfig::taildropStrategyChanged, [this]() {
-        this->m_taildrop_process.setStrategy(strategyToString(m_config->taildropStrategy()));
+    QObject::connect(mConfig, &TailctlConfig::taildropStrategyChanged, [this]() {
+        this->mTaildropProcess.setStrategy(strategyToString(mConfig->taildropStrategy()));
     });
 
-    QObject::connect(&m_status, &Status::peersChanged, &m_peer_model, &PeerModel::updatePeers);
-    QObject::connect(&m_status, &Status::refreshed, &m_peer_details, &Peer::updateFromStatus);
-    QObject::connect(m_tray_icon.contextMenu(), &QMenu::aboutToShow, this, &App::updateTrayMenu);
+    QObject::connect(&mStatus, &Status::peersChanged, &mPeerModel, &PeerModel::updatePeers);
+    QObject::connect(&mStatus, &Status::refreshed, &mPeerDetails, &Peer::updateFromStatus);
+    QObject::connect(mTrayIcon.contextMenu(), &QMenu::aboutToShow, this, &App::updateTrayMenu);
 
-    m_tray_icon.setIcon(QIcon::fromTheme(QStringLiteral("online")));
-    m_tray_icon.show();
+    mTrayIcon.setIcon(QIcon::fromTheme(QStringLiteral("online")));
+    mTrayIcon.show();
 }
 
 TailctlConfig *App::config()
 {
-    return m_config;
+    return mConfig;
 }
 Status *App::status()
 {
-    return &m_status;
+    return &mStatus;
 }
 Peer *App::peerDetails()
 {
-    return &m_peer_details;
+    return &mPeerDetails;
 }
 PeerModel *App::peerModel()
 {
-    return &m_peer_model;
+    return &mPeerModel;
 }
 
 void App::setWindow(QQuickWindow *window)
 {
-    m_window = window;
+    mWindow = window;
 }
 
 void App::restoreWindowGeometry(QQuickWindow *window, const QString &group) const
@@ -97,18 +97,18 @@ void App::saveWindowGeometry(QQuickWindow *window, const QString &group) const
 
 void App::setPeerDetails(const QString &id)
 {
-    if (m_status.self()->id() == id) {
-        m_peer_details = *m_status.self();
+    if (mStatus.self()->id() == id) {
+        mPeerDetails = *mStatus.self();
         emit peerDetailsChanged();
     } else {
-        auto pos = std::find_if(m_status.peers().begin(), m_status.peers().end(), [&id](Peer *peer) {
+        auto pos = std::find_if(mStatus.peers().begin(), mStatus.peers().end(), [&id](Peer *peer) {
             return peer->id() == id;
         });
-        if (pos == m_status.peers().end()) {
+        if (pos == mStatus.peers().end()) {
             qWarning() << "Peer" << id << "not found";
             return;
         }
-        if (m_peer_details.setTo(*pos)) {
+        if (mPeerDetails.setTo(*pos)) {
             emit peerDetailsChanged();
         }
     }
@@ -129,12 +129,12 @@ QIcon loadOSIcon(const QString &os)
 
 void App::updateTrayMenu()
 {
-    QMenu *menu = m_tray_icon.contextMenu();
+    QMenu *menu = mTrayIcon.contextMenu();
     menu->clear();
 
     menu->addAction("Open", this, [this]() {
-        if (m_window != nullptr) {
-            m_window->show();
+        if (mWindow != nullptr) {
+            mWindow->show();
         }
     });
     menu->addSeparator();
@@ -147,17 +147,17 @@ void App::updateTrayMenu()
         });
         return action;
     };
-    for (auto peer : m_status.peers()) {
+    for (auto peer : mStatus.peers()) {
         auto *submenu = menu->addMenu(loadOSIcon(peer->os()), peer->hostName());
         create_action(submenu, peer->dnsName());
-        for (auto address : peer->tailscaleIPs()) {
+        for (auto address : peer->tailscaleIps()) {
             create_action(submenu, address);
         }
     }
 
     menu->addSeparator();
     menu->addAction("Quit", this, qApp->quit);
-    m_tray_icon.setContextMenu(menu);
+    mTrayIcon.setContextMenu(menu);
 }
 
 QString App::formatCapacityHumanReadable(long bytes) const

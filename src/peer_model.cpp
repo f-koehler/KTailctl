@@ -5,19 +5,19 @@
 
 void PeerModel::updatePeers(const QVector<Peer *> &peers)
 {
-    if (peers.size() < m_peers.size()) {
-        beginRemoveRows(QModelIndex(), peers.size(), m_peers.size() - 1);
-        m_peers.erase(m_peers.begin() + peers.size(), m_peers.end());
+    if (peers.size() < mPeers.size()) {
+        beginRemoveRows(QModelIndex(), peers.size(), mPeers.size() - 1);
+        mPeers.erase(mPeers.begin() + peers.size(), mPeers.end());
         endRemoveRows();
     }
-    for (int i = 0; i < m_peers.size(); ++i) {
-        m_peers[i]->setTo(peers[i]);
+    for (int i = 0; i < mPeers.size(); ++i) {
+        mPeers[i]->setTo(peers[i]);
         emit dataChanged(index(i), index(i));
     }
-    if (m_peers.size() < peers.size()) {
-        beginInsertRows(QModelIndex(), m_peers.size(), peers.size() - 1);
-        for (int i = m_peers.size(); i < peers.size(); ++i) {
-            m_peers.push_back(peers[i]);
+    if (mPeers.size() < peers.size()) {
+        beginInsertRows(QModelIndex(), mPeers.size(), peers.size() - 1);
+        for (int i = mPeers.size(); i < peers.size(); ++i) {
+            mPeers.push_back(peers[i]);
         }
         endInsertRows();
     }
@@ -32,7 +32,7 @@ int PeerModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
 
-    return m_peers.size();
+    return mPeers.size();
 }
 
 QHash<int, QByteArray> PeerModel::roleNames() const
@@ -55,19 +55,19 @@ QVariant PeerModel::data(const QModelIndex &index, int role) const
     }
     switch (role) {
     case TailscaleID:
-        return m_peers.at(index.row())->id();
+        return mPeers.at(index.row())->id();
     case PublicKeyRole:
-        return m_peers.at(index.row())->publicKey();
+        return mPeers.at(index.row())->publicKey();
     case HostNameRole:
-        return m_peers.at(index.row())->hostName();
+        return mPeers.at(index.row())->hostName();
     case DnsNameRole:
-        return m_peers.at(index.row())->dnsName();
+        return mPeers.at(index.row())->dnsName();
     case OsRole:
-        return m_peers.at(index.row())->os();
+        return mPeers.at(index.row())->os();
     case IsOnlineRole:
-        return m_peers.at(index.row())->isOnline();
+        return mPeers.at(index.row())->isOnline();
     case IsActiveRole:
-        return m_peers.at(index.row())->isActive();
+        return mPeers.at(index.row())->isActive();
     default:
         return QStringLiteral("Unknown role");
     }

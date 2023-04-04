@@ -25,14 +25,14 @@ class App : public QObject
     Q_PROPERTY(PeerModel *peerModel READ peerModel NOTIFY peerModelChanged)
 
 private:
-    TailctlConfig *m_config;
-    TaildropProcess m_taildrop_process;
-    Status m_status;
-    Peer m_peer_details;
-    PeerModel m_peer_model;
+    TailctlConfig *mConfig;
+    TaildropProcess mTaildropProcess;
+    Status mStatus;
+    Peer mPeerDetails;
+    PeerModel mPeerModel;
 
-    QSystemTrayIcon m_tray_icon;
-    QQuickWindow *m_window;
+    QSystemTrayIcon mTrayIcon;
+    QQuickWindow *mWindow;
 
 signals:
     void configChanged();

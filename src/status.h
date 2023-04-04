@@ -22,11 +22,11 @@ class Status : public QObject
     // Q_PROPERTY(Peer *self READ self NOTIFY selfChanged)
 
 private:
-    QString m_version;
-    bool m_is_tun;
-    QString m_backend_state;
-    Peer *m_self;
-    QVector<Peer *> m_peers;
+    QString mVersion;
+    bool mIsTun;
+    QString mBackendState;
+    Peer *mSelf;
+    QVector<Peer *> mPeers;
 
 signals:
     void versionChanged(const QString &);
