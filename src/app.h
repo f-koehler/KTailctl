@@ -11,6 +11,7 @@
 
 #include <QObject>
 #include <QProcess>
+#include <QQuickWindow>
 #include <QSystemTrayIcon>
 
 class QQuickWindow;
@@ -31,6 +32,7 @@ private:
     PeerModel m_peer_model;
 
     QSystemTrayIcon m_tray_icon;
+    QQuickWindow *m_window;
 
 signals:
     void configChanged();
@@ -48,6 +50,8 @@ public:
     Status *status();
     Peer *peerDetails();
     PeerModel *peerModel();
+
+    void setWindow(QQuickWindow *window);
 
     // Restore current window geometry
     Q_INVOKABLE void restoreWindowGeometry(QQuickWindow *window, const QString &group = QStringLiteral("main")) const;

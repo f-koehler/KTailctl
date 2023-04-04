@@ -73,6 +73,11 @@ PeerModel *App::peerModel()
     return &m_peer_model;
 }
 
+void App::setWindow(QQuickWindow *window)
+{
+    m_window = window;
+}
+
 void App::restoreWindowGeometry(QQuickWindow *window, const QString &group) const
 {
     KConfig dataResource(QStringLiteral("data"), KConfig::SimpleConfig, QStandardPaths::AppDataLocation);
@@ -127,7 +132,11 @@ void App::updateTrayMenu()
     QMenu *menu = m_tray_icon.contextMenu();
     menu->clear();
 
-    menu->addAction("Open", this, [this]() {});
+    menu->addAction("Open", this, [this]() {
+        if (m_window != nullptr) {
+            m_window->show();
+        }
+    });
     menu->addSeparator();
 
     QClipboard *clipboard = QGuiApplication::clipboard();
