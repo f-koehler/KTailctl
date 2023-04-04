@@ -36,7 +36,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
         // The program version string.
         QStringLiteral(TAILCTL_VERSION_STRING),
         // Short description of what the app does.
-        i18n("Application Description"),
+        i18n("GUI for tailscale on the KDE Plasma desktop"),
         // The license this code is released under.
         KAboutLicense::GPL,
         // Copyright Statement.

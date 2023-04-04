@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 [Desktop Entry]
 Name=Tailctl
-Comment=Tailctl Kirigami Application
+Comment=GUI for tailscale on the KDE Plasma desktop
 Version=1.0
 Exec=tailctl
 Icon=applications-development
