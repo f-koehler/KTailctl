@@ -146,7 +146,7 @@ void App::updateTrayMenu()
     QMenu *menu = mTrayIcon.contextMenu();
     menu->clear();
 
-    menu->addAction("Open", this, [this]() {
+    menu->addAction(QIcon::fromTheme("window"), "Open", this, [this]() {
         if (mWindow != nullptr) {
             mWindow->show();
         }
