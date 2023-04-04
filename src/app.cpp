@@ -220,3 +220,8 @@ QString App::fileUrlToString(const QUrl &url) const
 {
     return url.toString(QUrl::PreferLocalFile);
 }
+
+qint64 App::toMSecsSinceEpoch(const QDateTime &dateTime) const
+{
+    return dateTime.toMSecsSinceEpoch();
+}

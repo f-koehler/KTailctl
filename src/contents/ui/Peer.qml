@@ -54,8 +54,11 @@ Kirigami.ScrollablePage {
             }
         }
 
-        Controls.Label {
+        Kirigami.Chip {
             Kirigami.FormData.label: "Created:"
+            closable: false
+            checkable: false
+            checked: false
             text: {
                 var duration = App.formatDurationHumanReadable(App.peerDetails.created);
                 if(duration == "") {
@@ -64,10 +67,16 @@ Kirigami.ScrollablePage {
                     return duration + " ago";
                 }
             }
+            onClicked: {
+                App.setClipboardText(App.toMSecsSinceEpoch(App.peerDetails.created));
+            }
         }
 
-        Controls.Label {
+        Kirigami.Chip {
             Kirigami.FormData.label: "Last seen:"
+            closable: false
+            checkable: false
+            checked: false
             text: {
                 var duration = App.formatDurationHumanReadable(App.peerDetails.lastSeen);
                 if(duration == "") {
@@ -75,6 +84,9 @@ Kirigami.ScrollablePage {
                 } else {
                     return duration + " ago";
                 }
+            }
+            onClicked: {
+                App.setClipboardText(App.toMSecsSinceEpoch(App.peerDetails.lastSeen));
             }
         }
 

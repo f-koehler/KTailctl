@@ -66,6 +66,7 @@ public:
     Q_INVOKABLE QString formatSpeedHumanReadable(double bytes_per_second) const;
     Q_INVOKABLE QString formatDurationHumanReadable(const QDateTime &from, const QDateTime &to = QDateTime::currentDateTime()) const;
     Q_INVOKABLE QString fileUrlToString(const QUrl &url) const;
+    Q_INVOKABLE qint64 toMSecsSinceEpoch(const QDateTime &dateTime) const;
 };
 
 #endif /* TAILCTL_APP_H */
