@@ -156,7 +156,7 @@ void App::updateTrayMenu()
     }
 
     menu->addSeparator();
-    menu->addAction("Quit", this, qApp->quit);
+    menu->addAction(QIcon::fromTheme("application-exit"), "Quit", this, qApp->quit);
     mTrayIcon.setContextMenu(menu);
 }
 

@@ -50,8 +50,20 @@ Kirigami.ApplicationWindow {
     globalDrawer: Kirigami.GlobalDrawer {
         title: i18n("Tailctl")
         titleIcon: "applications-graphics"
-        isMenu: !root.isMobile
+        isMenu: false
+        modal: false
+        collapsible: false
+        collapsed: false
+        width: 200
         actions: [
+            Kirigami.Action {
+                text: i18n("Peers")
+                icon.name: "network-wired"
+            },
+            Kirigami.Action {
+                text: i18n("Statistics")
+                icon.name: "office-chart-line-stacked"
+            },
             Kirigami.Action {
                 text: i18n("Settings")
                 icon.name: "settings-configure"
