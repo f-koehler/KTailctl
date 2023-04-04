@@ -134,5 +134,19 @@ Kirigami.Page {
                 console.log(comboTaildropStrategy.currentText);
             }
         }
+
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: "Interface"
+        }
+
+        Controls.Switch {
+            Kirigami.FormData.label: "Start minimized:"
+            checked: App.config.startMinimized
+            onClicked: {
+                App.config.startMinimized = !App.config.startMinimized;
+                App.config.save();
+            }
+        }
     }
 }

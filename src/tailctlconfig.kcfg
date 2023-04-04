@@ -35,4 +35,10 @@ SPDX-License-Identifier: LGPL-2.0-or-later
             </choices>
         </entry>
     </group>
+    <group name="Interface">
+        <entry name="startMinimized" type="Bool">
+            <label>Start minimized</label>
+            <default>false</default>
+        </entry>
+    </group>
 </kcfg>

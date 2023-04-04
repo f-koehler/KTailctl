@@ -59,12 +59,19 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
     engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
-
     if (engine.rootObjects().isEmpty()) {
         return -1;
     }
 
-    application.setWindow((QQuickWindow *)engine.rootObjects().first());
+    const auto *config = TailctlConfig::self();
+
+    auto *window = (QQuickWindow *)engine.rootObjects().first();
+    application.setWindow(window);
+    if (config->startMinimized()) {
+        window->hide();
+    } else {
+        window->show();
+    }
 
     return app.exec();
 }
