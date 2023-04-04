@@ -96,7 +96,7 @@ Kirigami.ScrollablePage {
 
             Kirigami.Chip {
                 text: App.peerDetails.os
-                icon.source: getOSIcon(App.peerDetails.os)
+                icon.source: App.loadOsIcon(App.peerDetails.os)
                 closable: false
                 checkable: false
                 checked: false

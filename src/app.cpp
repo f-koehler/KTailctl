@@ -120,11 +120,25 @@ void App::setClipboardText(const QString &text)
     clipboard->setText(text);
 }
 
-QIcon loadOSIcon(const QString &os)
+QIcon App::loadOsIcon(const QString &os) const
 {
-    QIcon icon = QIcon(QString(":/icon/%1.svg").arg(os.toLower()));
-    icon.setIsMask(true);
-    return icon;
+    const auto osname = os.toLower();
+    if (osname == "linux") {
+        return QIcon::fromTheme("computer");
+    }
+    if (osname == "windows") {
+        return QIcon::fromTheme("computer");
+    }
+    if (osname == "macos") {
+        return QIcon::fromTheme("computer");
+    }
+    if (osname == "android") {
+        return QIcon::fromTheme("smartphone");
+    }
+    if (osname == "ios") {
+        return QIcon::fromTheme("smartphone");
+    }
+    return QIcon::fromTheme("question");
 }
 
 void App::updateTrayMenu()
@@ -148,7 +162,7 @@ void App::updateTrayMenu()
         return action;
     };
     for (auto peer : mStatus.peers()) {
-        auto *submenu = menu->addMenu(loadOSIcon(peer->os()), peer->hostName());
+        auto *submenu = menu->addMenu(loadOsIcon(peer->os()), peer->hostName());
         create_action(submenu, peer->dnsName());
         for (auto address : peer->tailscaleIps()) {
             create_action(submenu, address);

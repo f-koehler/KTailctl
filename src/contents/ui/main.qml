@@ -43,10 +43,6 @@ Kirigami.ApplicationWindow {
         repeat: true
     }
 
-    function getOSIcon(os) {
-        return "qrc:/icon/" + os.toLowerCase() + ".svg"
-    }
-
     globalDrawer: Kirigami.GlobalDrawer {
         title: i18n("Tailctl")
         titleIcon: "applications-graphics"

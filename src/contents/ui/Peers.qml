@@ -39,9 +39,7 @@ Kirigami.ScrollablePage {
                     columns: 5
 
                     Kirigami.Icon {
-                        source: getOSIcon(os)
-                        //color: "#ffffff"
-                        isMask: true
+                        source: App.loadOsIcon(os)
                     }
 
                     Controls.Label {
