@@ -36,7 +36,7 @@ Kirigami.ScrollablePage {
 
                     rowSpacing: Kirigami.Units.largeSpacing
                     columnSpacing: Kirigami.Units.smallSpacing
-                    columns: 5
+                    columns: 4
 
                     Kirigami.Icon {
                         source: Util.loadOsIcon(os)
@@ -52,11 +52,13 @@ Kirigami.ScrollablePage {
 
                     Controls.Button {
                         text: "Details"
+                        icon.name: "view-list-details"
                         onClicked: {
                             App.setPeerDetails(tailscaleID);
                             pageStack.layers.push('qrc:Peer.qml');
                         }
                     }
+
                 }
             }
         }
