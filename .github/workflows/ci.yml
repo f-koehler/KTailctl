@@ -12,6 +12,11 @@ jobs:
     strategy:
       matrix:
         toolchain:
+          - name: "Ubuntu 22.04 (GCC 9)"
+            os: ubuntu-22.04
+            cc: gcc-9
+            cxx: g++-9
+            packages: "gcc-9 g++-9"
           - name: "Ubuntu 22.04 (GCC 10)"
             os: ubuntu-22.04
             cc: gcc-10
@@ -27,6 +32,26 @@ jobs:
             cc: gcc-12
             cxx: g++-12
             packages: "gcc-12 g++-12"
+          - name: "Ubuntu 22.04 (Clang 11)"
+            os: ubuntu-22.04
+            cc: clang-11
+            cxx: clang++-11
+            packages: "clang-11"
+          - name: "Ubuntu 22.04 (Clang 12)"
+            os: ubuntu-22.04
+            cc: clang-12
+            cxx: clang++-12
+            packages: "clang-12"
+          - name: "Ubuntu 22.04 (Clang 13)"
+            os: ubuntu-22.04
+            cc: clang-13
+            cxx: clang++-13
+            packages: "clang-13"
+          - name: "Ubuntu 22.04 (Clang 14)"
+            os: ubuntu-22.04
+            cc: clang-14
+            cxx: clang++-14
+            packages: "clang-14"
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v3
