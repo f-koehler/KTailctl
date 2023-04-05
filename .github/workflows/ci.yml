@@ -33,7 +33,7 @@ jobs:
       - name: Update apt cache.
         run: sudo apt-get update -yq
       - name: Install compiler and CMake.
-        run: sudo apt-get install -yq {{ matrix.toolchain.packages }} cmake
+        run: sudo apt-get install -yq ${{ matrix.toolchain.packages }} cmake
       - name: Install Qt dependencies.
         run: sudo apt-get install -yq qtbase5-dev qtdeclarative5-dev qtquickcontrols2-5-dev libqt5svg5-dev
       - name: Install KDE dependencies.
