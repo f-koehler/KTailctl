@@ -4,9 +4,9 @@
 #ifndef TAILCTL_APP_H
 #define TAILCTL_APP_H
 
+#include "ktailctlconfig.h"
 #include "peer_model.h"
 #include "status.h"
-#include "tailctlconfig.h"
 #include "taildrop_process.h"
 #include "tailscale.h"
 #include "tray_icon.h"
@@ -21,13 +21,13 @@ class App : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(Tailscale *tailscale READ tailscale NOTIFY tailscaleChanged)
-    Q_PROPERTY(TailctlConfig *config READ config NOTIFY configChanged)
+    Q_PROPERTY(KTailctlConfig *config READ config NOTIFY configChanged)
     Q_PROPERTY(Peer *peerDetails READ peerDetails NOTIFY peerDetailsChanged)
     Q_PROPERTY(PeerModel *peerModel READ peerModel NOTIFY peerModelChanged)
 
 private:
     Tailscale *mTailscale;
-    TailctlConfig *mConfig;
+    KTailctlConfig *mConfig;
     TaildropProcess mTaildropProcess;
     Peer mPeerDetails;
     PeerModel mPeerModel;
@@ -44,7 +44,7 @@ public:
     App(Tailscale *tailscale, QObject *parent = nullptr);
 
     Tailscale *tailscale();
-    TailctlConfig *config();
+    KTailctlConfig *config();
     Peer *peerDetails();
     PeerModel *peerModel();
     TrayIcon *trayIcon();

@@ -3,7 +3,7 @@
 
 cmake_minimum_required(VERSION 3.16)
 
-project(tailctl VERSION 0.1)
+project(ktailctl VERSION 0.1)
 
 include(FeatureSummary)
 
@@ -34,7 +34,7 @@ kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
 
 ecm_setup_version(${PROJECT_VERSION}
     VARIABLE_PREFIX TAILCTL
-    VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/src/version-tailctl.h"
+    VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/src/version-ktailctl.h"
 )
 
 find_package(Qt5 ${QT5_MIN_VERSION} REQUIRED COMPONENTS
@@ -54,8 +54,8 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
 
 add_subdirectory(src)
 
-install(PROGRAMS org.kde.tailctl.desktop DESTINATION ${KDE_INSTALL_APPDIR})
-install(FILES org.kde.tailctl.metainfo.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
-install(FILES tailctl.notifyrc  DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
+install(PROGRAMS org.fkoehler.ktailctl.desktop DESTINATION ${KDE_INSTALL_APPDIR})
+install(FILES org.fkoehler.ktailctl.metainfo.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
+install(FILES ktailctl.notifyrc  DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)

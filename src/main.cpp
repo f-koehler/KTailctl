@@ -20,20 +20,20 @@
 #include "status.h"
 #include "tailscale.h"
 #include "util.h"
-#include "version-tailctl.h"
+#include "version-ktailctl.h"
 
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
     QCoreApplication::setOrganizationName(QStringLiteral("KDE"));
-    QCoreApplication::setApplicationName(QStringLiteral("Tailctl"));
+    QCoreApplication::setApplicationName(QStringLiteral("KTailctl"));
 
     KAboutData aboutData(
         // The program name used internally.
-        QStringLiteral("Tailctl"),
+        QStringLiteral("KTailctl"),
         // A displayable program name string.
-        i18nc("@title", "Tailctl"),
+        i18nc("@title", "KTailctl"),
         // The program version string.
         QStringLiteral(TAILCTL_VERSION_STRING),
         // Short description of what the app does.
@@ -51,20 +51,20 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     AboutType about;
-    qmlRegisterSingletonInstance("org.kde.Tailctl", 1, 0, "AboutType", &about);
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "AboutType", &about);
 
     Tailscale tailscale;
-    qmlRegisterSingletonInstance("org.kde.Tailctl", 1, 0, "Tailscale", &tailscale);
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Tailscale", &tailscale);
 
     App application(&tailscale);
-    qmlRegisterSingletonInstance("org.kde.Tailctl", 1, 0, "App", &application);
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "App", &application);
 
-    qmlRegisterType<Peer>("org.kde.Tailctl", 1, 0, "Peer");
-    qmlRegisterType<Status>("org.kde.Tailctl", 1, 0, "Status");
-    qmlRegisterType<TailctlConfig>("org.kde.Tailctl", 1, 0, "TailctlConfig");
+    qmlRegisterType<Peer>("org.fkoehler.KTailctl", 1, 0, "Peer");
+    qmlRegisterType<Status>("org.fkoehler.KTailctl", 1, 0, "Status");
+    qmlRegisterType<KTailctlConfig>("org.fkoehler.KTailctl", 1, 0, "KTailctlConfig");
 
     Util util;
-    qmlRegisterSingletonInstance("org.kde.Tailctl", 1, 0, "Util", &util);
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Util", &util);
 
     engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
     engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
@@ -72,7 +72,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
         return -1;
     }
 
-    const auto *config = TailctlConfig::self();
+    const auto *config = KTailctlConfig::self();
 
     auto *window = (QQuickWindow *)engine.rootObjects().first();
     application.trayIcon()->setWindow(window);

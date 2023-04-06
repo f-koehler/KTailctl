@@ -11,12 +11,12 @@
 
 #include <functional>
 
-QString strategyToString(const TailctlConfig::EnumTaildropStrategy::type &strategy)
+QString strategyToString(const KTailctlConfig::EnumTaildropStrategy::type &strategy)
 {
     switch (strategy) {
-    case TailctlConfig::EnumTaildropStrategy::Overwrite:
+    case KTailctlConfig::EnumTaildropStrategy::Overwrite:
         return "overwrite";
-    case TailctlConfig::EnumTaildropStrategy::Skip:
+    case KTailctlConfig::EnumTaildropStrategy::Skip:
         return "skip";
     default:
         return "rename";
@@ -26,7 +26,7 @@ QString strategyToString(const TailctlConfig::EnumTaildropStrategy::type &strate
 App::App(Tailscale *tailscale, QObject *parent)
     : QObject(parent)
     , mTailscale(tailscale)
-    , mConfig(TailctlConfig::self())
+    , mConfig(KTailctlConfig::self())
     , mTaildropProcess(mConfig->tailscaleExecutable(),
                        mConfig->taildropEnabled(),
                        mConfig->taildropDirectory(),
@@ -34,17 +34,17 @@ App::App(Tailscale *tailscale, QObject *parent)
                        this)
     , mTrayIcon(new TrayIcon(tailscale, this))
 {
-    QObject::connect(mConfig, &TailctlConfig::tailscaleExecutableChanged, [this]() {
+    QObject::connect(mConfig, &KTailctlConfig::tailscaleExecutableChanged, [this]() {
         this->mTaildropProcess.setExecutable(mConfig->tailscaleExecutable());
         this->mTailscale->setExecutable(mConfig->tailscaleExecutable());
     });
-    QObject::connect(mConfig, &TailctlConfig::taildropEnabledChanged, [this]() {
+    QObject::connect(mConfig, &KTailctlConfig::taildropEnabledChanged, [this]() {
         this->mTaildropProcess.setEnabled(mConfig->taildropEnabled());
     });
-    QObject::connect(mConfig, &TailctlConfig::taildropDirectoryChanged, [this]() {
+    QObject::connect(mConfig, &KTailctlConfig::taildropDirectoryChanged, [this]() {
         this->mTaildropProcess.setDirectory(mConfig->taildropDirectory());
     });
-    QObject::connect(mConfig, &TailctlConfig::taildropStrategyChanged, [this]() {
+    QObject::connect(mConfig, &KTailctlConfig::taildropStrategyChanged, [this]() {
         this->mTaildropProcess.setStrategy(strategyToString(mConfig->taildropStrategy()));
     });
 
@@ -56,7 +56,7 @@ Tailscale *App::tailscale()
 {
     return mTailscale;
 }
-TailctlConfig *App::config()
+KTailctlConfig *App::config()
 {
     return mConfig;
 }

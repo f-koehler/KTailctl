@@ -4,7 +4,7 @@
 include(CheckIPOSupported)
 check_ipo_supported(RESULT ipo_supported OUTPUT ipo_output)
 
-add_executable(tailctl
+add_executable(ktailctl
     main.cpp
     about.cpp
     app.cpp
@@ -18,7 +18,7 @@ add_executable(tailctl
     resources.qrc
 )
 
-target_link_libraries(tailctl
+target_link_libraries(ktailctl
     KF5::ConfigCore
     KF5::ConfigGui
     KF5::CoreAddons
@@ -32,9 +32,9 @@ target_link_libraries(tailctl
     Qt5::Svg
 )
 
-kconfig_add_kcfg_files(tailctl GENERATE_MOC tailctlconfig.kcfgc)
-install(TARGETS tailctl ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+kconfig_add_kcfg_files(ktailctl GENERATE_MOC ktailctlconfig.kcfgc)
+install(TARGETS ktailctl ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 if(ipo_supported)
-    set_property(TARGET tailctl PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
+    set_property(TARGET ktailctl PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
 endif()

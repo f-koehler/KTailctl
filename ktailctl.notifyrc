@@ -1,8 +1,8 @@
 [Global]
-IconName=tailctl
-Name=tailctl
+IconName=ktailctl
+Name=ktailctl
 Comment=Tailscale control center for KDE plasma
-DesktopEntry=tailctl.desktop
+DesktopEntry=ktailctl.desktop
 
 [Context/status]
 Name=Status

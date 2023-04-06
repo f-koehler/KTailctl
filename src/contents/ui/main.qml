@@ -5,12 +5,12 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15 as Controls
 import QtQuick.Layouts 1.15
 import org.kde.kirigami 2.19 as Kirigami
-import org.kde.Tailctl 1.0
+import org.fkoehler.KTailctl 1.0
 
 Kirigami.ApplicationWindow {
     id: root
 
-    title: i18n("Tailctl")
+    title: i18n("KTailctl")
 
     minimumWidth: Kirigami.Units.gridUnit * 20
     minimumHeight: Kirigami.Units.gridUnit * 20
@@ -44,7 +44,7 @@ Kirigami.ApplicationWindow {
     }
 
     globalDrawer: Kirigami.GlobalDrawer {
-        title: i18n("Tailctl")
+        title: i18n("KTailctl")
         titleIcon: "applications-graphics"
         isMenu: false
         modal: false
@@ -66,7 +66,7 @@ Kirigami.ApplicationWindow {
                 onTriggered: pageStack.layers.push('qrc:Settings.qml')
             },
             Kirigami.Action {
-                text: i18n("About Tailctl")
+                text: i18n("About KTailctl")
                 icon.name: "help-about"
                 onTriggered: pageStack.layers.push('qrc:About.qml')
             },

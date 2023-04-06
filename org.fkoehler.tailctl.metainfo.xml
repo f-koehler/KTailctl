@@ -4,8 +4,8 @@
   SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
  -->
 <component type="desktop-application">
-  <id>org.kde.tailctl</id>
-  <name>Tailctl Kirigami Application</name>
+  <id>org.fkoehler.ktailctl</id>
+  <name>KTailctl Kirigami Application</name>
   <summary>A short summary describing what this software is about</summary>
   <metadata_license>A permissive license for this metadata, e.g. "FSFAP" + Update the SPDX tags above!</metadata_license>
   <project_license>The license of this software as SPDX string, e.g. "GPL-2.0-or-later"</project_license>

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/tailctl.iml" filepath="$PROJECT_DIR$/.idea/tailctl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ktailctl.iml" filepath="$PROJECT_DIR$/.idea/ktailctl.iml" />
     </modules>
   </component>
 </project>

@@ -6,7 +6,7 @@ import QtQuick.Controls 2.15 as Controls
 import QtQuick.Layouts 1.15
 import QtQuick.Dialogs 1.3
 import org.kde.kirigami 2.19 as Kirigami
-import org.kde.Tailctl 1.0
+import org.fkoehler.KTailctl 1.0
 
 Kirigami.Page {
     id: settings
@@ -20,7 +20,7 @@ Kirigami.Page {
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "Tailctl"
+            Kirigami.FormData.label: "KTailctl"
         }
 
         Controls.SpinBox {
