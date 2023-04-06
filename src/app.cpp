@@ -23,19 +23,20 @@ QString strategyToString(const TailctlConfig::EnumTaildropStrategy::type &strate
     }
 }
 
-App::App(QObject *parent)
+App::App(Tailscale *tailscale, QObject *parent)
     : QObject(parent)
+    , mTailscale(tailscale)
     , mConfig(TailctlConfig::self())
     , mTaildropProcess(mConfig->tailscaleExecutable(),
                        mConfig->taildropEnabled(),
                        mConfig->taildropDirectory(),
                        strategyToString(mConfig->taildropStrategy()),
                        this)
-    , mStatus(new Status(this))
-    , mTrayIcon(new TrayIcon(mStatus, this))
+    , mTrayIcon(new TrayIcon(tailscale, this))
 {
     QObject::connect(mConfig, &TailctlConfig::tailscaleExecutableChanged, [this]() {
         this->mTaildropProcess.setExecutable(mConfig->tailscaleExecutable());
+        this->mTailscale->setExecutable(mConfig->tailscaleExecutable());
     });
     QObject::connect(mConfig, &TailctlConfig::taildropEnabledChanged, [this]() {
         this->mTaildropProcess.setEnabled(mConfig->taildropEnabled());
@@ -47,17 +48,17 @@ App::App(QObject *parent)
         this->mTaildropProcess.setStrategy(strategyToString(mConfig->taildropStrategy()));
     });
 
-    QObject::connect(mStatus, &Status::peersChanged, &mPeerModel, &PeerModel::updatePeers);
-    QObject::connect(mStatus, &Status::refreshed, &mPeerDetails, &Peer::updateFromStatus);
+    QObject::connect(tailscale->status(), &Status::peersChanged, &mPeerModel, &PeerModel::updatePeers);
+    QObject::connect(tailscale->status(), &Status::refreshed, &mPeerDetails, &Peer::updateFromStatus);
 }
 
+Tailscale *App::tailscale()
+{
+    return mTailscale;
+}
 TailctlConfig *App::config()
 {
     return mConfig;
-}
-Status *App::status()
-{
-    return mStatus;
 }
 Peer *App::peerDetails()
 {
@@ -91,14 +92,14 @@ void App::saveWindowGeometry(QQuickWindow *window, const QString &group) const
 
 void App::setPeerDetails(const QString &id)
 {
-    if (mStatus->self()->id() == id) {
-        mPeerDetails = *mStatus->self();
+    if (mTailscale->status()->self()->id() == id) {
+        mPeerDetails = *mTailscale->status()->self();
         emit peerDetailsChanged();
     } else {
-        auto pos = std::find_if(mStatus->peers().begin(), mStatus->peers().end(), [&id](Peer *peer) {
+        auto pos = std::find_if(mTailscale->status()->peers().begin(), mTailscale->status()->peers().end(), [&id](Peer *peer) {
             return peer->id() == id;
         });
-        if (pos == mStatus->peers().end()) {
+        if (pos == mTailscale->status()->peers().end()) {
             qWarning() << "Peer" << id << "not found";
             return;
         }

@@ -5,9 +5,9 @@
 #include <QGuiApplication>
 #include <QMenu>
 
-TrayIcon::TrayIcon(Status *status, QObject *parent)
+TrayIcon::TrayIcon(Tailscale *tailscale, QObject *parent)
     : QSystemTrayIcon(parent)
-    , mStatus(status)
+    , mTailscale(tailscale)
 {
     setContextMenu(new QMenu());
 
@@ -28,6 +28,19 @@ void TrayIcon::regenerate()
         menu->addSeparator();
     }
 
+    auto action_toggle = menu->addAction("Toggle", [this]() {
+        mTailscale->toggle();
+    });
+    action_toggle->setCheckable(true);
+    if (mTailscale->status()->backendState() == "Running") {
+        action_toggle->setChecked(true);
+        action_toggle->setText("Stop Tailscale");
+    } else {
+        action_toggle->setChecked(false);
+        action_toggle->setText("Start Tailscale");
+    }
+    menu->addSeparator();
+
     QClipboard *clipboard = QGuiApplication::clipboard();
     auto create_action = [clipboard](QMenu *menu, const QString &text) {
         auto *action = menu->addAction(text);
@@ -36,7 +49,7 @@ void TrayIcon::regenerate()
         });
         return action;
     };
-    for (auto peer : mStatus->peers()) {
+    for (auto peer : mTailscale->status()->peers()) {
         auto *submenu = menu->addMenu(loadOsIcon(peer->os()), peer->hostName());
         create_action(submenu, peer->dnsName());
         for (auto address : peer->tailscaleIps()) {

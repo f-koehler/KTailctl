@@ -18,6 +18,7 @@
 #include "peer.h"
 #include "peer_model.h"
 #include "status.h"
+#include "tailscale.h"
 #include "util.h"
 #include "version-tailctl.h"
 
@@ -52,7 +53,10 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     AboutType about;
     qmlRegisterSingletonInstance("org.kde.Tailctl", 1, 0, "AboutType", &about);
 
-    App application;
+    Tailscale tailscale;
+    qmlRegisterSingletonInstance("org.kde.Tailctl", 1, 0, "Tailscale", &tailscale);
+
+    App application(&tailscale);
     qmlRegisterSingletonInstance("org.kde.Tailctl", 1, 0, "App", &application);
 
     qmlRegisterType<Peer>("org.kde.Tailctl", 1, 0, "Peer");
