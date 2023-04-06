@@ -56,6 +56,6 @@ add_subdirectory(src)
 
 install(PROGRAMS org.fkoehler.ktailctl.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES org.fkoehler.ktailctl.metainfo.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
-install(FILES ktailctl.notifyrc  DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
+install(FILES KTailctl.notifyrc  DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
