@@ -5,6 +5,7 @@
 #define TAILCTL_APP_H
 
 #include "ktailctlconfig.h"
+#include "notifier.h"
 #include "peer_model.h"
 #include "status.h"
 #include "taildrop_process.h"
@@ -31,6 +32,7 @@ private:
     TaildropProcess mTaildropProcess;
     Peer mPeerDetails;
     PeerModel mPeerModel;
+    Notifier *mNotifier;
 
     TrayIcon *mTrayIcon;
 

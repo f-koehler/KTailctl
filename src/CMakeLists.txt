@@ -5,12 +5,13 @@ include(CheckIPOSupported)
 check_ipo_supported(RESULT ipo_supported OUTPUT ipo_output)
 
 add_executable(ktailctl
-    main.cpp
     about.cpp
     app.cpp
-    status.cpp
+    main.cpp
+    notifier.cpp
     peer.cpp
     peer_model.cpp
+    status.cpp
     taildrop_process.cpp
     tailscale.cpp
     tray_icon.cpp

@@ -32,6 +32,7 @@ App::App(Tailscale *tailscale, QObject *parent)
                        mConfig->taildropDirectory(),
                        strategyToString(mConfig->taildropStrategy()),
                        this)
+    , mNotifier(new Notifier(this))
     , mTrayIcon(new TrayIcon(tailscale, this))
 {
     QObject::connect(mConfig, &KTailctlConfig::tailscaleExecutableChanged, [this]() {
@@ -50,6 +51,7 @@ App::App(Tailscale *tailscale, QObject *parent)
 
     QObject::connect(tailscale->status(), &Status::peersChanged, &mPeerModel, &PeerModel::updatePeers);
     QObject::connect(tailscale->status(), &Status::refreshed, &mPeerDetails, &Peer::updateFromStatus);
+    QObject::connect(tailscale->status(), &Status::refreshed, mNotifier, &Notifier::statusRefreshed);
 }
 
 Tailscale *App::tailscale()

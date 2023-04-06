@@ -12,12 +12,12 @@ Comment=Status of Tailscale
 Name=Peer
 Comment=Status of a Tailscale peer
 
-[Event/offline]
+[Event/down]
 Name=Tailscale offline
 Comment=Tailscale is now offline
 Contexts=status
 
-[Event/online]
+[Event/up]
 Name=Tailscale online
 Comment=Tailscale is now online
 Contexts=status
