@@ -41,11 +41,10 @@ void TrayIcon::regenerate()
     }
     menu->addSeparator();
 
-    QClipboard *clipboard = QGuiApplication::clipboard();
-    auto create_action = [clipboard](QMenu *menu, const QString &text) {
+    auto create_action = [](QMenu *menu, const QString &text) {
         auto *action = menu->addAction(text);
-        connect(action, &QAction::triggered, [clipboard, &text]() {
-            clipboard->setText(text);
+        connect(action, &QAction::triggered, [text]() {
+            setClipboardText(text);
         });
         return action;
     };
