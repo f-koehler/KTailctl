@@ -11,6 +11,8 @@ add_executable(ktailctl
     notifier.cpp
     peer.cpp
     peer_model.cpp
+    speed_statistics.cpp
+    statistics.cpp
     status.cpp
     taildrop_process.cpp
     tailscale.cpp

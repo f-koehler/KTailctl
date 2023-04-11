@@ -6,6 +6,7 @@ Tailscale::Tailscale(QObject *parent)
     : QObject(parent)
     , mExecutable("tailscale")
     , mStatus(new Status(this))
+    , mStatistics(new Statistics(mStatus, this))
 {
 }
 
@@ -44,6 +45,11 @@ const QString &Tailscale::executable() const
 Status *Tailscale::status()
 {
     return mStatus;
+}
+
+Statistics *Tailscale::statistics()
+{
+    return mStatistics;
 }
 
 void Tailscale::setExecutable(const QString &executable)

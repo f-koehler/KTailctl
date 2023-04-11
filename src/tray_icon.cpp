@@ -54,6 +54,9 @@ void TrayIcon::regenerate()
         for (auto address : peer->tailscaleIps()) {
             create_action(submenu, address);
         }
+        submenu->addSection("Statistics");
+        submenu->addAction(QIcon::fromTheme("vcs-push"), "upload");
+        submenu->addAction(QIcon::fromTheme("vcs-pull"), "download");
     }
 
     menu->addSeparator();

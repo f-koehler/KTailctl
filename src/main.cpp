@@ -17,6 +17,8 @@
 #include "app.h"
 #include "peer.h"
 #include "peer_model.h"
+#include "speed_statistics.h"
+#include "statistics.h"
 #include "status.h"
 #include "tailscale.h"
 #include "util.h"
@@ -61,6 +63,8 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     qmlRegisterType<Peer>("org.fkoehler.KTailctl", 1, 0, "Peer");
     qmlRegisterType<Status>("org.fkoehler.KTailctl", 1, 0, "Status");
+    qmlRegisterType<SpeedStatistics>("org.fkoehler.KTailctl", 1, 0, "SpeedStatistics");
+    qmlRegisterType<Statistics>("org.fkoehler.KTailctl", 1, 0, "Statistics");
     qmlRegisterType<KTailctlConfig>("org.fkoehler.KTailctl", 1, 0, "KTailctlConfig");
 
     Util util;

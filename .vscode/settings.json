@@ -4,5 +4,14 @@
   "C/C++ Include Guard.Prefix": "TAILCTL_",
   "files.associations": {
     "*.moc": "cpp"
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/*/**": true,
+    "**/.hg/store/**": true,
+    "**/__pycache__/": true,
+    ".flatpak/**": true,
+    "_build/**": true
   }
 }

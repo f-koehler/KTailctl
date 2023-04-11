@@ -51,6 +51,22 @@ Kirigami.ScrollablePage {
                             Kirigami.Icon {
                                 source: isOnline ? "online" : "offline"
                             }
+
+                            Kirigami.Icon {
+                                source: "vcs-push"
+                            }
+
+                            Controls.Label {
+                                text: Util.formatSpeedHumanReadable(Tailscale.statistics.speedUp(tailscaleID).average())
+                            }
+
+                            Kirigami.Icon {
+                                source: "vcs-pull"
+                            }
+
+                            Controls.Label {
+                                text: Util.formatSpeedHumanReadable(Tailscale.statistics.speedDown(tailscaleID).average())
+                            }
                         }
 
                         Kirigami.Separator {
