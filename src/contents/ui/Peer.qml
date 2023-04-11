@@ -148,5 +148,16 @@ Kirigami.ScrollablePage {
                 Util.setClipboardText(App.peerDetails.txBytes.toString());
             }
         }
+
+        Controls.Label {
+            Kirigami.FormData.label: "Upload speed:"
+            text: Util.formatSpeedHumanReadable(Tailscale.statistics.speedUp(App.peerDetails.tailscaleID).average())
+        }
+
+
+        Controls.Label {
+            Kirigami.FormData.label: "Download speed:"
+            text: Util.formatSpeedHumanReadable(Tailscale.statistics.speedDown(App.peerDetails.tailscaleID).average())
+        }
     }
 }

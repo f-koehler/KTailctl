@@ -9,8 +9,6 @@ class SpeedStatistics : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(double average READ average NOTIFY averageChanged)
-
 private:
     long mCapacity;
     QList<QDateTime> mTimestamps;

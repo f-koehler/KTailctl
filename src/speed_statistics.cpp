@@ -31,6 +31,10 @@ double SpeedStatistics::average(double window) const
         ++iter_timestamps;
     }
 
+    if (samples == 0) {
+        return 0.;
+    }
+
     return average / samples;
 }
 

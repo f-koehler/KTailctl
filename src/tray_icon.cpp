@@ -55,10 +55,19 @@ void TrayIcon::regenerate()
             create_action(submenu, address);
         }
         submenu->addSection("Statistics");
-        submenu->addAction(QIcon::fromTheme("vcs-push"), "upload");
-        submenu->addAction(QIcon::fromTheme("vcs-pull"), "download");
-    }
 
+        auto statsUp = mTailscale->statistics()->speedUp(peer->id());
+        auto statsDown = mTailscale->statistics()->speedDown(peer->id());
+        auto actionUp = submenu->addAction(QIcon::fromTheme("vcs-push"), formatSpeedHumanReadable(statsUp->average()));
+        auto actionDown = submenu->addAction(QIcon::fromTheme("vcs-pull"), formatSpeedHumanReadable(statsDown->average()));
+
+        QObject::connect(statsUp, &SpeedStatistics::averageChanged, [actionUp, statsUp]() {
+            actionUp->setText(formatSpeedHumanReadable(statsUp->average()));
+        });
+        QObject::connect(statsDown, &SpeedStatistics::averageChanged, [actionDown, statsDown]() {
+            actionDown->setText(formatSpeedHumanReadable(statsDown->average()));
+        });
+    }
     menu->addSeparator();
     menu->addAction(QIcon::fromTheme("application-exit"), "Quit", this, qApp->quit);
     setContextMenu(menu);
