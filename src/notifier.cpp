@@ -7,7 +7,6 @@ Notifier::Notifier(QObject *parent)
 
 void Notifier::statusRefreshed(const Status &status)
 {
-    qDebug() << mLastBackendState << status.backendState();
     if (mLastBackendState.isEmpty()) {
         mLastBackendState = status.backendState();
         return;
