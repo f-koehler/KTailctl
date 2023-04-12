@@ -1,8 +1,14 @@
 #include "statistics.h"
 
+#include <QFile>
+#include <QTextStream>
+
 Statistics::Statistics(Status *status, QObject *parent)
     : QObject(parent)
     , mStatus(status)
+    , mTimerTotalSpeed(new QTimer(this))
+    , mSpeedUpTotal(new SpeedStatistics(this))
+    , mSpeedDownTotal(new SpeedStatistics(this))
 {
     for (const auto &peer : mStatus->peers()) {
         auto iterUp = mSpeedUp.insert(peer->id(), new SpeedStatistics(this));
@@ -15,6 +21,11 @@ Statistics::Statistics(Status *status, QObject *parent)
     }
 
     QObject::connect(mStatus, &Status::refreshed, this, &Statistics::statusRefreshed);
+
+    QObject::connect(mTimerTotalSpeed, &QTimer::timeout, this, &Statistics::updateTotalUpSpeed);
+    QObject::connect(mTimerTotalSpeed, &QTimer::timeout, this, &Statistics::updateTotalDownSpeed);
+    mTimerTotalSpeed->setInterval(200);
+    mTimerTotalSpeed->start();
 }
 
 SpeedStatistics *Statistics::speedUp(const QString &id)
@@ -34,6 +45,14 @@ SpeedStatistics *Statistics::speedDown(const QString &id)
         return nullptr;
     }
     return iter.value();
+}
+SpeedStatistics *Statistics::totalUpSpeed() const
+{
+    return mSpeedUpTotal;
+}
+SpeedStatistics *Statistics::totalDownSpeed() const
+{
+    return mSpeedDownTotal;
 }
 
 void Statistics::statusRefreshed(const Status &status)
@@ -59,4 +78,32 @@ void Statistics::statusRefreshed(const Status &status)
         emit speedUpChanged();
         emit speedDownChanged();
     }
+}
+
+void Statistics::updateTotalUpSpeed()
+{
+    QFile file("/sys/class/net/tailscale0/statistics/tx_bytes");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qCritical("Cannot read tx_bytes for tailscale0");
+        return;
+    }
+    QTextStream stream(&file);
+    long bytes;
+    stream >> bytes;
+    mSpeedUpTotal->update(bytes);
+    emit totalUpSpeedChanged();
+}
+
+void Statistics::updateTotalDownSpeed()
+{
+    QFile file("/sys/class/net/tailscale0/statistics/tx_bytes");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qCritical("Cannot read tx_bytes for tailscale0");
+        return;
+    }
+    QTextStream stream(&file);
+    long bytes;
+    stream >> bytes;
+    mSpeedUpTotal->update(bytes);
+    emit totalDownSpeedChanged();
 }
