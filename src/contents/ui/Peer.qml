@@ -151,13 +151,13 @@ Kirigami.ScrollablePage {
 
         Controls.Label {
             Kirigami.FormData.label: "Upload speed:"
-            text: Util.formatSpeedHumanReadable(Tailscale.statistics.speedUp(App.peerDetails.tailscaleID).average())
+            text: Util.formatSpeedHumanReadable(Tailscale.statistics.speedUp(App.peerDetails.tailscaleID).average1Second)
         }
 
 
         Controls.Label {
             Kirigami.FormData.label: "Download speed:"
-            text: Util.formatSpeedHumanReadable(Tailscale.statistics.speedDown(App.peerDetails.tailscaleID).average())
+            text: Util.formatSpeedHumanReadable(Tailscale.statistics.speedDown(App.peerDetails.tailscaleID).average1Second)
         }
     }
 }

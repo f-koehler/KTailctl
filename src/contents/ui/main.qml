@@ -59,6 +59,7 @@ Kirigami.ApplicationWindow {
             Kirigami.Action {
                 text: i18n("Statistics")
                 icon.name: "office-chart-line-stacked"
+                onTriggered: pageStack.layers.push('qrc:Statistics.qml')
             },
             Kirigami.Action {
                 text: i18n("Settings")

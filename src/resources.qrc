@@ -9,5 +9,6 @@
         <file alias="Peer.qml">contents/ui/Peer.qml</file>
         <file alias="Peers.qml">contents/ui/Peers.qml</file>
         <file alias="Settings.qml">contents/ui/Settings.qml</file>
+        <file alias="Statistics.qml">contents/ui/Statistics.qml</file>
     </qresource>
 </RCC>

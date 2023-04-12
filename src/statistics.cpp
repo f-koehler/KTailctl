@@ -91,7 +91,6 @@ void Statistics::updateTotalUpSpeed()
     long bytes;
     stream >> bytes;
     mSpeedUpTotal->update(bytes);
-    emit totalUpSpeedChanged();
 }
 
 void Statistics::updateTotalDownSpeed()
@@ -105,5 +104,4 @@ void Statistics::updateTotalDownSpeed()
     long bytes;
     stream >> bytes;
     mSpeedUpTotal->update(bytes);
-    emit totalDownSpeedChanged();
 }

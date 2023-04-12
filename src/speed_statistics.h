@@ -4,10 +4,12 @@
 #include <QDateTime>
 #include <QList>
 #include <QObject>
+#include <functional>
 
 class SpeedStatistics : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(double average1Second READ average NOTIFY averageChanged)
 
 private:
     long mCapacity;
