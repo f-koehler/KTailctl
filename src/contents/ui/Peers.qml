@@ -57,7 +57,7 @@ Kirigami.ScrollablePage {
                             }
 
                             Controls.Label {
-                                text: Util.formatSpeedHumanReadable(Tailscale.statistics.speedUp(tailscaleID).average())
+                                text: Util.formatSpeedHumanReadable(Tailscale.statistics.speedUp(tailscaleID).average1Second)
                             }
 
                             Kirigami.Icon {
@@ -65,7 +65,7 @@ Kirigami.ScrollablePage {
                             }
 
                             Controls.Label {
-                                text: Util.formatSpeedHumanReadable(Tailscale.statistics.speedDown(tailscaleID).average())
+                                text: Util.formatSpeedHumanReadable(Tailscale.statistics.speedDown(tailscaleID).average1Second)
                             }
                         }
 

@@ -47,14 +47,13 @@ void SpeedStatistics::update(long transferred)
         mValues.append(dy / dx);
         mTimestamps.append(now);
 
-        emit averageChanged();
-
         while (mValues.size() > mCapacity) {
             mValues.removeFirst();
             mTimestamps.removeFirst();
         }
     }
 
+    emit averageChanged();
     mLastTransferred = transferred;
     mLastTimestamp = now;
 }
