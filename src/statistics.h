@@ -10,8 +10,8 @@
 class Statistics : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(SpeedStatistics *totalUpSpeed READ totalUpSpeed NOTIFY totalUpSpeedChanged)
-    Q_PROPERTY(SpeedStatistics *totalDownSpeed READ totalDownSpeed NOTIFY totalDownSpeedChanged)
+    Q_PROPERTY(SpeedStatistics *speedUpTotal READ speedUpTotal CONSTANT)
+    Q_PROPERTY(SpeedStatistics *speedDownTotal READ speedDownTotal CONSTANT)
 
 private:
     Status *mStatus;
@@ -26,8 +26,8 @@ public:
     Statistics(Status *status = nullptr, QObject *parent = nullptr);
     Q_INVOKABLE SpeedStatistics *speedUp(const QString &id);
     Q_INVOKABLE SpeedStatistics *speedDown(const QString &id);
-    SpeedStatistics *totalUpSpeed() const;
-    SpeedStatistics *totalDownSpeed() const;
+    SpeedStatistics *speedUpTotal() const;
+    SpeedStatistics *speedDownTotal() const;
 
 private slots:
     void statusRefreshed(const Status &status);
@@ -39,8 +39,6 @@ public slots:
 signals:
     void speedUpChanged();
     void speedDownChanged();
-    void totalUpSpeedChanged();
-    void totalDownSpeedChanged();
 };
 
 #endif /* TAILCTL_STATISTICS_H */

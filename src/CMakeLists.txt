@@ -27,6 +27,7 @@ target_link_libraries(ktailctl
     KF5::CoreAddons
     KF5::I18n
     KF5::Notifications
+    Qt5::Charts
     Qt5::Core
     Qt5::Gui
     Qt5::Qml

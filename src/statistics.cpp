@@ -46,11 +46,11 @@ SpeedStatistics *Statistics::speedDown(const QString &id)
     }
     return iter.value();
 }
-SpeedStatistics *Statistics::totalUpSpeed() const
+SpeedStatistics *Statistics::speedUpTotal() const
 {
     return mSpeedUpTotal;
 }
-SpeedStatistics *Statistics::totalDownSpeed() const
+SpeedStatistics *Statistics::speedDownTotal() const
 {
     return mSpeedDownTotal;
 }

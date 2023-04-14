@@ -5,55 +5,56 @@
 SpeedStatistics::SpeedStatistics(QObject *parent)
     : QObject(parent)
     , mCapacity(4096l)
+    , mLast(-1l)
+    , mLastMSecsSinceEpoch(-1)
+    , mSeries(new QtCharts::QLineSeries(this))
 {
-    mLastTransferred = -1;
 }
 
-double SpeedStatistics::average(double window) const
+qreal SpeedStatistics::average(qreal windowMSecs) const
 {
-    auto window_int = static_cast<qint64>(window * 1000.);
-
-    if (mValues.size() == 0) {
+    if (mSeries->count() == 0) {
         return 0.;
     }
 
-    auto iter_values = mValues.crbegin();
-    auto iter_timestamps = mTimestamps.crbegin();
-    auto average = 0.0;
-    auto samples = 0l;
-    while (iter_values != mValues.crend()) {
-        if (iter_timestamps->msecsTo(QDateTime::currentDateTime()) > window_int) {
+    qreal sum = 0.;
+    int samples = 0;
+    const auto now = QDateTime::currentDateTime().toMSecsSinceEpoch();
+    for (int i = mSeries->count() - 1; i >= 0; --i) {
+        const auto point = mSeries->at(i);
+        if (now - point.x() > windowMSecs) {
             break;
         }
-        average += *iter_values;
+        sum += point.y();
         ++samples;
-        ++iter_values;
-        ++iter_timestamps;
     }
 
     if (samples == 0) {
         return 0.;
     }
-
-    return average / samples;
+    return sum / samples;
+}
+QtCharts::QLineSeries *SpeedStatistics::series()
+{
+    return mSeries;
 }
 
 void SpeedStatistics::update(long transferred)
 {
-    auto now = QDateTime::currentDateTime();
-    if (mLastTransferred >= 0) {
-        auto dy = static_cast<double>(transferred - mLastTransferred);
-        auto dx = static_cast<double>(mLastTimestamp.msecsTo(now)) / 1000.;
-        mValues.append(dy / dx);
-        mTimestamps.append(now);
+    const auto now = QDateTime::currentDateTime().toMSecsSinceEpoch();
+    if (mLast >= 0) {
+        const auto dy = static_cast<qreal>(transferred - mLast);
+        const auto dx = now - mLastMSecsSinceEpoch;
+        if (dx > 0) {
+            mSeries->append(now, dy / (static_cast<qreal>(dx) / 1000.));
 
-        while (mValues.size() > mCapacity) {
-            mValues.removeFirst();
-            mTimestamps.removeFirst();
+            if (mSeries->count() > mCapacity) {
+                mSeries->remove(0, mSeries->count() - mCapacity);
+            }
         }
     }
 
     emit averageChanged();
-    mLastTransferred = transferred;
-    mLastTimestamp = now;
+    mLast = transferred;
+    mLastMSecsSinceEpoch = now;
 }

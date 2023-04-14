@@ -11,8 +11,8 @@ class Tailscale : public QObject
     Q_OBJECT
 
     Q_PROPERTY(QString executable READ executable NOTIFY executableChanged)
-    Q_PROPERTY(Status *status READ status NOTIFY statusChanged)
-    Q_PROPERTY(Statistics *statistics READ statistics NOTIFY statisticsChanged)
+    Q_PROPERTY(Status *status READ status CONSTANT)
+    Q_PROPERTY(Statistics *statistics READ statistics CONSTANT)
 
 private:
     QString mExecutable;
@@ -21,8 +21,6 @@ private:
 
 signals:
     void executableChanged();
-    void statusChanged();
-    void statisticsChanged();
 
 public slots:
     Q_INVOKABLE void toggle();

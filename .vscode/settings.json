@@ -3,7 +3,9 @@
   "C/C++ Include Guard.Macro Type": "Filepath",
   "C/C++ Include Guard.Prefix": "TAILCTL_",
   "files.associations": {
-    "*.moc": "cpp"
+    "*.moc": "cpp",
+    "qlineseries": "cpp",
+    "qxyseries": "cpp"
   },
   "files.watcherExclude": {
     "**/.git/objects/**": true,
