@@ -56,7 +56,7 @@ App::App(Tailscale *tailscale, QObject *parent)
         if (this->mTailscale->status()->backendState() == "Running") {
             this->mTrayIcon->setIcon(QIcon(":/icons/online-dark.png"));
         } else {
-            this->mTrayIcon->setIcon(QIcon(":/icons/offline-dark.png"));
+            this->mTrayIcon->setIcon(QIcon(":/icons/offline.png"));
         }
     });
 }

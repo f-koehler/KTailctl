@@ -13,6 +13,7 @@
     </qresource>
     <qresource prefix="/icons/">
         <file alias="online-dark.png">contents/icons/online-dark.png</file>
-        <file alias="offline-dark.png">contents/icons/offline-dark.png</file>
+        <file alias="online.png">contents/icons/online-dark.png</file>
+        <file alias="offline.png">contents/icons/offline.png</file>
     </qresource>
 </RCC>
