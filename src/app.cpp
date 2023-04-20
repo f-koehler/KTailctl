@@ -52,6 +52,13 @@ App::App(Tailscale *tailscale, QObject *parent)
     QObject::connect(tailscale->status(), &Status::peersChanged, &mPeerModel, &PeerModel::updatePeers);
     QObject::connect(tailscale->status(), &Status::refreshed, &mPeerDetails, &Peer::updateFromStatus);
     QObject::connect(tailscale->status(), &Status::refreshed, mNotifier, &Notifier::statusRefreshed);
+    QObject::connect(tailscale->status(), &Status::backendStateChanged, [this]() {
+        if (this->mTailscale->status()->backendState() == "Running") {
+            this->mTrayIcon->setIcon(QIcon(":/icons/online-dark.png"));
+        } else {
+            this->mTrayIcon->setIcon(QIcon(":/icons/offline-dark.png"));
+        }
+    });
 }
 
 Tailscale *App::tailscale()

@@ -31,6 +31,8 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QCoreApplication::setOrganizationName(QStringLiteral("KDE"));
     QCoreApplication::setApplicationName(QStringLiteral("KTailctl"));
 
+    app.setWindowIcon(QIcon(":/icons/online-dark.png"));
+
     KAboutData aboutData(
         // The program name used internally.
         QStringLiteral("KTailctl"),
