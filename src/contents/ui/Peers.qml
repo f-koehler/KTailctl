@@ -98,7 +98,7 @@ Kirigami.ScrollablePage {
                         icon.name: "view-list-details"
                         onClicked: {
                             App.setPeerDetails(tailscaleID);
-                            pageStack.layers.replace('qrc:Peer.qml');
+                            pageStack.layers.push('qrc:Peer.qml');
                         }
                     }
 
