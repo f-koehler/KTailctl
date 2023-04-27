@@ -10,6 +10,7 @@ import org.fkoehler.KTailctl 1.0
 
 Kirigami.Page {
     id: settings
+    objectName: "Settings"
 
     Layout.fillWidth: true
 

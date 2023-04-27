@@ -9,4 +9,5 @@ import org.fkoehler.KTailctl 1.0
 
 Kirigami.AboutPage {
     aboutData: AboutType.aboutData
+    objectName: "About"
 }

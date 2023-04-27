@@ -6,6 +6,7 @@ import org.fkoehler.KTailctl 1.0
 
 Kirigami.ScrollablePage {
     id: statistics
+    objectName: "Statistics"
 
     Layout.fillWidth: true
 

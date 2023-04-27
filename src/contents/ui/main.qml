@@ -43,6 +43,20 @@ Kirigami.ApplicationWindow {
         repeat: true
     }
 
+    function navigateTo(name) {
+        if(pageStack.layers.currentItem.objectName == name) {
+            return;
+        }
+
+        while(pageStack.layers.depth > 1) {
+            pageStack.layers.pop();
+        }
+
+        if(pageStack.layers.currentItem.objectName != name) {
+            pageStack.layers.replace("qrc:" + name + ".qml");
+        }
+    }
+
     globalDrawer: Kirigami.GlobalDrawer {
         title: i18n("KTailctl")
         titleIcon: "applications-graphics"
@@ -55,22 +69,22 @@ Kirigami.ApplicationWindow {
             Kirigami.Action {
                 text: i18n("Peers")
                 icon.name: "network-wired"
-                onTriggered: pageStack.layers.replace('qrc:Peers.qml')
+                onTriggered: navigateTo("Peers")
             },
             Kirigami.Action {
                 text: i18n("Statistics")
                 icon.name: "office-chart-line-stacked"
-                onTriggered: pageStack.layers.replace('qrc:Statistics.qml')
+                onTriggered: navigateTo("Statistics")
             },
             Kirigami.Action {
                 text: i18n("Settings")
                 icon.name: "settings-configure"
-                onTriggered: pageStack.layers.replace('qrc:Settings.qml')
+                onTriggered: navigateTo("Settings")
             },
             Kirigami.Action {
                 text: i18n("About KTailctl")
                 icon.name: "help-about"
-                onTriggered: pageStack.layers.replace('qrc:About.qml')
+                onTriggered: navigateTo("About")
             },
             Kirigami.Action {
                 text: i18n("Quit")

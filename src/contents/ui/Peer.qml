@@ -9,6 +9,7 @@ import org.fkoehler.KTailctl 1.0
 
 Kirigami.ScrollablePage {
     id: peer
+    objectName: "Peer"
 
     Layout.fillWidth: true
 
