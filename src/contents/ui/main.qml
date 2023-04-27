@@ -55,21 +55,22 @@ Kirigami.ApplicationWindow {
             Kirigami.Action {
                 text: i18n("Peers")
                 icon.name: "network-wired"
+                onTriggered: pageStack.layers.replace('qrc:Peers.qml')
             },
             Kirigami.Action {
                 text: i18n("Statistics")
                 icon.name: "office-chart-line-stacked"
-                onTriggered: pageStack.layers.push('qrc:Statistics.qml')
+                onTriggered: pageStack.layers.replace('qrc:Statistics.qml')
             },
             Kirigami.Action {
                 text: i18n("Settings")
                 icon.name: "settings-configure"
-                onTriggered: pageStack.layers.push('qrc:Settings.qml')
+                onTriggered: pageStack.layers.replace('qrc:Settings.qml')
             },
             Kirigami.Action {
                 text: i18n("About KTailctl")
                 icon.name: "help-about"
-                onTriggered: pageStack.layers.push('qrc:About.qml')
+                onTriggered: pageStack.layers.replace('qrc:About.qml')
             },
             Kirigami.Action {
                 text: i18n("Quit")
