@@ -10,8 +10,8 @@
 class Statistics : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(SpeedStatistics *totalUpSpeed READ totalUpSpeed NOTIFY totalUpSpeedChanged)
-    Q_PROPERTY(SpeedStatistics *totalDownSpeed READ totalDownSpeed NOTIFY totalDownSpeedChanged)
+    Q_PROPERTY(SpeedStatistics *totalUpSpeed READ totalUpSpeed CONSTANT)
+    Q_PROPERTY(SpeedStatistics *totalDownSpeed READ totalDownSpeed CONSTANT)
 
 private:
     Status *mStatus;
@@ -31,10 +31,7 @@ public:
 
 private slots:
     void statusRefreshed(const Status &status);
-
-public slots:
-    void updateTotalUpSpeed();
-    void updateTotalDownSpeed();
+    void refreshTotalSpeed();
 
 signals:
     void speedUpChanged();

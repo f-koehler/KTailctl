@@ -22,8 +22,7 @@ Statistics::Statistics(Status *status, QObject *parent)
 
     QObject::connect(mStatus, &Status::refreshed, this, &Statistics::statusRefreshed);
 
-    QObject::connect(mTimerTotalSpeed, &QTimer::timeout, this, &Statistics::updateTotalUpSpeed);
-    QObject::connect(mTimerTotalSpeed, &QTimer::timeout, this, &Statistics::updateTotalDownSpeed);
+    QObject::connect(mTimerTotalSpeed, &QTimer::timeout, this, &Statistics::refreshTotalSpeed);
     mTimerTotalSpeed->setInterval(200);
     mTimerTotalSpeed->start();
 }
@@ -46,6 +45,7 @@ SpeedStatistics *Statistics::speedDown(const QString &id)
     }
     return iter.value();
 }
+
 SpeedStatistics *Statistics::totalUpSpeed() const
 {
     return mSpeedUpTotal;
@@ -80,28 +80,24 @@ void Statistics::statusRefreshed(const Status &status)
     }
 }
 
-void Statistics::updateTotalUpSpeed()
+void Statistics::refreshTotalSpeed()
 {
-    QFile file("/sys/class/net/tailscale0/statistics/tx_bytes");
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    QFile fileTx("/sys/class/net/tailscale0/statistics/tx_bytes");
+    if (!fileTx.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qCritical("Cannot read tx_bytes for tailscale0");
         return;
     }
-    QTextStream stream(&file);
+    QTextStream streamTx(&fileTx);
     long bytes;
-    stream >> bytes;
+    streamTx >> bytes;
     mSpeedUpTotal->update(bytes);
-}
 
-void Statistics::updateTotalDownSpeed()
-{
-    QFile file("/sys/class/net/tailscale0/statistics/tx_bytes");
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    QFile fileRx("/sys/class/net/tailscale0/statistics/tx_bytes");
+    if (!fileRx.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qCritical("Cannot read tx_bytes for tailscale0");
         return;
     }
-    QTextStream stream(&file);
-    long bytes;
-    stream >> bytes;
-    mSpeedUpTotal->update(bytes);
+    QTextStream streamRx(&fileRx);
+    streamRx >> bytes;
+    mSpeedDownTotal->update(bytes);
 }
