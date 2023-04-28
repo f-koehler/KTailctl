@@ -10,6 +10,7 @@ import org.fkoehler.KTailctl 1.0
 Kirigami.ScrollablePage {
     id: peer
     objectName: "Peer"
+    title: "Peer: " + App.peerDetails.hostName
 
     Layout.fillWidth: true
 
