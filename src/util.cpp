@@ -7,7 +7,10 @@
 void setClipboardText(const QString &text)
 {
     QClipboard *clipboard = QGuiApplication::clipboard();
-    clipboard->setText(text);
+    clipboard->setText(text, QClipboard::Clipboard);
+    if (clipboard->supportsSelection()) {
+        clipboard->setText(text, QClipboard::Selection);
+    }
 }
 
 QIcon loadOsIcon(const QString &os)
