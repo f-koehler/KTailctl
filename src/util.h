@@ -8,6 +8,7 @@
 
 #include <tuple>
 
+std::string getVersion();
 void setClipboardText(const QString &text);
 QString formatCapacityHumanReadable(long bytes);
 QString formatSpeedHumanReadable(double bytes_per_second);

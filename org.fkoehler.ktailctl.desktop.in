@@ -3,7 +3,7 @@
 [Desktop Entry]
 Name=KTailctl
 Comment=GUI for tailscale on the KDE Plasma desktop
-Version=1.0
+Version=@KTAILCTL_VERSION@
 Exec=ktailctl
 Icon=applications-development
 Type=Application

@@ -17,6 +17,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
+find_package(Git REQUIRED)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
 
@@ -56,7 +57,22 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
 
 add_subdirectory(src)
 
-install(PROGRAMS org.fkoehler.ktailctl.desktop DESTINATION ${KDE_INSTALL_APPDIR})
+execute_process(
+    COMMAND ${GIT_EXCECUTABLE} describe --tags --dirty --match "v*"
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    OUTPUT_VARIABLE KTAILCTL_GIT_DESCRIBE
+    RESULT_VARIABLE KTAILCTL_GIT_DESCRIBE_RETVAL
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+if(NOT ${KTAILCTL_GIT_DESCRIBE_RETVAL} EQUAL 0)
+    set(KTAILCTL_VERSION "unknown")
+else()
+    set(KTAILCTL_VERSION ${KTAILCTL_GIT_DESCRIBE})
+endif()
+message(STATUS "Version from git: ${KTAILCTL_VERSION}")
+configure_file(org.fkoehler.ktailctl.desktop.in ${CMAKE_CURRENT_BINARY_DIR}/org.fkoehler.ktailctl.desktop @ONLY)
+
+install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/org.fkoehler.ktailctl.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES org.fkoehler.ktailctl.metainfo.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 install(FILES KTailctl.notifyrc  DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
 
