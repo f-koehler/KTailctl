@@ -9,7 +9,7 @@
 class SpeedStatistics : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(double average1Second READ average NOTIFY averageChanged)
+    Q_PROPERTY(double average1Second READ average NOTIFY refreshed)
 
 private:
     long mCapacity;
@@ -27,7 +27,7 @@ public slots:
     void update(long transferred);
 
 signals:
-    void averageChanged();
+    void refreshed();
 };
 
 #endif /* TAILCTL_SPEED_STATISTICS_H */

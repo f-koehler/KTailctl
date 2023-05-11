@@ -70,10 +70,10 @@ void TrayIcon::regenerate()
         auto actionUp = submenu->addAction(QIcon::fromTheme("vcs-push"), formatSpeedHumanReadable(statsUp->average()));
         auto actionDown = submenu->addAction(QIcon::fromTheme("vcs-pull"), formatSpeedHumanReadable(statsDown->average()));
 
-        QObject::connect(statsUp, &SpeedStatistics::averageChanged, [actionUp, statsUp]() {
+        QObject::connect(statsUp, &SpeedStatistics::refreshed, [actionUp, statsUp]() {
             actionUp->setText(formatSpeedHumanReadable(statsUp->average()));
         });
-        QObject::connect(statsDown, &SpeedStatistics::averageChanged, [actionDown, statsDown]() {
+        QObject::connect(statsDown, &SpeedStatistics::refreshed, [actionDown, statsDown]() {
             actionDown->setText(formatSpeedHumanReadable(statsDown->average()));
         });
     }

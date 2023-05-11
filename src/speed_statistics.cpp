@@ -53,7 +53,7 @@ void SpeedStatistics::update(long transferred)
         }
     }
 
-    emit averageChanged();
+    emit refreshed();
     mLastTransferred = transferred;
     mLastTimestamp = now;
 }
