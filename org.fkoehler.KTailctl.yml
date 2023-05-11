@@ -9,7 +9,8 @@ finish-args:
   - --socket=wayland
   - --filesystem=host
   - --device=dri
-  - --socket=session-bus
+  # - --socket=session-bus
+  - --talk-name=org.kde.StatusNotifierWatcher
 modules:
   - name: ktailctl
     buildsystem: cmake-ninja
