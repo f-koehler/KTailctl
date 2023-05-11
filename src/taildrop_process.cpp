@@ -1,4 +1,6 @@
 #include "taildrop_process.h"
+#include "util.h"
+
 #include <QDebug>
 
 TaildropProcess::TaildropProcess(const QString &executable, bool enabled, const QString &directory, const QString &strategy, QObject *parent)
@@ -31,6 +33,17 @@ void TaildropProcess::restartProcess()
 {
     stopProcess();
     if (mEnabled) {
+        const auto [command, args] = composeTailscaleCommand(mExecutable,
+                                                             {
+                                                                 "file",
+                                                                 "get",
+                                                                 "-loop=true",
+                                                                 "-verbose=true",
+                                                                 "-wait=true",
+                                                                 "-conflict",
+                                                                 mStrategy,
+                                                                 mDirectory,
+                                                             });
         mProcess.setProgram(mExecutable);
         QStringList arguments{
             "file",

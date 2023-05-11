@@ -2,6 +2,7 @@
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 
 #include "status.h"
+#include "util.h"
 
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -18,7 +19,8 @@ Status::Status(QObject *parent)
 void Status::refresh(const QString &executable)
 {
     QProcess process;
-    process.start(executable, {"status", "--json"});
+    const auto [command, args] = composeTailscaleCommand(executable, {"status", "--json"});
+    process.start(command, args);
 
     if (!process.waitForFinished(1000)) {
         qWarning() << "Failed to get tailscale status";

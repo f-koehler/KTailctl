@@ -1,4 +1,5 @@
 #include "tailscale.h"
+#include "util.h"
 
 #include <QProcess>
 
@@ -22,18 +23,16 @@ void Tailscale::toggle()
 Q_INVOKABLE void Tailscale::up()
 {
     QProcess process;
-    process.setProgram(mExecutable);
-    process.setArguments({"up"});
-    process.start();
+    const auto [command, args] = composeTailscaleCommand(mExecutable, {"up"});
+    process.start(command, args);
     process.waitForFinished(3000);
 }
 
 Q_INVOKABLE void Tailscale::down()
 {
     QProcess process;
-    process.setProgram(mExecutable);
-    process.setArguments({"down"});
-    process.start();
+    const auto [command, args] = composeTailscaleCommand(mExecutable, {"down"});
+    process.start(command, args);
     process.waitForFinished(3000);
 }
 

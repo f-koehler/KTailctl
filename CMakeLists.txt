@@ -5,6 +5,8 @@ cmake_minimum_required(VERSION 3.16)
 
 project(ktailctl VERSION 0.1)
 
+option(KTAILCTL_FLATPAK_BUILD "Build for Flatpak" OFF)
+
 include(FeatureSummary)
 
 set(QT5_MIN_VERSION 5.15)

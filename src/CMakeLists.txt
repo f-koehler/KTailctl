@@ -35,6 +35,10 @@ target_link_libraries(ktailctl
     Qt5::Svg
 )
 
+if(KTAILCTL_FLATPAK_BUILD)
+    target_compile_definitions(ktailctl PRIVATE KTAILCTL_FLATPAK_BUILD)
+endif()
+
 kconfig_add_kcfg_files(ktailctl GENERATE_MOC ktailctlconfig.kcfgc)
 install(TARGETS ktailctl ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
