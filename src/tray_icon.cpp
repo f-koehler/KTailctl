@@ -37,7 +37,6 @@ void TrayIcon::regenerate()
     auto action_toggle = menu->addAction("Toggle", [this]() {
         mTailscale->toggle();
     });
-    action_toggle->setCheckable(true);
     if (mTailscale->status()->backendState() == "Running") {
         action_toggle->setChecked(true);
         action_toggle->setText("Stop Tailscale");

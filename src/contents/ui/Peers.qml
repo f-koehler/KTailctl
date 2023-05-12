@@ -16,7 +16,9 @@ Kirigami.ScrollablePage {
     title: i18n("Peers")
 
     actions.main: Kirigami.Action {
-        text: Tailscale.status.backendState == "Running" ? "Online" : "Offline"
+        text: Tailscale.status.backendState == "Running" ? "Stop tailscale" : "Start tailscale"
+        onTriggered: App.tailscale.toggle()
+        icon.name: Tailscale.status.backendState == "Running" ? "ktailctl-tray-online-dark" : "ktailctl-tray-offline"
     }
 
     Kirigami.CardsListView {
