@@ -75,5 +75,6 @@ configure_file(org.fkoehler.ktailctl.desktop.in ${CMAKE_CURRENT_BINARY_DIR}/org.
 install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/org.fkoehler.ktailctl.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES org.fkoehler.ktailctl.metainfo.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 install(FILES KTailctl.notifyrc  DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
+install(FILES ktailctl.svg DESTINATION ${KDE_INSTALL_FULL_ICONDIR}/hicolor/scalable/apps)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
