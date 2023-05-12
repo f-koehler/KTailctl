@@ -11,7 +11,7 @@ A GUI to monitor and manage Tailscale on your Linux desktop, built using KDE Fra
 - [x] Monitoring of traffic per peer
 - [x] Detailed peer information
 - [x] Tray menu for quick access
-- [ ] Copying of IP address/DNS name
+- [x] Copying of IP addresses/DNS name
 - [ ] Speed graphs
 - [ ] Pinging of peers
 - [ ] Exit node management
