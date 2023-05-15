@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 #include "speed_statistics.h"
 
 #include <QDebug>
@@ -36,6 +38,15 @@ double SpeedStatistics::average(double window) const
     }
 
     return average / samples;
+}
+QVariantList SpeedStatistics::valuesVariant() const
+{
+    // return mValues as QVariantList
+    QVariantList list;
+    for (auto value : mValues) {
+        list.append(value);
+    }
+    return list;
 }
 
 void SpeedStatistics::update(long transferred)

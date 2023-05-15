@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
-# SPDX-License-Identifier: LGPL-2.0-or-later
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 File=ktailctlconfig.kcfg
 ClassName=KTailctlConfig

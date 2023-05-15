@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
+# SPDX-License-Identifier: GPL-3.0-or-later
 [Global]
 IconName=ktailctl
 Name=ktailctl

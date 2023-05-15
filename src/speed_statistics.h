@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 #ifndef TAILCTL_SPEED_STATISTICS_H
 #define TAILCTL_SPEED_STATISTICS_H
 
@@ -10,6 +12,7 @@ class SpeedStatistics : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(double average1Second READ average NOTIFY refreshed)
+    Q_PROPERTY(QVariantList values READ valuesVariant NOTIFY refreshed)
 
 private:
     long mCapacity;
@@ -22,6 +25,7 @@ public:
     SpeedStatistics(QObject *parent = nullptr);
 
     Q_INVOKABLE double average(double window = 1.) const;
+    QVariantList valuesVariant() const;
 
 public slots:
     void update(long transferred);

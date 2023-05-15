@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 #ifndef TAILCTL_TRAY_ICON_H
 #define TAILCTL_TRAY_ICON_H
 

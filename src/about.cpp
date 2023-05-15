@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: GPL-3.0-or-later
 // PDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 
 #include "about.h"

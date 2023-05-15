@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 
 #ifndef TAILCTL_APP_H

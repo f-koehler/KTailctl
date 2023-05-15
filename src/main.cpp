@@ -1,7 +1,5 @@
-/*
-    SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
-*/
+// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 
 #include <QApplication>
 #include <QQmlApplicationEngine>
