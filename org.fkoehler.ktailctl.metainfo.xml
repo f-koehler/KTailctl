@@ -15,6 +15,17 @@
   <url type="bugtracker">https://github.com/f-koehler/KTailctl/issues</url>
   <url type="vcs-browser">https://github.com/f-koehler/KTailctl</url>
   <releases>
+    <release version="0.1.2" date="2023-05-16" urgency="low">
+      <description>
+        <p>Complete Appdata manifest.</p>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.1.2</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.1.2.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.1.1" date="2023-05-16" urgency="low">
       <description>
         <p>Fix version info display on about page.</p>
@@ -23,7 +34,6 @@
       <artifacts>
         <artifact type="source">
           <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.1.1.tar.gz</location>
-          <checksum type="sha256">2bf36a083bfb34a0fd1e5c8be3c6e077ede3dd63f1cfedafe24b497794168b35</checksum>
         </artifact>
       </artifacts>
     </release>
@@ -35,7 +45,6 @@
       <artifacts>
         <artifact type="source">
           <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.1.0.tar.gz</location>
-          <checksum type="sha256">272d8c63cc1ab4fddc2dbb7b7e598df6c787cf614fee0066fb909152174fab49</checksum>
         </artifact>
       </artifacts>
     </release>
