@@ -2,8 +2,10 @@
 // PDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 
 #include "about.h"
-
+#include <version.h>
 KAboutData AboutType::aboutData() const
 {
-    return KAboutData::applicationData();
+    auto aboutData = KAboutData::applicationData();
+    aboutData.setVersion(QByteArray::fromStdString(getVersion()));
+    return aboutData;
 }

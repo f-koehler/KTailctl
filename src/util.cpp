@@ -6,11 +6,6 @@
 #include <QGuiApplication>
 #include <QUrl>
 
-std::string getVersion()
-{
-    return KTAILCTL_VERSION;
-}
-
 void setClipboardText(const QString &text)
 {
     QClipboard *clipboard = QGuiApplication::clipboard();

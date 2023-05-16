@@ -71,6 +71,7 @@ else()
 endif()
 message(STATUS "Version from git: ${KTAILCTL_VERSION}")
 configure_file(org.fkoehler.ktailctl.desktop.in ${CMAKE_CURRENT_BINARY_DIR}/org.fkoehler.ktailctl.desktop @ONLY)
+configure_file(version.h.in ${CMAKE_CURRENT_BINARY_DIR}/src/version.h @ONLY)
 
 install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/org.fkoehler.ktailctl.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES org.fkoehler.ktailctl.metainfo.xml DESTINATION ${KDE_INSTALL_METAINFODIR})

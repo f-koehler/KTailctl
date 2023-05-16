@@ -1,0 +1,13 @@
+#ifndef KTAILCTL_VERSION_H
+#define KTAILCTL_VERSION_H
+
+#include <string>
+
+#define KTAILCTL_VERSION "@KTAILCTL_VERSION@"
+
+std::string getVersion()
+{
+    return std::string("@KTAILCTL_VERSION@");
+}
+
+#endif
