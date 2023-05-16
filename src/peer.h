@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 
-#ifndef TAILCTL_PEER_H
-#define TAILCTL_PEER_H
+#ifndef KTAILCTL_PEER_H
+#define KTAILCTL_PEER_H
 
 #include <QDateTime>
 #include <QJsonObject>
@@ -89,4 +89,4 @@ public:
     Peer &operator=(const Peer &other);
 };
 
-#endif // TAILCTL_PEER_H
+#endif /* KTAILCTL_PEER_H */

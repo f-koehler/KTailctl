@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
-#ifndef TAILCTL_SPEED_STATISTICS_H
-#define TAILCTL_SPEED_STATISTICS_H
+#ifndef KTAILCTL_SPEED_STATISTICS_H
+#define KTAILCTL_SPEED_STATISTICS_H
 
 #include <QDateTime>
 #include <QList>
@@ -34,4 +34,4 @@ signals:
     void refreshed();
 };
 
-#endif /* TAILCTL_SPEED_STATISTICS_H */
+#endif /* KTAILCTL_SPEED_STATISTICS_H */

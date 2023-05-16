@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
-#ifndef TAILCTL_TAILSCALE_H
-#define TAILCTL_TAILSCALE_H
+#ifndef KTAILCTL_TAILSCALE_H
+#define KTAILCTL_TAILSCALE_H
 
 #include "statistics.h"
 #include "status.h"
@@ -42,4 +42,4 @@ public:
     void setExecutable(const QString &executable);
 };
 
-#endif /* TAILCTL_TAILSCALE_H */
+#endif /* KTAILCTL_TAILSCALE_H */

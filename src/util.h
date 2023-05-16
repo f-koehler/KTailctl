@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
-#ifndef TAILCTL_UTIL_H
-#define TAILCTL_UTIL_H
+#ifndef KTAILCTL_UTIL_H
+#define KTAILCTL_UTIL_H
 
 #include <QDateTime>
 #include <QIcon>
@@ -33,4 +33,4 @@ public:
     Q_INVOKABLE QIcon loadOsIcon(const QString &os) const;
 };
 
-#endif /* TAILCTL_UTIL_H */
+#endif /* KTAILCTL_UTIL_H */

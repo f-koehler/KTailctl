@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 
-#ifndef TAILCTL_ABOUT_H
-#define TAILCTL_ABOUT_H
+#ifndef KTAILCTL_ABOUT_H
+#define KTAILCTL_ABOUT_H
 
 #include <KAboutData>
 #include <QObject>
@@ -15,4 +15,4 @@ public:
     [[nodiscard]] KAboutData aboutData() const;
 };
 
-#endif /* TAILCTL_ABOUT_H */
+#endif /* KTAILCTL_ABOUT_H */

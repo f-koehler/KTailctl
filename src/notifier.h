@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
-#ifndef TAILCTL_NOTIFIER_H
-#define TAILCTL_NOTIFIER_H
+#ifndef KTAILCTL_NOTIFIER_H
+#define KTAILCTL_NOTIFIER_H
 
 #include "status.h"
 
@@ -20,4 +20,4 @@ public slots:
     void statusRefreshed(const Status &status);
 };
 
-#endif /* TAILCTL_NOTIFIER_H */
+#endif /* KTAILCTL_NOTIFIER_H */

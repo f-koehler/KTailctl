@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
-#ifndef TAILCTL_STATISTICS_H
-#define TAILCTL_STATISTICS_H
+#ifndef KTAILCTL_STATISTICS_H
+#define KTAILCTL_STATISTICS_H
 
 #include "speed_statistics.h"
 #include "status.h"
@@ -42,4 +42,4 @@ signals:
     void totalDownSpeedChanged();
 };
 
-#endif /* TAILCTL_STATISTICS_H */
+#endif /* KTAILCTL_STATISTICS_H */

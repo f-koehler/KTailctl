@@ -1,7 +1,7 @@
 {
   "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
   "C/C++ Include Guard.Macro Type": "Filepath",
-  "C/C++ Include Guard.Prefix": "TAILCTL_",
+  "C/C++ Include Guard.Prefix": "KTAILCTL_",
   "files.associations": {
     "*.moc": "cpp"
   },

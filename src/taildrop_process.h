@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
-#ifndef TAILCTL_TAILDROP_PROCESS_H
-#define TAILCTL_TAILDROP_PROCESS_H
+#ifndef KTAILCTL_TAILDROP_PROCESS_H
+#define KTAILCTL_TAILDROP_PROCESS_H
 
 #include <QObject>
 #include <QProcess>
@@ -31,4 +31,4 @@ public slots:
     void setStrategy(const QString &strategy);
 };
 
-#endif /* TAILCTL_TAILDROP_PROCESS_H */
+#endif /* KTAILCTL_TAILDROP_PROCESS_H */

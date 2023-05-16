@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 
-#ifndef TAILCTL_APP_H
-#define TAILCTL_APP_H
+#ifndef KTAILCTL_APP_H
+#define KTAILCTL_APP_H
 
 #include "ktailctlconfig.h"
 #include "notifier.h"
@@ -59,4 +59,4 @@ public:
     Q_INVOKABLE void setPeerDetails(const QString &id);
 };
 
-#endif /* TAILCTL_APP_H */
+#endif /* KTAILCTL_APP_H */

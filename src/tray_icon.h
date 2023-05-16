@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
-#ifndef TAILCTL_TRAY_ICON_H
-#define TAILCTL_TRAY_ICON_H
+#ifndef KTAILCTL_TRAY_ICON_H
+#define KTAILCTL_TRAY_ICON_H
 
 #include "tailscale.h"
 
@@ -25,4 +25,4 @@ public:
     void setWindow(QQuickWindow *window);
 };
 
-#endif /* TAILCTL_TRAY_ICON_H */
+#endif /* KTAILCTL_TRAY_ICON_H */

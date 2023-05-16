@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 
-#ifndef TAILCTL_STATUS_H
-#define TAILCTL_STATUS_H
+#ifndef KTAILCTL_STATUS_H
+#define KTAILCTL_STATUS_H
 
 #include <QJsonObject>
 #include <QObject>
@@ -50,4 +50,4 @@ public:
     const QVector<Peer *> &peers() const;
 };
 
-#endif /* TAILCTL_STATUS_H */
+#endif /* KTAILCTL_STATUS_H */
