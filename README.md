@@ -1,6 +1,7 @@
 # KTailctl
 
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/f-koehler/KTailctl/ci.yml)
+![GitHub](https://img.shields.io/github/license/f-koehler/KTailctl)
 
 A GUI to monitor and manage Tailscale on your Linux desktop, built using KDE Frameworks and Kirigami2.
 
