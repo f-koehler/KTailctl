@@ -58,7 +58,7 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
 add_subdirectory(src)
 
 execute_process(
-    COMMAND ${GIT_EXCECUTABLE} describe --tags --dirty --match "v*"
+    COMMAND ${GIT_EXECUTABLE} describe --tags --dirty --match "v*"
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     OUTPUT_VARIABLE KTAILCTL_GIT_DESCRIBE
     RESULT_VARIABLE KTAILCTL_GIT_DESCRIBE_RETVAL
