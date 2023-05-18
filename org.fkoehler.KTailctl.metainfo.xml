@@ -15,6 +15,17 @@
   <url type="bugtracker">https://github.com/f-koehler/KTailctl/issues</url>
   <url type="vcs-browser">https://github.com/f-koehler/KTailctl</url>
   <releases>
+    <release version="0.1.5" date="2023-05-18" urgency="low">
+      <description>
+        <p>Fix case for AppData metainfo and desktop file.</p>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.1.5</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.1.5.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.1.4" date="2023-05-18" urgency="low">
       <description>
         <p>Move AppData metainfo file.</p>
