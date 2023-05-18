@@ -5,9 +5,8 @@
 
 #include <QDebug>
 
-TaildropProcess::TaildropProcess(const QString &executable, bool enabled, const QString &directory, const QString &strategy, QObject *parent)
+TaildropProcess::TaildropProcess(bool enabled, const QString &directory, const QString &strategy, QObject *parent)
     : QObject(parent)
-    , mExecutable(executable)
     , mEnabled(enabled)
     , mDirectory(directory)
     , mStrategy(strategy)
@@ -35,18 +34,7 @@ void TaildropProcess::restartProcess()
 {
     stopProcess();
     if (mEnabled) {
-        const auto [command, args] = composeTailscaleCommand(mExecutable,
-                                                             {
-                                                                 "file",
-                                                                 "get",
-                                                                 "-loop=true",
-                                                                 "-verbose=true",
-                                                                 "-wait=true",
-                                                                 "-conflict",
-                                                                 mStrategy,
-                                                                 mDirectory,
-                                                             });
-        mProcess.setProgram(mExecutable);
+        mProcess.setProgram("tailscale");
         QStringList arguments{
             "file",
             "get",
@@ -57,7 +45,8 @@ void TaildropProcess::restartProcess()
             mStrategy,
             mDirectory,
         };
-        qDebug() << "Starting taildrop process: " << mExecutable << arguments;
+        qDebug() << "Starting taildrop process: "
+                 << "tailscale" << arguments;
         mProcess.setArguments(arguments);
         mProcess.start();
         if (!mProcess.waitForStarted(5000)) {
@@ -69,13 +58,6 @@ void TaildropProcess::restartProcess()
     }
 }
 
-void TaildropProcess::setExecutable(const QString &executable)
-{
-    if (mExecutable != executable) {
-        mExecutable = executable;
-        restartProcess();
-    }
-}
 void TaildropProcess::setEnabled(bool enabled)
 {
     if (mEnabled != enabled) {

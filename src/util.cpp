@@ -102,15 +102,6 @@ qint64 toMSecsSinceEpoch(const QDateTime &dateTime)
     return dateTime.toMSecsSinceEpoch();
 }
 
-std::tuple<QString, QStringList> composeTailscaleCommand(const QString &executable, const QStringList &args)
-{
-#ifdef KTAILCTL_FLATPAK_BUILD
-    return std::make_tuple("flatpak-spawn", QStringList() << "--host" << executable << args);
-#else
-    return std::make_tuple(executable, args);
-#endif
-}
-
 void Util::setClipboardText(const QString &text) const
 {
     ::setClipboardText(text);

@@ -40,7 +40,7 @@ public:
     Status(QObject *parent = nullptr);
     virtual ~Status() = default;
 
-    Q_INVOKABLE void refresh(const QString &executable = QStringLiteral("tailscale"));
+    Q_INVOKABLE void refresh();
     void read(const QJsonObject &json);
 
     const QString &version() const;

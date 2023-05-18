@@ -16,11 +16,10 @@ Status::Status(QObject *parent)
 {
 }
 
-void Status::refresh(const QString &executable)
+void Status::refresh()
 {
     QProcess process;
-    const auto [command, args] = composeTailscaleCommand(executable, {"status", "--json"});
-    process.start(command, args);
+    process.start("tailscale", {"status", "--json"});
 
     if (!process.waitForFinished(1000)) {
         qWarning() << "Failed to get tailscale status";

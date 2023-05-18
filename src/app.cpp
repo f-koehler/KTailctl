@@ -27,18 +27,10 @@ App::App(Tailscale *tailscale, QObject *parent)
     : QObject(parent)
     , mTailscale(tailscale)
     , mConfig(KTailctlConfig::self())
-    , mTaildropProcess(mConfig->tailscaleExecutable(),
-                       mConfig->taildropEnabled(),
-                       mConfig->taildropDirectory(),
-                       strategyToString(mConfig->taildropStrategy()),
-                       this)
+    , mTaildropProcess(mConfig->taildropEnabled(), mConfig->taildropDirectory(), strategyToString(mConfig->taildropStrategy()), this)
     , mNotifier(new Notifier(this))
     , mTrayIcon(new TrayIcon(tailscale, this))
 {
-    QObject::connect(mConfig, &KTailctlConfig::tailscaleExecutableChanged, [this]() {
-        this->mTaildropProcess.setExecutable(mConfig->tailscaleExecutable());
-        this->mTailscale->setExecutable(mConfig->tailscaleExecutable());
-    });
     QObject::connect(mConfig, &KTailctlConfig::taildropEnabledChanged, [this]() {
         this->mTaildropProcess.setEnabled(mConfig->taildropEnabled());
     });

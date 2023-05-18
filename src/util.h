@@ -17,7 +17,6 @@ QString formatDurationHumanReadable(const QDateTime &from, const QDateTime &to =
 QString fileUrlToString(const QUrl &url);
 qint64 toMSecsSinceEpoch(const QDateTime &dateTime);
 QIcon loadOsIcon(const QString &os);
-std::tuple<QString, QStringList> composeTailscaleCommand(const QString &executable, const QStringList &args);
 
 class Util : public QObject
 {

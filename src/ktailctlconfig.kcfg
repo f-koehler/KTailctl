@@ -12,10 +12,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <label>Refresh interval for the tailscale status in milliseconds</label>
             <default>500</default>
         </entry>
-        <entry name="tailscaleExecutable" type="String">
-            <label>Path to the tailscale executable</label>
-            <default>tailscale</default>
-        </entry>
     </group>
     <group name="Taildrop">
         <entry name="taildropEnabled" type="Bool">

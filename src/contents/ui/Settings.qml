@@ -42,38 +42,6 @@ Kirigami.Page {
             Kirigami.FormData.label: i18n("Refresh rate (ms):")
         }
 
-        Flow {
-            Kirigami.FormData.label: i18n("Tailscale executable:")
-
-            Controls.TextField {
-                id: textTailscaleExecutable
-                text: App.config.tailscaleExecutable
-
-                onEditingFinished: {
-                    App.config.tailscaleExecutable = textTailscaleExecutable.text;
-                    App.config.save();
-                }
-            }
-
-            FileDialog {
-                id: fileDialogTailscaleExecutable
-                title: "Please select tailscale executable"
-                selectMultiple: false
-                onAccepted: {
-                    App.config.tailscaleExecutable = App.fileUrlToString(fileDialogTailscaleExecutable.fileUrls[0]);
-                    App.config.save();
-                }
-            }
-
-            Controls.Button {
-                icon.name: "document-open"
-                text: "Select"
-                onClicked: {
-                    fileDialogTailscaleExecutable.open();
-                }
-            }
-        }
-
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
             Kirigami.FormData.label: "Taildrop"
