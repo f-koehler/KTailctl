@@ -5,3 +5,4 @@ cd tailscale
 go mod vendor -v
 tar cfvz tailscale-vendor-${TAILSCALE_VERSION}.tar.gz vendor
 mv tailscale-vendor-${TAILSCALE_VERSION}.tar.gz ../
+rm -rf tailscale
