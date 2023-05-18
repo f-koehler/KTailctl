@@ -26,7 +26,6 @@
         </artifact>
       </artifacts>
     </release>
-  <releases>
     <release version="0.1.5" date="2023-05-18" urgency="low">
       <description>
         <p>Fix case for AppData metainfo and desktop file.</p>
