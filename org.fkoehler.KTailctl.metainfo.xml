@@ -15,6 +15,17 @@
   <url type="bugtracker">https://github.com/f-koehler/KTailctl/issues</url>
   <url type="vcs-browser">https://github.com/f-koehler/KTailctl</url>
   <releases>
+    <release version="0.1.8" date="2023-05-18" urgency="low">
+      <description>
+        <p>Fix XML error in org.fkoehler.KTailctl.metainfo.xml.</p>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.1.8</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.1.8.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.1.7" date="2023-05-18" urgency="low">
       <description>
         <p>Fix XML error in org.fkoehler.KTailctl.metainfo.xml.</p>
