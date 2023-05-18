@@ -7,3 +7,4 @@ build/
 cmake-build-*/
 tailscale/
 tailscale-vendor-*.tar.gz
+ktailctl-helper-vendor-*.tar.gz
