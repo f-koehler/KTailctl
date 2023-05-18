@@ -21,7 +21,7 @@ A GUI to monitor and manage Tailscale on your Linux desktop, built using KDE Fra
 - [x] Receiving files
 - [ ] Notification on tailscale status change
 - [ ] Notification on peer addition/removal
-- [x] Creating flatpak (submitted to flathub)
+- [x] Flatpak (submitted to flathub)
 - [ ] Localization
 
 ## Developing
