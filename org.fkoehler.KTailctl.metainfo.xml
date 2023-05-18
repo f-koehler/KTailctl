@@ -4,7 +4,7 @@
   SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
  -->
 <component type="desktop-application">
-  <id>org.fkoehler.ktailctl</id>
+  <id>org.fkoehler.KTailctl</id>
   <name>KTailctl</name>
   <summary>A GUI for the Tailscale mesh network.</summary>
   <metadata_license>FSFAP</metadata_license>
