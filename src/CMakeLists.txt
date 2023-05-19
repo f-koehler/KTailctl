@@ -35,7 +35,10 @@ target_link_libraries(ktailctl
     Qt5::Svg
 )
 
-target_include_directories(ktailctl PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/src)
+target_include_directories(ktailctl PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/src ${CMAKE_CURRENT_BINARY_DIR}/../tailctlpp)
+target_link_directories(ktailctl PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/../tailctlpp)
+target_link_libraries(ktailctl tailctlpp)
+add_dependencies(ktailctl tailctlpp)
 
 if(KTAILCTL_FLATPAK_BUILD)
     target_compile_definitions(ktailctl PRIVATE KTAILCTL_FLATPAK_BUILD)
