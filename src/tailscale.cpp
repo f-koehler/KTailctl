@@ -2,6 +2,7 @@
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 #include "tailscale.h"
 #include "util.h"
+#include <libtailctlpp.h>
 
 #include <QProcess>
 
@@ -23,16 +24,12 @@ void Tailscale::toggle()
 
 Q_INVOKABLE void Tailscale::up()
 {
-    QProcess process;
-    process.start("tailscale", {"up"});
-    process.waitForFinished(3000);
+    tailscale_up();
 }
 
 Q_INVOKABLE void Tailscale::down()
 {
-    QProcess process;
-    process.start("tailscale", {"down"});
-    process.waitForFinished(3000);
+    tailscale_down();
 }
 
 Status *Tailscale::status()
