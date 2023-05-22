@@ -13,7 +13,6 @@
 #include "tray_icon.h"
 
 #include <QObject>
-#include <QProcess>
 #include <QQuickWindow>
 
 class QQuickWindow;

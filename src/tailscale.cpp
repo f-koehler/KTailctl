@@ -4,8 +4,6 @@
 #include "util.h"
 #include <libtailctlpp.h>
 
-#include <QProcess>
-
 Tailscale::Tailscale(QObject *parent)
     : QObject(parent)
     , mStatus(new Status(this))
