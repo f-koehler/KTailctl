@@ -8,7 +8,7 @@
 #include "notifier.h"
 #include "peer_model.h"
 #include "status.h"
-#include "taildrop_process.h"
+#include "taildrop_receiver.h"
 #include "tailscale.h"
 #include "tray_icon.h"
 
@@ -29,7 +29,7 @@ class App : public QObject
 private:
     Tailscale *mTailscale;
     KTailctlConfig *mConfig;
-    TaildropProcess mTaildropProcess;
+    TaildropReceiver mTaildropReceiver;
     Peer mPeerDetails;
     PeerModel mPeerModel;
     Notifier *mNotifier;

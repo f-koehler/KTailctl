@@ -1,27 +1,25 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
-#ifndef KTAILCTL_TAILDROP_PROCESS_H
-#define KTAILCTL_TAILDROP_PROCESS_H
+#ifndef KTAILCTL_TAILDROP_RECEIVER_H
+#define KTAILCTL_TAILDROP_RECEIVER_H
 
 #include <QObject>
-#include <QProcess>
+#include <QThread>
 
-class TaildropProcess : public QObject
+class TaildropReceiver : public QThread
 {
     Q_OBJECT
 
 private:
-    QProcess mProcess;
     bool mEnabled;
     QString mDirectory;
     QString mStrategy;
 
 public:
-    TaildropProcess(bool enabled, const QString &directory, const QString &strategy, QObject *parent = nullptr);
+    TaildropReceiver(bool enabled, const QString &directory, const QString &strategy, QObject *parent = nullptr);
 
 protected:
-    void stopProcess();
-    void restartProcess();
+    void run() override;
 
 public slots:
     void setEnabled(bool enabled);
@@ -29,4 +27,4 @@ public slots:
     void setStrategy(const QString &strategy);
 };
 
-#endif /* KTAILCTL_TAILDROP_PROCESS_H */
+#endif /* KTAILCTL_TAILDROP_RECEIVER_H */

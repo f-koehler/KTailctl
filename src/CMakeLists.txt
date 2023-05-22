@@ -14,7 +14,7 @@ add_executable(ktailctl
     speed_statistics.cpp
     statistics.cpp
     status.cpp
-    taildrop_process.cpp
+    taildrop_receiver.cpp
     tailscale.cpp
     tray_icon.cpp
     util.cpp

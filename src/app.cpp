@@ -27,18 +27,18 @@ App::App(Tailscale *tailscale, QObject *parent)
     : QObject(parent)
     , mTailscale(tailscale)
     , mConfig(KTailctlConfig::self())
-    , mTaildropProcess(mConfig->taildropEnabled(), mConfig->taildropDirectory(), strategyToString(mConfig->taildropStrategy()), this)
+    , mTaildropReceiver(mConfig->taildropEnabled(), mConfig->taildropDirectory(), strategyToString(mConfig->taildropStrategy()), this)
     , mNotifier(new Notifier(this))
     , mTrayIcon(new TrayIcon(tailscale, this))
 {
     QObject::connect(mConfig, &KTailctlConfig::taildropEnabledChanged, [this]() {
-        this->mTaildropProcess.setEnabled(mConfig->taildropEnabled());
+        this->mTaildropReceiver.setEnabled(mConfig->taildropEnabled());
     });
     QObject::connect(mConfig, &KTailctlConfig::taildropDirectoryChanged, [this]() {
-        this->mTaildropProcess.setDirectory(mConfig->taildropDirectory());
+        this->mTaildropReceiver.setDirectory(mConfig->taildropDirectory());
     });
     QObject::connect(mConfig, &KTailctlConfig::taildropStrategyChanged, [this]() {
-        this->mTaildropProcess.setStrategy(strategyToString(mConfig->taildropStrategy()));
+        this->mTaildropReceiver.setStrategy(strategyToString(mConfig->taildropStrategy()));
     });
 
     QObject::connect(tailscale->status(), &Status::peersChanged, &mPeerModel, &PeerModel::updatePeers);
