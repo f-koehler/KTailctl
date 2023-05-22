@@ -10,6 +10,7 @@
 #include <QVector>
 
 #include "peer.h"
+#include <libtailctlpp.h>
 
 class Status : public QObject
 {
@@ -27,6 +28,7 @@ private:
     QString mBackendState;
     Peer *mSelf;
     QVector<Peer *> mPeers;
+    GoString mStatusBuffer;
 
 signals:
     void versionChanged(const QString &);

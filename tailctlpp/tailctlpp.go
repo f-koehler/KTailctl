@@ -3,9 +3,12 @@ package main
 import "C"
 
 import (
+	"context"
+	"encoding/json"
 	"fmt"
 	"os"
 
+	"tailscale.com/client/tailscale"
 	"tailscale.com/cmd/tailscale/cli"
 )
 
@@ -31,6 +34,23 @@ func tailscale_receive_files(strategy string, directory string) {
 	if err := cli.Run(args); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 	}
+}
+
+//export tailscale_status
+func tailscale_status(status_json *string) bool {
+	var client tailscale.LocalClient
+	status, err := client.Status(context.Background())
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return false
+	}
+	j, err := json.MarshalIndent(status, "", "  ")
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return false
+	}
+	*status_json = string(j)
+	return true
 }
 
 func main() {

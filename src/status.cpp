@@ -6,7 +6,6 @@
 
 #include <QJsonArray>
 #include <QJsonDocument>
-#include <QProcess>
 #include <QSet>
 #include <algorithm>
 
@@ -18,16 +17,8 @@ Status::Status(QObject *parent)
 
 void Status::refresh()
 {
-    QProcess process;
-    process.start("tailscale", {"status", "--json"});
-
-    if (!process.waitForFinished(1000)) {
-        qWarning() << "Failed to get tailscale status";
-        return;
-    }
-
-    read(QJsonDocument::fromJson(process.readAllStandardOutput()).object());
-
+    tailscale_status(&mStatusBuffer);
+    read(QJsonDocument::fromJson(QByteArray::fromRawData(mStatusBuffer.p, mStatusBuffer.n)).object());
     emit refreshed(*this);
 }
 
