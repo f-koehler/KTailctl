@@ -5,6 +5,8 @@
 
 A GUI to monitor and manage Tailscale on your Linux desktop, built using KDE Frameworks and Kirigami2.
 
+[![Flathub](https://dl.flathub.org/assets/badges/flathub-badge-en.svg)](https://flathub.org/apps/org.fkoehler.KTailctl)
+
 ![Main Window](screenshots/main.png)
 
 ## Features
@@ -23,7 +25,7 @@ A GUI to monitor and manage Tailscale on your Linux desktop, built using KDE Fra
 - [x] Receiving files
 - [ ] Notification on tailscale status change
 - [ ] Notification on peer addition/removal
-- [x] Flatpak (submitted to flathub)
+- [x] Flatpak
 - [ ] Localization
 
 ## Developing
