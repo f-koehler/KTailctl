@@ -38,3 +38,5 @@ A GUI to monitor and manage Tailscale on your Linux desktop, built using KDE Fra
 4. Create a tag from changelog: `git tag -s -F changelog/vX.Y.Z.md vX.Y.Z`.
 5. Push tag: `git push origin vX.Y.Z`.
 6. Create GitHub release: `gh release create -F changelog/vX.Y.Z.md --verify-tag vX.Y.Z`
+7. Vendor go dependencies: `./vendor.sh`
+8. Upload vendor tarball: `gh release upload vX.Y.Z tailctlpp-vX.Y.Z.tar.gz`
