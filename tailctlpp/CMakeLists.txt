@@ -5,6 +5,13 @@ find_program(
 )
 
 add_custom_command(
+    OUTPUT go.sum
+    COMMAND go get .
+    MAIN_DEPENDENCY go.mod
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/libtailctlpp.a ${CMAKE_CURRENT_BINARY_DIR}/libtailctlpp.h
     COMMAND go build -v -trimpath -o ${CMAKE_CURRENT_BINARY_DIR}/libtailctlpp.a -buildmode=c-archive . 
     MAIN_DEPENDENCY tailctlpp.go
