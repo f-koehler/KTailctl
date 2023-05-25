@@ -8,7 +8,10 @@
 class Preferences : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(bool acceptRoutes READ acceptRoutes NOTIFY acceptRoutesChanged)
+    Q_PROPERTY(bool acceptRoutes READ acceptRoutes WRITE setAcceptRoutes NOTIFY acceptRoutesChanged)
+    Q_PROPERTY(bool acceptDNS READ acceptDNS WRITE setAcceptDNS NOTIFY acceptDNSChanged)
+    Q_PROPERTY(QString hostname READ hostname WRITE setHostname NOTIFY hostnameChanged)
+    Q_PROPERTY(QString operatorUser READ operatorUser WRITE setOperatorUser NOTIFY operatorUserChanged)
 
 private:
     bool mAcceptRoutes;
@@ -23,12 +26,19 @@ signals:
     void operatorUserChanged(const QString &);
 
 public:
+    explicit Preferences(QObject *parent = nullptr);
+
     Q_INVOKABLE void refresh();
 
     bool acceptRoutes() const;
     bool acceptDNS() const;
     const QString &hostname() const;
     const QString &operatorUser() const;
+
+    void setAcceptRoutes(bool acceptRoutes);
+    void setAcceptDNS(bool acceptDNS);
+    void setHostname(const QString &hostname);
+    void setOperatorUser(const QString &operatorUser);
 };
 
 #endif /* KTAILCTL_PREFERENCES_H */

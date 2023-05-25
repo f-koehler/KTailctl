@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strconv"
 
 	"tailscale.com/client/tailscale"
 	"tailscale.com/cmd/tailscale/cli"
@@ -65,6 +66,16 @@ func tailscale_get_accept_routes(accept_routes *bool) bool {
 	return true
 }
 
+//export tailscale_set_accept_routes
+func tailscale_set_accept_routes(accept_routes *bool) bool {
+	args := []string{"set", "--accept-routes", strconv.FormatBool(*accept_routes)}
+	if err := cli.Run(args); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return false
+	}
+	return true
+}
+
 //export tailscale_get_accept_dns
 func tailscale_get_accept_dns(accept_dns *bool) bool {
 	curPrefs, err := client.GetPrefs(context.Background())
@@ -72,7 +83,17 @@ func tailscale_get_accept_dns(accept_dns *bool) bool {
 		fmt.Fprintln(os.Stderr, err)
 		return false
 	}
-	*accept_dns = curPrefs.RouteAll
+	*accept_dns = curPrefs.CorpDNS
+	return true
+}
+
+//export tailscale_set_accept_dns
+func tailscale_set_accept_dns(accept_dns *bool) bool {
+	args := []string{"set", "--accept-dns", strconv.FormatBool(*accept_dns)}
+	if err := cli.Run(args); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return false
+	}
 	return true
 }
 
@@ -87,6 +108,17 @@ func tailscale_get_hostname(hostname *string) bool {
 	return true
 }
 
+//export tailscale_set_hostname
+func tailscale_set_hostname(hostname *string) bool {
+	fmt.Println("Setting hostname to", *hostname)
+	args := []string{"set", "--hostname", *hostname}
+	if err := cli.Run(args); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return false
+	}
+	return true
+}
+
 //export tailscale_get_operator_user
 func tailscale_get_operator_user(user *string) bool {
 	curPrefs, err := client.GetPrefs(context.Background())
@@ -95,6 +127,16 @@ func tailscale_get_operator_user(user *string) bool {
 		return false
 	}
 	*user = curPrefs.OperatorUser
+	return true
+}
+
+//export tailscale_set_operator_user
+func tailscale_set_operator_user(user *string) bool {
+	args := []string{"set", "--operator", *user}
+	if err := cli.Run(args); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return false
+	}
 	return true
 }
 

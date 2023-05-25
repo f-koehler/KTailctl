@@ -44,6 +44,30 @@ Kirigami.Page {
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: "Tailscale"
+        }
+
+        Controls.Switch {
+            Kirigami.FormData.label: "Accept Routes:"
+            checked: Tailscale.preferences.acceptRoutes
+            onClicked: Tailscale.preferences.acceptRoutes = !Tailscale.preferences.acceptRoutes
+        }
+
+        Controls.Switch {
+            Kirigami.FormData.label: "Accept DNS:"
+            checked: Tailscale.preferences.acceptDNS
+            onClicked: Tailscale.preferences.acceptDNS = !Tailscale.preferences.acceptDNS
+        }
+
+        Controls.TextField {
+            id: textTailscaleHostname
+            Kirigami.FormData.label: "Hostname:"
+            text: Tailscale.preferences.hostname
+            onEditingFinished: {Tailscale.preferences.hostname = textTailscaleHostname.text; }
+        }
+
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
             Kirigami.FormData.label: "Taildrop"
         }
 

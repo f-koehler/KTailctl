@@ -1,5 +1,11 @@
 #include "preferences.h"
 
+Preferences::Preferences(QObject *parent)
+    : QObject(parent)
+{
+    refresh();
+}
+
 void Preferences::refresh()
 {
     GoUint8 tmpBool;
@@ -51,4 +57,43 @@ const QString &Preferences::hostname() const
 const QString &Preferences::operatorUser() const
 {
     return mOperatorUser;
+}
+
+void Preferences::setAcceptRoutes(bool acceptRoutes)
+{
+    GoUint8 tmp = static_cast<GoUint8>(acceptRoutes);
+    if (tailscale_set_accept_routes(&tmp)) {
+        mAcceptRoutes = acceptRoutes;
+        emit acceptRoutesChanged(mAcceptRoutes);
+    }
+}
+void Preferences::setAcceptDNS(bool acceptDNS)
+{
+    GoUint8 tmp = static_cast<GoUint8>(acceptDNS);
+    if (tailscale_set_accept_dns(&tmp)) {
+        mAcceptDNS = acceptDNS;
+        emit acceptDNSChanged(mAcceptDNS);
+    }
+}
+void Preferences::setHostname(const QString &hostname)
+{
+    GoString tmp;
+    QByteArray bytes = hostname.toUtf8();
+    tmp.p = bytes.data();
+    tmp.n = bytes.size();
+    if (tailscale_set_hostname(&tmp)) {
+        mHostname = hostname;
+        emit hostnameChanged(mHostname);
+    }
+}
+void Preferences::setOperatorUser(const QString &user)
+{
+    GoString tmp;
+    QByteArray bytes = user.toUtf8();
+    tmp.p = bytes.data();
+    tmp.n = bytes.size();
+    if (tailscale_set_hostname(&tmp)) {
+        mOperatorUser = user;
+        emit operatorUserChanged(mOperatorUser);
+    }
 }

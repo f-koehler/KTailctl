@@ -8,6 +8,7 @@ Tailscale::Tailscale(QObject *parent)
     : QObject(parent)
     , mStatus(new Status(this))
     , mStatistics(new Statistics(mStatus, this))
+    , mPreferences(new Preferences(this))
 {
 }
 
@@ -38,4 +39,9 @@ Status *Tailscale::status()
 Statistics *Tailscale::statistics()
 {
     return mStatistics;
+}
+
+Preferences *Tailscale::preferences()
+{
+    return mPreferences;
 }

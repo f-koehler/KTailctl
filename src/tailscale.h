@@ -3,6 +3,7 @@
 #ifndef KTAILCTL_TAILSCALE_H
 #define KTAILCTL_TAILSCALE_H
 
+#include "preferences.h"
 #include "statistics.h"
 #include "status.h"
 
@@ -12,16 +13,14 @@ class Tailscale : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(Status *status READ status NOTIFY statusChanged)
-    Q_PROPERTY(Statistics *statistics READ statistics NOTIFY statisticsChanged)
+    Q_PROPERTY(Status *status READ status CONSTANT)
+    Q_PROPERTY(Statistics *statistics READ statistics CONSTANT)
+    Q_PROPERTY(Preferences *preferences READ preferences CONSTANT)
 
 private:
     Status *mStatus;
     Statistics *mStatistics;
-
-signals:
-    void statusChanged();
-    void statisticsChanged();
+    Preferences *mPreferences;
 
 public slots:
     Q_INVOKABLE void toggle();
@@ -35,6 +34,7 @@ public:
     const QString &executable() const;
     Status *status();
     Statistics *statistics();
+    Preferences *preferences();
 };
 
 #endif /* KTAILCTL_TAILSCALE_H */
