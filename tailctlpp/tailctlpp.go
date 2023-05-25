@@ -53,5 +53,29 @@ func tailscale_status(status_json *string) bool {
 	return true
 }
 
+//export tailscale_get_hostname
+func tailscale_get_hostname(hostname *string) bool {
+	var client tailscale.LocalClient
+	curPrefs, err := client.GetPrefs(context.Background())
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return false
+	}
+	*hostname = curPrefs.Hostname
+	return true
+}
+
+//export tailscale_get_operator_user
+func tailscale_get_operator_user(user *string) bool {
+	var client tailscale.LocalClient
+	curPrefs, err := client.GetPrefs(context.Background())
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return false
+	}
+	*user = curPrefs.OperatorUser
+	return true
+}
+
 func main() {
 }
