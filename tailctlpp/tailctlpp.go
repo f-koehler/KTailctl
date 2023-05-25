@@ -53,6 +53,30 @@ func tailscale_status(status_json *string) bool {
 	return true
 }
 
+//export tailscale_get_accept_routes
+func tailscale_get_accept_routes(accept_routes *bool) bool {
+	var client tailscale.LocalClient
+	curPrefs, err := client.GetPrefs(context.Background())
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return false
+	}
+	*accept_routes = curPrefs.RouteAll
+	return true
+}
+
+//export tailscale_get_accept_dns
+func tailscale_get_accept_dns(accept_dns *bool) bool {
+	var client tailscale.LocalClient
+	curPrefs, err := client.GetPrefs(context.Background())
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return false
+	}
+	*accept_dns = curPrefs.RouteAll
+	return true
+}
+
 //export tailscale_get_hostname
 func tailscale_get_hostname(hostname *string) bool {
 	var client tailscale.LocalClient
