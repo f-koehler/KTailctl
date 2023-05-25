@@ -12,6 +12,8 @@ import (
 	"tailscale.com/cmd/tailscale/cli"
 )
 
+var client tailscale.LocalClient
+
 //export tailscale_down
 func tailscale_down() {
 	args := []string{"down"}
@@ -38,7 +40,6 @@ func tailscale_receive_files(strategy string, directory string) {
 
 //export tailscale_status
 func tailscale_status(status_json *string) bool {
-	var client tailscale.LocalClient
 	status, err := client.Status(context.Background())
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
@@ -55,7 +56,6 @@ func tailscale_status(status_json *string) bool {
 
 //export tailscale_get_accept_routes
 func tailscale_get_accept_routes(accept_routes *bool) bool {
-	var client tailscale.LocalClient
 	curPrefs, err := client.GetPrefs(context.Background())
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
@@ -67,7 +67,6 @@ func tailscale_get_accept_routes(accept_routes *bool) bool {
 
 //export tailscale_get_accept_dns
 func tailscale_get_accept_dns(accept_dns *bool) bool {
-	var client tailscale.LocalClient
 	curPrefs, err := client.GetPrefs(context.Background())
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
@@ -79,7 +78,6 @@ func tailscale_get_accept_dns(accept_dns *bool) bool {
 
 //export tailscale_get_hostname
 func tailscale_get_hostname(hostname *string) bool {
-	var client tailscale.LocalClient
 	curPrefs, err := client.GetPrefs(context.Background())
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
@@ -91,7 +89,6 @@ func tailscale_get_hostname(hostname *string) bool {
 
 //export tailscale_get_operator_user
 func tailscale_get_operator_user(user *string) bool {
-	var client tailscale.LocalClient
 	curPrefs, err := client.GetPrefs(context.Background())
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
