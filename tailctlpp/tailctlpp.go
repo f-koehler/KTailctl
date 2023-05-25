@@ -68,7 +68,7 @@ func tailscale_get_accept_routes(accept_routes *bool) bool {
 
 //export tailscale_set_accept_routes
 func tailscale_set_accept_routes(accept_routes *bool) bool {
-	args := []string{"set", "--accept-routes", strconv.FormatBool(*accept_routes)}
+	curPrefs, err := client.GetPrefs(context.Background())
 	if err := cli.Run(args); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		return false

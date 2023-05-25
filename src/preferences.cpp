@@ -25,6 +25,13 @@ void Preferences::refresh()
         }
     }
 
+    if (tailscale_get_advertise_exit_node(&tmpBool)) {
+        if (static_cast<bool>(tmpBool) != mAdvertiseExitNode) {
+            mAdvertiseExitNode = tmpBool;
+            emit advertiseExitNodeChanged(mAdvertiseExitNode);
+        }
+    }
+
     if (tailscale_get_hostname(&tmpString)) {
         QString tmp = QString::fromUtf8(tmpString.p, tmpString.n);
         if (tmp != mHostname) {
@@ -50,6 +57,10 @@ bool Preferences::acceptDNS() const
 {
     return mAcceptDNS;
 }
+bool Preferences::advertiseExitNode() const
+{
+    return mAdvertiseExitNode;
+}
 const QString &Preferences::hostname() const
 {
     return mHostname;
@@ -73,6 +84,14 @@ void Preferences::setAcceptDNS(bool acceptDNS)
     if (tailscale_set_accept_dns(&tmp)) {
         mAcceptDNS = acceptDNS;
         emit acceptDNSChanged(mAcceptDNS);
+    }
+}
+void Preferences::setAdvertiseExitNode(bool advertiseExitNode)
+{
+    GoUint8 tmp = static_cast<GoUint8>(advertiseExitNode);
+    if (tailscale_set_advertise_exit_node(&tmp)) {
+        mAdvertiseExitNode = advertiseExitNode;
+        emit advertiseExitNodeChanged(mAdvertiseExitNode);
     }
 }
 void Preferences::setHostname(const QString &hostname)

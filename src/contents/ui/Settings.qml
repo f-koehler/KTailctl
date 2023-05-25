@@ -59,6 +59,12 @@ Kirigami.Page {
             onClicked: Tailscale.preferences.acceptDNS = !Tailscale.preferences.acceptDNS
         }
 
+        Controls.Switch {
+            Kirigami.FormData.label: "Exit node:"
+            checked: Tailscale.preferences.advertiseExitNode
+            onClicked: Tailscale.preferences.advertiseExitNode = !Tailscale.preferences.advertiseExitNode
+        }
+
         Controls.TextField {
             id: textTailscaleHostname
             Kirigami.FormData.label: "Hostname:"
