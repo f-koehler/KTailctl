@@ -68,7 +68,28 @@ func tailscale_get_accept_routes(accept_routes *bool) bool {
 
 //export tailscale_set_accept_routes
 func tailscale_set_accept_routes(accept_routes *bool) bool {
+	args := []string{"set", "--accept-routes=" + strconv.FormatBool(*accept_routes)}
+	if err := cli.Run(args); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return false
+	}
+	return true
+}
+
+//export tailscale_get_advertise_exit_node
+func tailscale_get_advertise_exit_node(exit_node *bool) bool {
 	curPrefs, err := client.GetPrefs(context.Background())
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return false
+	}
+	*exit_node = curPrefs.AdvertisesExitNode()
+	return true
+}
+
+//export tailscale_set_advertise_exit_node
+func tailscale_set_advertise_exit_node(exit_node *bool) bool {
+	args := []string{"set", "--advertise-exit-node=" + strconv.FormatBool(*exit_node)}
 	if err := cli.Run(args); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		return false
@@ -89,7 +110,7 @@ func tailscale_get_accept_dns(accept_dns *bool) bool {
 
 //export tailscale_set_accept_dns
 func tailscale_set_accept_dns(accept_dns *bool) bool {
-	args := []string{"set", "--accept-dns", strconv.FormatBool(*accept_dns)}
+	args := []string{"set", "--accept-dns=" + strconv.FormatBool(*accept_dns)}
 	if err := cli.Run(args); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		return false
@@ -111,7 +132,7 @@ func tailscale_get_hostname(hostname *string) bool {
 //export tailscale_set_hostname
 func tailscale_set_hostname(hostname *string) bool {
 	fmt.Println("Setting hostname to", *hostname)
-	args := []string{"set", "--hostname", *hostname}
+	args := []string{"set", "--hostname=" + *hostname}
 	if err := cli.Run(args); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		return false
@@ -132,7 +153,7 @@ func tailscale_get_operator_user(user *string) bool {
 
 //export tailscale_set_operator_user
 func tailscale_set_operator_user(user *string) bool {
-	args := []string{"set", "--operator", *user}
+	args := []string{"set", "--operator=" + *user}
 	if err := cli.Run(args); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		return false
