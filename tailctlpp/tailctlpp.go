@@ -32,11 +32,23 @@ func tailscale_up() {
 }
 
 //export tailscale_receive_files
-func tailscale_receive_files(strategy string, directory string) {
+func tailscale_receive_files(strategy string, directory string) bool {
 	args := []string{"file", "get", "-loop=true", "-verbose=true", "-wait=true", "-conflict", strategy, directory}
 	if err := cli.Run(args); err != nil {
 		fmt.Fprintln(os.Stderr, err)
+		return false
 	}
+	return true
+}
+
+//export tailscale_send_files
+func tailscale_send_files(target string, files string) bool {
+	args := []string{"file", "cp", files, target + ":"}
+	if err := cli.Run(args); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return false
+	}
+	return true
 }
 
 //export tailscale_status

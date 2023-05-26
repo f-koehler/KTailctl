@@ -16,6 +16,7 @@ add_executable(ktailctl
     statistics.cpp
     status.cpp
     taildrop_receiver.cpp
+    taildrop_sender.cpp
     tailscale.cpp
     tray_icon.cpp
     util.cpp
