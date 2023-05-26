@@ -69,6 +69,14 @@ const QString &Preferences::operatorUser() const
 {
     return mOperatorUser;
 }
+bool Preferences::shieldsUp() const
+{
+    return mShieldsUp;
+}
+bool Preferences::ssh() const
+{
+    return mSSH;
+}
 
 void Preferences::setAcceptRoutes(bool acceptRoutes)
 {
@@ -114,5 +122,21 @@ void Preferences::setOperatorUser(const QString &user)
     if (tailscale_set_hostname(&tmp)) {
         mOperatorUser = user;
         emit operatorUserChanged(mOperatorUser);
+    }
+}
+void Preferences::setShieldsUp(bool shieldsUp)
+{
+    GoUint8 tmp = static_cast<GoUint8>(shieldsUp);
+    if (tailscale_set_shields_up(&tmp)) {
+        mShieldsUp = shieldsUp;
+        emit shieldsUpChanged(mShieldsUp);
+    }
+}
+void Preferences::setSSH(bool ssh)
+{
+    GoUint8 tmp = static_cast<GoUint8>(ssh);
+    if (tailscale_set_ssh(&tmp)) {
+        mSSH = ssh;
+        emit sshChanged(mSSH);
     }
 }

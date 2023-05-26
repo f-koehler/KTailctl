@@ -161,5 +161,47 @@ func tailscale_set_operator_user(user *string) bool {
 	return true
 }
 
+//export tailscale_get_shields_up
+func tailscale_get_shields_up(shields_up *bool) bool {
+	curPrefs, err := client.GetPrefs(context.Background())
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return false
+	}
+	*shields_up = curPrefs.ShieldsUp
+	return true
+}
+
+//export tailscale_set_shields_up
+func tailscale_set_shields_up(shields_up *bool) bool {
+	args := []string{"set", "--shields-up=" + strconv.FormatBool(*shields_up)}
+	if err := cli.Run(args); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return false
+	}
+	return true
+}
+
+//export tailscale_get_ssh
+func tailscale_get_ssh(ssh *bool) bool {
+	curPrefs, err := client.GetPrefs(context.Background())
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return false
+	}
+	*ssh = curPrefs.RunSSH
+	return true
+}
+
+//export tailscale_set_ssh
+func tailscale_set_ssh(ssh *bool) bool {
+	args := []string{"set", "--ssh=" + strconv.FormatBool(*ssh)}
+	if err := cli.Run(args); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return false
+	}
+	return true
+}
+
 func main() {
 }

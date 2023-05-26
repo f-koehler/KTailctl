@@ -72,6 +72,18 @@ Kirigami.Page {
             onEditingFinished: {Tailscale.preferences.hostname = textTailscaleHostname.text; }
         }
 
+        Controls.Switch {
+            Kirigami.FormData.label: "Shields up:"
+            checked: Tailscale.preferences.shieldsUp
+            onClicked: Tailscale.preferences.shieldsUp = !Tailscale.preferences.shieldsUp
+        }
+
+        Controls.Switch {
+            Kirigami.FormData.label: "SSH:"
+            checked: Tailscale.preferences.ssh
+            onClicked: Tailscale.preferences.ssh = !Tailscale.preferences.ssh
+        }
+
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
             Kirigami.FormData.label: "Taildrop"
