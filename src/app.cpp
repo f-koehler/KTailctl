@@ -28,7 +28,6 @@ App::App(Tailscale *tailscale, QObject *parent)
     , mTailscale(tailscale)
     , mConfig(KTailctlConfig::self())
     , mTaildropReceiver(mConfig->taildropEnabled(), mConfig->taildropDirectory(), strategyToString(mConfig->taildropStrategy()), this)
-    , mNotifier(new Notifier(this))
     , mTrayIcon(new TrayIcon(tailscale, this))
 {
     QObject::connect(mConfig, &KTailctlConfig::taildropEnabledChanged, [this]() {
@@ -43,7 +42,6 @@ App::App(Tailscale *tailscale, QObject *parent)
 
     QObject::connect(tailscale->status(), &Status::peersChanged, &mPeerModel, &PeerModel::updatePeers);
     QObject::connect(tailscale->status(), &Status::refreshed, &mPeerDetails, &Peer::updateFromStatus);
-    QObject::connect(tailscale->status(), &Status::refreshed, mNotifier, &Notifier::statusRefreshed);
     QObject::connect(tailscale->status(), &Status::backendStateChanged, mTrayIcon, &TrayIcon::regenerate);
 }
 

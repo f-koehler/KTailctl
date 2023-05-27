@@ -8,7 +8,6 @@ add_executable(ktailctl
     about.cpp
     app.cpp
     main.cpp
-    notifier.cpp
     peer.cpp
     peer_model.cpp
     preferences.cpp
@@ -28,7 +27,7 @@ target_link_libraries(ktailctl
     KF5::ConfigGui
     KF5::CoreAddons
     KF5::I18n
-    KF5::Notifications
+    # KF5::Notifications
     Qt5::Core
     Qt5::Gui
     Qt5::Qml
