@@ -16,6 +16,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+if(APPLE)
+    set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/lib/prefix/share/ECM/cmake /opt/homebrew/opt/qt@5/lib/cmake ${CMAKE_CURRENT_SOURCE_DIR}/lib/prefix)
 endif()
 find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
 find_package(Git REQUIRED)
@@ -28,11 +30,11 @@ include(KDECompilerSettings NO_POLICY_SCOPE)
 include(ECMSetupVersion)
 include(ECMGenerateHeaders)
 include(ECMPoQmTools)
-include(KDEClangFormat)
+# include(KDEClangFormat)
 include(KDEGitCommitHooks)
 
 file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES *.cpp *.h *.hpp *.c)
-kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
+# kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
 
 kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
 
@@ -53,7 +55,7 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     CoreAddons
     I18n
     Kirigami2
-    Notifications
+    # Notifications
 )
 
 add_subdirectory(src)
