@@ -19,10 +19,10 @@ class QQuickWindow;
 class App : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(Tailscale *tailscale READ tailscale NOTIFY tailscaleChanged)
-    Q_PROPERTY(KTailctlConfig *config READ config NOTIFY configChanged)
-    Q_PROPERTY(Peer *peerDetails READ peerDetails NOTIFY peerDetailsChanged)
-    Q_PROPERTY(PeerModel *peerModel READ peerModel NOTIFY peerModelChanged)
+    Q_PROPERTY(Tailscale *tailscale READ tailscale CONSTANT)
+    Q_PROPERTY(KTailctlConfig *config READ config CONSTANT)
+    Q_PROPERTY(Peer *peerDetails READ peerDetails CONSTANT)
+    Q_PROPERTY(PeerModel *peerModel READ peerModel CONSTANT)
 
 private:
     Tailscale *mTailscale;
