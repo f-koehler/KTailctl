@@ -80,7 +80,9 @@ void TrayIcon::regenerate()
         });
     }
     menu->addSeparator();
-    menu->addAction(QIcon::fromTheme("application-exit"), "Quit", this, qApp->quit);
+    menu->addAction(QIcon::fromTheme("application-exit"), "Quit", [this]() {
+        emit quitClicked();
+    });
     setContextMenu(menu);
 }
 

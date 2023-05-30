@@ -39,6 +39,9 @@ signals:
     void peerDetailsChanged();
     void peerModelChanged();
 
+public slots:
+    void quitApp();
+
 public:
     App(Tailscale *tailscale, QObject *parent = nullptr);
 

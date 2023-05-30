@@ -43,6 +43,7 @@ App::App(Tailscale *tailscale, QObject *parent)
     QObject::connect(tailscale->status(), &Status::peersChanged, &mPeerModel, &PeerModel::updatePeers);
     QObject::connect(tailscale->status(), &Status::refreshed, &mPeerDetails, &Peer::updateFromStatus);
     QObject::connect(tailscale->status(), &Status::backendStateChanged, mTrayIcon, &TrayIcon::regenerate);
+    QObject::connect(mTrayIcon, &TrayIcon::quitClicked, this, &App::quitApp);
 }
 
 Tailscale *App::tailscale()
@@ -100,4 +101,10 @@ void App::setPeerDetails(const QString &id)
             emit peerDetailsChanged();
         }
     }
+}
+
+void App::quitApp()
+{
+    mTaildropReceiver.quit();
+    qApp->quit();
 }

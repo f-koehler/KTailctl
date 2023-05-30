@@ -19,6 +19,9 @@ private:
 public slots:
     void regenerate();
 
+signals:
+    void quitClicked();
+
 public:
     TrayIcon(Tailscale *tailscale, QObject *parent = nullptr);
 
