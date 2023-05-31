@@ -15,6 +15,20 @@
   <url type="bugtracker">https://github.com/f-koehler/KTailctl/issues</url>
   <url type="vcs-browser">https://github.com/f-koehler/KTailctl</url>
   <releases>
+    <release version="0.3.0" date="2023-05-32" urgency="low">
+      <description>
+        <p>Provide access to some Tailscale settings in the settings panel.</p>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.3.0</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.3.0.tar.gz</location>
+        </artifact>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.3.0/tailctlpp-vendor-v0.3.0.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.2.0" date="2023-05-24" urgency="low">
       <description>
         <p>Use Tailscale Go code to manage instead of calling the CLI tool.</p>
