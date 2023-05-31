@@ -4,12 +4,14 @@ find_program(
     REQUIRED
 )
 
-add_custom_command(
-    OUTPUT go.sum
-    COMMAND go get .
-    MAIN_DEPENDENCY go.mod
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-)
+if(NOT KTAILCTL_FLATPAK_BUILD)
+    add_custom_command(
+        OUTPUT go.sum
+        COMMAND go get .
+        MAIN_DEPENDENCY go.mod
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    )
+endif()
 
 add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/libtailctlpp.a ${CMAKE_CURRENT_BINARY_DIR}/libtailctlpp.h
