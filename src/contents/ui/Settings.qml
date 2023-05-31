@@ -65,12 +65,12 @@ Kirigami.Page {
             onClicked: Tailscale.preferences.advertiseExitNode = !Tailscale.preferences.advertiseExitNode
         }
 
-        Controls.TextField {
-            id: textTailscaleHostname
-            Kirigami.FormData.label: "Hostname:"
-            text: Tailscale.preferences.hostname
-            onEditingFinished: {Tailscale.preferences.hostname = textTailscaleHostname.text; }
-        }
+        // Controls.TextField {
+        //     id: textTailscaleHostname
+        //     Kirigami.FormData.label: "Hostname:"
+        //     text: Tailscale.preferences.hostname
+        //     onEditingFinished: {Tailscale.preferences.hostname = textTailscaleHostname.text; }
+        // }
 
         Controls.Switch {
             Kirigami.FormData.label: "Shields up:"
