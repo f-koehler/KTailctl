@@ -15,7 +15,21 @@
   <url type="bugtracker">https://github.com/f-koehler/KTailctl/issues</url>
   <url type="vcs-browser">https://github.com/f-koehler/KTailctl</url>
   <releases>
-    <release version="0.3.0" date="2023-05-32" urgency="low">
+    <release version="0.3.1" date="2023-05-31" urgency="low">
+      <description>
+        <p>Fix flatpak build.</p>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.3.1</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.3.1.tar.gz</location>
+        </artifact>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.3.1/tailctlpp-vendor-v0.3.1.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
+    <release version="0.3.0" date="2023-05-31" urgency="low">
       <description>
         <p>Provide access to some Tailscale settings in the settings panel.</p>
       </description>
