@@ -20,6 +20,16 @@ TrayIcon::TrayIcon(Tailscale *tailscale, QObject *parent)
     setContextMenu(new QMenu());
 
     QObject::connect(contextMenu(), &QMenu::aboutToShow, this, &TrayIcon::regenerate);
+    QObject::connect(this, &QSystemTrayIcon::activated, [this](const QSystemTrayIcon::ActivationReason &) {
+        if (mWindow == nullptr) {
+            return;
+        }
+        if (mWindow->isVisible()) {
+            mWindow->hide();
+        } else {
+            mWindow->show();
+        }
+    });
 
     show();
 }
