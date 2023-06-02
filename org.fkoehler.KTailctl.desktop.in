@@ -5,7 +5,7 @@ Name=KTailctl
 Comment=GUI for tailscale on the KDE Plasma desktop
 Version=@KTAILCTL_VERSION@
 Exec=ktailctl
-Icon=ktailctl
+Icon=org.fkoehler.KTailctl
 Type=Application
 Terminal=false
 # Add an actual main category here (and possibly applicable additional ones)
