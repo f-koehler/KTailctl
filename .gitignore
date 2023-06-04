@@ -7,3 +7,5 @@ build/
 cmake-build-*/
 tailscale/
 tailctlpp-vendor-*.tar.gz
+.craft/
+craft/
