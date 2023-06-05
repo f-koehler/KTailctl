@@ -51,3 +51,20 @@ install(TARGETS ktailctl ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 if(ipo_supported)
     set_property(TARGET ktailctl PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
 endif()
+
+if(APPLE)
+    kirigami_package_breeze_icons(ICONS
+        application-exit
+        applications-graphics
+        computer
+        help-about
+        list-add
+        media-playback-start
+        proces-stop
+        question
+        smartphone
+        vcs-pull
+        vcs-push
+        window
+    )
+endif()
