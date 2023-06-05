@@ -20,8 +20,11 @@ private:
     QString mDirectory;
     QString mStrategy;
 
+private:
+    TaildropReceiver();
+
 public:
-    TaildropReceiver(QObject *parent = nullptr);
+    static TaildropReceiver *self();
 
 protected:
     void run() override;

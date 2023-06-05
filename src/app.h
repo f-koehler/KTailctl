@@ -7,7 +7,6 @@
 #include "ktailctlconfig.h"
 #include "peer_model.h"
 #include "status.h"
-#include "taildrop_receiver.h"
 #include "tailscale.h"
 #include "tray_icon.h"
 
@@ -27,7 +26,6 @@ class App : public QObject
 private:
     Tailscale *mTailscale;
     KTailctlConfig *mConfig;
-    TaildropReceiver mTaildropReceiver;
     Peer mPeerDetails;
     PeerModel mPeerModel;
 

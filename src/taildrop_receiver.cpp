@@ -18,8 +18,8 @@ QString strategyToString(const KTailctlConfig::EnumTaildropStrategy::type &strat
     }
 }
 
-TaildropReceiver::TaildropReceiver(QObject *parent)
-    : QThread(parent)
+TaildropReceiver::TaildropReceiver()
+    : QThread(nullptr)
     , mConfig(KTailctlConfig::self())
     , mEnabled(mConfig->taildropEnabled())
     , mDirectory(mConfig->taildropDirectory())
@@ -38,6 +38,15 @@ TaildropReceiver::TaildropReceiver(QObject *parent)
     QObject::connect(mConfig, &KTailctlConfig::taildropStrategyChanged, [this]() {
         setStrategy(strategyToString(mConfig->taildropStrategy()));
     });
+}
+
+TaildropReceiver *TaildropReceiver::self()
+{
+    static TaildropReceiver *instance = nullptr;
+    if (instance == nullptr) {
+        instance = new TaildropReceiver();
+    }
+    return instance;
 }
 
 void TaildropReceiver::run()
