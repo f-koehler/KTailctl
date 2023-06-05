@@ -12,9 +12,9 @@ TrayIcon::TrayIcon(Tailscale *tailscale, QObject *parent)
     , mTailscale(tailscale)
 {
     if (mTailscale->status()->backendState() == "Running") {
-        setIcon(QIcon::fromTheme(QStringLiteral("ktailctl-tray-online-dark")));
+        setIcon(QIcon(QStringLiteral(":/icons/online")));
     } else {
-        setIcon(QIcon::fromTheme(QStringLiteral("ktailctl-tray-offline")));
+        setIcon(QIcon(QStringLiteral(":/icons/offline")));
     }
 
     setContextMenu(new QMenu());
@@ -53,12 +53,12 @@ void TrayIcon::regenerate()
         action_toggle->setChecked(true);
         action_toggle->setText("Stop Tailscale");
 
-        setIcon(QIcon::fromTheme(QStringLiteral("ktailctl-tray-online-dark")));
+        setIcon(QIcon(QStringLiteral(":/icons/online")));
     } else {
         action_toggle->setChecked(false);
         action_toggle->setText("Start Tailscale");
 
-        setIcon(QIcon::fromTheme(QStringLiteral("ktailctl-tray-offline")));
+        setIcon(QIcon(QStringLiteral(":/icons/offline")));
     }
     menu->addSeparator();
 

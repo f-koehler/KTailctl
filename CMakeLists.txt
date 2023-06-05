@@ -78,8 +78,5 @@ install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/org.fkoehler.KTailctl.desktop DESTI
 install(FILES org.fkoehler.KTailctl.metainfo.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 install(FILES KTailctl.notifyrc  DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
 install(FILES org.fkoehler.KTailctl.svg DESTINATION ${KDE_INSTALL_FULL_ICONDIR}/hicolor/scalable/apps)
-install(FILES icons/ktailctl-tray-offline.svg DESTINATION ${KDE_INSTALL_FULL_ICONDIR}/hicolor/scalable/apps)
-install(FILES icons/ktailctl-tray-online-light.svg DESTINATION ${KDE_INSTALL_FULL_ICONDIR}/hicolor/scalable/apps)
-install(FILES icons/ktailctl-tray-online-dark.svg DESTINATION ${KDE_INSTALL_FULL_ICONDIR}/hicolor/scalable/apps)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)

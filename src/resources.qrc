@@ -11,4 +11,8 @@
         <file alias="Settings.qml">contents/ui/Settings.qml</file>
         <file alias="Statistics.qml">contents/ui/Statistics.qml</file>
     </qresource>
+    <qresource prefix="/icons/">
+        <file alias="offline.svg">contents/icons/offline.svg</file>
+        <file alias="online.svg">contents/icons/online.svg</file>
+    </qresource>
 </RCC>

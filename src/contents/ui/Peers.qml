@@ -18,7 +18,7 @@ Kirigami.ScrollablePage {
     actions.main: Kirigami.Action {
         text: Tailscale.status.backendState == "Running" ? "Stop tailscale" : "Start tailscale"
         onTriggered: App.tailscale.toggle()
-        icon.name: Tailscale.status.backendState == "Running" ? "ktailctl-tray-online-dark" : "ktailctl-tray-offline"
+        icon.name: Tailscale.status.backendState == "Running" ? "process-stop-symbolic" : "media-playback-start-symbolic"
     }
 
     Kirigami.CardsListView {
