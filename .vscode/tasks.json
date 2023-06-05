@@ -5,7 +5,9 @@
       "type": "cmake",
       "label": "CMake: build",
       "command": "build",
-      "targets": ["all"],
+      "targets": [
+        "all"
+      ],
       "group": {
         "kind": "build",
         "isDefault": true

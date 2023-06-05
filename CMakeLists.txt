@@ -71,12 +71,32 @@ else()
     set(KTAILCTL_VERSION ${KTAILCTL_GIT_DESCRIBE})
 endif()
 message(STATUS "Version from git: ${KTAILCTL_VERSION}")
-configure_file(org.fkoehler.KTailctl.desktop.in ${CMAKE_CURRENT_BINARY_DIR}/org.fkoehler.KTailctl.desktop @ONLY)
+configure_file(
+    org.fkoehler.KTailctl.desktop.in
+    ${CMAKE_CURRENT_BINARY_DIR}/org.fkoehler.KTailctl.desktop
+    @ONLY
+)
 configure_file(version.h.in ${CMAKE_CURRENT_BINARY_DIR}/src/version.h @ONLY)
 
-install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/org.fkoehler.KTailctl.desktop DESTINATION ${KDE_INSTALL_APPDIR})
-install(FILES org.fkoehler.KTailctl.metainfo.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
-install(FILES KTailctl.notifyrc  DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
-install(FILES org.fkoehler.KTailctl.svg DESTINATION ${KDE_INSTALL_FULL_ICONDIR}/hicolor/scalable/apps)
+install(
+    PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/org.fkoehler.KTailctl.desktop
+    DESTINATION ${KDE_INSTALL_APPDIR}
+)
+install(
+    FILES org.fkoehler.KTailctl.metainfo.xml
+    DESTINATION ${KDE_INSTALL_METAINFODIR}
+)
+install(
+    FILES KTailctl.notifyrc
+    DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR}
+)
+install(
+    FILES org.fkoehler.KTailctl.svg
+    DESTINATION ${KDE_INSTALL_FULL_ICONDIR}/hicolor/scalable/apps
+)
 
-feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
+feature_summary(
+    WHAT ALL
+    INCLUDE_QUIET_PACKAGES
+    FATAL_ON_MISSING_REQUIRED_PACKAGES
+)
