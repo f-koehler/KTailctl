@@ -2,6 +2,7 @@
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 #include "tailscale.h"
 #include "util.h"
+#include <QDebug>
 #include <libtailctlpp.h>
 
 Tailscale::Tailscale(QObject *parent)
@@ -50,4 +51,13 @@ Preferences *Tailscale::preferences()
 TaildropReceiver *Tailscale::taildropReceiver()
 {
     return mTaildropReceiver;
+}
+
+TaildropSender *Tailscale::taildropSender(const QString &name)
+{
+    auto it = mTaildropSenders.find(name);
+    if (it != mTaildropSenders.end()) {
+        return it.value();
+    }
+    return *mTaildropSenders.insert(name, new TaildropSender(name, this));
 }

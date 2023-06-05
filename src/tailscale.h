@@ -7,6 +7,7 @@
 #include "statistics.h"
 #include "status.h"
 #include "taildrop_receiver.h"
+#include "taildrop_sender.h"
 
 #include <QObject>
 
@@ -24,6 +25,7 @@ private:
     Statistics *mStatistics;
     Preferences *mPreferences;
     TaildropReceiver *mTaildropReceiver;
+    QMap<QString, TaildropSender *> mTaildropSenders;
 
 public slots:
     Q_INVOKABLE void toggle();
@@ -39,6 +41,7 @@ public:
     Statistics *statistics();
     Preferences *preferences();
     TaildropReceiver *taildropReceiver();
+    TaildropSender *taildropSender(const QString &name);
 };
 
 #endif /* KTAILCTL_TAILSCALE_H */
