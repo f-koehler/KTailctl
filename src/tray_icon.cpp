@@ -52,13 +52,13 @@ void TrayIcon::regenerate()
     if (mTailscale->status()->backendState() == "Running") {
         action_toggle->setChecked(true);
         action_toggle->setText("Stop Tailscale");
-        action_toggle->setIcon(QIcon::fromTheme(QStringLiteral("process-stop-symbolic")));
+        action_toggle->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
 
         setIcon(QIcon(QStringLiteral(":/icons/online")));
     } else {
         action_toggle->setChecked(false);
         action_toggle->setText("Start Tailscale");
-        action_toggle->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start-symbolic")));
+        action_toggle->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
 
         setIcon(QIcon(QStringLiteral(":/icons/offline")));
     }
