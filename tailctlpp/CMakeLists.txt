@@ -31,6 +31,19 @@ if(APPLE)
         ${CMAKE_CURRENT_BINARY_DIR}/libtailctlpp.dylib
         ${CMAKE_CURRENT_BINARY_DIR}/libtailctlpp.h
     )
+    add_custom_command(
+        OUTPUT
+            ${CMAKE_CURRENT_BINARY_DIR}/../bin/ktailctl.app/Contents/MacOS/libtailctlpp.dylib
+        COMMAND
+            cp ${CMAKE_CURRENT_BINARY_DIR}/libtailctlpp.dylib
+                ${CMAKE_CURRENT_BINARY_DIR}/../bin/ktailctl.app/Contents/MacOS/libtailctlpp.dylib
+        MAIN_DEPENDENCY
+            ${CMAKE_CURRENT_BINARY_DIR}/libtailctlpp.dylib
+    )
+    add_custom_target(
+        copy_tailctlpp ALL DEPENDS
+        ${CMAKE_CURRENT_BINARY_DIR}/../bin/ktailctl.app/Contents/MacOS/libtailctlpp.dylib
+    )
 else()
     add_custom_command(
         OUTPUT
