@@ -6,6 +6,7 @@
 #include "preferences.h"
 #include "statistics.h"
 #include "status.h"
+#include "taildrop_receiver.h"
 
 #include <QObject>
 
@@ -16,11 +17,13 @@ class Tailscale : public QObject
     Q_PROPERTY(Status *status READ status CONSTANT)
     Q_PROPERTY(Statistics *statistics READ statistics CONSTANT)
     Q_PROPERTY(Preferences *preferences READ preferences CONSTANT)
+    Q_PROPERTY(TaildropReceiver *taildropReceiver READ taildropReceiver CONSTANT)
 
 private:
     Status *mStatus;
     Statistics *mStatistics;
     Preferences *mPreferences;
+    TaildropReceiver *mTaildropReceiver;
 
 public slots:
     Q_INVOKABLE void toggle();
@@ -35,6 +38,7 @@ public:
     Status *status();
     Statistics *statistics();
     Preferences *preferences();
+    TaildropReceiver *taildropReceiver();
 };
 
 #endif /* KTAILCTL_TAILSCALE_H */

@@ -11,35 +11,12 @@
 
 #include <functional>
 
-QString strategyToString(const KTailctlConfig::EnumTaildropStrategy::type &strategy)
-{
-    switch (strategy) {
-    case KTailctlConfig::EnumTaildropStrategy::Overwrite:
-        return "overwrite";
-    case KTailctlConfig::EnumTaildropStrategy::Skip:
-        return "skip";
-    default:
-        return "rename";
-    }
-}
-
 App::App(Tailscale *tailscale, QObject *parent)
     : QObject(parent)
     , mTailscale(tailscale)
     , mConfig(KTailctlConfig::self())
-    , mTaildropReceiver(mConfig->taildropEnabled(), mConfig->taildropDirectory(), strategyToString(mConfig->taildropStrategy()), this)
     , mTrayIcon(new TrayIcon(tailscale, this))
 {
-    QObject::connect(mConfig, &KTailctlConfig::taildropEnabledChanged, [this]() {
-        this->mTaildropReceiver.setEnabled(mConfig->taildropEnabled());
-    });
-    QObject::connect(mConfig, &KTailctlConfig::taildropDirectoryChanged, [this]() {
-        this->mTaildropReceiver.setDirectory(mConfig->taildropDirectory());
-    });
-    QObject::connect(mConfig, &KTailctlConfig::taildropStrategyChanged, [this]() {
-        this->mTaildropReceiver.setStrategy(strategyToString(mConfig->taildropStrategy()));
-    });
-
     QObject::connect(tailscale->status(), &Status::peersChanged, &mPeerModel, &PeerModel::updatePeers);
     QObject::connect(tailscale->status(), &Status::refreshed, &mPeerDetails, &Peer::updateFromStatus);
     QObject::connect(tailscale->status(), &Status::backendStateChanged, mTrayIcon, &TrayIcon::regenerate);

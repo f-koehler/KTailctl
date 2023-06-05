@@ -6,15 +6,38 @@
 
 #include <QDebug>
 
-TaildropReceiver::TaildropReceiver(bool enabled, const QString &directory, const QString &strategy, QObject *parent)
+QString strategyToString(const KTailctlConfig::EnumTaildropStrategy::type &strategy)
+{
+    switch (strategy) {
+    case KTailctlConfig::EnumTaildropStrategy::Overwrite:
+        return "overwrite";
+    case KTailctlConfig::EnumTaildropStrategy::Skip:
+        return "skip";
+    default:
+        return "rename";
+    }
+}
+
+TaildropReceiver::TaildropReceiver(QObject *parent)
     : QThread(parent)
-    , mEnabled(enabled)
-    , mDirectory(directory)
-    , mStrategy(strategy)
+    , mConfig(KTailctlConfig::self())
+    , mEnabled(mConfig->taildropEnabled())
+    , mDirectory(mConfig->taildropDirectory())
+    , mStrategy(strategyToString(mConfig->taildropStrategy()))
 {
     if (mEnabled) {
         start();
     }
+
+    QObject::connect(mConfig, &KTailctlConfig::taildropEnabledChanged, [this]() {
+        setEnabled(mConfig->taildropEnabled());
+    });
+    QObject::connect(mConfig, &KTailctlConfig::taildropDirectoryChanged, [this]() {
+        setDirectory(mConfig->taildropDirectory());
+    });
+    QObject::connect(mConfig, &KTailctlConfig::taildropStrategyChanged, [this]() {
+        setStrategy(strategyToString(mConfig->taildropStrategy()));
+    });
 }
 
 void TaildropReceiver::run()
@@ -24,10 +47,24 @@ void TaildropReceiver::run()
     tailscale_receive_files(strategy, directory);
 }
 
+bool TaildropReceiver::enabled() const
+{
+    return mEnabled;
+}
+const QString &TaildropReceiver::directory() const
+{
+    return mDirectory;
+}
+const QString &TaildropReceiver::strategy() const
+{
+    return mStrategy;
+}
+
 void TaildropReceiver::setEnabled(bool enabled)
 {
     if (mEnabled != enabled) {
         mEnabled = enabled;
+        emit enabledChanged(mEnabled);
         if (mEnabled) {
             quit();
             start();
@@ -39,6 +76,7 @@ void TaildropReceiver::setEnabled(bool enabled)
 void TaildropReceiver::setDirectory(const QString &directory)
 {
     if (mDirectory != directory) {
+        emit directoryChanged(directory);
         mDirectory = directory;
         quit();
         start();
@@ -47,6 +85,7 @@ void TaildropReceiver::setDirectory(const QString &directory)
 void TaildropReceiver::setStrategy(const QString &strategy)
 {
     if (mStrategy != strategy) {
+        emit strategyChanged(strategy);
         mStrategy = strategy;
         quit();
         start();

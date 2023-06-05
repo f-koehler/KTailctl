@@ -9,6 +9,7 @@ Tailscale::Tailscale(QObject *parent)
     , mStatus(new Status(this))
     , mStatistics(new Statistics(mStatus, this))
     , mPreferences(new Preferences(this))
+    , mTaildropReceiver(new TaildropReceiver(this))
 {
 }
 
@@ -44,4 +45,9 @@ Statistics *Tailscale::statistics()
 Preferences *Tailscale::preferences()
 {
     return mPreferences;
+}
+
+TaildropReceiver *Tailscale::taildropReceiver()
+{
+    return mTaildropReceiver;
 }
