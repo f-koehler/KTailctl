@@ -15,6 +15,17 @@
   <url type="bugtracker">https://github.com/f-koehler/KTailctl/issues</url>
   <url type="vcs-browser">https://github.com/f-koehler/KTailctl</url>
   <releases>
+    <release version="0.3.3" date="2023-06-05" urgency="low">
+      <description>
+        <p>Fix missing tray icon.</p>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.3.3</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.3.3.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.3.2" date="2023-06-02" urgency="low">
       <description>
         <p>Fix missing desktop icon in flatpak.</p>
