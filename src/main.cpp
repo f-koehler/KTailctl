@@ -18,6 +18,7 @@
 #include "speed_statistics.h"
 #include "statistics.h"
 #include "status.h"
+#include "taildrop_sender.h"
 #include "tailscale.h"
 #include "util.h"
 #include "version-ktailctl.h"
@@ -66,6 +67,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     qmlRegisterType<SpeedStatistics>("org.fkoehler.KTailctl", 1, 0, "SpeedStatistics");
     qmlRegisterType<Statistics>("org.fkoehler.KTailctl", 1, 0, "Statistics");
     qmlRegisterType<KTailctlConfig>("org.fkoehler.KTailctl", 1, 0, "KTailctlConfig");
+    qmlRegisterType<TaildropSender>("org.fkoehler.KTailctl", 1, 0, "TaildropSender");
 
     Util util;
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Util", &util);

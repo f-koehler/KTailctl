@@ -143,7 +143,6 @@ func tailscale_get_hostname(hostname *string) bool {
 
 //export tailscale_set_hostname
 func tailscale_set_hostname(hostname *string) bool {
-	fmt.Println("Setting hostname to", *hostname)
 	args := []string{"set", "--hostname=" + *hostname}
 	if err := cli.Run(args); err != nil {
 		fmt.Fprintln(os.Stderr, err)

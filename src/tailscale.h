@@ -41,7 +41,7 @@ public:
     Statistics *statistics();
     Preferences *preferences();
     TaildropReceiver *taildropReceiver();
-    TaildropSender *taildropSender(const QString &name);
+    Q_INVOKABLE TaildropSender *taildropSender(const QString &name);
 };
 
 #endif /* KTAILCTL_TAILSCALE_H */

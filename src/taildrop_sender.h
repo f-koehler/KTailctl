@@ -15,8 +15,11 @@ private:
     QList<TaildropSendWorker *> mWorkers;
 
 public:
+    TaildropSender(QObject *parent = nullptr);
     TaildropSender(const QString &target, QObject *parent = nullptr);
     int workerCount();
+
+    Q_INVOKABLE void selectAndSendFiles();
 
 signals:
     void workerCountChanged(int);

@@ -1,6 +1,12 @@
 #include "taildrop_sender.h"
+#include <QDir>
+#include <QFileDialog>
 #include <libtailctlpp.h>
 
+TaildropSender::TaildropSender(QObject *parent)
+    : QObject(parent)
+{
+}
 TaildropSender::TaildropSender(const QString &target, QObject *parent)
     : QObject(parent)
     , mTarget(target)
@@ -9,6 +15,15 @@ TaildropSender::TaildropSender(const QString &target, QObject *parent)
 int TaildropSender::workerCount()
 {
     return mWorkers.count();
+}
+
+void TaildropSender::selectAndSendFiles()
+{
+    QStringList files = QFileDialog::getOpenFileNames(nullptr, "Select files to send", QDir::homePath());
+    if (files.isEmpty()) {
+        return;
+    }
+    sendFiles(files);
 }
 
 void TaildropSender::pruneWorkers()

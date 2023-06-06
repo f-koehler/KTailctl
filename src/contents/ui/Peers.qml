@@ -95,13 +95,21 @@ Kirigami.ScrollablePage {
                         }
                     }
 
-
-                    Controls.Button {
-                        text: "Details"
-                        icon.name: "view-list-details"
-                        onClicked: {
-                            App.setPeerDetails(tailscaleID);
-                            pageStack.layers.push('qrc:Peer.qml');
+                    ColumnLayout {
+                        Controls.Button {
+                            text: "Details"
+                            icon.name: "view-list-details"
+                            onClicked: {
+                                App.setPeerDetails(tailscaleID);
+                                pageStack.layers.push('qrc:Peer.qml');
+                            }
+                        }
+                        Controls.Button {
+                            text: "Send file(s)"
+                            icon.name: "document-send"
+                            onClicked: {
+                                App.tailscale.taildropSender(hostName).selectAndSendFiles()
+                            }
                         }
                     }
 
