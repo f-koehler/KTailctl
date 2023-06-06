@@ -66,8 +66,7 @@ void TrayIcon::regenerate()
     menu->addSeparator();
 
     auto create_action = [](QMenu *menu, const QString &text) {
-        auto *action = menu->addAction(text);
-        connect(action, &QAction::triggered, [text]() {
+        auto *action = menu->addAction(text, [text]() {
             setClipboardText(text);
         });
         return action;
