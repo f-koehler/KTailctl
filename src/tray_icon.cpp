@@ -72,8 +72,10 @@ void TrayIcon::regenerate()
         });
         return action;
     };
+
+    auto *peer_menu = menu->addMenu(QIcon::fromTheme("applications-network"), "Peers");
     for (auto peer : mTailscale->status()->peers()) {
-        auto *submenu = menu->addMenu(loadOsIcon(peer->os()), peer->hostName());
+        auto *submenu = peer_menu->addMenu(loadOsIcon(peer->os()), peer->hostName());
         create_action(submenu, peer->dnsName());
         for (auto address : peer->tailscaleIps()) {
             create_action(submenu, address);
