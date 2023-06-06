@@ -84,6 +84,7 @@ void Statistics::statusRefreshed(const Status &status)
 
 void Statistics::refreshTotalSpeed()
 {
+#ifndef __APPLE__
     QFile fileTx("/sys/class/net/tailscale0/statistics/tx_bytes");
     if (!fileTx.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qCritical("Cannot read tx_bytes for tailscale0");
@@ -102,4 +103,5 @@ void Statistics::refreshTotalSpeed()
     QTextStream streamRx(&fileRx);
     streamRx >> bytes;
     mSpeedDownTotal->update(bytes);
+#endif
 }
