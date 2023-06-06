@@ -5,6 +5,7 @@
 #include <libtailctlpp.h>
 
 #include <QDebug>
+#include <QDir>
 
 QString strategyToString(const KTailctlConfig::EnumTaildropStrategy::type &strategy)
 {
@@ -51,8 +52,10 @@ TaildropReceiver *TaildropReceiver::self()
 
 void TaildropReceiver::run()
 {
-    GoString strategy{mStrategy.toUtf8().constData(), mStrategy.length()};
-    GoString directory{mDirectory.toUtf8().constData(), mDirectory.length()};
+    QByteArray strategyBytes = mStrategy.toUtf8();
+    QByteArray directoryBytes = mDirectory.toUtf8();
+    GoString strategy{strategyBytes.constData(), strategyBytes.length()};
+    GoString directory{directoryBytes.constData(), directoryBytes.length()};
     tailscale_receive_files(strategy, directory);
 }
 
@@ -75,28 +78,35 @@ void TaildropReceiver::setEnabled(bool enabled)
         mEnabled = enabled;
         emit enabledChanged(mEnabled);
         if (mEnabled) {
-            quit();
+            terminate();
+            wait();
             start();
         } else {
-            quit();
+            terminate();
+            wait();
         }
     }
 }
 void TaildropReceiver::setDirectory(const QString &directory)
 {
     if (mDirectory != directory) {
-        emit directoryChanged(directory);
+        qDebug() << "set directory" << directory;
+        QDir().mkpath(directory);
         mDirectory = directory;
-        quit();
+        terminate();
+        wait();
         start();
+        emit directoryChanged(directory);
     }
 }
 void TaildropReceiver::setStrategy(const QString &strategy)
 {
     if (mStrategy != strategy) {
-        emit strategyChanged(strategy);
+        qDebug() << "set strategy" << strategy;
         mStrategy = strategy;
-        quit();
+        terminate();
+        wait();
         start();
+        emit strategyChanged(strategy);
     }
 }
