@@ -85,22 +85,22 @@ void TrayIcon::regenerate()
         auto actionUp = submenu->addAction(QIcon::fromTheme("vcs-push"), formatSpeedHumanReadable(statsUp->average()));
         auto actionDown = submenu->addAction(QIcon::fromTheme("vcs-pull"), formatSpeedHumanReadable(statsDown->average()));
 
-        submenu->addAction(QIcon::fromTheme(QStringLiteral("document-send")), "Send file(s)", [this, peer]() {
-            QFileDialog dialog;
-            dialog.setFileMode(QFileDialog::ExistingFiles);
-            if (dialog.exec()) {
-                QStringList files;
-                auto urls = dialog.selectedUrls();
-                if (urls.isEmpty()) {
-                    return;
-                }
-                for (const QUrl &url : urls) {
-                    files.append(url.toLocalFile());
-                }
-                auto *sender = this->mTailscale->taildropSender(peer->hostName());
-                sender->sendFiles(files);
-            }
-        });
+        // submenu->addAction(QIcon::fromTheme(QStringLiteral("document-send")), "Send file(s)", [this, peer]() {
+        //     QFileDialog dialog;
+        //     dialog.setFileMode(QFileDialog::ExistingFiles);
+        //     if (dialog.exec()) {
+        //         QStringList files;
+        //         auto urls = dialog.selectedUrls();
+        //         if (urls.isEmpty()) {
+        //             return;
+        //         }
+        //         for (const QUrl &url : urls) {
+        //             files.append(url.toLocalFile());
+        //         }
+        //         auto *sender = this->mTailscale->taildropSender(peer->hostName());
+        //         sender->sendFiles(files);
+        //     }
+        // });
 
         QObject::connect(statsUp, &SpeedStatistics::refreshed, [actionUp, statsUp]() {
             actionUp->setText(formatSpeedHumanReadable(statsUp->average()));
