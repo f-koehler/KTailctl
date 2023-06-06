@@ -73,6 +73,7 @@ if(APPLE)
         smartphone
         vcs-pull
         vcs-push
+        view-refresh
         window
     )
 endif()
