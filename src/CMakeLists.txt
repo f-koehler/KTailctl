@@ -64,6 +64,7 @@ if(APPLE)
         application-exit
         applications-graphics
         computer
+        document-send
         help-about
         list-add
         media-playback-start
