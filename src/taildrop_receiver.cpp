@@ -30,15 +30,15 @@ TaildropReceiver::TaildropReceiver()
         start();
     }
 
-    QObject::connect(mConfig, &KTailctlConfig::taildropEnabledChanged, [this]() {
-        setEnabled(mConfig->taildropEnabled());
-    });
-    QObject::connect(mConfig, &KTailctlConfig::taildropDirectoryChanged, [this]() {
-        setDirectory(mConfig->taildropDirectory());
-    });
-    QObject::connect(mConfig, &KTailctlConfig::taildropStrategyChanged, [this]() {
-        setStrategy(strategyToString(mConfig->taildropStrategy()));
-    });
+    // QObject::connect(mConfig, &KTailctlConfig::taildropEnabledChanged, [this]() {
+    //     setEnabled(mConfig->taildropEnabled());
+    // });
+    // QObject::connect(mConfig, &KTailctlConfig::taildropDirectoryChanged, [this]() {
+    //     setDirectory(mConfig->taildropDirectory());
+    // });
+    // QObject::connect(mConfig, &KTailctlConfig::taildropStrategyChanged, [this]() {
+    //     setStrategy(strategyToString(mConfig->taildropStrategy()));
+    // });
 }
 
 TaildropReceiver *TaildropReceiver::self()
