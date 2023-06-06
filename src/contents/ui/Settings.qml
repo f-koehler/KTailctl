@@ -86,7 +86,7 @@ Kirigami.Page {
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "Taildrop"
+            Kirigami.FormData.label: "Taildrop (requires restart)"
         }
 
         Controls.Switch {
