@@ -19,7 +19,13 @@ Kirigami.ScrollablePage {
         anchors.fill: parent
 
         Controls.Label {
+            Kirigami.FormData.label: "Total upload speed"
             text: Util.formatSpeedHumanReadable(Tailscale.statistics.totalUpSpeed.average1Second)
+        }
+
+        Controls.Label {
+            Kirigami.FormData.label: "Total download speed"
+            text: Util.formatSpeedHumanReadable(Tailscale.statistics.totalDownSpeed.average1Second)
         }
     }
 }
