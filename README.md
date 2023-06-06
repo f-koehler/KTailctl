@@ -45,5 +45,5 @@ A GUI to monitor and manage Tailscale on your Linux desktop, built using KDE Fra
 ### Install Dependencies using craft
 
 ```bash
-craft kirigami ki18n kconfig knotifications kcoreaddons qtquickcontrols
+craft kirigami ki18n kconfig knotifications kcoreaddons qtquickcontrols qqc2-desktop-style
 ```

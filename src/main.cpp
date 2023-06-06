@@ -3,6 +3,7 @@
 
 #include <QApplication>
 #include <QQmlApplicationEngine>
+#include <QQuickStyle>
 #include <QQuickWindow>
 #include <QUrl>
 #include <QtQml>
@@ -26,6 +27,9 @@
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#ifdef __APPLE__
+    QQuickStyle::setStyle(QStringLiteral("macOS"));
+#endif
     QApplication app(argc, argv);
     QCoreApplication::setOrganizationName(QStringLiteral("KDE"));
     QCoreApplication::setApplicationName(QStringLiteral("KTailctl"));
