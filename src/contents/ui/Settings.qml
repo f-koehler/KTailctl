@@ -133,18 +133,15 @@ Kirigami.Page {
             }
         }
 
-        Controls.ComboBox {
-            id: comboTaildropStrategy
-            Kirigami.FormData.label: "Strategy:"
-            model: ["Rename", "Overwrite", "Skip"]
-            onActivated: {
-                if(comboTaildropStrategy.currentText == "Rename") {
-                    App.config.taildropStrategy = "Rename";
-                    App.config.save();
-                }
-                console.log(comboTaildropStrategy.currentText);
-            }
-        }
+        // Controls.ComboBox {
+        //     id: comboTaildropStrategy
+        //     Kirigami.FormData.label: "Strategy:"
+        //     model: ["Rename", "Overwrite", "Skip"]
+        //     onActivated: {
+        //         App.config.taildropStrategy = comboTaildropStrategy.currentText;
+        //         App.config.save()
+        //     }
+        // }
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
