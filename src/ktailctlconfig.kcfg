@@ -40,10 +40,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <entry name="taildropStrategy" type="Enum">
             <label>Strategy for handling file conflicts</label>
             <choices>
-                <choice name="Skip" value="skip" />
-                <choice name="Rename" value="rename" />
-                <choice name="Overwrite" value="overwrite" />
+                <choice name="Skip">
+                    <label>Skip</label>
+                </choice>
+                <choice name="Rename">
+                    <label>Rename</label>
+                </choice>
+                <choice name="Overwrite">
+                    <label>Overwrite</label>
+                </choice>
             </choices>
+            <default>0</default>
         </entry>
     </group>
     <group name="Interface">
