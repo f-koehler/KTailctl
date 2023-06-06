@@ -7,6 +7,11 @@
 SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
+    <include>unistd.h</include>
+    <include>sys/types.h</include>
+    <include>pwd.h</include>
+    <include>string</include>
+    <include>string.h</include>
     <group name="General">
         <entry name="refreshInterval" type="Int">
             <label>Refresh interval for the tailscale status in milliseconds</label>
@@ -20,7 +25,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </entry>
         <entry name="taildropDirectory" type="String">
             <label>Directory for files received via Taildrop</label>
-            <default>/home/fkoehler/Downloads/taildrop</default>
+            <default code="true">
+                []() {
+                    std::string subdir("/Downloads/taildrop/");
+                    const char* homedir = secure_getenv("HOME");
+                    if(homedir == nullptr) {
+                        homedir = getpwuid(getuid())->pw_dir;
+                    }
+                    std::string path = std::string(homedir) + subdir;
+                    return strdup(path.c_str());
+                }()
+            </default>
         </entry>
         <entry name="taildropStrategy" type="Enum">
             <label>Strategy for handling file conflicts</label>
