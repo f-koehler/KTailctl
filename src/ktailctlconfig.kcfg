@@ -28,7 +28,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <default code="true">
                 []() {
                     std::string subdir("/Downloads/taildrop/");
+                #ifdef __APPLE__
+                    const char* homedir = getenv("HOME");
+                #else
                     const char* homedir = secure_getenv("HOME");
+                #endif
                     if(homedir == nullptr) {
                         homedir = getpwuid(getuid())->pw_dir;
                     }
