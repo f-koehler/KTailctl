@@ -10,3 +10,4 @@ tailctlpp-vendor-*.tar.gz
 .craft/
 craft/
 _build/
+.DS_Store
