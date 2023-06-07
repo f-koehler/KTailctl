@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 #include "statistics.h"
+#include <libtailctlpp.h>
 
 #include <QFile>
 #include <QTextStream>
@@ -85,9 +86,12 @@ void Statistics::statusRefreshed(const Status &status)
 void Statistics::refreshTotalSpeed()
 {
 #ifndef __APPLE__
-    QFile fileTx("/sys/class/net/tailscale0/statistics/tx_bytes");
+    GoString name;
+    tailscale_get_interface_name(&name);
+
+    QFile fileTx(QString("/sys/class/net/%1/statistics/tx_bytes").arg(QString::fromUtf8(name.p)));
     if (!fileTx.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qCritical("Cannot read tx_bytes for tailscale0");
+        qCritical("Cannot read tx_bytes");
         return;
     }
     QTextStream streamTx(&fileTx);
@@ -95,9 +99,9 @@ void Statistics::refreshTotalSpeed()
     streamTx >> bytes;
     mSpeedUpTotal->update(bytes);
 
-    QFile fileRx("/sys/class/net/tailscale0/statistics/tx_bytes");
+    QFile fileRx(QString("/sys/class/net/%1/statistics/rx_bytes").arg(QString::fromUtf8(name.p)));
     if (!fileRx.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qCritical("Cannot read tx_bytes for tailscale0");
+        qCritical("Cannot read tx_bytes");
         return;
     }
     QTextStream streamRx(&fileRx);
