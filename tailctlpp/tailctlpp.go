@@ -42,9 +42,9 @@ func tailscale_receive_files(strategy string, directory string) bool {
 	return true
 }
 
-//export tailscale_send_files
-func tailscale_send_files(target string, files string) bool {
-	args := []string{"file", "cp", "-verbose=true", files, target + ":"}
+//export tailscale_send_file
+func tailscale_send_file(target string, file string) bool {
+	args := []string{"file", "cp", "-verbose=true", file, target + ":"}
 	fmt.Println(args)
 	if err := cli.Run(args); err != nil {
 		fmt.Fprintln(os.Stderr, err)
