@@ -108,7 +108,7 @@ Kirigami.ScrollablePage {
                             text: "Send file(s)"
                             icon.name: "document-send"
                             onClicked: {
-                                App.tailscale.taildropSender(hostName).selectAndSendFiles()
+                                App.tailscale.taildropSender(dnsName).selectAndSendFiles()
                             }
                         }
                     }

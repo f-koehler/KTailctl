@@ -87,7 +87,7 @@ void TrayIcon::regenerate()
         auto actionDown = submenu->addAction(QIcon::fromTheme("vcs-pull"), formatSpeedHumanReadable(statsDown->average()));
 
         submenu->addSection("Taildrop Send");
-        auto *sender = mTailscale->taildropSender(peer->hostName());
+        auto *sender = mTailscale->taildropSender(peer->dnsName());
         submenu->addAction(QIcon::fromTheme(QStringLiteral("document-send")), "Send file(s)", [sender]() {
             sender->selectAndSendFiles();
         });
