@@ -84,6 +84,7 @@ Kirigami.ScrollablePage {
 
                                 Kirigami.Chip {
                                     text: modelData
+                                    icon.name: "edit-copy"
                                     closable: false
                                     checkable: false
                                     checked: false

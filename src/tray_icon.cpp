@@ -66,7 +66,7 @@ void TrayIcon::regenerate()
     menu->addSeparator();
 
     auto create_action = [](QMenu *menu, const QString &text) {
-        auto *action = menu->addAction(text, [text]() {
+        auto *action = menu->addAction(QIcon::fromTheme("edit-copy"), text, [text]() {
             setClipboardText(text);
         });
         return action;

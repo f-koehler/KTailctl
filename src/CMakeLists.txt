@@ -65,6 +65,7 @@ if(APPLE)
         applications-graphics
         computer
         document-send
+        edit-copy
         help-about
         list-add
         media-playback-start

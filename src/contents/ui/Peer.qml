@@ -25,6 +25,7 @@ Kirigami.ScrollablePage {
         Kirigami.Chip {
             Kirigami.FormData.label: "Hostname:"
             text: App.peerDetails.hostName
+            icon.name: "edit-copy"
             closable: false
             checkable: false
             checked: false
@@ -37,6 +38,7 @@ Kirigami.ScrollablePage {
         Kirigami.Chip {
             Kirigami.FormData.label: "DNS Name:"
             text: App.peerDetails.dnsName
+            icon.name: "edit-copy"
             closable: false
             checkable: false
             checked: false
@@ -48,6 +50,7 @@ Kirigami.ScrollablePage {
         Kirigami.Chip {
             Kirigami.FormData.label: "ID:"
             text: App.peerDetails.tailscaleID
+            icon.name: "edit-copy"
             closable: false
             checkable: false
             checked: false
@@ -69,6 +72,7 @@ Kirigami.ScrollablePage {
                     return duration + " ago";
                 }
             }
+            icon.name: "edit-copy"
             onClicked: {
                 Util.setClipboardText(Util.toMSecsSinceEpoch(App.peerDetails.created));
             }
@@ -87,6 +91,7 @@ Kirigami.ScrollablePage {
                     return duration + " ago";
                 }
             }
+            icon.name: "edit-copy"
             onClicked: {
                 Util.setClipboardText(Util.toMSecsSinceEpoch(App.peerDetails.lastSeen));
             }
@@ -98,6 +103,7 @@ Kirigami.ScrollablePage {
 
             Kirigami.Chip {
                 text: App.peerDetails.os
+                icon.name: "edit-copy"
                 closable: false
                 checkable: false
                 checked: false
@@ -114,6 +120,7 @@ Kirigami.ScrollablePage {
 
                 Kirigami.Chip {
                     text: modelData
+                    icon.name: "edit-copy"
                     closable: false
                     checkable: false
                     checked: false
@@ -132,6 +139,7 @@ Kirigami.ScrollablePage {
         Kirigami.Chip {
             Kirigami.FormData.label: "Bytes received:"
             text: Util.formatCapacityHumanReadable(App.peerDetails.rxBytes)
+            icon.name: "edit-copy"
             closable: false
             checkable: false
             checked: false
@@ -142,6 +150,7 @@ Kirigami.ScrollablePage {
 
         Kirigami.Chip {
             Kirigami.FormData.label: "Bytes sent:"
+            icon.name: "edit-copy"
             text: Util.formatCapacityHumanReadable(App.peerDetails.txBytes)
             closable: false
             checkable: false
