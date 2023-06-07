@@ -60,8 +60,14 @@ TaildropSendWorker::TaildropSendWorker(const QString &target, const QStringList 
 void TaildropSendWorker::run()
 {
     QByteArray targetBytes = mTarget.toUtf8();
-    QByteArray filesBytes = mFiles.join(" ").toUtf8();
     GoString target{targetBytes.constData(), targetBytes.length()};
-    GoString files{filesBytes.constData(), filesBytes.length()};
-    tailscale_send_files(target, files);
+
+    QByteArray fileBytes;
+    GoString file;
+    for (const auto &f : mFiles) {
+        QByteArray fileBytes = f.toUtf8();
+        file.p = fileBytes.constData();
+        file.n = fileBytes.length();
+        tailscale_send_file(target, file);
+    }
 }
