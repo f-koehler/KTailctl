@@ -13,6 +13,6 @@ repos:
       - id: cmakelint
         args: ["--linelength=100"]
   - repo: https://github.com/pre-commit/mirrors-clang-format
-    rev: v16.0.4
+    rev: v16.0.6
     hooks:
       - id: clang-format
