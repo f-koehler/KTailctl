@@ -21,9 +21,10 @@ if(APPLE)
         COMMAND
             go build -v -trimpath
                 -o ${CMAKE_CURRENT_BINARY_DIR}/libtailctlpp.dylib
-                -buildmode=c-shared .
+                -buildmode=c-shared
+                tailctlpp.go callbacks.go
         MAIN_DEPENDENCY tailctlpp.go
-        DEPENDS go.mod go.sum
+        DEPENDS go.mod go.sum callbacks.go
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     )
     add_custom_target(
@@ -52,9 +53,10 @@ else()
         COMMAND
             go build -v -trimpath
                 -o ${CMAKE_CURRENT_BINARY_DIR}/libtailctlpp.a
-                -buildmode=c-archive .
+                -buildmode=c-archive
+                tailctlpp.go callbacks.go
         MAIN_DEPENDENCY tailctlpp.go
-        DEPENDS go.mod go.sum
+        DEPENDS go.mod go.sum callbacks.go
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     )
     add_custom_target(

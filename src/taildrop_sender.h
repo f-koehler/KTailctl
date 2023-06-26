@@ -12,6 +12,8 @@ class TaildropSendThread : public QThread
 private:
     QString mTarget;
     QStringList mFiles;
+    quint64 mBytesSent;
+    quint64 mBytesTotal;
 
 public:
     TaildropSendThread(const QString &target, const QStringList &files, QObject *parent = nullptr);

@@ -1,5 +1,7 @@
 package main
 
+// typedef void (*tailscale_send_file_callback)(unsigned long);
+// extern void tailscale_bridge_send_file_callback(tailscale_send_file_callback cb, unsigned long bytes_sent);
 import "C"
 
 import (
@@ -14,6 +16,9 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"sync"
+	"sync/atomic"
+	"time"
 
 	"golang.org/x/net/idna"
 	"tailscale.com/client/tailscale"
@@ -145,8 +150,33 @@ func tailscaleIPFromArg(ctx context.Context, hostOrIP string) (ip string, self b
 	}
 }
 
+type CountingReader struct {
+	io.Reader
+	bytesRead atomic.Uint64
+}
+
+func (reader *CountingReader) Read(buf []byte) (int, error) {
+	bytesRead, err := reader.Reader.Read(buf)
+	reader.bytesRead.Add(uint64(bytesRead))
+	return bytesRead, err
+}
+
+func tailscale_send_report_progress(wg *sync.WaitGroup, done <-chan struct{}, reader *CountingReader, cb C.tailscale_send_file_callback) {
+	defer wg.Done()
+
+	for {
+		select {
+		case <-done:
+			return
+		case <-time.After(time.Second):
+			lastBytesRead := reader.bytesRead.Load()
+			C.tailscale_bridge_send_file_callback(cb, C.ulong(lastBytesRead))
+		}
+	}
+}
+
 //export tailscale_send_file
-func tailscale_send_file(target string, file string) bool {
+func tailscale_send_file(target string, file string, cb C.tailscale_send_file_callback) bool {
 
 	hadBrackets := false
 	if strings.HasPrefix(target, "[") && strings.HasSuffix(target, "]") {
@@ -195,13 +225,21 @@ func tailscale_send_file(target string, file string) bool {
 	}
 
 	contentLength := stat.Size()
-	fileContents := io.LimitReader(f, contentLength)
+	fileContents := CountingReader{io.LimitReader(f, contentLength), atomic.Uint64{}}
 
-	err = client.PushFile(context.Background(), stableID, contentLength, filepath.Base(file), fileContents)
+	done := make(chan struct{}, 1)
+	wg := sync.WaitGroup{}
+
+	go tailscale_send_report_progress(&wg, done, &fileContents, cb)
+	wg.Add(1)
+
+	err = client.PushFile(context.Background(), stableID, contentLength, filepath.Base(file), &fileContents)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		return false
 	}
+	done <- struct{}{}
+	wg.Wait()
 
 	return true
 }
