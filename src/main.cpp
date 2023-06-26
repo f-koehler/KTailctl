@@ -72,6 +72,9 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     qmlRegisterType<Statistics>("org.fkoehler.KTailctl", 1, 0, "Statistics");
     qmlRegisterType<KTailctlConfig>("org.fkoehler.KTailctl", 1, 0, "KTailctlConfig");
 
+    QmlTaildropSender taildropSender;
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "TaildropSender", &taildropSender);
+
     Util util;
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Util", &util);
 

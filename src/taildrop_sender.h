@@ -36,4 +36,12 @@ public slots:
     void start() override;
 };
 
+class QmlTaildropSender : public QObject
+{
+    Q_OBJECT
+public:
+    explicit QmlTaildropSender(QObject *parent = nullptr);
+    Q_INVOKABLE void selectAndSendFiles(const QString &target);
+};
+
 #endif

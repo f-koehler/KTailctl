@@ -43,3 +43,13 @@ void TaildropSendJob::start()
 {
     mThread->start();
 }
+
+QmlTaildropSender::QmlTaildropSender(QObject *parent)
+    : QObject(parent)
+{
+}
+
+void QmlTaildropSender::selectAndSendFiles(const QString &target)
+{
+    TaildropSendJob::selectAndSendFiles(target);
+}
