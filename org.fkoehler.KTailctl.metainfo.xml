@@ -15,6 +15,43 @@
   <url type="bugtracker">https://github.com/f-koehler/KTailctl/issues</url>
   <url type="vcs-browser">https://github.com/f-koehler/KTailctl</url>
   <releases>
+    <release version="0.4.0" date="2023-06-26" urgency="low">
+      <description>
+      <p>
+        Features:
+        <ul>
+          <li>Implement Tailscale send from peer list and tray icon.</li>
+          <li>Show both total upload and download speed on statistics page.</li>
+        </ul>
+      </p>
+      <p>
+        Fixes:
+        <ul>
+          <li>Make offline tray icon more visible on Mac OS.</li>
+          <li>Fix clipboard access within tray menu.</li>
+          <li>Keep tray menu more compact by putting peers in submenu.</li>
+          <li>Determine tailscale interface at runtime.</li>
+          <li>Add clipboard icons to indicate information that can be copied.</li>
+          <li>Use `getenv` instead of `secure_getenv` on Mac OS.</li>
+        </ul>
+      </p>
+      <p>
+        Chores:
+        <ul>
+          <li>Update to tailscale v1.44.0.</li>
+        </ul>
+      </p>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.4.0</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.4.0.tar.gz</location>
+        </artifact>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.4.0/tailctlpp-vendor-v0.4.0.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.3.4" date="2023-06-06" urgency="low">
       <description>
         <p>Correctly determine default taildrop directory.</p>
