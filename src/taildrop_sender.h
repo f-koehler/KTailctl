@@ -14,6 +14,7 @@ private:
     QStringList mFiles;
     quint64 mBytesSent;
     quint64 mBytesTotal;
+    quint64 mCurrentFileBytesSent;
 
 public:
     TaildropSendThread(const QString &target, const QStringList &files, QObject *parent = nullptr);

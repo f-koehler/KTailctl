@@ -9,8 +9,9 @@ TaildropSendThread::TaildropSendThread(const QString &target, const QStringList 
     : QThread(parent)
     , mTarget(target)
     , mFiles(files)
-    , mBytesSent(0)
-    , mBytesTotal(0)
+    , mBytesSent(0ul)
+    , mBytesTotal(0ul)
+    , mCurrentFileBytesSent(0ul)
 {
     for (const auto &file : files) {
         mBytesTotal += static_cast<quint64>(QFileInfo(file).size());
@@ -25,7 +26,7 @@ void TaildropSendThread::run()
     QByteArray fileBytes;
     GoString file;
     for (const auto &f : mFiles) {
-        quint64 currentFileBytesSent = 0ul;
+        mCurrentFileBytesSent = 0ul;
         QByteArray fileBytes = f.toUtf8();
         file.p = fileBytes.constData();
         file.n = fileBytes.length();
