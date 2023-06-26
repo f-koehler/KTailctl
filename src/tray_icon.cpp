@@ -87,13 +87,9 @@ void TrayIcon::regenerate()
         auto actionDown = submenu->addAction(QIcon::fromTheme("vcs-pull"), formatSpeedHumanReadable(statsDown->average()));
 
         submenu->addSection("Taildrop Send");
-        auto *sender = mTailscale->taildropSender(peer->dnsName());
-        submenu->addAction(QIcon::fromTheme(QStringLiteral("document-send")), "Send file(s)", [sender]() {
-            sender->selectAndSendFiles();
+        submenu->addAction(QIcon::fromTheme(QStringLiteral("document-send")), "Send file(s)", [peer]() {
+            TaildropSendJob::selectAndSendFiles(peer->dnsName());
         });
-        if (sender->workerCount() > 0) {
-            submenu->addAction(QIcon::fromTheme(QStringLiteral("view-refresh")), QString("%1 transfer(s) in progress").arg(sender->workerCount()));
-        }
 
         QObject::connect(statsUp, &SpeedStatistics::refreshed, [actionUp, statsUp]() {
             actionUp->setText(formatSpeedHumanReadable(statsUp->average()));

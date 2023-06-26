@@ -52,12 +52,3 @@ TaildropReceiver *Tailscale::taildropReceiver()
 {
     return mTaildropReceiver;
 }
-
-TaildropSender *Tailscale::taildropSender(const QString &target)
-{
-    auto it = mTaildropSenders.find(target);
-    if (it != mTaildropSenders.end()) {
-        return it.value();
-    }
-    return *mTaildropSenders.insert(target, new TaildropSender(target, this));
-}

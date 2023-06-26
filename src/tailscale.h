@@ -25,7 +25,6 @@ private:
     Statistics *mStatistics;
     Preferences *mPreferences;
     TaildropReceiver *mTaildropReceiver;
-    QMap<QString, TaildropSender *> mTaildropSenders;
 
 public slots:
     Q_INVOKABLE void toggle();
@@ -41,7 +40,6 @@ public:
     Statistics *statistics();
     Preferences *preferences();
     TaildropReceiver *taildropReceiver();
-    Q_INVOKABLE TaildropSender *taildropSender(const QString &target);
 };
 
 #endif /* KTAILCTL_TAILSCALE_H */
