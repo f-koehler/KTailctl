@@ -22,7 +22,7 @@ A GUI to monitor and manage Tailscale on your Linux desktop, built using KDE Fra
 - [ ] Pinging of peers
 - [ ] Exit node management
 - [x] Toggle tailscale status
-- [ ] Sending files
+- [x] Sending files
 - [x] Receiving files
 - [ ] Notification on tailscale status change
 - [ ] Notification on peer addition/removal
