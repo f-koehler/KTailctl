@@ -13,6 +13,8 @@ if(NOT KTAILCTL_FLATPAK_BUILD)
     )
 endif()
 
+set(TAILCTLPP_DEPS callbacks.go options.go taildrop.go)
+
 if(APPLE)
     add_custom_command(
         OUTPUT
@@ -22,9 +24,9 @@ if(APPLE)
             go build -v -trimpath
                 -o ${CMAKE_CURRENT_BINARY_DIR}/libtailctlpp.dylib
                 -buildmode=c-shared
-                tailctlpp.go callbacks.go
+                tailctlpp.go ${TAILCTLPP_DEPS}
         MAIN_DEPENDENCY tailctlpp.go
-        DEPENDS go.mod go.sum callbacks.go
+        DEPENDS go.mod go.sum ${TAILCTLPP_DEPS}
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     )
     add_custom_target(
@@ -54,9 +56,9 @@ else()
             go build -v -trimpath
                 -o ${CMAKE_CURRENT_BINARY_DIR}/libtailctlpp.a
                 -buildmode=c-archive
-                tailctlpp.go callbacks.go
+                tailctlpp.go ${TAILCTLPP_DEPS}
         MAIN_DEPENDENCY tailctlpp.go
-        DEPENDS go.mod go.sum callbacks.go
+        DEPENDS go.mod go.sum ${TAILCTLPP_DEPS}
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     )
     add_custom_target(
