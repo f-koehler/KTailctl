@@ -2,7 +2,10 @@ module fkoehler.org/tailctlpp
 
 go 1.20
 
-require tailscale.com v1.44.0
+require (
+	golang.org/x/net v0.10.0
+	tailscale.com v1.44.0
+)
 
 require (
 	filippo.io/edwards25519 v1.0.0 // indirect
@@ -35,7 +38,6 @@ require (
 	golang.org/x/crypto v0.8.0 // indirect
 	golang.org/x/exp v0.0.0-20230425010034-47ecfdc1ba53 // indirect
 	golang.org/x/mod v0.10.0 // indirect
-	golang.org/x/net v0.10.0 // indirect
 	golang.org/x/oauth2 v0.7.0 // indirect
 	golang.org/x/sync v0.2.0 // indirect
 	golang.org/x/sys v0.8.1-0.20230609144347-5059a07aa46a // indirect
