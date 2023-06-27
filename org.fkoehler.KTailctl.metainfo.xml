@@ -15,23 +15,44 @@
   <url type="bugtracker">https://github.com/f-koehler/KTailctl/issues</url>
   <url type="vcs-browser">https://github.com/f-koehler/KTailctl</url>
   <releases>
+    <release version="0.4.1" date="2023-06-27" urgency="low">
+      <description>
+        <p>Fixes</p>
+        <ul>
+          <li>Fix some minor issues with the Appstream metadata file.</li>
+        </ul>
+        <p>Chores</p>
+        <ul>
+          <li>Update <code>golang.org/x/net</code> dependency.</li>
+        </ul>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.4.1</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.4.1.tar.gz</location>
+        </artifact>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.4.1/tailctlpp-vendor-v0.4.1.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.4.0" date="2023-06-26" urgency="low">
       <description>
-        Features:
+        <p>Features</p>
         <ul>
           <li>Implement Tailscale send from peer list and tray icon.</li>
           <li>Show both total upload and download speed on statistics page.</li>
         </ul>
-        Fixes:
+        <p>Fixes</p>
         <ul>
           <li>Make offline tray icon more visible on Mac OS.</li>
           <li>Fix clipboard access within tray menu.</li>
           <li>Keep tray menu more compact by putting peers in submenu.</li>
           <li>Determine tailscale interface at runtime.</li>
           <li>Add clipboard icons to indicate information that can be copied.</li>
-          <li>Use `getenv` instead of `secure_getenv` on Mac OS.</li>
+          <li>Use <code>getenv</code> instead of <code>secure_getenv</code> on Mac OS.</li>
         </ul>
-        Chores:
+        <p>Chores</p>
         <ul>
           <li>Update to tailscale v1.44.0.</li>
         </ul>
