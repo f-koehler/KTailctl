@@ -14,6 +14,20 @@
   <url type="homepage">https://github.com/f-koehler/KTailctl</url>
   <url type="bugtracker">https://github.com/f-koehler/KTailctl/issues</url>
   <url type="vcs-browser">https://github.com/f-koehler/KTailctl</url>
+  <description>
+    <p>A GUI for the Tailscale mesh network.</p>
+    <!-- <p>You can also use ordered and unordered lists:</p>
+    <ul>
+      <li>Feature 1</li>
+      <li>Feature 2</li>
+    </ul> -->
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Main window of KTailctl</caption>
+      <image>https://raw.githubusercontent.com/f-koehler/KTailctl/main/screenshots/main.png</image>
+    </screenshot>
+  </screenshots>
   <releases>
     <release version="0.4.1" date="2023-06-27" urgency="low">
       <description>
@@ -242,18 +256,4 @@
       </artifacts>
     </release>
   </releases>
-  <description>
-    <p>A GUI for the Tailscale mesh network.</p>
-    <!-- <p>You can also use ordered and unordered lists:</p>
-    <ul>
-      <li>Feature 1</li>
-      <li>Feature 2</li>
-    </ul> -->
-  </description>
-  <screenshots>
-    <screenshot type="default">
-      <caption>Main window of KTailctl</caption>
-      <image>https://raw.githubusercontent.com/f-koehler/KTailctl/main/screenshots/main.png</image>
-    </screenshot>
-  </screenshots>
 </component>
