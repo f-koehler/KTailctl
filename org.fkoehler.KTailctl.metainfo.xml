@@ -15,12 +15,7 @@
   <url type="bugtracker">https://github.com/f-koehler/KTailctl/issues</url>
   <url type="vcs-browser">https://github.com/f-koehler/KTailctl</url>
   <description>
-    <p>A GUI for the Tailscale mesh network.</p>
-    <!-- <p>You can also use ordered and unordered lists:</p>
-    <ul>
-      <li>Feature 1</li>
-      <li>Feature 2</li>
-    </ul> -->
+    <p>KTailctl provides a graphical interface for the Tailscale mesh network with easy access to settings, host information as well as the ability to send/receive files.</p>
   </description>
   <screenshots>
     <screenshot type="default">
