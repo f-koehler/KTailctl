@@ -7,7 +7,7 @@ find_program(
 if(NOT KTAILCTL_FLATPAK_BUILD)
     add_custom_command(
         OUTPUT go.sum
-        COMMAND go get .
+        COMMAND ${KTAILCTL_GO_EXECUTABLE} get .
         MAIN_DEPENDENCY go.mod
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     )
@@ -33,7 +33,7 @@ if(APPLE)
             ${CMAKE_CURRENT_BINARY_DIR}/libtailctlpp.dylib
             ${CMAKE_CURRENT_BINARY_DIR}/libtailctlpp.h
         COMMAND
-            go build -v -trimpath
+            ${KTAILCTL_GO_EXECUTABLE} build -v -trimpath
                 -o ${CMAKE_CURRENT_BINARY_DIR}/libtailctlpp.dylib
                 -buildmode=c-shared
                 tailctlpp.go ${TAILCTLPP_DEPS}
@@ -65,7 +65,7 @@ else()
             ${CMAKE_CURRENT_BINARY_DIR}/libtailctlpp.a
             ${CMAKE_CURRENT_BINARY_DIR}/libtailctlpp.h
         COMMAND
-            go build -v -trimpath
+            ${KTAILCTL_GO_EXECUTABLE} build -v -trimpath
                 -o ${CMAKE_CURRENT_BINARY_DIR}/libtailctlpp.a
                 -buildmode=c-archive
                 tailctlpp.go ${TAILCTLPP_DEPS}
