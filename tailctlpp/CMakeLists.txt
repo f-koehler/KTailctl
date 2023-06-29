@@ -13,6 +13,18 @@ if(NOT KTAILCTL_FLATPAK_BUILD)
     )
 endif()
 
+add_library(tailctlpp_logging
+    STATIC logging.cpp
+)
+target_link_libraries(tailctlpp_logging
+    Qt5::Core
+)
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/logging.go.in
+    ${CMAKE_CURRENT_SOURCE_DIR}/logging.go
+    @ONLY
+)
+
 set(TAILCTLPP_DEPS callbacks.go options.go taildrop.go)
 
 if(APPLE)
@@ -24,9 +36,9 @@ if(APPLE)
             go build -v -trimpath
                 -o ${CMAKE_CURRENT_BINARY_DIR}/libtailctlpp.dylib
                 -buildmode=c-shared
-                tailctlpp.go ${TAILCTLPP_DEPS}
+                tailctlpp.go ${TAILCTLPP_DEPS} logging.go
         MAIN_DEPENDENCY tailctlpp.go
-        DEPENDS go.mod go.sum ${TAILCTLPP_DEPS}
+        DEPENDS go.mod go.sum ${TAILCTLPP_DEPS} tailctlpp_logging
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     )
     add_custom_target(
@@ -56,9 +68,9 @@ else()
             go build -v -trimpath
                 -o ${CMAKE_CURRENT_BINARY_DIR}/libtailctlpp.a
                 -buildmode=c-archive
-                tailctlpp.go ${TAILCTLPP_DEPS}
+                tailctlpp.go ${TAILCTLPP_DEPS} logging.go
         MAIN_DEPENDENCY tailctlpp.go
-        DEPENDS go.mod go.sum ${TAILCTLPP_DEPS}
+        DEPENDS go.mod go.sum ${TAILCTLPP_DEPS} tailctlpp_logging
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     )
     add_custom_target(

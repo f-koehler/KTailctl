@@ -30,7 +30,7 @@ import (
 func tailscale_receive_files(strategy string, directory string) bool {
 	args := []string{"file", "get", "-loop=true", "-verbose=true", "-wait=true", "-conflict", strategy, directory}
 	if err := cli.Run(args); err != nil {
-		fmt.Fprintln(os.Stderr, err)
+		log_critical_error(err)
 		return false
 	}
 	return true
@@ -162,43 +162,43 @@ func tailscale_send_file(target string, file string, cb C.tailscale_send_file_ca
 		hadBrackets = true
 	}
 	if ip, err := netip.ParseAddr(target); err == nil && ip.Is6() && !hadBrackets {
-		fmt.Fprintf(os.Stderr, "an IPv6 literal must be written as [%s]", ip)
+		log_critical(fmt.Sprintf("an IPv6 literal must be written as [%s]"))
 		return false
 	} else if hadBrackets && (err != nil || !ip.Is6()) {
-		fmt.Fprintln(os.Stderr, "unexpected brackets around target")
+		log_critical(fmt.Sprintf("unexpected brackets around target"))
 		return false
 	}
 	ip, _, err := tailscaleIPFromArg(context.Background(), target)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
+		log_critical_error(err)
 		return false
 	}
 
 	stableID, isOffline, err := getTargetStableID(context.Background(), ip)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
+		log_critical_error(err)
 		return false
 	}
 	if isOffline {
-		fmt.Fprintln(os.Stderr, "target is offline")
+		log_critical(fmt.Sprintln("target is offline"))
 		return false
 	}
 
 	f, err := os.Open(file)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
+		log_critical_error(err)
 		return false
 	}
 	defer f.Close()
 
 	stat, err := f.Stat()
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
+		log_critical_error(err)
 		return false
 	}
 
 	if stat.IsDir() {
-		fmt.Fprintln(os.Stderr, "cannot send a directory")
+		log_critical(fmt.Sprintln("cannot send a directory"))
 		return false
 	}
 
@@ -213,7 +213,7 @@ func tailscale_send_file(target string, file string, cb C.tailscale_send_file_ca
 
 	err = client.PushFile(context.Background(), stableID, contentLength, filepath.Base(file), &fileContents)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
+		log_critical_error(err)
 		return false
 	}
 	done <- struct{}{}

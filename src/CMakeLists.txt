@@ -34,6 +34,7 @@ target_link_libraries(ktailctl
     Qt5::Quick
     Qt5::QuickControls2
     Qt5::Svg
+    tailctlpp_logging
 )
 
 target_include_directories(
