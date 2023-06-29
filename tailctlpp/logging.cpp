@@ -1,4 +1,5 @@
 #include <QLoggingCategory>
+#include <QMessageLogContext>
 
 Q_LOGGING_CATEGORY(ktailctl, "org.fkoehler.KTailctl.tailctlpp");
 
