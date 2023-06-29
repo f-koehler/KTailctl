@@ -24,6 +24,24 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.4.2" date="2023-06-29" urgency="low">
+      <description>
+        <p>Fixes:</p>
+        <ul>
+          <li>Update screenshot</li>
+          <li>Fix some minor issues with the AppStream metadata file</li>
+        </ul>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.4.2</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.4.2.tar.gz</location>
+        </artifact>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.4.2/tailctlpp-vendor-v0.4.2.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.4.1" date="2023-06-27" urgency="low">
       <description>
         <p>Fixes:</p>
