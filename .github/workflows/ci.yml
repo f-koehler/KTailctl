@@ -12,11 +12,6 @@ jobs:
     strategy:
       matrix:
         toolchain:
-          - name: "Ubuntu 22.04 (GCC 9)"
-            os: ubuntu-22.04
-            cc: gcc-9
-            cxx: g++-9
-            packages: "gcc-9 g++-9"
           - name: "Ubuntu 22.04 (GCC 10)"
             os: ubuntu-22.04
             cc: gcc-10
