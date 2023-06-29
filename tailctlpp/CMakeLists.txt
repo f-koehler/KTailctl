@@ -25,7 +25,7 @@ configure_file(
     @ONLY
 )
 
-set(TAILCTLPP_DEPS callbacks.go options.go taildrop.go)
+set(TAILCTLPP_DEPS callbacks.go options.go taildrop.go logging.go)
 
 if(APPLE)
     add_custom_command(
@@ -36,7 +36,7 @@ if(APPLE)
             go build -v -trimpath
                 -o ${CMAKE_CURRENT_BINARY_DIR}/libtailctlpp.dylib
                 -buildmode=c-shared
-                tailctlpp.go ${TAILCTLPP_DEPS} logging.go
+                tailctlpp.go ${TAILCTLPP_DEPS}
         MAIN_DEPENDENCY tailctlpp.go
         DEPENDS go.mod go.sum ${TAILCTLPP_DEPS} tailctlpp_logging
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
@@ -68,7 +68,7 @@ else()
             go build -v -trimpath
                 -o ${CMAKE_CURRENT_BINARY_DIR}/libtailctlpp.a
                 -buildmode=c-archive
-                tailctlpp.go ${TAILCTLPP_DEPS} logging.go
+                tailctlpp.go ${TAILCTLPP_DEPS}
         MAIN_DEPENDENCY tailctlpp.go
         DEPENDS go.mod go.sum ${TAILCTLPP_DEPS} tailctlpp_logging
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
