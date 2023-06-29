@@ -94,5 +94,8 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
         window->show();
     }
 
+    // for screenshots for flatpak
+    // window->resize(QSize(1598, 869));
+
     return app.exec();
 }
