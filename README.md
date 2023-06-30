@@ -6,6 +6,8 @@
 
 A GUI to monitor and manage Tailscale on your Linux desktop, built using KDE Frameworks and Kirigami2.
 
+> :warning: To get the most out of KTailctl (sending/receiving files, changing Tailscale settings, …) make sure you are the operator `tailscale up --operator=$USER`!
+
 [![Flathub](https://dl.flathub.org/assets/badges/flathub-badge-en.svg)](https://flathub.org/apps/org.fkoehler.KTailctl)
 
 ![Main Window](screenshots/main.png)
