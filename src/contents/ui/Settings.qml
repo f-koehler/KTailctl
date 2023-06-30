@@ -17,7 +17,14 @@ Kirigami.Page {
     title: i18n("Settings")
 
     Kirigami.FormLayout {
-        anchors.fill: parent
+        width: parent.width
+
+        Kirigami.InlineMessage {
+            Layout.fillWidth: true
+            visible: !Tailscale.status.isOperator
+            type: Kirigami.MessageType.Warning
+            text: "KTailctl functionality limited, current user is not the Tailscale operator"
+        }
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
@@ -45,24 +52,28 @@ Kirigami.Page {
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
             Kirigami.FormData.label: "Tailscale"
+            visible: Tailscale.status.isOperator
         }
 
         Controls.Switch {
             Kirigami.FormData.label: "Accept Routes:"
             checked: Tailscale.preferences.acceptRoutes
             onClicked: Tailscale.preferences.acceptRoutes = !Tailscale.preferences.acceptRoutes
+            visible: Tailscale.status.isOperator
         }
 
         Controls.Switch {
             Kirigami.FormData.label: "Accept DNS:"
             checked: Tailscale.preferences.acceptDNS
             onClicked: Tailscale.preferences.acceptDNS = !Tailscale.preferences.acceptDNS
+            visible: Tailscale.status.isOperator
         }
 
         Controls.Switch {
             Kirigami.FormData.label: "Exit node:"
             checked: Tailscale.preferences.advertiseExitNode
             onClicked: Tailscale.preferences.advertiseExitNode = !Tailscale.preferences.advertiseExitNode
+            visible: Tailscale.status.isOperator
         }
 
         // Controls.TextField {
@@ -70,23 +81,27 @@ Kirigami.Page {
         //     Kirigami.FormData.label: "Hostname:"
         //     text: Tailscale.preferences.hostname
         //     onEditingFinished: {Tailscale.preferences.hostname = textTailscaleHostname.text; }
+        //     visible: Tailscale.status.isOperator
         // }
 
         Controls.Switch {
             Kirigami.FormData.label: "Shields up:"
             checked: Tailscale.preferences.shieldsUp
             onClicked: Tailscale.preferences.shieldsUp = !Tailscale.preferences.shieldsUp
+            visible: Tailscale.status.isOperator
         }
 
         Controls.Switch {
             Kirigami.FormData.label: "SSH:"
             checked: Tailscale.preferences.ssh
             onClicked: Tailscale.preferences.ssh = !Tailscale.preferences.ssh
+            visible: Tailscale.status.isOperator
         }
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
             Kirigami.FormData.label: "Taildrop (requires restart)"
+            visible: Tailscale.status.isOperator
         }
 
         Controls.Switch {
@@ -96,10 +111,12 @@ Kirigami.Page {
                 App.config.taildropEnabled = !App.config.taildropEnabled;
                 App.config.save();
             }
+            visible: Tailscale.status.isOperator
         }
 
         Flow {
             Kirigami.FormData.label: "Directory:"
+            visible: Tailscale.status.isOperator
 
             Controls.TextField {
                 id: textTaildropDirectory
@@ -141,6 +158,7 @@ Kirigami.Page {
         //         App.config.taildropStrategy = comboTaildropStrategy.currentText;
         //         App.config.save()
         //     }
+        //     visible: Tailscale.status.isOperator
         // }
 
         Kirigami.Separator {

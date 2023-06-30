@@ -93,6 +93,12 @@ void Status::read(const QJsonObject &json)
         return a->id() < b->id();
     });
     emit peersChanged(mPeers);
+
+    bool newIsOperator = tailscale_is_operator();
+    if (newIsOperator != mIsOperator) {
+        mIsOperator = newIsOperator;
+        emit isOperatorChanged(mIsOperator);
+    }
 }
 
 const QString &Status::version() const
@@ -118,4 +124,9 @@ const Peer *Status::self() const
 const QVector<Peer *> &Status::peers() const
 {
     return mPeers;
+}
+
+bool Status::isOperator() const
+{
+    return mIsOperator;
 }

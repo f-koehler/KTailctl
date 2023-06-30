@@ -21,6 +21,7 @@ class Status : public QObject
     Q_PROPERTY(QString backendState READ backendState NOTIFY backendStateChanged)
     Q_PROPERTY(QVector<Peer *> peers READ peers NOTIFY peersChanged)
     // Q_PROPERTY(Peer *self READ self NOTIFY selfChanged)
+    Q_PROPERTY(bool isOperator READ isOperator NOTIFY isOperatorChanged)
 
 private:
     QString mVersion;
@@ -29,6 +30,7 @@ private:
     Peer *mSelf;
     QVector<Peer *> mPeers;
     GoString mStatusBuffer;
+    bool mIsOperator;
 
 signals:
     void versionChanged(const QString &);
@@ -37,6 +39,7 @@ signals:
     void peersChanged(const QVector<Peer *> &);
     void selfChanged(const Peer *);
     void refreshed(const Status &);
+    void isOperatorChanged(bool);
 
 public:
     Status(QObject *parent = nullptr);
@@ -50,6 +53,7 @@ public:
     const QString &backendState() const;
     const Peer *self() const;
     const QVector<Peer *> &peers() const;
+    bool isOperator() const;
 };
 
 #endif /* KTAILCTL_STATUS_H */

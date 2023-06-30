@@ -40,6 +40,12 @@ void TrayIcon::regenerate()
     QMenu *menu = contextMenu();
     menu->clear();
 
+    if (mTailscale->status()->backendState() == "Running") {
+        setIcon(QIcon(QStringLiteral(":/icons/online")));
+    } else {
+        setIcon(QIcon(QStringLiteral(":/icons/offline")));
+    }
+
     if (mWindow != nullptr) {
         menu->addAction(QIcon::fromTheme("window"), "Open", this, [this]() {
             mWindow->show();
@@ -47,23 +53,21 @@ void TrayIcon::regenerate()
         menu->addSeparator();
     }
 
-    auto action_toggle = menu->addAction("Toggle", [this]() {
-        mTailscale->toggle();
-    });
-    if (mTailscale->status()->backendState() == "Running") {
-        action_toggle->setChecked(true);
-        action_toggle->setText("Stop Tailscale");
-        action_toggle->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
-
-        setIcon(QIcon(QStringLiteral(":/icons/online")));
-    } else {
-        action_toggle->setChecked(false);
-        action_toggle->setText("Start Tailscale");
-        action_toggle->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
-
-        setIcon(QIcon(QStringLiteral(":/icons/offline")));
+    if (mTailscale->status()->isOperator()) {
+        auto action_toggle = menu->addAction("Toggle", [this]() {
+            mTailscale->toggle();
+        });
+        if (mTailscale->status()->backendState() == "Running") {
+            action_toggle->setChecked(true);
+            action_toggle->setText("Stop Tailscale");
+            action_toggle->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
+        } else {
+            action_toggle->setChecked(false);
+            action_toggle->setText("Start Tailscale");
+            action_toggle->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
+        }
+        menu->addSeparator();
     }
-    menu->addSeparator();
 
     auto create_action = [](QMenu *menu, const QString &text) {
         auto *action = menu->addAction(QIcon::fromTheme("edit-copy"), text, [text]() {
@@ -86,10 +90,12 @@ void TrayIcon::regenerate()
         auto actionUp = submenu->addAction(QIcon::fromTheme("vcs-push"), formatSpeedHumanReadable(statsUp->average()));
         auto actionDown = submenu->addAction(QIcon::fromTheme("vcs-pull"), formatSpeedHumanReadable(statsDown->average()));
 
-        submenu->addSection("Taildrop Send");
-        submenu->addAction(QIcon::fromTheme(QStringLiteral("document-send")), "Send file(s)", [peer]() {
-            TaildropSendJob::selectAndSendFiles(peer->dnsName());
-        });
+        if (mTailscale->status()->isOperator()) {
+            submenu->addSection("Taildrop Send");
+            submenu->addAction(QIcon::fromTheme(QStringLiteral("document-send")), "Send file(s)", [peer]() {
+                TaildropSendJob::selectAndSendFiles(peer->dnsName());
+            });
+        }
 
         QObject::connect(statsUp, &SpeedStatistics::refreshed, [actionUp, statsUp]() {
             actionUp->setText(formatSpeedHumanReadable(statsUp->average()));

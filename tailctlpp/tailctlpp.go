@@ -31,7 +31,6 @@ func tailscale_up() {
 	}
 }
 
-
 //export tailscale_status
 func tailscale_status(status_json *string) bool {
 	status, err := client.Status(context.Background())
