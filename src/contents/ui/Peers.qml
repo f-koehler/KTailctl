@@ -19,6 +19,7 @@ Kirigami.ScrollablePage {
         text: Tailscale.status.backendState == "Running" ? "Stop tailscale" : "Start tailscale"
         onTriggered: App.tailscale.toggle()
         icon.name: Tailscale.status.backendState == "Running" ? "process-stop" : "media-playback-start"
+        visible: Tailscale.status.isOperator
     }
 
     Kirigami.CardsListView {
@@ -111,6 +112,7 @@ Kirigami.ScrollablePage {
                             onClicked: {
                                 TaildropSender.selectAndSendFiles(dnsName)
                             }
+                            visible: Tailscale.status.isOperator
                         }
                     }
 
