@@ -16,6 +16,7 @@
   <url type="vcs-browser">https://github.com/f-koehler/KTailctl</url>
   <description>
     <p>KTailctl provides a graphical interface for the Tailscale mesh network with easy access to settings, host information as well as the ability to send/receive files.</p>
+    <p>⚠️ To get the most out of KTailctl (sending/receiving files, changing Tailscale settings, …) make sure you are the operator <code>tailscale up --operator=$USER</code>!</p>
   </description>
   <screenshots>
     <screenshot type="default">
