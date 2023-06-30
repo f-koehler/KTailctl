@@ -15,11 +15,32 @@ Kirigami.ScrollablePage {
 
     title: i18n("Peers")
 
+    // actions.main: Kirigami.Action {
+    //     text: Tailscale.status.backendState == "Running" ? "Stop tailscale" : "Start tailscale"
+    //     onTriggered: App.tailscale.toggle()
+    //     icon.name: Tailscale.status.backendState == "Running" ? "process-stop" : "media-playback-start"
+    //     visible: Tailscale.status.isOperator
+    // }
     actions.main: Kirigami.Action {
-        text: Tailscale.status.backendState == "Running" ? "Stop tailscale" : "Start tailscale"
-        onTriggered: App.tailscale.toggle()
-        icon.name: Tailscale.status.backendState == "Running" ? "process-stop" : "media-playback-start"
-        visible: Tailscale.status.isOperator
+        text: {
+            if(Tailscale.status.isOperator) {
+                return (Tailscale.status.backendState == "Running") ? "Stop tailscale" : "Start tailscale";
+            } else {
+                return "Functionality limited, current user is not Tailscale operator";
+            }
+        }
+        onTriggered: {
+            if(Tailscale.status.isOperator) {
+                App.tailscale.toggle()
+            }
+        }
+        icon.name: {
+            if(Tailscale.status.isOperator) {
+                return (Tailscale.status.backendState == "Running") ? "process-stop" : "media-playback-start"
+            } else {
+                return "data-warning"
+            }
+        }
     }
 
     Kirigami.CardsListView {
