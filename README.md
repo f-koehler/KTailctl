@@ -10,7 +10,7 @@ A GUI to monitor and manage Tailscale on your Linux desktop, built using KDE Fra
 
 [![Flathub](https://dl.flathub.org/assets/badges/flathub-badge-en.svg)](https://flathub.org/apps/org.fkoehler.KTailctl)
 
-![Main Window](screenshots/main.png)
+![Main Window](https://github.com/f-koehler/KTailctl/blob/main/screenshots/main.png)
 
 ## Features
 
