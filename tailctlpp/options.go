@@ -3,6 +3,9 @@ package main
 import "C"
 import (
 	"context"
+	"fmt"
+	"os"
+	"os/user"
 	"strconv"
 
 	"tailscale.com/cmd/tailscale/cli"
@@ -112,6 +115,22 @@ func tailscale_set_operator_user(user *string) bool {
 		return false
 	}
 	return true
+}
+
+//export tailscale_is_operator
+func tailscale_is_operator() bool {
+	var operator string
+	if !tailscale_get_operator_user(&operator) {
+		return false
+	}
+
+	user, err := user.Current()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return false
+	}
+
+	return user.Username == operator
 }
 
 //export tailscale_get_shields_up

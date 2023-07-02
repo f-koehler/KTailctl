@@ -17,9 +17,15 @@ Status::Status(QObject *parent)
 
 void Status::refresh()
 {
-    tailscale_status(&mStatusBuffer);
-    read(QJsonDocument::fromJson(QByteArray::fromRawData(mStatusBuffer.p, mStatusBuffer.n)).object());
-    emit refreshed(*this);
+    bool success = tailscale_status(&mStatusBuffer);
+    if (success) {
+        read(QJsonDocument::fromJson(QByteArray::fromRawData(mStatusBuffer.p, mStatusBuffer.n)).object());
+        emit refreshed(*this);
+    }
+    if (success != mSuccess) {
+        mSuccess = success;
+        emit successChanged(mSuccess);
+    }
 }
 
 void Status::read(const QJsonObject &json)
@@ -93,6 +99,17 @@ void Status::read(const QJsonObject &json)
         return a->id() < b->id();
     });
     emit peersChanged(mPeers);
+
+    bool newIsOperator = tailscale_is_operator();
+    if (newIsOperator != mIsOperator) {
+        mIsOperator = newIsOperator;
+        emit isOperatorChanged(mIsOperator);
+    }
+}
+
+bool Status::success() const
+{
+    return mSuccess;
 }
 
 const QString &Status::version() const
@@ -118,4 +135,9 @@ const Peer *Status::self() const
 const QVector<Peer *> &Status::peers() const
 {
     return mPeers;
+}
+
+bool Status::isOperator() const
+{
+    return mIsOperator;
 }

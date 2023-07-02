@@ -15,15 +15,42 @@ Kirigami.ScrollablePage {
 
     title: i18n("Peers")
 
+    // actions.main: Kirigami.Action {
+    //     text: Tailscale.status.backendState == "Running" ? "Stop tailscale" : "Start tailscale"
+    //     onTriggered: App.tailscale.toggle()
+    //     icon.name: Tailscale.status.backendState == "Running" ? "process-stop" : "media-playback-start"
+    //     visible: Tailscale.status.isOperator
+    // }
     actions.main: Kirigami.Action {
-        text: Tailscale.status.backendState == "Running" ? "Stop tailscale" : "Start tailscale"
-        onTriggered: App.tailscale.toggle()
-        icon.name: Tailscale.status.backendState == "Running" ? "process-stop" : "media-playback-start"
+        text: {
+            if(!Tailscale.status.success) {
+                return "Tailscaled is not running"
+            } else if(!Tailscale.status.isOperator) {
+                return "Functionality limited, current user is not Tailscale operator";
+            } else {
+                return (Tailscale.status.backendState == "Running") ? "Stop tailscale" : "Start tailscale";
+            }
+        }
+        onTriggered: {
+            if(Tailscale.status.isOperator && Tailscale.status.success) {
+                App.tailscale.toggle()
+            }
+        }
+        icon.name: {
+            if(!Tailscale.status.success) {
+                return "emblem-error"
+            } else if(!Tailscale.status.isOperator) {
+                return "emblem-warning";
+            } else {
+                return (Tailscale.status.backendState == "Running") ? "process-stop" : "media-playback-start";
+            }
+        }
     }
 
     Kirigami.CardsListView {
         id: listPeers
         model: App.peerModel
+        visible: Tailscale.status.success
         delegate: Kirigami.AbstractCard {
             contentItem: Item {
                 implicitWidth: delegateLayout.implicitWidth
@@ -111,6 +138,7 @@ Kirigami.ScrollablePage {
                             onClicked: {
                                 TaildropSender.selectAndSendFiles(dnsName)
                             }
+                            visible: Tailscale.status.isOperator
                         }
                     }
 

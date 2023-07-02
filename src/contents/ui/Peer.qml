@@ -15,7 +15,21 @@ Kirigami.ScrollablePage {
     Layout.fillWidth: true
 
     Kirigami.FormLayout {
-        anchors.fill: parent
+        width: parent.width
+
+        Kirigami.InlineMessage {
+            Layout.fillWidth: true
+            visible: !Tailscale.status.success
+            type: Kirigami.MessageType.Error
+            text: "Tailscaled is not running"
+        }
+
+        Kirigami.InlineMessage {
+            Layout.fillWidth: true
+            visible: (!Tailscale.status.isOperator) && Tailscale.status.success
+            type: Kirigami.MessageType.Warning
+            text: "KTailctl functionality limited, current user is not the Tailscale operator"
+        }
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
