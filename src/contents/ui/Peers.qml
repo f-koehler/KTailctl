@@ -23,22 +23,26 @@ Kirigami.ScrollablePage {
     // }
     actions.main: Kirigami.Action {
         text: {
-            if(Tailscale.status.isOperator) {
-                return (Tailscale.status.backendState == "Running") ? "Stop tailscale" : "Start tailscale";
-            } else {
+            if(!Tailscale.status.success) {
+                return "Tailscaled is not running"
+            } else if(!Tailscale.status.isOperator) {
                 return "Functionality limited, current user is not Tailscale operator";
+            } else {
+                return (Tailscale.status.backendState == "Running") ? "Stop tailscale" : "Start tailscale";
             }
         }
         onTriggered: {
-            if(Tailscale.status.isOperator) {
+            if(Tailscale.status.isOperator && Tailscale.status.success) {
                 App.tailscale.toggle()
             }
         }
         icon.name: {
-            if(Tailscale.status.isOperator) {
-                return (Tailscale.status.backendState == "Running") ? "process-stop" : "media-playback-start"
+            if(!Tailscale.status.success) {
+                return "emblem-error"
+            } else if(!Tailscale.status.isOperator) {
+                return "emblem-warning";
             } else {
-                return "data-warning"
+                return (Tailscale.status.backendState == "Running") ? "process-stop" : "media-playback-start";
             }
         }
     }
@@ -46,6 +50,7 @@ Kirigami.ScrollablePage {
     Kirigami.CardsListView {
         id: listPeers
         model: App.peerModel
+        visible: Tailscale.status.success
         delegate: Kirigami.AbstractCard {
             contentItem: Item {
                 implicitWidth: delegateLayout.implicitWidth

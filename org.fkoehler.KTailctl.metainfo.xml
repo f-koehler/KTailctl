@@ -25,6 +25,21 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.6.0" date="2023-07-02" urgency="low">
+      <description>
+        <p>Features:</p>
+        <ul>
+          <li>Deactivate parts of the GUI if tailscaled is not running</li>
+          <li>Warn user about tailscaled not running</li>
+        </ul>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.6.0</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.6.0.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.5.0" date="2023-06-30" urgency="low">
       <description>
         <p>Features:</p>

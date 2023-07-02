@@ -16,6 +16,7 @@ class Status : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY(bool success READ success NOTIFY successChanged)
     Q_PROPERTY(QString version READ version NOTIFY versionChanged)
     Q_PROPERTY(bool isTUN READ isTUN NOTIFY isTUNChanged)
     Q_PROPERTY(QString backendState READ backendState NOTIFY backendStateChanged)
@@ -24,6 +25,7 @@ class Status : public QObject
     Q_PROPERTY(bool isOperator READ isOperator NOTIFY isOperatorChanged)
 
 private:
+    bool mSuccess;
     QString mVersion;
     bool mIsTun;
     QString mBackendState;
@@ -33,6 +35,7 @@ private:
     bool mIsOperator;
 
 signals:
+    void successChanged(bool);
     void versionChanged(const QString &);
     void isTUNChanged(bool);
     void backendStateChanged(const QString &);
@@ -48,6 +51,7 @@ public:
     Q_INVOKABLE void refresh();
     void read(const QJsonObject &json);
 
+    bool success() const;
     const QString &version() const;
     bool isTUN() const;
     const QString &backendState() const;

@@ -19,7 +19,14 @@ Kirigami.ScrollablePage {
 
         Kirigami.InlineMessage {
             Layout.fillWidth: true
-            visible: !Tailscale.status.isOperator
+            visible: !Tailscale.status.success
+            type: Kirigami.MessageType.Error
+            text: "Tailscaled is not running"
+        }
+
+        Kirigami.InlineMessage {
+            Layout.fillWidth: true
+            visible: (!Tailscale.status.isOperator) && Tailscale.status.success
             type: Kirigami.MessageType.Warning
             text: "KTailctl functionality limited, current user is not the Tailscale operator"
         }

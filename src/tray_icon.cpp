@@ -53,7 +53,7 @@ void TrayIcon::regenerate()
         menu->addSeparator();
     }
 
-    if (mTailscale->status()->isOperator()) {
+    if (mTailscale->status()->isOperator() && mTailscale->status()->success()) {
         auto action_toggle = menu->addAction("Toggle", [this]() {
             mTailscale->toggle();
         });
@@ -76,34 +76,37 @@ void TrayIcon::regenerate()
         return action;
     };
 
-    auto *peer_menu = menu->addMenu(QIcon::fromTheme("applications-network"), "Peers");
-    for (auto peer : mTailscale->status()->peers()) {
-        auto *submenu = peer_menu->addMenu(loadOsIcon(peer->os()), peer->hostName());
-        create_action(submenu, peer->dnsName());
-        for (auto address : peer->tailscaleIps()) {
-            create_action(submenu, address);
-        }
-        submenu->addSection("Statistics");
+    if (mTailscale->status()->success()) {
+        auto *peer_menu = menu->addMenu(QIcon::fromTheme("applications-network"), "Peers");
+        for (auto peer : mTailscale->status()->peers()) {
+            auto *submenu = peer_menu->addMenu(loadOsIcon(peer->os()), peer->hostName());
+            create_action(submenu, peer->dnsName());
+            for (auto address : peer->tailscaleIps()) {
+                create_action(submenu, address);
+            }
+            submenu->addSection("Statistics");
 
-        auto statsUp = mTailscale->statistics()->speedUp(peer->id());
-        auto statsDown = mTailscale->statistics()->speedDown(peer->id());
-        auto actionUp = submenu->addAction(QIcon::fromTheme("vcs-push"), formatSpeedHumanReadable(statsUp->average()));
-        auto actionDown = submenu->addAction(QIcon::fromTheme("vcs-pull"), formatSpeedHumanReadable(statsDown->average()));
+            auto statsUp = mTailscale->statistics()->speedUp(peer->id());
+            auto statsDown = mTailscale->statistics()->speedDown(peer->id());
+            auto actionUp = submenu->addAction(QIcon::fromTheme("vcs-push"), formatSpeedHumanReadable(statsUp->average()));
+            auto actionDown = submenu->addAction(QIcon::fromTheme("vcs-pull"), formatSpeedHumanReadable(statsDown->average()));
 
-        if (mTailscale->status()->isOperator()) {
-            submenu->addSection("Taildrop Send");
-            submenu->addAction(QIcon::fromTheme(QStringLiteral("document-send")), "Send file(s)", [peer]() {
-                TaildropSendJob::selectAndSendFiles(peer->dnsName());
+            if (mTailscale->status()->isOperator()) {
+                submenu->addSection("Taildrop Send");
+                submenu->addAction(QIcon::fromTheme(QStringLiteral("document-send")), "Send file(s)", [peer]() {
+                    TaildropSendJob::selectAndSendFiles(peer->dnsName());
+                });
+            }
+
+            QObject::connect(statsUp, &SpeedStatistics::refreshed, [actionUp, statsUp]() {
+                actionUp->setText(formatSpeedHumanReadable(statsUp->average()));
+            });
+            QObject::connect(statsDown, &SpeedStatistics::refreshed, [actionDown, statsDown]() {
+                actionDown->setText(formatSpeedHumanReadable(statsDown->average()));
             });
         }
-
-        QObject::connect(statsUp, &SpeedStatistics::refreshed, [actionUp, statsUp]() {
-            actionUp->setText(formatSpeedHumanReadable(statsUp->average()));
-        });
-        QObject::connect(statsDown, &SpeedStatistics::refreshed, [actionDown, statsDown]() {
-            actionDown->setText(formatSpeedHumanReadable(statsDown->average()));
-        });
     }
+
     menu->addSeparator();
     menu->addAction(QIcon::fromTheme("application-exit"), "Quit", [this]() {
         emit quitClicked();
