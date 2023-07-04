@@ -19,6 +19,9 @@ add_library(tailctlpp_logging
 target_link_libraries(tailctlpp_logging
     Qt5::Core
 )
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_link_libraries(tailctlpp_logging atomic)
+endif()
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/logging.go.in
     ${CMAKE_CURRENT_SOURCE_DIR}/logging.go
