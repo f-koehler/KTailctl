@@ -48,9 +48,6 @@ target_link_directories(
 )
 target_link_libraries(ktailctl tailctlpp)
 add_dependencies(ktailctl tailctlpp)
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    target_link_libraries(ktailctl atomic)
-endif()
 
 if(KTAILCTL_FLATPAK_BUILD)
     target_compile_definitions(ktailctl PRIVATE KTAILCTL_FLATPAK_BUILD)
