@@ -58,6 +58,8 @@ jobs:
         run: sudo apt-get install -yq qtbase5-dev qtdeclarative5-dev qtquickcontrols2-5-dev libqt5svg5-dev
       - name: Install KDE dependencies.
         run: sudo apt-get install -yq appstream extra-cmake-modules kirigami2-dev libkf5coreaddons-dev libkf5i18n-dev libkf5config-dev libkf5notifications-dev
+      - name: Setup go.
+        uses: actions/setup-go@v4
       - name: Cache build directory.
         uses: actions/cache@v3
         with:
