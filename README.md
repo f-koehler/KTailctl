@@ -44,6 +44,14 @@ A GUI to monitor and manage Tailscale on your Linux desktop, built using KDE Fra
 7. Vendor go dependencies: `./vendor.sh` (when go deps change)
 8. Upload vendor tarball: `gh release upload vX.Y.Z tailctlpp-vX.Y.Z.tar.gz` (when go deps change)
 
+### Run GitHub actions locally
+
+Assuming you have `act` installed as an extension for the GitHub CLI (see [documentation](https://github.com/nektos/act#installation-as-github-cli-extension)):
+
+```bash
+gh act pull_request -P ubuntu-22.04=catthehacker/ubuntu:act-22.04
+```
+
 ### Install Dependencies using craft
 
 ```bash
