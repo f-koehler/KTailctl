@@ -12,6 +12,7 @@ finish-args:
   - --share=ipc
   - --talk-name=org.kde.StatusNotifierWatcher
   - --filesystem=/run/tailscale:ro
+  - --filesystem=/sys/class/net:ro
 build-options:
   prepend-path: /usr/lib/sdk/golang/bin
   build-args:

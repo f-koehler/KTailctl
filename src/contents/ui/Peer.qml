@@ -185,4 +185,14 @@ Kirigami.ScrollablePage {
             text: Util.formatSpeedHumanReadable(Tailscale.statistics.speedDown(App.peerDetails.tailscaleID).average1Second)
         }
     }
+
+    DropArea {
+        anchors.fill: parent
+        onEntered: {
+            drag.accept (Qt.LinkAction)
+        }
+        onDropped: {
+            TaildropSender.sendFiles(App.peerDetails.dnsName, Util.fileUrlsToStrings(drop.urls))
+        }
+    }
 }

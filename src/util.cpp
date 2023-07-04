@@ -97,6 +97,13 @@ QString fileUrlToString(const QUrl &url)
     return url.toString(QUrl::PreferLocalFile);
 }
 
+QStringList fileUrlsToStrings(const QList<QUrl> &urls)
+{
+    QStringList result;
+    std::transform(urls.begin(), urls.end(), std::back_inserter(result), fileUrlToString);
+    return result;
+}
+
 qint64 toMSecsSinceEpoch(const QDateTime &dateTime)
 {
     return dateTime.toMSecsSinceEpoch();
@@ -121,6 +128,10 @@ QString Util::formatDurationHumanReadable(const QDateTime &from, const QDateTime
 QString Util::fileUrlToString(const QUrl &url) const
 {
     return ::fileUrlToString(url);
+}
+QStringList Util::fileUrlsToStrings(const QList<QUrl> &urls) const
+{
+    return ::fileUrlsToStrings(urls);
 }
 qint64 Util::toMSecsSinceEpoch(const QDateTime &dateTime) const
 {
