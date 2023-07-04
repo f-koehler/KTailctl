@@ -52,6 +52,8 @@ jobs:
         uses: actions/checkout@v3
       - name: Update apt cache.
         run: sudo apt-get update -yq
+      - name: Update apt packages.
+        run: sudo apt-get upgrade -yq
       - name: Install compiler and CMake.
         run: sudo apt-get install -yq ${{ matrix.toolchain.packages }} cmake
       - name: Install Qt dependencies.
