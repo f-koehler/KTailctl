@@ -143,6 +143,16 @@ Kirigami.ScrollablePage {
                     }
 
                 }
+
+                DropArea {
+                    anchors.fill: parent
+                    onEntered: {
+                        drag.accept (Qt.LinkAction)
+                    }
+                    onDropped: {
+                        TaildropSender.sendFiles(dnsName, Util.fileUrlsToStrings(drop.urls))
+                    }
+                }
             }
         }
     }

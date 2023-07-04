@@ -34,6 +34,7 @@ public:
     TaildropSendJob(const QString &target, const QStringList &files, QObject *parent = nullptr);
 
     static TaildropSendJob *selectAndSendFiles(const QString &target);
+    static TaildropSendJob *sendFiles(const QString &target, const QStringList &files);
 
 public slots:
     void start() override;
@@ -45,6 +46,7 @@ class QmlTaildropSender : public QObject
 public:
     explicit QmlTaildropSender(QObject *parent = nullptr);
     Q_INVOKABLE void selectAndSendFiles(const QString &target);
+    Q_INVOKABLE void sendFiles(const QString &target, const QStringList &files);
 };
 
 #endif

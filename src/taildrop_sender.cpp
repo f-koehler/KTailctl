@@ -51,6 +51,12 @@ TaildropSendJob *TaildropSendJob::selectAndSendFiles(const QString &target)
     job->start();
     return job;
 }
+TaildropSendJob *TaildropSendJob::sendFiles(const QString &target, const QStringList &files)
+{
+    auto job = new TaildropSendJob(target, files);
+    job->start();
+    return job;
+}
 
 void TaildropSendJob::start()
 {
@@ -65,4 +71,8 @@ QmlTaildropSender::QmlTaildropSender(QObject *parent)
 void QmlTaildropSender::selectAndSendFiles(const QString &target)
 {
     TaildropSendJob::selectAndSendFiles(target);
+}
+void QmlTaildropSender::sendFiles(const QString &target, const QStringList &files)
+{
+    TaildropSendJob::sendFiles(target, files);
 }
