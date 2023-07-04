@@ -62,6 +62,11 @@ jobs:
         run: sudo apt-get install -yq appstream extra-cmake-modules kirigami2-dev libkf5coreaddons-dev libkf5i18n-dev libkf5config-dev libkf5notifications-dev
       - name: Setup go.
         uses: actions/setup-go@v4
+        with:
+          go-version: "stable"
+          check-latest: true
+      - name: Print go version.
+        run: go version
       - name: Cache build directory.
         uses: actions/cache@v3
         with:
