@@ -149,3 +149,4 @@ software.sslmate.com/src/go-pkcs12 v0.2.0 h1:nlFkj7bTysH6VkC4fGphtjXRbezREPgrHuJ
 software.sslmate.com/src/go-pkcs12 v0.2.0/go.mod h1:23rNcYsMabIc1otwLpTkCCPwUq6kQsTyowttG/as0kQ=
 tailscale.com v1.44.0 h1:MPos9n30kJvdyfL52045gVFyNg93K+bwgDsr8gqKq2o=
 tailscale.com v1.44.0/go.mod h1:+iYwTdeHyVJuNDu42Zafwihq1Uqfh+pW7pRaY1GD328=
+tailscale.com v1.46.0/go.mod h1:ibLiUQopXCzj65xktDlL9/fdhRbyHc1jVamRS0gbsZk=
