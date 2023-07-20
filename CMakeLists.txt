@@ -53,6 +53,7 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     I18n
     Kirigami2
     Notifications
+    QuickCharts
 )
 
 add_subdirectory(src)
