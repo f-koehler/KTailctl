@@ -3,11 +3,9 @@
 [Desktop Entry]
 Name=KTailctl
 Comment=GUI for tailscale on the KDE Plasma desktop
-Version=@KTAILCTL_VERSION@
+Version=1.5
 Exec=ktailctl
 Icon=org.fkoehler.KTailctl
 Type=Application
 Terminal=false
-# Add an actual main category here (and possibly applicable additional ones)
-#   https://specifications.freedesktop.org/menu-spec/latest/apa.html#main-category-registry
 Categories=Qt;KDE;System;
