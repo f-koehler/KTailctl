@@ -74,7 +74,7 @@ message(STATUS "Version from git: ${KTAILCTL_VERSION}")
 configure_file(version.h.in ${CMAKE_CURRENT_BINARY_DIR}/src/version.h @ONLY)
 
 install(
-    PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/org.fkoehler.KTailctl.desktop
+    PROGRAMS org.fkoehler.KTailctl.desktop
     DESTINATION ${KDE_INSTALL_APPDIR}
 )
 install(
