@@ -20,7 +20,6 @@ build-options:
 modules:
   - name: kirigami-addons
     buildsystem: cmake-ninja
-    sources:
     config-opts:
       - "-DBUILD_TESTING=OFF"
       - "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
@@ -37,6 +36,7 @@ modules:
     buildsystem: cmake-ninja
     config-opts:
       - -DKTAILCTL_FLATPAK_BUILD=ON
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
     sources:
       - type: dir
         path: .
