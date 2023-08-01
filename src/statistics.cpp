@@ -86,10 +86,11 @@ void Statistics::statusRefreshed(const Status &status)
 void Statistics::refreshTotalSpeed()
 {
 #ifndef __APPLE__
-    GoString name;
-    tailscale_get_interface_name(&name);
+    GoString tmpName;
+    tailscale_get_interface_name(&tmpName);
+    const auto name = QString::fromUtf8(tmpName.p, tmpName.n);
 
-    QFile fileTx(QString("/sys/class/net/%1/statistics/tx_bytes").arg(QString::fromUtf8(name.p)));
+    QFile fileTx(QString("/sys/class/net/%1/statistics/tx_bytes").arg(name));
     if (!fileTx.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qCritical("Cannot read tx_bytes");
         return;
@@ -99,7 +100,7 @@ void Statistics::refreshTotalSpeed()
     streamTx >> bytes;
     mSpeedUpTotal->update(bytes);
 
-    QFile fileRx(QString("/sys/class/net/%1/statistics/rx_bytes").arg(QString::fromUtf8(name.p)));
+    QFile fileRx(QString("/sys/class/net/%1/statistics/rx_bytes").arg(name));
     if (!fileRx.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qCritical("Cannot read tx_bytes");
         return;
