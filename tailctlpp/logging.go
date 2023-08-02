@@ -2,11 +2,11 @@ package main
 
 // #include <stdlib.h>
 // #include "logging.h"
-// #cgo LDFLAGS: -l/home/fkoehler/code/tailctl/build/lib/libtailctlpp_logging.a
+// #cgo LDFLAGS: -l/workspaces/KTailctl/build/lib/libtailctlpp_logging.a -latomic
 import "C"
 import (
-	"unsafe"
 	"fmt"
+	"unsafe"
 )
 
 func log_critical(message string) {
