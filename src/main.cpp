@@ -49,7 +49,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
         KAboutLicense::GPL,
         // Copyright Statement.
         i18n("(c) 2023"));
-    aboutData.setHomepage("https://github.com/f-koehler/KTailctl/issues");
+    aboutData.setHomepage("https://github.com/f-koehler/KTailctl");
     aboutData.setBugAddress("https://github.com/f-koehler/KTailctl/issues");
     aboutData.addAuthor(i18nc("@info:credit", "Fabian Köhler"),
                         i18nc("@info:credit", "Project Maintainer"),
