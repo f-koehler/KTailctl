@@ -54,7 +54,7 @@ jobs:
             packages: "clang-14"
     steps:
       - name: Checkout repository.
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Update apt cache.
         run: sudo apt-get update -yq
       - name: Install compiler and CMake.
