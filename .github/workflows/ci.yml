@@ -54,7 +54,7 @@ jobs:
             packages: "clang-14"
     steps:
       - name: Checkout repository.
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup go.
         uses: actions/setup-go@v4.1.0
         with:
@@ -66,7 +66,7 @@ jobs:
       - name: Install Qt dependencies.
         run: sudo apt-get install -yq qtbase5-dev qtdeclarative5-dev qtquickcontrols2-5-dev libqt5svg5-dev
       - name: Install KDE dependencies.
-        run: sudo apt-get install -yq appstream extra-cmake-modules kirigami2-dev libkf5coreaddons-dev libkf5i18n-dev libkf5config-dev libkf5notifications-dev
+        run: sudo apt-get install -yq appstream gettext extra-cmake-modules kirigami2-dev libkf5coreaddons-dev libkf5i18n-dev libkf5config-dev libkf5notifications-dev
       - name: Cache build directory.
         uses: actions/cache@v3
         with:
