@@ -76,3 +76,20 @@ jobs:
         run: CC=${{ matrix.toolchain.cc }} CXX=${{ matrix.toolchain.cxx }} cmake -B build
       - name: Build CMake project.
         run: cmake --build build
+  flatpak_build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository.
+        uses: actions/checkout@v4
+      - name: Update apt cache.
+        run: sudo apt-get update -yq
+      - name: Install flatpak-builder.
+        run: sudo apt-get install -yq flatpak-builder flatpak
+      - name: Add flathub remote.
+        run: flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+      - name: Install KDE SDK.
+        run: flatpak install --user -y flathub org.kde.Sdk//5.15-22.08
+      - name: Install Go SDK.
+        run: flatpak install --user -y flathub org.freedesktop.Sdk.Extension.golang/x86_64/22.08
+      - name: Build.
+        run: flatpak-builder --user --install --force-clean build-dir org.fkoehler.KTailctl.yml
