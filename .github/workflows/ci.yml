@@ -88,7 +88,7 @@ jobs:
       - name: Add flathub remote.
         run: flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
       - name: Install KDE SDK.
-        run: flatpak install --user -y flathub org.kde.Sdk//5.15-22.08
+        run: flatpak install --user -y flathub org.kde.Sdk//5.15-22.08 org.kde.Platform/x86_64/5.15-22.08
       - name: Install Go SDK.
         run: flatpak install --user -y flathub org.freedesktop.Sdk.Extension.golang/x86_64/22.08
       - name: Build.
