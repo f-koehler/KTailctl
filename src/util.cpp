@@ -4,15 +4,15 @@
 
 #include <QClipboard>
 #include <QGuiApplication>
+#include <QMimeData>
 #include <QUrl>
+#include <ksystemclipboard.h>
 
 void setClipboardText(const QString &text)
 {
-    QClipboard *clipboard = QGuiApplication::clipboard();
-    clipboard->setText(text, QClipboard::Clipboard);
-    if (clipboard->supportsSelection()) {
-        clipboard->setText(text, QClipboard::Selection);
-    }
+    QMimeData *data = new QMimeData();
+    data->setData(QStringLiteral("text/plain"), text.toUtf8());
+    KSystemClipboard::instance()->setMimeData(data, QClipboard::Clipboard);
 }
 
 QIcon loadOsIcon(const QString &os)

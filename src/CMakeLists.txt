@@ -26,6 +26,7 @@ target_link_libraries(ktailctl
     KF5::ConfigCore
     KF5::ConfigGui
     KF5::CoreAddons
+    KF5::GuiAddons
     KF5::I18n
     # KF5::Notifications
     Qt5::Core

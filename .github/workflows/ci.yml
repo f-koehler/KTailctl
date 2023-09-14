@@ -49,7 +49,11 @@ jobs:
             packages: "clang-14"
     steps:
       - name: Checkout repository.
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+      - name: Setup go.
+        uses: actions/setup-go@v4.1.0
+        with:
+          go-version: 1.21
       - name: Update apt cache.
         run: sudo apt-get update -yq
       - name: Update apt packages.
@@ -59,14 +63,7 @@ jobs:
       - name: Install Qt dependencies.
         run: sudo apt-get install -yq qtbase5-dev qtdeclarative5-dev qtquickcontrols2-5-dev libqt5svg5-dev
       - name: Install KDE dependencies.
-        run: sudo apt-get install -yq appstream extra-cmake-modules kirigami2-dev libkf5coreaddons-dev libkf5i18n-dev libkf5config-dev libkf5notifications-dev
-      - name: Setup go.
-        uses: actions/setup-go@v4
-        with:
-          go-version: "stable"
-          check-latest: true
-      - name: Print go version.
-        run: go version
+        run: sudo apt-get install -yq appstream gettext extra-cmake-modules kirigami2-dev libkf5coreaddons-dev libkf5i18n-dev libkf5config-dev libkf5notifications-dev libkf5guiaddons-dev
       - name: Cache build directory.
         uses: actions/cache@v3
         with:
@@ -76,3 +73,28 @@ jobs:
         run: CC=${{ matrix.toolchain.cc }} CXX=${{ matrix.toolchain.cxx }} cmake -B build
       - name: Build CMake project.
         run: cmake --build build
+  flatpak_build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository.
+        uses: actions/checkout@v4
+      - name: Update apt cache.
+        run: sudo apt-get update -yq
+      - name: Install flatpak-builder.
+        run: sudo apt-get install -yq flatpak-builder flatpak
+      - name: Add flathub remote.
+        run: flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+      - name: Install Builder.
+        run: flatpak install --user -y flathub org.flatpak.Builder
+      - name: Validate manifest.
+        run: flatpak run --command=flatpak-builder-lint org.flatpak.Builder org.fkoehler.KTailctl.yml
+      - name: Install external data checker.
+        run: flatpak install --user -y flathub org.flathub.flatpak-external-data-checker
+      - name: Check external data.
+        run: flatpak run org.flathub.flatpak-external-data-checker --check-outdated org.fkoehler.KTailctl.yml
+      - name: Install KDE SDK.
+        run: flatpak install --user -y flathub org.kde.Sdk//5.15-22.08 org.kde.Platform/x86_64/5.15-22.08
+      - name: Install Go SDK.
+        run: flatpak install --user -y flathub org.freedesktop.Sdk.Extension.golang/x86_64/22.08
+      - name: Build.
+        run: flatpak-builder --user --install --force-clean build-dir org.fkoehler.KTailctl.yml
