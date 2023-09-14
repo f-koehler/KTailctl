@@ -1,3 +1,9 @@
+add_library(tailctlpp_logging SHARED logging.cpp)
+target_link_libraries(tailctlpp_logging PUBLIC Qt5::Core)
+
+add_executable(logging_test logging_test.c logging.cpp)
+target_link_libraries(logging_test PUBLIC tailctlpp_logging)
+
 find_program(
     KTAILCTL_GO_EXECUTABLE
     go
