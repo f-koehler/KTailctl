@@ -6,7 +6,7 @@ build-dir/
 build/
 cmake-build-*/
 tailscale/
-tailctlpp-vendor-*.tar.gz
+tailwrap-vendor-*.tar.gz
 .craft/
 craft/
 _build/
