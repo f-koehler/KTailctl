@@ -4,6 +4,7 @@ runtime-version: 5.15-22.08
 sdk: org.kde.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.golang
+  - org.freedesktop.Sdk.Extension.llvm15
 command: ktailctl
 finish-args:
   - --socket=fallback-x11
@@ -15,6 +16,8 @@ finish-args:
   - --filesystem=/sys/class/net:ro
 build-options:
   prepend-path: /usr/lib/sdk/golang/bin
+  append-path: /usr/lib/sdk/llvm15/bin
+  prepend-ld-library-path: /usr/lib/sdk/llvm15/lib
   build-args:
     - --share=network
 modules:
@@ -37,6 +40,8 @@ modules:
     config-opts:
       - -DKTAILCTL_FLATPAK_BUILD=ON
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DCMAKE_CXX_COMPILER=clang++
+      - -DCMAKE_C_COMPILER=clang
     sources:
       - type: dir
         path: .
