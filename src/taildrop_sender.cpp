@@ -3,7 +3,7 @@
 #include <QDir>
 #include <QFileDialog>
 #include <QFileInfo>
-#include <libtailctlpp.h>
+#include <libtailwrap.h>
 
 TaildropSendThread::TaildropSendThread(const QString &target, const QStringList &files, QObject *parent)
     : QThread(parent)

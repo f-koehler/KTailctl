@@ -3,7 +3,7 @@
 #include "tailscale.h"
 #include "util.h"
 #include <QDebug>
-#include <libtailctlpp.h>
+#include <libtailwrap.h>
 
 Tailscale::Tailscale(QObject *parent)
     : QObject(parent)

@@ -1,11 +1,10 @@
 #include <QLoggingCategory>
 #include <QMessageLogContext>
 
-Q_LOGGING_CATEGORY(ktailctl, "org.fkoehler.KTailctl.tailctlpp");
-
-#include "logging.h"
+Q_LOGGING_CATEGORY(ktailctl, "org.fkoehler.KTailctl.tailwrap");
 
 extern "C" {
+
 void ktailctl_critical(const char *message)
 {
     qCCritical(ktailctl, message);

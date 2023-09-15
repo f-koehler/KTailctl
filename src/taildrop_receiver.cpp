@@ -2,7 +2,7 @@
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 #include "taildrop_receiver.h"
 #include "util.h"
-#include <libtailctlpp.h>
+#include <libtailwrap.h>
 
 #include <QDebug>
 #include <QDir>

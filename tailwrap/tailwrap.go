@@ -17,17 +17,19 @@ var client tailscale.LocalClient
 
 //export tailscale_down
 func tailscale_down() {
+	log_info("tailscale down")
 	args := []string{"down"}
 	if err := cli.Run(args); err != nil {
-		fmt.Fprintln(os.Stderr, err)
+		log_critical(fmt.Sprintf("failed to bring tailscale down: %v", err))
 	}
 }
 
 //export tailscale_up
 func tailscale_up() {
+	log_info("tailscale up")
 	args := []string{"up"}
 	if err := cli.Run(args); err != nil {
-		fmt.Fprintln(os.Stderr, err)
+		log_critical(fmt.Sprintf("failed to bring tailscale up: %v", err))
 	}
 }
 

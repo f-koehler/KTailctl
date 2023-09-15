@@ -1,8 +1,6 @@
-module fkoehler.org/tailctlpp
+module tailwrap
 
-go 1.21
-
-toolchain go1.21.0
+go 1.21.0
 
 require (
 	golang.org/x/net v0.15.0
@@ -57,7 +55,6 @@ require (
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.30.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	gvisor.dev/gvisor v0.0.0-20230504175454-7b0a1988a28f // indirect
 	k8s.io/client-go v0.27.2 // indirect
 	nhooyr.io/websocket v1.8.7 // indirect
 	sigs.k8s.io/yaml v1.3.0 // indirect
