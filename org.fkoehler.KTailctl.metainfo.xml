@@ -25,6 +25,27 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.8.0" date="2023-09-15" urgency="low">
+      <description>
+        <p>Features:</p>
+        <ul>
+          <li>Add much more logging</li>
+        </ul>
+        <p>Fixes:</p>
+        <ul>
+          <li>Clarify meaning of advertise exit node setting</li>
+        </ul>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.8.0</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.8.0.tar.gz</location>
+        </artifact>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.8.0/tailwrap-vendor-v0.8.0.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.7.1" date="2023-09-13" urgency="low">
       <description>
         <p>Fixes:</p>
@@ -32,7 +53,7 @@
           <li>Fixes bug tracker and repository links in the about page</li>
           <li>Fix clipboard access from tray menu</li>
         </ul>
-        <p>Fixes:</p>
+        <p>Chores:</p>
         <ul>
           <li>Update dependencies</li>
         </ul>
