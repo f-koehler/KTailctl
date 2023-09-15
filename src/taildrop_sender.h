@@ -17,7 +17,7 @@ private:
     quint64 mCurrentFileBytesSent;
 
 public:
-    TaildropSendThread(const QString &target, const QStringList &files, QObject *parent = nullptr);
+    TaildropSendThread(QString target, const QStringList &files, QObject *parent = nullptr);
 
 protected:
     void run() override;
@@ -45,8 +45,8 @@ class QmlTaildropSender : public QObject
     Q_OBJECT
 public:
     explicit QmlTaildropSender(QObject *parent = nullptr);
-    Q_INVOKABLE void selectAndSendFiles(const QString &target);
-    Q_INVOKABLE void sendFiles(const QString &target, const QStringList &files);
+    Q_INVOKABLE static void selectAndSendFiles(const QString &target);
+    Q_INVOKABLE static void sendFiles(const QString &target, const QStringList &files);
 };
 
 #endif

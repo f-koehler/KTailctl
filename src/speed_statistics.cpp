@@ -6,23 +6,22 @@
 
 SpeedStatistics::SpeedStatistics(QObject *parent)
     : QObject(parent)
-    , mCapacity(4096l)
+    , mCapacity(4096L)
 {
-    mLastTransferred = -1;
 }
 
 double SpeedStatistics::average(double window) const
 {
     auto window_int = static_cast<qint64>(window * 1000.);
 
-    if (mValues.size() == 0) {
+    if (mValues.empty()) {
         return 0.;
     }
 
     auto iter_values = mValues.crbegin();
     auto iter_timestamps = mTimestamps.crbegin();
     auto average = 0.0;
-    auto samples = 0l;
+    auto samples = 0L;
     while (iter_values != mValues.crend()) {
         if (iter_timestamps->msecsTo(QDateTime::currentDateTime()) > window_int) {
             break;

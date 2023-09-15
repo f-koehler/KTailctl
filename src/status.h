@@ -25,14 +25,14 @@ class Status : public QObject
     Q_PROPERTY(bool isOperator READ isOperator NOTIFY isOperatorChanged)
 
 private:
-    bool mSuccess;
+    bool mSuccess{};
     QString mVersion;
-    bool mIsTun;
+    bool mIsTun{};
     QString mBackendState;
     Peer *mSelf;
     QVector<Peer *> mPeers;
-    GoString mStatusBuffer;
-    bool mIsOperator;
+    GoString mStatusBuffer{};
+    bool mIsOperator{};
 
 signals:
     void successChanged(bool);

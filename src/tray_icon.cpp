@@ -54,7 +54,7 @@ void TrayIcon::regenerate()
     }
 
     if (mTailscale->status()->isOperator() && mTailscale->status()->success()) {
-        auto action_toggle = menu->addAction("Toggle", [this]() {
+        auto *action_toggle = menu->addAction("Toggle", [this]() {
             mTailscale->toggle();
         });
         if (mTailscale->status()->backendState() == "Running") {
@@ -78,18 +78,18 @@ void TrayIcon::regenerate()
 
     if (mTailscale->status()->success()) {
         auto *peer_menu = menu->addMenu(QIcon::fromTheme("applications-network"), "Peers");
-        for (auto peer : mTailscale->status()->peers()) {
+        for (auto *peer : mTailscale->status()->peers()) {
             auto *submenu = peer_menu->addMenu(loadOsIcon(peer->os()), peer->hostName());
             create_action(submenu, peer->dnsName());
-            for (auto address : peer->tailscaleIps()) {
+            for (const auto &address : peer->tailscaleIps()) {
                 create_action(submenu, address);
             }
             submenu->addSection("Statistics");
 
-            auto statsUp = mTailscale->statistics()->speedUp(peer->id());
-            auto statsDown = mTailscale->statistics()->speedDown(peer->id());
-            auto actionUp = submenu->addAction(QIcon::fromTheme("vcs-push"), formatSpeedHumanReadable(statsUp->average()));
-            auto actionDown = submenu->addAction(QIcon::fromTheme("vcs-pull"), formatSpeedHumanReadable(statsDown->average()));
+            auto *statsUp = mTailscale->statistics()->speedUp(peer->id());
+            auto *statsDown = mTailscale->statistics()->speedDown(peer->id());
+            auto *actionUp = submenu->addAction(QIcon::fromTheme("vcs-push"), formatSpeedHumanReadable(statsUp->average()));
+            auto *actionDown = submenu->addAction(QIcon::fromTheme("vcs-pull"), formatSpeedHumanReadable(statsDown->average()));
 
             if (mTailscale->status()->isOperator()) {
                 submenu->addSection("Taildrop Send");

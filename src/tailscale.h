@@ -32,8 +32,8 @@ public slots:
 public:
     Tailscale(QObject *parent = nullptr);
 
-    Q_INVOKABLE void up();
-    Q_INVOKABLE void down();
+    Q_INVOKABLE static void up();
+    Q_INVOKABLE static void down();
 
     const QString &executable() const;
     Status *status();

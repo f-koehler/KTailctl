@@ -18,7 +18,7 @@ void Peer::updateFromStatus(const Status &status)
         }
     }
 
-    auto pos = std::find_if(status.peers().begin(), status.peers().end(), [this](const Peer *peer) {
+    const auto *pos = std::find_if(status.peers().begin(), status.peers().end(), [this](const Peer *peer) {
         return peer->id() == mId;
     });
     if (pos != status.peers().end()) {

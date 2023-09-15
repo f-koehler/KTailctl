@@ -22,9 +22,9 @@ QString strategyToString(const KTailctlConfig::EnumTaildropStrategy::type &strat
 TaildropReceiver::TaildropReceiver()
     : QThread(nullptr)
     , mConfig(KTailctlConfig::self())
-    , mEnabled(mConfig->taildropEnabled())
-    , mDirectory(mConfig->taildropDirectory())
-    , mStrategy(strategyToString(mConfig->taildropStrategy()))
+    , mEnabled(KTailctlConfig::taildropEnabled())
+    , mDirectory(KTailctlConfig::taildropDirectory())
+    , mStrategy(strategyToString(KTailctlConfig::taildropStrategy()))
 {
     if (mEnabled) {
         start();
@@ -52,10 +52,10 @@ TaildropReceiver *TaildropReceiver::self()
 
 void TaildropReceiver::run()
 {
-    QByteArray strategyBytes = mStrategy.toUtf8();
-    QByteArray directoryBytes = mDirectory.toUtf8();
-    GoString strategy{strategyBytes.constData(), strategyBytes.length()};
-    GoString directory{directoryBytes.constData(), directoryBytes.length()};
+    QByteArray const strategyBytes = mStrategy.toUtf8();
+    QByteArray const directoryBytes = mDirectory.toUtf8();
+    GoString const strategy{strategyBytes.constData(), strategyBytes.length()};
+    GoString const directory{directoryBytes.constData(), directoryBytes.length()};
     tailscale_receive_files(strategy, directory);
 }
 

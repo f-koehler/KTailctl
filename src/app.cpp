@@ -44,15 +44,15 @@ TrayIcon *App::trayIcon()
     return mTrayIcon;
 }
 
-void App::restoreWindowGeometry(QQuickWindow *window, const QString &group) const
+void App::restoreWindowGeometry(QQuickWindow *window, const QString &group)
 {
     KConfig dataResource(QStringLiteral("data"), KConfig::SimpleConfig, QStandardPaths::AppDataLocation);
-    KConfigGroup windowGroup(&dataResource, QStringLiteral("Window-") + group);
+    KConfigGroup const windowGroup(&dataResource, QStringLiteral("Window-") + group);
     KWindowConfig::restoreWindowSize(window, windowGroup);
     KWindowConfig::restoreWindowPosition(window, windowGroup);
 }
 
-void App::saveWindowGeometry(QQuickWindow *window, const QString &group) const
+void App::saveWindowGeometry(QQuickWindow *window, const QString &group)
 {
     KConfig dataResource(QStringLiteral("data"), KConfig::SimpleConfig, QStandardPaths::AppDataLocation);
     KConfigGroup windowGroup(&dataResource, QStringLiteral("Window-") + group);
@@ -67,7 +67,7 @@ void App::setPeerDetails(const QString &id)
         mPeerDetails = *mTailscale->status()->self();
         emit peerDetailsChanged();
     } else {
-        auto pos = std::find_if(mTailscale->status()->peers().begin(), mTailscale->status()->peers().end(), [&id](Peer *peer) {
+        const auto *pos = std::find_if(mTailscale->status()->peers().begin(), mTailscale->status()->peers().end(), [&id](Peer *peer) {
             return peer->id() == id;
         });
         if (pos == mTailscale->status()->peers().end()) {

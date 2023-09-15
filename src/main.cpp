@@ -34,7 +34,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QCoreApplication::setOrganizationName(QStringLiteral("KDE"));
     QCoreApplication::setApplicationName(QStringLiteral("KTailctl"));
 
-    app.setWindowIcon(QIcon::fromTheme(QStringLiteral("ktailctl")));
+    QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("ktailctl")));
 
     KAboutData aboutData(
         // The program name used internally.
@@ -86,11 +86,9 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
         return -1;
     }
 
-    const auto *config = KTailctlConfig::self();
-
-    auto *window = (QQuickWindow *)engine.rootObjects().first();
+    auto *window = dynamic_cast<QQuickWindow *>(engine.rootObjects().first());
     application.trayIcon()->setWindow(window);
-    if (config->startMinimized()) {
+    if (KTailctlConfig::startMinimized()) {
         window->hide();
     } else {
         window->show();
@@ -99,5 +97,5 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     // for screenshots for flatpak
     // window->resize(QSize(1598, 869));
 
-    return app.exec();
+    return QApplication::exec();
 }

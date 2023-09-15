@@ -18,7 +18,7 @@ private:
     long mCapacity;
     QList<QDateTime> mTimestamps;
     QList<double> mValues;
-    long mLastTransferred;
+    long mLastTransferred{-1};
     QDateTime mLastTimestamp;
 
 public:

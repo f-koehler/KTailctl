@@ -96,7 +96,7 @@ void Statistics::refreshTotalSpeed()
         return;
     }
     QTextStream streamTx(&fileTx);
-    long bytes;
+    long bytes = 0;
     streamTx >> bytes;
     mSpeedUpTotal->update(bytes);
 

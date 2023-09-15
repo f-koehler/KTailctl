@@ -40,12 +40,12 @@ private:
     QString mOs;
     QStringList mTailscaleIps;
     QString mRelay;
-    long mRxBytes;
-    long mTxBytes;
+    long mRxBytes{};
+    long mTxBytes{};
     QDateTime mCreated;
     QDateTime mLastSeen;
-    bool mIsOnline;
-    bool mIsActive;
+    bool mIsOnline{};
+    bool mIsActive{};
 
 signals:
     void idChanged(const QString &);

@@ -10,7 +10,7 @@
 
 void setClipboardText(const QString &text)
 {
-    QMimeData *data = new QMimeData();
+    auto *data = new QMimeData();
     data->setData(QStringLiteral("text/plain"), text.toUtf8());
     KSystemClipboard::instance()->setMimeData(data, QClipboard::Clipboard);
 }
@@ -67,7 +67,7 @@ QString formatSpeedHumanReadable(double bytes_per_second)
 QString formatDurationHumanReadable(const QDateTime &from, const QDateTime &to)
 {
     static constexpr qint64 conversions[] =
-        {365l * 30l * 24l * 60l * 60l * 1000l, 34 * 30l * 60l * 60l * 1000l, 24l * 60l * 60l * 1000l, 60l * 60l * 1000l, 60l * 1000l, 1000l};
+        {365L * 30L * 24L * 60L * 60L * 1000L, 34 * 30L * 60L * 60L * 1000L, 24L * 60L * 60L * 1000L, 60L * 60L * 1000L, 60L * 1000L, 1000L};
     static constexpr const char *units[] = {"year", "month", "day", "hour", "minute", "second"};
 
     QString result = "";
@@ -83,7 +83,7 @@ QString formatDurationHumanReadable(const QDateTime &from, const QDateTime &to)
             if (!result.isEmpty()) {
                 result += ", ";
             }
-            qint64 count = msecs / conversions[i];
+            qint64 const count = msecs / conversions[i];
             result += QString("%1 %2%3 ").arg(count).arg(units[i]).arg(count > 1 ? "s" : "");
             msecs %= conversions[i];
         }
@@ -109,35 +109,35 @@ qint64 toMSecsSinceEpoch(const QDateTime &dateTime)
     return dateTime.toMSecsSinceEpoch();
 }
 
-void Util::setClipboardText(const QString &text) const
+void Util::setClipboardText(const QString &text)
 {
     ::setClipboardText(text);
 }
-QString Util::formatCapacityHumanReadable(long bytes) const
+QString Util::formatCapacityHumanReadable(long bytes)
 {
     return ::formatCapacityHumanReadable(bytes);
 }
-QString Util::formatSpeedHumanReadable(double bytes_per_second) const
+QString Util::formatSpeedHumanReadable(double bytes_per_second)
 {
     return ::formatSpeedHumanReadable(bytes_per_second);
 }
-QString Util::formatDurationHumanReadable(const QDateTime &from, const QDateTime &to) const
+QString Util::formatDurationHumanReadable(const QDateTime &from, const QDateTime &to)
 {
     return ::formatDurationHumanReadable(from, to);
 }
-QString Util::fileUrlToString(const QUrl &url) const
+QString Util::fileUrlToString(const QUrl &url)
 {
     return ::fileUrlToString(url);
 }
-QStringList Util::fileUrlsToStrings(const QList<QUrl> &urls) const
+QStringList Util::fileUrlsToStrings(const QList<QUrl> &urls)
 {
     return ::fileUrlsToStrings(urls);
 }
-qint64 Util::toMSecsSinceEpoch(const QDateTime &dateTime) const
+qint64 Util::toMSecsSinceEpoch(const QDateTime &dateTime)
 {
     return ::toMSecsSinceEpoch(dateTime);
 }
-QIcon Util::loadOsIcon(const QString &os) const
+QIcon Util::loadOsIcon(const QString &os)
 {
     return ::loadOsIcon(os);
 }

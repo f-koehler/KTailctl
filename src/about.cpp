@@ -3,7 +3,7 @@
 
 #include "about.h"
 #include <version.h>
-KAboutData AboutType::aboutData() const
+KAboutData AboutType::aboutData()
 {
     auto aboutData = KAboutData::applicationData();
     aboutData.setVersion(QByteArray::fromStdString(getVersion()));

@@ -4,14 +4,15 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <libtailwrap.h>
+#include <utility>
 
-TaildropSendThread::TaildropSendThread(const QString &target, const QStringList &files, QObject *parent)
+TaildropSendThread::TaildropSendThread(QString target, const QStringList &files, QObject *parent)
     : QThread(parent)
-    , mTarget(target)
+    , mTarget(std::move(target))
     , mFiles(files)
-    , mBytesSent(0ul)
-    , mBytesTotal(0ul)
-    , mCurrentFileBytesSent(0ul)
+    , mBytesSent(0UL)
+    , mBytesTotal(0UL)
+    , mCurrentFileBytesSent(0UL)
 {
     for (const auto &file : files) {
         mBytesTotal += static_cast<quint64>(QFileInfo(file).size());
@@ -20,14 +21,14 @@ TaildropSendThread::TaildropSendThread(const QString &target, const QStringList 
 
 void TaildropSendThread::run()
 {
-    QByteArray targetBytes = mTarget.toUtf8();
-    GoString target{targetBytes.constData(), targetBytes.length()};
+    QByteArray const targetBytes = mTarget.toUtf8();
+    GoString const target{targetBytes.constData(), targetBytes.length()};
 
-    QByteArray fileBytes;
+    QByteArray const fileBytes;
     GoString file;
     for (const auto &f : mFiles) {
-        mCurrentFileBytesSent = 0ul;
-        QByteArray fileBytes = f.toUtf8();
+        mCurrentFileBytesSent = 0UL;
+        QByteArray const fileBytes = f.toUtf8();
         file.p = fileBytes.constData();
         file.n = fileBytes.length();
         tailscale_send_file(target, file, [](unsigned long n) {
@@ -40,20 +41,20 @@ void TaildropSendThread::run()
 
 TaildropSendJob::TaildropSendJob(const QString &target, const QStringList &files, QObject *parent)
     : KJob(parent)
+    , mThread(new TaildropSendThread(target, files, this))
 {
-    mThread = new TaildropSendThread(target, files, this);
     connect(mThread, &TaildropSendThread::finished, this, &TaildropSendJob::emitResult);
 }
 
 TaildropSendJob *TaildropSendJob::selectAndSendFiles(const QString &target)
 {
-    auto job = new TaildropSendJob(target, QFileDialog::getOpenFileNames(nullptr, "Select files to send", QDir::homePath()));
+    auto *job = new TaildropSendJob(target, QFileDialog::getOpenFileNames(nullptr, "Select files to send", QDir::homePath()));
     job->start();
     return job;
 }
 TaildropSendJob *TaildropSendJob::sendFiles(const QString &target, const QStringList &files)
 {
-    auto job = new TaildropSendJob(target, files);
+    auto *job = new TaildropSendJob(target, files);
     job->start();
     return job;
 }

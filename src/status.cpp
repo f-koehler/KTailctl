@@ -17,7 +17,7 @@ Status::Status(QObject *parent)
 
 void Status::refresh()
 {
-    bool success = tailscale_status(&mStatusBuffer);
+    bool const success = tailscale_status(&mStatusBuffer) != 0U;
     if (success) {
         read(QJsonDocument::fromJson(QByteArray::fromRawData(mStatusBuffer.p, mStatusBuffer.n)).object());
         emit refreshed(*this);
@@ -70,7 +70,7 @@ void Status::read(const QJsonObject &json)
         const auto peers_object = json["Peer"].toObject();
         for (const auto &key : peers_object.keys()) {
             Peer *peer = Peer::fromJSON(peers_object[key].toObject());
-            auto iter = std::find_if(mPeers.begin(), mPeers.end(), [peer](const Peer *p) {
+            auto *iter = std::find_if(mPeers.begin(), mPeers.end(), [peer](const Peer *p) {
                 return p->id() == peer->id();
             });
             if (iter != mPeers.end()) {
@@ -80,7 +80,7 @@ void Status::read(const QJsonObject &json)
                 new_peers.append(peer);
             }
         }
-        auto iter = mPeers.begin();
+        auto *iter = mPeers.begin();
         while (iter != mPeers.end()) {
             if (!ids_to_keep.contains((*iter)->id())) {
                 iter = mPeers.erase(iter);
@@ -88,7 +88,7 @@ void Status::read(const QJsonObject &json)
                 ++iter;
             }
         }
-        for (auto peer : new_peers) {
+        for (auto *peer : new_peers) {
             mPeers.append(peer);
         }
     } else {
@@ -100,7 +100,7 @@ void Status::read(const QJsonObject &json)
     });
     emit peersChanged(mPeers);
 
-    bool newIsOperator = tailscale_is_operator();
+    bool const newIsOperator = tailscale_is_operator() != 0U;
     if (newIsOperator != mIsOperator) {
         mIsOperator = newIsOperator;
         emit isOperatorChanged(mIsOperator);

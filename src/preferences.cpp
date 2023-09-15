@@ -8,40 +8,40 @@ Preferences::Preferences(QObject *parent)
 
 void Preferences::refresh()
 {
-    GoUint8 tmpBool;
+    GoUint8 tmpBool = 0;
     GoString tmpString;
 
-    if (tailscale_get_accept_routes(&tmpBool)) {
+    if (tailscale_get_accept_routes(&tmpBool) != 0U) {
         if (static_cast<bool>(tmpBool) != mAcceptRoutes) {
-            mAcceptRoutes = tmpBool;
+            mAcceptRoutes = (tmpBool != 0U);
             emit acceptRoutesChanged(mAcceptRoutes);
         }
     }
 
-    if (tailscale_get_accept_dns(&tmpBool)) {
+    if (tailscale_get_accept_dns(&tmpBool) != 0U) {
         if (static_cast<bool>(tmpBool) != mAcceptDNS) {
-            mAcceptDNS = tmpBool;
+            mAcceptDNS = (tmpBool != 0U);
             emit acceptDNSChanged(mAcceptDNS);
         }
     }
 
-    if (tailscale_get_advertise_exit_node(&tmpBool)) {
+    if (tailscale_get_advertise_exit_node(&tmpBool) != 0U) {
         if (static_cast<bool>(tmpBool) != mAdvertiseExitNode) {
-            mAdvertiseExitNode = tmpBool;
+            mAdvertiseExitNode = (tmpBool != 0U);
             emit advertiseExitNodeChanged(mAdvertiseExitNode);
         }
     }
 
-    if (tailscale_get_hostname(&tmpString)) {
-        QString tmp = QString::fromUtf8(tmpString.p, tmpString.n);
+    if (tailscale_get_hostname(&tmpString) != 0U) {
+        QString const tmp = QString::fromUtf8(tmpString.p, tmpString.n);
         if (tmp != mHostname) {
             mHostname = tmp;
             emit hostnameChanged(mHostname);
         }
     }
 
-    if (tailscale_get_operator_user(&tmpString)) {
-        QString tmp = QString::fromUtf8(tmpString.p, tmpString.n);
+    if (tailscale_get_operator_user(&tmpString) != 0U) {
+        QString const tmp = QString::fromUtf8(tmpString.p, tmpString.n);
         if (tmp != mOperatorUser) {
             mOperatorUser = tmp;
             emit operatorUserChanged(mOperatorUser);
@@ -80,24 +80,24 @@ bool Preferences::ssh() const
 
 void Preferences::setAcceptRoutes(bool acceptRoutes)
 {
-    GoUint8 tmp = static_cast<GoUint8>(acceptRoutes);
-    if (tailscale_set_accept_routes(&tmp)) {
+    auto tmp = static_cast<GoUint8>(acceptRoutes);
+    if (tailscale_set_accept_routes(&tmp) != 0U) {
         mAcceptRoutes = acceptRoutes;
         emit acceptRoutesChanged(mAcceptRoutes);
     }
 }
 void Preferences::setAcceptDNS(bool acceptDNS)
 {
-    GoUint8 tmp = static_cast<GoUint8>(acceptDNS);
-    if (tailscale_set_accept_dns(&tmp)) {
+    auto tmp = static_cast<GoUint8>(acceptDNS);
+    if (tailscale_set_accept_dns(&tmp) != 0U) {
         mAcceptDNS = acceptDNS;
         emit acceptDNSChanged(mAcceptDNS);
     }
 }
 void Preferences::setAdvertiseExitNode(bool advertiseExitNode)
 {
-    GoUint8 tmp = static_cast<GoUint8>(advertiseExitNode);
-    if (tailscale_set_advertise_exit_node(&tmp)) {
+    auto tmp = static_cast<GoUint8>(advertiseExitNode);
+    if (tailscale_set_advertise_exit_node(&tmp) != 0U) {
         mAdvertiseExitNode = advertiseExitNode;
         emit advertiseExitNodeChanged(mAdvertiseExitNode);
     }
@@ -108,7 +108,7 @@ void Preferences::setHostname(const QString &hostname)
     QByteArray bytes = hostname.toUtf8();
     tmp.p = bytes.data();
     tmp.n = bytes.size();
-    if (tailscale_set_hostname(&tmp)) {
+    if (tailscale_set_hostname(&tmp) != 0U) {
         mHostname = hostname;
         emit hostnameChanged(mHostname);
     }
@@ -119,23 +119,23 @@ void Preferences::setOperatorUser(const QString &user)
     QByteArray bytes = user.toUtf8();
     tmp.p = bytes.data();
     tmp.n = bytes.size();
-    if (tailscale_set_hostname(&tmp)) {
+    if (tailscale_set_hostname(&tmp) != 0U) {
         mOperatorUser = user;
         emit operatorUserChanged(mOperatorUser);
     }
 }
 void Preferences::setShieldsUp(bool shieldsUp)
 {
-    GoUint8 tmp = static_cast<GoUint8>(shieldsUp);
-    if (tailscale_set_shields_up(&tmp)) {
+    auto tmp = static_cast<GoUint8>(shieldsUp);
+    if (tailscale_set_shields_up(&tmp) != 0U) {
         mShieldsUp = shieldsUp;
         emit shieldsUpChanged(mShieldsUp);
     }
 }
 void Preferences::setSSH(bool ssh)
 {
-    GoUint8 tmp = static_cast<GoUint8>(ssh);
-    if (tailscale_set_ssh(&tmp)) {
+    auto tmp = static_cast<GoUint8>(ssh);
+    if (tailscale_set_ssh(&tmp) != 0U) {
         mSSH = ssh;
         emit sshChanged(mSSH);
     }

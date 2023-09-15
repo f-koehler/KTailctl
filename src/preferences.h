@@ -17,13 +17,13 @@ class Preferences : public QObject
     Q_PROPERTY(bool ssh READ ssh WRITE setSSH NOTIFY sshChanged)
 
 private:
-    bool mAcceptRoutes;
-    bool mAcceptDNS;
-    bool mAdvertiseExitNode;
+    bool mAcceptRoutes{};
+    bool mAcceptDNS{};
+    bool mAdvertiseExitNode{};
     QString mHostname;
     QString mOperatorUser;
-    bool mShieldsUp;
-    bool mSSH;
+    bool mShieldsUp{};
+    bool mSSH{};
 
 signals:
     void acceptRoutesChanged(bool);

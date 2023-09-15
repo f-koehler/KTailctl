@@ -38,7 +38,7 @@ signals:
     void peerModelChanged();
 
 public slots:
-    void quitApp();
+    static void quitApp();
 
 public:
     App(Tailscale *tailscale, QObject *parent = nullptr);
@@ -50,9 +50,9 @@ public:
     TrayIcon *trayIcon();
 
     // Restore current window geometry
-    Q_INVOKABLE void restoreWindowGeometry(QQuickWindow *window, const QString &group = QStringLiteral("main")) const;
+    Q_INVOKABLE static void restoreWindowGeometry(QQuickWindow *window, const QString &group = QStringLiteral("main"));
     // Save current window geometry
-    Q_INVOKABLE void saveWindowGeometry(QQuickWindow *window, const QString &group = QStringLiteral("main")) const;
+    Q_INVOKABLE static void saveWindowGeometry(QQuickWindow *window, const QString &group = QStringLiteral("main"));
 
     Q_INVOKABLE void setPeerDetails(const QString &id);
 };
