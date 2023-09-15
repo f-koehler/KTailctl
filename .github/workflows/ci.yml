@@ -12,26 +12,26 @@ jobs:
     strategy:
       matrix:
         toolchain:
-          - name: "Ubuntu 22.04 (GCC 9)"
-            os: ubuntu-22.04
-            cc: gcc-9
-            cxx: g++-9
-            packages: "gcc-9 g++-9"
-          - name: "Ubuntu 22.04 (GCC 10)"
-            os: ubuntu-22.04
-            cc: gcc-10
-            cxx: g++-10
-            packages: "gcc-10 g++-10"
-          - name: "Ubuntu 22.04 (GCC 11)"
-            os: ubuntu-22.04
-            cc: gcc-11
-            cxx: g++-11
-            packages: "gcc-11 g++-11"
-          - name: "Ubuntu 22.04 (GCC 12)"
-            os: ubuntu-22.04
-            cc: gcc-12
-            cxx: g++-12
-            packages: "gcc-12 g++-12"
+          # - name: "Ubuntu 22.04 (GCC 9)"
+          #   os: ubuntu-22.04
+          #   cc: gcc-9
+          #   cxx: g++-9
+          #   packages: "gcc-9 g++-9"
+          # - name: "Ubuntu 22.04 (GCC 10)"
+          #   os: ubuntu-22.04
+          #   cc: gcc-10
+          #   cxx: g++-10
+          #   packages: "gcc-10 g++-10"
+          # - name: "Ubuntu 22.04 (GCC 11)"
+          #   os: ubuntu-22.04
+          #   cc: gcc-11
+          #   cxx: g++-11
+          #   packages: "gcc-11 g++-11"
+          # - name: "Ubuntu 22.04 (GCC 12)"
+          #   os: ubuntu-22.04
+          #   cc: gcc-12
+          #   cxx: g++-12
+          #   packages: "gcc-12 g++-12"
           - name: "Ubuntu 22.04 (Clang 11)"
             os: ubuntu-22.04
             cc: clang-11
@@ -99,5 +99,7 @@ jobs:
         run: flatpak install --user -y flathub org.kde.Sdk//5.15-22.08 org.kde.Platform/x86_64/5.15-22.08
       - name: Install Go SDK.
         run: flatpak install --user -y flathub org.freedesktop.Sdk.Extension.golang/x86_64/22.08
+      - name: Install LLVM SDK.
+        run: flatpak install --user -y flathub runtime/org.freedesktop.Sdk.Extension.llvm16/x86_64/22.08
       - name: Build.
         run: flatpak-builder --user --install --force-clean build-dir org.fkoehler.KTailctl.yml

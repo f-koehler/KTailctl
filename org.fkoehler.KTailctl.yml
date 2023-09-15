@@ -4,6 +4,7 @@ runtime-version: 5.15-22.08
 sdk: org.kde.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.golang
+  - org.freedesktop.Sdk.Extension.llvm16
 command: ktailctl
 finish-args:
   - --socket=fallback-x11
@@ -15,6 +16,8 @@ finish-args:
   - --filesystem=/sys/class/net:ro
 build-options:
   prepend-path: /usr/lib/sdk/golang/bin
+  append-path: /usr/lib/sdk/llvm16/bin
+  prepend-ld-library-path: /usr/lib/sdk/llvm16/lib
   build-args:
     - --share=network
 modules:
@@ -23,6 +26,8 @@ modules:
     config-opts:
       - "-DBUILD_TESTING=OFF"
       - "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+      - "-DCMAKE_CXX_COMPILER=clang++"
+      - "-DCMAKE_C_COMPILER=clang"
     sources:
       - type: "archive"
         url: "https://download.kde.org/stable/kirigami-addons/kirigami-addons-0.11.0.tar.xz"
@@ -35,8 +40,10 @@ modules:
   - name: ktailctl
     buildsystem: cmake-ninja
     config-opts:
-      - -DKTAILCTL_FLATPAK_BUILD=ON
-      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - "-DKTAILCTL_FLATPAK_BUILD=ON"
+      - "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+      - "-DCMAKE_CXX_COMPILER=clang++"
+      - "-DCMAKE_C_COMPILER=clang"
     sources:
       - type: dir
         path: .

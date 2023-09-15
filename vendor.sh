@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-cd tailctlpp
+cd tailwrap
 go mod vendor -v
 VERSION=$(git describe --tags --match "v*" --dirty)
-tar cfvz tailctlpp-vendor-${VERSION}.tar.gz vendor
-mv tailctlpp-vendor-${VERSION}.tar.gz ..
+tar cfvz tailwrap-vendor-${VERSION}.tar.gz vendor
+mv tailwrap-vendor-${VERSION}.tar.gz ..
 rm -rf vendor

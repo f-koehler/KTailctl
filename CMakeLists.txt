@@ -57,7 +57,7 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
 )
 
 add_subdirectory(src)
-add_subdirectory(tailctlpp)
+add_subdirectory(tailwrap)
 
 execute_process(
     COMMAND ${GIT_EXECUTABLE} describe --tags --dirty --match "v*"

@@ -10,7 +10,7 @@
 #include <QVector>
 
 #include "peer.h"
-#include <libtailctlpp.h>
+#include <libtailwrap.h>
 
 class Status : public QObject
 {

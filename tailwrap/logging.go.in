@@ -2,11 +2,11 @@ package main
 
 // #include <stdlib.h>
 // #include "logging.h"
-// #cgo LDFLAGS: -l/home/fkoehler/code/tailctl/build/lib/libtailctlpp_logging.a
+// #cgo LDFLAGS: -L@CMAKE_LIBRARY_OUTPUT_DIRECTORY@ -ltailwrap_logging_wrapper -Wl,-rpath=@CMAKE_LIBRARY_OUTPUT_DIRECTORY@
 import "C"
 import (
-	"unsafe"
 	"fmt"
+	"unsafe"
 )
 
 func log_critical(message string) {
