@@ -87,7 +87,7 @@ Kirigami.ScrollablePage {
                 MobileForm.FormSwitchDelegate {
                     id: advertiseExitNode
 
-                    text: i18nc("@label", "Exit node:")
+                    text: i18nc("@label", "Advertise exit node:")
                     checked: Tailscale.preferences.advertiseExitNode
                     onClicked: Tailscale.preferences.advertiseExitNode = !Tailscale.preferences.advertiseExitNode
                     enabled: Tailscale.status.isOperator && Tailscale.status.success
