@@ -26,6 +26,8 @@ modules:
     config-opts:
       - "-DBUILD_TESTING=OFF"
       - "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+      - "-DCMAKE_CXX_COMPILER=clang++"
+      - "-DCMAKE_C_COMPILER=clang"
     sources:
       - type: "archive"
         url: "https://download.kde.org/stable/kirigami-addons/kirigami-addons-0.11.0.tar.xz"
@@ -38,10 +40,10 @@ modules:
   - name: ktailctl
     buildsystem: cmake-ninja
     config-opts:
-      - -DKTAILCTL_FLATPAK_BUILD=ON
-      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
-      - -DCMAKE_CXX_COMPILER=clang++
-      - -DCMAKE_C_COMPILER=clang
+      - "-DKTAILCTL_FLATPAK_BUILD=ON"
+      - "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+      - "-DCMAKE_CXX_COMPILER=clang++"
+      - "-DCMAKE_C_COMPILER=clang"
     sources:
       - type: dir
         path: .
