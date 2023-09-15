@@ -6,7 +6,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"os"
 
 	"tailscale.com/client/tailscale"
 	"tailscale.com/cmd/tailscale/cli"
@@ -37,12 +36,12 @@ func tailscale_up() {
 func tailscale_status(status_json *string) bool {
 	status, err := client.Status(context.Background())
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
+		log_critical(fmt.Sprintf("failed to get tailscale status: %v", err))
 		return false
 	}
 	j, err := json.MarshalIndent(status, "", "  ")
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
+		log_critical(fmt.Sprintf("failed to indent tailscale status: %v", err))
 		return false
 	}
 	*status_json = string(j)
@@ -53,12 +52,12 @@ func tailscale_status(status_json *string) bool {
 func tailscale_get_interface_name(name *string) bool {
 	_, iface, err := interfaces.Tailscale()
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
+		log_critical(fmt.Sprintf("failed to get tailscale interfacse: %v", err))
 		*name = ""
 		return false
 	}
 	if iface == nil {
-		fmt.Fprintln(os.Stderr, "no tailscale interface found")
+		log_critical("no tailscale interface found")
 		*name = ""
 		return false
 	}
