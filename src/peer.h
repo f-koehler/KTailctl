@@ -47,6 +47,21 @@ private:
     bool mIsOnline{};
     bool mIsActive{};
 
+protected:
+    void setIdFromJSON(const QJsonObject &json);
+    void setPublicKeyFromJSON(const QJsonObject &json);
+    void setHostNameFromJSON(const QJsonObject &json);
+    void setDNSNameFromJSON(const QJsonObject &json);
+    void setOsFromJSON(const QJsonObject &json);
+    void setTailscaleIpsFromJSON(const QJsonObject &json);
+    void setRelayFromJSON(const QJsonObject &json);
+    void setRxBytesFromJSON(const QJsonObject &json);
+    void setTxBytesFromJSON(const QJsonObject &json);
+    void setCreatedFromJSON(const QJsonObject &json);
+    void setLastSeenFromJSON(const QJsonObject &json);
+    void setIsOnlineFromJSON(const QJsonObject &json);
+    void setIsActiveFromJSON(const QJsonObject &json);
+
 signals:
     void idChanged(const QString &);
     void publicKeyChanged(const QString &);

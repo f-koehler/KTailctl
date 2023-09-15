@@ -34,42 +34,70 @@ Peer::Peer(QObject *parent)
 Peer *Peer::fromJSON(const QJsonObject &json)
 {
     Peer *peer = new Peer();
+    peer->setIdFromJSON(json);
+    peer->setPublicKeyFromJSON(json);
+    peer->setHostNameFromJSON(json);
+    peer->setDNSNameFromJSON(json);
+    peer->setOsFromJSON(json);
+    peer->setTailscaleIpsFromJSON(json);
+    peer->setRelayFromJSON(json);
+    peer->setRxBytesFromJSON(json);
+    peer->setTxBytesFromJSON(json);
+    peer->setCreatedFromJSON(json);
+    peer->setLastSeenFromJSON(json);
+    peer->setIsOnlineFromJSON(json);
+    peer->setIsActiveFromJSON(json);
 
+    return peer;
+}
+
+void Peer::setIdFromJSON(const QJsonObject &json)
+{
     if (json.contains("ID") && json["ID"].isString()) {
-        peer->mId = json["ID"].toString();
+        mId = json["ID"].toString();
     } else {
         qWarning() << "Cannot find string \"ID\"";
     }
-
+}
+void Peer::setPublicKeyFromJSON(const QJsonObject &json)
+{
     if (json.contains("PublicKey") && json["PublicKey"].isString()) {
-        peer->mPublicKey = json["PublicKey"].toString();
+        mPublicKey = json["PublicKey"].toString();
     } else {
         qWarning() << "Cannot find string \"PublicKey\"";
     }
-
+}
+void Peer::setHostNameFromJSON(const QJsonObject &json)
+{
     if (json.contains("HostName") && json["HostName"].isString()) {
-        peer->mHostName = json["HostName"].toString();
+        mHostName = json["HostName"].toString();
     } else {
         qWarning() << "Cannot find string \"HostName\"";
     }
-
+}
+void Peer::setDNSNameFromJSON(const QJsonObject &json)
+{
     if (json.contains("DNSName") && json["DNSName"].isString()) {
-        peer->mDNSName = json["DNSName"].toString();
+        mDNSName = json["DNSName"].toString();
     } else {
         qWarning() << "Cannot find string \"DNSName\"";
     }
-
+}
+void Peer::setOsFromJSON(const QJsonObject &json)
+{
     if (json.contains("OS") && json["OS"].isString()) {
-        peer->mOs = json["OS"].toString();
+        mOs = json["OS"].toString();
     } else {
         qWarning() << "Cannot find string \"OS\"";
     }
-
+}
+void Peer::setTailscaleIpsFromJSON(const QJsonObject &json)
+{
     if (json.contains("TailscaleIPs") && json["TailscaleIPs"].isArray()) {
-        peer->mTailscaleIps.clear();
+        mTailscaleIps.clear();
         for (const auto &ip_address : json["TailscaleIPs"].toArray()) {
             if (ip_address.isString()) {
-                peer->mTailscaleIps.append(ip_address.toString());
+                mTailscaleIps.append(ip_address.toString());
             } else {
                 qWarning() << "TailscaleIPs contains non-string";
             }
@@ -77,61 +105,74 @@ Peer *Peer::fromJSON(const QJsonObject &json)
     } else {
         qWarning() << "Cannot find array \"TailscaleIPs\"";
     }
-
+}
+void Peer::setRelayFromJSON(const QJsonObject &json)
+{
     if (json.contains("Relay") && json["Relay"].isString()) {
-        peer->mRelay = json["Relay"].toString();
+        mRelay = json["Relay"].toString();
     } else {
         qWarning() << "Cannot find string \"Relay\"";
     }
-
+}
+void Peer::setRxBytesFromJSON(const QJsonObject &json)
+{
     if (json.contains("RxBytes") && json["RxBytes"].isDouble()) {
-        peer->mRxBytes = (long)std::round(json["RxBytes"].toDouble());
+        mRxBytes = (long)std::round(json["RxBytes"].toDouble());
     } else {
         qWarning() << "Cannot find int \"RxBytes\"";
     }
-
+}
+void Peer::setTxBytesFromJSON(const QJsonObject &json)
+{
     if (json.contains("TxBytes") && json["TxBytes"].isDouble()) {
-        peer->mTxBytes = (long)std::round(json["TxBytes"].toDouble());
+        mTxBytes = (long)std::round(json["TxBytes"].toDouble());
     } else {
         qWarning() << "Cannot find int \"TxBytes\"";
     }
-
+}
+void Peer::setCreatedFromJSON(const QJsonObject &json)
+{
     static constexpr const char *nowdate = "0001-01-01T00:00:00Z";
     if (json.contains("Created") && json["Created"].isString()) {
         const auto string = json["Created"].toString();
         if (string == nowdate) {
-            peer->mCreated = QDateTime::currentDateTime();
+            mCreated = QDateTime::currentDateTime();
         } else {
-            peer->mCreated = QDateTime::fromString(string, Qt::ISODateWithMs);
+            mCreated = QDateTime::fromString(string, Qt::ISODateWithMs);
         }
     } else {
         qWarning() << "Cannot find string \"Created\"";
     }
-
+}
+void Peer::setLastSeenFromJSON(const QJsonObject &json)
+{
+    static constexpr const char *nowdate = "0001-01-01T00:00:00Z";
     if (json.contains("LastSeen") && json["LastSeen"].isString()) {
         const auto string = json["LastSeen"].toString();
         if (string == nowdate) {
-            peer->mLastSeen = QDateTime::currentDateTime();
+            mLastSeen = QDateTime::currentDateTime();
         } else {
-            peer->mLastSeen = QDateTime::fromString(string, Qt::ISODateWithMs);
+            mLastSeen = QDateTime::fromString(string, Qt::ISODateWithMs);
         }
     } else {
         qWarning() << "Cannot find string \"LastSeen\"";
     }
-
+}
+void Peer::setIsOnlineFromJSON(const QJsonObject &json)
+{
     if (json.contains("Online") && json["Online"].isBool()) {
-        peer->mIsOnline = json["Online"].toBool();
+        mIsOnline = json["Online"].toBool();
     } else {
         qWarning() << "Cannot find bool \"Online\"";
     }
-
+}
+void Peer::setIsActiveFromJSON(const QJsonObject &json)
+{
     if (json.contains("Active") && json["Active"].isBool()) {
-        peer->mIsActive = json["Active"].toBool();
+        mIsActive = json["Active"].toBool();
     } else {
         qWarning() << "Cannot find bool \"Active\"";
     }
-
-    return peer;
 }
 
 bool Peer::setTo(const Peer *other)
