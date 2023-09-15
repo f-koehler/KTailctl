@@ -17,7 +17,7 @@ QString formatDurationHumanReadable(const QDateTime &from, const QDateTime &to =
 QString fileUrlToString(const QUrl &url);
 QStringList fileUrlsToStrings(const QList<QUrl> &urls);
 qint64 toMSecsSinceEpoch(const QDateTime &dateTime);
-QIcon loadOsIcon(const QString &os);
+QIcon loadOsIcon(QString osname);
 
 class Util : public QObject
 {

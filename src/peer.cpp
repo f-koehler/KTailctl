@@ -67,9 +67,9 @@ Peer *Peer::fromJSON(const QJsonObject &json)
 
     if (json.contains("TailscaleIPs") && json["TailscaleIPs"].isArray()) {
         peer->mTailscaleIps.clear();
-        for (const auto &ip : json["TailscaleIPs"].toArray()) {
-            if (ip.isString()) {
-                peer->mTailscaleIps.append(ip.toString());
+        for (const auto &ip_address : json["TailscaleIPs"].toArray()) {
+            if (ip_address.isString()) {
+                peer->mTailscaleIps.append(ip_address.toString());
             } else {
                 qWarning() << "TailscaleIPs contains non-string";
             }
@@ -285,6 +285,9 @@ bool Peer::isActive() const
 
 Peer &Peer::operator=(const Peer &other)
 {
+    if (this == &other) {
+        return *this;
+    }
     this->setTo(&other);
     return *this;
 }
