@@ -31,6 +31,7 @@ class Peer : public QObject
     Q_PROPERTY(QDateTime lastSeen READ lastSeen NOTIFY lastSeenChanged)
     Q_PROPERTY(bool isOnline READ isOnline NOTIFY isOnlineChanged)
     Q_PROPERTY(bool isActive READ isActive NOTIFY isActiveChanged)
+    Q_PROPERTY(bool isExitNode READ isExitNode NOTIFY isExitNodeChanged)
 
 private:
     QString mId;
@@ -61,6 +62,7 @@ protected:
     void setLastSeenFromJSON(const QJsonObject &json);
     void setIsOnlineFromJSON(const QJsonObject &json);
     void setIsActiveFromJSON(const QJsonObject &json);
+    void setIsExitNodeFromJSON(const QJsonObject &json);
 
 signals:
     void idChanged(const QString &);
@@ -76,6 +78,7 @@ signals:
     void lastSeenChanged(const QDateTime &);
     void isOnlineChanged(bool);
     void isActiveChanged(bool);
+    void isExitNodeChanged(bool);
 
 public slots:
     Q_INVOKABLE void updateFromStatus(const Status &status);
@@ -100,6 +103,7 @@ public:
     const QDateTime &lastSeen() const;
     bool isOnline() const;
     bool isActive() const;
+    bool isExitNode() const;
 
     Peer &operator=(const Peer &other);
 };

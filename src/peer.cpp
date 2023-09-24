@@ -47,6 +47,7 @@ Peer *Peer::fromJSON(const QJsonObject &json)
     peer->setLastSeenFromJSON(json);
     peer->setIsOnlineFromJSON(json);
     peer->setIsActiveFromJSON(json);
+    peer->setIsExitNodeFromJSON(json);
 
     return peer;
 }
@@ -174,6 +175,14 @@ void Peer::setIsActiveFromJSON(const QJsonObject &json)
         qWarning() << "Cannot find bool \"Active\"";
     }
 }
+void Peer::setIsExitNodeFromJSON(const QJsonObject &json)
+{
+    if (json.contains("ExitNodeOption") && json["ExitNodeOption"].isBool()) {
+        mIsExitNode = json["ExitNodeOption"].toBool();
+    } else {
+        qWarning() << "Cannot find bool \"ExitNode\"";
+    }
+}
 
 bool Peer::setTo(const Peer *other)
 {
@@ -255,6 +264,11 @@ bool Peer::setTo(const Peer *other)
         emit isActiveChanged(mIsActive);
         result = true;
     }
+    if (mIsExitNode != other->mIsExitNode) {
+        mIsExitNode = other->mIsExitNode;
+        emit isExitNodeChanged(mIsExitNode);
+        result = true;
+    }
 
     return result;
 }
@@ -322,6 +336,10 @@ bool Peer::isOnline() const
 bool Peer::isActive() const
 {
     return mIsActive;
+}
+bool Peer::isExitNode() const
+{
+    return mIsExitNode;
 }
 
 Peer &Peer::operator=(const Peer &other)
