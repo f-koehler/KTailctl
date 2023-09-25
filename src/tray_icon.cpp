@@ -7,6 +7,7 @@
 #include <QFileDialog>
 #include <QGuiApplication>
 #include <QMenu>
+#include <QMessageBox>
 
 TrayIcon::TrayIcon(Tailscale *tailscale, QObject *parent)
     : QSystemTrayIcon(parent)
@@ -96,6 +97,14 @@ void TrayIcon::regenerate()
                 submenu->addAction(QIcon::fromTheme(QStringLiteral("document-send")), "Send file(s)", [peer]() {
                     TaildropSendJob::selectAndSendFiles(peer->dnsName());
                 });
+
+                if (peer->isExitNode()) {
+                    submenu->addAction(QIcon::fromTheme(QStringLiteral("internet-services")), "Set as exit node", [peer]() {
+                        QByteArray bytes = peer->hostName().toUtf8();
+                        GoString tmp{bytes.data(), bytes.size()};
+                        tailscale_set_exit_node(&tmp);
+                    });
+                }
             }
 
             QObject::connect(statsUp, &SpeedStatistics::refreshed, [actionUp, statsUp]() {
