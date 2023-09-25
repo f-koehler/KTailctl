@@ -31,6 +31,7 @@ class Peer : public QObject
     Q_PROPERTY(QDateTime lastSeen READ lastSeen NOTIFY lastSeenChanged)
     Q_PROPERTY(bool isOnline READ isOnline NOTIFY isOnlineChanged)
     Q_PROPERTY(bool isActive READ isActive NOTIFY isActiveChanged)
+    Q_PROPERTY(bool isCurrentExitNode READ isCurrentExitNode NOTIFY isCurrentExitNode)
     Q_PROPERTY(bool isExitNode READ isExitNode NOTIFY isExitNodeChanged)
 
 private:
@@ -47,6 +48,7 @@ private:
     QDateTime mLastSeen;
     bool mIsOnline{};
     bool mIsActive{};
+    bool mIsCurrentExitNode{};
     bool mIsExitNode{};
 
 protected:
@@ -63,6 +65,7 @@ protected:
     bool setLastSeen(const QDateTime &value);
     bool setIsOnline(bool value);
     bool setIsActive(bool value);
+    bool setIsCurrentExitNode(bool value);
     bool setIsExitNode(bool value);
 
     void setIdFromJSON(const QJsonObject &json);
@@ -78,6 +81,7 @@ protected:
     void setLastSeenFromJSON(const QJsonObject &json);
     void setIsOnlineFromJSON(const QJsonObject &json);
     void setIsActiveFromJSON(const QJsonObject &json);
+    void setIsCurrentExitNodeFromJson(const QJsonObject &object);
     void setIsExitNodeFromJSON(const QJsonObject &json);
 
 signals:
@@ -94,6 +98,7 @@ signals:
     void lastSeenChanged(const QDateTime &);
     void isOnlineChanged(bool);
     void isActiveChanged(bool);
+    void isCurrentExitNodeChanged(bool);
     void isExitNodeChanged(bool);
 
 public slots:
@@ -119,6 +124,7 @@ public:
     const QDateTime &lastSeen() const;
     bool isOnline() const;
     bool isActive() const;
+    bool isCurrentExitNode() const;
     bool isExitNode() const;
 
     Peer &operator=(const Peer &other);

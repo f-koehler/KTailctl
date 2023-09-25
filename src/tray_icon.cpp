@@ -98,7 +98,12 @@ void TrayIcon::regenerate()
                     TaildropSendJob::selectAndSendFiles(peer->dnsName());
                 });
 
-                if (peer->isExitNode()) {
+                if (peer->isCurrentExitNode()) {
+                    submenu->addAction(QIcon::fromTheme(QStringLiteral("internet-services")), "Unset exit node", []() {
+                        GoString tmp{"", 1};
+                        tailscale_set_exit_node(&tmp);
+                    });
+                } else if (peer->isExitNode()) {
                     submenu->addAction(QIcon::fromTheme(QStringLiteral("internet-services")), "Set as exit node", [peer]() {
                         QByteArray bytes = peer->hostName().toUtf8();
                         GoString tmp{bytes.data(), bytes.size()};
