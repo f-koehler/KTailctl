@@ -47,8 +47,24 @@ private:
     QDateTime mLastSeen;
     bool mIsOnline{};
     bool mIsActive{};
+    bool mIsExitNode{};
 
 protected:
+    bool setId(const QString &value);
+    bool setPublicKey(const QString &value);
+    bool setHostName(const QString &value);
+    bool setDNSName(const QString &value);
+    bool setOs(const QString &value);
+    bool setTailscaleIps(const QStringList &value);
+    bool setRelay(const QString &value);
+    bool setRxBytes(long value);
+    bool setTxBytes(long value);
+    bool setCreated(const QDateTime &value);
+    bool setLastSeen(const QDateTime &value);
+    bool setIsOnline(bool value);
+    bool setIsActive(bool value);
+    bool setIsExitNode(bool value);
+
     void setIdFromJSON(const QJsonObject &json);
     void setPublicKeyFromJSON(const QJsonObject &json);
     void setHostNameFromJSON(const QJsonObject &json);
