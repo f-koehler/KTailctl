@@ -12,6 +12,7 @@ github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/dblohm7/wingoes v0.0.0-20230803162905-5c6286bb8c6e h1:tTRuQNnXKO6Ffu62nk9bnnPx/m+IyNMdFFfzsETyRO8=
 github.com/dblohm7/wingoes v0.0.0-20230803162905-5c6286bb8c6e/go.mod h1:6NCrWM5jRefaG7iN0iMShPalLsljHWBh9v1zxM2f8Xs=
+github.com/dblohm7/wingoes v0.0.0-20230821191801-fc76608aecf0/go.mod h1:6NCrWM5jRefaG7iN0iMShPalLsljHWBh9v1zxM2f8Xs=
 github.com/fxamacker/cbor/v2 v2.4.0 h1:ri0ArlOR+5XunOP8CRUowT0pSJOwhW098ZCUyskZD88=
 github.com/fxamacker/cbor/v2 v2.4.0/go.mod h1:TA1xS00nchWmaBnEIxPSE5oHLuJBAVvqrtAnWBwBCVo=
 github.com/gin-contrib/sse v0.1.0/go.mod h1:RHrZQHXnP2xjPF+u1gW/2HnVO7nvIa9PG3Gm+fLHvGI=
@@ -164,3 +165,4 @@ software.sslmate.com/src/go-pkcs12 v0.2.0 h1:nlFkj7bTysH6VkC4fGphtjXRbezREPgrHuJ
 software.sslmate.com/src/go-pkcs12 v0.2.0/go.mod h1:23rNcYsMabIc1otwLpTkCCPwUq6kQsTyowttG/as0kQ=
 tailscale.com v1.48.2 h1:bLAzGvkFMih+QCRy//WSemmD7KKXIo0m8P+o1Fp/YjA=
 tailscale.com v1.48.2/go.mod h1:RWW4emjviEEAIqr6P6bbZZGXr19BdAdtwtUVfW9SBvU=
+tailscale.com v1.50.1/go.mod h1:lBw7+Mw2d7rea3kefGjYWN8IJkB5dyaakMNMOinNGDo=

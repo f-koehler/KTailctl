@@ -4,7 +4,7 @@ go 1.21.0
 
 require (
 	golang.org/x/net v0.15.0
-	tailscale.com v1.48.2
+	tailscale.com v1.50.1
 )
 
 require (
@@ -13,7 +13,7 @@ require (
 	github.com/akutz/memconn v0.1.0 // indirect
 	github.com/alexbrainman/sspi v0.0.0-20210105120005-909beea2cc74 // indirect
 	github.com/coreos/go-iptables v0.6.0 // indirect
-	github.com/dblohm7/wingoes v0.0.0-20230803162905-5c6286bb8c6e // indirect
+	github.com/dblohm7/wingoes v0.0.0-20230821191801-fc76608aecf0 // indirect
 	github.com/fxamacker/cbor/v2 v2.4.0 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
