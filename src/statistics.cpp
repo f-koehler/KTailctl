@@ -85,28 +85,26 @@ void Statistics::statusRefreshed(const Status &status)
 
 void Statistics::refreshTotalSpeed()
 {
-#ifndef __APPLE__
-    GoString tmpName;
-    tailscale_get_interface_name(&tmpName);
-    const auto name = QString::fromUtf8(tmpName.p, tmpName.n);
+    // GoString tmpName;
+    // tailscale_get_interface_name(&tmpName);
+    // const auto name = QString::fromUtf8(tmpName.p, tmpName.n);
 
-    QFile fileTx(QString("/sys/class/net/%1/statistics/tx_bytes").arg(name));
-    if (!fileTx.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qCritical("Cannot read tx_bytes");
-        return;
-    }
-    QTextStream streamTx(&fileTx);
-    long bytes = 0;
-    streamTx >> bytes;
-    mSpeedUpTotal->update(bytes);
+    // QFile fileTx(QString("/sys/class/net/%1/statistics/tx_bytes").arg(name));
+    // if (!fileTx.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    //     qCritical("Cannot read tx_bytes");
+    //     return;
+    // }
+    // QTextStream streamTx(&fileTx);
+    // long bytes = 0;
+    // streamTx >> bytes;
+    // mSpeedUpTotal->update(bytes);
 
-    QFile fileRx(QString("/sys/class/net/%1/statistics/rx_bytes").arg(name));
-    if (!fileRx.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qCritical("Cannot read tx_bytes");
-        return;
-    }
-    QTextStream streamRx(&fileRx);
-    streamRx >> bytes;
-    mSpeedDownTotal->update(bytes);
-#endif
+    // QFile fileRx(QString("/sys/class/net/%1/statistics/rx_bytes").arg(name));
+    // if (!fileRx.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    //     qCritical("Cannot read tx_bytes");
+    //     return;
+    // }
+    // QTextStream streamRx(&fileRx);
+    // streamRx >> bytes;
+    // mSpeedDownTotal->update(bytes);
 }

@@ -9,7 +9,6 @@ import (
 
 	"tailscale.com/client/tailscale"
 	"tailscale.com/cmd/tailscale/cli"
-	"tailscale.com/net/interfaces"
 )
 
 var client tailscale.LocalClient
@@ -45,23 +44,6 @@ func tailscale_status(status_json *string) bool {
 		return false
 	}
 	*status_json = string(j)
-	return true
-}
-
-//export tailscale_get_interface_name
-func tailscale_get_interface_name(name *string) bool {
-	_, iface, err := interfaces.Tailscale()
-	if err != nil {
-		log_critical(fmt.Sprintf("failed to get tailscale interfacse: %v", err))
-		*name = ""
-		return false
-	}
-	if iface == nil {
-		log_critical("no tailscale interface found")
-		*name = ""
-		return false
-	}
-	*name = iface.Name
 	return true
 }
 
