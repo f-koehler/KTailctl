@@ -39,7 +39,7 @@ QIcon loadOsIcon(QString osname)
 QString formatCapacityHumanReadable(long bytes)
 {
     static constexpr std::array<const char *, 5> units = {"TiB", "GiB", "MiB", "KiB", "B"};
-    static constexpr std::array<long, 5> limits = {1ll << 40ll, 1ll << 30ll, 1ll << 20ll, 1ll << 10ll, 1ll};
+    static constexpr std::array<qint64, 5> limits = {1ll << 40ll, 1ll << 30ll, 1ll << 20ll, 1ll << 10ll, 1ll};
     for (std::size_t i = 0; i < units.size(); ++i) {
         if (bytes >= limits.at(i)) {
             return QString("%1 %2").arg(static_cast<double>(bytes) / static_cast<double>(limits.at(i)), 0, 'f', 3).arg(units.at(i));
