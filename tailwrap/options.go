@@ -80,11 +80,24 @@ func tailscale_get_accept_dns(accept_dns *bool) bool {
 
 //export tailscale_set_accept_dns
 func tailscale_set_accept_dns(accept_dns *bool) bool {
-	args := []string{"set", "--accept-dns=" + strconv.FormatBool(*accept_dns)}
-	if err := cli.Run(args); err != nil {
+	var cur bool
+	tailscale_get_accept_dns(&cur)
+	if cur == *accept_dns {
+		log_warning(fmt.Sprintf("accept dns already set to %v", *accept_dns))
+		return true
+	}
+
+	_, err := client.EditPrefs(context.Background(), &ipn.MaskedPrefs{
+		Prefs: ipn.Prefs{
+			CorpDNS: *accept_dns,
+		},
+		CorpDNSSet: true,
+	})
+	if err != nil {
 		log_critical(fmt.Sprintf("failed to set accept dns: %v", err))
 		return false
 	}
+
 	log_info(fmt.Sprintf("set accept dns to %v", *accept_dns))
 	return true
 }
