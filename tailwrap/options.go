@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	"tailscale.com/cmd/tailscale/cli"
+	"tailscale.com/ipn"
 )
 
 //export tailscale_get_accept_routes
@@ -181,11 +182,24 @@ func tailscale_get_shields_up(shields_up *bool) bool {
 
 //export tailscale_set_shields_up
 func tailscale_set_shields_up(shields_up *bool) bool {
-	args := []string{"set", "--shields-up=" + strconv.FormatBool(*shields_up)}
-	if err := cli.Run(args); err != nil {
+	var cur bool
+	tailscale_get_shields_up(&cur)
+	if cur == *shields_up {
+		log_warning(fmt.Sprintf("shields-up already set to %v", *shields_up))
+		return true
+	}
+
+	_, err := client.EditPrefs(context.Background(), &ipn.MaskedPrefs{
+		Prefs: ipn.Prefs{
+			ShieldsUp: *shields_up,
+		},
+		ShieldsUpSet: true,
+	})
+	if err != nil {
 		log_critical(fmt.Sprintf("failed to set shields up: %v", err))
 		return false
 	}
+
 	log_info(fmt.Sprintf("set shields up to %v", *shields_up))
 	return true
 }
