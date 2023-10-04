@@ -101,11 +101,30 @@ func tailscale_get_hostname(hostname *string) bool {
 
 //export tailscale_set_hostname
 func tailscale_set_hostname(hostname *string) bool {
-	args := []string{"set", "--hostname=" + *hostname}
-	if err := cli.Run(args); err != nil {
+	ctx := context.Background()
+	status, err := client.Status(ctx)
+	if err != nil {
+		log_critical(fmt.Sprintf("failed to get tailscale status: %v", err))
+		return false
+	}
+
+	if status.Self.HostName == *hostname {
+		log_warning(fmt.Sprintf("hostname already set to %v", *hostname))
+		return true
+	}
+
+	_, err = client.EditPrefs(ctx, &ipn.MaskedPrefs{
+		Prefs: ipn.Prefs{
+			Hostname: *hostname,
+		},
+		HostnameSet: true,
+	})
+
+	if err != nil {
 		log_critical(fmt.Sprintf("failed to set hostname: %v", err))
 		return false
 	}
+
 	log_info(fmt.Sprintf("set hostname to %v", *hostname))
 	return true
 }

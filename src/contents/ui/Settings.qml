@@ -93,13 +93,13 @@ Kirigami.ScrollablePage {
                     enabled: Tailscale.status.isOperator && Tailscale.status.success
                 }
 
-                // MobileForm.FormTextFieldDelegaze {
-                //     id: textTailscaleHostname
-                //     label: i18nc("@label", "Hostname:")
-                //     text: Tailscale.preferences.hostname
-                //     onEditingFinished: {Tailscale.preferences.hostname = textTailscaleHostname.text; }
-                //     enabled: Tailscale.status.isOperator && Tailscale.status.success
-                // }
+                MobileForm.FormTextFieldDelegate {
+                    id: textTailscaleHostname
+                    label: i18nc("@label", "Hostname:")
+                    text: Tailscale.preferences.hostname
+                    onEditingFinished: {Tailscale.preferences.hostname = textTailscaleHostname.text; }
+                    enabled: Tailscale.status.isOperator && Tailscale.status.success
+                }
 
                 MobileForm.FormDelegateSeparator { above: shieldsUp; below: advertiseExitNode }
 
