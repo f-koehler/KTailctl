@@ -58,11 +58,36 @@ func tailscale_set_advertise_exit_node(exit_node *bool) bool {
 
 //export tailscale_set_exit_node
 func tailscale_set_exit_node(exit_node *string) bool {
-	args := []string{"set", "--exit-node=" + *exit_node}
-	if err := cli.Run(args); err != nil {
+	curPrefs, err := client.GetPrefs(context.Background())
+	if err != nil {
+		log_critical(fmt.Sprintf("failed to get tailscale preferences: %v", err))
+		return false
+	}
+
+	if curPrefs.ExitNodeIP.String() == *exit_node {
+		log_warning(fmt.Sprintf("exit node already set to %v", *exit_node))
+		return false
+	}
+
+	status, err := client.Status(context.Background())
+	if err != nil {
+		log_critical(fmt.Sprintf("failed to get tailscale status: %v", err))
+		return false
+	}
+
+	prefs := &ipn.MaskedPrefs{}
+	err = prefs.Prefs.SetExitNodeIP(*exit_node, status)
+	if err != nil {
+		log_critical(fmt.Sprintf("failed to set exit node in prefs object: %v", err))
+		return false
+	}
+
+	_, err = client.EditPrefs(context.Background(), prefs)
+	if err != nil {
 		log_critical(fmt.Sprintf("failed to set exit node: %v", err))
 		return false
 	}
+
 	log_info(fmt.Sprintf("set exit node to %v", *exit_node))
 	return true
 }
@@ -230,11 +255,24 @@ func tailscale_get_ssh(ssh *bool) bool {
 
 //export tailscale_set_ssh
 func tailscale_set_ssh(ssh *bool) bool {
-	args := []string{"set", "--ssh=" + strconv.FormatBool(*ssh)}
-	if err := cli.Run(args); err != nil {
+	var cur bool
+	tailscale_get_ssh(&cur)
+	if cur == *ssh {
+		log_warning(fmt.Sprintf("ssh already set to %v", *ssh))
+		return true
+	}
+
+	_, err := client.EditPrefs(context.Background(), &ipn.MaskedPrefs{
+		Prefs: ipn.Prefs{
+			RunSSH: *ssh,
+		},
+		RunSSHSet: true,
+	})
+	if err != nil {
 		log_critical(fmt.Sprintf("failed to set ssh: %v", err))
 		return false
 	}
+
 	log_info(fmt.Sprintf("set ssh to %v", *ssh))
 	return true
 }
