@@ -93,6 +93,8 @@ Kirigami.ScrollablePage {
                     enabled: Tailscale.status.isOperator && Tailscale.status.success
                 }
 
+                MobileForm.FormDelegateSeparator { above: textTailscaleHostname; below: advertiseExitNode }
+
                 MobileForm.FormTextFieldDelegate {
                     id: textTailscaleHostname
                     label: i18nc("@label", "Hostname:")
@@ -101,7 +103,7 @@ Kirigami.ScrollablePage {
                     enabled: Tailscale.status.isOperator && Tailscale.status.success
                 }
 
-                MobileForm.FormDelegateSeparator { above: shieldsUp; below: advertiseExitNode }
+                MobileForm.FormDelegateSeparator { above: shieldsUp; below: textTailscaleHostname }
 
                 MobileForm.FormSwitchDelegate {
                     id: shieldsUp
