@@ -181,11 +181,24 @@ func tailscale_get_operator_user(user *string) bool {
 
 //export tailscale_set_operator_user
 func tailscale_set_operator_user(user *string) bool {
-	args := []string{"set", "--operator=" + *user}
-	if err := cli.Run(args); err != nil {
+	var cur string
+	tailscale_get_operator_user(&cur)
+	if cur == *user {
+		log_warning(fmt.Sprintf("operator user already set to %v", *user))
+		return true
+	}
+
+	_, err := client.EditPrefs(context.Background(), &ipn.MaskedPrefs{
+		Prefs: ipn.Prefs{
+			OperatorUser: *user,
+		},
+		OperatorUserSet: true,
+	})
+	if err != nil {
 		log_critical(fmt.Sprintf("failed to set operator user: %v", err))
 		return false
 	}
+
 	log_info(fmt.Sprintf("set operator user to %v", *user))
 	return true
 }
