@@ -90,7 +90,7 @@ jobs:
       - name: Install Builder.
         run: flatpak install --user -y flathub org.flatpak.Builder
       - name: Validate manifest.
-        run: flatpak run --command=flatpak-builder-lint org.flatpak.Builder org.fkoehler.KTailctl.yml
+        run: flatpak run --command=flatpak-builder-lint org.flatpak.Builder manifest org.fkoehler.KTailctl.yml
       - name: Install external data checker.
         run: flatpak install --user -y flathub org.flathub.flatpak-external-data-checker
       - name: Check external data.
