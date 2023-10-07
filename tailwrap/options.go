@@ -11,6 +11,26 @@ import (
 	"tailscale.com/ipn"
 )
 
+func apply_prefs(newPrefs *ipn.MaskedPrefs) bool {
+	ctx := context.Background()
+	curPrefs, err := client.GetPrefs(ctx)
+	if err != nil {
+		log_critical(fmt.Sprintf("failed to get tailscale preferences: %v", err))
+		return false
+	}
+	curPrefs.ApplyEdits(newPrefs)
+	if err = client.CheckPrefs(ctx, curPrefs); err != nil {
+		log_critical(fmt.Sprintf("failed to check tailscale preferences: %v", err))
+		return false
+	}
+	_, err = client.EditPrefs(ctx, newPrefs)
+	if err != nil {
+		log_critical(fmt.Sprintf("failed to set tailscale preferences: %v", err))
+		return false
+	}
+	return true
+}
+
 //export tailscale_get_accept_routes
 func tailscale_get_accept_routes(accept_routes *bool) bool {
 	curPrefs, err := client.GetPrefs(context.Background())
@@ -82,14 +102,10 @@ func tailscale_set_exit_node(exit_node *string) bool {
 		return false
 	}
 
-	_, err = client.EditPrefs(context.Background(), prefs)
-	if err != nil {
-		log_critical(fmt.Sprintf("failed to set exit node: %v", err))
-		return false
-	}
+	println(fmt.Sprintf("exit node: %v", prefs))
 
 	log_info(fmt.Sprintf("set exit node to %v", *exit_node))
-	return true
+	return apply_prefs(prefs)
 }
 
 //export tailscale_get_accept_dns
@@ -112,19 +128,13 @@ func tailscale_set_accept_dns(accept_dns *bool) bool {
 		return true
 	}
 
-	_, err := client.EditPrefs(context.Background(), &ipn.MaskedPrefs{
+	log_info(fmt.Sprintf("set accept dns to %v", *accept_dns))
+	return apply_prefs(&ipn.MaskedPrefs{
 		Prefs: ipn.Prefs{
 			CorpDNS: *accept_dns,
 		},
 		CorpDNSSet: true,
 	})
-	if err != nil {
-		log_critical(fmt.Sprintf("failed to set accept dns: %v", err))
-		return false
-	}
-
-	log_info(fmt.Sprintf("set accept dns to %v", *accept_dns))
-	return true
 }
 
 //export tailscale_get_hostname
@@ -152,20 +162,13 @@ func tailscale_set_hostname(hostname *string) bool {
 		return true
 	}
 
-	_, err = client.EditPrefs(ctx, &ipn.MaskedPrefs{
+	log_info(fmt.Sprintf("set hostname to %v", *hostname))
+	return apply_prefs(&ipn.MaskedPrefs{
 		Prefs: ipn.Prefs{
 			Hostname: *hostname,
 		},
 		HostnameSet: true,
 	})
-
-	if err != nil {
-		log_critical(fmt.Sprintf("failed to set hostname: %v", err))
-		return false
-	}
-
-	log_info(fmt.Sprintf("set hostname to %v", *hostname))
-	return true
 }
 
 //export tailscale_get_operator_user
@@ -188,19 +191,13 @@ func tailscale_set_operator_user(user *string) bool {
 		return true
 	}
 
-	_, err := client.EditPrefs(context.Background(), &ipn.MaskedPrefs{
+	log_info(fmt.Sprintf("set operator user to %v", *user))
+	return apply_prefs(&ipn.MaskedPrefs{
 		Prefs: ipn.Prefs{
 			OperatorUser: *user,
 		},
 		OperatorUserSet: true,
 	})
-	if err != nil {
-		log_critical(fmt.Sprintf("failed to set operator user: %v", err))
-		return false
-	}
-
-	log_info(fmt.Sprintf("set operator user to %v", *user))
-	return true
 }
 
 //export tailscale_is_operator
@@ -240,19 +237,13 @@ func tailscale_set_shields_up(shields_up *bool) bool {
 		return true
 	}
 
-	_, err := client.EditPrefs(context.Background(), &ipn.MaskedPrefs{
+	log_info(fmt.Sprintf("set shields up to %v", *shields_up))
+	return apply_prefs(&ipn.MaskedPrefs{
 		Prefs: ipn.Prefs{
 			ShieldsUp: *shields_up,
 		},
 		ShieldsUpSet: true,
 	})
-	if err != nil {
-		log_critical(fmt.Sprintf("failed to set shields up: %v", err))
-		return false
-	}
-
-	log_info(fmt.Sprintf("set shields up to %v", *shields_up))
-	return true
 }
 
 //export tailscale_get_ssh
@@ -275,17 +266,11 @@ func tailscale_set_ssh(ssh *bool) bool {
 		return true
 	}
 
-	_, err := client.EditPrefs(context.Background(), &ipn.MaskedPrefs{
+	log_info(fmt.Sprintf("set ssh to %v", *ssh))
+	return apply_prefs(&ipn.MaskedPrefs{
 		Prefs: ipn.Prefs{
 			RunSSH: *ssh,
 		},
 		RunSSHSet: true,
 	})
-	if err != nil {
-		log_critical(fmt.Sprintf("failed to set ssh: %v", err))
-		return false
-	}
-
-	log_info(fmt.Sprintf("set ssh to %v", *ssh))
-	return true
 }
