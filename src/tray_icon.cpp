@@ -100,12 +100,12 @@ void TrayIcon::regenerate()
 
                 if (peer->isCurrentExitNode()) {
                     submenu->addAction(QIcon::fromTheme(QStringLiteral("internet-services")), "Unset exit node", []() {
-                        GoString tmp{"", 1};
+                        GoString tmp{nullptr, 0};
                         tailscale_set_exit_node(&tmp);
                     });
                 } else if (peer->isExitNode()) {
                     submenu->addAction(QIcon::fromTheme(QStringLiteral("internet-services")), "Set as exit node", [peer]() {
-                        QByteArray bytes = peer->hostName().toUtf8();
+                        QByteArray bytes = peer->tailscaleIps().front().toUtf8();
                         GoString tmp{bytes.data(), bytes.size()};
                         tailscale_set_exit_node(&tmp);
                     });
