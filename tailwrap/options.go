@@ -98,8 +98,11 @@ func tailscale_set_exit_node(exit_node *string) bool {
 	prefs := &ipn.MaskedPrefs{}
 	if *exit_node != "" {
 		err = prefs.Prefs.SetExitNodeIP(*exit_node, status)
+	} else {
+		prefs.Prefs.ClearExitNode()
 	}
 	prefs.ExitNodeIPSet = true
+	prefs.ExitNodeIDSet = true
 	if err != nil {
 		log_critical(fmt.Sprintf("failed to set exit node in prefs object: %v", err))
 		return false
