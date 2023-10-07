@@ -47,14 +47,152 @@ Peer *Peer::fromJSON(const QJsonObject &json)
     peer->setLastSeenFromJSON(json);
     peer->setIsOnlineFromJSON(json);
     peer->setIsActiveFromJSON(json);
+    peer->setIsCurrentExitNodeFromJson(json);
+    peer->setIsExitNodeFromJSON(json);
 
     return peer;
+}
+
+bool Peer::setId(const QString &value)
+{
+    if (mId != value) {
+        mId = value;
+        emit idChanged(mId);
+        return true;
+    }
+    return false;
+}
+bool Peer::setPublicKey(const QString &value)
+{
+    if (mPublicKey != value) {
+        mPublicKey = value;
+        emit publicKeyChanged(mPublicKey);
+        return true;
+    }
+    return false;
+}
+bool Peer::setHostName(const QString &value)
+{
+    if (mHostName != value) {
+        mHostName = value;
+        emit hostNameChanged(mHostName);
+        return true;
+    }
+    return false;
+}
+bool Peer::setDNSName(const QString &value)
+{
+    if (mDNSName != value) {
+        mDNSName = value;
+        emit dnsNameChanged(mDNSName);
+        return true;
+    }
+    return false;
+}
+bool Peer::setOs(const QString &value)
+{
+    if (mOs != value) {
+        mOs = value;
+        emit osChanged(mOs);
+        return true;
+    }
+    return false;
+}
+bool Peer::setTailscaleIps(const QStringList &value)
+{
+    if (mTailscaleIps != value) {
+        mTailscaleIps = value;
+        emit tailscaleIpsChanged(mTailscaleIps);
+        return true;
+    }
+    return false;
+}
+bool Peer::setRelay(const QString &value)
+{
+    if (mRelay != value) {
+        mRelay = value;
+        emit relayChanged(mRelay);
+        return true;
+    }
+    return false;
+}
+bool Peer::setRxBytes(long value)
+{
+    if (mRxBytes != value) {
+        mRxBytes = value;
+        emit rxBytesChanged(mRxBytes);
+        return true;
+    }
+    return false;
+}
+bool Peer::setTxBytes(long value)
+{
+    if (mTxBytes != value) {
+        mTxBytes = value;
+        emit txBytesChanged(mTxBytes);
+        return true;
+    }
+    return false;
+}
+bool Peer::setCreated(const QDateTime &value)
+{
+    if (mCreated != value) {
+        mCreated = value;
+        emit createdChanged(mCreated);
+        return true;
+    }
+    return false;
+}
+bool Peer::setLastSeen(const QDateTime &value)
+{
+    if (mLastSeen != value) {
+        mLastSeen = value;
+        emit lastSeenChanged(mLastSeen);
+        return true;
+    }
+    return false;
+}
+bool Peer::setIsOnline(bool value)
+{
+    if (mIsOnline != value) {
+        mIsOnline = value;
+        emit isOnlineChanged(mIsOnline);
+        return true;
+    }
+    return false;
+}
+bool Peer::setIsActive(bool value)
+{
+    if (mIsActive != value) {
+        mIsActive = value;
+        emit isActiveChanged(mIsActive);
+        return true;
+    }
+    return false;
+}
+bool Peer::setIsCurrentExitNode(bool value)
+{
+    if (mIsCurrentExitNode != value) {
+        mIsCurrentExitNode = value;
+        emit isCurrentExitNodeChanged(mIsCurrentExitNode);
+        return true;
+    }
+    return false;
+}
+bool Peer::setIsExitNode(bool value)
+{
+    if (mIsExitNode != value) {
+        mIsExitNode = value;
+        emit isExitNodeChanged(mIsExitNode);
+        return true;
+    }
+    return false;
 }
 
 void Peer::setIdFromJSON(const QJsonObject &json)
 {
     if (json.contains("ID") && json["ID"].isString()) {
-        mId = json["ID"].toString();
+        setId(json["ID"].toString());
     } else {
         qWarning() << "Cannot find string \"ID\"";
     }
@@ -62,7 +200,7 @@ void Peer::setIdFromJSON(const QJsonObject &json)
 void Peer::setPublicKeyFromJSON(const QJsonObject &json)
 {
     if (json.contains("PublicKey") && json["PublicKey"].isString()) {
-        mPublicKey = json["PublicKey"].toString();
+        setPublicKey(json["PublicKey"].toString());
     } else {
         qWarning() << "Cannot find string \"PublicKey\"";
     }
@@ -70,7 +208,7 @@ void Peer::setPublicKeyFromJSON(const QJsonObject &json)
 void Peer::setHostNameFromJSON(const QJsonObject &json)
 {
     if (json.contains("HostName") && json["HostName"].isString()) {
-        mHostName = json["HostName"].toString();
+        setHostName(json["HostName"].toString());
     } else {
         qWarning() << "Cannot find string \"HostName\"";
     }
@@ -78,7 +216,7 @@ void Peer::setHostNameFromJSON(const QJsonObject &json)
 void Peer::setDNSNameFromJSON(const QJsonObject &json)
 {
     if (json.contains("DNSName") && json["DNSName"].isString()) {
-        mDNSName = json["DNSName"].toString();
+        setDNSName(json["DNSName"].toString());
     } else {
         qWarning() << "Cannot find string \"DNSName\"";
     }
@@ -86,18 +224,19 @@ void Peer::setDNSNameFromJSON(const QJsonObject &json)
 void Peer::setOsFromJSON(const QJsonObject &json)
 {
     if (json.contains("OS") && json["OS"].isString()) {
-        mOs = json["OS"].toString();
+        setOs(json["OS"].toString());
     } else {
         qWarning() << "Cannot find string \"OS\"";
     }
 }
 void Peer::setTailscaleIpsFromJSON(const QJsonObject &json)
 {
+    QStringList ips;
     if (json.contains("TailscaleIPs") && json["TailscaleIPs"].isArray()) {
-        mTailscaleIps.clear();
+        // TODO: FIXME
         for (const auto &ip_address : json["TailscaleIPs"].toArray()) {
             if (ip_address.isString()) {
-                mTailscaleIps.append(ip_address.toString());
+                ips.append(ip_address.toString());
             } else {
                 qWarning() << "TailscaleIPs contains non-string";
             }
@@ -105,11 +244,12 @@ void Peer::setTailscaleIpsFromJSON(const QJsonObject &json)
     } else {
         qWarning() << "Cannot find array \"TailscaleIPs\"";
     }
+    setTailscaleIps(ips);
 }
 void Peer::setRelayFromJSON(const QJsonObject &json)
 {
     if (json.contains("Relay") && json["Relay"].isString()) {
-        mRelay = json["Relay"].toString();
+        setRelay(json["Relay"].toString());
     } else {
         qWarning() << "Cannot find string \"Relay\"";
     }
@@ -117,7 +257,7 @@ void Peer::setRelayFromJSON(const QJsonObject &json)
 void Peer::setRxBytesFromJSON(const QJsonObject &json)
 {
     if (json.contains("RxBytes") && json["RxBytes"].isDouble()) {
-        mRxBytes = (long)std::round(json["RxBytes"].toDouble());
+        setRxBytes((long)std::round(json["RxBytes"].toDouble()));
     } else {
         qWarning() << "Cannot find int \"RxBytes\"";
     }
@@ -125,7 +265,7 @@ void Peer::setRxBytesFromJSON(const QJsonObject &json)
 void Peer::setTxBytesFromJSON(const QJsonObject &json)
 {
     if (json.contains("TxBytes") && json["TxBytes"].isDouble()) {
-        mTxBytes = (long)std::round(json["TxBytes"].toDouble());
+        setTxBytes((long)std::round(json["TxBytes"].toDouble()));
     } else {
         qWarning() << "Cannot find int \"TxBytes\"";
     }
@@ -136,9 +276,9 @@ void Peer::setCreatedFromJSON(const QJsonObject &json)
     if (json.contains("Created") && json["Created"].isString()) {
         const auto string = json["Created"].toString();
         if (string == nowdate) {
-            mCreated = QDateTime::currentDateTime();
+            setCreated(QDateTime::currentDateTime());
         } else {
-            mCreated = QDateTime::fromString(string, Qt::ISODateWithMs);
+            setCreated(QDateTime::fromString(string, Qt::ISODateWithMs));
         }
     } else {
         qWarning() << "Cannot find string \"Created\"";
@@ -150,9 +290,9 @@ void Peer::setLastSeenFromJSON(const QJsonObject &json)
     if (json.contains("LastSeen") && json["LastSeen"].isString()) {
         const auto string = json["LastSeen"].toString();
         if (string == nowdate) {
-            mLastSeen = QDateTime::currentDateTime();
+            setLastSeen(QDateTime::currentDateTime());
         } else {
-            mLastSeen = QDateTime::fromString(string, Qt::ISODateWithMs);
+            setLastSeen(QDateTime::fromString(string, Qt::ISODateWithMs));
         }
     } else {
         qWarning() << "Cannot find string \"LastSeen\"";
@@ -161,7 +301,7 @@ void Peer::setLastSeenFromJSON(const QJsonObject &json)
 void Peer::setIsOnlineFromJSON(const QJsonObject &json)
 {
     if (json.contains("Online") && json["Online"].isBool()) {
-        mIsOnline = json["Online"].toBool();
+        setIsOnline(json["Online"].toBool());
     } else {
         qWarning() << "Cannot find bool \"Online\"";
     }
@@ -169,93 +309,45 @@ void Peer::setIsOnlineFromJSON(const QJsonObject &json)
 void Peer::setIsActiveFromJSON(const QJsonObject &json)
 {
     if (json.contains("Active") && json["Active"].isBool()) {
-        mIsActive = json["Active"].toBool();
+        setIsActive(json["Active"].toBool());
     } else {
         qWarning() << "Cannot find bool \"Active\"";
+    }
+}
+void Peer::setIsCurrentExitNodeFromJson(const QJsonObject &json)
+{
+    if (json.contains("ExitNode") && json["ExitNode"].isBool()) {
+        setIsCurrentExitNode(json["ExitNode"].toBool());
+    } else {
+        qWarning() << "Cannot find bool \"ExitNode\"";
+    }
+}
+void Peer::setIsExitNodeFromJSON(const QJsonObject &json)
+{
+    if (json.contains("ExitNodeOption") && json["ExitNodeOption"].isBool()) {
+        setIsExitNode(json["ExitNodeOption"].toBool());
+    } else {
+        qWarning() << "Cannot find bool \"ExitNode\"";
     }
 }
 
 bool Peer::setTo(const Peer *other)
 {
-    bool result = false;
-    if (mId != other->mId) {
-        mId = other->mId;
-        emit idChanged(mId);
-        result = true;
-    }
-
-    if (mPublicKey != other->mPublicKey) {
-        mPublicKey = other->mPublicKey;
-        emit publicKeyChanged(mPublicKey);
-        result = true;
-    }
-
-    if (mHostName != other->mHostName) {
-        mHostName = other->mHostName;
-        emit hostNameChanged(mHostName);
-        result = true;
-    }
-
-    if (mDNSName != other->mDNSName) {
-        mDNSName = other->mDNSName;
-        emit dnsNameChanged(mDNSName);
-        result = true;
-    }
-
-    if (mOs != other->mOs) {
-        mOs = other->mOs;
-        emit osChanged(mOs);
-        result = true;
-    }
-
-    if (mTailscaleIps != other->mTailscaleIps) {
-        mTailscaleIps = other->mTailscaleIps;
-        emit tailscaleIpsChanged(mTailscaleIps);
-        result = true;
-    }
-
-    if (mRelay != other->mRelay) {
-        mRelay = other->mRelay;
-        emit relayChanged(mRelay);
-        result = true;
-    }
-
-    if (mRxBytes != other->mRxBytes) {
-        mRxBytes = other->mRxBytes;
-        emit rxBytesChanged(mRxBytes);
-        result = true;
-    }
-
-    if (mTxBytes != other->mTxBytes) {
-        mTxBytes = other->mTxBytes;
-        emit txBytesChanged(mTxBytes);
-        result = true;
-    }
-
-    if (mCreated != other->mCreated) {
-        mCreated = other->mCreated;
-        emit createdChanged(mCreated);
-        result = true;
-    }
-
-    if (mLastSeen != other->mLastSeen) {
-        mLastSeen = other->mLastSeen;
-        emit lastSeenChanged(mLastSeen);
-        result = true;
-    }
-
-    if (mIsOnline != other->mIsOnline) {
-        mIsOnline = other->mIsOnline;
-        emit isOnlineChanged(mIsOnline);
-        result = true;
-    }
-
-    if (mIsActive != other->mIsActive) {
-        mIsActive = other->mIsActive;
-        emit isActiveChanged(mIsActive);
-        result = true;
-    }
-
+    bool result = setId(other->id());
+    result |= setPublicKey(other->publicKey());
+    result |= setHostName(other->hostName());
+    result |= setDNSName(other->dnsName());
+    result |= setOs(other->os());
+    result |= setTailscaleIps(other->tailscaleIps());
+    result |= setRelay(other->relay());
+    result |= setRxBytes(other->rxBytes());
+    result |= setTxBytes(other->txBytes());
+    result |= setCreated(other->created());
+    result |= setLastSeen(other->lastSeen());
+    result |= setIsOnline(other->isOnline());
+    result |= setIsActive(other->isActive());
+    result |= setIsCurrentExitNode(other->isCurrentExitNode());
+    result |= setIsExitNode(other->isExitNode());
     return result;
 }
 
@@ -322,6 +414,14 @@ bool Peer::isOnline() const
 bool Peer::isActive() const
 {
     return mIsActive;
+}
+bool Peer::isCurrentExitNode() const
+{
+    return mIsCurrentExitNode;
+}
+bool Peer::isExitNode() const
+{
+    return mIsExitNode;
 }
 
 Peer &Peer::operator=(const Peer &other)

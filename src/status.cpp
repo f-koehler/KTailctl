@@ -105,6 +105,18 @@ void Status::read(const QJsonObject &json)
         mIsOperator = newIsOperator;
         emit isOperatorChanged(mIsOperator);
     }
+
+    QStringList newExitNodes;
+    for (const auto &peer : mPeers) {
+        if (peer->isExitNode()) {
+            newExitNodes.append(peer->id());
+        }
+    }
+    newExitNodes.sort();
+    if (newExitNodes != mExitNodes) {
+        mExitNodes = newExitNodes;
+        emit exitNodesChanged(mExitNodes);
+    }
 }
 
 bool Status::success() const
@@ -140,4 +152,9 @@ const QVector<Peer *> &Status::peers() const
 bool Status::isOperator() const
 {
     return mIsOperator;
+}
+
+const QStringList &Status::exitNodes() const
+{
+    return mExitNodes;
 }

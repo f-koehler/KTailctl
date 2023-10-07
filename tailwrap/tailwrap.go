@@ -9,16 +9,32 @@ import (
 
 	"tailscale.com/client/tailscale"
 	"tailscale.com/cmd/tailscale/cli"
+	"tailscale.com/ipn"
 )
 
 var client tailscale.LocalClient
 
 //export tailscale_down
 func tailscale_down() {
-	log_info("tailscale down")
-	args := []string{"down"}
-	if err := cli.Run(args); err != nil {
-		log_critical(fmt.Sprintf("failed to bring tailscale down: %v", err))
+	ctx := context.Background()
+	status, err := client.Status(ctx)
+	if err != nil {
+		log_critical(fmt.Sprintf("failed to get tailscale status: %v", err))
+		return
+	}
+	if status.BackendState == "Stopped" {
+		log_warning("tailscale already down")
+		return
+	}
+
+	_, err = client.EditPrefs(ctx, &ipn.MaskedPrefs{
+		Prefs: ipn.Prefs{
+			WantRunning: false,
+		},
+		WantRunningSet: true,
+	})
+	if err != nil {
+		log_critical(fmt.Sprintf("failed bring tailscale down: %v", err))
 	}
 }
 

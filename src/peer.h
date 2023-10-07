@@ -31,6 +31,8 @@ class Peer : public QObject
     Q_PROPERTY(QDateTime lastSeen READ lastSeen NOTIFY lastSeenChanged)
     Q_PROPERTY(bool isOnline READ isOnline NOTIFY isOnlineChanged)
     Q_PROPERTY(bool isActive READ isActive NOTIFY isActiveChanged)
+    Q_PROPERTY(bool isCurrentExitNode READ isCurrentExitNode NOTIFY isCurrentExitNode)
+    Q_PROPERTY(bool isExitNode READ isExitNode NOTIFY isExitNodeChanged)
 
 private:
     QString mId;
@@ -46,8 +48,26 @@ private:
     QDateTime mLastSeen;
     bool mIsOnline{};
     bool mIsActive{};
+    bool mIsCurrentExitNode{};
+    bool mIsExitNode{};
 
 protected:
+    bool setId(const QString &value);
+    bool setPublicKey(const QString &value);
+    bool setHostName(const QString &value);
+    bool setDNSName(const QString &value);
+    bool setOs(const QString &value);
+    bool setTailscaleIps(const QStringList &value);
+    bool setRelay(const QString &value);
+    bool setRxBytes(long value);
+    bool setTxBytes(long value);
+    bool setCreated(const QDateTime &value);
+    bool setLastSeen(const QDateTime &value);
+    bool setIsOnline(bool value);
+    bool setIsActive(bool value);
+    bool setIsCurrentExitNode(bool value);
+    bool setIsExitNode(bool value);
+
     void setIdFromJSON(const QJsonObject &json);
     void setPublicKeyFromJSON(const QJsonObject &json);
     void setHostNameFromJSON(const QJsonObject &json);
@@ -61,6 +81,8 @@ protected:
     void setLastSeenFromJSON(const QJsonObject &json);
     void setIsOnlineFromJSON(const QJsonObject &json);
     void setIsActiveFromJSON(const QJsonObject &json);
+    void setIsCurrentExitNodeFromJson(const QJsonObject &object);
+    void setIsExitNodeFromJSON(const QJsonObject &json);
 
 signals:
     void idChanged(const QString &);
@@ -76,6 +98,8 @@ signals:
     void lastSeenChanged(const QDateTime &);
     void isOnlineChanged(bool);
     void isActiveChanged(bool);
+    void isCurrentExitNodeChanged(bool);
+    void isExitNodeChanged(bool);
 
 public slots:
     Q_INVOKABLE void updateFromStatus(const Status &status);
@@ -100,6 +124,8 @@ public:
     const QDateTime &lastSeen() const;
     bool isOnline() const;
     bool isActive() const;
+    bool isCurrentExitNode() const;
+    bool isExitNode() const;
 
     Peer &operator=(const Peer &other);
 };
