@@ -31,7 +31,7 @@ class Peer : public QObject
     Q_PROPERTY(QDateTime lastSeen READ lastSeen NOTIFY lastSeenChanged)
     Q_PROPERTY(bool isOnline READ isOnline NOTIFY isOnlineChanged)
     Q_PROPERTY(bool isActive READ isActive NOTIFY isActiveChanged)
-    Q_PROPERTY(bool isCurrentExitNode READ isCurrentExitNode NOTIFY isCurrentExitNode)
+    Q_PROPERTY(bool isCurrentExitNode READ isCurrentExitNode NOTIFY isCurrentExitNodeChanged)
     Q_PROPERTY(bool isExitNode READ isExitNode NOTIFY isExitNodeChanged)
 
 private:

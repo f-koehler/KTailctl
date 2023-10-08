@@ -2,6 +2,7 @@
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 #include "util.h"
 
+#include "libtailwrap.h"
 #include <QClipboard>
 #include <QGuiApplication>
 #include <QMimeData>
@@ -144,4 +145,15 @@ qint64 Util::toMSecsSinceEpoch(const QDateTime &dateTime)
 QIcon Util::loadOsIcon(const QString &os)
 {
     return ::loadOsIcon(os);
+}
+void Util::setExitNode(const QString &node)
+{
+    QByteArray bytes = node.toUtf8();
+    GoString tmp{bytes.data(), bytes.size()};
+    tailscale_set_exit_node(&tmp);
+}
+void Util::unsetExitNode()
+{
+    GoString tmp{nullptr, 0};
+    tailscale_set_exit_node(&tmp);
 }
