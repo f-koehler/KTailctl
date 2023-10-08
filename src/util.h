@@ -32,6 +32,8 @@ public:
     Q_INVOKABLE static QStringList fileUrlsToStrings(const QList<QUrl> &urls);
     Q_INVOKABLE static qint64 toMSecsSinceEpoch(const QDateTime &dateTime);
     Q_INVOKABLE static QIcon loadOsIcon(const QString &os);
+    Q_INVOKABLE static void setExitNode(const QString &node);
+    Q_INVOKABLE static void unsetExitNode();
 };
 
 #endif /* KTAILCTL_UTIL_H */

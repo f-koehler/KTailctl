@@ -147,6 +147,29 @@ Kirigami.ScrollablePage {
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: "Exit Node"
+        }
+        
+        Controls.Label {
+            Kirigami.FormData.label: "Runs exit node:"
+            text: App.peerDetails.isExitNode ? "Yes" : "No"
+        }
+        
+        Controls.Switch {
+            Kirigami.FormData.label: "Set as exit node:"
+            checked: App.peerDetails.isCurrentExitNode
+            enabled: App.peerDetails.isExitNode
+            onToggled: {
+                if(App.peerDetails.isCurrentExitNode) {
+                    Util.unsetExitNode();
+                } else {
+                    Util.setExitNode(App.peerDetails.tailscaleIps[0]);
+                }
+            }
+        }
+
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
             Kirigami.FormData.label: "Statistics"
         }
 
