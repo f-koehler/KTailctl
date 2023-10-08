@@ -22,7 +22,7 @@ A GUI to monitor and manage Tailscale on your Linux desktop, built using KDE Fra
 - [x] Copying of IP addresses/DNS name
 - [ ] Speed graphs
 - [ ] Pinging of peers
-- [ ] Exit node management
+- [x] Exit node management
 - [x] Toggle tailscale status
 - [x] Sending files
 - [x] Receiving files

@@ -25,6 +25,27 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.9.0" date="2023-10-08" urgency="low">
+      <description>
+        <p>Features:</p>
+        <ul>
+          <li>Set/unset exit node from tray menu/peer details page</li>
+        </ul>
+        <p>Fixes:</p>
+        <ul>
+          <li>Compilation on 32bit architectures</li>
+        </ul>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.9.0</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.9.0.tar.gz</location>
+        </artifact>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.9.0/tailwrap-vendor-v0.9.0.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.8.0" date="2023-09-15" urgency="low">
       <description>
         <p>Features:</p>
