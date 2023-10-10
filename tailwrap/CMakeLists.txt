@@ -24,12 +24,17 @@ endif()
 
 set(TAILWRAP_LIBRARY ${CMAKE_BINARY_DIR}/lib/libtailwrap.a)
 set(TAILWRAP_HEADER ${CMAKE_BINARY_DIR}/lib/libtailwrap.h)
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(TAILWRAP_GO_ENV "GOEXPERIMENT=cgocheck2")
+else()
+    set(TAILWRAP_GO_ENV "")
+endif()
 add_custom_command(
     OUTPUT
         ${TAILWRAP_LIBRARY}
         ${TAILWRAP_HEADER}
     COMMAND
-        ${TAILWRAP_GO_EXECUTABLE} build -v -trimpath
+        "${TAILWRAP_GO_ENV}" ${TAILWRAP_GO_EXECUTABLE} build -v -trimpath
             -o ${TAILWRAP_LIBRARY}
             -buildmode=c-archive
             tailwrap.go options.go taildrop.go callbacks.go logging.go
