@@ -17,10 +17,14 @@ Status::Status(QObject *parent)
 
 void Status::refresh()
 {
-    bool const success = tailscale_status(&mStatusBuffer) != 0U;
+    // TODO: remove mStatusBuffer
+    char *tmpString = tailscale_status();
+    bool success = tmpString != nullptr;
+
     if (success) {
-        read(QJsonDocument::fromJson(QByteArray::fromRawData(mStatusBuffer.p, mStatusBuffer.n)).object());
+        read(QJsonDocument::fromJson(QByteArray::fromRawData(tmpString, strlen(tmpString))).object());
         emit refreshed(*this);
+        free(tmpString);
     }
     if (success != mSuccess) {
         mSuccess = success;

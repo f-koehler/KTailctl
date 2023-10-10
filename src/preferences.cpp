@@ -9,7 +9,6 @@ Preferences::Preferences(QObject *parent)
 void Preferences::refresh()
 {
     GoUint8 tmpBool = 0;
-    GoString tmpString;
 
     if (tailscale_get_accept_routes(&tmpBool) != 0U) {
         if (static_cast<bool>(tmpBool) != mAcceptRoutes) {
@@ -32,20 +31,22 @@ void Preferences::refresh()
         }
     }
 
-    if (tailscale_get_hostname(&tmpString) != 0U) {
-        QString const tmp = QString::fromUtf8(tmpString.p, tmpString.n);
-        if (tmp != mHostname) {
-            mHostname = tmp;
+    char *tmpString = tailscale_get_hostname();
+    if (tmpString != nullptr) {
+        if (mHostname != tmpString) {
+            mHostname = tmpString;
             emit hostnameChanged(mHostname);
         }
+        free(tmpString);
     }
 
-    if (tailscale_get_operator_user(&tmpString) != 0U) {
-        QString const tmp = QString::fromUtf8(tmpString.p, tmpString.n);
-        if (tmp != mOperatorUser) {
-            mOperatorUser = tmp;
+    tmpString = tailscale_get_operator_user();
+    if (tmpString != nullptr) {
+        if (mOperatorUser != tmpString) {
+            mOperatorUser = tmpString;
             emit operatorUserChanged(mOperatorUser);
         }
+        free(tmpString);
     }
 }
 

@@ -142,14 +142,13 @@ func tailscale_set_accept_dns(accept_dns *bool) bool {
 }
 
 //export tailscale_get_hostname
-func tailscale_get_hostname(hostname *string) bool {
+func tailscale_get_hostname() *C.char {
 	curPrefs, err := client.GetPrefs(context.Background())
 	if err != nil {
 		log_critical(fmt.Sprintf("failed to get tailscale preferences: %v", err))
-		return false
+		return nil
 	}
-	*hostname = curPrefs.Hostname
-	return true
+	return C.CString(curPrefs.Hostname)
 }
 
 //export tailscale_set_hostname
@@ -176,21 +175,24 @@ func tailscale_set_hostname(hostname *string) bool {
 }
 
 //export tailscale_get_operator_user
-func tailscale_get_operator_user(user *string) bool {
+func tailscale_get_operator_user() *C.char {
+	curPrefs, err := client.GetPrefs(context.Background())
+	if err != nil {
+		log_critical(fmt.Sprintf("failed to get tailscale preferences: %v", err))
+		return nil
+	}
+	return C.CString(curPrefs.OperatorUser)
+}
+
+//export tailscale_set_operator_user
+func tailscale_set_operator_user(user *string) bool {
 	curPrefs, err := client.GetPrefs(context.Background())
 	if err != nil {
 		log_critical(fmt.Sprintf("failed to get tailscale preferences: %v", err))
 		return false
 	}
-	*user = curPrefs.OperatorUser
-	return true
-}
 
-//export tailscale_set_operator_user
-func tailscale_set_operator_user(user *string) bool {
-	var cur string
-	tailscale_get_operator_user(&cur)
-	if cur == *user {
+	if curPrefs.OperatorUser == *user {
 		log_warning(fmt.Sprintf("operator user already set to %v", *user))
 		return true
 	}
@@ -206,9 +208,9 @@ func tailscale_set_operator_user(user *string) bool {
 
 //export tailscale_is_operator
 func tailscale_is_operator() bool {
-	var operator string
-	if !tailscale_get_operator_user(&operator) {
-		log_critical("failed to get operator user")
+	curPrefs, err := client.GetPrefs(context.Background())
+	if err != nil {
+		log_critical(fmt.Sprintf("failed to get tailscale preferences: %v", err))
 		return false
 	}
 
@@ -218,7 +220,7 @@ func tailscale_is_operator() bool {
 		return false
 	}
 
-	return user.Username == operator
+	return user.Username == curPrefs.OperatorUser
 }
 
 //export tailscale_get_shields_up

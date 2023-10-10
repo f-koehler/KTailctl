@@ -48,19 +48,19 @@ func tailscale_up() {
 }
 
 //export tailscale_status
-func tailscale_status(status_json *string) bool {
+func tailscale_status() *C.char {
 	status, err := client.Status(context.Background())
 	if err != nil {
 		log_critical(fmt.Sprintf("failed to get tailscale status: %v", err))
-		return false
+		return nil
 	}
 	j, err := json.MarshalIndent(status, "", "  ")
 	if err != nil {
 		log_critical(fmt.Sprintf("failed to indent tailscale status: %v", err))
-		return false
+		return nil
 	}
-	*status_json = string(j)
-	return true
+
+	return C.CString(string(j))
 }
 
 func main() {
