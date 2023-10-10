@@ -25,6 +25,20 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.9.1" date="2023-10-10" urgency="medium">
+      <description>
+        <p>Fixes:</p>
+        <ul>
+          <li>Fix crash when a lot of peers are present (e.g. when enabling the Mullvad extension)</li>
+        </ul>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.9.1</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.9.1.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.9.0" date="2023-10-08" urgency="low">
       <description>
         <p>Features:</p>
