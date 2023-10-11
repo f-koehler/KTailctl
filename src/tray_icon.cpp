@@ -107,6 +107,13 @@ void TrayIcon::regenerate()
                         Util::setExitNode(peer->tailscaleIps().front());
                     });
                 }
+
+                if (peer->isRunningSSH()) {
+                    submenu->addSection("SSH");
+                    submenu->addAction(QIcon::fromTheme(QStringLiteral("akonadiconsole")), "Copy SSH command", [peer]() {
+                        Util::setClipboardText(peer->getSSHCommand());
+                    });
+                }
             }
 
             QObject::connect(statsUp, &SpeedStatistics::refreshed, [actionUp, statsUp]() {
