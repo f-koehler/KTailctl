@@ -396,6 +396,13 @@ bool Peer::setTo(const Peer *other)
     result |= setSSHHostKeys(other->sshHostKeys());
     return result;
 }
+QString Peer::getSSHCommand() const
+{
+    if (!mIsRunningSSH) {
+        return "";
+    }
+    return QString("tailscale ssh %1").arg(mDNSName);
+}
 
 const QString &Peer::id() const
 {

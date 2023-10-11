@@ -119,6 +119,7 @@ public:
 
     static Peer *fromJSON(const QJsonObject &json);
     bool setTo(const Peer *other);
+    Q_INVOKABLE QString getSSHCommand() const;
 
     const QString &id() const;
     const QString &publicKey() const;
