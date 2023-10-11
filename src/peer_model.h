@@ -28,6 +28,9 @@ public:
         TailscaleIpsRole,
         IsOnlineRole,
         IsActiveRole,
+        SSHHostKeysRole,
+        IsRunningSSHRole,
+        SSHCommandRole,
     };
 
     explicit PeerModel(QObject *parent = nullptr);

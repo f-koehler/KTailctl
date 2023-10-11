@@ -140,6 +140,14 @@ Kirigami.ScrollablePage {
                             }
                             visible: Tailscale.status.isOperator
                         }
+                        Controls.Button {
+                            text: "SSH"
+                            icon.name: "akonadiconsole"
+                            visible: isRunningSSH
+                            onClicked: {
+                                Util.setClipboardText(sshCommand)
+                            }
+                        }
                     }
 
                 }
