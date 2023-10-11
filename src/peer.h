@@ -33,6 +33,8 @@ class Peer : public QObject
     Q_PROPERTY(bool isActive READ isActive NOTIFY isActiveChanged)
     Q_PROPERTY(bool isCurrentExitNode READ isCurrentExitNode NOTIFY isCurrentExitNodeChanged)
     Q_PROPERTY(bool isExitNode READ isExitNode NOTIFY isExitNodeChanged)
+    Q_PROPERTY(QStringList sshHostKeys READ sshHostKeys NOTIFY sshHostKeysChanged)
+    Q_PROPERTY(bool isRunningSSH READ isRunningSSH NOTIFY isRunningSSHChanged)
 
 private:
     QString mId;
@@ -50,6 +52,8 @@ private:
     bool mIsActive{};
     bool mIsCurrentExitNode{};
     bool mIsExitNode{};
+    QStringList mSSHHostKeys{};
+    bool mIsRunningSSH;
 
 protected:
     bool setId(const QString &value);
@@ -67,6 +71,8 @@ protected:
     bool setIsActive(bool value);
     bool setIsCurrentExitNode(bool value);
     bool setIsExitNode(bool value);
+    bool setSSHHostKeys(const QStringList &value);
+    bool setIsRunningSSH(bool value);
 
     void setIdFromJSON(const QJsonObject &json);
     void setPublicKeyFromJSON(const QJsonObject &json);
@@ -83,6 +89,7 @@ protected:
     void setIsActiveFromJSON(const QJsonObject &json);
     void setIsCurrentExitNodeFromJson(const QJsonObject &object);
     void setIsExitNodeFromJSON(const QJsonObject &json);
+    void setSSHHostKeysFromJSON(const QJsonObject &json);
 
 signals:
     void idChanged(const QString &);
@@ -100,6 +107,8 @@ signals:
     void isActiveChanged(bool);
     void isCurrentExitNodeChanged(bool);
     void isExitNodeChanged(bool);
+    void sshHostKeysChanged(const QStringList &);
+    void isRunningSSHChanged(bool);
 
 public slots:
     Q_INVOKABLE void updateFromStatus(const Status &status);
@@ -126,6 +135,8 @@ public:
     bool isActive() const;
     bool isCurrentExitNode() const;
     bool isExitNode() const;
+    const QStringList &sshHostKeys() const;
+    bool isRunningSSH() const;
 
     Peer &operator=(const Peer &other);
 };

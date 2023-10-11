@@ -49,6 +49,7 @@ Peer *Peer::fromJSON(const QJsonObject &json)
     peer->setIsActiveFromJSON(json);
     peer->setIsCurrentExitNodeFromJson(json);
     peer->setIsExitNodeFromJSON(json);
+    peer->setSSHHostKeysFromJSON(json);
 
     return peer;
 }
@@ -184,6 +185,31 @@ bool Peer::setIsExitNode(bool value)
     if (mIsExitNode != value) {
         mIsExitNode = value;
         emit isExitNodeChanged(mIsExitNode);
+        return true;
+    }
+    return false;
+}
+
+bool Peer::setSSHHostKeys(const QStringList &value)
+{
+    if (mSSHHostKeys != value) {
+        mSSHHostKeys = value;
+        emit sshHostKeysChanged(mSSHHostKeys);
+        if (mSSHHostKeys.size() > 0) {
+            setIsRunningSSH(true);
+        } else {
+            setIsRunningSSH(false);
+        }
+        return true;
+    }
+    return false;
+}
+
+bool Peer::setIsRunningSSH(bool value)
+{
+    if (mIsRunningSSH != value) {
+        mIsRunningSSH = value;
+        emit isRunningSSHChanged(mIsRunningSSH);
         return true;
     }
     return false;
@@ -330,6 +356,25 @@ void Peer::setIsExitNodeFromJSON(const QJsonObject &json)
         qWarning() << "Cannot find bool \"ExitNode\"";
     }
 }
+void Peer::setSSHHostKeysFromJSON(const QJsonObject &json)
+{
+    QStringList keys{};
+    if (json.contains("SSHHostKeys")) {
+        if (json["SSHHostKeys"].isArray()) {
+            const auto arr = json["SSHHostKeys"].toArray();
+            for (const auto &key : arr) {
+                if (key.isString()) {
+                    keys.append(key.toString());
+                } else {
+                    qWarning() << "SSHHostKeys contains non-string";
+                }
+            }
+        } else {
+            qWarning() << "\"SSHHostKeys\" is not an array";
+        }
+    }
+    setSSHHostKeys(keys);
+}
 
 bool Peer::setTo(const Peer *other)
 {
@@ -348,6 +393,7 @@ bool Peer::setTo(const Peer *other)
     result |= setIsActive(other->isActive());
     result |= setIsCurrentExitNode(other->isCurrentExitNode());
     result |= setIsExitNode(other->isExitNode());
+    result |= setSSHHostKeys(other->sshHostKeys());
     return result;
 }
 
@@ -422,6 +468,14 @@ bool Peer::isCurrentExitNode() const
 bool Peer::isExitNode() const
 {
     return mIsExitNode;
+}
+const QStringList &Peer::sshHostKeys() const
+{
+    return mSSHHostKeys;
+}
+bool Peer::isRunningSSH() const
+{
+    return mIsRunningSSH;
 }
 
 Peer &Peer::operator=(const Peer &other)
