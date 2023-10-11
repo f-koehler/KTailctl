@@ -228,11 +228,29 @@ Kirigami.ScrollablePage {
                 spacing: 0
 
                 MobileForm.FormSwitchDelegate {
+                    id: startMinimized
                     text: i18nc("@label", "Start minimized:")
                     checked: App.config.startMinimized
                     onClicked: {
                         App.config.startMinimized = !App.config.startMinimized;
                         App.config.save();
+                    }
+                    enabled: App.config.enableTrayIcon
+                }
+                
+                MobileForm.FormDelegateSeparator { below: startMinimized; above: enableTrayIcon; }
+                
+                MobileForm.FormSwitchDelegate {
+                    id: enableTrayIcon
+                    text: i18nc("@label", "Enable tray icon:")
+                    checked: App.config.enableTrayIcon
+                    onClicked: {
+                        App.config.enableTrayIcon = !App.config.enableTrayIcon;
+                        if(!App.config.enableTrayIcon) {
+                            App.config.startMinimized = false;
+                        }
+                        App.config.save();
+                        App.trayIcon.visible = App.config.enableTrayIcon;
                     }
                 }
             }

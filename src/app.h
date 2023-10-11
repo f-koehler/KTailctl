@@ -22,6 +22,7 @@ class App : public QObject
     Q_PROPERTY(KTailctlConfig *config READ config CONSTANT)
     Q_PROPERTY(Peer *peerDetails READ peerDetails CONSTANT)
     Q_PROPERTY(PeerModel *peerModel READ peerModel CONSTANT)
+    Q_PROPERTY(TrayIcon *trayIcon READ trayIcon CONSTANT)
 
 private:
     Tailscale *mTailscale;

@@ -38,6 +38,10 @@ TrayIcon::TrayIcon(Tailscale *tailscale, QObject *parent)
 
 void TrayIcon::regenerate()
 {
+    if (!isVisible()) {
+        return;
+    }
+
     QMenu *menu = contextMenu();
     menu->clear();
 

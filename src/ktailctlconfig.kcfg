@@ -62,5 +62,24 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <label>Start minimized</label>
             <default>false</default>
         </entry>
+        <entry name="enableTrayIcon" type="Bool">
+            <label>Enable tray icon</label>
+            <default>true</default>
+        </entry>
+        <entry name="trayIconStyle" type="Enum">
+            <label>Style of the tray icon</label>
+            <choices>
+                <choice name="Colorful">
+                    <label>Colorful</label>
+                </choice>
+                <choice name="BreezeDark">
+                    <label>Breeze Dark</label>
+                </choice>
+                <choice name="BreezeLight">
+                    <label>Breeze Light</label>
+                </choice>
+            </choices>
+            <default>1</default>
+        </entry>
     </group>
 </kcfg>
