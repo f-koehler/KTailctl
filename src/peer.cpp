@@ -359,14 +359,14 @@ void Peer::setIsExitNodeFromJSON(const QJsonObject &json)
 void Peer::setSSHHostKeysFromJSON(const QJsonObject &json)
 {
     QStringList keys{};
-    if (json.contains("SSHHostKeys")) {
-        if (json["SSHHostKeys"].isArray()) {
-            const auto arr = json["SSHHostKeys"].toArray();
+    if (json.contains("sshHostKeys")) {
+        if (json["sshHostKeys"].isArray()) {
+            const auto arr = json["sshHostKeys"].toArray();
             for (const auto &key : arr) {
                 if (key.isString()) {
                     keys.append(key.toString());
                 } else {
-                    qWarning() << "SSHHostKeys contains non-string";
+                    qWarning() << "sshHostKeys contains non-string";
                 }
             }
         } else {
