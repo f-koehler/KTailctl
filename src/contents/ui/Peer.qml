@@ -167,6 +167,25 @@ Kirigami.ScrollablePage {
                 }
             }
         }
+        
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: "SSH"
+        }
+
+        Controls.Label {
+            Kirigami.FormData.label: "Runs SSH:"
+            text: App.peerDetails.isRunningSSH ? "Yes" : "No"
+        }
+        
+        Controls.Button {
+            enabled: App.peerDetails.isRunningSSH
+            text: "Copy SSH command"
+            icon.name: "akonadiconsole"
+            onClicked: {
+                Util.setClipboardText(App.peerDetails.sshCommand())
+            }
+        }
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
