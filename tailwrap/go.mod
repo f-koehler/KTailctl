@@ -3,7 +3,7 @@ module tailwrap
 go 1.21.0
 
 require (
-	golang.org/x/net v0.16.0
+	golang.org/x/net v0.17.0
 	tailscale.com v1.50.1
 )
 
