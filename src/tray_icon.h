@@ -15,9 +15,11 @@ class TrayIcon : public QSystemTrayIcon
 private:
     Tailscale *mTailscale;
     QQuickWindow *mWindow{};
+    KTailctlConfig *mConfig;
 
 public slots:
     void regenerate();
+    void setIcon();
 
 signals:
     void quitClicked();

@@ -6,22 +6,20 @@
 #include <QClipboard>
 #include <QFileDialog>
 #include <QGuiApplication>
+#include <QIcon>
 #include <QMenu>
 #include <QMessageBox>
 
 TrayIcon::TrayIcon(Tailscale *tailscale, QObject *parent)
     : QSystemTrayIcon(parent)
     , mTailscale(tailscale)
+    , mConfig(KTailctlConfig::self())
 {
-    if (mTailscale->status()->backendState() == "Running") {
-        setIcon(QIcon(QStringLiteral(":/icons/online")));
-    } else {
-        setIcon(QIcon(QStringLiteral(":/icons/offline")));
-    }
-
+    setIcon();
     setContextMenu(new QMenu());
 
     QObject::connect(contextMenu(), &QMenu::aboutToShow, this, &TrayIcon::regenerate);
+    QObject::connect(mConfig, &KTailctlConfig::trayIconStyleChanged, this, &TrayIcon::setIcon);
     QObject::connect(this, &QSystemTrayIcon::activated, [this](const QSystemTrayIcon::ActivationReason &) {
         if (mWindow == nullptr) {
             return;
@@ -45,11 +43,7 @@ void TrayIcon::regenerate()
     QMenu *menu = contextMenu();
     menu->clear();
 
-    if (mTailscale->status()->backendState() == "Running") {
-        setIcon(QIcon(QStringLiteral(":/icons/online")));
-    } else {
-        setIcon(QIcon(QStringLiteral(":/icons/offline")));
-    }
+    setIcon();
 
     if (mWindow != nullptr) {
         menu->addAction(QIcon::fromTheme("window"), "Open", this, [this]() {
@@ -134,6 +128,28 @@ void TrayIcon::regenerate()
         emit quitClicked();
     });
     setContextMenu(menu);
+}
+
+void TrayIcon::setIcon()
+{
+    QString icon_path = ":/icons/";
+    if (mTailscale->status()->backendState() == "Running") {
+        icon_path += "online";
+    } else {
+        icon_path += "offline";
+    }
+
+    switch (mConfig->trayIconStyle()) {
+    case KTailctlConfig::EnumTrayIconStyle::BreezeDark:
+        icon_path += "-breeze-dark";
+        break;
+    case KTailctlConfig::EnumTrayIconStyle::BreezeLight:
+        icon_path += "-breeze-light";
+        break;
+    default:
+        icon_path += "-colorful";
+        break;
+    }
 }
 
 void TrayIcon::setWindow(QQuickWindow *window)

@@ -73,10 +73,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <label>Colorful</label>
                 </choice>
                 <choice name="BreezeDark">
-                    <label>Breeze Dark</label>
+                    <label>BreezeDark</label>
                 </choice>
                 <choice name="BreezeLight">
-                    <label>Breeze Light</label>
+                    <label>BreezeLight</label>
                 </choice>
             </choices>
             <default>1</default>

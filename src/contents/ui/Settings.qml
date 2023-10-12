@@ -253,6 +253,18 @@ Kirigami.ScrollablePage {
                         App.trayIcon.visible = App.config.enableTrayIcon;
                     }
                 }
+                
+                MobileForm.FormDelegateSeparator { below: enableTrayIcon; above: trayIconStyle; }
+
+                MobileForm.FormComboBoxDelegate {
+                    id: trayIconStyle
+                    text: i18nc("@label", "Tray icon style:")
+                    model: ["Colorful", "BreezeDark", "BreezeLight"]
+                    onActivated: {
+                        App.config.trayIconStyle = trayIconStyle.currentText;
+                        App.config.save()
+                    }
+                }
             }
         }
     }
