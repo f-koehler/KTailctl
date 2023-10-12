@@ -167,7 +167,7 @@ Kirigami.ScrollablePage {
                 }
             }
         }
-        
+
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
             Kirigami.FormData.label: "SSH"
@@ -177,7 +177,7 @@ Kirigami.ScrollablePage {
             Kirigami.FormData.label: "Runs SSH:"
             text: App.peerDetails.isRunningSSH ? "Yes" : "No"
         }
-        
+
         Controls.Button {
             enabled: App.peerDetails.isRunningSSH
             text: "Copy SSH command"
