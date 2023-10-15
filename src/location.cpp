@@ -1,5 +1,7 @@
 #include "location.h"
 
+#include <stdexcept>
+
 #include <QDebug>
 
 bool Location::setCountry(const QString &country)
@@ -106,6 +108,10 @@ Location *Location::fromJSON(const QJsonObject &json, QObject *parent)
 }
 bool Location::setTo(const Location *other)
 {
+    if (other == nullptr) {
+        qCritical() << "Cannot set Location to nullptr";
+        std::exit(1);
+    }
     bool result = setCountry(other->country());
     result |= setCountryCode(other->countryCode());
     result |= setCity(other->city());
