@@ -61,7 +61,7 @@ private:
     bool mIsRunningSSH;
     QStringList mTags{};
     bool mIsMullvad;
-    Location *mLocation;
+    Location *mLocation = nullptr;
 
 protected:
     bool setId(const QString &value);
