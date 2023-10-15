@@ -50,6 +50,7 @@ Peer *Peer::fromJSON(const QJsonObject &json)
     peer->setIsCurrentExitNodeFromJson(json);
     peer->setIsExitNodeFromJSON(json);
     peer->setSSHHostKeysFromJSON(json);
+    peer->setTagsFromJSON(json);
 
     return peer;
 }
@@ -215,6 +216,31 @@ bool Peer::setIsRunningSSH(bool value)
     return false;
 }
 
+bool Peer::setTags(const QStringList &value)
+{
+    if (mTags != value) {
+        mTags = value;
+        emit tagsChanged(mTags);
+        if (mTags.contains(QStringLiteral("tag:mullvad-exit-node"))) {
+            setIsMullvad(true);
+        } else {
+            setIsMullvad(false);
+        }
+        return true;
+    }
+    return false;
+}
+
+bool Peer::setIsMullvad(bool value)
+{
+    if (mIsMullvad != value) {
+        mIsMullvad = value;
+        emit isMullvadChanged(mIsMullvad);
+        return true;
+    }
+    return false;
+}
+
 void Peer::setIdFromJSON(const QJsonObject &json)
 {
     if (json.contains("ID") && json["ID"].isString()) {
@@ -375,6 +401,25 @@ void Peer::setSSHHostKeysFromJSON(const QJsonObject &json)
     }
     setSSHHostKeys(keys);
 }
+void Peer::setTagsFromJSON(const QJsonObject &json)
+{
+    QStringList tags{};
+    if (json.contains("Tags")) {
+        if (json["Tags"].isArray()) {
+            const auto arr = json["Tags"].toArray();
+            for (const auto &tag : arr) {
+                if (tag.isString()) {
+                    tags.append(tag.toString());
+                } else {
+                    qWarning() << "Tags contains non-string";
+                }
+            }
+        } else {
+            qWarning() << "\"Tags\" is not an array";
+        }
+    }
+    setTags(tags);
+}
 
 bool Peer::setTo(const Peer *other)
 {
@@ -394,6 +439,7 @@ bool Peer::setTo(const Peer *other)
     result |= setIsCurrentExitNode(other->isCurrentExitNode());
     result |= setIsExitNode(other->isExitNode());
     result |= setSSHHostKeys(other->sshHostKeys());
+    result |= setTags(other->tags());
     return result;
 }
 QString Peer::getSSHCommand() const
@@ -483,6 +529,14 @@ const QStringList &Peer::sshHostKeys() const
 bool Peer::isRunningSSH() const
 {
     return mIsRunningSSH;
+}
+const QStringList &Peer::tags() const
+{
+    return mTags;
+}
+bool Peer::isMullvad() const
+{
+    return mIsMullvad;
 }
 
 Peer &Peer::operator=(const Peer &other)
