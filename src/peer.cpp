@@ -31,9 +31,9 @@ Peer::Peer(QObject *parent)
 {
 }
 
-Peer *Peer::fromJSON(const QJsonObject &json)
+Peer *Peer::fromJSON(const QJsonObject &json, QObject *parent)
 {
-    Peer *peer = new Peer();
+    Peer *peer = new Peer(parent);
     peer->setIdFromJSON(json);
     peer->setPublicKeyFromJSON(json);
     peer->setHostNameFromJSON(json);

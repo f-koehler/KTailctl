@@ -126,7 +126,7 @@ public:
     explicit Peer(QObject *parent = nullptr);
     virtual ~Peer() = default;
 
-    static Peer *fromJSON(const QJsonObject &json);
+    static Peer *fromJSON(const QJsonObject &json, QObject *parent = nullptr);
     bool setTo(const Peer *other);
     Q_INVOKABLE QString getSSHCommand() const;
 
