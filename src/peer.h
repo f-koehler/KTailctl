@@ -12,6 +12,8 @@
 #include <QStringList>
 #include <QVector>
 
+#include "location.h"
+
 class Status;
 
 class Peer : public QObject
@@ -37,6 +39,7 @@ class Peer : public QObject
     Q_PROPERTY(bool isRunningSSH READ isRunningSSH NOTIFY isRunningSSHChanged)
     Q_PROPERTY(QStringList tags READ tags NOTIFY tagsChanged)
     Q_PROPERTY(bool isMullvad READ isMullvad NOTIFY isMullvadChanged)
+    Q_PROPERTY(const Location *location READ location NOTIFY locationChanged)
 
 private:
     QString mId;
@@ -58,6 +61,7 @@ private:
     bool mIsRunningSSH;
     QStringList mTags{};
     bool mIsMullvad;
+    Location *mLocation;
 
 protected:
     bool setId(const QString &value);
@@ -79,6 +83,7 @@ protected:
     bool setIsRunningSSH(bool value);
     bool setTags(const QStringList &value);
     bool setIsMullvad(bool value);
+    bool setLocation(const Location *location);
 
     void setIdFromJSON(const QJsonObject &json);
     void setPublicKeyFromJSON(const QJsonObject &json);
@@ -97,6 +102,7 @@ protected:
     void setIsExitNodeFromJSON(const QJsonObject &json);
     void setSSHHostKeysFromJSON(const QJsonObject &json);
     void setTagsFromJSON(const QJsonObject &json);
+    void setLocationFromJson(const QJsonObject &object);
 
 signals:
     void idChanged(const QString &);
@@ -118,6 +124,7 @@ signals:
     void isRunningSSHChanged(bool);
     void tagsChanged(const QStringList &);
     void isMullvadChanged(bool);
+    void locationChanged(const Location *);
 
 public slots:
     Q_INVOKABLE void updateFromStatus(const Status &status);
@@ -149,6 +156,7 @@ public:
     bool isRunningSSH() const;
     const QStringList &tags() const;
     bool isMullvad() const;
+    const Location *location() const;
 
     Peer &operator=(const Peer &other);
 };

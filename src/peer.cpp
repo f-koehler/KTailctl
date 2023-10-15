@@ -51,6 +51,7 @@ Peer *Peer::fromJSON(const QJsonObject &json, QObject *parent)
     peer->setIsExitNodeFromJSON(json);
     peer->setSSHHostKeysFromJSON(json);
     peer->setTagsFromJSON(json);
+    peer->setLocationFromJson(json);
 
     return peer;
 }
@@ -241,6 +242,19 @@ bool Peer::setIsMullvad(bool value)
     return true;
 }
 
+bool Peer::setLocation(const Location *location)
+{
+    if (mLocation == location) {
+        return false;
+    }
+    if (mLocation == nullptr) {
+        mLocation = new Location(this);
+    }
+    bool result = mLocation->setTo(location);
+    emit locationChanged(mLocation);
+    return result;
+}
+
 void Peer::setIdFromJSON(const QJsonObject &json)
 {
     if (json.contains("ID") && json["ID"].isString()) {
@@ -421,6 +435,17 @@ void Peer::setTagsFromJSON(const QJsonObject &json)
     setTags(tags);
 }
 
+void Peer::setLocationFromJson(const QJsonObject &object)
+{
+    if (object.contains("Location")) {
+        if (object["Location"].isObject()) {
+            setLocation(Location::fromJSON(object["Location"].toObject(), this));
+        } else {
+            qWarning() << "\"Location\" is not location";
+        }
+    }
+}
+
 bool Peer::setTo(const Peer *other)
 {
     bool result = setId(other->id());
@@ -440,6 +465,7 @@ bool Peer::setTo(const Peer *other)
     result |= setIsExitNode(other->isExitNode());
     result |= setSSHHostKeys(other->sshHostKeys());
     result |= setTags(other->tags());
+    result |= setLocation(other->location());
     return result;
 }
 QString Peer::getSSHCommand() const
@@ -537,6 +563,10 @@ const QStringList &Peer::tags() const
 bool Peer::isMullvad() const
 {
     return mIsMullvad;
+}
+const Location *Peer::location() const
+{
+    return mLocation;
 }
 
 Peer &Peer::operator=(const Peer &other)
