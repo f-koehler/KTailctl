@@ -247,6 +247,11 @@ bool Peer::setLocation(const Location *location)
     if (mLocation == location) {
         return false;
     }
+    if (location == nullptr) {
+        mLocation = nullptr;
+        emit locationChanged(mLocation);
+        return true;
+    }
     if (mLocation == nullptr) {
         mLocation = new Location(this);
     }
@@ -439,7 +444,7 @@ void Peer::setLocationFromJson(const QJsonObject &object)
 {
     if (object.contains("Location")) {
         if (object["Location"].isObject()) {
-            setLocation(Location::fromJSON(object["Location"].toObject(), this));
+            setLocation(Location::fromJSON(object["Location"].toObject()));
         } else {
             qWarning() << "\"Location\" is not location";
         }
