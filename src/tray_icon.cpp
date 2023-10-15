@@ -80,6 +80,9 @@ void TrayIcon::regenerate()
     if (mTailscale->status()->success()) {
         auto *peer_menu = menu->addMenu(QIcon::fromTheme("applications-network"), "Peers");
         for (auto *peer : mTailscale->status()->peers()) {
+            if (peer->isMullvad()) {
+                continue;
+            }
             auto *submenu = peer_menu->addMenu(loadOsIcon(peer->os()), peer->hostName());
             create_action(submenu, peer->dnsName());
             for (const auto &address : peer->tailscaleIps()) {
