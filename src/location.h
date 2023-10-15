@@ -49,10 +49,10 @@ public:
     static Location *fromJSON(const QJsonObject &json, QObject *parent = nullptr);
     bool setTo(const Location *other);
 
-    QString country() const;
-    QString countryCode() const;
-    QString city() const;
-    QString cityCode() const;
+    const QString &country() const;
+    const QString &countryCode() const;
+    const QString &city() const;
+    const QString &cityCode() const;
     int priority() const;
 
     Location &operator=(const Location &other);

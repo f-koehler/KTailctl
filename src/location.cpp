@@ -114,19 +114,19 @@ bool Location::setTo(const Location *other)
     return result;
 }
 
-QString Location::country() const
+const QString &Location::country() const
 {
     return mCountry;
 }
-QString Location::countryCode() const
+const QString &Location::countryCode() const
 {
     return mCountryCode;
 }
-QString Location::city() const
+const QString &Location::city() const
 {
     return mCity;
 }
-QString Location::cityCode() const
+const QString &Location::cityCode() const
 {
     return mCityCode;
 }
