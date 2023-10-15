@@ -9,6 +9,12 @@
 
 class Location : public QObject
 {
+    Q_OBJECT
+    Q_PROPERTY(QString country READ country NOTIFY countryChanged)
+    Q_PROPERTY(QString countryCode READ countryCode NOTIFY countryCodeChanged)
+    Q_PROPERTY(QString city READ city NOTIFY cityChanged)
+    Q_PROPERTY(QString cityCode READ cityCode NOTIFY cityCodeChanged)
+    Q_PROPERTY(int priority READ priority NOTIFY priorityChanged)
 private:
     QString mCountry;
     QString mCountryCode;

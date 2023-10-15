@@ -64,14 +64,6 @@ void Location::setCountryCodeFromJSON(const QJsonObject &json)
         qWarning() << "Cannot find string \"CountryCode\"";
     }
 }
-void Location::setCountryCodeFromJSON(const QJsonObject &json)
-{
-    if (json.contains("City") && json["City"].isString()) {
-        setCountry(json["City"].toString());
-    } else {
-        qWarning() << "Cannot find string \"City\"";
-    }
-}
 void Location::setCityFromJSON(const QJsonObject &json)
 {
     if (json.contains("City") && json["City"].isString()) {
@@ -97,7 +89,7 @@ void Location::setPriorityFromJSON(const QJsonObject &json)
     }
 }
 
-explicit Location::Location(QObject *parent)
+Location::Location(QObject *parent)
     : QObject(parent)
 {
 }
@@ -136,7 +128,7 @@ QString Location::city() const
 }
 QString Location::cityCode() const
 {
-    return mCityCode
+    return mCityCode;
 }
 int Location::priority() const
 {
@@ -149,6 +141,7 @@ Location &Location::operator=(const Location &other)
         return *this;
     }
     this->setTo(&other);
+    return *this;
 }
 bool Location::operator==(const Location &other) const
 {
