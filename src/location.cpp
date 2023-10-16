@@ -61,7 +61,7 @@ void Location::setCountryFromJSON(const QJsonObject &json)
 void Location::setCountryCodeFromJSON(const QJsonObject &json)
 {
     if (json.contains("CountryCode") && json["CountryCode"].isString()) {
-        setCountry(json["CountryCode"].toString());
+        setCountryCode(json["CountryCode"].toString());
     } else {
         qWarning() << "Cannot find string \"CountryCode\"";
     }
@@ -69,7 +69,7 @@ void Location::setCountryCodeFromJSON(const QJsonObject &json)
 void Location::setCityFromJSON(const QJsonObject &json)
 {
     if (json.contains("City") && json["City"].isString()) {
-        setCountry(json["City"].toString());
+        setCity(json["City"].toString());
     } else {
         qWarning() << "Cannot find string \"City\"";
     }
@@ -77,7 +77,7 @@ void Location::setCityFromJSON(const QJsonObject &json)
 void Location::setCityCodeFromJSON(const QJsonObject &json)
 {
     if (json.contains("CityCode") && json["CityCode"].isString()) {
-        setCountry(json["CityCode"].toString());
+        setCityCode(json["CityCode"].toString());
     } else {
         qWarning() << "Cannot find string \"CityCode\"";
     }
