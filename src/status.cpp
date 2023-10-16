@@ -100,7 +100,10 @@ void Status::read(const QJsonObject &json)
     }
 
     std::sort(mPeers.begin(), mPeers.end(), [](const Peer *peer_a, const Peer *peer_b) {
-        return peer_a->id() < peer_b->id();
+        if (peer_a->isMullvad() == peer_b->isMullvad()) {
+            return peer_a->hostName() < peer_b->hostName();
+        }
+        return peer_a->isMullvad() < peer_b->isMullvad();
     });
     emit peersChanged(mPeers);
 
