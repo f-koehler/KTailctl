@@ -67,6 +67,14 @@ void TrayIcon::regenerate()
             action_toggle->setText("Start Tailscale");
             action_toggle->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
         }
+
+        const auto &exit_nodes = mTailscale->status()->exitNodes();
+        if (exit_nodes.size() > 0) {
+            auto *menu_exit_node = menu->addMenu(QIcon::fromTheme("internet-services"), "Exit Node");
+            for (const auto &exit_node : exit_nodes) {
+                menu_exit_node->addAction(QIcon::fromTheme(QStringLiteral("internet-services")), exit_node, [&exit_node]() {});
+            }
+        }
         menu->addSeparator();
     }
 
@@ -101,15 +109,15 @@ void TrayIcon::regenerate()
                     TaildropSendJob::selectAndSendFiles(peer->dnsName());
                 });
 
-                if (peer->isCurrentExitNode()) {
-                    submenu->addAction(QIcon::fromTheme(QStringLiteral("internet-services")), "Unset exit node", []() {
-                        Util::unsetExitNode();
-                    });
-                } else if (peer->isExitNode()) {
-                    submenu->addAction(QIcon::fromTheme(QStringLiteral("internet-services")), "Set as exit node", [peer]() {
-                        Util::setExitNode(peer->tailscaleIps().front());
-                    });
-                }
+                // if (peer->isCurrentExitNode()) {
+                //     submenu->addAction(QIcon::fromTheme(QStringLiteral("internet-services")), "Unset exit node", []() {
+                //         Util::unsetExitNode();
+                //     });
+                // } else if (peer->isExitNode()) {
+                //     submenu->addAction(QIcon::fromTheme(QStringLiteral("internet-services")), "Set as exit node", [peer]() {
+                //         Util::setExitNode(peer->tailscaleIps().front());
+                //     });
+                // }
 
                 if (peer->isRunningSSH()) {
                     submenu->addSection("SSH");

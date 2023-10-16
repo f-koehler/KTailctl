@@ -116,7 +116,6 @@ void Status::read(const QJsonObject &json)
             newExitNodes.append(peer->id());
         }
     }
-    newExitNodes.sort();
     if (newExitNodes != mExitNodes) {
         mExitNodes = newExitNodes;
         emit exitNodesChanged(mExitNodes);
