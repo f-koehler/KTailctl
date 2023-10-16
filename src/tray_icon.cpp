@@ -75,7 +75,7 @@ void TrayIcon::regenerate()
             if (exit_nodes.size() > 0) {
                 auto *menu_self_hosted = menu_exit_nodes->addMenu(QIcon::fromTheme("internet-services"), "Self-Hosted");
                 for (const auto *node : exit_nodes) {
-                    menu_self_hosted->addAction(QIcon::fromTheme(QStringLiteral("internet-services")), node->hostName(), [node]() {
+                    menu_self_hosted->addAction(Util::loadOsIcon(node->os()), node->hostName(), [node]() {
                         Util::setExitNode(node->tailscaleIps().front());
                     });
                 }
