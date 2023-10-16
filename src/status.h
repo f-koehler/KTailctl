@@ -23,7 +23,6 @@ class Status : public QObject
     Q_PROPERTY(QVector<Peer *> peers READ peers NOTIFY peersChanged)
     // Q_PROPERTY(Peer *self READ self NOTIFY selfChanged)
     Q_PROPERTY(bool isOperator READ isOperator NOTIFY isOperatorChanged)
-    Q_PROPERTY(QStringList exitNodes READ exitNodes NOTIFY exitNodesChanged)
 
 private:
     bool mSuccess{};
@@ -34,7 +33,6 @@ private:
     QVector<Peer *> mPeers;
     GoString mStatusBuffer{};
     bool mIsOperator{};
-    QStringList mExitNodes;
 
 signals:
     void successChanged(bool);
@@ -45,7 +43,6 @@ signals:
     void selfChanged(const Peer *);
     void refreshed(const Status &);
     void isOperatorChanged(bool);
-    void exitNodesChanged(const QStringList &);
 
 public:
     Status(QObject *parent = nullptr);
@@ -61,7 +58,7 @@ public:
     const Peer *self() const;
     const QVector<Peer *> &peers() const;
     bool isOperator() const;
-    const QStringList &exitNodes() const;
+    Q_INVOKABLE std::tuple<QList<Peer *>, QList<Peer *>> exitNodes() const;
 };
 
 #endif /* KTAILCTL_STATUS_H */

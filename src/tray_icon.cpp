@@ -68,13 +68,45 @@ void TrayIcon::regenerate()
             action_toggle->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
         }
 
-        const auto &exit_nodes = mTailscale->status()->exitNodes();
-        if (exit_nodes.size() > 0) {
-            auto *menu_exit_node = menu->addMenu(QIcon::fromTheme("internet-services"), "Exit Node");
-            for (const auto &exit_node : exit_nodes) {
-                menu_exit_node->addAction(QIcon::fromTheme(QStringLiteral("internet-services")), exit_node, [&exit_node]() {});
+        const auto [exit_nodes, mullvad_nodes] = mTailscale->status()->exitNodes();
+        if ((exit_nodes.size() > 0) || (mullvad_nodes.size())) {
+            auto *menu_exit_nodes = menu->addMenu(QIcon::fromTheme("internet-services"), "Exit Nodes");
+
+            if (exit_nodes.size() > 0) {
+                auto *menu_self_hosted = menu_exit_nodes->addMenu(QIcon::fromTheme("internet-services"), "Self-Hosted");
+                for (const auto *node : exit_nodes) {
+                    menu_self_hosted->addAction(QIcon::fromTheme(QStringLiteral("internet-services")), node->hostName(), [node]() {
+                        Util::setExitNode(node->tailscaleIps().front());
+                    });
+                }
+            }
+
+            if (mullvad_nodes.size() > 0) {
+                auto *menu_mullvad_nodes = menu_exit_nodes->addMenu(QIcon::fromTheme("internet-services"), "Mullvad Exit Nodes");
+                QMap<QString, QMenu *> mullvad_menus;
+                for (const auto *node : mullvad_nodes) {
+                    if (node->location() == nullptr) {
+                        continue;
+                    }
+                    const auto country_code = node->location()->countryCode();
+                    auto menu_pos = mullvad_menus.lowerBound(country_code);
+                    if (menu_pos.key() != country_code) {
+                        menu_pos = mullvad_menus.insert(country_code, menu_mullvad_nodes->addMenu(QIcon::fromTheme("internet-services"), country_code));
+                    }
+                    menu_pos.value()->addAction(QIcon::fromTheme(QStringLiteral("internet-services")), node->hostName(), [node]() {
+                        Util::setExitNode(node->tailscaleIps().front());
+                    });
+                }
             }
         }
+
+        // const auto &exit_nodes = mTailscale->status()->exitNodes();
+        // if (exit_nodes.size() > 0) {
+        //     auto *menu_exit_node = menu->addMenu(QIcon::fromTheme("internet-services"), "Exit Node");
+        //     for (const auto &exit_node : exit_nodes) {
+        //         menu_exit_node->addAction(QIcon::fromTheme(QStringLiteral("internet-services")), exit_node, [&exit_node]() {});
+        //     }
+        // }
         menu->addSeparator();
     }
 
