@@ -157,5 +157,14 @@ std::tuple<QList<Peer *>, QList<Peer *>> Status::exitNodes() const
             exit_nodes.append(const_cast<Peer *>(peer));
         }
     }
+    std::sort(exit_nodes.begin(), exit_nodes.end(), [](const Peer *peer_a, const Peer *peer_b) {
+        return peer_a->hostName() < peer_b->hostName();
+    });
+    std::sort(mullvad_nodes.begin(), mullvad_nodes.end(), [](const Peer *peer_a, const Peer *peer_b) {
+        if (peer_a->location()->countryCode() == peer_b->location()->countryCode()) {
+            return peer_a->hostName() < peer_b->hostName();
+        }
+        return peer_a->location()->countryCode() < peer_b->location()->countryCode();
+    });
     return {exit_nodes, mullvad_nodes};
 }
