@@ -31,13 +31,14 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 #ifdef __APPLE__
     QQuickStyle::setStyle(QStringLiteral("macOS"));
 #endif
-    QApplication app(argc, argv);
+    QApplication app(argc, argv); // NOLINT(misc-const-correctness)
     QCoreApplication::setOrganizationName(QStringLiteral("KDE"));
     QCoreApplication::setApplicationName(QStringLiteral("KTailctl"));
 
     QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("ktailctl")));
 
-    KAboutData aboutData(
+    KAboutData aboutData( // NOLINT(misc-const-correctness)
+
         // The program name used internally.
         QStringLiteral("KTailctl"),
         // A displayable program name string.
@@ -58,15 +59,15 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
                         QStringLiteral("https://fkoehler.org"));
     KAboutData::setApplicationData(aboutData);
 
-    QQmlApplicationEngine engine;
+    QQmlApplicationEngine engine; // NOLINT(misc-const-correctness)
 
-    AboutType about;
+    AboutType about; // NOLINT(misc-const-correctness)
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "AboutType", &about);
 
-    Tailscale tailscale;
+    Tailscale tailscale; // NOLINT(misc-const-correctness)
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Tailscale", &tailscale);
 
-    App application(&tailscale);
+    App application(&tailscale); // NOLINT(misc-const-correctness)
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "App", &application);
 
     qmlRegisterType<Peer>("org.fkoehler.KTailctl", 1, 0, "Peer");
@@ -76,10 +77,10 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     qmlRegisterType<KTailctlConfig>("org.fkoehler.KTailctl", 1, 0, "KTailctlConfig");
     qmlRegisterType<Location>("org.fkoehler.KTailctl", 1, 0, "Location");
 
-    QmlTaildropSender taildropSender;
+    QmlTaildropSender taildropSender; // NOLINT(misc-const-correctness)
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "TaildropSender", &taildropSender);
 
-    Util util;
+    Util util; // NOLINT(misc-const-correctness)
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Util", &util);
 
     engine.rootContext()->setContextObject(new KLocalizedContext(&engine));

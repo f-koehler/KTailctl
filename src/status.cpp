@@ -19,7 +19,7 @@ void Status::refresh()
 {
     // TODO: remove mStatusBuffer
     char *tmpString = tailscale_status();
-    bool success = tmpString != nullptr;
+    const bool success = tmpString != nullptr;
 
     if (success) {
         read(QJsonDocument::fromJson(QByteArray::fromRawData(tmpString, strlen(tmpString))).object());
@@ -103,7 +103,7 @@ void Status::read(const QJsonObject &json)
         if (peer_a->isMullvad() == peer_b->isMullvad()) {
             return peer_a->hostName() < peer_b->hostName();
         }
-        return peer_a->isMullvad() < peer_b->isMullvad();
+        return static_cast<int>(peer_a->isMullvad()) < static_cast<int>(peer_b->isMullvad());
     });
     emit peersChanged(mPeers);
 

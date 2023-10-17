@@ -26,15 +26,15 @@ void TaildropSendThread::run()
 
     QByteArray const fileBytes;
     GoString file;
-    for (const auto &f : mFiles) {
+    for (const auto &filename : mFiles) {
         mCurrentFileBytesSent = 0UL;
-        QByteArray const fileBytes = f.toUtf8();
+        QByteArray const fileBytes = filename.toUtf8();
         file.p = fileBytes.constData();
         file.n = fileBytes.length();
         tailscale_send_file(target, file, [](unsigned long n) {
             qDebug() << "Bytes sent" << n;
         });
-        mBytesSent += static_cast<quint64>(QFileInfo(f).size());
+        mBytesSent += static_cast<quint64>(QFileInfo(filename).size());
     }
     mBytesSent = mBytesTotal;
 }

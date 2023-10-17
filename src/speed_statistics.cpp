@@ -36,7 +36,7 @@ double SpeedStatistics::average(double window) const
         return 0.;
     }
 
-    return average / samples;
+    return average / static_cast<double>(samples);
 }
 QVariantList SpeedStatistics::valuesVariant() const
 {

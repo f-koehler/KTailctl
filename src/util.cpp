@@ -142,9 +142,9 @@ qint64 Util::toMSecsSinceEpoch(const QDateTime &dateTime)
 {
     return ::toMSecsSinceEpoch(dateTime);
 }
-QIcon Util::loadOsIcon(const QString &os)
+QIcon Util::loadOsIcon(const QString &operating_system)
 {
-    return ::loadOsIcon(os);
+    return ::loadOsIcon(operating_system);
 }
 void Util::setExitNode(const QString &node)
 {

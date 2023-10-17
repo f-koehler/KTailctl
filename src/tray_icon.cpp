@@ -67,10 +67,10 @@ void TrayIcon::regenerate()
         }
 
         const auto [exit_nodes, mullvad_nodes] = mTailscale->status()->exitNodes();
-        if ((exit_nodes.size() > 0) || (mullvad_nodes.size())) {
+        if ((!exit_nodes.empty()) || (!mullvad_nodes.empty())) {
             auto *menu_exit_nodes = menu->addMenu(QIcon::fromTheme("internet-services"), "Exit Nodes");
 
-            if (exit_nodes.size() > 0) {
+            if (!exit_nodes.empty()) {
                 auto *menu_self_hosted = menu_exit_nodes->addMenu(QIcon::fromTheme("internet-services"), "Self-Hosted");
                 for (const auto *node : exit_nodes) {
                     menu_self_hosted->addAction(Util::loadOsIcon(node->os()), node->hostName(), [node]() {
@@ -79,7 +79,7 @@ void TrayIcon::regenerate()
                 }
             }
 
-            if (mullvad_nodes.size() > 0) {
+            if (!mullvad_nodes.empty()) {
                 auto *menu_mullvad_nodes = menu_exit_nodes->addMenu(QIcon::fromTheme("internet-services"), "Mullvad Exit Nodes");
                 QMap<QString, QMenu *> mullvad_menus;
                 for (const auto *node : mullvad_nodes) {
@@ -186,7 +186,7 @@ void TrayIcon::updateIcon()
         icon_path += "offline";
     }
 
-    const QString style = mConfig->trayIconStyle();
+    const QString style = KTailctlConfig::trayIconStyle();
     if (style == QStringLiteral("Breeze Dark")) {
         icon_path += "-breeze-dark";
     } else if (style == QStringLiteral("Breeze Light")) {
