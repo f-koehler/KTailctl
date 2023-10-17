@@ -66,5 +66,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <label>Filter for peers</label>
             <default>UNINITIALIZED</default>
         </entry>
+        <entry name="enableTrayIcon" type="Bool">
+            <label>Enable tray icon</label>
+            <default>true</default>
+        </entry>
+        <entry name="trayIconStyle" type="String">
+            <label>Style of the tray icon</label>
+            <default>Colorful</default>
+        </entry>
     </group>
 </kcfg>

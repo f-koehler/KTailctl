@@ -12,8 +12,12 @@
         <file alias="Statistics.qml">contents/ui/Statistics.qml</file>
     </qresource>
     <qresource prefix="/icons/">
-        <file alias="offline.svg">contents/icons/offline.svg</file>
-        <file alias="online.svg">contents/icons/online.svg</file>
+        <file alias="offline-colorful.svg">contents/icons/offline-colorful.svg</file>
+        <file alias="online-colorful.svg">contents/icons/online-colorful.svg</file>
+        <file alias="offline-breeze-dark.svg">contents/icons/offline-breeze-dark.svg</file>
+        <file alias="online-breeze-dark.svg">contents/icons/online-breeze-dark.svg</file>
+        <file alias="offline-breeze-light.svg">contents/icons/offline-breeze-light.svg</file>
+        <file alias="online-breeze-light.svg">contents/icons/online-breeze-light.svg</file>
     </qresource>
     <qresource prefix="country-flags">
       <file alias="ad.svg">contents/country-flags/svg/ad.svg</file>
