@@ -91,6 +91,10 @@ void TrayIcon::regenerate()
                     const auto country_code = node->location()->countryCode();
                     auto menu_pos = mullvad_menus.lowerBound(country_code);
                     if (menu_pos.key() != country_code) {
+                        // menu_pos =
+                        //     mullvad_menus.insert(country_code,
+                        //                          menu_mullvad_nodes->addMenu(QIcon(QString(":/country-flags/%1").arg(country_code.toLower())),
+                        //                          country_code));
                         menu_pos = mullvad_menus.insert(country_code, menu_mullvad_nodes->addMenu(QIcon::fromTheme("internet-services"), country_code));
                     }
                     menu_pos.value()->addAction(QIcon::fromTheme(QStringLiteral("internet-services")), node->hostName(), [node]() {
