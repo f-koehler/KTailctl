@@ -260,6 +260,7 @@ Kirigami.ScrollablePage {
                     id: trayIconStyle
                     text: i18nc("@label", "Tray icon style:")
                     model: ["Colorful", "Breeze Dark", "Breeze Light"]
+                    displayText: App.config.trayIconStyle
                     onActivated: {
                         App.config.trayIconStyle = trayIconStyle.currentText;
                         App.config.save()
