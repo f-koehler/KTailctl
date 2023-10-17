@@ -53,6 +53,8 @@ Kirigami.ScrollablePage {
         visible: Tailscale.status.success
         headerPositioning: ListView.OverlayHeader
         header: Kirigami.ItemViewHeader {
+            id: peerListHeader
+            maximumHeight: peerListHeader.minimumHeight
             RowLayout {
                 Controls.Label {
                     text: "DNS name filter:"
