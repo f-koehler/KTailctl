@@ -99,7 +99,7 @@ void Status::read(const QJsonObject &json)
         qWarning() << "Cannot find object \"Peer\"";
     }
 
-    std::sort(mPeers.begin(), mPeers.end(), [](const Peer *peer_a, const Peer *peer_b) {
+    std::stable_sort(mPeers.begin(), mPeers.end(), [](const Peer *peer_a, const Peer *peer_b) {
         if (peer_a->isMullvad() == peer_b->isMullvad()) {
             return peer_a->hostName() < peer_b->hostName();
         }
@@ -160,10 +160,10 @@ std::tuple<QList<Peer *>, QList<Peer *>> Status::exitNodes() const
             exit_nodes.append(const_cast<Peer *>(peer));
         }
     }
-    std::sort(exit_nodes.begin(), exit_nodes.end(), [](const Peer *peer_a, const Peer *peer_b) {
+    std::stable_sort(exit_nodes.begin(), exit_nodes.end(), [](const Peer *peer_a, const Peer *peer_b) {
         return peer_a->hostName() < peer_b->hostName();
     });
-    std::sort(mullvad_nodes.begin(), mullvad_nodes.end(), [](const Peer *peer_a, const Peer *peer_b) {
+    std::stable_sort(mullvad_nodes.begin(), mullvad_nodes.end(), [](const Peer *peer_a, const Peer *peer_b) {
         if (peer_a->location() == nullptr || peer_b->location() == nullptr) {
             return peer_a->hostName() < peer_b->hostName();
         }
