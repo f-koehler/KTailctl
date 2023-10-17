@@ -66,20 +66,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <label>Enable tray icon</label>
             <default>true</default>
         </entry>
-        <entry name="trayIconStyle" type="Enum">
+        <entry name="trayIconStyle" type="String">
             <label>Style of the tray icon</label>
-            <choices>
-                <choice name="Colorful">
-                    <label>Colorful</label>
-                </choice>
-                <choice name="BreezeDark">
-                    <label>BreezeDark</label>
-                </choice>
-                <choice name="BreezeLight">
-                    <label>BreezeLight</label>
-                </choice>
-            </choices>
-            <default>1</default>
+            <default>Colorful</default>
         </entry>
     </group>
 </kcfg>

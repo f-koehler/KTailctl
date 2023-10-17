@@ -15,11 +15,11 @@ TrayIcon::TrayIcon(Tailscale *tailscale, QObject *parent)
     , mTailscale(tailscale)
     , mConfig(KTailctlConfig::self())
 {
-    setIcon();
+    updateIcon();
     setContextMenu(new QMenu());
 
     QObject::connect(contextMenu(), &QMenu::aboutToShow, this, &TrayIcon::regenerate);
-    QObject::connect(mConfig, &KTailctlConfig::trayIconStyleChanged, this, &TrayIcon::setIcon);
+    QObject::connect(mConfig, &KTailctlConfig::trayIconStyleChanged, this, &TrayIcon::updateIcon);
     QObject::connect(this, &QSystemTrayIcon::activated, [this](const QSystemTrayIcon::ActivationReason &) {
         if (mWindow == nullptr) {
             return;
@@ -43,7 +43,7 @@ void TrayIcon::regenerate()
     QMenu *menu = contextMenu();
     menu->clear();
 
-    setIcon();
+    updateIcon();
 
     if (mWindow != nullptr) {
         menu->addAction(QIcon::fromTheme("window"), "Open", this, [this]() {
@@ -130,7 +130,7 @@ void TrayIcon::regenerate()
     setContextMenu(menu);
 }
 
-void TrayIcon::setIcon()
+void TrayIcon::updateIcon()
 {
     QString icon_path = ":/icons/";
     if (mTailscale->status()->backendState() == "Running") {
@@ -139,17 +139,15 @@ void TrayIcon::setIcon()
         icon_path += "offline";
     }
 
-    switch (mConfig->trayIconStyle()) {
-    case KTailctlConfig::EnumTrayIconStyle::BreezeDark:
+    const QString style = mConfig->trayIconStyle();
+    if (style == QStringLiteral("Breeze Dark")) {
         icon_path += "-breeze-dark";
-        break;
-    case KTailctlConfig::EnumTrayIconStyle::BreezeLight:
+    } else if (style == QStringLiteral("Breeze Light")) {
         icon_path += "-breeze-light";
-        break;
-    default:
+    } else {
         icon_path += "-colorful";
-        break;
     }
+    setIcon(QIcon(icon_path));
 }
 
 void TrayIcon::setWindow(QQuickWindow *window)

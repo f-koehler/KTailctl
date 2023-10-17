@@ -19,7 +19,7 @@ private:
 
 public slots:
     void regenerate();
-    void setIcon();
+    void updateIcon();
 
 signals:
     void quitClicked();

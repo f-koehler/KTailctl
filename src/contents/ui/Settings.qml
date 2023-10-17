@@ -259,7 +259,7 @@ Kirigami.ScrollablePage {
                 MobileForm.FormComboBoxDelegate {
                     id: trayIconStyle
                     text: i18nc("@label", "Tray icon style:")
-                    model: ["Colorful", "BreezeDark", "BreezeLight"]
+                    model: ["Colorful", "Breeze Dark", "Breeze Light"]
                     onActivated: {
                         App.config.trayIconStyle = trayIconStyle.currentText;
                         App.config.save()
