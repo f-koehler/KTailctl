@@ -6,22 +6,20 @@
 #include <QClipboard>
 #include <QFileDialog>
 #include <QGuiApplication>
+#include <QIcon>
 #include <QMenu>
 #include <QMessageBox>
 
 TrayIcon::TrayIcon(Tailscale *tailscale, QObject *parent)
     : QSystemTrayIcon(parent)
     , mTailscale(tailscale)
+    , mConfig(KTailctlConfig::self())
 {
-    if (mTailscale->status()->backendState() == "Running") {
-        setIcon(QIcon(QStringLiteral(":/icons/online")));
-    } else {
-        setIcon(QIcon(QStringLiteral(":/icons/offline")));
-    }
-
+    updateIcon();
     setContextMenu(new QMenu());
 
     QObject::connect(contextMenu(), &QMenu::aboutToShow, this, &TrayIcon::regenerate);
+    QObject::connect(mConfig, &KTailctlConfig::trayIconStyleChanged, this, &TrayIcon::updateIcon);
     QObject::connect(this, &QSystemTrayIcon::activated, [this](const QSystemTrayIcon::ActivationReason &) {
         if (mWindow == nullptr) {
             return;
@@ -38,14 +36,14 @@ TrayIcon::TrayIcon(Tailscale *tailscale, QObject *parent)
 
 void TrayIcon::regenerate()
 {
+    if (!isVisible()) {
+        return;
+    }
+
     QMenu *menu = contextMenu();
     menu->clear();
 
-    if (mTailscale->status()->backendState() == "Running") {
-        setIcon(QIcon(QStringLiteral(":/icons/online")));
-    } else {
-        setIcon(QIcon(QStringLiteral(":/icons/offline")));
-    }
+    updateIcon();
 
     if (mWindow != nullptr) {
         menu->addAction(QIcon::fromTheme("window"), "Open", this, [this]() {
@@ -130,6 +128,26 @@ void TrayIcon::regenerate()
         emit quitClicked();
     });
     setContextMenu(menu);
+}
+
+void TrayIcon::updateIcon()
+{
+    QString icon_path = ":/icons/";
+    if (mTailscale->status()->backendState() == "Running") {
+        icon_path += "online";
+    } else {
+        icon_path += "offline";
+    }
+
+    const QString style = mConfig->trayIconStyle();
+    if (style == QStringLiteral("Breeze Dark")) {
+        icon_path += "-breeze-dark";
+    } else if (style == QStringLiteral("Breeze Light")) {
+        icon_path += "-breeze-light";
+    } else {
+        icon_path += "-colorful";
+    }
+    setIcon(QIcon(icon_path));
 }
 
 void TrayIcon::setWindow(QQuickWindow *window)
