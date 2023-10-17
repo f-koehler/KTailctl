@@ -169,7 +169,7 @@ Kirigami.ScrollablePage {
             Layout.fillWidth: true
             Layout.topMargin: Kirigami.Units.largeSpacing
 
-            title: i18nc("@title:group", "Tailscale")
+            title: i18nc("@title:group", "Exit Node")
         }
 
         MobileForm.FormCard {
@@ -181,10 +181,36 @@ Kirigami.ScrollablePage {
                 MobileForm.FormSwitchDelegate {
                     id: advertiseExitNode
 
-                    text: i18nc("@label", "Advertise exit node:")
+                    text: i18nc("@label", "Run exit node:")
                     checked: Tailscale.preferences.advertiseExitNode
                     onClicked: Tailscale.preferences.advertiseExitNode = !Tailscale.preferences.advertiseExitNode
                     enabled: Tailscale.status.isOperator && Tailscale.status.success
+                }
+                
+                MobileForm.FormButtonDelegate {
+                    text: i18nc("@label", "Use exit node")
+                    onClicked: menuExitNode.open()
+                    
+                    Controls.Menu {
+                        id: menuExitNode
+                        
+                        Controls.Menu {
+                            id: menuExitNodeSelfHosted
+                            title: i18nc("@title", "Self-hosted")
+                            
+                            Repeater {
+                                model: Tailscale.status.peerModel
+                                delegate: Controls.MenuItem {
+                                    text: model.dnsName
+                                }
+                            }
+                        }
+                        
+                        Controls.Menu {
+                            id: menuExitNodeMullvad
+                            title: i18nc("@title", "Mullvad")
+                        }
+                    }
                 }
             }
         }
