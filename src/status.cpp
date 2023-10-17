@@ -100,10 +100,7 @@ void Status::read(const QJsonObject &json)
     }
 
     std::stable_sort(mPeers.begin(), mPeers.end(), [](const Peer *peer_a, const Peer *peer_b) {
-        if (peer_a->isMullvad() == peer_b->isMullvad()) {
-            return peer_a->hostName() < peer_b->hostName();
-        }
-        return static_cast<int>(peer_a->isMullvad()) < static_cast<int>(peer_b->isMullvad());
+        return peer_a->dnsName() < peer_b->dnsName();
     });
     emit peersChanged(mPeers);
 
