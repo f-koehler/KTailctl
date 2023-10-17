@@ -94,7 +94,7 @@ Kirigami.ScrollablePage {
                     ColumnLayout {
                         RowLayout {
                             Controls.Label {
-                                text: hostName
+                                text: dnsName
                             }
 
                             Kirigami.Icon {
