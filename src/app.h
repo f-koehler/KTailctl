@@ -20,7 +20,7 @@ class App : public QObject
     Q_OBJECT
     Q_PROPERTY(Tailscale *tailscale READ tailscale CONSTANT)
     Q_PROPERTY(KTailctlConfig *config READ config CONSTANT)
-    Q_PROPERTY(Peer *peerDetails READ peerDetails CONSTANT)
+    Q_PROPERTY(Peer *peerDetails READ peerDetails NOTIFY peerDetailsChanged)
     Q_PROPERTY(PeerModel *peerModel READ peerModel CONSTANT)
 
 private:
@@ -32,10 +32,7 @@ private:
     TrayIcon *mTrayIcon;
 
 signals:
-    void tailscaleChanged();
-    void configChanged();
     void peerDetailsChanged();
-    void peerModelChanged();
 
 public slots:
     static void quitApp();
