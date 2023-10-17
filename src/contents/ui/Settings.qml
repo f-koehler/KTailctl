@@ -131,18 +131,7 @@ Kirigami.ScrollablePage {
                     enabled: Tailscale.status.isOperator && Tailscale.status.success
                 }
 
-                MobileForm.FormDelegateSeparator { above: advertiseExitNode; below: acceptDNS }
-
-                MobileForm.FormSwitchDelegate {
-                    id: advertiseExitNode
-
-                    text: i18nc("@label", "Advertise exit node:")
-                    checked: Tailscale.preferences.advertiseExitNode
-                    onClicked: Tailscale.preferences.advertiseExitNode = !Tailscale.preferences.advertiseExitNode
-                    enabled: Tailscale.status.isOperator && Tailscale.status.success
-                }
-
-                MobileForm.FormDelegateSeparator { above: textTailscaleHostname; below: advertiseExitNode }
+                MobileForm.FormDelegateSeparator { above: textTailscaleHostname; below: acceptDNS }
 
                 MobileForm.FormTextFieldDelegate {
                     id: textTailscaleHostname
@@ -171,6 +160,30 @@ Kirigami.ScrollablePage {
                     text: i18nc("@label", "SSH:")
                     checked: Tailscale.preferences.ssh
                     onClicked: Tailscale.preferences.ssh = !Tailscale.preferences.ssh
+                    enabled: Tailscale.status.isOperator && Tailscale.status.success
+                }
+            }
+        }
+
+        MobileForm.FormHeader {
+            Layout.fillWidth: true
+            Layout.topMargin: Kirigami.Units.largeSpacing
+
+            title: i18nc("@title:group", "Tailscale")
+        }
+
+        MobileForm.FormCard {
+            Layout.fillWidth: true
+
+            contentItem: ColumnLayout {
+                spacing: 0
+
+                MobileForm.FormSwitchDelegate {
+                    id: advertiseExitNode
+
+                    text: i18nc("@label", "Advertise exit node:")
+                    checked: Tailscale.preferences.advertiseExitNode
+                    onClicked: Tailscale.preferences.advertiseExitNode = !Tailscale.preferences.advertiseExitNode
                     enabled: Tailscale.status.isOperator && Tailscale.status.success
                 }
             }
