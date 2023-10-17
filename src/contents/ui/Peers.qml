@@ -51,6 +51,22 @@ Kirigami.ScrollablePage {
         id: listPeers
         model: App.peerModel
         visible: Tailscale.status.success
+        headerPositioning: ListView.OverlayHeader
+        header: Kirigami.ItemViewHeader {
+            RowLayout {
+                Controls.Label {
+                    text: "DNS name filter:"
+                }
+                Kirigami.SearchField {
+                    id: peerFilter
+                    delaySearch: true
+                    onAccepted: {
+                        peerFilter.focus = true;
+                        App.peerModel.setFilterRegularExpression(peerFilter.text);
+                    }
+                }
+            }
+        }
         delegate: Kirigami.AbstractCard {
             contentItem: Item {
                 implicitWidth: delegateLayout.implicitWidth
