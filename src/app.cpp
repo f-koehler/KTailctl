@@ -24,7 +24,11 @@ App::App(Tailscale *tailscale, QObject *parent)
     QObject::connect(tailscale->status(), &Status::backendStateChanged, mTrayIcon, &TrayIcon::regenerate);
     QObject::connect(mTrayIcon, &TrayIcon::quitClicked, this, &App::quitApp);
 
+    tailscale->status()->refresh();
+    const auto domain = mTailscale->status()->self()->dnsName().section('.', 1);
+    mPeerProxyModel->setFilterRegularExpression(domain);
     mPeerProxyModel->setSourceModel(mPeerModel);
+    mPeerProxyModel->setFilterRole(PeerModel::DnsNameRole);
 }
 
 Tailscale *App::tailscale()

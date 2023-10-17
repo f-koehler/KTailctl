@@ -30,6 +30,7 @@ private:
     Peer mPeerDetails;
     PeerModel *mPeerModel;
     QSortFilterProxyModel *mPeerProxyModel;
+    bool mFilterInitialized = false;
 
     TrayIcon *mTrayIcon;
 
