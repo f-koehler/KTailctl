@@ -144,7 +144,10 @@ Kirigami.ScrollablePage {
                         }
                     }
 
-                    ColumnLayout {
+                    GridLayout {
+                        rows: isRunningSSH || isExitNode ? 2 : 1
+                        columns: 2
+
                         Controls.Button {
                             icon.name: "view-list-details"
                             Controls.ToolTip.visible: hovered
