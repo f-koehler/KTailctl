@@ -62,5 +62,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <label>Start minimized</label>
             <default>false</default>
         </entry>
+        <entry name="peerFilter" type="String">
+            <label>Filter for peers</label>
+            <default>UNINITIALIZED</default>
+        </entry>
     </group>
 </kcfg>

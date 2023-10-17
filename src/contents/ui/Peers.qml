@@ -60,9 +60,12 @@ Kirigami.ScrollablePage {
                 Kirigami.SearchField {
                     id: peerFilter
                     delaySearch: true
+                    text: App.config.peerFilter
                     onAccepted: {
                         peerFilter.focus = true;
                         App.peerModel.setFilterRegularExpression(peerFilter.text);
+                        App.config.peerFilter = peerFilter.text;
+                        App.config.save();
                     }
                 }
             }
