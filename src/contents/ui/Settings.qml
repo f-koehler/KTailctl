@@ -187,31 +187,31 @@ Kirigami.ScrollablePage {
                     enabled: Tailscale.status.isOperator && Tailscale.status.success
                 }
                 
-                MobileForm.FormButtonDelegate {
-                    text: i18nc("@label", "Use exit node")
-                    onClicked: menuExitNode.open()
+                // MobileForm.FormButtonDelegate {
+                //     text: i18nc("@label", "Use exit node")
+                //     onClicked: menuExitNode.open()
                     
-                    Controls.Menu {
-                        id: menuExitNode
+                //     Controls.Menu {
+                //         id: menuExitNode
                         
-                        Controls.Menu {
-                            id: menuExitNodeSelfHosted
-                            title: i18nc("@title", "Self-hosted")
+                //         Controls.Menu {
+                //             id: menuExitNodeSelfHosted
+                //             title: i18nc("@title", "Self-hosted")
                             
-                            Repeater {
-                                model: Tailscale.status.peerModel
-                                delegate: Controls.MenuItem {
-                                    text: model.dnsName
-                                }
-                            }
-                        }
+                //             Repeater {
+                //                 model: Tailscale.status.peerModel
+                //                 delegate: Controls.MenuItem {
+                //                     text: model.dnsName
+                //                 }
+                //             }
+                //         }
                         
-                        Controls.Menu {
-                            id: menuExitNodeMullvad
-                            title: i18nc("@title", "Mullvad")
-                        }
-                    }
-                }
+                //         Controls.Menu {
+                //             id: menuExitNodeMullvad
+                //             title: i18nc("@title", "Mullvad")
+                //         }
+                //     }
+                // }
             }
         }
 
