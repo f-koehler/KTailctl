@@ -34,7 +34,7 @@ QIcon loadOsIcon(QString osname)
     if (osname == "ios") {
         return QIcon::fromTheme("smartphone");
     }
-    return QIcon::fromTheme("question");
+    return QIcon::fromTheme("network-vpn");
 }
 
 QString formatCapacityHumanReadable(long bytes)
