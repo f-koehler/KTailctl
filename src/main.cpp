@@ -14,6 +14,7 @@
 
 #include "about.h"
 #include "app.h"
+#include "location.h"
 #include "peer.h"
 #include "peer_model.h"
 #include "speed_statistics.h"
@@ -73,6 +74,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     qmlRegisterType<SpeedStatistics>("org.fkoehler.KTailctl", 1, 0, "SpeedStatistics");
     qmlRegisterType<Statistics>("org.fkoehler.KTailctl", 1, 0, "Statistics");
     qmlRegisterType<KTailctlConfig>("org.fkoehler.KTailctl", 1, 0, "KTailctlConfig");
+    qmlRegisterType<Location>("org.fkoehler.KTailctl", 1, 0, "Location");
 
     QmlTaildropSender taildropSender;
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "TaildropSender", &taildropSender);

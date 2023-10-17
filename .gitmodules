@@ -1,3 +1,6 @@
 [submodule "flathub"]
 	path = flathub
 	url = git@github.com:flathub/org.fkoehler.KTailctl.git
+[submodule "src/contents/country-flags"]
+	path = src/contents/country-flags
+	url = https://github.com/hampusborgos/country-flags.git

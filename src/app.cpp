@@ -15,12 +15,24 @@ App::App(Tailscale *tailscale, QObject *parent)
     : QObject(parent)
     , mTailscale(tailscale)
     , mConfig(KTailctlConfig::self())
+    , mPeerModel(new PeerModel(this))
+    , mPeerProxyModel(new QSortFilterProxyModel(this))
     , mTrayIcon(new TrayIcon(tailscale, this))
 {
-    QObject::connect(tailscale->status(), &Status::peersChanged, &mPeerModel, &PeerModel::updatePeers);
+    QObject::connect(tailscale->status(), &Status::peersChanged, mPeerModel, &PeerModel::updatePeers);
     QObject::connect(tailscale->status(), &Status::refreshed, &mPeerDetails, &Peer::updateFromStatus);
     QObject::connect(tailscale->status(), &Status::backendStateChanged, mTrayIcon, &TrayIcon::regenerate);
     QObject::connect(mTrayIcon, &TrayIcon::quitClicked, this, &App::quitApp);
+
+    if (mConfig->peerFilter() == "UNINITIALIZED") {
+        tailscale->status()->refresh();
+        const auto domain = mTailscale->status()->self()->dnsName().section('.', 1);
+        mPeerProxyModel->setFilterRegularExpression(domain);
+        mConfig->setPeerFilter(domain);
+        mConfig->save();
+    }
+    mPeerProxyModel->setSourceModel(mPeerModel);
+    mPeerProxyModel->setFilterRole(PeerModel::DnsNameRole);
 }
 
 Tailscale *App::tailscale()
@@ -35,9 +47,9 @@ Peer *App::peerDetails()
 {
     return &mPeerDetails;
 }
-PeerModel *App::peerModel()
+QSortFilterProxyModel *App::peerModel()
 {
-    return &mPeerModel;
+    return mPeerProxyModel;
 }
 TrayIcon *App::trayIcon()
 {

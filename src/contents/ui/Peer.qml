@@ -114,6 +114,7 @@ Kirigami.ScrollablePage {
 
         Flow {
             Kirigami.FormData.label: "OS:"
+            visible: App.peerDetails.os != ""
 
             Kirigami.Chip {
                 text: App.peerDetails.os
@@ -184,6 +185,68 @@ Kirigami.ScrollablePage {
             icon.name: "akonadiconsole"
             onClicked: {
                 Util.setClipboardText(App.peerDetails.sshCommand())
+            }
+        }
+
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: "Location"
+            visible: App.peerDetails.location != null
+        }
+
+        Kirigami.Chip {
+            Kirigami.FormData.label: "Country:"
+            text: App.peerDetails.location == null ? "" : App.peerDetails.location.country
+            icon.name: "edit-copy"
+            closable: false
+            checkable: false
+            checked: false
+            onClicked: {
+                if(App.peerDetails.location != null) {
+                    Util.setClipboardText(App.peerDetails.location.country);
+                }
+            }
+        }
+
+        Kirigami.Chip {
+            Kirigami.FormData.label: "Country code:"
+            text: App.peerDetails.location == null ? "" : App.peerDetails.location.countryCode
+            icon.name: "edit-copy"
+            closable: false
+            checkable: false
+            checked: false
+            onClicked: {
+                if(App.peerDetails.location != null) {
+                    Util.setClipboardText(App.peerDetails.location.countryCode);
+                }
+            }
+        }
+
+        Kirigami.Chip {
+            Kirigami.FormData.label: "City:"
+            text: App.peerDetails.location == null ? "" : App.peerDetails.location.city
+            icon.name: "edit-copy"
+            closable: false
+            checkable: false
+            checked: false
+            onClicked: {
+                if(App.peerDetails.location != null) {
+                    Util.setClipboardText(App.peerDetails.location.city);
+                }
+            }
+        }
+
+        Kirigami.Chip {
+            Kirigami.FormData.label: "City code:"
+            text: App.peerDetails.location == null ? "" : App.peerDetails.location.cityCode
+            icon.name: "edit-copy"
+            closable: false
+            checkable: false
+            checked: false
+            onClicked: {
+                if(App.peerDetails.location != null) {
+                    Util.setClipboardText(App.peerDetails.location.cityCode);
+                }
             }
         }
 

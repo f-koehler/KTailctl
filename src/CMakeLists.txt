@@ -7,6 +7,7 @@ check_ipo_supported(RESULT ipo_supported OUTPUT ipo_output)
 add_executable(ktailctl
     about.cpp
     app.cpp
+    location.cpp
     main.cpp
     peer.cpp
     peer_model.cpp

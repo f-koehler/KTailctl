@@ -31,9 +31,9 @@ Peer::Peer(QObject *parent)
 {
 }
 
-Peer *Peer::fromJSON(const QJsonObject &json)
+Peer *Peer::fromJSON(const QJsonObject &json, QObject *parent)
 {
-    Peer *peer = new Peer();
+    Peer *peer = new Peer(parent);
     peer->setIdFromJSON(json);
     peer->setPublicKeyFromJSON(json);
     peer->setHostNameFromJSON(json);
@@ -50,169 +50,214 @@ Peer *Peer::fromJSON(const QJsonObject &json)
     peer->setIsCurrentExitNodeFromJson(json);
     peer->setIsExitNodeFromJSON(json);
     peer->setSSHHostKeysFromJSON(json);
+    peer->setTagsFromJSON(json);
+    peer->setLocationFromJson(json);
 
     return peer;
 }
 
 bool Peer::setId(const QString &value)
 {
-    if (mId != value) {
-        mId = value;
-        emit idChanged(mId);
+    if (mId == value) {
         return true;
     }
-    return false;
+    mId = value;
+    emit idChanged(mId);
+    return true;
 }
 bool Peer::setPublicKey(const QString &value)
 {
-    if (mPublicKey != value) {
-        mPublicKey = value;
-        emit publicKeyChanged(mPublicKey);
-        return true;
+    if (mPublicKey == value) {
+        return false;
     }
-    return false;
+    mPublicKey = value;
+    emit publicKeyChanged(mPublicKey);
+    return true;
 }
 bool Peer::setHostName(const QString &value)
 {
-    if (mHostName != value) {
-        mHostName = value;
-        emit hostNameChanged(mHostName);
-        return true;
+    if (mHostName == value) {
+        return false;
     }
-    return false;
+    mHostName = value;
+    emit hostNameChanged(mHostName);
+    return true;
 }
 bool Peer::setDNSName(const QString &value)
 {
-    if (mDNSName != value) {
-        mDNSName = value;
-        emit dnsNameChanged(mDNSName);
-        return true;
+    if (mDNSName == value) {
+        return false;
     }
-    return false;
+    mDNSName = value;
+    emit dnsNameChanged(mDNSName);
+    return true;
 }
 bool Peer::setOs(const QString &value)
 {
-    if (mOs != value) {
-        mOs = value;
-        emit osChanged(mOs);
-        return true;
+    if (mOs == value) {
+        return false;
     }
-    return false;
+    mOs = value;
+    emit osChanged(mOs);
+    return true;
 }
 bool Peer::setTailscaleIps(const QStringList &value)
 {
-    if (mTailscaleIps != value) {
-        mTailscaleIps = value;
-        emit tailscaleIpsChanged(mTailscaleIps);
-        return true;
+    if (mTailscaleIps == value) {
+        return false;
     }
-    return false;
+    mTailscaleIps = value;
+    emit tailscaleIpsChanged(mTailscaleIps);
+    return true;
 }
 bool Peer::setRelay(const QString &value)
 {
-    if (mRelay != value) {
-        mRelay = value;
-        emit relayChanged(mRelay);
-        return true;
+    if (mRelay == value) {
+        return false;
     }
-    return false;
+    mRelay = value;
+    emit relayChanged(mRelay);
+    return true;
 }
 bool Peer::setRxBytes(long value)
 {
-    if (mRxBytes != value) {
-        mRxBytes = value;
-        emit rxBytesChanged(mRxBytes);
-        return true;
+    if (mRxBytes == value) {
+        return false;
     }
-    return false;
+    mRxBytes = value;
+    emit rxBytesChanged(mRxBytes);
+    return true;
 }
 bool Peer::setTxBytes(long value)
 {
-    if (mTxBytes != value) {
-        mTxBytes = value;
-        emit txBytesChanged(mTxBytes);
-        return true;
+    if (mTxBytes == value) {
+        return false;
     }
-    return false;
+    mTxBytes = value;
+    emit txBytesChanged(mTxBytes);
+    return true;
 }
 bool Peer::setCreated(const QDateTime &value)
 {
-    if (mCreated != value) {
-        mCreated = value;
-        emit createdChanged(mCreated);
-        return true;
+    if (mCreated == value) {
+        return false;
     }
-    return false;
+    mCreated = value;
+    emit createdChanged(mCreated);
+    return true;
 }
 bool Peer::setLastSeen(const QDateTime &value)
 {
-    if (mLastSeen != value) {
-        mLastSeen = value;
-        emit lastSeenChanged(mLastSeen);
-        return true;
+    if (mLastSeen == value) {
+        return false;
     }
-    return false;
+    mLastSeen = value;
+    emit lastSeenChanged(mLastSeen);
+    return true;
 }
 bool Peer::setIsOnline(bool value)
 {
-    if (mIsOnline != value) {
-        mIsOnline = value;
-        emit isOnlineChanged(mIsOnline);
-        return true;
+    if (mIsOnline == value) {
+        return false;
     }
-    return false;
+    mIsOnline = value;
+    emit isOnlineChanged(mIsOnline);
+    return true;
 }
 bool Peer::setIsActive(bool value)
 {
-    if (mIsActive != value) {
-        mIsActive = value;
-        emit isActiveChanged(mIsActive);
-        return true;
+    if (mIsActive == value) {
+        return false;
     }
-    return false;
+    mIsActive = value;
+    emit isActiveChanged(mIsActive);
+    return true;
 }
 bool Peer::setIsCurrentExitNode(bool value)
 {
-    if (mIsCurrentExitNode != value) {
-        mIsCurrentExitNode = value;
-        emit isCurrentExitNodeChanged(mIsCurrentExitNode);
-        return true;
+    if (mIsCurrentExitNode == value) {
+        return false;
     }
-    return false;
+    mIsCurrentExitNode = value;
+    emit isCurrentExitNodeChanged(mIsCurrentExitNode);
+    return true;
 }
 bool Peer::setIsExitNode(bool value)
 {
-    if (mIsExitNode != value) {
-        mIsExitNode = value;
-        emit isExitNodeChanged(mIsExitNode);
-        return true;
+    if (mIsExitNode == value) {
+        return false;
     }
-    return false;
+    mIsExitNode = value;
+    emit isExitNodeChanged(mIsExitNode);
+    return true;
 }
 
 bool Peer::setSSHHostKeys(const QStringList &value)
 {
-    if (mSSHHostKeys != value) {
-        mSSHHostKeys = value;
-        emit sshHostKeysChanged(mSSHHostKeys);
-        if (mSSHHostKeys.size() > 0) {
-            setIsRunningSSH(true);
-        } else {
-            setIsRunningSSH(false);
-        }
-        return true;
+    if (mSSHHostKeys == value) {
+        return false;
     }
-    return false;
+    mSSHHostKeys = value;
+    emit sshHostKeysChanged(mSSHHostKeys);
+    if (mSSHHostKeys.size() > 0) {
+        setIsRunningSSH(true);
+    } else {
+        setIsRunningSSH(false);
+    }
+    return true;
 }
 
 bool Peer::setIsRunningSSH(bool value)
 {
-    if (mIsRunningSSH != value) {
-        mIsRunningSSH = value;
-        emit isRunningSSHChanged(mIsRunningSSH);
+    if (mIsRunningSSH == value) {
+        return false;
+    }
+    mIsRunningSSH = value;
+    emit isRunningSSHChanged(mIsRunningSSH);
+    return true;
+}
+
+bool Peer::setTags(const QStringList &value)
+{
+    if (mTags == value) {
+        return false;
+    }
+    mTags = value;
+    emit tagsChanged(mTags);
+    if (mTags.contains(QStringLiteral("tag:mullvad-exit-node"))) {
+        setIsMullvad(true);
+    } else {
+        setIsMullvad(false);
+    }
+    return true;
+}
+
+bool Peer::setIsMullvad(bool value)
+{
+    if (mIsMullvad == value) {
+        return false;
+    }
+    mIsMullvad = value;
+    emit isMullvadChanged(mIsMullvad);
+    return true;
+}
+
+bool Peer::setLocation(const Location *location)
+{
+    if (mLocation == location) {
+        return false;
+    }
+    if (location == nullptr) {
+        mLocation = nullptr;
+        emit locationChanged(mLocation);
         return true;
     }
-    return false;
+    if (mLocation == nullptr) {
+        mLocation = new Location(this);
+    }
+    bool result = mLocation->setTo(location);
+    emit locationChanged(mLocation);
+    return result;
 }
 
 void Peer::setIdFromJSON(const QJsonObject &json)
@@ -375,6 +420,36 @@ void Peer::setSSHHostKeysFromJSON(const QJsonObject &json)
     }
     setSSHHostKeys(keys);
 }
+void Peer::setTagsFromJSON(const QJsonObject &json)
+{
+    QStringList tags{};
+    if (json.contains("Tags")) {
+        if (json["Tags"].isArray()) {
+            const auto arr = json["Tags"].toArray();
+            for (const auto &tag : arr) {
+                if (tag.isString()) {
+                    tags.append(tag.toString());
+                } else {
+                    qWarning() << "Tags contains non-string";
+                }
+            }
+        } else {
+            qWarning() << "\"Tags\" is not an array";
+        }
+    }
+    setTags(tags);
+}
+
+void Peer::setLocationFromJson(const QJsonObject &object)
+{
+    if (object.contains("Location")) {
+        if (object["Location"].isObject()) {
+            setLocation(Location::fromJSON(object["Location"].toObject()));
+        } else {
+            qWarning() << "\"Location\" is not location";
+        }
+    }
+}
 
 bool Peer::setTo(const Peer *other)
 {
@@ -394,6 +469,8 @@ bool Peer::setTo(const Peer *other)
     result |= setIsCurrentExitNode(other->isCurrentExitNode());
     result |= setIsExitNode(other->isExitNode());
     result |= setSSHHostKeys(other->sshHostKeys());
+    result |= setTags(other->tags());
+    result |= setLocation(other->location());
     return result;
 }
 QString Peer::getSSHCommand() const
@@ -483,6 +560,22 @@ const QStringList &Peer::sshHostKeys() const
 bool Peer::isRunningSSH() const
 {
     return mIsRunningSSH;
+}
+const QStringList &Peer::tags() const
+{
+    return mTags;
+}
+bool Peer::isMullvad() const
+{
+    return mIsMullvad;
+}
+const Location *Peer::location() const
+{
+    return mLocation;
+}
+Location *Peer::location()
+{
+    return mLocation;
 }
 
 Peer &Peer::operator=(const Peer &other)
