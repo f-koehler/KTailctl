@@ -1,6 +1,6 @@
 app-id: org.fkoehler.KTailctl
 runtime: org.kde.Platform
-runtime-version: 5.15-22.08
+runtime-version: "6.5"
 sdk: org.kde.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.golang
@@ -29,14 +29,9 @@ modules:
       - "-DCMAKE_CXX_COMPILER=clang++"
       - "-DCMAKE_C_COMPILER=clang"
     sources:
-      - type: "archive"
-        url: "https://download.kde.org/stable/kirigami-addons/kirigami-addons-0.11.0.tar.xz"
-        sha256: "05296c5afbe6804308bf9c0d2751f3b748b40d00fa784946d1dcdf3af4bffbad"
-        x-checker-data:
-          type: "anitya"
-          project-id: 242933
-          stable-only: true
-          url-template: "https://download.kde.org/stable/kirigami-addons/kirigami-addons-$version.tar.xz"
+      - type: git
+        url: https://invent.kde.org/libraries/kirigami-addons.git
+        commit: f70fb94277688ba55adb99a1106bf9fbcb14f195
   - name: ktailctl
     buildsystem: cmake-ninja
     config-opts:

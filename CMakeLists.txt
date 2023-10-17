@@ -9,15 +9,15 @@ option(KTAILCTL_FLATPAK_BUILD "Build for Flatpak" OFF)
 
 include(FeatureSummary)
 
-set(QT5_MIN_VERSION 5.15)
-set(KF5_MIN_VERSION 5.83)
+set(QT5_MIN_VERSION 6.4)
+set(KF5_MIN_VERSION 6)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -Wno-c99-extensions -Wno-c++98-compat")
 
-find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
+find_package(ECM ${KF6_MIN_VERSION} REQUIRED NO_MODULE)
 find_package(Git REQUIRED)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
@@ -41,14 +41,14 @@ ecm_setup_version(${PROJECT_VERSION}
     VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/src/version-ktailctl.h"
 )
 
-find_package(Qt5 ${QT5_MIN_VERSION} REQUIRED COMPONENTS
+find_package(Qt6 ${QT6_MIN_VERSION} REQUIRED COMPONENTS
     Core
     Gui
     Qml
     QuickControls2
     Svg
 )
-find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
+find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
     Config
     CoreAddons
     GuiAddons
