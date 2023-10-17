@@ -12,6 +12,7 @@
 
 #include <QObject>
 #include <QQuickWindow>
+#include <QSortFilterProxyModel>
 
 class QQuickWindow;
 
@@ -21,13 +22,14 @@ class App : public QObject
     Q_PROPERTY(Tailscale *tailscale READ tailscale CONSTANT)
     Q_PROPERTY(KTailctlConfig *config READ config CONSTANT)
     Q_PROPERTY(Peer *peerDetails READ peerDetails NOTIFY peerDetailsChanged)
-    Q_PROPERTY(PeerModel *peerModel READ peerModel CONSTANT)
+    Q_PROPERTY(QSortFilterProxyModel *peerModel READ peerModel CONSTANT)
 
 private:
     Tailscale *mTailscale;
     KTailctlConfig *mConfig;
     Peer mPeerDetails;
-    PeerModel mPeerModel;
+    PeerModel *mPeerModel;
+    QSortFilterProxyModel *mPeerProxyModel;
 
     TrayIcon *mTrayIcon;
 
@@ -43,7 +45,7 @@ public:
     Tailscale *tailscale();
     KTailctlConfig *config();
     Peer *peerDetails();
-    PeerModel *peerModel();
+    QSortFilterProxyModel *peerModel();
     TrayIcon *trayIcon();
 
     // Restore current window geometry

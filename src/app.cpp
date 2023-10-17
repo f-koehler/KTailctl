@@ -15,12 +15,16 @@ App::App(Tailscale *tailscale, QObject *parent)
     : QObject(parent)
     , mTailscale(tailscale)
     , mConfig(KTailctlConfig::self())
+    , mPeerModel(new PeerModel(this))
+    , mPeerProxyModel(new QSortFilterProxyModel(this))
     , mTrayIcon(new TrayIcon(tailscale, this))
 {
-    QObject::connect(tailscale->status(), &Status::peersChanged, &mPeerModel, &PeerModel::updatePeers);
+    QObject::connect(tailscale->status(), &Status::peersChanged, mPeerModel, &PeerModel::updatePeers);
     QObject::connect(tailscale->status(), &Status::refreshed, &mPeerDetails, &Peer::updateFromStatus);
     QObject::connect(tailscale->status(), &Status::backendStateChanged, mTrayIcon, &TrayIcon::regenerate);
     QObject::connect(mTrayIcon, &TrayIcon::quitClicked, this, &App::quitApp);
+
+    mPeerProxyModel->setSourceModel(mPeerModel);
 }
 
 Tailscale *App::tailscale()
@@ -35,9 +39,9 @@ Peer *App::peerDetails()
 {
     return &mPeerDetails;
 }
-PeerModel *App::peerModel()
+QSortFilterProxyModel *App::peerModel()
 {
-    return &mPeerModel;
+    return mPeerProxyModel;
 }
 TrayIcon *App::trayIcon()
 {
