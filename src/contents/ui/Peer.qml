@@ -157,7 +157,7 @@ Kirigami.ScrollablePage {
         }
 
         Controls.Switch {
-            Kirigami.FormData.label: "Set as exit node:"
+            Kirigami.FormData.label: "Use exit node node:"
             checked: App.peerDetails.isCurrentExitNode
             enabled: App.peerDetails.isExitNode
             onToggled: {
