@@ -164,6 +164,9 @@ std::tuple<QList<Peer *>, QList<Peer *>> Status::exitNodes() const
         return peer_a->hostName() < peer_b->hostName();
     });
     std::sort(mullvad_nodes.begin(), mullvad_nodes.end(), [](const Peer *peer_a, const Peer *peer_b) {
+        if (peer_a->location() == nullptr || peer_b->location() == nullptr) {
+            return peer_a->hostName() < peer_b->hostName();
+        }
         if (peer_a->location()->countryCode() == peer_b->location()->countryCode()) {
             return peer_a->hostName() < peer_b->hostName();
         }
