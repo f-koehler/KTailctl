@@ -144,29 +144,48 @@ Kirigami.ScrollablePage {
                         }
                     }
 
-                    ColumnLayout {
+                    GridLayout {
+                        rows: isRunningSSH || isExitNode ? 2 : 1
+                        columns: 2
+
                         Controls.Button {
-                            text: "Details"
                             icon.name: "view-list-details"
+                            Controls.ToolTip.visible: hovered
+                            Controls.ToolTip.text: "Show peer details"
                             onClicked: {
                                 App.setPeerDetails(tailscaleID);
                                 pageStack.layers.push('qrc:Peer.qml');
                             }
                         }
                         Controls.Button {
-                            text: "Send file(s)"
                             icon.name: "document-send"
+                            Controls.ToolTip.visible: hovered
+                            Controls.ToolTip.text: "Send file(s)"
                             onClicked: {
                                 TaildropSender.selectAndSendFiles(dnsName)
                             }
                             visible: Tailscale.status.isOperator
                         }
                         Controls.Button {
-                            text: "SSH"
                             icon.name: "akonadiconsole"
                             visible: isRunningSSH
+                            Controls.ToolTip.visible: hovered
+                            Controls.ToolTip.text: "Copy SSH command"
                             onClicked: {
                                 Util.setClipboardText(sshCommand)
+                            }
+                        }
+                        Controls.Switch {
+                            visible: isExitNode && !Tailscale.preferences.advertiseExitNode
+                            checked: isCurrentExitNode
+                            Controls.ToolTip.visible: hovered
+                            Controls.ToolTip.text: isCurrentExitNode ? "Do not use this exit node" : "Use this exit node"
+                            onToggled: {
+                                if(isCurrentExitNode) {
+                                    Util.unsetExitNode();
+                                } else {
+                                    Util.setExitNode(tailscaleIps[0]);
+                                }
                             }
                         }
                     }

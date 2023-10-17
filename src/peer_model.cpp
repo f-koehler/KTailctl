@@ -46,9 +46,13 @@ QHash<int, QByteArray> PeerModel::roleNames() const
     roles[TailscaleIpsRole] = "tailscaleIps";
     roles[IsOnlineRole] = "isOnline";
     roles[IsActiveRole] = "isActive";
+    roles[IsExitNodeRole] = "isExitNode";
+    roles[IsCurrentExitNodeRole] = "isCurrentExitNode";
     roles[SSHHostKeysRole] = "sshHostKeys";
     roles[IsRunningSSHRole] = "isRunningSSH";
     roles[SSHCommandRole] = "sshCommand";
+    roles[TagsRole] = "tags";
+    roles[IsMullvadRole] = "isMullvad";
     return roles;
 }
 
@@ -74,12 +78,20 @@ QVariant PeerModel::data(const QModelIndex &index, int role) const
         return mPeers.at(index.row())->isOnline();
     case IsActiveRole:
         return mPeers.at(index.row())->isActive();
+    case IsExitNodeRole:
+        return mPeers.at(index.row())->isExitNode();
+    case IsCurrentExitNodeRole:
+        return mPeers.at(index.row())->isCurrentExitNode();
     case SSHHostKeysRole:
         return mPeers.at(index.row())->sshHostKeys();
     case IsRunningSSHRole:
         return mPeers.at(index.row())->isRunningSSH();
     case SSHCommandRole:
         return mPeers.at(index.row())->getSSHCommand();
+    case TagsRole:
+        return mPeers.at(index.row())->tags();
+    case IsMullvadRole:
+        return mPeers.at(index.row())->isMullvad();
     default:
         return QStringLiteral("Unknown role");
     }
