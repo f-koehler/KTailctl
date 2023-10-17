@@ -114,6 +114,7 @@ Kirigami.ScrollablePage {
 
         Flow {
             Kirigami.FormData.label: "OS:"
+            visible: App.peerDetails.os != ""
 
             Kirigami.Chip {
                 text: App.peerDetails.os
