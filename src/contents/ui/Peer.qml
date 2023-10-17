@@ -187,7 +187,7 @@ Kirigami.ScrollablePage {
                 Util.setClipboardText(App.peerDetails.sshCommand())
             }
         }
-        
+
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
             Kirigami.FormData.label: "Location"
