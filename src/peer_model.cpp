@@ -46,9 +46,13 @@ QHash<int, QByteArray> PeerModel::roleNames() const
     roles[TailscaleIpsRole] = "tailscaleIps";
     roles[IsOnlineRole] = "isOnline";
     roles[IsActiveRole] = "isActive";
+    roles[IsExitNodeRole] = "isExitNode";
+    roles[IsCurrentExitNodeRole] = "isCurrentExitNode";
     roles[SSHHostKeysRole] = "sshHostKeys";
     roles[IsRunningSSHRole] = "isRunningSSH";
     roles[SSHCommandRole] = "sshCommand";
+    roles[TagsRole] = "tags";
+    roles[IsMullvadRole] = "isMullvad";
     return roles;
 }
 
