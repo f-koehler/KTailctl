@@ -74,12 +74,20 @@ QVariant PeerModel::data(const QModelIndex &index, int role) const
         return mPeers.at(index.row())->isOnline();
     case IsActiveRole:
         return mPeers.at(index.row())->isActive();
+    case IsExitNodeRole:
+        return mPeers.at(index.row())->isExitNode();
+    case IsCurrentExitNodeRole:
+        return mPeers.at(index.row())->isCurrentExitNode();
     case SSHHostKeysRole:
         return mPeers.at(index.row())->sshHostKeys();
     case IsRunningSSHRole:
         return mPeers.at(index.row())->isRunningSSH();
     case SSHCommandRole:
         return mPeers.at(index.row())->getSSHCommand();
+    case TagsRole:
+        return mPeers.at(index.row())->tags();
+    case IsMullvadRole:
+        return mPeers.at(index.row())->isMullvad();
     default:
         return QStringLiteral("Unknown role");
     }
