@@ -237,9 +237,9 @@ Kirigami.ScrollablePage {
                     }
                     enabled: App.config.enableTrayIcon
                 }
-                
+
                 MobileForm.FormDelegateSeparator { below: startMinimized; above: enableTrayIcon; }
-                
+
                 MobileForm.FormSwitchDelegate {
                     id: enableTrayIcon
                     text: i18nc("@label", "Enable tray icon:")
@@ -253,7 +253,7 @@ Kirigami.ScrollablePage {
                         App.trayIcon.visible = App.config.enableTrayIcon;
                     }
                 }
-                
+
                 MobileForm.FormDelegateSeparator { below: enableTrayIcon; above: trayIconStyle; }
 
                 MobileForm.FormComboBoxDelegate {
