@@ -27,11 +27,60 @@ Kirigami.ScrollablePage {
     }
 
     ColumnLayout {
+        MobileForm.FormHeader {
+            Layout.fillWidth: true
+            Layout.topMargin: Kirigami.Units.largeSpacing
+
+            title: i18nc("@title:group", "Interface")
+        }
+
         MobileForm.FormCard {
             Layout.fillWidth: true
 
             contentItem: ColumnLayout {
                 spacing: 0
+
+                MobileForm.FormSwitchDelegate {
+                    id: startMinimized
+                    text: i18nc("@label", "Start minimized:")
+                    checked: App.config.startMinimized
+                    onClicked: {
+                        App.config.startMinimized = !App.config.startMinimized;
+                        App.config.save();
+                    }
+                    enabled: App.config.enableTrayIcon
+                }
+
+                MobileForm.FormDelegateSeparator { below: startMinimized; above: enableTrayIcon; }
+
+                MobileForm.FormSwitchDelegate {
+                    id: enableTrayIcon
+                    text: i18nc("@label", "Enable tray icon:")
+                    checked: App.config.enableTrayIcon
+                    onClicked: {
+                        App.config.enableTrayIcon = !App.config.enableTrayIcon;
+                        if(!App.config.enableTrayIcon) {
+                            App.config.startMinimized = false;
+                        }
+                        App.config.save();
+                        App.trayIcon.visible = App.config.enableTrayIcon;
+                    }
+                }
+
+                MobileForm.FormDelegateSeparator { below: enableTrayIcon; above: trayIconStyle; }
+
+                MobileForm.FormComboBoxDelegate {
+                    id: trayIconStyle
+                    text: i18nc("@label", "Tray icon style:")
+                    model: ["Colorful", "Breeze Dark", "Breeze Light"]
+                    displayText: App.config.trayIconStyle
+                    onActivated: {
+                        App.config.trayIconStyle = trayIconStyle.currentText;
+                        App.config.save()
+                    }
+                }
+
+                MobileForm.FormDelegateSeparator { below: trayIconStyle; above: spinRefreshInterval; }
 
                 MobileForm.FormSpinBoxDelegate {
                     id: spinRefreshInterval
@@ -214,59 +263,5 @@ Kirigami.ScrollablePage {
         //     enabled: Tailscale.status.isOperator
         // }
 
-        MobileForm.FormHeader {
-            Layout.fillWidth: true
-            Layout.topMargin: Kirigami.Units.largeSpacing
-
-            title: i18nc("@title:group", "Interface")
-        }
-
-        MobileForm.FormCard {
-            Layout.fillWidth: true
-
-            contentItem: ColumnLayout {
-                spacing: 0
-
-                MobileForm.FormSwitchDelegate {
-                    id: startMinimized
-                    text: i18nc("@label", "Start minimized:")
-                    checked: App.config.startMinimized
-                    onClicked: {
-                        App.config.startMinimized = !App.config.startMinimized;
-                        App.config.save();
-                    }
-                    enabled: App.config.enableTrayIcon
-                }
-
-                MobileForm.FormDelegateSeparator { below: startMinimized; above: enableTrayIcon; }
-
-                MobileForm.FormSwitchDelegate {
-                    id: enableTrayIcon
-                    text: i18nc("@label", "Enable tray icon:")
-                    checked: App.config.enableTrayIcon
-                    onClicked: {
-                        App.config.enableTrayIcon = !App.config.enableTrayIcon;
-                        if(!App.config.enableTrayIcon) {
-                            App.config.startMinimized = false;
-                        }
-                        App.config.save();
-                        App.trayIcon.visible = App.config.enableTrayIcon;
-                    }
-                }
-
-                MobileForm.FormDelegateSeparator { below: enableTrayIcon; above: trayIconStyle; }
-
-                MobileForm.FormComboBoxDelegate {
-                    id: trayIconStyle
-                    text: i18nc("@label", "Tray icon style:")
-                    model: ["Colorful", "Breeze Dark", "Breeze Light"]
-                    displayText: App.config.trayIconStyle
-                    onActivated: {
-                        App.config.trayIconStyle = trayIconStyle.currentText;
-                        App.config.save()
-                    }
-                }
-            }
-        }
     }
 }
