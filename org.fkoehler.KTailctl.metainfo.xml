@@ -25,6 +25,34 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.10.0" date="2023-10-18" urgency="medium">
+      <description>
+        <p>Features:</p>
+        <ul>
+          <li>Add filtering of peer list based on DNS name</li>
+          <li>Add toggle for exit nodes in peer list</li>
+          <li>Add button to copy Tailscale SSH command to connect to host</li>
+          <li>Add different styles of tray icon for better integration in different desktop environments</li>
+          <li>Add option to disable tray icon</li>
+          <li>Add option to select tray icon style</li>
+          <li>Hide Mullvad nodes from peer list in tray icon</li>
+          <li>Add two separate menus for self-hosted and Mullvad exit nodes</li>
+          <li>Group Mullvad nodes in tray menu by country</li>
+          <li>Add country flags to Mullvad nodes in tray menu</li>
+        </ul>
+        <p>Fixes:</p>
+        <ul>
+          <li>Sort peers by DNS name instead of hostname</li>
+          <li>Show DNS name instead of hostname in peer list</li>
+        </ul>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.10.0</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.10.0.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.9.2" date="2023-10-10" urgency="low">
       <description>
         <p>
