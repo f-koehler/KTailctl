@@ -98,7 +98,7 @@ Location::Location(QObject *parent)
 
 Location *Location::fromJSON(const QJsonObject &json, QObject *parent)
 {
-    Location *location = new Location(parent);
+    auto *location = new Location(parent);
     location->setCountryFromJSON(json);
     location->setCountryCodeFromJSON(json);
     location->setCityFromJSON(json);

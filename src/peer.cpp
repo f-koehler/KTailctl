@@ -199,10 +199,10 @@ bool Peer::setSSHHostKeys(const QStringList &value)
     }
     mSSHHostKeys = value;
     emit sshHostKeysChanged(mSSHHostKeys);
-    if (mSSHHostKeys.size() > 0) {
-        setIsRunningSSH(true);
-    } else {
+    if (mSSHHostKeys.empty()) {
         setIsRunningSSH(false);
+    } else {
+        setIsRunningSSH(true);
     }
     return true;
 }
@@ -255,7 +255,7 @@ bool Peer::setLocation(const Location *location)
     if (mLocation == nullptr) {
         mLocation = new Location(this);
     }
-    bool result = mLocation->setTo(location);
+    const bool result = mLocation->setTo(location);
     emit locationChanged(mLocation);
     return result;
 }

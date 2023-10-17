@@ -24,11 +24,11 @@ App::App(Tailscale *tailscale, QObject *parent)
     QObject::connect(tailscale->status(), &Status::backendStateChanged, mTrayIcon, &TrayIcon::regenerate);
     QObject::connect(mTrayIcon, &TrayIcon::quitClicked, this, &App::quitApp);
 
-    if (mConfig->peerFilter() == "UNINITIALIZED") {
+    if (KTailctlConfig::peerFilter() == "UNINITIALIZED") {
         tailscale->status()->refresh();
         const auto domain = mTailscale->status()->self()->dnsName().section('.', 1);
         mPeerProxyModel->setFilterRegularExpression(domain);
-        mConfig->setPeerFilter(domain);
+        KTailctlConfig::setPeerFilter(domain);
         mConfig->save();
     }
     mPeerProxyModel->setSourceModel(mPeerModel);

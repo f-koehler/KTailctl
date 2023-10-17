@@ -40,7 +40,7 @@ QIcon loadOsIcon(QString osname)
 QString formatCapacityHumanReadable(long bytes)
 {
     static constexpr std::array<const char *, 5> units = {"TiB", "GiB", "MiB", "KiB", "B"};
-    static constexpr std::array<qint64, 5> limits = {1ll << 40ll, 1ll << 30ll, 1ll << 20ll, 1ll << 10ll, 1ll};
+    static constexpr std::array<qint64, 5> limits = {1LL << 40LL, 1LL << 30LL, 1LL << 20LL, 1LL << 10LL, 1LL};
     for (std::size_t i = 0; i < units.size(); ++i) {
         if (bytes >= limits.at(i)) {
             return QString("%1 %2").arg(static_cast<double>(bytes) / static_cast<double>(limits.at(i)), 0, 'f', 3).arg(units.at(i));
@@ -52,10 +52,10 @@ QString formatCapacityHumanReadable(long bytes)
 QString formatSpeedHumanReadable(double bytes_per_second)
 {
     static constexpr std::array<const char *, 5> units = {"TiB/s", "GiB/s", "MiB/s", "KiB/s", "B/s"};
-    static constexpr std::array<double, 5> limits = {static_cast<double>(1ll << 40ll),
-                                                     static_cast<double>(1ll << 30ll),
-                                                     static_cast<double>(1ll << 20ll),
-                                                     static_cast<double>(1ll << 10ll),
+    static constexpr std::array<double, 5> limits = {static_cast<double>(1LL << 40LL),
+                                                     static_cast<double>(1LL << 30LL),
+                                                     static_cast<double>(1LL << 20LL),
+                                                     static_cast<double>(1LL << 10LL),
                                                      1.0};
     for (std::size_t i = 0; i < units.size(); ++i) {
         if (bytes_per_second >= limits.at(i)) {
@@ -67,12 +67,12 @@ QString formatSpeedHumanReadable(double bytes_per_second)
 
 QString formatDurationHumanReadable(const QDateTime &from, const QDateTime &to)
 {
-    static constexpr std::array<qint64, 6> conversions = {365ll * 30ll * 24ll * 60ll * 60ll * 1000ll,
-                                                          34 * 30ll * 60ll * 60ll * 1000ll,
-                                                          24ll * 60ll * 60ll * 1000ll,
-                                                          60ll * 60ll * 1000ll,
-                                                          60ll * 1000ll,
-                                                          1000ll};
+    static constexpr std::array<qint64, 6> conversions = {365LL * 30LL * 24LL * 60LL * 60LL * 1000LL,
+                                                          34 * 30LL * 60LL * 60LL * 1000LL,
+                                                          24LL * 60LL * 60LL * 1000LL,
+                                                          60LL * 60LL * 1000LL,
+                                                          60LL * 1000LL,
+                                                          1000LL};
     static constexpr std::array<const char *, 6> units = {"year", "month", "day", "hour", "minute", "second"};
 
     QString result = "";
@@ -142,9 +142,9 @@ qint64 Util::toMSecsSinceEpoch(const QDateTime &dateTime)
 {
     return ::toMSecsSinceEpoch(dateTime);
 }
-QIcon Util::loadOsIcon(const QString &os)
+QIcon Util::loadOsIcon(const QString &operating_system)
 {
-    return ::loadOsIcon(os);
+    return ::loadOsIcon(operating_system);
 }
 void Util::setExitNode(const QString &node)
 {
