@@ -147,7 +147,6 @@ void TrayIcon::updateIcon()
     } else {
         icon_path += "-colorful";
     }
-    qDebug() << "Using icon" << icon_path;
     setIcon(QIcon(icon_path));
 }
 
