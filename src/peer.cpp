@@ -573,6 +573,10 @@ const Location *Peer::location() const
 {
     return mLocation;
 }
+Location *Peer::location()
+{
+    return mLocation;
+}
 
 Peer &Peer::operator=(const Peer &other)
 {

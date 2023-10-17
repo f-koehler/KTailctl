@@ -39,7 +39,7 @@ class Peer : public QObject
     Q_PROPERTY(bool isRunningSSH READ isRunningSSH NOTIFY isRunningSSHChanged)
     Q_PROPERTY(QStringList tags READ tags NOTIFY tagsChanged)
     Q_PROPERTY(bool isMullvad READ isMullvad NOTIFY isMullvadChanged)
-    Q_PROPERTY(const Location *location READ location NOTIFY locationChanged)
+    Q_PROPERTY(Location *location READ location NOTIFY locationChanged)
 
 private:
     QString mId;
@@ -157,6 +157,7 @@ public:
     const QStringList &tags() const;
     bool isMullvad() const;
     const Location *location() const;
+    Location *location();
 
     Peer &operator=(const Peer &other);
 };
