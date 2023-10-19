@@ -5,6 +5,7 @@ target_sources(componentsplugin PRIVATE
     componentsplugin.cpp
 )
 ecm_target_qml_sources(componentsplugin SOURCES
+    FormCopyChipsDelegate.qml
     FormCopyLabelDelegate.qml
 )
 target_link_libraries(componentsplugin PRIVATE
