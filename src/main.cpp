@@ -59,22 +59,19 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
                         QStringLiteral("https://fkoehler.org"));
     KAboutData::setApplicationData(aboutData);
 
+    QScopedPointer<AboutType> about(new AboutType);
+    QScopedPointer<Tailscale> tailscale(new Tailscale);
+    QScopedPointer<App> application(new App(tailscale.get()));
+    QScopedPointer<Util> util(new Util);
+    QScopedPointer<TaildropSender> taildropSender(new TaildropSender);
+
     QQmlApplicationEngine engine; // NOLINT(misc-const-correctness)
 
-    AboutType about; // NOLINT(misc-const-correctness)
-    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "AboutType", &about);
-
-    Tailscale tailscale; // NOLINT(misc-const-correctness)
-    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Tailscale", &tailscale);
-
-    App application(&tailscale); // NOLINT(misc-const-correctness)
-    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "App", &application);
-
-    Util util; // NOLINT(misc-const-correctness)
-    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Util", &util);
-
-    TaildropSender taildropSender; // NOLINT(misc-const-correctness)
-    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "TaildropSender", &taildropSender);
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "AboutType", about.get());
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Tailscale", tailscale.get());
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "App", application.get());
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Util", util.get());
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "TaildropSender", taildropSender.get());
 
     qmlRegisterType<Peer>("org.fkoehler.KTailctl", 1, 0, "Peer");
     qmlRegisterType<Status>("org.fkoehler.KTailctl", 1, 0, "Status");
@@ -90,7 +87,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     }
 
     auto *window = dynamic_cast<QQuickWindow *>(engine.rootObjects().first());
-    application.trayIcon()->setWindow(window);
+    application.get()->trayIcon()->setWindow(window);
     if (KTailctlConfig::startMinimized()) {
         window->hide();
     } else {
