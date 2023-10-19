@@ -11,7 +11,6 @@ FormCard.AbstractFormDelegate {
     id: root
     focusPolicy: Qt.StrongFocus
     
-    // property string text
     property string copyData
 
     onClicked: {
