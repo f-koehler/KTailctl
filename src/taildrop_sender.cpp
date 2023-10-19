@@ -64,16 +64,16 @@ void TaildropSendJob::start()
     mThread->start();
 }
 
-QmlTaildropSender::QmlTaildropSender(QObject *parent)
+TaildropSender::TaildropSender(QObject *parent)
     : QObject(parent)
 {
 }
 
-void QmlTaildropSender::selectAndSendFiles(const QString &target)
+void TaildropSender::selectAndSendFiles(const QString &target)
 {
     TaildropSendJob::selectAndSendFiles(target);
 }
-void QmlTaildropSender::sendFiles(const QString &target, const QStringList &files)
+void TaildropSender::sendFiles(const QString &target, const QStringList &files)
 {
     TaildropSendJob::sendFiles(target, files);
 }

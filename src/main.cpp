@@ -80,7 +80,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     qmlRegisterType<KTailctlConfig>("org.fkoehler.KTailctl", 1, 0, "KTailctlConfig");
     qmlRegisterType<Location>("org.fkoehler.KTailctl", 1, 0, "Location");
 
-    QmlTaildropSender taildropSender; // NOLINT(misc-const-correctness)
+    TaildropSender taildropSender; // NOLINT(misc-const-correctness)
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "TaildropSender", &taildropSender);
 
     engine.rootContext()->setContextObject(new KLocalizedContext(&engine));

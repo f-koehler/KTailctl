@@ -40,11 +40,11 @@ public slots:
     void start() override;
 };
 
-class QmlTaildropSender : public QObject
+class TaildropSender : public QObject
 {
     Q_OBJECT
 public:
-    explicit QmlTaildropSender(QObject *parent = nullptr);
+    explicit TaildropSender(QObject *parent = nullptr);
     Q_INVOKABLE static void selectAndSendFiles(const QString &target);
     Q_INVOKABLE static void sendFiles(const QString &target, const QStringList &files);
 };
