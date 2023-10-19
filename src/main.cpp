@@ -73,15 +73,15 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     Util util; // NOLINT(misc-const-correctness)
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Util", &util);
 
+    TaildropSender taildropSender; // NOLINT(misc-const-correctness)
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "TaildropSender", &taildropSender);
+
     qmlRegisterType<Peer>("org.fkoehler.KTailctl", 1, 0, "Peer");
     qmlRegisterType<Status>("org.fkoehler.KTailctl", 1, 0, "Status");
     qmlRegisterType<SpeedStatistics>("org.fkoehler.KTailctl", 1, 0, "SpeedStatistics");
     qmlRegisterType<Statistics>("org.fkoehler.KTailctl", 1, 0, "Statistics");
     qmlRegisterType<KTailctlConfig>("org.fkoehler.KTailctl", 1, 0, "KTailctlConfig");
     qmlRegisterType<Location>("org.fkoehler.KTailctl", 1, 0, "Location");
-
-    TaildropSender taildropSender; // NOLINT(misc-const-correctness)
-    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "TaildropSender", &taildropSender);
 
     engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
     engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
