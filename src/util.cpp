@@ -114,6 +114,19 @@ qint64 toMSecsSinceEpoch(const QDateTime &dateTime)
     return dateTime.toMSecsSinceEpoch();
 }
 
+void setExitNode(const QString &node)
+{
+    QByteArray bytes = node.toUtf8();
+    GoString tmp{bytes.data(), bytes.size()};
+    tailscale_set_exit_node(&tmp);
+}
+
+void unsetExitNode()
+{
+    GoString tmp{nullptr, 0};
+    tailscale_set_exit_node(&tmp);
+}
+
 void Util::setClipboardText(const QString &text)
 {
     ::setClipboardText(text);

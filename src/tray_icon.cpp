@@ -73,8 +73,8 @@ void TrayIcon::regenerate()
             if (!exit_nodes.empty()) {
                 auto *menu_self_hosted = menu_exit_nodes->addMenu(QIcon::fromTheme("network-server-symbolic"), "Self-Hosted");
                 for (const auto *node : exit_nodes) {
-                    menu_self_hosted->addAction(Util::loadOsIcon(node->os()), node->hostName(), [node]() {
-                        Util::setExitNode(node->tailscaleIps().front());
+                    menu_self_hosted->addAction(loadOsIcon(node->os()), node->hostName(), [node]() {
+                        setExitNode(node->tailscaleIps().front());
                     });
                 }
             }
@@ -94,7 +94,7 @@ void TrayIcon::regenerate()
                                                  menu_mullvad_nodes->addMenu(QIcon(QString(":/country-flags/%1").arg(country_code.toLower())), country_code));
                     }
                     menu_pos.value()->addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), node->hostName(), [node]() {
-                        Util::setExitNode(node->tailscaleIps().front());
+                        setExitNode(node->tailscaleIps().front());
                     });
                 }
             }
@@ -135,18 +135,18 @@ void TrayIcon::regenerate()
 
                 // if (peer->isCurrentExitNode()) {
                 //     submenu->addAction(QIcon::fromTheme(QStringLiteral("internet-services")), "Unset exit node", []() {
-                //         Util::unsetExitNode();
+                //         unsetExitNode();
                 //     });
                 // } else if (peer->isExitNode()) {
                 //     submenu->addAction(QIcon::fromTheme(QStringLiteral("internet-services")), "Set as exit node", [peer]() {
-                //         Util::setExitNode(peer->tailscaleIps().front());
+                //         setExitNode(peer->tailscaleIps().front());
                 //     });
                 // }
 
                 if (peer->isRunningSSH()) {
                     submenu->addSection("SSH");
                     submenu->addAction(QIcon::fromTheme(QStringLiteral("akonadiconsole")), "Copy SSH command", [peer]() {
-                        Util::setClipboardText(peer->getSSHCommand());
+                        setClipboardText(peer->getSSHCommand());
                     });
                 }
             }

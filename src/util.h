@@ -18,6 +18,8 @@ QString fileUrlToString(const QUrl &url);
 QStringList fileUrlsToStrings(const QList<QUrl> &urls);
 qint64 toMSecsSinceEpoch(const QDateTime &dateTime);
 QIcon loadOsIcon(QString osname);
+void setExitNode(const QString &node);
+void unsetExitNode();
 
 class Util : public QObject
 {
