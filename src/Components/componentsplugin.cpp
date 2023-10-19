@@ -4,18 +4,6 @@
 #include <QQmlExtensionPlugin>
 #include <ksystemclipboard.h>
 
-class Util : public QObject
-{
-    Q_OBJECT
-public:
-    void setClipboardText(const QString &text)
-    {
-        auto *data = new QMimeData();
-        data->setData(QStringLiteral("text/plain"), text.toUtf8());
-        KSystemClipboard::instance()->setMimeData(data, QClipboard::Clipboard);
-    }
-};
-
 class ComponentsPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
