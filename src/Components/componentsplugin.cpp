@@ -16,9 +16,6 @@ public:
     {
         Q_ASSERT(QLatin1String(uri) == QLatin1String("org.fkoehler.KTailctl.Components"));
         qmlRegisterModule(uri, 1, 0);
-        // Util util;
-        // qmlRegisterSingletonInstance("org.fkoehler.KTailctl.Components.Util", 1, 0, "Util", &util);
-        // qmlRegisterSingletonInstance("org.fkoehler.KTailctl.Components.Util", 1, 0, "Util", &util);
     }
 };
 
