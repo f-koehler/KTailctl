@@ -30,6 +30,16 @@ Kirigami.ScrollablePage {
         }
     }
 
+    // DropArea {
+    //     anchors.fill: parent
+    //     onEntered: {
+    //         drag.accept (Qt.LinkAction)
+    //     }
+    //     onDropped: {
+    //         TaildropSender.sendFiles(App.peerDetails.dnsName, Util.fileUrlsToStrings(drop.urls))
+    //     }
+    // }
+
     ColumnLayout {
         FormCard.FormHeader {
             Layout.fillWidth: true
@@ -176,7 +186,7 @@ Kirigami.ScrollablePage {
                     copyData: i18nc("@label", "Copy")
                     enabled: App.peerDetails.isRunningSSH
                     onClicked: {
-                        Util.Util.setClipboardText(App.peerDetails.sshCommand())
+                        Util.setClipboardText(App.peerDetails.sshCommand())
                     }
                 }
             }
@@ -199,68 +209,59 @@ Kirigami.ScrollablePage {
                 
                 MyComponents.FormLabeledIconDelegate {
                     text: i18nc("@label", "Country:")
-                    label: App.peerDetails.location.country + " (" + App.peerDetails.location.countryCode + ")"
-                    source: "qrc:/country-flags/" + App.peerDetails.location.countryCode.toLowerCase() + ".svg"
+                    label: App.peerDetails.location == null ? "" : App.peerDetails.location.country + " (" + App.peerDetails.location.countryCode + ")"
+                    source: App.peerDetails.location == null ? "question" : "qrc:/country-flags/" + App.peerDetails.location.countryCode.toLowerCase() + ".svg"
+                    onClicked: {
+                        Util.setClipboardText(App.peerDetails.location.country)
+                    }
                 }
 
                 FormCard.FormDelegateSeparator {}
                 
                 MyComponents.FormLabelDelegate {
                     text: i18nc("@label", "City:")
-                    label: App.peerDetails.location.city + " (" + App.peerDetails.location.cityCode + ")"
+                    label: App.peerDetails.location == null ? "" : App.peerDetails.location.city + " (" + App.peerDetails.location.cityCode + ")"
+                    onClicked: {
+                        Util.setClipboardText(App.peerDetails.location.city)
+                    }
+                }
+            }
+        }
+
+        FormCard.FormHeader {
+            Layout.fillWidth: true
+            Layout.topMargin: Kirigami.Units.largeSpacing
+            
+            title: i18nc("@title:group", "Statistics")
+        }
+        
+        FormCard.FormCard {
+            Layout.fillWidth: true
+
+            ColumnLayout {
+                spacing: 0
+                
+                MyComponents.FormLabeledIconDelegate {
+                    text: i18nc("@label", "Download:")
+                    label: Util.formatCapacityHumanReadable(App.peerDetails.rxBytes) + " (" + Util.formatSpeedHumanReadable(Tailscale.statistics.speedDown(App.peerDetails.tailscaleID).average1Second) + ")"
+                    source: "cloud-download"
+                    onClicked: {
+                        Util.setClipboardText(App.peerDetails.rxBytes)
+                    }
+                }
+
+                FormCard.FormDelegateSeparator {}
+                
+                MyComponents.FormLabeledIconDelegate {
+                    text: i18nc("@label", "Upload:")
+                    label: Util.formatCapacityHumanReadable(App.peerDetails.txBytes) + " (" + Util.formatSpeedHumanReadable(Tailscale.statistics.speedUp(App.peerDetails.tailscaleID).average1Second) + ")"
+                    source: "cloud-upload"
+                    onClicked: {
+                        Util.setClipboardText(App.peerDetails.txBytes)
+                    }
                 }
             }
         }
     }
 
-    //     Kirigami.Separator {
-    //         Kirigami.FormData.isSection: true
-    //         Kirigami.FormData.label: "Statistics"
-    //     }
-
-    //     Kirigami.Chip {
-    //         Kirigami.FormData.label: "Bytes received:"
-    //         text: Util..Util..formatCapacityHumanReadable(App.peerDetails.rxBytes)
-    //         icon.name: "edit-copy"
-    //         closable: false
-    //         checkable: false
-    //         checked: false
-    //         onClicked: {
-    //             Util..Util..setClipboardText(App.peerDetails.rxBytes.toString());
-    //         }
-    //     }
-
-    //     Kirigami.Chip {
-    //         Kirigami.FormData.label: "Bytes sent:"
-    //         icon.name: "edit-copy"
-    //         text: Util..Util..formatCapacityHumanReadable(App.peerDetails.txBytes)
-    //         closable: false
-    //         checkable: false
-    //         checked: false
-    //         onClicked: {
-    //             Util..Util..setClipboardText(App.peerDetails.txBytes.toString());
-    //         }
-    //     }
-
-    //     Controls.Label {
-    //         Kirigami.FormData.label: "Upload speed:"
-    //         text: Util..Util..formatSpeedHumanReadable(Tailscale.statistics.speedUp(App.peerDetails.tailscaleID).average1Second)
-    //     }
-
-
-    //     Controls.Label {
-    //         Kirigami.FormData.label: "Download speed:"
-    //         text: Util..Util..formatSpeedHumanReadable(Tailscale.statistics.speedDown(App.peerDetails.tailscaleID).average1Second)
-    //     }
-    // }
-
-    // DropArea {
-    //     anchors.fill: parent
-    //     onEntered: {
-    //         drag.accept (Qt.LinkAction)
-    //     }
-    //     onDropped: {
-    //         TaildropSender.sendFiles(App.peerDetails.dnsName, Util..Util..fileUrlsToStrings(drop.urls))
-    //     }
-    // }
 }
