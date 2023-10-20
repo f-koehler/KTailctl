@@ -10,7 +10,7 @@ import org.fkoehler.KTailctl 1.0 as KTailctl
 FormCard.AbstractFormDelegate {
     id: root
     focusPolicy: Qt.StrongFocus
-    
+
     property string copyData
 
     onClicked: {
@@ -30,7 +30,7 @@ FormCard.AbstractFormDelegate {
         Item {
             Layout.fillWidth: true
         }
-        
+
         Controls.Label {
             text: root.copyData
             elide: Text.ElideRight
@@ -38,7 +38,7 @@ FormCard.AbstractFormDelegate {
             maximumLineCount: 2
             color: root.enabled ? Kirigami.Theme.textColor : Kirigami.Theme.disabledTextColor
         }
-        
+
         Kirigami.Icon {
             implicitWidth: Kirigami.Units.iconSizes.small
             implicitHeight: Kirigami.Units.iconSizes.small

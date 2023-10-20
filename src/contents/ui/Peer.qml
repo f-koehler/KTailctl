@@ -14,7 +14,7 @@ Kirigami.ScrollablePage {
     id: peer
     objectName: "Peer"
     title: "Peer: " + App.peerDetails.hostName
-    
+
     header: ColumnLayout {
         Components.Banner {
             width: parent.width
@@ -44,23 +44,23 @@ Kirigami.ScrollablePage {
         FormCard.FormHeader {
             Layout.fillWidth: true
             Layout.topMargin: Kirigami.Units.largeSpacing
-            
+
             title: i18nc("@title:group", "Information")
         }
-        
+
         FormCard.FormCard {
             Layout.fillWidth: true
 
             ColumnLayout {
                 spacing: 0
-                
+
                 MyComponents.FormCopyLabelDelegate {
                     text: i18nc("@label", "Hostname:")
                     copyData: App.peerDetails.hostName
                 }
-        
+
                 FormCard.FormDelegateSeparator {}
-                
+
                 MyComponents.FormCopyLabelDelegate {
                     text: i18nc("@label", "DNS name:")
                     copyData: App.peerDetails.dnsName
@@ -116,7 +116,7 @@ Kirigami.ScrollablePage {
                 }
 
                 FormCard.FormDelegateSeparator {}
-                
+
                 MyComponents.FormCopyChipsDelegate {
                     text: i18nc("@label", "Addresses:")
                     model: App.peerDetails.tailscaleIps
@@ -127,16 +127,16 @@ Kirigami.ScrollablePage {
         FormCard.FormHeader {
             Layout.fillWidth: true
             Layout.topMargin: Kirigami.Units.largeSpacing
-            
+
             title: i18nc("@title:group", "Exit node")
         }
-        
+
         FormCard.FormCard {
             Layout.fillWidth: true
 
             ColumnLayout {
                 spacing: 0
-                
+
                 MyComponents.FormLabeledIconDelegate {
                     text: i18nc("@label", "Exit node:")
                     label: App.peerDetails.isExitNode ? "Yes" : "No"
@@ -144,7 +144,7 @@ Kirigami.ScrollablePage {
                 }
 
                 FormCard.FormDelegateSeparator {}
-                
+
                 FormCard.FormSwitchDelegate {
                     text: i18nc("@label", "Use this exit node:")
                     checked: App.peerDetails.isCurrentExitNode
@@ -163,16 +163,16 @@ Kirigami.ScrollablePage {
         FormCard.FormHeader {
             Layout.fillWidth: true
             Layout.topMargin: Kirigami.Units.largeSpacing
-            
+
             title: i18nc("@title:group", "Tailscale SSH")
         }
-        
+
         FormCard.FormCard {
             Layout.fillWidth: true
 
             ColumnLayout {
                 spacing: 0
-                
+
                 MyComponents.FormLabeledIconDelegate {
                     text: i18nc("@label", "Runs Tailscale SSH:")
                     label: App.peerDetails.isRunningSSH ? "Yes" : "No"
@@ -180,7 +180,7 @@ Kirigami.ScrollablePage {
                 }
 
                 FormCard.FormDelegateSeparator {}
-                
+
                 MyComponents.FormCopyLabelDelegate {
                     text: i18nc("@label", "SSH command:")
                     copyData: i18nc("@label", "Copy")
@@ -196,17 +196,17 @@ Kirigami.ScrollablePage {
             Layout.fillWidth: true
             Layout.topMargin: Kirigami.Units.largeSpacing
             visible: App.peerDetails.location != null
-            
+
             title: i18nc("@title:group", "Location")
         }
-        
+
         FormCard.FormCard {
             Layout.fillWidth: true
             visible: App.peerDetails.location != null
 
             ColumnLayout {
                 spacing: 0
-                
+
                 MyComponents.FormLabeledIconDelegate {
                     text: i18nc("@label", "Country:")
                     label: App.peerDetails.location == null ? "" : App.peerDetails.location.country + " (" + App.peerDetails.location.countryCode + ")"
@@ -217,7 +217,7 @@ Kirigami.ScrollablePage {
                 }
 
                 FormCard.FormDelegateSeparator {}
-                
+
                 MyComponents.FormLabelDelegate {
                     text: i18nc("@label", "City:")
                     label: App.peerDetails.location == null ? "" : App.peerDetails.location.city + " (" + App.peerDetails.location.cityCode + ")"
@@ -231,16 +231,16 @@ Kirigami.ScrollablePage {
         FormCard.FormHeader {
             Layout.fillWidth: true
             Layout.topMargin: Kirigami.Units.largeSpacing
-            
+
             title: i18nc("@title:group", "Statistics")
         }
-        
+
         FormCard.FormCard {
             Layout.fillWidth: true
 
             ColumnLayout {
                 spacing: 0
-                
+
                 MyComponents.FormLabeledIconDelegate {
                     text: i18nc("@label", "Download:")
                     label: Util.formatCapacityHumanReadable(App.peerDetails.rxBytes) + " (" + Util.formatSpeedHumanReadable(Tailscale.statistics.speedDown(App.peerDetails.tailscaleID).average1Second) + ")"
@@ -251,7 +251,7 @@ Kirigami.ScrollablePage {
                 }
 
                 FormCard.FormDelegateSeparator {}
-                
+
                 MyComponents.FormLabeledIconDelegate {
                     text: i18nc("@label", "Upload:")
                     label: Util.formatCapacityHumanReadable(App.peerDetails.txBytes) + " (" + Util.formatSpeedHumanReadable(Tailscale.statistics.speedUp(App.peerDetails.tailscaleID).average1Second) + ")"

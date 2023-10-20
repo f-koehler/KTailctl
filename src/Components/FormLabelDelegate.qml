@@ -10,7 +10,7 @@ import org.fkoehler.KTailctl 1.0 as KTailctl
 FormCard.AbstractFormDelegate {
     id: root
     focusPolicy: Qt.StrongFocus
-    
+
     property string label
 
     contentItem: RowLayout {
@@ -26,7 +26,7 @@ FormCard.AbstractFormDelegate {
         Item {
             Layout.fillWidth: true
         }
-        
+
         Controls.Label {
             text: root.label
             elide: Text.ElideRight
@@ -34,7 +34,7 @@ FormCard.AbstractFormDelegate {
             maximumLineCount: 2
             color: root.enabled ? Kirigami.Theme.textColor : Kirigami.Theme.disabledTextColor
         }
-        
+
         Item {
             implicitWidth: Kirigami.Units.iconSizes.small
         }

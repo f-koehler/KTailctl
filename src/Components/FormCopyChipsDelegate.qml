@@ -10,7 +10,7 @@ import org.fkoehler.KTailctl 1.0 as KTailctl
 FormCard.AbstractFormDelegate {
     id: root
     focusPolicy: Qt.StrongFocus
-    
+
     property string copyData
     property var model
 
