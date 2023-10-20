@@ -21,6 +21,7 @@ FormCard.AbstractFormDelegate {
             elide: Text.ElideRight
             wrapMode: Text.Wrap
             maximumLineCount: 2
+            color: root.enabled ? Kirigami.Theme.textColor : Kirigami.Theme.disabledTextColor
         }
 
         Item {
@@ -32,6 +33,7 @@ FormCard.AbstractFormDelegate {
             elide: Text.ElideRight
             wrapMode: Text.Wrap
             maximumLineCount: 2
+            color: root.enabled ? Kirigami.Theme.textColor : Kirigami.Theme.disabledTextColor
         }
         
         Kirigami.Icon {
