@@ -7,6 +7,8 @@ target_sources(componentsplugin PRIVATE
 ecm_target_qml_sources(componentsplugin SOURCES
     FormCopyChipsDelegate.qml
     FormCopyLabelDelegate.qml
+    FormLabeledIconDelegate.qml
+    FormLabelDelegate.qml
 )
 target_link_libraries(componentsplugin PRIVATE
     Qt5::Quick

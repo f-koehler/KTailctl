@@ -6,298 +6,261 @@ import QtQuick.Controls 2.15 as Controls
 import QtQuick.Layouts 1.15
 import org.kde.kirigami 2.19 as Kirigami
 import org.fkoehler.KTailctl 1.0
+import org.kde.kirigamiaddons.formcard 1.0 as FormCard
+import org.kde.kirigamiaddons.labs.components 1.0 as Components
+import org.fkoehler.KTailctl.Components 1.0 as MyComponents
 
 Kirigami.ScrollablePage {
     id: peer
     objectName: "Peer"
     title: "Peer: " + App.peerDetails.hostName
-
-    Layout.fillWidth: true
-
-    Kirigami.FormLayout {
-        width: parent.width
-
-        Kirigami.InlineMessage {
-            Layout.fillWidth: true
+    
+    header: ColumnLayout {
+        Components.Banner {
+            width: parent.width
             visible: !Tailscale.status.success
             type: Kirigami.MessageType.Error
-            text: "Tailscaled is not running"
+            text: i18n("Tailscaled is not running")
         }
-
-        Kirigami.InlineMessage {
-            Layout.fillWidth: true
+        Components.Banner {
+            width: parent.width
             visible: (!Tailscale.status.isOperator) && Tailscale.status.success
             type: Kirigami.MessageType.Warning
             text: "KTailctl functionality limited, current user is not the Tailscale operator"
         }
+    }
 
-        Kirigami.Separator {
-            Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "Information"
+    ColumnLayout {
+        FormCard.FormHeader {
+            Layout.fillWidth: true
+            Layout.topMargin: Kirigami.Units.largeSpacing
+            
+            title: i18nc("@title:group", "Information")
         }
+        
+        FormCard.FormCard {
+            Layout.fillWidth: true
 
-        Kirigami.Chip {
-            Kirigami.FormData.label: "Hostname:"
-            text: App.peerDetails.hostName
-            icon.name: "edit-copy"
-            closable: false
-            checkable: false
-            checked: false
-            onClicked: {
-                Util.setClipboardText(App.peerDetails.hostName);
-            }
-        }
-
-
-        Kirigami.Chip {
-            Kirigami.FormData.label: "DNS Name:"
-            text: App.peerDetails.dnsName
-            icon.name: "edit-copy"
-            closable: false
-            checkable: false
-            checked: false
-            onClicked: {
-                Util.setClipboardText(App.peerDetails.dnsName);
-            }
-        }
-
-        Kirigami.Chip {
-            Kirigami.FormData.label: "ID:"
-            text: App.peerDetails.tailscaleID
-            icon.name: "edit-copy"
-            closable: false
-            checkable: false
-            checked: false
-            onClicked: {
-                Util.setClipboardText(App.peerDetails.tailscaleID);
-            }
-        }
-
-        Kirigami.Chip {
-            Kirigami.FormData.label: "Created:"
-            closable: false
-            checkable: false
-            checked: false
-            text: {
-                var duration = Util.formatDurationHumanReadable(App.peerDetails.created);
-                if(duration == "") {
-                    return "now";
-                } else {
-                    return duration + " ago";
+            ColumnLayout {
+                spacing: 0
+                
+                MyComponents.FormCopyLabelDelegate {
+                    text: i18nc("@label", "Hostname:")
+                    copyData: App.peerDetails.hostName
                 }
-            }
-            icon.name: "edit-copy"
-            onClicked: {
-                Util.setClipboardText(Util.toMSecsSinceEpoch(App.peerDetails.created));
-            }
-        }
-
-        Kirigami.Chip {
-            Kirigami.FormData.label: "Last seen:"
-            closable: false
-            checkable: false
-            checked: false
-            text: {
-                var duration = Util.formatDurationHumanReadable(App.peerDetails.lastSeen);
-                if(duration == "") {
-                    return "now";
-                } else {
-                    return duration + " ago";
+        
+                FormCard.FormDelegateSeparator {}
+                
+                MyComponents.FormCopyLabelDelegate {
+                    text: i18nc("@label", "DNS name:")
+                    copyData: App.peerDetails.dnsName
                 }
-            }
-            icon.name: "edit-copy"
-            onClicked: {
-                Util.setClipboardText(Util.toMSecsSinceEpoch(App.peerDetails.lastSeen));
-            }
-        }
 
+                FormCard.FormDelegateSeparator {}
 
-        Flow {
-            Kirigami.FormData.label: "OS:"
-            visible: App.peerDetails.os != ""
-
-            Kirigami.Chip {
-                text: App.peerDetails.os
-                icon.name: "edit-copy"
-                closable: false
-                checkable: false
-                checked: false
-                onClicked: {
-                    Util.setClipboardText(App.peerDetails.os);
+                MyComponents.FormCopyLabelDelegate {
+                    text: i18nc("@label", "Tailscale ID:")
+                    copyData: App.peerDetails.tailscaleID
                 }
-            }
-        }
 
-        Flow {
-            Kirigami.FormData.label: "Addresses:"
-            Repeater {
-                model: App.peerDetails.tailscaleIps
+                FormCard.FormDelegateSeparator {}
 
-                Kirigami.Chip {
-                    text: modelData
-                    icon.name: "edit-copy"
-                    closable: false
-                    checkable: false
-                    checked: false
+                MyComponents.FormCopyLabelDelegate {
+                    text: i18nc("@label", "Created:")
+                    copyData: {
+                        var duration = Util.formatDurationHumanReadable(App.peerDetails.created);
+                        if(duration == "") {
+                            return "now";
+                        } else {
+                            return duration + " ago";
+                        }
+                    }
                     onClicked: {
-                        Util.setClipboardText(modelData);
+                        Util.setClipboardText(Util.toMSecsSinceEpoch(App.peerDetails.created));
+                    }
+                }
+
+                FormCard.FormDelegateSeparator {}
+
+                MyComponents.FormCopyLabelDelegate {
+                    text: i18nc("@label", "Last seen:")
+                    copyData: {
+                        var duration = Util.formatDurationHumanReadable(App.peerDetails.lastSeen);
+                        if(duration == "") {
+                            return "now";
+                        } else {
+                            return duration + " ago";
+                        }
+                    }
+                    onClicked: {
+                        Util.setClipboardText(Util.toMSecsSinceEpoch(App.peerDetails.lastSeen));
+                    }
+                }
+
+                FormCard.FormDelegateSeparator { visible: App.peerDetails.os != "" }
+
+                MyComponents.FormCopyLabelDelegate {
+                    text: i18nc("@label", "OS:")
+                    copyData: App.peerDetails.os
+                    visible: App.peerDetails.os != ""
+                }
+
+                FormCard.FormDelegateSeparator {}
+                
+                MyComponents.FormCopyChipsDelegate {
+                    text: i18nc("@label", "Addresses:")
+                    model: App.peerDetails.tailscaleIps
+                }
+            }
+        }
+
+        FormCard.FormHeader {
+            Layout.fillWidth: true
+            Layout.topMargin: Kirigami.Units.largeSpacing
+            
+            title: i18nc("@title:group", "Exit node")
+        }
+        
+        FormCard.FormCard {
+            Layout.fillWidth: true
+
+            ColumnLayout {
+                spacing: 0
+                
+                MyComponents.FormLabeledIconDelegate {
+                    text: i18nc("@label", "Exit node:")
+                    label: App.peerDetails.isExitNode ? "Yes" : "No"
+                    source: App.peerDetails.isExitNode ? "dialog-ok" : "dialog-cancel"
+                }
+
+                FormCard.FormDelegateSeparator {}
+                
+                FormCard.FormSwitchDelegate {
+                    text: i18nc("@label", "Use this exit node:")
+                    checked: App.peerDetails.isCurrentExitNode
+                    enabled: App.peerDetails.isExitNode && !Tailscale.preferences.advertiseExitNode
+                    onToggled: {
+                        if(App.peerDetails.isCurrentExitNode) {
+                            Util.unsetExitNode();
+                        } else {
+                            Util.setExitNode(App.peerDetails.tailscaleIps[0]);
+                        }
                     }
                 }
             }
         }
 
-        Kirigami.Separator {
-            Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "Exit Node"
+        FormCard.FormHeader {
+            Layout.fillWidth: true
+            Layout.topMargin: Kirigami.Units.largeSpacing
+            
+            title: i18nc("@title:group", "Tailscale SSH")
         }
+        
+        FormCard.FormCard {
+            Layout.fillWidth: true
 
-        Controls.Label {
-            Kirigami.FormData.label: "Runs exit node:"
-            text: App.peerDetails.isExitNode ? "Yes" : "No"
-        }
+            ColumnLayout {
+                spacing: 0
+                
+                MyComponents.FormLabeledIconDelegate {
+                    text: i18nc("@label", "Runs Tailscale SSH:")
+                    label: App.peerDetails.isRunningSSH ? "Yes" : "No"
+                    source: App.peerDetails.isRunningSSH ? "dialog-ok" : "dialog-cancel"
+                }
 
-        Controls.Switch {
-            Kirigami.FormData.label: "Use exit node node:"
-            checked: App.peerDetails.isCurrentExitNode
-            enabled: App.peerDetails.isExitNode && !Tailscale.preferences.advertiseExitNode
-            onToggled: {
-                if(App.peerDetails.isCurrentExitNode) {
-                    Util.unsetExitNode();
-                } else {
-                    Util.setExitNode(App.peerDetails.tailscaleIps[0]);
+                FormCard.FormDelegateSeparator {}
+                
+                MyComponents.FormCopyLabelDelegate {
+                    text: i18nc("@label", "SSH command:")
+                    copyData: i18nc("@label", "Copy")
+                    enabled: App.peerDetails.isRunningSSH
+                    onClicked: {
+                        Util.Util.setClipboardText(App.peerDetails.sshCommand())
+                    }
                 }
             }
         }
 
-        Kirigami.Separator {
-            Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "SSH"
-        }
-
-        Controls.Label {
-            Kirigami.FormData.label: "Runs SSH:"
-            text: App.peerDetails.isRunningSSH ? "Yes" : "No"
-        }
-
-        Controls.Button {
-            enabled: App.peerDetails.isRunningSSH
-            text: "Copy SSH command"
-            icon.name: "akonadiconsole"
-            onClicked: {
-                Util.setClipboardText(App.peerDetails.sshCommand())
-            }
-        }
-
-        Kirigami.Separator {
-            Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "Location"
+        FormCard.FormHeader {
+            Layout.fillWidth: true
+            Layout.topMargin: Kirigami.Units.largeSpacing
             visible: App.peerDetails.location != null
+            
+            title: i18nc("@title:group", "Location")
         }
+        
+        FormCard.FormCard {
+            Layout.fillWidth: true
+            visible: App.peerDetails.location != null
 
-        Kirigami.Chip {
-            Kirigami.FormData.label: "Country:"
-            text: App.peerDetails.location == null ? "" : App.peerDetails.location.country
-            icon.name: "edit-copy"
-            closable: false
-            checkable: false
-            checked: false
-            onClicked: {
-                if(App.peerDetails.location != null) {
-                    Util.setClipboardText(App.peerDetails.location.country);
+            ColumnLayout {
+                spacing: 0
+                
+                MyComponents.FormLabeledIconDelegate {
+                    text: i18nc("@label", "Country:")
+                    label: App.peerDetails.location.country + " (" + App.peerDetails.location.countryCode + ")"
+                    source: "qrc:/country-flags/" + App.peerDetails.location.countryCode.toLowerCase() + ".svg"
+                }
+
+                FormCard.FormDelegateSeparator {}
+                
+                MyComponents.FormLabelDelegate {
+                    text: i18nc("@label", "City:")
+                    label: App.peerDetails.location.city + " (" + App.peerDetails.location.cityCode + ")"
                 }
             }
-        }
-
-        Kirigami.Chip {
-            Kirigami.FormData.label: "Country code:"
-            text: App.peerDetails.location == null ? "" : App.peerDetails.location.countryCode
-            icon.name: "edit-copy"
-            closable: false
-            checkable: false
-            checked: false
-            onClicked: {
-                if(App.peerDetails.location != null) {
-                    Util.setClipboardText(App.peerDetails.location.countryCode);
-                }
-            }
-        }
-
-        Kirigami.Chip {
-            Kirigami.FormData.label: "City:"
-            text: App.peerDetails.location == null ? "" : App.peerDetails.location.city
-            icon.name: "edit-copy"
-            closable: false
-            checkable: false
-            checked: false
-            onClicked: {
-                if(App.peerDetails.location != null) {
-                    Util.setClipboardText(App.peerDetails.location.city);
-                }
-            }
-        }
-
-        Kirigami.Chip {
-            Kirigami.FormData.label: "City code:"
-            text: App.peerDetails.location == null ? "" : App.peerDetails.location.cityCode
-            icon.name: "edit-copy"
-            closable: false
-            checkable: false
-            checked: false
-            onClicked: {
-                if(App.peerDetails.location != null) {
-                    Util.setClipboardText(App.peerDetails.location.cityCode);
-                }
-            }
-        }
-
-        Kirigami.Separator {
-            Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "Statistics"
-        }
-
-        Kirigami.Chip {
-            Kirigami.FormData.label: "Bytes received:"
-            text: Util.formatCapacityHumanReadable(App.peerDetails.rxBytes)
-            icon.name: "edit-copy"
-            closable: false
-            checkable: false
-            checked: false
-            onClicked: {
-                Util.setClipboardText(App.peerDetails.rxBytes.toString());
-            }
-        }
-
-        Kirigami.Chip {
-            Kirigami.FormData.label: "Bytes sent:"
-            icon.name: "edit-copy"
-            text: Util.formatCapacityHumanReadable(App.peerDetails.txBytes)
-            closable: false
-            checkable: false
-            checked: false
-            onClicked: {
-                Util.setClipboardText(App.peerDetails.txBytes.toString());
-            }
-        }
-
-        Controls.Label {
-            Kirigami.FormData.label: "Upload speed:"
-            text: Util.formatSpeedHumanReadable(Tailscale.statistics.speedUp(App.peerDetails.tailscaleID).average1Second)
-        }
-
-
-        Controls.Label {
-            Kirigami.FormData.label: "Download speed:"
-            text: Util.formatSpeedHumanReadable(Tailscale.statistics.speedDown(App.peerDetails.tailscaleID).average1Second)
         }
     }
 
-    DropArea {
-        anchors.fill: parent
-        onEntered: {
-            drag.accept (Qt.LinkAction)
-        }
-        onDropped: {
-            TaildropSender.sendFiles(App.peerDetails.dnsName, Util.fileUrlsToStrings(drop.urls))
-        }
-    }
+    //     Kirigami.Separator {
+    //         Kirigami.FormData.isSection: true
+    //         Kirigami.FormData.label: "Statistics"
+    //     }
+
+    //     Kirigami.Chip {
+    //         Kirigami.FormData.label: "Bytes received:"
+    //         text: Util..Util..formatCapacityHumanReadable(App.peerDetails.rxBytes)
+    //         icon.name: "edit-copy"
+    //         closable: false
+    //         checkable: false
+    //         checked: false
+    //         onClicked: {
+    //             Util..Util..setClipboardText(App.peerDetails.rxBytes.toString());
+    //         }
+    //     }
+
+    //     Kirigami.Chip {
+    //         Kirigami.FormData.label: "Bytes sent:"
+    //         icon.name: "edit-copy"
+    //         text: Util..Util..formatCapacityHumanReadable(App.peerDetails.txBytes)
+    //         closable: false
+    //         checkable: false
+    //         checked: false
+    //         onClicked: {
+    //             Util..Util..setClipboardText(App.peerDetails.txBytes.toString());
+    //         }
+    //     }
+
+    //     Controls.Label {
+    //         Kirigami.FormData.label: "Upload speed:"
+    //         text: Util..Util..formatSpeedHumanReadable(Tailscale.statistics.speedUp(App.peerDetails.tailscaleID).average1Second)
+    //     }
+
+
+    //     Controls.Label {
+    //         Kirigami.FormData.label: "Download speed:"
+    //         text: Util..Util..formatSpeedHumanReadable(Tailscale.statistics.speedDown(App.peerDetails.tailscaleID).average1Second)
+    //     }
+    // }
+
+    // DropArea {
+    //     anchors.fill: parent
+    //     onEntered: {
+    //         drag.accept (Qt.LinkAction)
+    //     }
+    //     onDropped: {
+    //         TaildropSender.sendFiles(App.peerDetails.dnsName, Util..Util..fileUrlsToStrings(drop.urls))
+    //     }
+    // }
 }

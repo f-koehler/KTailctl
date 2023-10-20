@@ -83,3 +83,4 @@ if(APPLE)
 endif()
 
 add_subdirectory(Components)
+add_dependencies(ktailctl componentsplugin)
