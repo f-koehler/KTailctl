@@ -104,7 +104,7 @@ Kirigami.ScrollablePage {
                             }
 
                             Kirigami.Icon {
-                                source: "vcs-push"
+                                source: "cloud-upload"
                             }
 
                             Controls.Label {
@@ -112,7 +112,7 @@ Kirigami.ScrollablePage {
                             }
 
                             Kirigami.Icon {
-                                source: "vcs-pull"
+                                source: "cloud-download"
                             }
 
                             Controls.Label {

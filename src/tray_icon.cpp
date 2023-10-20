@@ -122,10 +122,10 @@ void TrayIcon::regenerate()
             }
             submenu->addSection("Statistics");
 
-            auto *statsUp = mTailscale->statistics()->speedUp(peer->id());
             auto *statsDown = mTailscale->statistics()->speedDown(peer->id());
-            auto *actionUp = submenu->addAction(QIcon::fromTheme("vcs-push"), formatSpeedHumanReadable(statsUp->average()));
-            auto *actionDown = submenu->addAction(QIcon::fromTheme("vcs-pull"), formatSpeedHumanReadable(statsDown->average()));
+            auto *statsUp = mTailscale->statistics()->speedUp(peer->id());
+            auto *actionDown = submenu->addAction(QIcon::fromTheme("cloud-download"), formatSpeedHumanReadable(statsDown->average()));
+            auto *actionUp = submenu->addAction(QIcon::fromTheme("cloud-upload"), formatSpeedHumanReadable(statsUp->average()));
 
             if (mTailscale->status()->isOperator()) {
                 submenu->addSection("Taildrop Send");
