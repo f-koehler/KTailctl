@@ -38,10 +38,6 @@ target_link_libraries(ktailctl
     Qt5::Svg
 )
 
-target_link_libraries(ktailctl
-    componentsplugin
-)
-
 target_include_directories(
     ktailctl PRIVATE
     ${CMAKE_CURRENT_BINARY_DIR}/src
@@ -83,4 +79,4 @@ if(APPLE)
 endif()
 
 add_subdirectory(Components)
-add_dependencies(ktailctl componentsplugin)
+add_dependencies(ktailctl mycomponentsplugin)

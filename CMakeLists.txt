@@ -60,6 +60,10 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
 add_subdirectory(src)
 add_subdirectory(tailwrap)
 
+if(NOT KTAILCTL_FLATPAK_BUILD)
+    add_subdirectory(deps/kirigami-addons)
+endif()
+
 execute_process(
     COMMAND ${GIT_EXECUTABLE} describe --tags --dirty --match "v*"
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
