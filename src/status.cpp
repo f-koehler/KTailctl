@@ -131,7 +131,7 @@ const QString &Status::backendState() const
     return mBackendState;
 }
 
-const Peer *Status::self() const
+Peer *Status::self() const
 {
     return mSelf;
 }

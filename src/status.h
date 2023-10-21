@@ -21,7 +21,7 @@ class Status : public QObject
     Q_PROPERTY(bool isTUN READ isTUN NOTIFY isTUNChanged)
     Q_PROPERTY(QString backendState READ backendState NOTIFY backendStateChanged)
     Q_PROPERTY(QVector<Peer *> peers READ peers NOTIFY peersChanged)
-    // Q_PROPERTY(Peer *self READ self NOTIFY selfChanged)
+    Q_PROPERTY(Peer *self READ self NOTIFY selfChanged)
     Q_PROPERTY(bool isOperator READ isOperator NOTIFY isOperatorChanged)
 
 private:
@@ -55,7 +55,7 @@ public:
     const QString &version() const;
     bool isTUN() const;
     const QString &backendState() const;
-    const Peer *self() const;
+    Peer *self() const;
     const QVector<Peer *> &peers() const;
     bool isOperator() const;
     Q_INVOKABLE std::tuple<QList<Peer *>, QList<Peer *>> exitNodes() const;

@@ -120,6 +120,11 @@ Kirigami.ApplicationWindow {
                         onTriggered: navigateTo("Peers")
                     },
                     Kirigami.Action {
+                        text: i18n("This PC")
+                        icon.name: "computer-symbolic"
+                        onTriggered: navigateTo("Self")
+                    },
+                    Kirigami.Action {
                         text: i18n("Statistics")
                         icon.name: "office-chart-line-stacked"
                         onTriggered: navigateTo("Statistics")
