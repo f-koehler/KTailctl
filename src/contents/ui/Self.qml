@@ -11,5 +11,6 @@ import org.kde.kirigamiaddons.labs.components 1.0 as Components
 import org.fkoehler.KTailctl.Components 1.0 as MyComponents
 
 MyComponents.PeerInfo {
-    peer: App.peerDetails
+    peer: App.tailscale.status.self
+    isSelf: true
 }

@@ -9,6 +9,7 @@ ecm_target_qml_sources(mycomponentsplugin SOURCES
     FormCopyLabelDelegate.qml
     FormLabeledIconDelegate.qml
     FormLabelDelegate.qml
+    PeerInfo.qml
 )
 target_link_libraries(mycomponentsplugin PRIVATE
     Qt5::Quick
