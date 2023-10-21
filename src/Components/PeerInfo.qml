@@ -234,19 +234,21 @@ Kirigami.ScrollablePage {
         FormCard.FormHeader {
             Layout.fillWidth: true
             Layout.topMargin: Kirigami.Units.largeSpacing
+            visible: !root.isSelf
 
             title: i18nc("@title:group", "Statistics")
         }
 
         FormCard.FormCard {
             Layout.fillWidth: true
+            visible: !root.isSelf
 
             ColumnLayout {
                 spacing: 0
 
                 MyComponents.FormLabeledIconDelegate {
                     text: i18nc("@label", "Download:")
-                    label: Util.formatCapacityHumanReadable(peer.rxBytes) + " (" + Util.formatSpeedHumanReadable(Tailscale.statistics.speedDown(peer.tailscaleID).average1Second) + ")"
+                    label: root.isSelf ? "" : Util.formatCapacityHumanReadable(peer.rxBytes) + " (" + Util.formatSpeedHumanReadable(Tailscale.statistics.speedDown(peer.tailscaleID).average1Second) + ")"
                     source: "cloud-download"
                     onClicked: {
                         Util.setClipboardText(peer.rxBytes)
@@ -257,7 +259,7 @@ Kirigami.ScrollablePage {
 
                 MyComponents.FormLabeledIconDelegate {
                     text: i18nc("@label", "Upload:")
-                    label: Util.formatCapacityHumanReadable(peer.txBytes) + " (" + Util.formatSpeedHumanReadable(Tailscale.statistics.speedUp(peer.tailscaleID).average1Second) + ")"
+                    label: root.isSelf ? "" : Util.formatCapacityHumanReadable(peer.txBytes) + " (" + Util.formatSpeedHumanReadable(Tailscale.statistics.speedUp(peer.tailscaleID).average1Second) + ")"
                     source: "cloud-upload"
                     onClicked: {
                         Util.setClipboardText(peer.txBytes)
