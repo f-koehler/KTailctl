@@ -25,6 +25,21 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.11.0" date="2023-10-22" urgency="low">
+      <description>
+        <p>Features:</p>
+        <ul>
+          <li>Overhauled peer details page</li>
+          <li>Add information page about current host</li>
+        </ul>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.11.0</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.11.0.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.10.0" date="2023-10-18" urgency="medium">
       <description>
         <p>Features:</p>
