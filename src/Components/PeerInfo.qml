@@ -124,6 +124,16 @@ Kirigami.ScrollablePage {
                     text: i18nc("@label", "Addresses:")
                     model: peer.tailscaleIps
                 }
+
+                FormCard.FormDelegateSeparator {
+                    visible: peer.tags.length > 0
+                }
+
+                MyComponents.FormCopyChipsDelegate {
+                    text: i18nc("@label", "Tags:")
+                    visible: peer.tags.length > 0
+                    model: peer.tags
+                }
             }
         }
 
