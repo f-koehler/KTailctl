@@ -80,3 +80,8 @@ endif()
 
 add_subdirectory(Components)
 add_dependencies(ktailctl mycomponentsplugin)
+
+if(KTAILCTL_ASAN)
+    target_compile_options(ktailctl PRIVATE -O1 -g -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls)
+    target_link_options(ktailctl PRIVATE -fsanitize=address)
+endif()
