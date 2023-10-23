@@ -19,6 +19,8 @@ App::App(Tailscale *tailscale, QObject *parent)
     , mPeerProxyModel(new QSortFilterProxyModel(this))
     , mTrayIcon(new TrayIcon(tailscale, this))
 {
+    mTailscale->setParent(this);
+
     QObject::connect(tailscale->status(), &Status::peersChanged, mPeerModel, &PeerModel::updatePeers);
     QObject::connect(tailscale->status(), &Status::refreshed, &mPeerDetails, &Peer::updateFromStatus);
     QObject::connect(tailscale->status(), &Status::backendStateChanged, mTrayIcon, &TrayIcon::regenerate);

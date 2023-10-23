@@ -99,6 +99,10 @@ void Status::read(const QJsonObject &json)
         qWarning() << "Cannot find object \"Peer\"";
     }
 
+    for (auto *peer : mPeers) {
+        peer->setParent(this);
+    }
+
     std::stable_sort(mPeers.begin(), mPeers.end(), [](const Peer *peer_a, const Peer *peer_b) {
         return peer_a->dnsName() < peer_b->dnsName();
     });
