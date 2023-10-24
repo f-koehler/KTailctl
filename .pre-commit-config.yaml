@@ -17,6 +17,7 @@ repos:
     hooks:
       - id: clang-format
   - repo: https://github.com/f-koehler/qml-pre-commit
-    rev: v0.1.0
+    rev: v0.2.0
     hooks:
       - id: qmlformat
+      - id: qmllint
