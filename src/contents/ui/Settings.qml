@@ -3,34 +3,36 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15 as Controls
-import QtQuick.Layouts 1.15
 import QtQuick.Dialogs 1.3
+import QtQuick.Layouts 1.15
+import org.fkoehler.KTailctl 1.0
 import org.kde.kirigami 2.19 as Kirigami
 import org.kde.kirigamiaddons.formcard 1.0 as FormCard
 import org.kde.kirigamiaddons.labs.components 1.0 as Components
-import org.fkoehler.KTailctl 1.0
 
 Kirigami.ScrollablePage {
     id: settings
 
     objectName: "Settings"
     title: i18n("Settings")
-
     leftPadding: 0
     rightPadding: 0
 
-    header: Components.Banner {
-        width: parent.width
-        visible: !Tailscale.status.success
-        type: Kirigami.MessageType.Error
-        text: i18n("Tailscaled is not running")
-    }
-
     ColumnLayout {
+        // Controls.ComboBox {
+        //     id: comboTaildropStrategy
+        //     Kirigami.FormCard.label: "Strategy:"
+        //     model: ["Rename", "Overwrite", "Skip"]
+        //     onActivated: {
+        //         App.config.taildropStrategy = comboTaildropStrategy.currentText;
+        //         App.config.save()
+        //     }
+        //     enabled: Tailscale.status.isOperator
+        // }
+
         FormCard.FormHeader {
             Layout.fillWidth: true
             Layout.topMargin: Kirigami.Units.largeSpacing
-
             title: i18nc("@title:group", "Interface")
         }
 
@@ -42,6 +44,7 @@ Kirigami.ScrollablePage {
 
                 FormCard.FormSwitchDelegate {
                     id: startMinimized
+
                     text: i18nc("@label", "Start minimized:")
                     checked: App.config.startMinimized
                     onClicked: {
@@ -51,39 +54,51 @@ Kirigami.ScrollablePage {
                     enabled: App.config.enableTrayIcon
                 }
 
-                FormCard.FormDelegateSeparator { below: startMinimized; above: enableTrayIcon; }
+                FormCard.FormDelegateSeparator {
+                    below: startMinimized
+                    above: enableTrayIcon
+                }
 
                 FormCard.FormSwitchDelegate {
                     id: enableTrayIcon
+
                     text: i18nc("@label", "Enable tray icon:")
                     checked: App.config.enableTrayIcon
                     onClicked: {
                         App.config.enableTrayIcon = !App.config.enableTrayIcon;
-                        if(!App.config.enableTrayIcon) {
+                        if (!App.config.enableTrayIcon)
                             App.config.startMinimized = false;
-                        }
+
                         App.config.save();
                         App.trayIcon.visible = App.config.enableTrayIcon;
                     }
                 }
 
-                FormCard.FormDelegateSeparator { below: enableTrayIcon; above: trayIconStyle; }
+                FormCard.FormDelegateSeparator {
+                    below: enableTrayIcon
+                    above: trayIconStyle
+                }
 
                 FormCard.FormComboBoxDelegate {
                     id: trayIconStyle
+
                     text: i18nc("@label", "Tray icon style:")
                     model: ["Colorful", "Breeze Dark", "Breeze Light"]
                     displayText: App.config.trayIconStyle
                     onActivated: {
                         App.config.trayIconStyle = trayIconStyle.currentText;
-                        App.config.save()
+                        App.config.save();
                     }
                 }
 
-                FormCard.FormDelegateSeparator { below: trayIconStyle; above: spinRefreshInterval; }
+                FormCard.FormDelegateSeparator {
+                    below: trayIconStyle
+                    above: spinRefreshInterval
+                }
 
                 FormCard.FormSpinBoxDelegate {
                     id: spinRefreshInterval
+
                     from: 10
                     to: 10000
                     value: refreshStatusTimer.interval
@@ -95,13 +110,14 @@ Kirigami.ScrollablePage {
                     }
                     label: i18nc("@label", "Refresh rate (ms):")
                 }
+
             }
+
         }
 
         FormCard.FormHeader {
             Layout.fillWidth: true
             Layout.topMargin: Kirigami.Units.largeSpacing
-
             title: i18nc("@title:group", "Tailscale")
         }
 
@@ -120,7 +136,10 @@ Kirigami.ScrollablePage {
                     enabled: Tailscale.status.isOperator && Tailscale.status.success
                 }
 
-                FormCard.FormDelegateSeparator { above: acceptDNS; below: acceptRoutes }
+                FormCard.FormDelegateSeparator {
+                    above: acceptDNS
+                    below: acceptRoutes
+                }
 
                 FormCard.FormSwitchDelegate {
                     id: acceptDNS
@@ -131,17 +150,26 @@ Kirigami.ScrollablePage {
                     enabled: Tailscale.status.isOperator && Tailscale.status.success
                 }
 
-                FormCard.FormDelegateSeparator { above: textTailscaleHostname; below: acceptDNS }
+                FormCard.FormDelegateSeparator {
+                    above: textTailscaleHostname
+                    below: acceptDNS
+                }
 
                 FormCard.FormTextFieldDelegate {
                     id: textTailscaleHostname
+
                     label: i18nc("@label", "Hostname:")
                     text: Tailscale.preferences.hostname
-                    onEditingFinished: {Tailscale.preferences.hostname = textTailscaleHostname.text; }
+                    onEditingFinished: {
+                        Tailscale.preferences.hostname = textTailscaleHostname.text;
+                    }
                     enabled: Tailscale.status.isOperator && Tailscale.status.success
                 }
 
-                FormCard.FormDelegateSeparator { above: shieldsUp; below: textTailscaleHostname }
+                FormCard.FormDelegateSeparator {
+                    above: shieldsUp
+                    below: textTailscaleHostname
+                }
 
                 FormCard.FormSwitchDelegate {
                     id: shieldsUp
@@ -152,7 +180,10 @@ Kirigami.ScrollablePage {
                     enabled: Tailscale.status.isOperator && Tailscale.status.success
                 }
 
-                FormCard.FormDelegateSeparator { above: ssh; below: shieldsUp }
+                FormCard.FormDelegateSeparator {
+                    above: ssh
+                    below: shieldsUp
+                }
 
                 FormCard.FormSwitchDelegate {
                     id: ssh
@@ -162,13 +193,14 @@ Kirigami.ScrollablePage {
                     onClicked: Tailscale.preferences.ssh = !Tailscale.preferences.ssh
                     enabled: Tailscale.status.isOperator && Tailscale.status.success
                 }
+
             }
+
         }
 
         FormCard.FormHeader {
             Layout.fillWidth: true
             Layout.topMargin: Kirigami.Units.largeSpacing
-
             title: i18nc("@title:group", "Exit Node")
         }
 
@@ -176,6 +208,28 @@ Kirigami.ScrollablePage {
             Layout.fillWidth: true
 
             ColumnLayout {
+                // FormCard.FormButtonDelegate {
+                //     text: i18nc("@label", "Use exit node")
+                //     onClicked: menuExitNode.open()
+                //     Controls.Menu {
+                //         id: menuExitNode
+                //         Controls.Menu {
+                //             id: menuExitNodeSelfHosted
+                //             title: i18nc("@title", "Self-hosted")
+                //             Repeater {
+                //                 model: Tailscale.status.peerModel
+                //                 delegate: Controls.MenuItem {
+                //                     text: model.dnsName
+                //                 }
+                //             }
+                //         }
+                //         Controls.Menu {
+                //             id: menuExitNodeMullvad
+                //             title: i18nc("@title", "Mullvad")
+                //         }
+                //     }
+                // }
+
                 spacing: 0
 
                 FormCard.FormSwitchDelegate {
@@ -187,38 +241,13 @@ Kirigami.ScrollablePage {
                     enabled: Tailscale.status.isOperator && Tailscale.status.success
                 }
 
-                // FormCard.FormButtonDelegate {
-                //     text: i18nc("@label", "Use exit node")
-                //     onClicked: menuExitNode.open()
-
-                //     Controls.Menu {
-                //         id: menuExitNode
-
-                //         Controls.Menu {
-                //             id: menuExitNodeSelfHosted
-                //             title: i18nc("@title", "Self-hosted")
-
-                //             Repeater {
-                //                 model: Tailscale.status.peerModel
-                //                 delegate: Controls.MenuItem {
-                //                     text: model.dnsName
-                //                 }
-                //             }
-                //         }
-
-                //         Controls.Menu {
-                //             id: menuExitNodeMullvad
-                //             title: i18nc("@title", "Mullvad")
-                //         }
-                //     }
-                // }
             }
+
         }
 
         FormCard.FormHeader {
             Layout.fillWidth: true
             Layout.topMargin: Kirigami.Units.largeSpacing
-
             title: i18nc("@title:group", "Taildrop (requires restart)")
         }
 
@@ -230,6 +259,7 @@ Kirigami.ScrollablePage {
 
                 FormCard.FormSwitchDelegate {
                     id: status
+
                     text: i18nc("@label", "Status:")
                     checked: App.config.taildropEnabled
                     onClicked: {
@@ -239,10 +269,13 @@ Kirigami.ScrollablePage {
                     enabled: Tailscale.status.isOperator && Tailscale.status.success
                 }
 
-                FormCard.FormDelegateSeparator { above: status }
+                FormCard.FormDelegateSeparator {
+                    above: status
+                }
 
                 FormCard.AbstractFormDelegate {
                     enabled: Tailscale.status.isOperator && Tailscale.status.success
+
                     contentItem: ColumnLayout {
                         Controls.Label {
                             text: i18nc("@label", "Directory")
@@ -251,6 +284,7 @@ Kirigami.ScrollablePage {
                         RowLayout {
                             Controls.TextField {
                                 id: textTaildropDirectory
+
                                 text: App.config.taildropDirectory
                                 Layout.fillWidth: true
                                 onEditingFinished: {
@@ -261,12 +295,11 @@ Kirigami.ScrollablePage {
 
                             FileDialog {
                                 id: folderDialogTaildropDirectory
+
                                 folder: App.config.taildropDirectory
                                 selectMultiple: false
-
                                 // TODO: with Qt6 we can use the FolderDialog type instead
                                 selectFolder: true
-
                                 onAccepted: {
                                     App.config.taildropDirectory = App.fileUrlToString(folderDialogTaildropDirectory.fileUrls[0]);
                                     App.config.save();
@@ -280,27 +313,28 @@ Kirigami.ScrollablePage {
                                 onClicked: {
                                     folderDialogTaildropDirectory.open();
                                 }
-
                                 Controls.ToolTip.text: text
                                 Controls.ToolTip.visible: hovered
                                 Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
                             }
+
                         }
+
                     }
+
                 }
+
             }
+
         }
 
-        // Controls.ComboBox {
-        //     id: comboTaildropStrategy
-        //     Kirigami.FormCard.label: "Strategy:"
-        //     model: ["Rename", "Overwrite", "Skip"]
-        //     onActivated: {
-        //         App.config.taildropStrategy = comboTaildropStrategy.currentText;
-        //         App.config.save()
-        //     }
-        //     enabled: Tailscale.status.isOperator
-        // }
-
     }
+
+    header: Components.Banner {
+        width: parent.width
+        visible: !Tailscale.status.success
+        type: Kirigami.MessageType.Error
+        text: i18n("Tailscaled is not running")
+    }
+
 }

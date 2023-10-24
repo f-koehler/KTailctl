@@ -4,63 +4,36 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15 as Controls
 import QtQuick.Layouts 1.15
-import org.kde.kirigami 2.19 as Kirigami
 import org.fkoehler.KTailctl 1.0
+import org.kde.kirigami 2.19 as Kirigami
 
 Kirigami.ScrollablePage {
     id: peers
+
     objectName: "Peers"
-
     Layout.fillWidth: true
-
     title: i18n("Peers")
-
-    // actions.main: Kirigami.Action {
-    //     text: Tailscale.status.backendState == "Running" ? "Stop tailscale" : "Start tailscale"
-    //     onTriggered: App.tailscale.toggle()
-    //     icon.name: Tailscale.status.backendState == "Running" ? "process-stop" : "media-playback-start"
-    //     visible: Tailscale.status.isOperator
-    // }
-    actions.main: Kirigami.Action {
-        text: {
-            if(!Tailscale.status.success) {
-                return "Tailscaled is not running"
-            } else if(!Tailscale.status.isOperator) {
-                return "Functionality limited, current user is not Tailscale operator";
-            } else {
-                return (Tailscale.status.backendState == "Running") ? "Stop tailscale" : "Start tailscale";
-            }
-        }
-        onTriggered: {
-            if(Tailscale.status.isOperator && Tailscale.status.success) {
-                App.tailscale.toggle()
-            }
-        }
-        icon.name: {
-            if(!Tailscale.status.success) {
-                return "emblem-error"
-            } else if(!Tailscale.status.isOperator) {
-                return "emblem-warning";
-            } else {
-                return (Tailscale.status.backendState == "Running") ? "process-stop" : "media-playback-start";
-            }
-        }
-    }
 
     Kirigami.CardsListView {
         id: listPeers
+
         model: App.peerModel
         visible: Tailscale.status.success
         headerPositioning: ListView.OverlayHeader
+
         header: Kirigami.ItemViewHeader {
             id: peerListHeader
+
             maximumHeight: peerListHeader.minimumHeight
+
             RowLayout {
                 Controls.Label {
                     text: "DNS name filter:"
                 }
+
                 Kirigami.SearchField {
                     id: peerFilter
+
                     delaySearch: true
                     text: App.config.peerFilter
                     onAccepted: {
@@ -70,24 +43,29 @@ Kirigami.ScrollablePage {
                         App.config.save();
                     }
                 }
+
             }
+
         }
+
         delegate: Kirigami.AbstractCard {
+
             contentItem: Item {
                 implicitWidth: delegateLayout.implicitWidth
                 implicitHeight: delegateLayout.implicitHeight
+
                 GridLayout {
                     id: delegateLayout
+
+                    rowSpacing: Kirigami.Units.largeSpacing
+                    columnSpacing: Kirigami.Units.smallSpacing
+                    columns: 3
 
                     anchors {
                         left: parent.left
                         right: parent.right
                         top: parent.top
                     }
-
-                    rowSpacing: Kirigami.Units.largeSpacing
-                    columnSpacing: Kirigami.Units.smallSpacing
-                    columns: 3
 
                     Kirigami.Icon {
                         source: Util.loadOsIcon(os)
@@ -118,15 +96,16 @@ Kirigami.ScrollablePage {
                             Controls.Label {
                                 text: Util.formatSpeedHumanReadable(Tailscale.statistics.speedDown(tailscaleID).average1Second)
                             }
+
                         }
 
                         Kirigami.Separator {
                             Layout.fillWidth: true
                         }
 
-
                         Flow {
                             spacing: Kirigami.Units.smallSpacing
+
                             Repeater {
                                 model: tailscaleIps
 
@@ -140,8 +119,11 @@ Kirigami.ScrollablePage {
                                         Util.setClipboardText(modelData);
                                     }
                                 }
+
                             }
+
                         }
+
                     }
 
                     GridLayout {
@@ -157,37 +139,40 @@ Kirigami.ScrollablePage {
                                 pageStack.layers.push('qrc:Peer.qml');
                             }
                         }
+
                         Controls.Button {
                             icon.name: "document-send"
                             Controls.ToolTip.visible: hovered
                             Controls.ToolTip.text: "Send file(s)"
                             onClicked: {
-                                TaildropSender.selectAndSendFiles(dnsName)
+                                TaildropSender.selectAndSendFiles(dnsName);
                             }
                             visible: Tailscale.status.isOperator
                         }
+
                         Controls.Button {
                             icon.name: "akonadiconsole"
                             visible: isRunningSSH
                             Controls.ToolTip.visible: hovered
                             Controls.ToolTip.text: "Copy SSH command"
                             onClicked: {
-                                Util.setClipboardText(sshCommand)
+                                Util.setClipboardText(sshCommand);
                             }
                         }
+
                         Controls.Switch {
                             visible: isExitNode && !Tailscale.preferences.advertiseExitNode
                             checked: isCurrentExitNode
                             Controls.ToolTip.visible: hovered
                             Controls.ToolTip.text: isCurrentExitNode ? "Do not use this exit node" : "Use this exit node"
                             onToggled: {
-                                if(isCurrentExitNode) {
+                                if (isCurrentExitNode)
                                     Util.unsetExitNode();
-                                } else {
+                                else
                                     Util.setExitNode(tailscaleIps[0]);
-                                }
                             }
                         }
+
                     }
 
                 }
@@ -195,13 +180,47 @@ Kirigami.ScrollablePage {
                 DropArea {
                     anchors.fill: parent
                     onEntered: {
-                        drag.accept (Qt.LinkAction)
+                        drag.accept(Qt.LinkAction);
                     }
                     onDropped: {
-                        TaildropSender.sendFiles(dnsName, Util.fileUrlsToStrings(drop.urls))
+                        TaildropSender.sendFiles(dnsName, Util.fileUrlsToStrings(drop.urls));
                     }
                 }
+
             }
+
+        }
+
+    }
+
+    // actions.main: Kirigami.Action {
+    //     text: Tailscale.status.backendState == "Running" ? "Stop tailscale" : "Start tailscale"
+    //     onTriggered: App.tailscale.toggle()
+    //     icon.name: Tailscale.status.backendState == "Running" ? "process-stop" : "media-playback-start"
+    //     visible: Tailscale.status.isOperator
+    // }
+    actions.main: Kirigami.Action {
+        text: {
+            if (!Tailscale.status.success)
+                return "Tailscaled is not running";
+            else if (!Tailscale.status.isOperator)
+                return "Functionality limited, current user is not Tailscale operator";
+            else
+                return (Tailscale.status.backendState == "Running") ? "Stop tailscale" : "Start tailscale";
+        }
+        onTriggered: {
+            if (Tailscale.status.isOperator && Tailscale.status.success)
+                App.tailscale.toggle();
+
+        }
+        icon.name: {
+            if (!Tailscale.status.success)
+                return "emblem-error";
+            else if (!Tailscale.status.isOperator)
+                return "emblem-warning";
+            else
+                return (Tailscale.status.backendState == "Running") ? "process-stop" : "media-playback-start";
         }
     }
+
 }
