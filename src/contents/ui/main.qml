@@ -15,9 +15,7 @@ Kirigami.ApplicationWindow {
         if (pageStack.currentItem.objectName == name)
             return ;
 
-        while (pageStack.depth > 1)
-            pageStack.pop();
-
+        while (pageStack.depth > 1)pageStack.pop()
         if (pageStack.currentItem.objectName != name)
             pageStack.replace("qrc:" + name + ".qml");
 
