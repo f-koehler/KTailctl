@@ -25,7 +25,9 @@ private:
     SpeedStatistics *mSpeedDownTotal;
 
 public:
-    Statistics(Status *status = nullptr, QObject *parent = nullptr);
+    explicit Statistics(Status *status = nullptr, QObject *parent = nullptr);
+    virtual ~Statistics() = default;
+
     Q_INVOKABLE SpeedStatistics *speedUp(const QString &id);
     Q_INVOKABLE SpeedStatistics *speedDown(const QString &id);
     SpeedStatistics *totalUpSpeed() const;

@@ -26,6 +26,9 @@ class Util : public QObject
     Q_OBJECT
 
 public:
+    explicit Util(QObject *parent = nullptr);
+    virtual ~Util() = default;
+
     Q_INVOKABLE static void setClipboardText(const QString &text);
     Q_INVOKABLE static QString formatCapacityHumanReadable(long bytes);
     Q_INVOKABLE static QString formatSpeedHumanReadable(double bytes_per_second);

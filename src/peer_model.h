@@ -38,6 +38,7 @@ public:
     };
 
     explicit PeerModel(QObject *parent = nullptr);
+    virtual ~PeerModel() = default;
 
     int rowCount(const QModelIndex &parent) const override;
     QHash<int, QByteArray> roleNames() const override;

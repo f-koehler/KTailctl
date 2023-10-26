@@ -42,7 +42,8 @@ public slots:
     static void quitApp();
 
 public:
-    App(Tailscale *tailscale, QObject *parent = nullptr);
+    explicit App(Tailscale *tailscale, QObject *parent = nullptr);
+    virtual ~App() = default;
 
     Tailscale *tailscale();
     KTailctlConfig *config();

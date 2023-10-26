@@ -31,7 +31,8 @@ private:
     QPointer<TaildropSendThread> mThread;
 
 public:
-    TaildropSendJob(const QString &target, const QStringList &files, QObject *parent = nullptr);
+    explicit TaildropSendJob(const QString &target, const QStringList &files, QObject *parent = nullptr);
+    virtual ~TaildropSendJob() = default;
 
     static TaildropSendJob *selectAndSendFiles(const QString &target);
     static TaildropSendJob *sendFiles(const QString &target, const QStringList &files);

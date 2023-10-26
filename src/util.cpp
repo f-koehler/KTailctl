@@ -9,6 +9,11 @@
 #include <QUrl>
 #include <ksystemclipboard.h>
 
+Util::Util(QObject *parent)
+    : QObject(parent)
+{
+}
+
 void setClipboardText(const QString &text)
 {
     auto *data = new QMimeData();

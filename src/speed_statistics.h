@@ -22,7 +22,8 @@ private:
     QDateTime mLastTimestamp;
 
 public:
-    SpeedStatistics(QObject *parent = nullptr);
+    explicit SpeedStatistics(QObject *parent = nullptr);
+    virtual ~SpeedStatistics() = default;
 
     Q_INVOKABLE double average(double window = 1.) const;
     QVariantList valuesVariant() const;

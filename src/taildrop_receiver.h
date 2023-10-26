@@ -24,6 +24,7 @@ private:
     TaildropReceiver();
 
 public:
+    virtual ~TaildropReceiver() = default;
     static TaildropReceiver *self();
 
 protected:

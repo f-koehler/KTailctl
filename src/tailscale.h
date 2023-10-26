@@ -30,7 +30,8 @@ public slots:
     Q_INVOKABLE void toggle();
 
 public:
-    Tailscale(QObject *parent = nullptr);
+    explicit Tailscale(QObject *parent = nullptr);
+    virtual ~Tailscale() = default;
 
     Q_INVOKABLE static void up();
     Q_INVOKABLE static void down();

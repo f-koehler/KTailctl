@@ -25,7 +25,8 @@ signals:
     void quitClicked();
 
 public:
-    TrayIcon(Tailscale *tailscale, QObject *parent = nullptr);
+    explicit TrayIcon(Tailscale *tailscale, QObject *parent = nullptr);
+    virtual ~TrayIcon() = default;
 
     void setWindow(QQuickWindow *window);
 };

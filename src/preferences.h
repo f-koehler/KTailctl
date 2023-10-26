@@ -36,6 +36,7 @@ signals:
 
 public:
     explicit Preferences(QObject *parent = nullptr);
+    virtual ~Preferences() = default;
 
     Q_INVOKABLE void refresh();
 
