@@ -61,6 +61,8 @@ add_subdirectory(src)
 add_subdirectory(tailwrap)
 
 if(NOT KTAILCTL_FLATPAK_BUILD)
+    set(JSON_BuildTests OFF CACHE INTERNAL "")
+    add_subdirectory(deps/json)
     add_subdirectory(deps/kirigami-addons)
 endif()
 
