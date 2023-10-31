@@ -2,11 +2,11 @@
 #define KTAILCTL_STLTYPES_H
 
 #include <QDebug>
-#define JSON_THROW_USER(exception)                                                                                                                             \
-    {                                                                                                                                                          \
-        qCritical() << "JSON error in " << __FILE__ << ":" << __LINE__ << " (function " << __FUNCTION__ << ") - " << (exception).what();                       \
-        std::abort();                                                                                                                                          \
-    }
+// #define JSON_THROW_USER(exception)                                                                                                                             \
+//     {                                                                                                                                                          \
+//         qCritical() << "JSON error in " << __FILE__ << ":" << __LINE__ << " (function " << __FUNCTION__ << ") - " << (exception).what();                       \
+//         std::abort();                                                                                                                                          \
+//     }
 
 #include <QString>
 #include <QStringList>
