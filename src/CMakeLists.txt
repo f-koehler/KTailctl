@@ -8,13 +8,17 @@ add_executable(ktailctl
     about.cpp
     app.cpp
     location.cpp
+    location_data.cpp
     main.cpp
+    json.cpp
     peer.cpp
+    peer_data.cpp
     peer_model.cpp
     preferences.cpp
     speed_statistics.cpp
     statistics.cpp
     status.cpp
+    status_data.cpp
     taildrop_receiver.cpp
     taildrop_sender.cpp
     tailscale.cpp
@@ -36,6 +40,7 @@ target_link_libraries(ktailctl
     Qt5::Quick
     Qt5::QuickControls2
     Qt5::Svg
+    nlohmann_json::nlohmann_json
 )
 
 target_include_directories(
