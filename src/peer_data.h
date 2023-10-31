@@ -21,10 +21,15 @@ struct PeerData {
     bool isCurrentExitNode;
     bool isExitNode;
     QStringList sshHostKeys;
-    bool isRunningSSH;
     QStringList tags;
     bool isMullvad;
     std::optional<LocationData> location;
+
+    bool operator==(const PeerData &other) const = default;
+    bool operator!=(const PeerData &other) const = default;
+
+    bool isRunningSSH() const;
+    QString sshCommand() const;
 };
 
 void from_json(const json &j, PeerData &p);

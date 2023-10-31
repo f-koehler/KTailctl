@@ -71,14 +71,11 @@ const QStringList &Peer::sshHostKeys() const
 }
 bool Peer::isRunningSSH() const
 {
-    return !mData.sshHostKeys.empty();
+    return mData.isRunningSSH();
 }
 QString Peer::sshCommand() const
 {
-    if (!isRunningSSH()) {
-        return {""};
-    }
-    return QString("tailscale ssh %1").arg(mData.dnsName);
+    return mData.sshCommand();
 }
 const QStringList &Peer::tags() const
 {

@@ -36,6 +36,10 @@ const QVector<Peer *> &Status::peers() const
 {
     return mPeers;
 }
+const StatusData &Status::statusData() const
+{
+    return mData;
+}
 
 std::tuple<QList<Peer *>, QList<Peer *>> Status::exitNodes() const
 {
@@ -84,7 +88,7 @@ void Status::update(StatusData &newData)
 
     // remove extra elements
     std::for_each(mPeers.begin() + newData.peers.size(), mPeers.end(), [](Peer *peer) {
-        delete peer;
+        // peer->deleteLater();
         peer = nullptr;
     });
 

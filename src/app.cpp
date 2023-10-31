@@ -21,8 +21,8 @@ App::App(Tailscale *tailscale, QObject *parent)
 {
     mTailscale->setParent(this);
 
-    QObject::connect(tailscale->status(), &Status::peersChanged, mPeerModel, &PeerModel::updatePeers);
-    QObject::connect(tailscale->status(), &Status::refreshed, &mPeerDetails, &Peer::updateFromStatus);
+    QObject::connect(tailscale->status(), &Status::refreshed, mPeerModel, &PeerModel::updatePeers);
+    // QObject::connect(tailscale->status(), &Status::refreshed, &mPeerDetails, &Peer::updateFromStatus);
     QObject::connect(tailscale->status(), &Status::backendStateChanged, mTrayIcon, &TrayIcon::regenerate);
     QObject::connect(mTrayIcon, &TrayIcon::quitClicked, this, &App::quitApp);
 

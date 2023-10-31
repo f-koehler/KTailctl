@@ -1,4 +1,18 @@
 #include "peer_data.h"
+#include <iostream>
+
+bool PeerData::isRunningSSH() const
+{
+    return !sshHostKeys.isEmpty();
+}
+
+QString PeerData::sshCommand() const
+{
+    if (!isRunningSSH()) {
+        return {""};
+    }
+    return QString("tailscale ssh %1").arg(dnsName);
+}
 
 void from_json(const json &j, QVector<PeerData> &peers)
 {

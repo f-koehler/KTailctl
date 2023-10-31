@@ -39,6 +39,8 @@ public:
     Peer *self() const;
     const QVector<Peer *> &peers() const;
 
+    const StatusData &statusData() const;
+
     Q_INVOKABLE std::tuple<QList<Peer *>, QList<Peer *>> exitNodes() const;
 
 signals:
