@@ -85,3 +85,17 @@ endif()
 
 add_subdirectory(Components)
 add_dependencies(ktailctl mycomponentsplugin)
+
+add_executable(tests
+    tests.cpp
+    json.cpp
+    status_data.cpp
+    location_data.cpp
+    peer_data.cpp
+)
+target_link_libraries(tests
+    Qt5::Core
+    Qt5::Gui
+    Qt5::Test
+    nlohmann_json::nlohmann_json
+)
