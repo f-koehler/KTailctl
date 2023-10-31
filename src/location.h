@@ -1,11 +1,7 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
-// SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
-//
 #ifndef KTAILCTL_LOCATION_H
 #define KTAILCTL_LOCATION_H
 
-#include <QJsonObject>
-#include <QObject>
+#include "location_data.h"
 
 class Location : public QObject
 {
@@ -15,39 +11,13 @@ class Location : public QObject
     Q_PROPERTY(QString city READ city NOTIFY cityChanged)
     Q_PROPERTY(QString cityCode READ cityCode NOTIFY cityCodeChanged)
     Q_PROPERTY(int priority READ priority NOTIFY priorityChanged)
+
 private:
-    QString mCountry;
-    QString mCountryCode;
-    QString mCity;
-    QString mCityCode;
-    int mPriority;
-
-protected:
-    bool setCountry(const QString &country);
-    bool setCountryCode(const QString &countryCode);
-    bool setCity(const QString &city);
-    bool setCityCode(const QString &cityCode);
-    bool setPriority(int priority);
-
-    void setCountryFromJSON(const QJsonObject &json);
-    void setCountryCodeFromJSON(const QJsonObject &json);
-    void setCityFromJSON(const QJsonObject &json);
-    void setCityCodeFromJSON(const QJsonObject &json);
-    void setPriorityFromJSON(const QJsonObject &json);
-
-signals:
-    void countryChanged(const QString &value);
-    void countryCodeChanged(const QString &value);
-    void cityChanged(const QString &value);
-    void cityCodeChanged(const QString &value);
-    void priorityChanged(int);
+    LocationData mData;
 
 public:
     explicit Location(QObject *parent = nullptr);
     virtual ~Location() = default;
-
-    static Location *fromJSON(const QJsonObject &json, QObject *parent = nullptr);
-    bool setTo(const Location *other);
 
     const QString &country() const;
     const QString &countryCode() const;
@@ -55,9 +25,15 @@ public:
     const QString &cityCode() const;
     int priority() const;
 
-    Location &operator=(const Location &other);
-    bool operator==(const Location &other) const;
-    bool operator!=(const Location &other) const;
+signals:
+    void countryChanged(const QString &country);
+    void countryCodeChanged(const QString &countryCode);
+    void cityChanged(const QString &city);
+    void cityCodeChanged(const QString &cityCode);
+    void priorityChanged(int priority);
+
+public slots:
+    void update(LocationData &newData);
 };
 
 #endif /* KTAILCTL_LOCATION_H */
