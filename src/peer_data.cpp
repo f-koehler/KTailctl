@@ -3,8 +3,10 @@
 void from_json(const json &j, QVector<PeerData> &peers)
 {
     peers.resize(j.size());
-    for (std::size_t i = 0; i < j.size(); ++i) {
-        j[i].get_to<PeerData>(peers[i]);
+    std::size_t i = 0;
+    for (const auto &el : j.items()) {
+        el.value().get_to<PeerData>(peers[i]);
+        ++i;
     }
     std::stable_sort(peers.begin(), peers.end(), [](const PeerData &a, const PeerData &b) {
         return a.dnsName < b.dnsName;
