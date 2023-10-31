@@ -50,7 +50,7 @@ target_include_directories(
 )
 target_link_directories(ktailctl PRIVATE ${CMAKE_BINARY_DIR}/lib)
 target_link_libraries(ktailctl tailwrap_logging_wrapper tailwrap)
-add_dependencies(ktailctl tailwrap)
+add_dependencies(ktailctl tailwrap_target)
 
 if(KTAILCTL_FLATPAK_BUILD)
     target_compile_definitions(ktailctl PRIVATE KTAILCTL_FLATPAK_BUILD)
