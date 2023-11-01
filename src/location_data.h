@@ -11,8 +11,8 @@ struct LocationData {
     QString cityCode;
     int priority;
 
-    bool operator==(const LocationData &other) const = default;
-    bool operator!=(const LocationData &other) const = default;
+    bool operator==(const LocationData &) const = default;
+    bool operator!=(const LocationData &) const = default;
 };
 
 void from_json(const json &j, LocationData &l);
