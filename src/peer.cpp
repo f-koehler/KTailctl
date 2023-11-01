@@ -89,6 +89,10 @@ Location *Peer::location() const
 {
     return mLocation;
 }
+const PeerData &Peer::peerData() const
+{
+    return mData;
+}
 
 void Peer::update(PeerData &newData)
 {

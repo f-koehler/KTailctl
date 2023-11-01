@@ -60,6 +60,7 @@ public:
     const QStringList &tags() const;
     bool isMullvad() const;
     Location *location() const;
+    const PeerData &peerData() const;
 
 signals:
     void idChanged(const QString &id);

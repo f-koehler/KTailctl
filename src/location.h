@@ -24,6 +24,7 @@ public:
     const QString &city() const;
     const QString &cityCode() const;
     int priority() const;
+    const LocationData &locationData() const;
 
 signals:
     void countryChanged(const QString &country);

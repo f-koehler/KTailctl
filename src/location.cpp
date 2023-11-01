@@ -25,6 +25,10 @@ int Location::priority() const
 {
     return mData.priority;
 }
+const LocationData &Location::locationData() const
+{
+    return mData;
+}
 
 void Location::update(LocationData &newData)
 {
