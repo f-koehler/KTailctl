@@ -87,20 +87,29 @@ void Status::update(StatusData &newData)
     mSelf->update(newData.self);
 
     // remove extra elements
-    std::for_each(mPeers.begin() + newData.peers.size(), mPeers.end(), [](Peer *peer) {
-        // peer->deleteLater();
-        peer = nullptr;
-    });
+    bool peerVectorChanged = false;
+    if (!mPeers.isEmpty()) {
+        std::for_each(mPeers.begin() + newData.peers.size(), mPeers.end(), [&peerVectorChanged](Peer *peer) {
+            peer->deleteLater();
+            peerVectorChanged = true;
+        });
+        mPeers.erase(mPeers.begin() + newData.peers.size(), mPeers.end());
+    }
 
     // add elements to match size of newData.peers
-    mPeers.resize(newData.peers.size());
+    while (mPeers.size() < newData.peers.size()) {
+        mPeers.append(new Peer(this));
+        peerVectorChanged = true;
+    }
 
     // update elements
     for (int i = 0; i < newData.peers.size(); ++i) {
-        if (mPeers[i] == nullptr) {
-            mPeers[i] = new Peer(this);
-        }
         mPeers[i]->update(newData.peers[i]);
+    }
+    mData.peers.swap(newData.peers);
+
+    if (peerVectorChanged) {
+        emit peersChanged(mPeers);
     }
 }
 void Status::refresh()

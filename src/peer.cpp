@@ -179,9 +179,9 @@ void Peer::update(PeerData &newData)
         if (newData.location.has_value()) {
             mLocation->update(newData.location.value());
         } else {
-            // mLocation->deleteLater();
+            mLocation->deleteLater();
             mLocation = nullptr;
-            // emit locationChanged(nullptr);
+            emit locationChanged(nullptr);
         }
     }
 }

@@ -33,7 +33,7 @@ class Peer : public QObject
 
 private:
     PeerData mData;
-    Location *mLocation;
+    Location *mLocation = nullptr;
 
 public:
     explicit Peer(QObject *parent = nullptr);
