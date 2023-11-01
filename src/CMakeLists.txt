@@ -86,6 +86,7 @@ endif()
 add_subdirectory(Components)
 add_dependencies(ktailctl mycomponentsplugin)
 
+enable_testing(true)
 add_executable(tests
     tests.cpp
     json.cpp
@@ -99,3 +100,4 @@ target_link_libraries(tests
     Qt5::Test
     nlohmann_json::nlohmann_json
 )
+add_test(NAME tests COMMAND tests)
