@@ -23,7 +23,6 @@ void PeerModel::updatePeers(const Status &status)
         std::copy(newData.begin() + mData.size(), newData.end(), std::back_inserter(mData));
         endInsertRows();
     }
-    qWarning() << newData.size();
 }
 
 PeerModel::PeerModel(QObject *parent)
