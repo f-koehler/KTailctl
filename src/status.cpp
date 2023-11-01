@@ -118,10 +118,11 @@ void Status::update(StatusData &newData)
 }
 void Status::refresh()
 {
-    const char *jsonStr = tailscale_status();
+    char *jsonStr = tailscale_status();
     const bool success = jsonStr != nullptr;
     if (success) {
         json::parse(jsonStr).get_to<StatusData>(newData);
+        free(jsonStr);
         update(newData);
         emit refreshed(*this);
 
