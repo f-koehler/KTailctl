@@ -1,5 +1,15 @@
 #include "peer.h"
 
+static constexpr const char *TAILSCALE_JSON_NOWDATE = "0001-01-01T00:00:00Z";
+QDateTime get_date_from_string(const QString &string)
+{
+    if (string == TAILSCALE_JSON_NOWDATE) {
+        return QDateTime::currentDateTime();
+    } else {
+        return QDateTime::fromString(string, Qt::ISODateWithMs);
+    }
+}
+
 Peer::Peer(QObject *parent)
     : QObject(parent)
 {
@@ -41,13 +51,13 @@ long Peer::txBytes() const
 {
     return mData.txBytes;
 }
-const QString &Peer::created() const
+const QDateTime &Peer::created() const
 {
-    return mData.created;
+    return mCreated;
 }
-const QString &Peer::lastSeen() const
+const QDateTime &Peer::lastSeen() const
 {
-    return mData.lastSeen;
+    return mLastSeen;
 }
 bool Peer::isOnline() const
 {
@@ -135,11 +145,13 @@ void Peer::update(PeerData &newData)
     }
     if (newData.created != mData.created) {
         mData.created.swap(newData.created);
-        emit createdChanged(mData.created);
+        mCreated = get_date_from_string(mData.created);
+        emit createdChanged(mCreated);
     }
     if (newData.lastSeen != mData.lastSeen) {
         mData.lastSeen.swap(newData.lastSeen);
-        emit lastSeenChanged(mData.lastSeen);
+        mLastSeen = get_date_from_string(mData.lastSeen);
+        emit lastSeenChanged(mLastSeen);
     }
     if (newData.isOnline != mData.isOnline) {
         mData.isOnline = newData.isOnline;

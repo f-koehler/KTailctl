@@ -1,6 +1,8 @@
 #ifndef KTAILCTL_PEER_DATA_H
 #define KTAILCTL_PEER_DATA_H
 
+#include <QDateTime>
+
 #include "json.h"
 #include "location_data.h"
 

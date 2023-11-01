@@ -1,6 +1,7 @@
 #ifndef KTAILCTL_PEER_H
 #define KTAILCTL_PEER_H
 
+#include <QDateTime>
 #include <optional>
 
 #include "location.h"
@@ -18,8 +19,8 @@ class Peer : public QObject
     Q_PROPERTY(QString relay READ relay NOTIFY relayChanged)
     Q_PROPERTY(long rxBytes READ rxBytes NOTIFY rxBytesChanged)
     Q_PROPERTY(long txBytes READ txBytes NOTIFY txBytesChanged)
-    Q_PROPERTY(QString created READ created NOTIFY createdChanged)
-    Q_PROPERTY(QString lastSeen READ lastSeen NOTIFY lastSeenChanged)
+    Q_PROPERTY(QDateTime created READ created NOTIFY createdChanged)
+    Q_PROPERTY(QDateTime lastSeen READ lastSeen NOTIFY lastSeenChanged)
     Q_PROPERTY(bool isOnline READ isOnline NOTIFY isOnlineChanged)
     Q_PROPERTY(bool isActive READ isActive NOTIFY isActiveChanged)
     Q_PROPERTY(bool isCurrentExitNode READ isCurrentExitNode NOTIFY isCurrentExitNodeChanged)
@@ -34,6 +35,8 @@ class Peer : public QObject
 private:
     PeerData mData;
     Location *mLocation = nullptr;
+    QDateTime mCreated;
+    QDateTime mLastSeen;
 
 public:
     explicit Peer(QObject *parent = nullptr);
@@ -48,8 +51,8 @@ public:
     const QString &relay() const;
     long rxBytes() const;
     long txBytes() const;
-    const QString &created() const;
-    const QString &lastSeen() const;
+    const QDateTime &created() const;
+    const QDateTime &lastSeen() const;
     bool isOnline() const;
     bool isActive() const;
     bool isCurrentExitNode() const;
@@ -72,8 +75,8 @@ signals:
     void relayChanged(const QString &relay);
     void rxBytesChanged(long rxBytes);
     void txBytesChanged(long txBytes);
-    void createdChanged(const QString &created);
-    void lastSeenChanged(const QString &lastSeen);
+    void createdChanged(const QDateTime &created);
+    void lastSeenChanged(const QDateTime &lastSeen);
     void isOnlineChanged(bool isOnline);
     void isActiveChanged(bool isActive);
     void isCurrentExitNodeChanged(bool isCurrentExitNode);
