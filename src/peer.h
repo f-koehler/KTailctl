@@ -10,7 +10,7 @@
 class Peer : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString id READ id NOTIFY idChanged)
+    Q_PROPERTY(QString tailscaleID READ id NOTIFY idChanged)
     Q_PROPERTY(QString publicKey READ publicKey NOTIFY publicKeyChanged)
     Q_PROPERTY(QString hostName READ hostName NOTIFY hostNameChanged)
     Q_PROPERTY(QString dnsName READ dnsName NOTIFY dnsNameChanged)
