@@ -28,7 +28,7 @@ class App : public QObject
 private:
     Tailscale *mTailscale;
     KTailctlConfig *mConfig;
-    Peer mPeerDetails;
+    Peer *mPeerDetails;
     PeerModel *mPeerModel;
     QSortFilterProxyModel *mPeerProxyModel;
     bool mFilterInitialized = false;

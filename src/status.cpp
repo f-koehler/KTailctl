@@ -32,6 +32,10 @@ Peer *Status::self() const
 {
     return mSelf;
 }
+QVector<Peer *> &Status::peers()
+{
+    return mPeers;
+}
 const QVector<Peer *> &Status::peers() const
 {
     return mPeers;

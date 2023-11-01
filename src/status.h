@@ -37,6 +37,7 @@ public:
     bool isTun() const;
     const QString &backendState() const;
     Peer *self() const;
+    QVector<Peer *> &peers();
     const QVector<Peer *> &peers() const;
 
     const StatusData &statusData() const;
