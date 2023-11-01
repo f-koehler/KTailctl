@@ -22,7 +22,7 @@ private:
     bool mSuccess = false;
     bool mIsOperator = false;
     StatusData mData;
-    Peer *mSelf;
+    Peer *mSelf = nullptr;
     QVector<Peer *> mPeers;
 
     StatusData newData;
