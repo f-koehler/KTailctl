@@ -27,6 +27,8 @@ jobs:
         run: sudo apt-get update -yq
       - name: Install CMake.
         run: sudo apt-get install -yq cmake
+      - name: Add LLVM apt key.
+        run: wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
       - name: Add LLVM repo.
         run: sudo add-apt-repository -y "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-${{ matrix.llvm_version }} main"
       - name: Install clang.
