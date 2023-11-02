@@ -4,17 +4,25 @@
 include(CheckIPOSupported)
 check_ipo_supported(RESULT ipo_supported OUTPUT ipo_output)
 
+if(KTAILCTL_FLATPAK_BUILD)
+    find_package(nlohmann_json REQUIRED)
+endif()
+
 add_executable(ktailctl
     about.cpp
     app.cpp
     location.cpp
+    location_data.cpp
     main.cpp
+    json.cpp
     peer.cpp
+    peer_data.cpp
     peer_model.cpp
     preferences.cpp
     speed_statistics.cpp
     statistics.cpp
     status.cpp
+    status_data.cpp
     taildrop_receiver.cpp
     taildrop_sender.cpp
     tailscale.cpp
@@ -36,6 +44,7 @@ target_link_libraries(ktailctl
     Qt5::Quick
     Qt5::QuickControls2
     Qt5::Svg
+    nlohmann_json::nlohmann_json
 )
 
 target_include_directories(
@@ -45,7 +54,7 @@ target_include_directories(
 )
 target_link_directories(ktailctl PRIVATE ${CMAKE_BINARY_DIR}/lib)
 target_link_libraries(ktailctl tailwrap_logging_wrapper tailwrap)
-add_dependencies(ktailctl tailwrap)
+add_dependencies(ktailctl tailwrap_target)
 
 if(KTAILCTL_FLATPAK_BUILD)
     target_compile_definitions(ktailctl PRIVATE KTAILCTL_FLATPAK_BUILD)
@@ -80,3 +89,19 @@ endif()
 
 add_subdirectory(Components)
 add_dependencies(ktailctl mycomponentsplugin)
+
+enable_testing(true)
+add_executable(tests
+    tests.cpp
+    json.cpp
+    status_data.cpp
+    location_data.cpp
+    peer_data.cpp
+)
+target_link_libraries(tests
+    Qt5::Core
+    Qt5::Gui
+    Qt5::Test
+    nlohmann_json::nlohmann_json
+)
+add_test(NAME tests COMMAND tests)

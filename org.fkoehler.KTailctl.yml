@@ -1,10 +1,10 @@
 app-id: org.fkoehler.KTailctl
 runtime: org.kde.Platform
-runtime-version: 5.15-22.08
+runtime-version: 5.15-23.08
 sdk: org.kde.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.golang
-  - org.freedesktop.Sdk.Extension.llvm16
+  - org.freedesktop.Sdk.Extension.llvm17
 command: ktailctl
 finish-args:
   - --socket=fallback-x11
@@ -16,11 +16,27 @@ finish-args:
   - --filesystem=/sys/class/net:ro
 build-options:
   prepend-path: /usr/lib/sdk/golang/bin
-  append-path: /usr/lib/sdk/llvm16/bin
-  prepend-ld-library-path: /usr/lib/sdk/llvm16/lib
+  append-path: /usr/lib/sdk/llvm17/bin
+  prepend-ld-library-path: /usr/lib/sdk/llvm17/lib
   build-args:
     - --share=network
 modules:
+  - name: nlohmann_json
+    buildsystem: cmake-ninja
+    config_opts:
+      - "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+      - "-DCMAKE_CXX_COMPILER=clang++"
+      - "-DJSON_MultipleHeaders=ON"
+      - "-DJSON_BuildTests=OFF"
+    sources:
+      - type: "archive"
+        url: "https://github.com/nlohmann/json/archive/refs/tags/v3.11.2.tar.gz"
+        sha256: "d69f9deb6a75e2580465c6c4c5111b89c4dc2fa94e3a85fcd2ffcd9a143d9273"
+        x-checker-data:
+          type: "anitya"
+          project-id: 11152
+          stable-only: true
+          url-template: "https://github.com/nlohmann/json/archive/refs/tags/v$version.tar.gz"
   - name: kirigami-addons
     buildsystem: cmake-ninja
     config-opts:

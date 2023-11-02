@@ -11,7 +11,7 @@ include(FeatureSummary)
 
 set(QT5_MIN_VERSION 5.15)
 set(KF5_MIN_VERSION 5.83)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -24,7 +24,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
 
 include(KDEInstallDirs)
 include(KDECMakeSettings)
-include(KDECompilerSettings NO_POLICY_SCOPE)
+# include(KDECompilerSettings NO_POLICY_SCOPE)
 include(ECMSetupVersion)
 include(ECMGenerateHeaders)
 include(ECMPoQmTools)
@@ -47,6 +47,7 @@ find_package(Qt5 ${QT5_MIN_VERSION} REQUIRED COMPONENTS
     Qml
     QuickControls2
     Svg
+    Test
 )
 find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     Config
@@ -61,6 +62,8 @@ add_subdirectory(src)
 add_subdirectory(tailwrap)
 
 if(NOT KTAILCTL_FLATPAK_BUILD)
+    set(JSON_BuildTests OFF CACHE INTERNAL "")
+    add_subdirectory(deps/json)
     add_subdirectory(deps/kirigami-addons)
 endif()
 

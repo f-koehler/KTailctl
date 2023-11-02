@@ -4,7 +4,8 @@
 #ifndef KTAILCTL_PEER_MODEL_H
 #define KTAILCTL_PEER_MODEL_H
 
-#include "peer.h"
+#include "peer_data.h"
+#include "status.h"
 
 #include <QAbstractListModel>
 
@@ -13,10 +14,10 @@ class PeerModel : public QAbstractListModel
     Q_OBJECT
 
 private:
-    QVector<Peer *> mPeers;
+    QVector<PeerData> mData;
 
 public slots:
-    void updatePeers(const QVector<Peer *> &peers);
+    void updatePeers(const Status &status);
 
 public:
     enum Roles : int {

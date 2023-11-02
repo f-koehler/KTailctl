@@ -1,153 +1,48 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
-// SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
-
 #include "status.h"
-#include "util.h"
+#include "libtailwrap.h"
 
-#include <QJsonArray>
-#include <QJsonDocument>
-#include <QSet>
 #include <algorithm>
 
 Status::Status(QObject *parent)
     : QObject(parent)
-    , mSelf(new Peer())
 {
-}
-
-void Status::refresh()
-{
-    // TODO: remove mStatusBuffer
-    char *tmpString = tailscale_status();
-    const bool success = tmpString != nullptr;
-
-    if (success) {
-        read(QJsonDocument::fromJson(QByteArray::fromRawData(tmpString, strlen(tmpString))).object());
-        emit refreshed(*this);
-        free(tmpString);
-    }
-    if (success != mSuccess) {
-        mSuccess = success;
-        emit successChanged(mSuccess);
-    }
-}
-
-void Status::read(const QJsonObject &json)
-{
-    if (json.contains("Version") && json["Version"].isString()) {
-        mVersion = json["Version"].toString();
-    } else {
-        qWarning() << "Cannot find string \"Version\"";
-    }
-
-    if (json.contains("TUN") && json["TUN"].isBool()) {
-        if (const auto is_tun = json["TUN"].toBool(); is_tun != mIsTun) {
-            mIsTun = json["TUN"].toBool();
-            emit isTUNChanged(mIsTun);
-        }
-    } else {
-        qWarning() << "Cannot find bool \"TUN\"";
-    }
-
-    if (json.contains("BackendState") && json["BackendState"].isString()) {
-        if (const auto backend_state = json["BackendState"].toString(); backend_state != mBackendState) {
-            mBackendState = json["BackendState"].toString();
-            emit backendStateChanged(mBackendState);
-        }
-    } else {
-        qWarning() << "Cannot find string \"BackendState\"";
-    }
-
-    if (json.contains("Self") && json["Self"].isObject()) {
-        if (mSelf == nullptr) {
-            mSelf = new Peer();
-        }
-        mSelf->setTo(Peer::fromJSON(json["Self"].toObject()));
-    } else {
-        qWarning() << "Cannot find object \"Self\"";
-    }
-
-    mPeers.clear();
-    if (json.contains("Peer") && json["Peer"].isObject()) {
-        QList<Peer *> new_peers;
-        QSet<QString> ids_to_keep;
-        const auto peers_object = json["Peer"].toObject();
-        for (const auto &key : peers_object.keys()) {
-            Peer *peer = Peer::fromJSON(peers_object[key].toObject());
-            auto *iter = std::find_if(mPeers.begin(), mPeers.end(), [peer](const Peer *current_peer) {
-                return current_peer->id() == peer->id();
-            });
-            if (iter != mPeers.end()) {
-                (*iter)->setTo(peer);
-                ids_to_keep.insert(peer->id());
-            } else {
-                new_peers.append(peer);
-            }
-        }
-        auto *iter = mPeers.begin();
-        while (iter != mPeers.end()) {
-            if (!ids_to_keep.contains((*iter)->id())) {
-                iter = mPeers.erase(iter);
-            } else {
-                ++iter;
-            }
-        }
-        for (auto *peer : new_peers) {
-            mPeers.append(peer);
-        }
-    } else {
-        qWarning() << "Cannot find object \"Peer\"";
-    }
-
-    for (auto *peer : mPeers) {
-        peer->setParent(this);
-    }
-
-    std::stable_sort(mPeers.begin(), mPeers.end(), [](const Peer *peer_a, const Peer *peer_b) {
-        return peer_a->dnsName() < peer_b->dnsName();
-    });
-    emit peersChanged(mPeers);
-
-    bool const newIsOperator = tailscale_is_operator() != 0U;
-    if (newIsOperator != mIsOperator) {
-        mIsOperator = newIsOperator;
-        emit isOperatorChanged(mIsOperator);
-    }
 }
 
 bool Status::success() const
 {
     return mSuccess;
 }
-
+bool Status::isOperator() const
+{
+    return mIsOperator;
+}
 const QString &Status::version() const
 {
-    return mVersion;
+    return mData.version;
 }
-
-bool Status::isTUN() const
+bool Status::isTun() const
 {
-    return mIsTun;
+    return mData.isTun;
 }
-
 const QString &Status::backendState() const
 {
-    return mBackendState;
+    return mData.backendState;
 }
-
 Peer *Status::self() const
 {
     return mSelf;
 }
-
+QVector<Peer *> &Status::peers()
+{
+    return mPeers;
+}
 const QVector<Peer *> &Status::peers() const
 {
     return mPeers;
 }
-
-bool Status::isOperator() const
+const StatusData &Status::statusData() const
 {
-    return mIsOperator;
+    return mData;
 }
 
 std::tuple<QList<Peer *>, QList<Peer *>> Status::exitNodes() const
@@ -174,4 +69,71 @@ std::tuple<QList<Peer *>, QList<Peer *>> Status::exitNodes() const
         return peer_a->location()->countryCode() < peer_b->location()->countryCode();
     });
     return {exit_nodes, mullvad_nodes};
+}
+
+void Status::update(StatusData &newData)
+{
+    if (newData.version != mData.version) {
+        mData.version.swap(newData.version);
+        emit versionChanged(mData.version);
+    }
+    if (newData.isTun != mData.isTun) {
+        mData.isTun = newData.isTun;
+        emit isTunChanged(mData.isTun);
+    }
+    if (newData.backendState != mData.backendState) {
+        mData.backendState.swap(newData.backendState);
+        emit backendStateChanged(mData.backendState);
+    }
+    if (mSelf == nullptr) {
+        mSelf = new Peer(this);
+    }
+    mSelf->update(newData.self);
+
+    // remove extra elements
+    bool peerVectorChanged = false;
+    if (!mPeers.isEmpty()) {
+        std::for_each(mPeers.begin() + newData.peers.size(), mPeers.end(), [&peerVectorChanged](Peer *peer) {
+            peer->deleteLater();
+            peerVectorChanged = true;
+        });
+        mPeers.erase(mPeers.begin() + newData.peers.size(), mPeers.end());
+    }
+
+    // add elements to match size of newData.peers
+    while (mPeers.size() < newData.peers.size()) {
+        mPeers.append(new Peer(this));
+        peerVectorChanged = true;
+    }
+
+    // update elements
+    for (int i = 0; i < newData.peers.size(); ++i) {
+        mPeers[i]->update(newData.peers[i]);
+    }
+    mData.peers.swap(newData.peers);
+
+    if (peerVectorChanged) {
+        emit peersChanged(mPeers);
+    }
+}
+void Status::refresh()
+{
+    char *jsonStr = tailscale_status();
+    const bool success = jsonStr != nullptr;
+    if (success) {
+        json::parse(jsonStr).get_to<StatusData>(newData);
+        free(jsonStr);
+        update(newData);
+        emit refreshed(*this);
+
+        bool const newIsOperator = tailscale_is_operator() != 0U;
+        if (newIsOperator != mIsOperator) {
+            mIsOperator = newIsOperator;
+            emit isOperatorChanged(mIsOperator);
+        }
+    }
+    if (mSuccess != success) {
+        mSuccess = success;
+        emit successChanged(mSuccess);
+    }
 }

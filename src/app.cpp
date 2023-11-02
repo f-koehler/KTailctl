@@ -15,14 +15,15 @@ App::App(Tailscale *tailscale, QObject *parent)
     : QObject(parent)
     , mTailscale(tailscale)
     , mConfig(KTailctlConfig::self())
+    , mPeerDetails(new Peer(this))
     , mPeerModel(new PeerModel(this))
     , mPeerProxyModel(new QSortFilterProxyModel(this))
     , mTrayIcon(new TrayIcon(tailscale, this))
 {
     mTailscale->setParent(this);
 
-    QObject::connect(tailscale->status(), &Status::peersChanged, mPeerModel, &PeerModel::updatePeers);
-    QObject::connect(tailscale->status(), &Status::refreshed, &mPeerDetails, &Peer::updateFromStatus);
+    QObject::connect(tailscale->status(), &Status::refreshed, mPeerModel, &PeerModel::updatePeers);
+    // QObject::connect(tailscale->status(), &Status::refreshed, &mPeerDetails, &Peer::updateFromStatus);
     QObject::connect(tailscale->status(), &Status::backendStateChanged, mTrayIcon, &TrayIcon::regenerate);
     QObject::connect(mTrayIcon, &TrayIcon::quitClicked, this, &App::quitApp);
 
@@ -47,7 +48,7 @@ KTailctlConfig *App::config()
 }
 Peer *App::peerDetails()
 {
-    return &mPeerDetails;
+    return mPeerDetails;
 }
 QSortFilterProxyModel *App::peerModel()
 {
@@ -77,21 +78,15 @@ void App::saveWindowGeometry(QQuickWindow *window, const QString &group)
 
 void App::setPeerDetails(const QString &id)
 {
-    if (mTailscale->status()->self()->id() == id) {
-        mPeerDetails = *mTailscale->status()->self();
-        emit peerDetailsChanged();
-    } else {
-        const auto *pos = std::find_if(mTailscale->status()->peers().begin(), mTailscale->status()->peers().end(), [&id](Peer *peer) {
-            return peer->id() == id;
-        });
-        if (pos == mTailscale->status()->peers().end()) {
-            qWarning() << "Peer" << id << "not found";
-            return;
-        }
-        if (mPeerDetails.setTo(*pos)) {
-            emit peerDetailsChanged();
-        }
+    auto *pos = std::find_if(mTailscale->status()->peers().begin(), mTailscale->status()->peers().end(), [&id](Peer *peer) {
+        return peer->id() == id;
+    });
+    if (pos == mTailscale->status()->peers().end()) {
+        qWarning() << "Peer" << id << "not found";
+        return;
     }
+    PeerData data = (*pos)->peerData();
+    mPeerDetails->update(data);
 }
 
 void App::quitApp()

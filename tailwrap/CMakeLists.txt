@@ -54,7 +54,7 @@ else()
     )
 endif()
 add_custom_target(
-    tailwrap ALL DEPENDS
+    tailwrap_target ALL DEPENDS
     ${TAILWRAP_LIBRARY}
     ${TAILWRAP_HEADER}
 )

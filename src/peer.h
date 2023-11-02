@@ -1,25 +1,15 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
-// SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
-
 #ifndef KTAILCTL_PEER_H
 #define KTAILCTL_PEER_H
 
 #include <QDateTime>
-#include <QJsonObject>
-#include <QObject>
-#include <QQmlEngine>
-#include <QString>
-#include <QStringList>
-#include <QVector>
+#include <optional>
 
 #include "location.h"
-
-class Status;
+#include "peer_data.h"
 
 class Peer : public QObject
 {
     Q_OBJECT
-
     Q_PROPERTY(QString tailscaleID READ id NOTIFY idChanged)
     Q_PROPERTY(QString publicKey READ publicKey NOTIFY publicKeyChanged)
     Q_PROPERTY(QString hostName READ hostName NOTIFY hostNameChanged)
@@ -37,105 +27,20 @@ class Peer : public QObject
     Q_PROPERTY(bool isExitNode READ isExitNode NOTIFY isExitNodeChanged)
     Q_PROPERTY(QStringList sshHostKeys READ sshHostKeys NOTIFY sshHostKeysChanged)
     Q_PROPERTY(bool isRunningSSH READ isRunningSSH NOTIFY isRunningSSHChanged)
+    Q_PROPERTY(QString sshCommand READ sshCommand NOTIFY sshCommandChanged)
     Q_PROPERTY(QStringList tags READ tags NOTIFY tagsChanged)
     Q_PROPERTY(bool isMullvad READ isMullvad NOTIFY isMullvadChanged)
     Q_PROPERTY(Location *location READ location NOTIFY locationChanged)
 
 private:
-    QString mId;
-    QString mPublicKey;
-    QString mHostName;
-    QString mDNSName;
-    QString mOs;
-    QStringList mTailscaleIps;
-    QString mRelay;
-    long mRxBytes{};
-    long mTxBytes{};
+    PeerData mData;
+    Location *mLocation = nullptr;
     QDateTime mCreated;
     QDateTime mLastSeen;
-    bool mIsOnline{};
-    bool mIsActive{};
-    bool mIsCurrentExitNode{};
-    bool mIsExitNode{};
-    QStringList mSSHHostKeys{};
-    bool mIsRunningSSH;
-    QStringList mTags{};
-    bool mIsMullvad;
-    Location *mLocation = nullptr;
-
-protected:
-    bool setId(const QString &value);
-    bool setPublicKey(const QString &value);
-    bool setHostName(const QString &value);
-    bool setDNSName(const QString &value);
-    bool setOs(const QString &value);
-    bool setTailscaleIps(const QStringList &value);
-    bool setRelay(const QString &value);
-    bool setRxBytes(long value);
-    bool setTxBytes(long value);
-    bool setCreated(const QDateTime &value);
-    bool setLastSeen(const QDateTime &value);
-    bool setIsOnline(bool value);
-    bool setIsActive(bool value);
-    bool setIsCurrentExitNode(bool value);
-    bool setIsExitNode(bool value);
-    bool setSSHHostKeys(const QStringList &value);
-    bool setIsRunningSSH(bool value);
-    bool setTags(const QStringList &value);
-    bool setIsMullvad(bool value);
-    bool setLocation(const Location *location);
-
-    void setIdFromJSON(const QJsonObject &json);
-    void setPublicKeyFromJSON(const QJsonObject &json);
-    void setHostNameFromJSON(const QJsonObject &json);
-    void setDNSNameFromJSON(const QJsonObject &json);
-    void setOsFromJSON(const QJsonObject &json);
-    void setTailscaleIpsFromJSON(const QJsonObject &json);
-    void setRelayFromJSON(const QJsonObject &json);
-    void setRxBytesFromJSON(const QJsonObject &json);
-    void setTxBytesFromJSON(const QJsonObject &json);
-    void setCreatedFromJSON(const QJsonObject &json);
-    void setLastSeenFromJSON(const QJsonObject &json);
-    void setIsOnlineFromJSON(const QJsonObject &json);
-    void setIsActiveFromJSON(const QJsonObject &json);
-    void setIsCurrentExitNodeFromJson(const QJsonObject &object);
-    void setIsExitNodeFromJSON(const QJsonObject &json);
-    void setSSHHostKeysFromJSON(const QJsonObject &json);
-    void setTagsFromJSON(const QJsonObject &json);
-    void setLocationFromJson(const QJsonObject &object);
-
-signals:
-    void idChanged(const QString &);
-    void publicKeyChanged(const QString &);
-    void hostNameChanged(const QString &);
-    void dnsNameChanged(const QString &);
-    void osChanged(const QString &);
-    void tailscaleIpsChanged(const QStringList &);
-    void relayChanged(const QString &);
-    void rxBytesChanged(long);
-    void txBytesChanged(long);
-    void createdChanged(const QDateTime &);
-    void lastSeenChanged(const QDateTime &);
-    void isOnlineChanged(bool);
-    void isActiveChanged(bool);
-    void isCurrentExitNodeChanged(bool);
-    void isExitNodeChanged(bool);
-    void sshHostKeysChanged(const QStringList &);
-    void isRunningSSHChanged(bool);
-    void tagsChanged(const QStringList &);
-    void isMullvadChanged(bool);
-    void locationChanged(const Location *);
-
-public slots:
-    Q_INVOKABLE void updateFromStatus(const Status &status);
 
 public:
     explicit Peer(QObject *parent = nullptr);
     virtual ~Peer() = default;
-
-    static Peer *fromJSON(const QJsonObject &json, QObject *parent = nullptr);
-    bool setTo(const Peer *other);
-    Q_INVOKABLE QString getSSHCommand() const;
 
     const QString &id() const;
     const QString &publicKey() const;
@@ -154,12 +59,37 @@ public:
     bool isExitNode() const;
     const QStringList &sshHostKeys() const;
     bool isRunningSSH() const;
+    QString sshCommand() const;
     const QStringList &tags() const;
     bool isMullvad() const;
-    const Location *location() const;
-    Location *location();
+    Location *location() const;
+    const PeerData &peerData() const;
 
-    Peer &operator=(const Peer &other);
+signals:
+    void idChanged(const QString &id);
+    void publicKeyChanged(const QString &publicKey);
+    void hostNameChanged(const QString &hostName);
+    void dnsNameChanged(const QString &dnsName);
+    void osChanged(const QString &os);
+    void tailscaleIpsChanged(const QStringList &tailscaleIps);
+    void relayChanged(const QString &relay);
+    void rxBytesChanged(long rxBytes);
+    void txBytesChanged(long txBytes);
+    void createdChanged(const QDateTime &created);
+    void lastSeenChanged(const QDateTime &lastSeen);
+    void isOnlineChanged(bool isOnline);
+    void isActiveChanged(bool isActive);
+    void isCurrentExitNodeChanged(bool isCurrentExitNode);
+    void isExitNodeChanged(bool isExitNode);
+    void sshHostKeysChanged(const QStringList &sshHostKeys);
+    void sshCommandChanged(const QString &sshCommand);
+    void isRunningSSHChanged(bool isRunningSSH);
+    void tagsChanged(const QStringList &tags);
+    void isMullvadChanged(bool isMullvad);
+    void locationChanged(Location *location);
+
+public slots:
+    void update(PeerData &newData);
 };
 
 #endif /* KTAILCTL_PEER_H */

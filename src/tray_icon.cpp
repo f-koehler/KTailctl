@@ -146,7 +146,7 @@ void TrayIcon::regenerate()
                 if (peer->isRunningSSH()) {
                     submenu->addSection("SSH");
                     submenu->addAction(QIcon::fromTheme(QStringLiteral("akonadiconsole")), "Copy SSH command", [peer]() {
-                        setClipboardText(peer->getSSHCommand());
+                        setClipboardText(peer->sshCommand());
                     });
                 }
             }

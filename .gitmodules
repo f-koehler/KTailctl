@@ -4,3 +4,6 @@
 [submodule "deps/kirigami-addons"]
 	path = deps/kirigami-addons
 	url = https://invent.kde.org/libraries/kirigami-addons.git
+[submodule "deps/json"]
+	path = deps/json
+	url = https://github.com/nlohmann/json

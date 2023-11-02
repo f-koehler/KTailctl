@@ -3,22 +3,24 @@
 
 #include "peer_model.h"
 
-void PeerModel::updatePeers(const QVector<Peer *> &peers)
+void PeerModel::updatePeers(const Status &status)
 {
-    if (peers.size() < mPeers.size()) {
-        beginRemoveRows(QModelIndex(), peers.size(), mPeers.size() - 1);
-        mPeers.erase(mPeers.begin() + peers.size(), mPeers.end());
+    const auto newData = status.statusData().peers;
+    if (mData.size() > newData.size()) {
+        beginRemoveRows(QModelIndex(), newData.size(), mData.size() - 1);
+        mData.erase(mData.begin() + newData.size(), mData.end());
         endRemoveRows();
     }
-    for (int i = 0; i < mPeers.size(); ++i) {
-        mPeers[i]->setTo(peers[i]);
+    for (int i = 0; i < mData.size(); ++i) {
+        if (mData[i] == newData[i]) {
+            continue;
+        }
+        mData[i] = newData[i];
         emit dataChanged(index(i), index(i));
     }
-    if (mPeers.size() < peers.size()) {
-        beginInsertRows(QModelIndex(), mPeers.size(), peers.size() - 1);
-        for (int i = mPeers.size(); i < peers.size(); ++i) {
-            mPeers.push_back(peers[i]);
-        }
+    if (mData.size() < newData.size()) {
+        beginInsertRows(QModelIndex(), mData.size(), newData.size() - 1);
+        std::copy(newData.begin() + mData.size(), newData.end(), std::back_inserter(mData));
         endInsertRows();
     }
 }
@@ -32,7 +34,7 @@ int PeerModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
 
-    return mPeers.size();
+    return mData.size();
 }
 
 QHash<int, QByteArray> PeerModel::roleNames() const
@@ -63,35 +65,35 @@ QVariant PeerModel::data(const QModelIndex &index, int role) const
     }
     switch (role) {
     case TailscaleID:
-        return mPeers.at(index.row())->id();
+        return mData.at(index.row()).id;
     case PublicKeyRole:
-        return mPeers.at(index.row())->publicKey();
+        return mData.at(index.row()).publicKey;
     case HostNameRole:
-        return mPeers.at(index.row())->hostName();
+        return mData.at(index.row()).hostName;
     case DnsNameRole:
-        return mPeers.at(index.row())->dnsName();
+        return mData.at(index.row()).dnsName;
     case OsRole:
-        return mPeers.at(index.row())->os();
+        return mData.at(index.row()).os;
     case TailscaleIpsRole:
-        return mPeers.at(index.row())->tailscaleIps();
+        return mData.at(index.row()).tailscaleIps;
     case IsOnlineRole:
-        return mPeers.at(index.row())->isOnline();
+        return mData.at(index.row()).isOnline;
     case IsActiveRole:
-        return mPeers.at(index.row())->isActive();
+        return mData.at(index.row()).isActive;
     case IsExitNodeRole:
-        return mPeers.at(index.row())->isExitNode();
+        return mData.at(index.row()).isExitNode;
     case IsCurrentExitNodeRole:
-        return mPeers.at(index.row())->isCurrentExitNode();
+        return mData.at(index.row()).isCurrentExitNode;
     case SSHHostKeysRole:
-        return mPeers.at(index.row())->sshHostKeys();
+        return mData.at(index.row()).sshHostKeys;
     case IsRunningSSHRole:
-        return mPeers.at(index.row())->isRunningSSH();
+        return mData.at(index.row()).isRunningSSH();
     case SSHCommandRole:
-        return mPeers.at(index.row())->getSSHCommand();
+        return mData.at(index.row()).sshCommand();
     case TagsRole:
-        return mPeers.at(index.row())->tags();
+        return mData.at(index.row()).tags;
     case IsMullvadRole:
-        return mPeers.at(index.row())->isMullvad();
+        return mData.at(index.row()).isMullvad;
     default:
         return QStringLiteral("Unknown role");
     }
