@@ -4,6 +4,10 @@
 include(CheckIPOSupported)
 check_ipo_supported(RESULT ipo_supported OUTPUT ipo_output)
 
+if(KTAILCTL_FLATPAK_BUILD)
+    find_package(nlohmann_json REQUIRED)
+endif()
+
 add_executable(ktailctl
     about.cpp
     app.cpp
