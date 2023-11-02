@@ -16,6 +16,7 @@ repos:
     rev: v17.0.3
     hooks:
       - id: clang-format
+        exclude_types: [json]
   - repo: https://github.com/f-koehler/qml-pre-commit
     rev: v0.2.0
     hooks:
