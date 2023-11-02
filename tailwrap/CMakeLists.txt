@@ -35,7 +35,8 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
                 -buildmode=c-archive
                 tailwrap.go options.go taildrop.go callbacks.go logging.go
         MAIN_DEPENDENCY tailwrap.go
-        DEPENDS go.mod go.sum tailwrap_logging_wrapper options.go taildrop.go callbacks.go logging.go
+        DEPENDS go.mod go.sum tailwrap_logging_wrapper options.go taildrop.go callbacks.go
+                logging.go
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     )
 else()
@@ -49,7 +50,8 @@ else()
                 -buildmode=c-archive
                 tailwrap.go options.go taildrop.go callbacks.go logging.go
         MAIN_DEPENDENCY tailwrap.go
-        DEPENDS go.mod go.sum tailwrap_logging_wrapper options.go taildrop.go callbacks.go logging.go
+        DEPENDS go.mod go.sum tailwrap_logging_wrapper options.go taildrop.go callbacks.go
+                logging.go
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     )
 endif()
