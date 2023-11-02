@@ -43,7 +43,7 @@ jobs:
           path: build
           key: ${{ matrix.llvm_version }}
       - name: Configure CMake project.
-        run: CC=clang-${{ matrix.llvm_version }} CXX=${{ matrix.llvm_version }} cmake -B build
+        run: CC=clang-${{ matrix.llvm_version }} CXX=clang++-${{ matrix.llvm_version }} cmake -B build
       - name: Build CMake project.
         run: cmake --build build
   flatpak_build:
