@@ -8,56 +8,11 @@ on:
       - main
 jobs:
   build:
-    runs-on: ${{ matrix.toolchain.os }}
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        toolchain:
-          # - name: "Ubuntu 22.04 (GCC 9)"
-          #   os: ubuntu-22.04
-          #   cc: gcc-9
-          #   cxx: g++-9
-          #   packages: "gcc-9 g++-9"
-          # - name: "Ubuntu 22.04 (GCC 10)"
-          #   os: ubuntu-22.04
-          #   cc: gcc-10
-          #   cxx: g++-10
-          #   packages: "gcc-10 g++-10"
-          # - name: "Ubuntu 22.04 (GCC 11)"
-          #   os: ubuntu-22.04
-          #   cc: gcc-11
-          #   cxx: g++-11
-          #   packages: "gcc-11 g++-11"
-          # - name: "Ubuntu 22.04 (GCC 12)"
-          #   os: ubuntu-22.04
-          #   cc: gcc-12
-          #   cxx: g++-12
-          #   packages: "gcc-12 g++-12"
-          - name: "Ubuntu 22.04 (Clang 11)"
-            os: ubuntu-22.04
-            cc: clang-11
-            cxx: clang++-11
-            packages: "clang-11"
-          - name: "Ubuntu 22.04 (Clang 12)"
-            os: ubuntu-22.04
-            cc: clang-12
-            cxx: clang++-12
-            packages: "clang-12"
-          - name: "Ubuntu 22.04 (Clang 13)"
-            os: ubuntu-22.04
-            cc: clang-13
-            cxx: clang++-13
-            packages: "clang-13"
-          - name: "Ubuntu 22.04 (Clang 14)"
-            os: ubuntu-22.04
-            cc: clang-14
-            cxx: clang++-14
-            packages: "clang-14"
-          - name: "Ubuntu 22.04 (Clang 15)"
-            os: ubuntu-22.04
-            cc: clang-15
-            cxx: clang++-15
-            packages: "clang-15"
+        llvm_version: [11, 12, 13, 14, 15, 16, 17]
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v4
@@ -69,9 +24,10 @@ jobs:
           go-version: "stable"
       - name: Update apt cache.
         run: sudo apt-get update -yq
-      - run: sudo apt list --upgradable
-      - name: Install compiler and CMake.
-        run: sudo apt-get install -yq ${{ matrix.toolchain.packages }} cmake
+      - name: Install CMake.
+        run: sudo apt-get install -yq cmake
+      - name: Install clang.
+        run: wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh ${{ matrix.llvm_version }}
       - name: Install Qt dependencies.
         run: sudo apt-get install -yq qtbase5-dev qtdeclarative5-dev qtquickcontrols2-5-dev libqt5svg5-dev
       - name: Install KDE dependencies.
@@ -80,13 +36,13 @@ jobs:
         uses: actions/cache@v3
         with:
           path: build
-          key: ${{ matrix.toolchain.os }}-${{ matrix.toolchain.cc }}-${{ matrix.toolchain.cxx }}
+          key: ${{ matrix.llvm_version }}
       - name: Configure CMake project.
-        run: CC=${{ matrix.toolchain.cc }} CXX=${{ matrix.toolchain.cxx }} cmake -B build
+        run: CC=clang-${{ matrix.llvm_version }} CXX=${{ matrix.llvm_version }} cmake -B build
       - name: Build CMake project.
         run: cmake --build build
   flatpak_build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v4
