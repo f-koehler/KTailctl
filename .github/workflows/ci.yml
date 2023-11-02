@@ -10,6 +10,7 @@ jobs:
   build:
     runs-on: ${{ matrix.toolchain.os }}
     strategy:
+      fail-fast: false
       matrix:
         toolchain:
           # - name: "Ubuntu 22.04 (GCC 9)"
