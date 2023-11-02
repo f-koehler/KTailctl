@@ -8,7 +8,8 @@ on:
       - main
 jobs:
   build:
-    runs-on: ubuntu-latest
+    name: Build with LLVM ${{ matrix.llvm_version }}
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
@@ -42,7 +43,8 @@ jobs:
       - name: Build CMake project.
         run: cmake --build build
   flatpak_build:
-    runs-on: ubuntu-latest
+    name: Flatpak build
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v4
