@@ -17,7 +17,6 @@ class Status : public QObject
     Q_PROPERTY(QString backendState READ backendState NOTIFY backendStateChanged)
     Q_PROPERTY(Peer *self READ self NOTIFY selfChanged)
     Q_PROPERTY(QVector<Peer *> peers READ peers NOTIFY peersChanged)
-    Q_PROPERTY(bool hasMullvadExitNode READ hasMullvadExitNode NOTIFY hasMullvadExitNodeChanged)
 
 private:
     bool mSuccess = false;
@@ -25,7 +24,6 @@ private:
     StatusData mData;
     Peer *mSelf = nullptr;
     QVector<Peer *> mPeers;
-    bool mHasMullvadExitNode = false;
 
     StatusData newData;
 
@@ -41,7 +39,6 @@ public:
     Peer *self() const;
     QVector<Peer *> &peers();
     const QVector<Peer *> &peers() const;
-    bool hasMullvadExitNode() const;
 
     const StatusData &statusData() const;
 
@@ -55,7 +52,6 @@ signals:
     void backendStateChanged(const QString &);
     void selfChanged(const Peer *);
     void peersChanged(const QVector<Peer *> &);
-    void hasMullvadExitNodeChanged(bool);
 
     void refreshed(const Status &);
 

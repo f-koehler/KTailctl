@@ -40,10 +40,6 @@ const QVector<Peer *> &Status::peers() const
 {
     return mPeers;
 }
-bool Status::hasMullvadExitNode() const
-{
-    return mHasMullvadExitNode;
-}
 const StatusData &Status::statusData() const
 {
     return mData;
@@ -111,14 +107,8 @@ void Status::update(StatusData &newData)
     }
 
     // update elements
-    bool foundMullvad = false;
     for (int i = 0; i < newData.peers.size(); ++i) {
         mPeers[i]->update(newData.peers[i]);
-        foundMullvad |= mPeers[i]->isMullvad();
-    }
-    if (foundMullvad != mHasMullvadExitNode) {
-        mHasMullvadExitNode = foundMullvad;
-        emit hasMullvadExitNodeChanged(mHasMullvadExitNode);
     }
     mData.peers.swap(newData.peers);
 
