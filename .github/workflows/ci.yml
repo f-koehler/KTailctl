@@ -7,9 +7,27 @@ on:
     branches:
       - main
 jobs:
+  golangci:
+    name: Run go linting
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository.
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Setup go.
+        uses: actions/setup-go@v4.1.0
+        with:
+          go-version: "stable"
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3.7.0
+        with:
+          version: latest
+          working-directory: tailwrap
   build:
     name: Build with LLVM ${{ matrix.llvm_version }}
     runs-on: ubuntu-22.04
+    needs: golangci
     strategy:
       fail-fast: false
       matrix:
@@ -48,6 +66,7 @@ jobs:
   flatpak_build:
     name: Flatpak build
     runs-on: ubuntu-22.04
+    needs: golangci
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v4
