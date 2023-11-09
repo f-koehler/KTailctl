@@ -1,24 +1,24 @@
 #include <QLoggingCategory>
 #include <QMessageLogContext>
 
-Q_LOGGING_CATEGORY(ktailctl, "org.fkoehler.KTailctl.tailwrap");
+Q_LOGGING_CATEGORY(tailwrap, "org.fkoehler.KTailctl.tailwrap");
 
 extern "C" {
 
 void ktailctl_critical(const char *message)
 {
-    qCCritical(ktailctl, "%s", message);
+    qCCritical(tailwrap, "%s", message);
 }
 void ktailctl_debug(const char *message)
 {
-    qCDebug(ktailctl, "%s", message);
+    qCDebug(tailwrap, "%s", message);
 }
 void ktailctl_info(const char *message)
 {
-    qCInfo(ktailctl, "%s", message);
+    qCInfo(tailwrap, "%s", message);
 }
 void ktailctl_warning(const char *message)
 {
-    qCWarning(ktailctl, "%s", message);
+    qCWarning(tailwrap, "%s", message);
 }
 }
