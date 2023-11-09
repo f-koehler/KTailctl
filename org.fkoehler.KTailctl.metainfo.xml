@@ -25,17 +25,17 @@
     </screenshot>
   </screenshots>
   <releases>
-    <release version="0.12.1" date="2023-11-08" urgency="low">
+    <release version="0.13.0" date="2023-11-09" urgency="low">
       <description>
         <p>Simplify the exit node submenu of the tray menu.</p>
       </description>
-      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.12.1</url>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.13.0</url>
       <artifacts>
         <artifact type="source">
-          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.12.1.tar.gz</location>
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.13.0.tar.gz</location>
         </artifact>
         <artifact type="source">
-          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.12.1/tailwrap-vendor-v0.12.1.tar.gz</location>
+          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.13.0/tailwrap-vendor-v0.13.0.tar.gz</location>
         </artifact>
       </artifacts>
     </release>
