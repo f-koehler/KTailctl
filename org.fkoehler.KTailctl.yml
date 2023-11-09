@@ -18,8 +18,6 @@ build-options:
   prepend-path: /usr/lib/sdk/golang/bin
   append-path: /usr/lib/sdk/llvm17/bin
   prepend-ld-library-path: /usr/lib/sdk/llvm17/lib
-  build-args:
-    - --share=network
 modules:
   - name: nlohmann_json
     buildsystem: cmake-ninja

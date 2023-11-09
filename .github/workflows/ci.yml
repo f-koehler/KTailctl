@@ -70,5 +70,12 @@ jobs:
         run: flatpak install --user -y flathub org.freedesktop.Sdk.Extension.golang/x86_64/23.08
       - name: Install LLVM SDK.
         run: flatpak install --user -y flathub runtime/org.freedesktop.Sdk.Extension.llvm17/x86_64/23.08
+      - name: Setup go.
+        uses: actions/setup-go@v4.1.0
+        with:
+          go-version: "stable"
+      - name: Vendor go dependencies.
+        run: go mod vendor
+        working-directory: tailwrap
       - name: Build.
         run: flatpak-builder --user --force-clean build-dir org.fkoehler.KTailctl.yml
