@@ -71,4 +71,4 @@ jobs:
       - name: Install LLVM SDK.
         run: flatpak install --user -y flathub runtime/org.freedesktop.Sdk.Extension.llvm17/x86_64/23.08
       - name: Build.
-        run: flatpak-builder --user --install --force-clean build-dir org.fkoehler.KTailctl.yml
+        run: flatpak-builder --user --force-clean build-dir org.fkoehler.KTailctl.yml
