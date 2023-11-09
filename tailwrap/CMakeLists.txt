@@ -31,6 +31,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
             ${TAILWRAP_HEADER}
         COMMAND
             GOEXPERIMENT=cgocheck2 ${TAILWRAP_GO_EXECUTABLE} build -v -trimpath
+                -mod vendor
                 -o ${TAILWRAP_LIBRARY}
                 -buildmode=c-archive
                 tailwrap.go options.go taildrop.go callbacks.go logging.go
@@ -46,6 +47,7 @@ else()
             ${TAILWRAP_HEADER}
         COMMAND
             ${TAILWRAP_GO_EXECUTABLE} build -v -trimpath
+                -mod vendor
                 -o ${TAILWRAP_LIBRARY}
                 -buildmode=c-archive
                 tailwrap.go options.go taildrop.go callbacks.go logging.go

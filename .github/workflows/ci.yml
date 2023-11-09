@@ -24,6 +24,9 @@ jobs:
         with:
           go-version: "stable"
           cache-dependency-path: tailwrap/go.sum
+      - name: Vendor go dependencies.
+        run: go mod vendor
+        working-directory: tailwrap
       - name: Update apt cache.
         run: sudo apt-get update -yq
       - name: Install CMake.
