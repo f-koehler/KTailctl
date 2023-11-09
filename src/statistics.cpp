@@ -6,6 +6,8 @@
 #include <QFile>
 #include <QTextStream>
 
+Q_LOGGING_CATEGORY(logcat_statistics, "org.fkoehler.KTailctl.Statistics")
+
 Statistics::Statistics(Status *status, QObject *parent)
     : QObject(parent)
     , mStatus(status)
@@ -34,7 +36,7 @@ SpeedStatistics *Statistics::speedUp(const QString &id)
 {
     auto iter = mSpeedUp.find(id);
     if (iter == mSpeedUp.end()) {
-        qCritical() << "No up speed statistics for peer" << id;
+        qCCritical(logcat_statistics) << "No up speed statistics for peer" << id;
         return nullptr;
     }
     return iter.value();
@@ -43,7 +45,7 @@ SpeedStatistics *Statistics::speedDown(const QString &id)
 {
     auto iter = mSpeedDown.find(id);
     if (iter == mSpeedDown.end()) {
-        qCritical() << "No down speed statistics for peer" << id;
+        qCCritical(logcat_statistics) << "No down speed statistics for peer" << id;
         return nullptr;
     }
     return iter.value();
@@ -91,7 +93,7 @@ void Statistics::refreshTotalSpeed()
 
     // QFile fileTx(QString("/sys/class/net/%1/statistics/tx_bytes").arg(name));
     // if (!fileTx.open(QIODevice::ReadOnly | QIODevice::Text)) {
-    //     qCritical("Cannot read tx_bytes");
+    //     qCCritical(logcat_statistics, "Cannot read tx_bytes");
     //     return;
     // }
     // QTextStream streamTx(&fileTx);
@@ -101,7 +103,7 @@ void Statistics::refreshTotalSpeed()
 
     // QFile fileRx(QString("/sys/class/net/%1/statistics/rx_bytes").arg(name));
     // if (!fileRx.open(QIODevice::ReadOnly | QIODevice::Text)) {
-    //     qCritical("Cannot read tx_bytes");
+    //     qCCritical(logcat_statistics, "Cannot read tx_bytes");
     //     return;
     // }
     // QTextStream streamRx(&fileRx);

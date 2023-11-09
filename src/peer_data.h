@@ -2,9 +2,12 @@
 #define KTAILCTL_PEER_DATA_H
 
 #include <QDateTime>
+#include <QLoggingCategory>
 
 #include "json.h"
 #include "location_data.h"
+
+Q_DECLARE_LOGGING_CATEGORY(logcat_peer_data)
 
 struct PeerData {
     QString id;

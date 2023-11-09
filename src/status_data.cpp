@@ -1,5 +1,7 @@
 #include "status_data.h"
 
+Q_LOGGING_CATEGORY(logcat_status_data, "org.fkoehler.KTailctl.StatusData")
+
 void from_json(const json &j, StatusData &s)
 {
     try {
@@ -9,6 +11,6 @@ void from_json(const json &j, StatusData &s)
         j.at("Self").get_to<PeerData>(s.self);
         j.at("Peer").get_to<QVector<PeerData>>(s.peers);
     } catch (json::exception &e) {
-        qCritical() << "Error parsing status data: " << e.what();
+        qCCritical(logcat_status_data) << "Error parsing status data: " << e.what();
     }
 }

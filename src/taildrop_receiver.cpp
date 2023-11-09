@@ -7,6 +7,8 @@
 #include <QDebug>
 #include <QDir>
 
+Q_LOGGING_CATEGORY(logcat_taildrop_receiver, "org.fkoehler.KTailctl.TaildropReceiver")
+
 QString strategyToString(const KTailctlConfig::EnumTaildropStrategy::type &strategy)
 {
     switch (strategy) {
@@ -90,7 +92,7 @@ void TaildropReceiver::setEnabled(bool enabled)
 void TaildropReceiver::setDirectory(const QString &directory)
 {
     if (mDirectory != directory) {
-        qDebug() << "set directory" << directory;
+        qCDebug(logcat_taildrop_receiver) << "set directory" << directory;
         QDir().mkpath(directory);
         mDirectory = directory;
         terminate();
@@ -102,7 +104,7 @@ void TaildropReceiver::setDirectory(const QString &directory)
 void TaildropReceiver::setStrategy(const QString &strategy)
 {
     if (mStrategy != strategy) {
-        qDebug() << "set strategy" << strategy;
+        qCDebug(logcat_taildrop_receiver) << "set strategy" << strategy;
         mStrategy = strategy;
         terminate();
         wait();
