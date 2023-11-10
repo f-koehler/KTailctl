@@ -7,6 +7,20 @@ on:
     branches:
       - main
 jobs:
+  qml:
+    name: QML Lint and Format
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository.
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Install QML dev tools.
+        run: sudo apt install qtdeclarative5-dev-tools
+      - name: Format QML files.
+        run: qmlformat --recursive src/
+      - name: Lint QML files.
+        run: qmlformat --inplace src/**/*.qml
   build:
     name: Build with LLVM ${{ matrix.llvm_version }}
     runs-on: ubuntu-22.04
