@@ -7,7 +7,7 @@ on:
     branches:
       - main
 jobs:
-  qml:
+  qmllint:
     name: QML Lint and Format
     runs-on: ubuntu-22.04
     steps:
@@ -24,6 +24,8 @@ jobs:
   build:
     name: Build with LLVM ${{ matrix.llvm_version }}
     runs-on: ubuntu-22.04
+    needs:
+      - qmllint
     strategy:
       fail-fast: false
       matrix:
@@ -62,6 +64,8 @@ jobs:
   flatpak_build:
     name: Flatpak build
     runs-on: ubuntu-22.04
+    needs:
+      - qmllint
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v4
