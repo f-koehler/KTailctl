@@ -19,7 +19,7 @@ jobs:
         run: sudo apt install qtdeclarative5-dev-tools
       - name: Lint QML files.
         run: qmllint src/**/*.qml
-      - name: Lint QML files.
+      - name: Format QML files.
         run: qmlformat --inplace src/**/*.qml
   build:
     name: Build with LLVM ${{ matrix.llvm_version }}
