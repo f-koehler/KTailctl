@@ -17,8 +17,8 @@ jobs:
           submodules: true
       - name: Install QML dev tools.
         run: sudo apt install qtdeclarative5-dev-tools
-      - name: Format QML files.
-        run: qmlformat --recursive src/
+      - name: Lint QML files.
+        run: src/**/*.qml
       - name: Lint QML files.
         run: qmlformat --inplace src/**/*.qml
   build:
