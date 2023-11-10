@@ -19,6 +19,12 @@ jobs:
         uses: actions/setup-go@v4.1.0
         with:
           go-version: "stable"
+      - name: Install CMake.
+        run: sudo apt-get install -yq cmake
+      - name: Install Qt dependencies.
+        run: sudo apt-get install -yq qtbase5-dev qtdeclarative5-dev qtquickcontrols2-5-dev libqt5svg5-dev
+      - name: Configure CMake project.
+        run: cmake -B build
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v3.7.0
         with:
