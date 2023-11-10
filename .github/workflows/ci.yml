@@ -23,6 +23,8 @@ jobs:
         run: sudo apt-get install -yq cmake
       - name: Install Qt dependencies.
         run: sudo apt-get install -yq qtbase5-dev qtdeclarative5-dev qtquickcontrols2-5-dev libqt5svg5-dev
+      - name: Install KDE dependencies.
+        run: sudo apt-get install -yq appstream gettext extra-cmake-modules kirigami2-dev libkf5coreaddons-dev libkf5i18n-dev libkf5config-dev libkf5notifications-dev libkf5guiaddons-dev
       - name: Configure CMake project.
         run: cmake -B build
       - name: golangci-lint
