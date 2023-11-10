@@ -18,9 +18,9 @@ jobs:
       - name: Install QML dev tools.
         run: sudo apt install qtdeclarative5-dev-tools
       - name: Lint QML files.
-        run: qmllint src/**/*.qml
+        run: find ./ -type f -name "*.qml" -exec qmllint "{}" \;
       - name: Format QML files.
-        run: qmlformat --inplace src/**/*.qml
+        run: find ./ -type f -name "*.qml" -exec qmlformat --inplace "{}" \;
   build:
     name: Build with LLVM ${{ matrix.llvm_version }}
     runs-on: ubuntu-22.04
