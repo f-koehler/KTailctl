@@ -18,7 +18,7 @@ jobs:
       - name: Install QML dev tools.
         run: sudo apt install qtdeclarative5-dev-tools
       - name: Lint QML files.
-        run: src/**/*.qml
+        run: qmllint src/**/*.qml
       - name: Lint QML files.
         run: qmlformat --inplace src/**/*.qml
   build:
