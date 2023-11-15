@@ -436,6 +436,7 @@ github.com/digitalocean/go-smbios v0.0.0-20180907143718-390a4f403a8e/go.mod h1:Y
 github.com/docker/cli v24.0.6+incompatible/go.mod h1:JLrzqnKDaYBop7H2jaqPtU4hHvMKP+vjCwu2uszcLI8=
 github.com/docker/distribution v2.8.2+incompatible/go.mod h1:J2gT2udsDAN96Uj4KfcMRqY0/ypR+oyYUYmja8H+y+w=
 github.com/docker/docker v24.0.6+incompatible/go.mod h1:eEKB0N0r5NX/I1kEveEz05bcu8tLC/8azJZsviup8Sk=
+github.com/docker/docker v24.0.7+incompatible/go.mod h1:eEKB0N0r5NX/I1kEveEz05bcu8tLC/8azJZsviup8Sk=
 github.com/docker/docker-credential-helpers v0.8.0/go.mod h1:UGFXcuoQ5TxPiB54nHOZ32AWRqQdECoh/Mg0AlEYb40=
 github.com/docker/go-connections v0.4.0/go.mod h1:Gbd7IOopHjR8Iph03tsViu4nIes5XhDvyHbTtUxmeec=
 github.com/docker/go-units v0.4.0/go.mod h1:fgPhTUdO+D/Jk86RDLlptpiXQzgHJF7gydDDbaIK4Dk=
@@ -1164,6 +1165,7 @@ github.com/ryanrolds/sqlclosecheck v0.4.0/go.mod h1:TBRRjzL31JONc9i4XMinicuo+s+E
 github.com/ryanuber/columnize v0.0.0-20160712163229-9b3edd62028f/go.mod h1:sm1tb6uqfes/u+d4ooFouqFdy9/2g9QGwK3SQygK0Ts=
 github.com/ryanuber/columnize v2.1.0+incompatible/go.mod h1:sm1tb6uqfes/u+d4ooFouqFdy9/2g9QGwK3SQygK0Ts=
 github.com/safchain/ethtool v0.0.0-20200218184317-f459e2d13664/go.mod h1:Z0q5wiBQGYcxhMZ6gUqHn6pYNLypFAvaL3UvgZLR0U4=
+github.com/safchain/ethtool v0.3.0/go.mod h1:SA9BwrgyAqNo7M+uaL6IYbxpm5wk3L7Mm6ocLW+CJUs=
 github.com/sagikazarmark/crypt v0.10.0/go.mod h1:gwTNHQVoOS3xp9Xvz5LLR+1AauC5M6880z5NWzdhOyQ=
 github.com/sanposhiho/wastedassign/v2 v2.0.7/go.mod h1:KyZ0MWTwxxBmfwn33zh3k1dmsbF2ud9pAAGfoLfjhtI=
 github.com/sashamelentyev/interfacebloat v1.1.0/go.mod h1:+Y9yU5YdTkrNvoX0xHc84dxiN1iBi9+G8zZIhPVoNjQ=
@@ -1261,7 +1263,9 @@ github.com/tailscale/netlink v1.1.1-0.20211101221916-cabfb018fe85 h1:zrsUcqrG2uQ
 github.com/tailscale/netlink v1.1.1-0.20211101221916-cabfb018fe85/go.mod h1:NzVQi3Mleb+qzq8VmcWpSkcSYxXIg0DkI6XDzpVkhJ0=
 github.com/tailscale/web-client-prebuilt v0.0.0-20230919211114-7bcd7bca7bc5 h1:wKUtQPRpjhZZvAuwYRMcjMZnpWSUEJWIbNJmLtDbR0k=
 github.com/tailscale/web-client-prebuilt v0.0.0-20230919211114-7bcd7bca7bc5/go.mod h1:agQPE6y6ldqCOui2gkIh7ZMztTkIQKH049tv8siLuNQ=
+github.com/tailscale/web-client-prebuilt v0.0.0-20231114171715-25f8d12b3c2d/go.mod h1:agQPE6y6ldqCOui2gkIh7ZMztTkIQKH049tv8siLuNQ=
 github.com/tailscale/wireguard-go v0.0.0-20230929223258-2f6748dc88e7/go.mod h1:BOm5fXUBFM+m9woLNBoxI9TaBXXhGNP50LX/TGIvGb4=
+github.com/tailscale/wireguard-go v0.0.0-20231101022006-db7604d1aa90/go.mod h1:BOm5fXUBFM+m9woLNBoxI9TaBXXhGNP50LX/TGIvGb4=
 github.com/tc-hib/winres v0.2.1/go.mod h1:C/JaNhH3KBvhNKVbvdlDWkbMDO9H4fKKDaN7/07SSuk=
 github.com/tcnksm/go-httpstat v0.2.0 h1:rP7T5e5U2HfmOBmZzGgGZjBQ5/GluWUylujl0tJ04I0=
 github.com/tcnksm/go-httpstat v0.2.0/go.mod h1:s3JVJFtQxtBEBC9dwcdTTXS9xFnM3SXAZwPG41aurT8=
@@ -2139,6 +2143,7 @@ honnef.co/go/tools v0.4.6/go.mod h1:+rnGS1THNh8zMwnd2oVOTL9QF6vmfyG6ZXBULae2uc0=
 howett.net/plist v1.0.0/go.mod h1:lqaXoTrLY4hg8tnEzNru53gicrbv7rrk+2xJA/7hw9g=
 inet.af/peercred v0.0.0-20210906144145-0893ea02156a/go.mod h1:FjawnflS/udxX+SvpsMgZfdqx2aykOlkISeAsADi5IU=
 inet.af/tcpproxy v0.0.0-20221017015627-91f861402626/go.mod h1:Tojt5kmHpDIR2jMojxzZK2w2ZR7OILODmUo2gaSwjrk=
+inet.af/tcpproxy v0.0.0-20231102063150-2862066fc2a9/go.mod h1:Tojt5kmHpDIR2jMojxzZK2w2ZR7OILODmUo2gaSwjrk=
 inet.af/wf v0.0.0-20221017222439-36129f591884/go.mod h1:bSAQ38BYbY68uwpasXOTZo22dKGy9SNvI6PZFeKomZE=
 k8s.io/api v0.28.2/go.mod h1:RVnJBsjU8tcMq7C3iaRSGMeaKt2TWEUXcpIt/90fjEg=
 k8s.io/apiextensions-apiserver v0.28.2/go.mod h1:5tnkxLGa9nefefYzWuAlWZ7RZYuN/765Au8cWLA6SRg=
@@ -2210,3 +2215,4 @@ software.sslmate.com/src/go-pkcs12 v0.2.1/go.mod h1:Qiz0EyvDRJjjxGyUQa2cCNZn/wMy
 src.elv.sh v0.16.0-rc1.0.20220116211855-fda62502ad7f/go.mod h1:kPbhv5+fBeUh85nET3wWhHGUaUQ64nZMJ8FwA5v5Olg=
 tailscale.com v1.52.1 h1:O67oUZho/wFkStDShbwJF4zxS+/A+DMwZXP8w7CZ6Fo=
 tailscale.com v1.52.1/go.mod h1:XhC0ZVDuF43FVrmr7oB4Qv/2kdj64YqOH15O2THCung=
+tailscale.com v1.54.0/go.mod h1:MnLFoCRwzFWr3qtkSW2nZdQpK7wQRZEk1KtcEGAuZYw=
