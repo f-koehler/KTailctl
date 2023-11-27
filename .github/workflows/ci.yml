@@ -7,7 +7,7 @@ on:
     branches:
       - main
 jobs:
-  qml:
+  qmllint:
     name: QML Lint and Format
     runs-on: ubuntu-22.04
     steps:
@@ -18,12 +18,14 @@ jobs:
       - name: Install QML dev tools.
         run: sudo apt install qtdeclarative5-dev-tools
       - name: Lint QML files.
-        run: src/**/*.qml
-      - name: Lint QML files.
-        run: qmlformat --inplace src/**/*.qml
+        run: find ./src -type f -name "*.qml" -exec /usr/lib/qt5/bin/qmllint "{}" \;
+      - name: Format QML files.
+        run: find ./src -type f -name "*.qml" -exec /usr/lib/qt5/bin/qmlformat --inplace "{}" \;
   build:
     name: Build with LLVM ${{ matrix.llvm_version }}
     runs-on: ubuntu-22.04
+    needs:
+      - qmllint
     strategy:
       fail-fast: false
       matrix:
@@ -62,6 +64,8 @@ jobs:
   flatpak_build:
     name: Flatpak build
     runs-on: ubuntu-22.04
+    needs:
+      - qmllint
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v4
