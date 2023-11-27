@@ -4,7 +4,7 @@ go 1.21.4
 
 require (
 	golang.org/x/net v0.18.0
-	tailscale.com v1.52.1
+	tailscale.com v1.54.0
 )
 
 require (
@@ -301,7 +301,7 @@ require (
 	github.com/digitalocean/go-smbios v0.0.0-20180907143718-390a4f403a8e // indirect
 	github.com/docker/cli v24.0.6+incompatible // indirect
 	github.com/docker/distribution v2.8.2+incompatible // indirect
-	github.com/docker/docker v24.0.6+incompatible // indirect
+	github.com/docker/docker v24.0.7+incompatible // indirect
 	github.com/docker/docker-credential-helpers v0.8.0 // indirect
 	github.com/docker/go-connections v0.4.0 // indirect
 	github.com/docker/go-units v0.5.0 // indirect
@@ -685,7 +685,7 @@ require (
 	github.com/ryancurrah/gomodguard v1.3.0 // indirect
 	github.com/ryanrolds/sqlclosecheck v0.4.0 // indirect
 	github.com/ryanuber/columnize v2.1.0+incompatible // indirect
-	github.com/safchain/ethtool v0.0.0-20200218184317-f459e2d13664 // indirect
+	github.com/safchain/ethtool v0.3.0 // indirect
 	github.com/sagikazarmark/crypt v0.10.0 // indirect
 	github.com/sanposhiho/wastedassign/v2 v2.0.7 // indirect
 	github.com/sashamelentyev/interfacebloat v1.1.0 // indirect
@@ -737,8 +737,8 @@ require (
 	github.com/tailscale/hujson v0.0.0-20221223112325-20486734a56a // indirect
 	github.com/tailscale/mkctr v0.0.0-20220601142259-c0b937af2e89 // indirect
 	github.com/tailscale/netlink v1.1.1-0.20211101221916-cabfb018fe85 // indirect
-	github.com/tailscale/web-client-prebuilt v0.0.0-20230919211114-7bcd7bca7bc5 // indirect
-	github.com/tailscale/wireguard-go v0.0.0-20230929223258-2f6748dc88e7 // indirect
+	github.com/tailscale/web-client-prebuilt v0.0.0-20231114171715-25f8d12b3c2d // indirect
+	github.com/tailscale/wireguard-go v0.0.0-20231101022006-db7604d1aa90 // indirect
 	github.com/tc-hib/winres v0.2.1 // indirect
 	github.com/tcnksm/go-httpstat v0.2.0 // indirect
 	github.com/tdakkota/asciicheck v0.2.0 // indirect
@@ -884,7 +884,7 @@ require (
 	honnef.co/go/tools v0.4.6 // indirect
 	howett.net/plist v1.0.0 // indirect
 	inet.af/peercred v0.0.0-20210906144145-0893ea02156a // indirect
-	inet.af/tcpproxy v0.0.0-20221017015627-91f861402626 // indirect
+	inet.af/tcpproxy v0.0.0-20231102063150-2862066fc2a9 // indirect
 	inet.af/wf v0.0.0-20221017222439-36129f591884 // indirect
 	k8s.io/api v0.28.2 // indirect
 	k8s.io/apiextensions-apiserver v0.28.2 // indirect
