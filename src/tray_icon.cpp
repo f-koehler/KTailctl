@@ -70,6 +70,13 @@ void TrayIcon::regenerate()
         if ((!exit_nodes.empty()) || (!mullvad_nodes.empty())) {
             auto *menu_exit_nodes = menu->addMenu(QIcon::fromTheme("internet-services"), "Exit Nodes");
 
+            if (mTailscale->status()->currentExitNode() != nullptr) {
+                menu_exit_nodes->addAction(QString("Unset %1").arg(mTailscale->status()->currentExitNode()->hostName()), []() {
+                    unsetExitNode();
+                });
+                menu_exit_nodes->addSeparator();
+            }
+
             if (!mullvad_nodes.empty()) {
                 auto *menu_mullvad_nodes = menu_exit_nodes->addMenu(QIcon::fromTheme("network-vpn"), "Mullvad Exit Nodes");
                 QMap<QString, QMenu *> mullvad_menus;
@@ -87,9 +94,6 @@ void TrayIcon::regenerate()
                     menu_pos.value()->addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), node->hostName(), [node]() {
                         setExitNode(node->tailscaleIps().front());
                     });
-                }
-                if (!exit_nodes.empty()) {
-                    menu_exit_nodes->addSeparator();
                 }
             }
 
