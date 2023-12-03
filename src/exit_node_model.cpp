@@ -2,7 +2,7 @@
 
 void ExitNodeModel::updatePeers(const Status &status)
 {
-    int i = 1;
+    int i = 0;
     const auto size = mData.size();
     for (const auto &peer : status.statusData().peers) {
         if (!peer.isExitNode) {
@@ -40,7 +40,6 @@ void ExitNodeModel::updatePeers(const Status &status)
 ExitNodeModel::ExitNodeModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-    mData.append({QStringLiteral(""), QStringLiteral("")});
 }
 
 int ExitNodeModel::rowCount(const QModelIndex &parent) const

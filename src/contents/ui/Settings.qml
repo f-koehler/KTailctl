@@ -246,10 +246,7 @@ Kirigami.ScrollablePage {
                                 textRole: "hostName"
                                 valueRole: "ip"
                                 onActivated: function(index) {
-                                    if (currentIndex == 0)
-                                        Util.unsetExitNode();
-                                    else
-                                        Util.setExitNode(currentValue);
+                                    Util.setExitNode(currentValue);
                                 }
                             }
 
@@ -262,7 +259,7 @@ Kirigami.ScrollablePage {
                                 Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
                                 onClicked: {
                                     Util.unsetExitNode();
-                                    comboExitNode.currentIndex = 0;
+                                    comboExitNode.currentIndex = -1;
                                 }
                             }
 
