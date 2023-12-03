@@ -121,6 +121,9 @@ qint64 toMSecsSinceEpoch(const QDateTime &dateTime)
 
 void setExitNode(const QString &node)
 {
+    GoUint8 false_ = 0;
+    tailscale_set_advertise_exit_node(&false_);
+
     QByteArray bytes = node.toUtf8();
     GoString tmp{bytes.data(), bytes.size()};
     tailscale_set_exit_node(&tmp);
