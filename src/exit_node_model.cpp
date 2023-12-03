@@ -2,25 +2,31 @@
 
 void ExitNodeModel::updatePeers(const Status &status)
 {
-    int i = 0;
+    int i = 1;
     const auto size = mData.size();
     for (const auto &peer : status.statusData().peers) {
         if (!peer.isExitNode) {
             continue;
         }
         if (i < size) {
-            if (mData[i].first == peer.hostName && mData[i].second == peer.dnsName) {
+            if (peer.tailscaleIps.empty()) {
+                continue;
+            }
+            if (mData[i].first == peer.hostName && mData[i].second == peer.tailscaleIps.front()) {
                 ++i;
                 continue;
             }
             mData[i].first = peer.hostName;
-            mData[i].second = peer.dnsName;
+            mData[i].second = peer.tailscaleIps.front();
             ++i;
             emit dataChanged(index(i), index(i));
             continue;
         }
+        if (peer.tailscaleIps.empty()) {
+            continue;
+        }
         beginInsertRows(QModelIndex(), i, i);
-        mData.append({peer.hostName, peer.dnsName});
+        mData.append({peer.hostName, peer.tailscaleIps.front()});
         ++i;
         endInsertRows();
     }
@@ -34,6 +40,7 @@ void ExitNodeModel::updatePeers(const Status &status)
 ExitNodeModel::ExitNodeModel(QObject *parent)
     : QAbstractListModel(parent)
 {
+    mData.append({QStringLiteral(""), QStringLiteral("")});
 }
 
 int ExitNodeModel::rowCount(const QModelIndex &parent) const
@@ -45,7 +52,7 @@ QHash<int, QByteArray> ExitNodeModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles[HostNameRole] = "hostName";
-    roles[DnsNameRole] = "dnsName";
+    roles[IpRole] = "ip";
     return roles;
 }
 QVariant ExitNodeModel::data(const QModelIndex &index, int role) const
@@ -56,7 +63,7 @@ QVariant ExitNodeModel::data(const QModelIndex &index, int role) const
     switch (role) {
     case HostNameRole:
         return mData.at(index.row()).first;
-    case DnsNameRole:
+    case IpRole:
         return mData.at(index.row()).second;
     default:
         return QStringLiteral("Unknown role");

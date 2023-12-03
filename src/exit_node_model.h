@@ -20,7 +20,7 @@ public slots:
 public:
     enum Roles : int {
         HostNameRole = Qt::UserRole + 1,
-        DnsNameRole,
+        IpRole,
     };
 
     explicit ExitNodeModel(QObject *parent = nullptr);
