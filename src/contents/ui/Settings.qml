@@ -245,6 +245,15 @@ Kirigami.ScrollablePage {
                                 model: App.exitNodeModel
                                 textRole: "hostName"
                                 valueRole: "ip"
+                                currentIndex: {
+                                    if (!Tailscale.status.currentExitNode)
+                                        return -1;
+
+                                    if (Tailscale.status.currentExitNode.tailscaleIps.size < 1)
+                                        return -1;
+
+                                    return indexOfValue(Tailscale.status.currentExitNode.tailscaleIps[0]);
+                                }
                                 onActivated: function(index) {
                                     Util.setExitNode(currentValue);
                                 }
