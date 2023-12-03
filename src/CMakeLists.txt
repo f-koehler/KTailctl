@@ -11,6 +11,7 @@ endif()
 add_executable(ktailctl
     about.cpp
     app.cpp
+    exit_node_model.cpp
     location.cpp
     location_data.cpp
     main.cpp

@@ -18,11 +18,13 @@ App::App(Tailscale *tailscale, QObject *parent)
     , mPeerDetails(new Peer(this))
     , mPeerModel(new PeerModel(this))
     , mPeerProxyModel(new QSortFilterProxyModel(this))
+    , mExitNodeModel(new ExitNodeModel(this))
     , mTrayIcon(new TrayIcon(tailscale, this))
 {
     mTailscale->setParent(this);
 
     QObject::connect(tailscale->status(), &Status::refreshed, mPeerModel, &PeerModel::updatePeers);
+    QObject::connect(tailscale->status(), &Status::refreshed, mExitNodeModel, &ExitNodeModel::updatePeers);
     // QObject::connect(tailscale->status(), &Status::refreshed, &mPeerDetails, &Peer::updateFromStatus);
     QObject::connect(tailscale->status(), &Status::backendStateChanged, mTrayIcon, &TrayIcon::regenerate);
     QObject::connect(mTrayIcon, &TrayIcon::quitClicked, this, &App::quitApp);
@@ -53,6 +55,10 @@ Peer *App::peerDetails()
 QSortFilterProxyModel *App::peerModel()
 {
     return mPeerProxyModel;
+}
+ExitNodeModel *App::exitNodeModel()
+{
+    return mExitNodeModel;
 }
 TrayIcon *App::trayIcon()
 {

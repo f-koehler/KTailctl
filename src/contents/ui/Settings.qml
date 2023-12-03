@@ -222,7 +222,7 @@ Kirigami.ScrollablePage {
                 //                     text: model.dnsName
                 //                 }
                 //             }
-                //         }
+                //    }
                 //         Controls.Menu {
                 //             id: menuExitNodeMullvad
                 //             title: i18nc("@title", "Mullvad")
@@ -239,6 +239,13 @@ Kirigami.ScrollablePage {
                     checked: Tailscale.preferences.advertiseExitNode
                     onClicked: Tailscale.preferences.advertiseExitNode = !Tailscale.preferences.advertiseExitNode
                     enabled: Tailscale.status.isOperator && Tailscale.status.success
+                }
+
+                FormCard.FormComboBoxDelegate {
+                    text: i18nc("@label", "Exit node:")
+                    model: App.exitNodeModel
+                    textRole: "hostName"
+                    valueRole: "dnsName"
                 }
 
             }
