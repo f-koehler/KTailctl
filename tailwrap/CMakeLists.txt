@@ -4,7 +4,7 @@ find_program(
     REQUIRED
 )
 
-add_library(tailwrap_logging_wrapper STATIC logging.cpp)
+add_library(tailwrap_logging_wrapper SHARED logging.cpp)
 target_link_libraries(tailwrap_logging_wrapper PUBLIC Qt5::Core)
 
 configure_file(
@@ -33,7 +33,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
             GOEXPERIMENT=cgocheck2 ${TAILWRAP_GO_EXECUTABLE} build -v -trimpath
                 -mod vendor
                 -o ${TAILWRAP_LIBRARY}
-                -buildmode=c-archive
+                -buildmode=c-shared
                 tailwrap.go options.go taildrop.go callbacks.go logging.go
         MAIN_DEPENDENCY tailwrap.go
         DEPENDS go.mod go.sum tailwrap_logging_wrapper options.go taildrop.go callbacks.go
@@ -49,7 +49,7 @@ else()
             ${TAILWRAP_GO_EXECUTABLE} build -v -trimpath
                 -mod vendor
                 -o ${TAILWRAP_LIBRARY}
-                -buildmode=c-archive
+                -buildmode=c-shared
                 tailwrap.go options.go taildrop.go callbacks.go logging.go
         MAIN_DEPENDENCY tailwrap.go
         DEPENDS go.mod go.sum tailwrap_logging_wrapper options.go taildrop.go callbacks.go
