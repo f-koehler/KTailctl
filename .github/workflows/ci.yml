@@ -36,7 +36,7 @@ jobs:
         with:
           submodules: true
       - name: Setup go.
-        uses: actions/setup-go@v4.1.0
+        uses: actions/setup-go@v5.0.0
         with:
           go-version: "stable"
           cache-dependency-path: tailwrap/go.sum
@@ -92,7 +92,7 @@ jobs:
       - name: Install LLVM SDK.
         run: flatpak install --user -y flathub runtime/org.freedesktop.Sdk.Extension.llvm17/x86_64/23.08
       - name: Setup go.
-        uses: actions/setup-go@v4.1.0
+        uses: actions/setup-go@v5.0.0
         with:
           go-version: "stable"
       - name: Vendor go dependencies.
