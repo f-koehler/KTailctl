@@ -6,6 +6,7 @@ find_program(
 
 add_library(tailwrap_logging_wrapper SHARED logging.cpp)
 target_link_libraries(tailwrap_logging_wrapper PUBLIC Qt5::Core)
+target_compile_definitions(tailwrap_logging_wrapper PRIVATE QT_MESSAGELOGCONTEXT)
 
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/logging.go.in
