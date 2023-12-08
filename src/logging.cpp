@@ -1,4 +1,5 @@
 #include "logging.h"
+#include <QDateTime>
 #include <QDir>
 #include <fstream>
 #include <iostream>
@@ -8,6 +9,7 @@ void handleLogMessage(QtMsgType type, const QMessageLogContext &context, const Q
 {
     const QByteArray localMessage = message.toLocal8Bit();
     std::ostringstream strm;
+    strm << '[' << QDateTime::currentDateTime().toString(Qt::ISODate).toStdString() << ']';
     switch (type) {
     case QtDebugMsg:
         strm << "[debug]";
