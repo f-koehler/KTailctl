@@ -1,4 +1,5 @@
 #include "logging.h"
+#include <QDir>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -31,5 +32,10 @@ void handleLogMessage(QtMsgType type, const QMessageLogContext &context, const Q
     const auto formatted = strm.str();
     std::cerr << formatted;
 
-    // std::ofstream logFile("/home/fkoehler/.cache/org.fkoehler.KTailctl.log");
+    std::cout << (QDir::homePath() + "/.cache/org.fkoehler.KTailctl.log").toStdString() << '\n';
+    std::ofstream logFile((QDir::homePath() + "/.cache/org.fkoehler.KTailctl.log").toStdString(), std::ios_base::app);
+    if (logFile.is_open()) {
+        logFile << formatted;
+        logFile.close();
+    }
 }
