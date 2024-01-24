@@ -10,6 +10,18 @@ jobs:
   golangci:
     name: Run go linting
     runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        script:
+          - gocritic
+          - gofmt
+          - gofumpt
+          - goimports
+          - goreturns
+          - gosec
+          - gostaticcheck
+          - gostructslop
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v4
@@ -27,11 +39,8 @@ jobs:
         run: sudo apt-get install -yq appstream gettext extra-cmake-modules kirigami2-dev libkf5coreaddons-dev libkf5i18n-dev libkf5config-dev libkf5notifications-dev libkf5guiaddons-dev
       - name: Configure CMake project.
         run: cmake -B build
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v3.7.0
-        with:
-          version: latest
-          working-directory: tailwrap
+      - name: Run ${{ matrix.script }}.
+        run: ./scripts/${{ matrix.script }}.sh
   build:
     name: Build with LLVM ${{ matrix.llvm_version }}
     runs-on: ubuntu-22.04
