@@ -15,7 +15,7 @@ repos:
       - id: cmakelint
         args: ["--linelength=100"]
   - repo: https://github.com/pre-commit/mirrors-clang-format
-    rev: v17.0.4
+    rev: v17.0.6
     hooks:
       - id: clang-format
         exclude_types: [json]
@@ -25,6 +25,6 @@ repos:
       - id: qmlformat
       - id: qmllint
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: "v3.0.3"
+    rev: "v4.0.0-alpha.8"
     hooks:
       - id: prettier

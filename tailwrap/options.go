@@ -143,12 +143,12 @@ func tailscale_set_accept_dns(accept_dns *bool) bool {
 
 //export tailscale_get_hostname
 func tailscale_get_hostname() *C.char {
-	curPrefs, err := client.GetPrefs(context.Background())
+	status, err := client.Status(context.Background())
 	if err != nil {
-		log_critical(fmt.Sprintf("failed to get tailscale preferences: %v", err))
+		log_critical(fmt.Sprintf("failed to get tailscale status to determine hostname: %v", err))
 		return nil
 	}
-	return C.CString(curPrefs.Hostname)
+	return C.CString(status.Self.HostName)
 }
 
 //export tailscale_set_hostname
