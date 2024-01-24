@@ -155,7 +155,6 @@ func tailscale_send_report_progress(wg *sync.WaitGroup, done <-chan struct{}, re
 
 //export tailscale_send_file
 func tailscale_send_file(target string, file string, cb C.tailscale_send_file_callback) bool {
-
 	hadBrackets := false
 	if strings.HasPrefix(target, "[") && strings.HasSuffix(target, "]") {
 		target = strings.TrimSuffix(strings.TrimPrefix(target, "["), "]")
