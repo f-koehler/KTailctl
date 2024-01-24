@@ -1,6 +1,8 @@
 #!/bin/bash
 set -eu -o pipefail
 
+source ./scripts/lib/goqtflags.sh
+
 go install -v mvdan.cc/gofumpt@latest
 
 cd tailwrap

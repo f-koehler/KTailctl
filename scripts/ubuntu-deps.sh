@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euf -o pipefail
 
+source ./scripts/lib/goqtflags.sh
+
 PACKAGES=(
     appstream
     cmake

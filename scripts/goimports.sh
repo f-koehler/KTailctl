@@ -1,6 +1,8 @@
 #!/bin/bash
 set -eu -o pipefail
 
+source ./scripts/lib/goqtflags.sh
+
 go install -v golang.org/x/tools/cmd/goimports@latest
 
 cd tailwrap

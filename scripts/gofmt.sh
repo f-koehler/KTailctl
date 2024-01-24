@@ -1,6 +1,8 @@
 #!/bin/bash
 set -eu -o pipefail
 
+source ./scripts/lib/goqtflags.sh
+
 cd tailwrap
 OUTPUT=$(gofmt -l -d -w $(ls -1 *.go))
 if [ -n "${OUTPUT}" ]; then
