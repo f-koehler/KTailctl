@@ -6,4 +6,4 @@ source ./scripts/lib/goqtflags.sh
 go install -v github.com/orijtech/structslop/cmd/structslop@latest
 
 cd tailwrap
-~/go/bin/structslop -fix -verbose .
+~/go/bin/structslop -apply -verbose .

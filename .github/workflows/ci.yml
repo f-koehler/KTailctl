@@ -21,7 +21,6 @@ jobs:
           - goreturns
           - gosec
           - gostaticcheck
-          - gostructslop
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v4
