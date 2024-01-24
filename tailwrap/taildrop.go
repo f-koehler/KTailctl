@@ -79,7 +79,7 @@ func getTargetStableID(ctx context.Context, ipStr string) (id tailcfg.StableNode
 }
 
 func dnsOrQuoteHostname(st *ipnstate.Status, ps *ipnstate.PeerStatus) string {
-	baseName := dnsname.TrimSuffix(ps.DNSName, st.MagicDNSSuffix)
+	baseName := dnsname.TrimSuffix(ps.DNSName, st.CurrentTailnet.MagicDNSSuffix)
 	if baseName != "" {
 		if strings.HasPrefix(baseName, "xn-") {
 			if u, err := idna.ToUnicode(baseName); err == nil {
@@ -155,7 +155,6 @@ func tailscale_send_report_progress(wg *sync.WaitGroup, done <-chan struct{}, re
 
 //export tailscale_send_file
 func tailscale_send_file(target string, file string, cb C.tailscale_send_file_callback) bool {
-
 	hadBrackets := false
 	if strings.HasPrefix(target, "[") && strings.HasSuffix(target, "]") {
 		target = strings.TrimSuffix(strings.TrimPrefix(target, "["), "]")
@@ -165,7 +164,7 @@ func tailscale_send_file(target string, file string, cb C.tailscale_send_file_ca
 		log_critical(fmt.Sprintf("an IPv6 literal must be written as [%s]", ip))
 		return false
 	} else if hadBrackets && (err != nil || !ip.Is6()) {
-		log_critical(fmt.Sprintf("unexpected brackets around target"))
+		log_critical("unexpected brackets around target")
 		return false
 	}
 	ip, _, err := tailscaleIPFromArg(context.Background(), target)

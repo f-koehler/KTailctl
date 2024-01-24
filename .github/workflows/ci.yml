@@ -7,8 +7,37 @@ on:
     branches:
       - main
 jobs:
+  golangci:
+    name: Go Analysis & Formatting
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        script:
+          - gocritic
+          - gofmt
+          - gofumpt
+          - goimports
+          - goreturns
+          - gosec
+          - gostaticcheck
+    steps:
+      - name: Checkout repository.
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Setup go.
+        uses: actions/setup-go@v4.1.0
+        with:
+          go-version: "stable"
+      - name: Install dependencies.
+        run: sudo ./scripts/ubuntu-deps.sh
+      - name: Configure CMake project.
+        run: cmake -B build
+      - name: Run ${{ matrix.script }}.
+        run: ./scripts/${{ matrix.script }}.sh
   qmllint:
-    name: QML Lint and Format
+    name: QML Analysis & Formatting
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository.
@@ -26,6 +55,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs:
       - qmllint
+      - golangci
     strategy:
       fail-fast: false
       matrix:
@@ -43,20 +73,14 @@ jobs:
       - name: Vendor go dependencies.
         run: go mod vendor
         working-directory: tailwrap
-      - name: Update apt cache.
-        run: sudo apt-get update -yq
-      - name: Install CMake.
-        run: sudo apt-get install -yq cmake
+      - name: Install dependencies.
+        run: sudo ./scripts/ubuntu-deps.sh
       - name: Add LLVM apt key.
         run: wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
       - name: Add LLVM repo.
         run: sudo add-apt-repository -y "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-${{ matrix.llvm_version }} main"
       - name: Install clang.
         run: sudo apt install clang-${{ matrix.llvm_version }}
-      - name: Install Qt dependencies.
-        run: sudo apt-get install -yq qtbase5-dev qtdeclarative5-dev qtquickcontrols2-5-dev libqt5svg5-dev
-      - name: Install KDE dependencies.
-        run: sudo apt-get install -yq appstream gettext extra-cmake-modules kirigami2-dev libkf5coreaddons-dev libkf5i18n-dev libkf5config-dev libkf5notifications-dev libkf5guiaddons-dev
       - name: Configure CMake project.
         run: CC=clang-${{ matrix.llvm_version }} CXX=clang++-${{ matrix.llvm_version }} cmake -B build
       - name: Build CMake project.
@@ -66,6 +90,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs:
       - qmllint
+      - golangci
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v4
