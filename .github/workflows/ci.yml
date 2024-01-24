@@ -23,6 +23,10 @@ jobs:
           - gostaticcheck
           - gostructslop
     steps:
+      - name: Checkout repository.
+        uses: actions/checkout@v4
+        with:
+          submodules: true
       - name: Setup go.
         uses: actions/setup-go@v4.1.0
         with:
