@@ -8,7 +8,7 @@ on:
       - main
 jobs:
   golangci:
-    name: Run go linting
+    name: Go Analysis & Formatting
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
@@ -42,7 +42,7 @@ jobs:
       - name: Run ${{ matrix.script }}.
         run: ./scripts/${{ matrix.script }}.sh
   qmllint:
-    name: QML Lint and Format
+    name: QML Analysis & Formatting
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository.
