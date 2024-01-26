@@ -25,6 +25,20 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.14.0" date="2024-01-26" urgency="medium">
+      <description>
+        <p>Add logging to file, some tooltips, exit node setting on settings page and fix hostname setting.</p>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.14.0</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.14.0.tar.gz</location>
+        </artifact>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.14.0/tailwrap-vendor-v0.14.0.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.13.0" date="2023-11-09" urgency="low">
       <description>
         <p>Simplify the exit node submenu of the tray menu.</p>
