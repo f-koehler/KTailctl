@@ -4,8 +4,11 @@
 #define KTAILCTL_TAILDROP_RECEIVER_H
 
 #include "ktailctlconfig.h"
+#include <QLoggingCategory>
 #include <QObject>
 #include <QThread>
+
+Q_DECLARE_LOGGING_CATEGORY(logcat_taildrop_receiver)
 
 class TaildropReceiver : public QThread
 {

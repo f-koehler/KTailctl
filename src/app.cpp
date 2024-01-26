@@ -11,6 +11,8 @@
 
 #include <functional>
 
+Q_LOGGING_CATEGORY(logcat_app, "org.fkoehler.KTailctl.App")
+
 App::App(Tailscale *tailscale, QObject *parent)
     : QObject(parent)
     , mTailscale(tailscale)
@@ -82,7 +84,7 @@ void App::setPeerDetails(const QString &id)
         return peer->id() == id;
     });
     if (pos == mTailscale->status()->peers().end()) {
-        qWarning() << "Peer" << id << "not found";
+        qCWarning(logcat_app) << "Peer" << id << "not found";
         return;
     }
     PeerData data = (*pos)->peerData();

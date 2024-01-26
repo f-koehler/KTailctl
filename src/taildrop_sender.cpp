@@ -6,6 +6,8 @@
 #include <libtailwrap.h>
 #include <utility>
 
+Q_LOGGING_CATEGORY(logcat_taildrop_sender, "org.fkoehler.KTailctl.TaildropSender")
+
 TaildropSendThread::TaildropSendThread(QString target, const QStringList &files, QObject *parent)
     : QThread(parent)
     , mTarget(std::move(target))
