@@ -34,8 +34,14 @@ void handleLogMessage(QtMsgType type, const QMessageLogContext &context, const Q
     const auto formatted = strm.str();
     std::cerr << formatted;
 
-    std::cout << (QDir::homePath() + "/.cache/org.fkoehler.KTailctl.log").toStdString() << '\n';
-    std::ofstream logFile((QDir::homePath() + "/.cache/org.fkoehler.KTailctl.log").toStdString(), std::ios_base::app);
+    QString logDir = QDir::homePath() + "/.local/state";
+    QByteArray stateHomeArr = qgetenv("XDG_STATE_HOME");
+    if (!stateHomeArr.isEmpty()) {
+        logDir = QString::fromLocal8Bit(stateHomeArr);
+    }
+    std::string logPath = logDir.toStdString() + "/org.fkoehler.KTailctl.log";
+    std::cout << "Logging to: " << logPath << '\n';
+    std::ofstream logFile(logPath, std::ios_base::app);
     if (logFile.is_open()) {
         logFile << formatted;
         logFile.close();
