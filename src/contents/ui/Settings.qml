@@ -208,28 +208,6 @@ Kirigami.ScrollablePage {
             Layout.fillWidth: true
 
             ColumnLayout {
-                // FormCard.FormButtonDelegate {
-                //     text: i18nc("@label", "Use exit node")
-                //     onClicked: menuExitNode.open()
-                //     Controls.Menu {
-                //         id: menuExitNode
-                //         Controls.Menu {
-                //             id: menuExitNodeSelfHosted
-                //             title: i18nc("@title", "Self-hosted")
-                //             Repeater {
-                //                 model: Tailscale.status.peerModel
-                //                 delegate: Controls.MenuItem {
-                //                     text: model.dnsName
-                //                 }
-                //             }
-                //         }
-                //         Controls.Menu {
-                //             id: menuExitNodeMullvad
-                //             title: i18nc("@title", "Mullvad")
-                //         }
-                //     }
-                // }
-
                 spacing: 0
 
                 FormCard.FormSwitchDelegate {
@@ -237,8 +215,67 @@ Kirigami.ScrollablePage {
 
                     text: i18nc("@label", "Run exit node:")
                     checked: Tailscale.preferences.advertiseExitNode
-                    onClicked: Tailscale.preferences.advertiseExitNode = !Tailscale.preferences.advertiseExitNode
+                    onClicked: {
+                        if (!Tailscale.preferences.advertiseExitNode) {
+                            Util.unsetExitNode();
+                            comboExitNode.currentIndex = 0;
+                            Tailscale.preferences.advertiseExitNode = true;
+                        } else {
+                            Tailscale.preferences.advertiseExitNode = false;
+                        }
+                    }
                     enabled: Tailscale.status.isOperator && Tailscale.status.success
+                }
+
+                FormCard.AbstractFormDelegate {
+
+                    contentItem: ColumnLayout {
+                        RowLayout {
+                            Controls.Label {
+                                text: i18nc("@label", "Exit node:")
+                            }
+
+                            Item {
+                                Layout.fillWidth: true
+                            }
+
+                            Controls.ComboBox {
+                                id: comboExitNode
+
+                                model: App.exitNodeModel
+                                textRole: "hostName"
+                                valueRole: "ip"
+                                currentIndex: {
+                                    if (!Tailscale.status.currentExitNode)
+                                        return -1;
+
+                                    if (Tailscale.status.currentExitNode.tailscaleIps.size < 1)
+                                        return -1;
+
+                                    return indexOfValue(Tailscale.status.currentExitNode.tailscaleIps[0]);
+                                }
+                                onActivated: function(index) {
+                                    Util.setExitNode(currentValue);
+                                }
+                            }
+
+                            Controls.Button {
+                                text: i18n("Unset")
+                                display: Controls.Button.IconOnly
+                                icon.name: "dialog-close"
+                                Controls.ToolTip.text: text
+                                Controls.ToolTip.visible: hovered
+                                Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
+                                onClicked: {
+                                    Util.unsetExitNode();
+                                    comboExitNode.currentIndex = -1;
+                                }
+                            }
+
+                        }
+
+                    }
+
                 }
 
             }

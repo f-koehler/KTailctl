@@ -40,6 +40,10 @@ const QVector<Peer *> &Status::peers() const
 {
     return mPeers;
 }
+Peer *Status::currentExitNode()
+{
+    return mCurrentExitNode;
+}
 const StatusData &Status::statusData() const
 {
     return mData;
@@ -107,9 +111,19 @@ void Status::update(StatusData &newData)
     }
 
     // update elements
+    Peer *newExitNode = nullptr;
     for (int i = 0; i < newData.peers.size(); ++i) {
         mPeers[i]->update(newData.peers[i]);
+
+        if (mPeers[i]->isCurrentExitNode()) {
+            newExitNode = mPeers[i];
+        }
     }
+    if (newExitNode != mCurrentExitNode) {
+        mCurrentExitNode = newExitNode;
+        emit currentExitNodeChanged(mCurrentExitNode);
+    }
+
     mData.peers.swap(newData.peers);
 
     if (peerVectorChanged) {
