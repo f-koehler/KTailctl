@@ -23,7 +23,7 @@ if(NOT KTAILCTL_FLATPAK_BUILD)
     )
 endif()
 
-set(TAILWRAP_LIBRARY ${CMAKE_BINARY_DIR}/lib/libtailwrap.a)
+set(TAILWRAP_LIBRARY ${CMAKE_BINARY_DIR}/lib/libtailwrap.so)
 set(TAILWRAP_HEADER ${CMAKE_BINARY_DIR}/lib/libtailwrap.h)
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_custom_command(
