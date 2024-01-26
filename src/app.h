@@ -11,9 +11,12 @@
 #include "tailscale.h"
 #include "tray_icon.h"
 
+#include <QLoggingCategory>
 #include <QObject>
 #include <QQuickWindow>
 #include <QSortFilterProxyModel>
+
+Q_DECLARE_LOGGING_CATEGORY(logcat_app)
 
 class QQuickWindow;
 

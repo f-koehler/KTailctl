@@ -14,6 +14,7 @@ add_executable(ktailctl
     exit_node_model.cpp
     location.cpp
     location_data.cpp
+    logging.cpp
     main.cpp
     json.cpp
     peer.cpp
@@ -60,6 +61,7 @@ add_dependencies(ktailctl tailwrap_target)
 if(KTAILCTL_FLATPAK_BUILD)
     target_compile_definitions(ktailctl PRIVATE KTAILCTL_FLATPAK_BUILD)
 endif()
+target_compile_definitions(ktailctl PRIVATE QT_MESSAGELOGCONTEXT)
 
 kconfig_add_kcfg_files(ktailctl GENERATE_MOC ktailctlconfig.kcfgc)
 install(TARGETS ktailctl ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})

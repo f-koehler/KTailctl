@@ -131,46 +131,56 @@ Kirigami.ScrollablePage {
                         columns: 2
 
                         Controls.Button {
+                            text: i18nc("@label", "Details")
                             icon.name: "view-list-details"
-                            Controls.ToolTip.visible: hovered
-                            Controls.ToolTip.text: "Show peer details"
                             onClicked: {
                                 App.setPeerDetails(tailscaleID);
                                 pageStack.layers.push('qrc:Peer.qml');
                             }
+                            display: Controls.Button.IconOnly
+                            Controls.ToolTip.text: text
+                            Controls.ToolTip.visible: hovered
+                            Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
                         }
 
                         Controls.Button {
+                            text: i18nc("@label", "Send file(s)")
                             icon.name: "document-send"
-                            Controls.ToolTip.visible: hovered
-                            Controls.ToolTip.text: "Send file(s)"
                             onClicked: {
                                 TaildropSender.selectAndSendFiles(dnsName);
                             }
                             visible: Tailscale.status.isOperator
+                            display: Controls.Button.IconOnly
+                            Controls.ToolTip.text: text
+                            Controls.ToolTip.visible: hovered
+                            Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
                         }
 
                         Controls.Button {
+                            text: i18nc("@label", "Copy SSH command")
                             icon.name: "akonadiconsole"
                             visible: isRunningSSH
-                            Controls.ToolTip.visible: hovered
-                            Controls.ToolTip.text: "Copy SSH command"
                             onClicked: {
                                 Util.setClipboardText(sshCommand);
                             }
+                            display: Controls.Button.IconOnly
+                            Controls.ToolTip.text: text
+                            Controls.ToolTip.visible: hovered
+                            Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
                         }
 
                         Controls.Switch {
                             visible: isExitNode && !Tailscale.preferences.advertiseExitNode
                             checked: isCurrentExitNode
-                            Controls.ToolTip.visible: hovered
-                            Controls.ToolTip.text: isCurrentExitNode ? "Do not use this exit node" : "Use this exit node"
                             onToggled: {
                                 if (isCurrentExitNode)
                                     Util.unsetExitNode();
                                 else
                                     Util.setExitNode(tailscaleIps[0]);
                             }
+                            Controls.ToolTip.text: isCurrentExitNode ? "Do not use this exit node" : "Use this exit node"
+                            Controls.ToolTip.visible: hovered
+                            Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
                         }
 
                     }

@@ -6,6 +6,7 @@
 #include <QQuickStyle>
 #include <QQuickWindow>
 #include <QUrl>
+#include <QtGlobal>
 #include <QtQml>
 
 #include <KAboutData>
@@ -15,6 +16,7 @@
 #include "about.h"
 #include "app.h"
 #include "location.h"
+#include "logging.h"
 #include "peer.h"
 #include "peer_model.h"
 #include "speed_statistics.h"
@@ -27,6 +29,8 @@
 
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
+    qInstallMessageHandler(handleLogMessage);
+
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #ifdef __APPLE__
     QQuickStyle::setStyle(QStringLiteral("macOS"));
