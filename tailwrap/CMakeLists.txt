@@ -63,3 +63,6 @@ add_custom_target(
     ${TAILWRAP_LIBRARY}
     ${TAILWRAP_HEADER}
 )
+
+install(FILES ${TAILWRAP_LIBRARY} TYPE LIB)
+install(TARGETS tailwrap_logging_wrapper)
