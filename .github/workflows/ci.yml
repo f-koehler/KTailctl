@@ -9,7 +9,7 @@ on:
 jobs:
   golangci:
     name: Go Analysis & Formatting
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -38,7 +38,7 @@ jobs:
         run: ./scripts/${{ matrix.script }}.sh
   qmllint:
     name: QML Analysis & Formatting
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v4
@@ -52,7 +52,7 @@ jobs:
         run: find ./src -type f -name "*.qml" -exec /usr/lib/qt5/bin/qmlformat --inplace "{}" \;
   build:
     name: Build with LLVM ${{ matrix.llvm_version }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     needs:
       - qmllint
       - golangci
@@ -87,7 +87,7 @@ jobs:
         run: cmake --build build
   flatpak_build:
     name: Flatpak build
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     needs:
       - qmllint
       - golangci
