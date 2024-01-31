@@ -3,3 +3,4 @@ appimage-build/
 build-AppImage/
 *.AppImage
 *.AppImage.zsync
+appimage-builder
