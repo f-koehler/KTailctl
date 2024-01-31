@@ -18,6 +18,7 @@ PACKAGES=(
     qtquickcontrols2-5-dev
     pkg-config
     build-essential
+    fuse
 )
 
 apt-get update -y
