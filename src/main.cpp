@@ -36,7 +36,8 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QQuickStyle::setStyle(QStringLiteral("macOS"));
 #endif
     QApplication app(argc, argv); // NOLINT(misc-const-correctness)
-    QCoreApplication::setOrganizationName(QStringLiteral("KDE"));
+    KLocalizedString::setApplicationDomain("org.fkoehler.KTailctl");
+    QCoreApplication::setOrganizationName(QStringLiteral("fkoehler.org"));
     QCoreApplication::setApplicationName(QStringLiteral("KTailctl"));
 
     QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("ktailctl")));
