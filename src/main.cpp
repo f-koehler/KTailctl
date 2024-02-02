@@ -69,6 +69,13 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     auto *util = new Util();
     auto *taildropSender = new TaildropSender();
 
+    if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
+        QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
+    }
+#ifdef KTAILCTL_FLATPAK_BUILD
+    QIcon::setThemeName(QStringLiteral("breeze"));
+#endif
+
     QQmlApplicationEngine engine; // NOLINT(misc-const-correctness)
 
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "AboutType", about);
