@@ -14,39 +14,16 @@ Kirigami.ScrollablePage {
     Layout.fillWidth: true
     title: i18n("Peers")
 
+    Controls.Label {
+        text: "test"
+    }
+
     Kirigami.CardsListView {
         id: listPeers
 
         model: App.peerModel
         visible: Tailscale.status.success
         headerPositioning: ListView.OverlayHeader
-
-        header: Kirigami.ItemViewHeader {
-            id: peerListHeader
-
-            maximumHeight: peerListHeader.minimumHeight
-
-            RowLayout {
-                Controls.Label {
-                    text: "DNS name filter:"
-                }
-
-                Kirigami.SearchField {
-                    id: peerFilter
-
-                    delaySearch: true
-                    text: App.config.peerFilter
-                    onAccepted: {
-                        peerFilter.focus = true;
-                        App.peerModel.setFilterRegularExpression(peerFilter.text);
-                        App.config.peerFilter = peerFilter.text;
-                        App.config.save();
-                    }
-                }
-
-            }
-
-        }
 
         delegate: Kirigami.AbstractCard {
 
@@ -203,33 +180,16 @@ Kirigami.ScrollablePage {
 
     }
 
-    // actions.main: Kirigami.Action {
-    //     text: Tailscale.status.backendState == "Running" ? "Stop tailscale" : "Start tailscale"
-    //     onTriggered: App.tailscale.toggle()
-    //     icon.name: Tailscale.status.backendState == "Running" ? "process-stop" : "media-playback-start"
-    //     visible: Tailscale.status.isOperator
-    // }
     actions.main: Kirigami.Action {
-        text: {
-            if (!Tailscale.status.success)
-                return "Tailscaled is not running";
-            else if (!Tailscale.status.isOperator)
-                return "Functionality limited, current user is not Tailscale operator";
-            else
-                return (Tailscale.status.backendState == "Running") ? "Stop tailscale" : "Start tailscale";
-        }
-        onTriggered: {
-            if (Tailscale.status.isOperator && Tailscale.status.success)
-                App.tailscale.toggle();
-
-        }
-        icon.name: {
-            if (!Tailscale.status.success)
-                return "emblem-error";
-            else if (!Tailscale.status.isOperator)
-                return "emblem-warning";
-            else
-                return (Tailscale.status.backendState == "Running") ? "process-stop" : "media-playback-start";
+        text: "DNS Regex"
+        icon.name: "search"
+        displayComponent: Kirigami.SearchField {
+            id: peerFilter
+            onAccepted: {
+                App.peerModel.setFilterRegularExpression(peerFilter.text);
+                App.config.peerFilter = peerFilter.text;
+                App.config.save();
+            }
         }
     }
 
