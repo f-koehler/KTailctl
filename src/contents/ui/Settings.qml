@@ -128,6 +128,17 @@ Kirigami.ScrollablePage {
                 spacing: 0
 
                 FormCard.FormSwitchDelegate {
+                    id: enableTailscale
+
+                    text: i18nc("@label", "Enable Tailscale:")
+                    checked: Tailscale.status.backendState == "Running"
+                    onClicked: {
+                        App.tailscale.toggle();
+                    }
+                    enabled: Tailscale.status.isOperator && Tailscale.status.success
+                }
+
+                FormCard.FormSwitchDelegate {
                     id: acceptRoutes
 
                     text: i18nc("@label", "Accept Routes:")
@@ -372,6 +383,15 @@ Kirigami.ScrollablePage {
         visible: !Tailscale.status.success
         type: Kirigami.MessageType.Error
         text: i18n("Tailscaled is not running")
+    }
+
+    actions.main: Kirigami.Action {
+        visible: Tailscale.status.success && Tailscale.status.isOperator
+        text: (Tailscale.status.backendState == "Running") ? "Stop tailscale" : "Start tailscale"
+        icon.name: (Tailscale.status.backendState == "Running") ? "process-stop" : "media-playback-start"
+        onTriggered: {
+            App.tailscale.toggle();
+        }
     }
 
 }
