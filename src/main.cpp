@@ -36,6 +36,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QQuickStyle::setStyle(QStringLiteral("macOS"));
 #endif
     QApplication app(argc, argv); // NOLINT(misc-const-correctness)
+    KLocalizedString::setApplicationDomain("org.fkoehler.KTailctl");
     QCoreApplication::setOrganizationName(QStringLiteral("KDE"));
     QCoreApplication::setApplicationName(QStringLiteral("KTailctl"));
 
