@@ -132,6 +132,14 @@ Kirigami.ApplicationWindow {
                         onTriggered: navigateTo("About")
                     },
                     Kirigami.Action {
+                        visible: Tailscale.status.success && Tailscale.status.isOperator
+                        text: (Tailscale.status.backendState == "Running") ? "Stop tailscale" : "Start tailscale"
+                        icon.name: (Tailscale.status.backendState == "Running") ? "process-stop" : "media-playback-start"
+                        onTriggered: {
+                            App.tailscale.toggle();
+                        }
+                    },
+                    Kirigami.Action {
                         text: i18n("Quit")
                         icon.name: "application-exit"
                         onTriggered: Qt.quit()
