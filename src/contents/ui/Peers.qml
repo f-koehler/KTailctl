@@ -187,6 +187,7 @@ Kirigami.ScrollablePage {
         displayComponent: Kirigami.SearchField {
             id: peerFilter
 
+            text: App.config.peerFilter
             onAccepted: {
                 App.peerModel.setFilterRegularExpression(peerFilter.text);
                 App.config.peerFilter = peerFilter.text;
