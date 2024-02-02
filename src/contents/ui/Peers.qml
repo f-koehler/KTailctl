@@ -183,14 +183,17 @@ Kirigami.ScrollablePage {
     actions.main: Kirigami.Action {
         text: "DNS Regex"
         icon.name: "search"
+
         displayComponent: Kirigami.SearchField {
             id: peerFilter
+
             onAccepted: {
                 App.peerModel.setFilterRegularExpression(peerFilter.text);
                 App.config.peerFilter = peerFilter.text;
                 App.config.save();
             }
         }
+
     }
 
 }
