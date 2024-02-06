@@ -71,9 +71,11 @@ void TrayIcon::regenerate()
             auto *menu_exit_nodes = menu->addMenu(QIcon::fromTheme("internet-services"), "Exit Nodes");
 
             if (mTailscale->status()->currentExitNode() != nullptr) {
-                menu_exit_nodes->addAction(QString("Unset %1").arg(mTailscale->status()->currentExitNode()->hostName()), []() {
-                    unsetExitNode();
-                });
+                menu_exit_nodes->addAction(QIcon::fromTheme("dialog-cancel"),
+                                           QString("Unset %1").arg(mTailscale->status()->currentExitNode()->hostName()),
+                                           []() {
+                                               unsetExitNode();
+                                           });
                 menu_exit_nodes->addSeparator();
             }
 
