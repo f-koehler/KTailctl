@@ -163,3 +163,29 @@ jobs:
       - name: Build AppImage.
         working-directory: AppImage
         run: CC=clang-17 CXX=clang++-17 ./build.sh
+  create_release:
+    if: startsWith(github.event.ref, 'refs/tags/v')
+    name: Create release
+    runs-on: ubuntu-latest
+    needs:
+      - build
+      - flatpak_build
+      - appimage_build
+    steps:
+      - name: Checkout repository.
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Install dependencies.
+        run: sudo ./scripts/ubuntu-deps.sh
+      - name: Install GH CLI.
+        run: |
+          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+          && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+          && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+          && sudo apt update \
+          && sudo apt install gh -y
+      - name: Create release.
+        run: ./scripts/create-release.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
