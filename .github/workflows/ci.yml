@@ -173,6 +173,8 @@ jobs:
       - build
       - flatpak_build
       - appimage_build
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v4
