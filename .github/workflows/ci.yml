@@ -44,8 +44,10 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: true
+      - name: Install dependencies.
+        run: sudo ./scripts/ubuntu-deps.sh
       - name: Install QML dev tools.
-        run: sudo apt install qtdeclarative5-dev-tools
+        run: sudo apt install -y qtdeclarative5-dev-tools
       - name: Lint QML files.
         run: find ./src -type f -name "*.qml" -exec /usr/lib/qt5/bin/qmllint "{}" \;
       - name: Format QML files.
@@ -80,7 +82,7 @@ jobs:
       - name: Add LLVM repo.
         run: sudo add-apt-repository -y "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-${{ matrix.llvm_version }} main"
       - name: Install clang.
-        run: sudo apt install clang-${{ matrix.llvm_version }}
+        run: sudo apt install -y clang-${{ matrix.llvm_version }}
       - name: Configure CMake project.
         run: CC=clang-${{ matrix.llvm_version }} CXX=clang++-${{ matrix.llvm_version }} cmake -B build
       - name: Build CMake project.
@@ -151,7 +153,7 @@ jobs:
       - name: Add LLVM repo.
         run: sudo add-apt-repository -y "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-17 main"
       - name: Install clang.
-        run: sudo apt install clang-17
+        run: sudo apt install -y clang-17
       - name: Get appimage-builder.
         working-directory: AppImage
         run: wget -O appimage-builder https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.1.0/appimage-builder-1.1.0-x86_64.AppImage
