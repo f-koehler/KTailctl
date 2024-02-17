@@ -20,15 +20,23 @@ TrayIcon::TrayIcon(Tailscale *tailscale, QObject *parent)
 
     QObject::connect(contextMenu(), &QMenu::aboutToShow, this, &TrayIcon::regenerate);
     QObject::connect(mConfig, &KTailctlConfig::trayIconStyleChanged, this, &TrayIcon::updateIcon);
-    QObject::connect(this, &QSystemTrayIcon::activated, [this](const QSystemTrayIcon::ActivationReason &) {
-        if (mWindow == nullptr) {
-            return;
-        }
-        if (mWindow->isVisible()) {
-            mWindow->hide();
-        } else {
-            mWindow->show();
-        }
+    QObject::connect(this, &QSystemTrayIcon::activated, [this](const QSystemTrayIcon::ActivationReason &reason) {
+        switch (reason) {
+        case QSystemTrayIcon::ActivationReason::Trigger:
+        case QSystemTrayIcon::ActivationReason::DoubleClick:
+        case QSystemTrayIcon::ActivationReason::MiddleClick:
+            if (mWindow == nullptr) {
+                return;
+            }
+            if (mWindow->isVisible()) {
+                mWindow->hide();
+            } else {
+                mWindow->show();
+            }
+            break;
+        default:
+            break;
+        };
     });
 
     show();
