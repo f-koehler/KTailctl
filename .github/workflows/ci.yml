@@ -196,8 +196,8 @@ jobs:
           && sudo apt install gh -y
       - name: Install yq.
         run: |
-          wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq &&\
-          chmod +x /usr/bin/yq
+          sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq &&\
+          sudo chmod +x /usr/bin/yq
       - name: Add LLVM apt key.
         run: wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
       - name: Add LLVM repo.
