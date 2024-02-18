@@ -129,6 +129,8 @@ jobs:
         working-directory: tailwrap
       - name: Build.
         run: flatpak-builder --user --force-clean build-dir org.fkoehler.KTailctl.yml
+      - name: Validate build.
+        run: flatpak run --command=flatpak-builder-lint org.flatpak.Builder builddir build-dir/
   appimage_build:
     name: AppImage build
     runs-on: ubuntu-latest
