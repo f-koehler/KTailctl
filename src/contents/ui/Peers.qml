@@ -50,8 +50,15 @@ Kirigami.ScrollablePage {
 
                     ColumnLayout {
                         RowLayout {
-                            Controls.Label {
+                            Kirigami.Chip {
                                 text: dnsName
+                                icon.name: "edit-copy"
+                                closable: false
+                                checkable: false
+                                checked: false
+                                onClicked: {
+                                    Util.setClipboardText(dnsName);
+                                }
                             }
 
                             Kirigami.Icon {
