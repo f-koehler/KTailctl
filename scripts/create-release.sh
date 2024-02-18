@@ -11,7 +11,7 @@ gh release create -F changelog/${TAG}.md --verify-tag ${TAG}
 gh release upload ${TAG} tailwrap-vendor-${TAG}.tar.gz
 
 # Create an AppImage and attach it to the release
-yq '.AppDir.app_info.version = "${TAG}"' AppImage/AppImageBuilder.yml
+yq -i '.AppDir.app_info.version = "${TAG}"' AppImage/AppImageBuilder.yml
 pushd AppImage
 CC=clang-17 CXX=clang++-17 ./build.sh
 gh release upload ${TAG} KTailctl-${TAG}-x86_64.AppImage
