@@ -107,14 +107,19 @@ Kirigami.ApplicationWindow {
             Repeater {
                 readonly property list<Kirigami.Action> actions: [
                     Kirigami.Action {
+                        text: i18n("This PC")
+                        icon.name: "computer-symbolic"
+                        onTriggered: navigateTo("Self")
+                    },
+                    Kirigami.Action {
                         text: i18n("Peers")
                         icon.name: "network-wired"
                         onTriggered: navigateTo("Peers")
                     },
                     Kirigami.Action {
-                        text: i18n("This PC")
-                        icon.name: "computer-symbolic"
-                        onTriggered: navigateTo("Self")
+                        text: i18n("Exit Nodes")
+                        icon.name: "internet-services"
+                        onTriggered: navigateTo("ExitNodes")
                     },
                     Kirigami.Action {
                         text: i18n("Statistics")

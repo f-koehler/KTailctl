@@ -7,20 +7,36 @@
 #include <QPair>
 #include <QVector>
 
+struct ExitNode {
+    QString name;
+    QString ip;
+    QString countryCode;
+    bool active;
+    bool selfHosted;
+
+    explicit ExitNode(const PeerData &data);
+    bool operator==(const ExitNode &rhs) const = default;
+    bool operator!=(const ExitNode &rhs) const = default;
+};
+
 class ExitNodeModel : public QAbstractListModel
 {
     Q_OBJECT
 
 private:
-    QVector<QPair<QString, QString>> mData;
+    QVector<ExitNode> mData;
 
 public slots:
     void updatePeers(const Status &status);
 
 public:
     enum Roles : int {
-        HostNameRole = Qt::UserRole + 1,
+        NameRole = Qt::UserRole + 1,
         IpRole,
+        CountryCodeRole,
+        ActiveRole,
+        SelfHostedRole,
+        SectionRole,
     };
 
     explicit ExitNodeModel(QObject *parent = nullptr);

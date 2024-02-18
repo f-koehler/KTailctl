@@ -6,6 +6,7 @@
     <qresource prefix="/">
         <file alias="main.qml">contents/ui/main.qml</file>
         <file alias="About.qml">contents/ui/About.qml</file>
+        <file alias="ExitNodes.qml">contents/ui/ExitNodes.qml</file>
         <file alias="Peer.qml">contents/ui/Peer.qml</file>
         <file alias="Peers.qml">contents/ui/Peers.qml</file>
         <file alias="Self.qml">contents/ui/Self.qml</file>
