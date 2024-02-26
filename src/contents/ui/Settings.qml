@@ -54,6 +54,17 @@ Kirigami.ScrollablePage {
                     enabled: App.config.enableTrayIcon
                 }
 
+                FormCard.FormSwitchDelegate {
+                    id: enableUpdateCheck
+
+                    text: i18nc("@label", "Check for updates:")
+                    checked: App.config.enableUpdateCheck
+                    onClicked: {
+                        App.config.enableUpdateCheck = !App.config.enableUpdateCheck;
+                        App.config.save();
+                    }
+                }
+
                 FormCard.FormDelegateSeparator {
                     below: startMinimized
                     above: enableTrayIcon
