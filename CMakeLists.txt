@@ -6,6 +6,7 @@ cmake_minimum_required(VERSION 3.16)
 project(ktailctl VERSION 0.1 LANGUAGES C CXX)
 
 option(KTAILCTL_FLATPAK_BUILD "Build for Flatpak" OFF)
+option(KTAILCTL_APPIMAGE_BUILD "Build for AppImage" OFF)
 
 include(FeatureSummary)
 
@@ -30,18 +31,18 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
 
 include(KDEInstallDirs)
 include(KDECMakeSettings)
+
 # include(KDECompilerSettings NO_POLICY_SCOPE)
 include(ECMSetupVersion)
 include(ECMGenerateHeaders)
 include(ECMPoQmTools)
 include(KDEClangFormat)
-# include(KDEGitCommitHooks)
 
+# include(KDEGitCommitHooks)
 file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES *.cpp *.h *.hpp *.c)
 kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
 
 # kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
-
 ecm_setup_version(${PROJECT_VERSION}
     VARIABLE_PREFIX TAILCTL
     VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/src/version-ktailctl.h"
@@ -67,6 +68,10 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
 add_subdirectory(src)
 add_subdirectory(tailwrap)
 
+if(KTAILCTL_APPIMAGE_BUILD)
+    add_subdirectory(deps/AppImageUpdate)
+endif()
+
 if(NOT KTAILCTL_FLATPAK_BUILD)
     set(JSON_BuildTests OFF CACHE INTERNAL "")
     add_subdirectory(deps/json)
@@ -80,11 +85,13 @@ execute_process(
     RESULT_VARIABLE KTAILCTL_GIT_DESCRIBE_RETVAL
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
+
 if(NOT ${KTAILCTL_GIT_DESCRIBE_RETVAL} EQUAL 0)
     set(KTAILCTL_VERSION "unknown")
 else()
     set(KTAILCTL_VERSION ${KTAILCTL_GIT_DESCRIBE})
 endif()
+
 message(STATUS "Version from git: ${KTAILCTL_VERSION}")
 configure_file(version.h.in ${CMAKE_CURRENT_BINARY_DIR}/src/version.h @ONLY)
 

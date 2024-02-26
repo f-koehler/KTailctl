@@ -39,6 +39,7 @@ target_link_libraries(ktailctl
     KF5::CoreAddons
     KF5::GuiAddons
     KF5::I18n
+
     # KF5::Notifications
     Qt5::Core
     Qt5::Gui
@@ -48,6 +49,10 @@ target_link_libraries(ktailctl
     Qt5::Svg
     nlohmann_json::nlohmann_json
 )
+
+if(KTAILCTL_APPIMAGE_BUILD)
+    target_link_libraries(ktailctl libappimageupdate)
+endif()
 
 target_include_directories(
     ktailctl PRIVATE
@@ -61,6 +66,7 @@ add_dependencies(ktailctl tailwrap_target)
 if(KTAILCTL_FLATPAK_BUILD)
     target_compile_definitions(ktailctl PRIVATE KTAILCTL_FLATPAK_BUILD)
 endif()
+
 target_compile_definitions(ktailctl PRIVATE QT_MESSAGELOGCONTEXT)
 
 kconfig_add_kcfg_files(ktailctl GENERATE_MOC ktailctlconfig.kcfgc)
