@@ -50,5 +50,5 @@ craft kirigami ki18n kconfig knotifications kcoreaddons qtquickcontrols qqc2-des
 ### Dependencies (Fedora)
 
 ```bash
-dnf install extra-cmake-modules qt5-qtbase-devel qt5-qtdeclarative-devel qt5-qtquickcontrols2-devel qt5-qtsvg-devel kf5-kconfig-devel kf5-kcoreaddons-devel kf5-kguiaddons-devel kf5-ki18n-devel kf5-kirigami2-devel kf5-knotifications-devel
+dnf install extra-cmake-modules qt5-qtbase-devel qt5-qtdeclarative-devel qt5-qtquickcontrols2-devel qt5-qtsvg-devel kf5-kconfig-devel kf5-kcoreaddons-devel kf5-kguiaddons-devel kf5-ki18n-devel kf5-kirigami2-devel kf5-knotifications-devel librsvg2-devel
 ```
