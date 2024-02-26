@@ -73,9 +73,19 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
         QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
     }
+
+    KTailctlConfig *config = KTailctlConfig::self();
+    if (config->iconThemeName() == QStringLiteral("UNINITIALIZED")) {
 #ifdef KTAILCTL_FLATPAK_BUILD
-    QIcon::setThemeName(QStringLiteral("breeze"));
+        config->setIconThemeName(QStringLiteral("breeze"));
+        QIcon::setThemeName(QStringLiteral("breeze"));
+#else
+        config->setIconThemeName(QStringLiteral("DEFAULT"));
 #endif
+        config->save();
+    } else if (config->iconThemeName() != QStringLiteral("DEFAULT")) {
+        QIcon::setThemeName(config->iconThemeName());
+    }
 
     QQmlApplicationEngine engine; // NOLINT(misc-const-correctness)
 
