@@ -2,6 +2,7 @@
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 
 #include <QApplication>
+#include <QMessageBox>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
 #include <QQuickWindow>
@@ -105,6 +106,31 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     } else {
         window->show();
     }
+
+#ifdef KTAILCTL_APPIMAGE_BUILD
+    KTailctlConfig *config = KTailctlConfig::self();
+    if (config->askUserAboutUpdateCheck()) {
+        QMessageBox msgUpdateCheck;
+        msgUpdateCheck.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgUpdateCheck.setDefaultButton(QMessageBox::Yes);
+        msgUpdateCheck.setText(i18n("Do you want to enable automatic update checks?"));
+        msgUpdateCheck.setIcon(QMessageBox::Question);
+        const auto choice = msgUpdateCheck.exec();
+        switch (choice) {
+        case QMessageBox::Yes:
+            config->setEnableUpdateCheck(true);
+            config->setAskUserAboutUpdateCheck(false);
+            break;
+        case QMessageBox::No:
+            config->setEnableUpdateCheck(false);
+            config->setAskUserAboutUpdateCheck(false);
+            break;
+        default:
+            break;
+        }
+        config->save();
+    }
+#endif
 
     // for screenshots for flatpak
     // window->resize(QSize(1598, 869));

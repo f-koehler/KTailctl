@@ -51,7 +51,7 @@ target_link_libraries(ktailctl
 )
 
 if(KTAILCTL_APPIMAGE_BUILD)
-    target_link_libraries(ktailctl libappimageupdate)
+    target_compile_definitions(ktailctl PRIVATE KTAILCTL_APPIMAGE_BUILD)
 endif()
 
 target_include_directories(
