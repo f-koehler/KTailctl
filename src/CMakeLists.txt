@@ -12,6 +12,7 @@ add_executable(ktailctl
     about.cpp
     app.cpp
     exit_node_model.cpp
+    icon_theme_model.cpp
     location.cpp
     location_data.cpp
     logging.cpp
@@ -39,6 +40,7 @@ target_link_libraries(ktailctl
     KF5::CoreAddons
     KF5::GuiAddons
     KF5::I18n
+
     # KF5::Notifications
     Qt5::Core
     Qt5::Gui
@@ -61,6 +63,7 @@ add_dependencies(ktailctl tailwrap_target)
 if(KTAILCTL_FLATPAK_BUILD)
     target_compile_definitions(ktailctl PRIVATE KTAILCTL_FLATPAK_BUILD)
 endif()
+
 target_compile_definitions(ktailctl PRIVATE QT_MESSAGELOGCONTEXT)
 
 kconfig_add_kcfg_files(ktailctl GENERATE_MOC ktailctlconfig.kcfgc)

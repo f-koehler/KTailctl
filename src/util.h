@@ -20,6 +20,7 @@ qint64 toMSecsSinceEpoch(const QDateTime &dateTime);
 QIcon loadOsIcon(QString osname);
 void setExitNode(const QString &node);
 void unsetExitNode();
+void setIconTheme(const QString &theme);
 
 class Util : public QObject
 {
@@ -39,6 +40,7 @@ public:
     Q_INVOKABLE static QIcon loadOsIcon(const QString &operating_system);
     Q_INVOKABLE static void setExitNode(const QString &node);
     Q_INVOKABLE static void unsetExitNode();
+    Q_INVOKABLE static void setIconTheme(const QString &theme);
 };
 
 #endif /* KTAILCTL_UTIL_H */

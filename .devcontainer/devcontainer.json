@@ -3,11 +3,11 @@
 {
   "name": "C++",
   "build": {
-    "dockerfile": "Dockerfile",
+    "dockerfile": "Dockerfile"
   },
   "remoteEnv": {
-    "PATH": "/opt/go/bin:${containerEnv:PATH}",
-  },
+    "PATH": "/opt/go/bin:${containerEnv:PATH}"
+  }
 
   // Features to add to the dev container. More info: https://containers.dev/features.
   // "features": {},
