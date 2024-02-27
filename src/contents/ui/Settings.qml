@@ -92,7 +92,24 @@ Kirigami.ScrollablePage {
                 }
 
                 FormCard.FormDelegateSeparator {
-                    below: trayIconStyle
+                    below: enableTrayIcon
+                    above: iconTheme
+                }
+
+                FormCard.FormComboBoxDelegate {
+                    id: iconTheme
+
+                    text: i18nc("@label", "Icon theme:")
+                    model: IconThemeModel
+                    textRole: "display"
+                    displayText: App.config.iconTheme
+                    onActivated: {
+                        Util.setIconTheme(iconTheme.currentText);
+                    }
+                }
+
+                FormCard.FormDelegateSeparator {
+                    below: iconTheme
                     above: spinRefreshInterval
                 }
 

@@ -2,6 +2,7 @@
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 #include "util.h"
 
+#include "ktailctlconfig.h"
 #include "libtailwrap.h"
 #include <QClipboard>
 #include <QGuiApplication>
@@ -135,6 +136,21 @@ void unsetExitNode()
     tailscale_set_exit_node(&tmp);
 }
 
+void setIconTheme(const QString &theme)
+{
+    KTailctlConfig *config = KTailctlConfig::self();
+    config->setIconThemeName(theme);
+    config->save();
+    if (theme == QStringLiteral("UNINITIALIZED")) {
+        return;
+    }
+    if (theme == QStringLiteral("Default")) {
+        return;
+    }
+    qInfo() << "Setting icon theme to" << theme;
+    QIcon::setThemeName(theme);
+}
+
 void Util::setClipboardText(const QString &text)
 {
     ::setClipboardText(text);
@@ -177,4 +193,8 @@ void Util::unsetExitNode()
 {
     GoString tmp{nullptr, 0};
     tailscale_set_exit_node(&tmp);
+}
+void Util::setIconTheme(const QString &theme)
+{
+    ::setIconTheme(theme);
 }

@@ -15,6 +15,7 @@
 
 #include "about.h"
 #include "app.h"
+#include "icon_theme_model.h"
 #include "location.h"
 #include "logging.h"
 #include "peer.h"
@@ -69,6 +70,8 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     auto *application = new App(tailscale);
     auto *util = new Util();
     auto *taildropSender = new TaildropSender();
+    IconThemeModel *iconThemeModel = new IconThemeModel();
+    iconThemeModel->findIconThemes();
 
     if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
         QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
@@ -77,15 +80,12 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     KTailctlConfig *config = KTailctlConfig::self();
     if (config->iconThemeName() == QStringLiteral("UNINITIALIZED")) {
 #ifdef KTAILCTL_FLATPAK_BUILD
-        config->setIconThemeName(QStringLiteral("breeze"));
-        QIcon::setThemeName(QStringLiteral("breeze"));
+        setIconTheme(QStringLiteral("breeze"));
 #else
-        config->setIconThemeName(QStringLiteral("DEFAULT"));
+        setIconTheme(QStringLiteral("Default"));
 #endif
-        config->save();
-    } else if (config->iconThemeName() != QStringLiteral("DEFAULT")) {
-        QIcon::setThemeName(config->iconThemeName());
     }
+    setIconTheme(config->iconThemeName());
 
     QQmlApplicationEngine engine; // NOLINT(misc-const-correctness)
 
@@ -94,6 +94,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "App", application);
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Util", util);
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "TaildropSender", taildropSender);
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "IconThemeModel", iconThemeModel);
 
     qmlRegisterType<Peer>("org.fkoehler.KTailctl", 1, 0, "Peer");
     qmlRegisterType<Status>("org.fkoehler.KTailctl", 1, 0, "Status");
