@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 
+add_subdirectory(contents)
+
 include(CheckIPOSupported)
 check_ipo_supported(RESULT ipo_supported OUTPUT ipo_output)
 
@@ -31,6 +33,7 @@ add_executable(ktailctl
     tray_icon.cpp
     util.cpp
     resources.qrc
+    contents/icons.qrc
 )
 
 target_link_libraries(ktailctl
