@@ -12,6 +12,8 @@ jobs:
   golangci:
     name: Go Analysis & Formatting
     runs-on: ubuntu-latest
+    container:
+      image: invent-registry.kde.org/neon/docker-images/plasma:user
     strategy:
       fail-fast: false
       matrix:
