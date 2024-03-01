@@ -34,8 +34,10 @@ jobs:
         uses: actions/setup-go@v5.0.0
         with:
           go-version: "stable"
+      - name: Add KDE Neon apt repo.
+        run: sudo ./scripts/add-neon-apt-repo.sh
       - name: Install dependencies.
-        run: sudo ./scripts/ubuntu-deps.sh
+        run: sudo ./scripts/neon-deps.sh
       - name: Configure CMake project.
         run: cmake -B build
       - name: Run ${{ matrix.script }}.
@@ -48,8 +50,10 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: true
+      - name: Add KDE Neon apt repo.
+        run: sudo ./scripts/add-neon-apt-repo.sh
       - name: Install dependencies.
-        run: sudo ./scripts/ubuntu-deps.sh
+        run: sudo ./scripts/neon-deps.sh
       - name: Install QML dev tools.
         run: sudo apt install -y qtdeclarative5-dev-tools
       - name: Lint QML files.
@@ -79,8 +83,10 @@ jobs:
       - name: Vendor go dependencies.
         run: go mod vendor
         working-directory: tailwrap
+      - name: Add KDE Neon apt repo.
+        run: sudo ./scripts/add-neon-apt-repo.sh
       - name: Install dependencies.
-        run: sudo ./scripts/ubuntu-deps.sh
+        run: sudo ./scripts/neon-deps.sh
       - name: Add LLVM apt key.
         run: wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
       - name: Add LLVM repo.
@@ -142,8 +148,10 @@ jobs:
       - name: Vendor go dependencies.
         run: go mod vendor
         working-directory: tailwrap
+      - name: Add KDE Neon apt repo.
+        run: sudo ./scripts/add-neon-apt-repo.sh
       - name: Install dependencies.
-        run: sudo ./scripts/ubuntu-deps.sh
+        run: sudo ./scripts/neon-deps.sh
       - name: Add LLVM apt key.
         run: wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
       - name: Add LLVM repo.
@@ -179,8 +187,10 @@ jobs:
         with:
           go-version: "stable"
           cache-dependency-path: tailwrap/go.sum
+      - name: Add KDE Neon apt repo.
+        run: sudo ./scripts/add-neon-apt-repo.sh
       - name: Install dependencies.
-        run: sudo ./scripts/ubuntu-deps.sh
+        run: sudo ./scripts/neon-deps.sh
       - name: Install GH CLI.
         run: |
           curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
