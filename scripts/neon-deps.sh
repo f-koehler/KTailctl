@@ -8,7 +8,7 @@ PACKAGES=(
     extra-cmake-modules
     fuse
     gettext
-    kirigami2-dev
+    kf6-kirigami-dev
     libkf6config-dev
     libkf6coreaddons-dev
     libkf6guiaddons-dev
