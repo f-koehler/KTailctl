@@ -53,11 +53,11 @@ jobs:
       - name: Install dependencies.
         run: sudo ./scripts/neon-deps.sh
       - name: Install QML dev tools.
-        run: sudo apt install -y qtdeclarative5-dev-tools
+        run: sudo apt install -y qt6-declarative-dev
       - name: Lint QML files.
-        run: find ./src -type f -name "*.qml" -exec /usr/lib/qt5/bin/qmllint "{}" \;
+        run: find ./src -type f -name "*.qml" -exec /usr/lib/qt6/bin/qmllint "{}" \;
       - name: Format QML files.
-        run: find ./src -type f -name "*.qml" -exec /usr/lib/qt5/bin/qmlformat --inplace "{}" \;
+        run: find ./src -type f -name "*.qml" -exec /usr/lib/qt6/bin/qmlformat --inplace "{}" \;
   build:
     name: Build with LLVM ${{ matrix.llvm_version }}
     runs-on: ubuntu-latest
