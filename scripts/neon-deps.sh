@@ -21,6 +21,7 @@ PACKAGES=(
     pkg-config
     qt6-base-dev
     qt6-declarative-dev
+    qml6-module-org-kde-kirigami-addons-delegates
 )
 
 apt-get update -y
