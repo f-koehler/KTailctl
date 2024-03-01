@@ -281,4 +281,5 @@ tailscale.com v1.58.2 h1:5trkhh/fpUn7f6TUcGUQYJ0GokdNNfNrjh9ONJhoc5A=
 tailscale.com v1.58.2/go.mod h1:faWR8XaXemnSKCDjHC7SAQzaagkUjA5x4jlLWiwxtuk=
 tailscale.com v1.60.0 h1:9AEGsop26PvxenUmQgAVj1dZ01TKs8L/V/cLnl0K5/k=
 tailscale.com v1.60.0/go.mod h1:qgxvJUlfOWeURBEORdcX4EhoCduFHeBW3FNIZBpmIHY=
+tailscale.com v1.60.1 h1:RNNIuSWE0HeUS7c5i7rAZTCmoDzsAxy5yc5LF4K7pFs=
 tailscale.com v1.60.1/go.mod h1:qgxvJUlfOWeURBEORdcX4EhoCduFHeBW3FNIZBpmIHY=
