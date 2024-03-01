@@ -9,6 +9,7 @@ PACKAGES=(
     fuse
     gettext
     kf6-kirigami-dev
+    kf6-kirigami-addons-dev
     libkf6config-dev
     libkf6coreaddons-dev
     libkf6guiaddons-dev
