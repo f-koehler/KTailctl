@@ -13,9 +13,9 @@ PACKAGES=(
     libkf6i18n-dev
     libkf6notifications-dev
     libqt6svg6-dev
-    qtbase6-dev
-    qtdeclarative6-dev
-    qtquickcontrols2-6-dev
+    qt6-base-dev
+    qt6-declarative-dev
+    qt6-quickcontrols2-dev
     pkg-config
     build-essential
     fuse
