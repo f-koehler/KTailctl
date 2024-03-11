@@ -27,7 +27,7 @@ void TaildropSendThread::run()
     GoString const target{targetBytes.constData(), targetBytes.length()};
 
     GoString file;
-    for (const auto &filename : mFiles) {
+    for (const QString &filename : std::as_const(mFiles)) {
         mCurrentFileBytesSent = 0UL;
         QByteArray const fileBytes = filename.toUtf8();
         file.p = fileBytes.constData();

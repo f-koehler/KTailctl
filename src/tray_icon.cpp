@@ -61,7 +61,7 @@ void TrayIcon::regenerate()
     }
 
     if (mTailscale->status()->isOperator() && mTailscale->status()->success()) {
-        auto *action_toggle = menu->addAction("Toggle", [this]() {
+        auto *action_toggle = menu->addAction("Toggle", this, [this]() {
             mTailscale->toggle();
         });
         if (mTailscale->status()->backendState() == "Running") {
@@ -127,7 +127,7 @@ void TrayIcon::regenerate()
 
     if (mTailscale->status()->success()) {
         auto *peer_menu = menu->addMenu(QIcon::fromTheme("applications-network"), "Peers");
-        for (auto *peer : mTailscale->status()->peers()) {
+        for (const Peer *peer : std::as_const(mTailscale->status()->peers())) {
             if (peer->isMullvad()) {
                 continue;
             }
@@ -161,16 +161,16 @@ void TrayIcon::regenerate()
 
                 if (peer->isRunningSSH()) {
                     submenu->addSection("SSH");
-                    submenu->addAction(QIcon::fromTheme(QStringLiteral("akonadiconsole")), "Copy SSH command", [peer]() {
+                    submenu->addAction(QIcon::fromTheme(QStringLiteral("akonadiconsole")), "Copy SSH command", this, [peer]() {
                         setClipboardText(peer->sshCommand());
                     });
                 }
             }
 
-            QObject::connect(statsUp, &SpeedStatistics::refreshed, [actionUp, statsUp]() {
+            QObject::connect(statsUp, &SpeedStatistics::refreshed, this, [actionUp, statsUp]() {
                 actionUp->setText(formatSpeedHumanReadable(statsUp->average()));
             });
-            QObject::connect(statsDown, &SpeedStatistics::refreshed, [actionDown, statsDown]() {
+            QObject::connect(statsDown, &SpeedStatistics::refreshed, this, [actionDown, statsDown]() {
                 actionDown->setText(formatSpeedHumanReadable(statsDown->average()));
             });
         }
