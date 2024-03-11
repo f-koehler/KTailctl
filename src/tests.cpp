@@ -117,7 +117,7 @@ void TestJSON::toPeerData()
     QCOMPARE(peer.publicKey, QStringLiteral("nodekey:00d69102d8f1aa93e0a7bafd5634c37e704c8acf8ccd28025dced364c6b4567a"));
     QCOMPARE(peer.hostName, QStringLiteral("gb-mnc-wg-007"));
     QCOMPARE(peer.dnsName, QStringLiteral("gb-mnc-wg-007.mullvad.ts.net."));
-    QCOMPARE(peer.os, QStringLiteral(""));
+    QCOMPARE(peer.os, QLatin1String());
     QCOMPARE(peer.tailscaleIps.size(), 2);
     QCOMPARE(peer.tailscaleIps[0], QStringLiteral("100.116.86.124"));
     QCOMPARE(peer.tailscaleIps[1], QStringLiteral("fd7a:115c:a1e0:ab12:4843:cd96:6274:567c"));

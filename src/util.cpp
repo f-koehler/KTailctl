@@ -94,7 +94,7 @@ QString formatDurationHumanReadable(const QDateTime &from, const QDateTime &to)
                 result += ", ";
             }
             qint64 const count = msecs / conversions.at(i);
-            result += QString("%1 %2%3 ").arg(count).arg(units.at(i)).arg(count > 1 ? "s" : "");
+            result += QString("%1 %2%3 ").arg(count).arg(units.at(i), count > 1 ? "s" : "");
             msecs %= conversions.at(i);
         }
     }

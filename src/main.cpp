@@ -3,11 +3,11 @@
 
 #include <QApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 #include <QQuickStyle>
 #include <QQuickWindow>
 #include <QUrl>
 #include <QtGlobal>
-#include <QtQml>
 
 #include <KAboutData>
 #include <KLocalizedContext>
