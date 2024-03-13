@@ -191,7 +191,7 @@ jobs:
       - name: Install clang.
         run: sudo apt install -y clang llvm llvm-dev libclang-dev
       - name: Install clazy.
-        run: ./scripts/clazy-install.sh
+        run: sudo ./scripts/clazy-install.sh
       - name: Run clazy.
         run: ./scripts/clazy.sh
   create_release:
