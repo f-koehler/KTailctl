@@ -63,7 +63,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        llvm_version: [15, 16, 17]
+        llvm_version: [15, 16, 17, 18]
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v4
@@ -155,9 +155,9 @@ jobs:
       - name: Add LLVM apt key.
         run: wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
       - name: Add LLVM repo.
-        run: sudo add-apt-repository -y "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-17 main"
+        run: sudo add-apt-repository -y "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-18 main"
       - name: Install clang.
-        run: sudo apt install -y clang-17
+        run: sudo apt install -y clang-18
       - name: Get appimage-builder.
         working-directory: AppImage
         run: wget -O appimage-builder https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.1.0/appimage-builder-1.1.0-x86_64.AppImage
@@ -166,7 +166,7 @@ jobs:
         run: chmod +x appimage-builder
       - name: Build AppImage.
         working-directory: AppImage
-        run: CC=clang-17 CXX=clang++-17 ./build.sh
+        run: CC=clang-18 CXX=clang++-18 ./build.sh
   create_release:
     if: startsWith(github.event.ref, 'refs/tags/v')
     name: Create release
@@ -203,9 +203,9 @@ jobs:
       - name: Add LLVM apt key.
         run: wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
       - name: Add LLVM repo.
-        run: sudo add-apt-repository -y "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-17 main"
+        run: sudo add-apt-repository -y "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-18 main"
       - name: Install clang.
-        run: sudo apt install -y clang-17 llvm-17-dev clang-17-dev
+        run: sudo apt install -y clang-18 llvm-18-dev clang-18-dev
       - name: Get appimage-builder.
         working-directory: AppImage
         run: wget -O appimage-builder https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.1.0/appimage-builder-1.1.0-x86_64.AppImage
