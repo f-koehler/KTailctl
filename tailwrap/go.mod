@@ -4,7 +4,7 @@ go 1.22.0
 
 require (
 	golang.org/x/net v0.22.0
-	tailscale.com v1.60.1
+	tailscale.com v1.62.0
 )
 
 require (
@@ -41,7 +41,7 @@ require (
 	github.com/tailscale/go-winio v0.0.0-20231025203758-c4f33415bf55 // indirect
 	github.com/tailscale/goupnp v1.0.1-0.20210804011211-c64d0f06ea05 // indirect
 	github.com/tailscale/netlink v1.1.1-0.20211101221916-cabfb018fe85 // indirect
-	github.com/tailscale/web-client-prebuilt v0.0.0-20240208184856-443a64766f61 // indirect
+	github.com/tailscale/web-client-prebuilt v0.0.0-20240226180453-5db17b287bf1 // indirect
 	github.com/tcnksm/go-httpstat v0.2.0 // indirect
 	github.com/toqueteos/webbrowser v1.2.0 // indirect
 	github.com/vishvananda/netlink v1.2.1-beta.2 // indirect
