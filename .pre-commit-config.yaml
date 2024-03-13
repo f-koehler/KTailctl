@@ -31,8 +31,7 @@ repos:
   - repo: local
     hooks:
       - id: clazy
-        name: lint with clazy
-        language: system
-        entry: clazy-standalone -checks=level1,no-fully-qualified-moc-types -p build/compile_commands.json
-        pass_filenames: true
-        types: [c++]
+        name: clazy
+        language: script
+        entry: ./scripts/clazy.sh
+        pass_filenames: false
