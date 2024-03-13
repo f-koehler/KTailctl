@@ -4,6 +4,7 @@ package main
 // #include "logging.h"
 // #cgo LDFLAGS: -L@CMAKE_LIBRARY_OUTPUT_DIRECTORY@ -ltailwrap_logging_wrapper -Wl,-rpath=@CMAKE_LIBRARY_OUTPUT_DIRECTORY@
 import "C"
+
 import (
 	"fmt"
 	"unsafe"

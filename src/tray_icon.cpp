@@ -20,15 +20,23 @@ TrayIcon::TrayIcon(Tailscale *tailscale, QObject *parent)
 
     QObject::connect(contextMenu(), &QMenu::aboutToShow, this, &TrayIcon::regenerate);
     QObject::connect(mConfig, &KTailctlConfig::trayIconStyleChanged, this, &TrayIcon::updateIcon);
-    QObject::connect(this, &QSystemTrayIcon::activated, [this](const QSystemTrayIcon::ActivationReason &) {
-        if (mWindow == nullptr) {
-            return;
-        }
-        if (mWindow->isVisible()) {
-            mWindow->hide();
-        } else {
-            mWindow->show();
-        }
+    QObject::connect(this, &QSystemTrayIcon::activated, [this](const QSystemTrayIcon::ActivationReason &reason) {
+        switch (reason) {
+        case QSystemTrayIcon::ActivationReason::Trigger:
+        case QSystemTrayIcon::ActivationReason::DoubleClick:
+        case QSystemTrayIcon::ActivationReason::MiddleClick:
+            if (mWindow == nullptr) {
+                return;
+            }
+            if (mWindow->isVisible()) {
+                mWindow->hide();
+            } else {
+                mWindow->show();
+            }
+            break;
+        default:
+            break;
+        };
     });
 
     show();
@@ -70,6 +78,15 @@ void TrayIcon::regenerate()
         if ((!exit_nodes.empty()) || (!mullvad_nodes.empty())) {
             auto *menu_exit_nodes = menu->addMenu(QIcon::fromTheme("internet-services"), "Exit Nodes");
 
+            if (mTailscale->status()->currentExitNode() != nullptr) {
+                menu_exit_nodes->addAction(QIcon::fromTheme("dialog-cancel"),
+                                           QString("Unset %1").arg(mTailscale->status()->currentExitNode()->hostName()),
+                                           []() {
+                                               unsetExitNode();
+                                           });
+                menu_exit_nodes->addSeparator();
+            }
+
             if (!mullvad_nodes.empty()) {
                 auto *menu_mullvad_nodes = menu_exit_nodes->addMenu(QIcon::fromTheme("network-vpn"), "Mullvad Exit Nodes");
                 QMap<QString, QMenu *> mullvad_menus;
@@ -87,9 +104,6 @@ void TrayIcon::regenerate()
                     menu_pos.value()->addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), node->hostName(), [node]() {
                         setExitNode(node->tailscaleIps().front());
                     });
-                }
-                if (!exit_nodes.empty()) {
-                    menu_exit_nodes->addSeparator();
                 }
             }
 

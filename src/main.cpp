@@ -6,6 +6,7 @@
 #include <QQuickStyle>
 #include <QQuickWindow>
 #include <QUrl>
+#include <QtGlobal>
 #include <QtQml>
 
 #include <KAboutData>
@@ -15,6 +16,7 @@
 #include "about.h"
 #include "app.h"
 #include "location.h"
+#include "logging.h"
 #include "peer.h"
 #include "peer_model.h"
 #include "speed_statistics.h"
@@ -27,12 +29,15 @@
 
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
+    qInstallMessageHandler(handleLogMessage);
+
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #ifdef __APPLE__
     QQuickStyle::setStyle(QStringLiteral("macOS"));
 #endif
     QApplication app(argc, argv); // NOLINT(misc-const-correctness)
-    QCoreApplication::setOrganizationName(QStringLiteral("KDE"));
+    KLocalizedString::setApplicationDomain("org.fkoehler.KTailctl");
+    QCoreApplication::setOrganizationName(QStringLiteral("fkoehler.org"));
     QCoreApplication::setApplicationName(QStringLiteral("KTailctl"));
 
     QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("ktailctl")));
@@ -64,6 +69,13 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     auto *application = new App(tailscale);
     auto *util = new Util();
     auto *taildropSender = new TaildropSender();
+
+    if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
+        QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
+    }
+#ifdef KTAILCTL_FLATPAK_BUILD
+    QIcon::setThemeName(QStringLiteral("breeze"));
+#endif
 
     QQmlApplicationEngine engine; // NOLINT(misc-const-correctness)
 

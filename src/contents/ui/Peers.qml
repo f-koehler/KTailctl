@@ -14,39 +14,16 @@ Kirigami.ScrollablePage {
     Layout.fillWidth: true
     title: i18n("Peers")
 
+    Controls.Label {
+        text: "test"
+    }
+
     Kirigami.CardsListView {
         id: listPeers
 
         model: App.peerModel
         visible: Tailscale.status.success
         headerPositioning: ListView.OverlayHeader
-
-        header: Kirigami.ItemViewHeader {
-            id: peerListHeader
-
-            maximumHeight: peerListHeader.minimumHeight
-
-            RowLayout {
-                Controls.Label {
-                    text: "DNS name filter:"
-                }
-
-                Kirigami.SearchField {
-                    id: peerFilter
-
-                    delaySearch: true
-                    text: App.config.peerFilter
-                    onAccepted: {
-                        peerFilter.focus = true;
-                        App.peerModel.setFilterRegularExpression(peerFilter.text);
-                        App.config.peerFilter = peerFilter.text;
-                        App.config.save();
-                    }
-                }
-
-            }
-
-        }
 
         delegate: Kirigami.AbstractCard {
 
@@ -73,8 +50,15 @@ Kirigami.ScrollablePage {
 
                     ColumnLayout {
                         RowLayout {
-                            Controls.Label {
+                            Kirigami.Chip {
                                 text: dnsName
+                                icon.name: "edit-copy"
+                                closable: false
+                                checkable: false
+                                checked: false
+                                onClicked: {
+                                    Util.setClipboardText(dnsName);
+                                }
                             }
 
                             Kirigami.Icon {
@@ -131,46 +115,56 @@ Kirigami.ScrollablePage {
                         columns: 2
 
                         Controls.Button {
+                            text: i18nc("@label", "Details")
                             icon.name: "view-list-details"
-                            Controls.ToolTip.visible: hovered
-                            Controls.ToolTip.text: "Show peer details"
                             onClicked: {
                                 App.setPeerDetails(tailscaleID);
                                 pageStack.layers.push('qrc:Peer.qml');
                             }
+                            display: Controls.Button.IconOnly
+                            Controls.ToolTip.text: text
+                            Controls.ToolTip.visible: hovered
+                            Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
                         }
 
                         Controls.Button {
+                            text: i18nc("@label", "Send file(s)")
                             icon.name: "document-send"
-                            Controls.ToolTip.visible: hovered
-                            Controls.ToolTip.text: "Send file(s)"
                             onClicked: {
                                 TaildropSender.selectAndSendFiles(dnsName);
                             }
                             visible: Tailscale.status.isOperator
+                            display: Controls.Button.IconOnly
+                            Controls.ToolTip.text: text
+                            Controls.ToolTip.visible: hovered
+                            Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
                         }
 
                         Controls.Button {
+                            text: i18nc("@label", "Copy SSH command")
                             icon.name: "akonadiconsole"
                             visible: isRunningSSH
-                            Controls.ToolTip.visible: hovered
-                            Controls.ToolTip.text: "Copy SSH command"
                             onClicked: {
                                 Util.setClipboardText(sshCommand);
                             }
+                            display: Controls.Button.IconOnly
+                            Controls.ToolTip.text: text
+                            Controls.ToolTip.visible: hovered
+                            Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
                         }
 
                         Controls.Switch {
                             visible: isExitNode && !Tailscale.preferences.advertiseExitNode
                             checked: isCurrentExitNode
-                            Controls.ToolTip.visible: hovered
-                            Controls.ToolTip.text: isCurrentExitNode ? "Do not use this exit node" : "Use this exit node"
                             onToggled: {
                                 if (isCurrentExitNode)
                                     Util.unsetExitNode();
                                 else
                                     Util.setExitNode(tailscaleIps[0]);
                             }
+                            Controls.ToolTip.text: isCurrentExitNode ? "Do not use this exit node" : "Use this exit node"
+                            Controls.ToolTip.visible: hovered
+                            Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
                         }
 
                     }
@@ -193,34 +187,21 @@ Kirigami.ScrollablePage {
 
     }
 
-    // actions.main: Kirigami.Action {
-    //     text: Tailscale.status.backendState == "Running" ? "Stop tailscale" : "Start tailscale"
-    //     onTriggered: App.tailscale.toggle()
-    //     icon.name: Tailscale.status.backendState == "Running" ? "process-stop" : "media-playback-start"
-    //     visible: Tailscale.status.isOperator
-    // }
     actions.main: Kirigami.Action {
-        text: {
-            if (!Tailscale.status.success)
-                return "Tailscaled is not running";
-            else if (!Tailscale.status.isOperator)
-                return "Functionality limited, current user is not Tailscale operator";
-            else
-                return (Tailscale.status.backendState == "Running") ? "Stop tailscale" : "Start tailscale";
-        }
-        onTriggered: {
-            if (Tailscale.status.isOperator && Tailscale.status.success)
-                App.tailscale.toggle();
+        text: "DNS Regex"
+        icon.name: "search"
 
+        displayComponent: Kirigami.SearchField {
+            id: peerFilter
+
+            text: App.config.peerFilter
+            onAccepted: {
+                App.peerModel.setFilterRegularExpression(peerFilter.text);
+                App.config.peerFilter = peerFilter.text;
+                App.config.save();
+            }
         }
-        icon.name: {
-            if (!Tailscale.status.success)
-                return "emblem-error";
-            else if (!Tailscale.status.isOperator)
-                return "emblem-warning";
-            else
-                return (Tailscale.status.backendState == "Running") ? "process-stop" : "media-playback-start";
-        }
+
     }
 
 }

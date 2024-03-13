@@ -1,5 +1,7 @@
 #include "location_data.h"
 
+Q_LOGGING_CATEGORY(logcat_location_data, "org.fkoehler.KTailctl.LocationData")
+
 void from_json(const json &j, LocationData &l)
 {
     try {
@@ -9,6 +11,6 @@ void from_json(const json &j, LocationData &l)
         j.at("CityCode").get_to<QString>(l.cityCode);
         j.at("Priority").get_to<int>(l.priority);
     } catch (json::exception &e) {
-        qCritical() << "Error parsing location data: " << e.what();
+        qCCritical(logcat_location_data) << "Error parsing location data: " << e.what();
     }
 }

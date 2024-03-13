@@ -6,17 +6,20 @@
 <component type="desktop-application">
   <id>org.fkoehler.KTailctl</id>
   <name>KTailctl</name>
-  <summary>A GUI for the Tailscale mesh network</summary>
+  <summary>GUI for Tailscale mesh network</summary>
   <metadata_license>FSFAP</metadata_license>
   <project_license>GPL-3.0+</project_license>
   <developer_name>Fabian Köhler</developer_name>
   <content_rating type="oars-1.0" />
+  <launchable type="desktop-id">org.fkoehler.KTailctl.desktop</launchable>
   <url type="homepage">https://github.com/f-koehler/KTailctl</url>
   <url type="bugtracker">https://github.com/f-koehler/KTailctl/issues</url>
   <url type="vcs-browser">https://github.com/f-koehler/KTailctl</url>
   <description>
-    <p>KTailctl provides a graphical interface for the Tailscale mesh network with easy access to settings, host information as well as the ability to send/receive files.</p>
-    <p>⚠️ To get the most out of KTailctl (sending/receiving files, changing Tailscale settings, …) make sure you are the operator <code>tailscale up --operator=$USER</code>!</p>
+    <p>KTailctl provides a graphical interface for the Tailscale mesh network with easy access to
+      settings, host information as well as the ability to send/receive files.</p>
+    <p>⚠️ To get the most out of KTailctl (sending/receiving files, changing Tailscale settings, …)
+      make sure you are the operator <code>tailscale up --operator=$USER</code>!</p>
   </description>
   <screenshots>
     <screenshot type="default">
@@ -25,6 +28,52 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.15.0" date="2024-02-18" urgency="low">
+      <description>
+        <p>Fix right click behavior of tray menu and rework peer list page.</p>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.15.0</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.15.0.tar.gz</location>
+        </artifact>
+        <artifact type="source">
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.15.0/tailwrap-vendor-v0.15.0.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
+    <release version="0.14.1" date="2024-02-02" urgency="medium">
+      <description>
+        <p>Fix theming on some window managers (e.g. i3).</p>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.14.1</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.14.1.tar.gz</location>
+        </artifact>
+        <artifact type="source">
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.14.0/tailwrap-vendor-v0.14.0.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
+    <release version="0.14.0" date="2024-01-26" urgency="medium">
+      <description>
+        <p>Add logging to file, some tooltips, exit node setting on settings page and fix hostname
+          setting.</p>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.14.0</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.14.0.tar.gz</location>
+        </artifact>
+        <artifact type="source">
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.14.0/tailwrap-vendor-v0.14.0.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.13.0" date="2023-11-09" urgency="low">
       <description>
         <p>Simplify the exit node submenu of the tray menu.</p>
@@ -35,13 +84,15 @@
           <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.13.0.tar.gz</location>
         </artifact>
         <artifact type="source">
-          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.13.0/tailwrap-vendor-v0.13.0.tar.gz</location>
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.13.0/tailwrap-vendor-v0.13.0.tar.gz</location>
         </artifact>
       </artifacts>
     </release>
     <release version="0.12.0" date="2023-11-02" urgency="high">
       <description>
-        <p>Show peer tags where applicable and fix a bug that causes extreme memory consumption over time.</p>
+        <p>Show peer tags where applicable and fix a bug that causes extreme memory consumption over
+          time.</p>
       </description>
       <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.12.0</url>
       <artifacts>
@@ -49,7 +100,8 @@
           <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.12.0.tar.gz</location>
         </artifact>
         <artifact type="source">
-          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.12.0/tailwrap-vendor-v0.12.0.tar.gz</location>
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.12.0/tailwrap-vendor-v0.12.0.tar.gz</location>
         </artifact>
       </artifacts>
     </release>
@@ -75,7 +127,8 @@
           <li>Add filtering of peer list based on DNS name</li>
           <li>Add toggle for exit nodes in peer list</li>
           <li>Add button to copy Tailscale SSH command to connect to host</li>
-          <li>Add different styles of tray icon for better integration in different desktop environments</li>
+          <li>Add different styles of tray icon for better integration in different desktop
+            environments</li>
           <li>Add option to disable tray icon</li>
           <li>Add option to select tray icon style</li>
           <li>Hide Mullvad nodes from peer list in tray icon</li>
@@ -95,7 +148,8 @@
           <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.10.0.tar.gz</location>
         </artifact>
         <artifact type="source">
-          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.10.0/tailwrap-vendor-v0.10.0.tar.gz</location>
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.10.0/tailwrap-vendor-v0.10.0.tar.gz</location>
         </artifact>
       </artifacts>
     </release>
@@ -143,7 +197,8 @@
           <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.9.0.tar.gz</location>
         </artifact>
         <artifact type="source">
-          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.9.0/tailwrap-vendor-v0.9.0.tar.gz</location>
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.9.0/tailwrap-vendor-v0.9.0.tar.gz</location>
         </artifact>
       </artifacts>
     </release>
@@ -164,7 +219,8 @@
           <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.8.0.tar.gz</location>
         </artifact>
         <artifact type="source">
-          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.8.0/tailwrap-vendor-v0.8.0.tar.gz</location>
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.8.0/tailwrap-vendor-v0.8.0.tar.gz</location>
         </artifact>
       </artifacts>
     </release>
@@ -186,7 +242,8 @@
           <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.7.1.tar.gz</location>
         </artifact>
         <artifact type="source">
-          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.7.1/tailctlpp-vendor-v0.7.1.tar.gz</location>
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.7.1/tailctlpp-vendor-v0.7.1.tar.gz</location>
         </artifact>
       </artifacts>
     </release>
@@ -194,11 +251,13 @@
       <description>
         <p>Features:</p>
         <ul>
-          <li>Nice UI improvements by @CarlSchwan: refactors the settings and about page as well as the sidebar</li>
+          <li>Nice UI improvements by @CarlSchwan: refactors the settings and about page as well as
+            the sidebar</li>
         </ul>
         <p>Fixes:</p>
         <ul>
-          <li>Fix a bug when retrieving the Tailscale interface name in order to refresh the global speed statistics</li>
+          <li>Fix a bug when retrieving the Tailscale interface name in order to refresh the global
+            speed statistics</li>
         </ul>
       </description>
       <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.7.0</url>
@@ -207,7 +266,8 @@
           <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.7.0.tar.gz</location>
         </artifact>
         <artifact type="source">
-          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.7.0/tailctlpp-vendor-v0.7.0.tar.gz</location>
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.7.0/tailctlpp-vendor-v0.7.0.tar.gz</location>
         </artifact>
       </artifacts>
     </release>
@@ -255,7 +315,8 @@
           <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.4.2.tar.gz</location>
         </artifact>
         <artifact type="source">
-          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.4.2/tailctlpp-vendor-v0.4.2.tar.gz</location>
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.4.2/tailctlpp-vendor-v0.4.2.tar.gz</location>
         </artifact>
       </artifacts>
     </release>
@@ -276,7 +337,8 @@
           <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.4.1.tar.gz</location>
         </artifact>
         <artifact type="source">
-          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.4.1/tailctlpp-vendor-v0.4.1.tar.gz</location>
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.4.1/tailctlpp-vendor-v0.4.1.tar.gz</location>
         </artifact>
       </artifacts>
     </release>
@@ -307,7 +369,8 @@
           <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.4.0.tar.gz</location>
         </artifact>
         <artifact type="source">
-          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.4.0/tailctlpp-vendor-v0.4.0.tar.gz</location>
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.4.0/tailctlpp-vendor-v0.4.0.tar.gz</location>
         </artifact>
       </artifacts>
     </release>
@@ -354,7 +417,8 @@
           <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.3.1.tar.gz</location>
         </artifact>
         <artifact type="source">
-          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.3.1/tailctlpp-vendor-v0.3.1.tar.gz</location>
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.3.1/tailctlpp-vendor-v0.3.1.tar.gz</location>
         </artifact>
       </artifacts>
     </release>
@@ -368,7 +432,8 @@
           <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.3.0.tar.gz</location>
         </artifact>
         <artifact type="source">
-          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.3.0/tailctlpp-vendor-v0.3.0.tar.gz</location>
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.3.0/tailctlpp-vendor-v0.3.0.tar.gz</location>
         </artifact>
       </artifacts>
     </release>
@@ -382,7 +447,8 @@
           <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.2.0.tar.gz</location>
         </artifact>
         <artifact type="source">
-          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.2.0/tailctlpp-vendor-v0.2.0.tar.gz</location>
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.2.0/tailctlpp-vendor-v0.2.0.tar.gz</location>
         </artifact>
       </artifacts>
     </release>
@@ -443,7 +509,8 @@
     </release>
     <release version="0.1.3" date="2023-05-18" urgency="low">
       <description>
-        <p>Remove config option for Tailscale binary path and incorporate `tailscale` client in flatpak build.</p>
+        <p>Remove config option for Tailscale binary path and incorporate `tailscale` client in
+          flatpak build.</p>
       </description>
       <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.1.3</url>
       <artifacts>

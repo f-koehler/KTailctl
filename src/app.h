@@ -4,15 +4,19 @@
 #ifndef KTAILCTL_APP_H
 #define KTAILCTL_APP_H
 
+#include "exit_node_model.h"
 #include "ktailctlconfig.h"
 #include "peer_model.h"
 #include "status.h"
 #include "tailscale.h"
 #include "tray_icon.h"
 
+#include <QLoggingCategory>
 #include <QObject>
 #include <QQuickWindow>
 #include <QSortFilterProxyModel>
+
+Q_DECLARE_LOGGING_CATEGORY(logcat_app)
 
 class QQuickWindow;
 
@@ -23,6 +27,7 @@ class App : public QObject
     Q_PROPERTY(KTailctlConfig *config READ config CONSTANT)
     Q_PROPERTY(Peer *peerDetails READ peerDetails NOTIFY peerDetailsChanged)
     Q_PROPERTY(QSortFilterProxyModel *peerModel READ peerModel CONSTANT)
+    Q_PROPERTY(QAbstractItemModel *exitNodeModel READ exitNodeModel CONSTANT)
     // Q_PROPERTY(TrayIcon *trayIcon READ trayIcon CONSTANT)
 
 private:
@@ -31,6 +36,7 @@ private:
     Peer *mPeerDetails;
     PeerModel *mPeerModel;
     QSortFilterProxyModel *mPeerProxyModel;
+    ExitNodeModel *mExitNodeModel;
     bool mFilterInitialized = false;
 
     TrayIcon *mTrayIcon;
@@ -49,6 +55,7 @@ public:
     KTailctlConfig *config();
     Peer *peerDetails();
     QSortFilterProxyModel *peerModel();
+    ExitNodeModel *exitNodeModel();
     TrayIcon *trayIcon();
 
     // Restore current window geometry

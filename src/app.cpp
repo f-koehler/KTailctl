@@ -11,6 +11,8 @@
 
 #include <functional>
 
+Q_LOGGING_CATEGORY(logcat_app, "org.fkoehler.KTailctl.App")
+
 App::App(Tailscale *tailscale, QObject *parent)
     : QObject(parent)
     , mTailscale(tailscale)
@@ -18,11 +20,13 @@ App::App(Tailscale *tailscale, QObject *parent)
     , mPeerDetails(new Peer(this))
     , mPeerModel(new PeerModel(this))
     , mPeerProxyModel(new QSortFilterProxyModel(this))
+    , mExitNodeModel(new ExitNodeModel(this))
     , mTrayIcon(new TrayIcon(tailscale, this))
 {
     mTailscale->setParent(this);
 
     QObject::connect(tailscale->status(), &Status::refreshed, mPeerModel, &PeerModel::updatePeers);
+    QObject::connect(tailscale->status(), &Status::refreshed, mExitNodeModel, &ExitNodeModel::updatePeers);
     // QObject::connect(tailscale->status(), &Status::refreshed, &mPeerDetails, &Peer::updateFromStatus);
     QObject::connect(tailscale->status(), &Status::backendStateChanged, mTrayIcon, &TrayIcon::regenerate);
     QObject::connect(mTrayIcon, &TrayIcon::quitClicked, this, &App::quitApp);
@@ -54,6 +58,10 @@ QSortFilterProxyModel *App::peerModel()
 {
     return mPeerProxyModel;
 }
+ExitNodeModel *App::exitNodeModel()
+{
+    return mExitNodeModel;
+}
 TrayIcon *App::trayIcon()
 {
     return mTrayIcon;
@@ -82,7 +90,7 @@ void App::setPeerDetails(const QString &id)
         return peer->id() == id;
     });
     if (pos == mTailscale->status()->peers().end()) {
-        qWarning() << "Peer" << id << "not found";
+        qCWarning(logcat_app) << "Peer" << id << "not found";
         return;
     }
     PeerData data = (*pos)->peerData();

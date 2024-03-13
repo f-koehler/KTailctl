@@ -2,8 +2,11 @@
 #define KTAILCTL_TAILDROP_SENDER_H
 
 #include <KJob>
+#include <QLoggingCategory>
 #include <QPointer>
 #include <QThread>
+
+Q_DECLARE_LOGGING_CATEGORY(logcat_taildrop_sender)
 
 class TaildropSendThread : public QThread
 {

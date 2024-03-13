@@ -4,8 +4,9 @@ find_program(
     REQUIRED
 )
 
-add_library(tailwrap_logging_wrapper STATIC logging.cpp)
+add_library(tailwrap_logging_wrapper SHARED logging.cpp)
 target_link_libraries(tailwrap_logging_wrapper PUBLIC Qt5::Core)
+target_compile_definitions(tailwrap_logging_wrapper PRIVATE QT_MESSAGELOGCONTEXT)
 
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/logging.go.in
@@ -22,7 +23,7 @@ if(NOT KTAILCTL_FLATPAK_BUILD)
     )
 endif()
 
-set(TAILWRAP_LIBRARY ${CMAKE_BINARY_DIR}/lib/libtailwrap.a)
+set(TAILWRAP_LIBRARY ${CMAKE_BINARY_DIR}/lib/libtailwrap.so)
 set(TAILWRAP_HEADER ${CMAKE_BINARY_DIR}/lib/libtailwrap.h)
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_custom_command(
@@ -33,7 +34,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
             GOEXPERIMENT=cgocheck2 ${TAILWRAP_GO_EXECUTABLE} build -v -trimpath
                 -mod vendor
                 -o ${TAILWRAP_LIBRARY}
-                -buildmode=c-archive
+                -buildmode=c-shared
                 tailwrap.go options.go taildrop.go callbacks.go logging.go
         MAIN_DEPENDENCY tailwrap.go
         DEPENDS go.mod go.sum tailwrap_logging_wrapper options.go taildrop.go callbacks.go
@@ -49,7 +50,7 @@ else()
             ${TAILWRAP_GO_EXECUTABLE} build -v -trimpath
                 -mod vendor
                 -o ${TAILWRAP_LIBRARY}
-                -buildmode=c-archive
+                -buildmode=c-shared
                 tailwrap.go options.go taildrop.go callbacks.go logging.go
         MAIN_DEPENDENCY tailwrap.go
         DEPENDS go.mod go.sum tailwrap_logging_wrapper options.go taildrop.go callbacks.go
@@ -62,3 +63,6 @@ add_custom_target(
     ${TAILWRAP_LIBRARY}
     ${TAILWRAP_HEADER}
 )
+
+install(FILES ${TAILWRAP_LIBRARY} TYPE LIB)
+install(TARGETS tailwrap_logging_wrapper)
