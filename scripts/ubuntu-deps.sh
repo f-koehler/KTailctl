@@ -19,7 +19,6 @@ PACKAGES=(
     pkg-config
     build-essential
     fuse
-    clazy
 )
 
 apt-get update -y
