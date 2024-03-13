@@ -110,9 +110,55 @@ Kirigami.ScrollablePage {
 
                     }
 
-                    GridLayout {
-                        rows: isRunningSSH || isExitNode ? 2 : 1
-                        columns: 2
+                    ColumnLayout {
+                        Controls.Button {
+                            text: i18nc("@label", "Menu")
+                            icon.name: "menu_new"
+                            onClicked: {
+                                menu.open();
+                            }
+                            display: Controls.Button.IconOnly
+                            Controls.ToolTip.text: text
+                            Controls.ToolTip.visible: hovered
+                            Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
+
+                            Controls.Menu {
+                                id: menu
+
+                                y: fileButton.height
+
+                                Controls.MenuItem {
+                                    text: i18nc("@label", "Copy SSH command")
+                                    icon.name: "akonadiconsole"
+                                    visible: isRunningSSH
+                                    onClicked: {
+                                        Util.setClipboardText(sshCommand);
+                                    }
+                                }
+
+                                Controls.MenuItem {
+                                    text: i18nc("@label", "Send file(s)")
+                                    icon.name: "document-send"
+                                    onClicked: {
+                                        TaildropSender.selectAndSendFiles(dnsName);
+                                    }
+                                }
+
+                                Controls.MenuItem {
+                                    text: i18nc("@label", isCurrentExitNode ? "Unset exit node" : "Use exit node")
+                                    icon.name: "internet-services"
+                                    visible: isExitNode && !Tailscale.preferences.advertiseExitNode
+                                    onClicked: {
+                                        if (isCurrentExitNode)
+                                            Util.unsetExitNode();
+                                        else
+                                            Util.setExitNode(tailscaleIps[0]);
+                                    }
+                                }
+
+                            }
+
+                        }
 
                         Controls.Button {
                             text: i18nc("@label", "Details")
@@ -123,46 +169,6 @@ Kirigami.ScrollablePage {
                             }
                             display: Controls.Button.IconOnly
                             Controls.ToolTip.text: text
-                            Controls.ToolTip.visible: hovered
-                            Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
-                        }
-
-                        Controls.Button {
-                            text: i18nc("@label", "Send file(s)")
-                            icon.name: "document-send"
-                            onClicked: {
-                                TaildropSender.selectAndSendFiles(dnsName);
-                            }
-                            visible: Tailscale.status.isOperator
-                            display: Controls.Button.IconOnly
-                            Controls.ToolTip.text: text
-                            Controls.ToolTip.visible: hovered
-                            Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
-                        }
-
-                        Controls.Button {
-                            text: i18nc("@label", "Copy SSH command")
-                            icon.name: "akonadiconsole"
-                            visible: isRunningSSH
-                            onClicked: {
-                                Util.setClipboardText(sshCommand);
-                            }
-                            display: Controls.Button.IconOnly
-                            Controls.ToolTip.text: text
-                            Controls.ToolTip.visible: hovered
-                            Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
-                        }
-
-                        Controls.Switch {
-                            visible: isExitNode && !Tailscale.preferences.advertiseExitNode
-                            checked: isCurrentExitNode
-                            onToggled: {
-                                if (isCurrentExitNode)
-                                    Util.unsetExitNode();
-                                else
-                                    Util.setExitNode(tailscaleIps[0]);
-                            }
-                            Controls.ToolTip.text: isCurrentExitNode ? "Do not use this exit node" : "Use this exit node"
                             Controls.ToolTip.visible: hovered
                             Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
                         }
