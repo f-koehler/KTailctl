@@ -194,6 +194,8 @@ jobs:
         run: sudo add-apt-repository -y "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-17 main"
       - name: Install clang.
         run: sudo apt install -y clang-17
+      - name: Install clazy.
+        run: ./scripts/clazy-install.sh
       - name: Run clazy.
         run: ./scripts/clazy.sh
   create_release:
