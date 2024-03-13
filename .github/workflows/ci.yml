@@ -188,12 +188,8 @@ jobs:
         working-directory: tailwrap
       - name: Install dependencies.
         run: sudo ./scripts/ubuntu-deps.sh
-      - name: Add LLVM apt key.
-        run: wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-      - name: Add LLVM repo.
-        run: sudo add-apt-repository -y "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-17 main"
       - name: Install clang.
-        run: sudo apt install -y clang-17 llvm-17 llvm-17-dev libclang-17-dev
+        run: sudo apt install -y clang llvm llvm-dev libclang-dev
       - name: Install clazy.
         run: ./scripts/clazy-install.sh
       - name: Run clazy.
