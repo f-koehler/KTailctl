@@ -30,14 +30,14 @@ public:
     virtual ~TaildropReceiver() = default;
     static TaildropReceiver *self();
 
-protected:
-    void run() override;
-
-public slots:
     bool enabled() const;
     const QString &directory() const;
     const QString &strategy() const;
 
+protected:
+    void run() override;
+
+public slots:
     void setEnabled(bool enabled);
     void setDirectory(const QString &directory);
     void setStrategy(const QString &strategy);

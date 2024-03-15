@@ -3,11 +3,11 @@
 
 #include <QApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 #include <QQuickStyle>
 #include <QQuickWindow>
 #include <QUrl>
 #include <QtGlobal>
-#include <QtQml>
 
 #include <KAboutData>
 #include <KLocalizedContext>
@@ -98,7 +98,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
         return -1;
     }
 
-    auto *window = dynamic_cast<QQuickWindow *>(engine.rootObjects().first());
+    auto *window = dynamic_cast<QQuickWindow *>(engine.rootObjects().constFirst());
     application->trayIcon()->setWindow(window);
     if (KTailctlConfig::startMinimized()) {
         window->hide();
