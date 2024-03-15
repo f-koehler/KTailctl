@@ -86,10 +86,10 @@ void App::saveWindowGeometry(QQuickWindow *window, const QString &group)
 
 void App::setPeerDetails(const QString &id)
 {
-    auto pos = std::find_if(mTailscale->status()->peers().begin(), mTailscale->status()->peers().end(), [&id](Peer *peer) {
+    const auto *pos = std::find_if(mTailscale->status()->peers().cbegin(), mTailscale->status()->peers().cend(), [&id](const Peer *peer) {
         return peer->id() == id;
     });
-    if (pos == mTailscale->status()->peers().end()) {
+    if (pos == mTailscale->status()->peers().cend()) {
         qCWarning(logcat_app) << "Peer" << id << "not found";
         return;
     }

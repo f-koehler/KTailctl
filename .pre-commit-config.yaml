@@ -31,6 +31,16 @@ repos:
         exclude: "^.clang-format$"
   - repo: local
     hooks:
+      - id: cppcheck
+        name: cppcheck
+        language: script
+        entry: ./scripts/cppcheck.sh
+        pass_filenames: false
+      - id: flawfinder
+        name: flawfinder
+        language: script
+        entry: ./scripts/flawfinder.sh
+        pass_filenames: false
       - id: clazy
         name: clazy
         language: script

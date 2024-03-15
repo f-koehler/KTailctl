@@ -63,7 +63,7 @@ SpeedStatistics *Statistics::totalDownSpeed() const
 void Statistics::statusRefreshed(const Status &status)
 {
     bool newPeers = false;
-    for (const auto &peer : status.peers()) {
+    for (const Peer *peer : status.peers()) {
         if (mSpeedUp.contains(peer->id())) {
             continue;
         }
