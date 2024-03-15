@@ -2,6 +2,7 @@
 
 Location::Location(QObject *parent)
     : QObject(parent)
+    , mData()
 {
 }
 
