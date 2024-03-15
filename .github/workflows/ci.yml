@@ -212,7 +212,6 @@ jobs:
       - build
       - flatpak_build
       - appimage_build
-      - clazy
     permissions:
       contents: write
     steps:
