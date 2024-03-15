@@ -9,6 +9,23 @@ on:
     branches:
       - main
 jobs:
+  cpplint:
+    name: C++ Analysis
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        script:
+          - cppcheck
+    steps:
+      - name: Checkout repository.
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Install cppcheck.
+        run: sudo apt install -y cppcheck
+      - name: Run ${{ matrix.script }}.
+        run: ./scripts/${{ matrix.script }}.sh
   golangci:
     name: Go Analysis & Formatting
     runs-on: ubuntu-latest
@@ -60,6 +77,7 @@ jobs:
     needs:
       - qmllint
       - golangci
+      - cpplint
     strategy:
       fail-fast: false
       matrix:
@@ -95,6 +113,7 @@ jobs:
     needs:
       - qmllint
       - golangci
+      - cpplint
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v4
@@ -137,6 +156,7 @@ jobs:
     needs:
       - qmllint
       - golangci
+      - cpplint
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v4
