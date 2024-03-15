@@ -9,6 +9,24 @@ on:
     branches:
       - main
 jobs:
+  cpplint:
+    name: C++ Analysis
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        script:
+          - cppcheck
+    steps:
+      - name: Checkout repository.
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - uses: cachix/install-nix-action@v22
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+      - name: Run ${{ matrix.script }}.
+        run: nix-shell -p cppcheck --run "./scripts/cppcheck.sh"
   golangci:
     name: Go Analysis & Formatting
     runs-on: ubuntu-latest
@@ -60,6 +78,7 @@ jobs:
     needs:
       - qmllint
       - golangci
+      - cpplint
     strategy:
       fail-fast: false
       matrix:
@@ -95,6 +114,7 @@ jobs:
     needs:
       - qmllint
       - golangci
+      - cpplint
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v4
@@ -137,6 +157,7 @@ jobs:
     needs:
       - qmllint
       - golangci
+      - cpplint
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v4

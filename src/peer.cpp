@@ -12,6 +12,7 @@ QDateTime get_date_from_string(const QString &string)
 
 Peer::Peer(QObject *parent)
     : QObject(parent)
+    , mData()
 {
 }
 

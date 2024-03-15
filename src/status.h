@@ -27,7 +27,7 @@ private:
     QVector<Peer *> mPeers;
     Peer *mCurrentExitNode;
 
-    StatusData newData;
+    StatusData mNewData;
 
 public:
     explicit Status(QObject *parent = nullptr);

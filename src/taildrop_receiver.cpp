@@ -56,9 +56,9 @@ void TaildropReceiver::run()
 {
     QByteArray const strategyBytes = mStrategy.toUtf8();
     QByteArray const directoryBytes = mDirectory.toUtf8();
-    GoString const strategy{strategyBytes.constData(), strategyBytes.length()};
-    GoString const directory{directoryBytes.constData(), directoryBytes.length()};
-    tailscale_receive_files(strategy, directory);
+    GoString const strat{strategyBytes.constData(), strategyBytes.length()};
+    GoString const dir{directoryBytes.constData(), directoryBytes.length()};
+    tailscale_receive_files(strat, dir);
 }
 
 bool TaildropReceiver::enabled() const

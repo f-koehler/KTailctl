@@ -5,6 +5,9 @@
 
 Status::Status(QObject *parent)
     : QObject(parent)
+    , mData()
+    , mCurrentExitNode(nullptr)
+    , mNewData()
 {
 }
 
@@ -133,11 +136,11 @@ void Status::update(StatusData &newData)
 void Status::refresh()
 {
     char *jsonStr = tailscale_status();
-    const bool success = jsonStr != nullptr;
-    if (success) {
-        json::parse(jsonStr).get_to<StatusData>(newData);
+    const bool statusSuccess = jsonStr != nullptr;
+    if (statusSuccess) {
+        json::parse(jsonStr).get_to<StatusData>(mNewData);
         free(jsonStr);
-        update(newData);
+        update(mNewData);
         emit refreshed(*this);
 
         bool const newIsOperator = tailscale_is_operator() != 0U;
@@ -146,8 +149,8 @@ void Status::refresh()
             emit isOperatorChanged(mIsOperator);
         }
     }
-    if (mSuccess != success) {
-        mSuccess = success;
+    if (mSuccess != statusSuccess) {
+        mSuccess = statusSuccess;
         emit successChanged(mSuccess);
     }
 }
