@@ -125,8 +125,6 @@ Kirigami.ScrollablePage {
                             Controls.Menu {
                                 id: menu
 
-                                y: fileButton.height
-
                                 Controls.MenuItem {
                                     text: i18nc("@label", "Copy SSH command")
                                     icon.name: "akonadiconsole"
