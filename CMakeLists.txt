@@ -63,15 +63,10 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     Kirigami2
     Notifications
 )
+find_package(nlohmann_json REQUIRED)
 
 add_subdirectory(src)
 add_subdirectory(tailwrap)
-
-if(NOT KTAILCTL_FLATPAK_BUILD)
-    set(JSON_BuildTests OFF CACHE INTERNAL "")
-    add_subdirectory(deps/json)
-    add_subdirectory(deps/kirigami-addons)
-endif()
 
 execute_process(
     COMMAND ${GIT_EXECUTABLE} describe --tags --dirty --match "v*"
