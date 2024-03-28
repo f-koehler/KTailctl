@@ -195,6 +195,10 @@ jobs:
   nix_build:
     name: Nix build
     runs-on: ubuntu-latest
+    needs:
+      - qmllinting
+      - golinting
+      - cpplinting
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v4
