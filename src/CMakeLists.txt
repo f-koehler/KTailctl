@@ -46,6 +46,10 @@ target_link_libraries(ktailctl
     nlohmann_json::nlohmann_json
 )
 
+if(KTAILCTL_APPIMAGE_BUILD)
+    target_compile_definitions(ktailctl PRIVATE KTAILCTL_APPIMAGE_BUILD)
+endif()
+
 target_include_directories(
     ktailctl PRIVATE
     ${CMAKE_CURRENT_BINARY_DIR}/src

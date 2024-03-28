@@ -6,6 +6,7 @@ cmake_minimum_required(VERSION 3.16)
 project(ktailctl VERSION 0.1 LANGUAGES C CXX)
 
 option(KTAILCTL_FLATPAK_BUILD "Build for Flatpak" OFF)
+option(KTAILCTL_APPIMAGE_BUILD "Build for AppImage" OFF)
 
 include(FeatureSummary)
 
@@ -75,6 +76,10 @@ endif()
 
 add_subdirectory(src)
 add_subdirectory(tailwrap)
+
+if(KTAILCTL_APPIMAGE_BUILD)
+    add_subdirectory(deps/AppImageUpdate)
+endif()
 
 execute_process(
     COMMAND ${GIT_EXECUTABLE} describe --tags --dirty --match "v*"

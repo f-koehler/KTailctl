@@ -3,4 +3,7 @@
 	url = git@github.com:flathub/org.fkoehler.KTailctl.git
 [submodule "deps/json"]
 	path = deps/json
-	url = https://github.com/nlohmann/json.git
+	url = https://github.com/nlohmann/json
+[submodule "deps/AppImageUpdate"]
+	path = deps/AppImageUpdate
+	url = https://github.com/AppImageCommunity/AppImageUpdate
