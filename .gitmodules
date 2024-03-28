@@ -1,3 +1,6 @@
 [submodule "flathub"]
 	path = flathub
 	url = git@github.com:flathub/org.fkoehler.KTailctl.git
+[submodule "deps/json"]
+	path = deps/json
+	url = https://github.com/nlohmann/json.git

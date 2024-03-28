@@ -63,7 +63,10 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     Kirigami2
     Notifications
 )
-find_package(nlohmann_json REQUIRED)
+find_package(nlohmann_json)
+if(NOT nlohmann_json_FOUND)
+    add_subdirectory(deps/json)
+endif()
 
 add_subdirectory(src)
 add_subdirectory(tailwrap)
