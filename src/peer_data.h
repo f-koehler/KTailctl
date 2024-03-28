@@ -1,6 +1,8 @@
 #ifndef KTAILCTL_PEER_DATA_H
 #define KTAILCTL_PEER_DATA_H
 
+#include <optional>
+
 #include <QDateTime>
 #include <QLoggingCategory>
 
