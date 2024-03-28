@@ -9,6 +9,7 @@ option(KTAILCTL_FLATPAK_BUILD "Build for Flatpak" OFF)
 
 include(FeatureSummary)
 
+set(QT_MAJOR_VERSION 6)
 set(QT6_MIN_VERSION 6.6)
 set(KF6_MIN_VERSION 6.0)
 set(CMAKE_CXX_STANDARD 20)
@@ -51,7 +52,7 @@ find_package(Qt6 ${QT6_MIN_VERSION} REQUIRED COMPONENTS
     Core
     Gui
 
-    Qml
+    # Qml
     Quick
     QuickControls2
     Svg
