@@ -40,7 +40,6 @@ void handleLogMessage(QtMsgType type, const QMessageLogContext &context, const Q
         logDir = QString::fromLocal8Bit(stateHomeArr);
     }
     std::string logPath = logDir.toStdString() + "/org.fkoehler.KTailctl.log";
-    std::cout << "Logging to: " << logPath << '\n';
     std::ofstream logFile(logPath, std::ios_base::app);
     if (logFile.is_open()) {
         logFile << formatted;

@@ -54,8 +54,10 @@ jobs:
         uses: actions/setup-go@v5.0.0
         with:
           go-version: "stable"
+      - name: Add KDE Neon apt repo.
+        run: sudo ./scripts/add-neon-apt-repo.sh
       - name: Install dependencies.
-        run: sudo ./scripts/ubuntu-deps.sh
+        run: sudo ./scripts/neon-deps.sh
       - name: Configure CMake project.
         run: cmake -B build
       - name: Run ${{ matrix.script }}.
@@ -68,14 +70,16 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: true
+      - name: Add KDE Neon apt repo.
+        run: sudo ./scripts/add-neon-apt-repo.sh
       - name: Install dependencies.
-        run: sudo ./scripts/ubuntu-deps.sh
+        run: sudo ./scripts/neon-deps.sh
       - name: Install QML dev tools.
-        run: sudo apt install -y qtdeclarative5-dev-tools
+        run: sudo apt install -y qt6-declarative-dev
       - name: Lint QML files.
-        run: find ./src -type f -name "*.qml" -exec /usr/lib/qt5/bin/qmllint "{}" \;
+        run: find ./src -type f -name "*.qml" -exec /usr/lib/qt6/bin/qmllint "{}" \;
       - name: Format QML files.
-        run: find ./src -type f -name "*.qml" -exec /usr/lib/qt5/bin/qmlformat --inplace "{}" \;
+        run: find ./src -type f -name "*.qml" -exec /usr/lib/qt6/bin/qmlformat --inplace "{}" \;
   build:
     name: "LLVM build: Version ${{ matrix.llvm_version }}"
     runs-on: ubuntu-latest
@@ -100,8 +104,10 @@ jobs:
       - name: Vendor go dependencies.
         run: go mod vendor
         working-directory: tailwrap
+      - name: Add KDE Neon apt repo.
+        run: sudo ./scripts/add-neon-apt-repo.sh
       - name: Install dependencies.
-        run: sudo ./scripts/ubuntu-deps.sh
+        run: sudo ./scripts/neon-deps.sh
       - name: Add LLVM apt key.
         run: wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
       - name: Add LLVM repo.
@@ -128,22 +134,12 @@ jobs:
         run: sudo apt-get update -yq
       - name: Install flatpak-builder.
         run: sudo apt-get install -yq flatpak-builder flatpak
-      - name: Add flathub remote.
-        run: flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-      - name: Install Builder.
-        run: flatpak install --user -y flathub org.flatpak.Builder
+      - name: Install flatpak dependencies.
+        run: ./scripts/flatpak-deps.sh
       - name: Validate manifest.
         run: flatpak run --command=flatpak-builder-lint org.flatpak.Builder manifest org.fkoehler.KTailctl.yml
-      - name: Install external data checker.
-        run: flatpak install --user -y flathub org.flathub.flatpak-external-data-checker
       - name: Check external data.
         run: flatpak run org.flathub.flatpak-external-data-checker --check-outdated org.fkoehler.KTailctl.yml
-      - name: Install KDE SDK.
-        run: flatpak install --user -y flathub org.kde.Sdk//5.15-23.08 org.kde.Platform/x86_64/5.15-23.08
-      - name: Install Go SDK.
-        run: flatpak install --user -y flathub org.freedesktop.Sdk.Extension.golang/x86_64/23.08
-      - name: Install LLVM SDK.
-        run: flatpak install --user -y flathub runtime/org.freedesktop.Sdk.Extension.llvm17/x86_64/23.08
       - name: Setup go.
         uses: actions/setup-go@v5.0.0
         with:
@@ -175,8 +171,10 @@ jobs:
       - name: Vendor go dependencies.
         run: go mod vendor
         working-directory: tailwrap
+      - name: Add KDE Neon apt repo.
+        run: sudo ./scripts/add-neon-apt-repo.sh
       - name: Install dependencies.
-        run: sudo ./scripts/ubuntu-deps.sh
+        run: sudo ./scripts/neon-deps.sh
       - name: Add LLVM apt key.
         run: wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
       - name: Add LLVM repo.
@@ -208,6 +206,9 @@ jobs:
         uses: cachix/install-nix-action@v26
         with:
           nix_path: nixpkgs=channel:nixos-unstable
+      - name: Vendor go dependencies.
+        run: nix-shell -p go --command "go mod vendor"
+        working-directory: tailwrap
       - name: Build with nix
         run: nix build .
   create_release:
@@ -231,8 +232,10 @@ jobs:
         with:
           go-version: "stable"
           cache-dependency-path: tailwrap/go.sum
+      - name: Add KDE Neon apt repo.
+        run: sudo ./scripts/add-neon-apt-repo.sh
       - name: Install dependencies.
-        run: sudo ./scripts/ubuntu-deps.sh
+        run: sudo ./scripts/neon-deps.sh
       - name: Install GH CLI.
         run: |
           curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \

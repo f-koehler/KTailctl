@@ -6,6 +6,7 @@
 #include <KWindowConfig>
 #include <QClipboard>
 #include <QGuiApplication>
+#include <QList>
 #include <QMenu>
 #include <QQuickWindow>
 
@@ -86,7 +87,7 @@ void App::saveWindowGeometry(QQuickWindow *window, const QString &group)
 
 void App::setPeerDetails(const QString &id)
 {
-    const auto *pos = std::find_if(mTailscale->status()->peers().begin(), mTailscale->status()->peers().end(), [&id](const Peer *peer) {
+    auto pos = std::find_if(mTailscale->status()->peers().begin(), mTailscale->status()->peers().end(), [&id](Peer *peer) {
         return peer->id() == id;
     });
     if (pos == mTailscale->status()->peers().end()) {

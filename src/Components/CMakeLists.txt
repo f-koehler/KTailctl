@@ -12,9 +12,9 @@ ecm_target_qml_sources(mycomponentsplugin SOURCES
     PeerInfo.qml
 )
 target_link_libraries(mycomponentsplugin PRIVATE
-    Qt5::Quick
-    Qt5::Qml
-    KF5::I18n
-    KF5::GuiAddons
+    Qt6::Quick
+    Qt6::Qml
+    KF6::I18n
+    KF6::GuiAddons
 )
 ecm_finalize_qml_module(mycomponentsplugin DESTINATION ${KDE_INSTALL_QMLDIR})

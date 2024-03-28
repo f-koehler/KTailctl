@@ -39,18 +39,20 @@
             extra-cmake-modules
             git
             go
-            qt5.wrapQtAppsHook
+            kdePackages.wrapQtAppsHook
           ];
           buildInputs = [
-            libsForQt5.qt5.qtbase
-            libsForQt5.qt5.qtquickcontrols2
-            libsForQt5.kconfig
-            libsForQt5.kcoreaddons
-            libsForQt5.kguiaddons
-            libsForQt5.ki18n
-            libsForQt5.kirigami2
-            libsForQt5.knotifications
-            libsForQt5.kirigami-addons
+            appstream
+            kdePackages.kconfig
+            kdePackages.kcoreaddons
+            kdePackages.kguiaddons
+            kdePackages.ki18n
+            kdePackages.kirigami
+            kdePackages.kirigami-addons
+            kdePackages.knotifications
+            kdePackages.qtbase
+            kdePackages.qtdeclarative
+            kdePackages.qtsvg
             nlohmann_json
           ];
 
@@ -89,19 +91,21 @@
       package = nixpkgsFor.${system}.stdenv.mkDerivation {
         name = "ktailctl-devShell-${system}";
         buildInputs = with nixpkgsFor.${system}; [
+          appstream
           cmake
           extra-cmake-modules
           git
           go
-          libsForQt5.kconfig
-          libsForQt5.kcoreaddons
-          libsForQt5.kguiaddons
-          libsForQt5.ki18n
-          libsForQt5.kirigami-addons
-          libsForQt5.kirigami2
-          libsForQt5.knotifications
-          libsForQt5.qt5.qtbase
-          libsForQt5.qt5.qtquickcontrols2
+          kdePackages.kconfig
+          kdePackages.kcoreaddons
+          kdePackages.kguiaddons
+          kdePackages.ki18n
+          kdePackages.kirigami
+          kdePackages.kirigami-addons
+          kdePackages.knotifications
+          kdePackages.qtbase
+          kdePackages.qtdeclarative
+          kdePackages.qtsvg
           nlohmann_json
         ];
       };
