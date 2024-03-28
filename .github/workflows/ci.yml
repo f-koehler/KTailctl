@@ -192,6 +192,24 @@ jobs:
       - name: Build AppImage.
         working-directory: AppImage
         run: CC=clang-18 CXX=clang++-18 ./build.sh
+  nix_build:
+    name: Nix build
+    runs-on: ubuntu-latest
+    needs:
+      - qmllinting
+      - golinting
+      - cpplinting
+    steps:
+      - name: Checkout repository.
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Install nix
+        uses: cachix/install-nix-action@v22
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+      - name: Build with nix
+        run: nix build .
   create_release:
     if: startsWith(github.event.ref, 'refs/tags/v')
     name: Create release
@@ -200,6 +218,7 @@ jobs:
       - build
       - flatpak_build
       - appimage_build
+      - nix_build
     permissions:
       contents: write
     steps:
