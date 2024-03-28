@@ -10,8 +10,9 @@ option(KTAILCTL_APPIMAGE_BUILD "Build for AppImage" OFF)
 
 include(FeatureSummary)
 
-set(QT5_MIN_VERSION 5.15)
-set(KF5_MIN_VERSION 5.83)
+set(QT_MAJOR_VERSION 6)
+set(QT6_MIN_VERSION 6.6)
+set(KF6_MIN_VERSION 6.0)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -24,7 +25,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
     -Wno-c++98-compat \
 ")
 
-find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
+find_package(ECM ${KF6_MIN_VERSION} REQUIRED NO_MODULE)
 find_package(Git REQUIRED)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
@@ -48,34 +49,36 @@ ecm_setup_version(${PROJECT_VERSION}
     VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/src/version-ktailctl.h"
 )
 
-find_package(Qt5 ${QT5_MIN_VERSION} REQUIRED COMPONENTS
+find_package(Qt6 ${QT6_MIN_VERSION} REQUIRED COMPONENTS
     Core
     Gui
-    Qml
+
+    # Qml
+    Quick
     QuickControls2
     Svg
     Test
+    Widgets
 )
-find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
+find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
     Config
     CoreAddons
     GuiAddons
     I18n
-    Kirigami2
+    Kirigami
     Notifications
 )
+find_package(nlohmann_json)
+if(NOT nlohmann_json_FOUND)
+    set(JSON_BuildTests OFF CACHE INTERNAL "")
+    add_subdirectory(deps/json)
+endif()
 
 add_subdirectory(src)
 add_subdirectory(tailwrap)
 
 if(KTAILCTL_APPIMAGE_BUILD)
     add_subdirectory(deps/AppImageUpdate)
-endif()
-
-if(NOT KTAILCTL_FLATPAK_BUILD)
-    set(JSON_BuildTests OFF CACHE INTERNAL "")
-    add_subdirectory(deps/json)
-    add_subdirectory(deps/kirigami-addons)
 endif()
 
 execute_process(

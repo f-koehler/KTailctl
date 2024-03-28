@@ -3,7 +3,7 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15 as Controls
-import QtQuick.Dialogs 1.3
+import QtQuick.Dialogs
 import QtQuick.Layouts 1.15
 import org.fkoehler.KTailctl 1.0
 import org.kde.kirigami 2.19 as Kirigami
@@ -17,6 +17,16 @@ Kirigami.ScrollablePage {
     title: i18n("Settings")
     leftPadding: 0
     rightPadding: 0
+    actions: [
+        Kirigami.Action {
+            visible: Tailscale.status.success && Tailscale.status.isOperator
+            text: (Tailscale.status.backendState == "Running") ? "Stop tailscale" : "Start tailscale"
+            icon.name: (Tailscale.status.backendState == "Running") ? "process-stop" : "media-playback-start"
+            onTriggered: {
+                App.tailscale.toggle();
+            }
+        }
+    ]
 
     ColumnLayout {
         // Controls.ComboBox {
@@ -352,13 +362,10 @@ Kirigami.ScrollablePage {
                                 }
                             }
 
-                            FileDialog {
+                            FolderDialog {
                                 id: folderDialogTaildropDirectory
 
-                                folder: App.config.taildropDirectory
-                                selectMultiple: false
-                                // TODO: with Qt6 we can use the FolderDialog type instead
-                                selectFolder: true
+                                currentFolder: App.config.taildropDirectory
                                 onAccepted: {
                                     App.config.taildropDirectory = App.fileUrlToString(folderDialogTaildropDirectory.fileUrls[0]);
                                     App.config.save();
@@ -394,15 +401,6 @@ Kirigami.ScrollablePage {
         visible: !Tailscale.status.success
         type: Kirigami.MessageType.Error
         text: i18n("Tailscaled is not running")
-    }
-
-    actions.main: Kirigami.Action {
-        visible: Tailscale.status.success && Tailscale.status.isOperator
-        text: (Tailscale.status.backendState == "Running") ? "Stop tailscale" : "Start tailscale"
-        icon.name: (Tailscale.status.backendState == "Running") ? "process-stop" : "media-playback-start"
-        onTriggered: {
-            App.tailscale.toggle();
-        }
     }
 
 }
