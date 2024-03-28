@@ -53,11 +53,6 @@
             libsForQt5.kirigami-addons
             nlohmann_json
           ];
-          runtimeDependencies = [
-            libsForQt5.kirigami2
-            libsForQt5.kirigami-addons
-            libsForQt5.qt5.qtquickcontrols2
-          ];
 
           postPatch = ''
             cp -r --reflink=auto ${goDeps} tailwrap/vendor
@@ -89,5 +84,27 @@
       nixpkgs.overlays = [self.overlay];
       environment.systemPackages = [pkgs.ktailctl];
     };
+
+    devShells = forAllSystems (system: {
+      package = nixpkgsFor.${system}.stdenv.mkDerivation {
+        name = "ktailctl-devShell-${system}";
+        buildInputs = with nixpkgsFor.${system}; [
+          cmake
+          extra-cmake-modules
+          git
+          go
+          libsForQt5.kconfig
+          libsForQt5.kcoreaddons
+          libsForQt5.kguiaddons
+          libsForQt5.ki18n
+          libsForQt5.kirigami-addons
+          libsForQt5.kirigami2
+          libsForQt5.knotifications
+          libsForQt5.qt5.qtbase
+          libsForQt5.qt5.qtquickcontrols2
+          nlohmann_json
+        ];
+      };
+    });
   };
 }
