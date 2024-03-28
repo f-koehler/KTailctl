@@ -206,6 +206,9 @@ jobs:
         uses: cachix/install-nix-action@v26
         with:
           nix_path: nixpkgs=channel:nixos-unstable
+      - name: Vendor go dependencies.
+        run: nix-shell -p go --command "go mod vendor"
+        working-directory: tailwrap
       - name: Build with nix
         run: nix build .
   create_release:
