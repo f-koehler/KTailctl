@@ -53,6 +53,11 @@
             libsForQt5.kirigami-addons
             nlohmann_json
           ];
+          runtimeDependencies = [
+            libsForQt5.kirigami2
+            libsForQt5.kirigami-addons
+            libsForQt5.qt5.qtquickcontrols2
+          ];
 
           postPatch = ''
             cp -r --reflink=auto ${goDeps} tailwrap/vendor

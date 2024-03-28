@@ -12,3 +12,4 @@ craft/
 _build/
 .DS_Store
 .cache/
+result/
