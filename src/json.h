@@ -9,7 +9,7 @@
 
 using json = nlohmann::json;
 
-void from_json(const json &j, QString &value);
+void from_json(const json &j, QString &string);
 void from_json(const json &j, QStringList &value);
 
 #endif /* KTAILCTL_STLTYPES_H */

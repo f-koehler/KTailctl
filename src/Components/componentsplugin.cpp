@@ -11,7 +11,7 @@ class ComponentsPlugin : public QQmlExtensionPlugin
 
 public:
     ComponentsPlugin() = default;
-    ~ComponentsPlugin() = default;
+    ~ComponentsPlugin() override = default;
     void registerTypes(const char *uri) override
     {
         Q_ASSERT(QLatin1String(uri) == QLatin1String("org.fkoehler.KTailctl.Components"));
