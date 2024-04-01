@@ -251,7 +251,7 @@ jobs:
       - name: Add LLVM repo.
         run: sudo add-apt-repository -y "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-18 main"
       - name: Install clang.
-        run: sudo apt install -y clang-18 llvm-18-dev clang-18-dev
+        run: sudo apt install -y clang-18 llvm-18-dev
       - name: Get appimage-builder.
         working-directory: AppImage
         run: wget -O appimage-builder https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.1.0/appimage-builder-1.1.0-x86_64.AppImage
