@@ -219,7 +219,6 @@ jobs:
       - build
       - flatpak_build
       - appimage_build
-      - nix_build
     permissions:
       contents: write
     steps:
