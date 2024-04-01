@@ -27,7 +27,7 @@ void handleLogMessage(QtMsgType type, const QMessageLogContext &context, const Q
         strm << "[fatal]";
         break;
     }
-    if (context.file) {
+    if (context.file != nullptr) {
         strm << '[' << context.file << ':' << context.line << ']';
     }
     strm << ' ' << localMessage.constData() << '\n';
@@ -35,11 +35,11 @@ void handleLogMessage(QtMsgType type, const QMessageLogContext &context, const Q
     std::cerr << formatted;
 
     QString logDir = QDir::homePath() + "/.local/state";
-    QByteArray stateHomeArr = qgetenv("XDG_STATE_HOME");
+    QByteArray const stateHomeArr = qgetenv("XDG_STATE_HOME");
     if (!stateHomeArr.isEmpty()) {
         logDir = QString::fromLocal8Bit(stateHomeArr);
     }
-    std::string logPath = logDir.toStdString() + "/org.fkoehler.KTailctl.log";
+    std::string const logPath = logDir.toStdString() + "/org.fkoehler.KTailctl.log";
     std::ofstream logFile(logPath, std::ios_base::app);
     if (logFile.is_open()) {
         logFile << formatted;

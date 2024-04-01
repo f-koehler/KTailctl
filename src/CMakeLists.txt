@@ -48,6 +48,7 @@ target_link_libraries(ktailctl
 
 target_include_directories(
     ktailctl PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}/src
     ${CMAKE_BINARY_DIR}/lib
 )
