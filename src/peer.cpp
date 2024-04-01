@@ -5,8 +5,8 @@ QDateTime get_date_from_string(const QString &string)
 {
     if (string == TAILSCALE_JSON_NOWDATE) {
         return QDateTime::currentDateTime();
-    }         return QDateTime::fromString(string, Qt::ISODateWithMs);
-   
+    }
+    return QDateTime::fromString(string, Qt::ISODateWithMs);
 }
 
 Peer::Peer(QObject *parent)
