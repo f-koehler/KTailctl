@@ -1,8 +1,8 @@
-
 *.kdev4
 .DS_Store
 .cache/
 .craft/
+.direnv
 .flatpak-builder/
 .flatpak/
 .kdev4/
@@ -12,5 +12,6 @@ build-dir/
 build/
 cmake-build-*/
 craft/
+result
 tailscale/
 tailwrap-vendor-*.tar.gz

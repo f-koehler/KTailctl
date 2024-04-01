@@ -31,7 +31,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 {
     qInstallMessageHandler(handleLogMessage);
 
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #ifdef __APPLE__
     QQuickStyle::setStyle(QStringLiteral("macOS"));
 #endif
