@@ -25,6 +25,7 @@ add_executable(ktailctl
     taildrop_sender.cpp
     tailscale.cpp
     tray_icon.cpp
+    user_data.cpp
     util.cpp
     resources.qrc
 )
@@ -99,6 +100,7 @@ add_executable(tests
     status_data.cpp
     location_data.cpp
     peer_data.cpp
+    user_data.cpp
 )
 target_link_libraries(tests
     Qt6::Core

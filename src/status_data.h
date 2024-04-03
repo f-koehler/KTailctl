@@ -2,6 +2,7 @@
 #define KTAILCTL_STATUS_DATA_H
 
 #include "peer_data.h"
+#include "user_data.h"
 
 #include <QLoggingCategory>
 
@@ -13,6 +14,7 @@ struct StatusData {
     QString backendState;
     PeerData self;
     QVector<PeerData> peers;
+    QVector<UserData> users;
 };
 
 void from_json(const json &j, StatusData &s);
