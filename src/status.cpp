@@ -43,9 +43,17 @@ const QVector<Peer *> &Status::peers() const
 {
     return mPeers;
 }
+const QVector<User *> &Status::users() const
+{
+    return mUsers;
+}
 Peer *Status::currentExitNode()
 {
     return mCurrentExitNode;
+}
+User *Status::currentUser()
+{
+    return mCurrentUser;
 }
 const StatusData &Status::statusData() const
 {
@@ -94,6 +102,7 @@ void Status::update(StatusData &newData)
     }
     if (mSelf == nullptr) {
         mSelf = new Peer(this);
+        emit selfChanged(mSelf);
     }
     mSelf->update(newData.self);
 
@@ -126,11 +135,43 @@ void Status::update(StatusData &newData)
         mCurrentExitNode = newExitNode;
         emit currentExitNodeChanged(mCurrentExitNode);
     }
-
     mData.peers.swap(newData.peers);
-
     if (peerVectorChanged) {
         emit peersChanged(mPeers);
+    }
+
+    // remove extra elements from users
+    bool userVectorChanged = false;
+    if (!mUsers.isEmpty()) {
+        std::for_each(mUsers.begin() + newData.users.size(), mUsers.end(), [&userVectorChanged](User *user) {
+            user->deleteLater();
+            userVectorChanged = true;
+        });
+        mUsers.erase(mUsers.begin() + newData.users.size(), mUsers.end());
+    }
+
+    // add elements to match size of newData.users
+    while (mUsers.size() < newData.users.size()) {
+        mUsers.append(new User(this));
+        userVectorChanged = true;
+    }
+
+    // update user elements
+    const quint64 userId = mSelf->userId();
+    for (int i = 0; i < newData.users.size(); ++i) {
+        mUsers[i]->update(newData.users[i]);
+        if (mUsers[i]->id() == userId) {
+            if (mCurrentUser == nullptr) {
+                mCurrentUser = mUsers[i];
+                emit currentUserChanged(mCurrentUser);
+                continue;
+            }
+            mCurrentUser->update(newData.users[i]);
+        }
+    }
+    mData.users.swap(newData.users);
+    if (userVectorChanged) {
+        emit usersChanged(mUsers);
     }
 }
 void Status::refresh()

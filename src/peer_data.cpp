@@ -57,6 +57,7 @@ void from_json(const json &j, PeerData &p)
         } else {
             p.tags.clear();
         }
+        j.at("UserID").get_to<quint64>(p.userId);
         p.isMullvad = p.tags.contains("tag:mullvad-exit-node");
         if (j.contains("Location")) {
             p.location = j["Location"].get<LocationData>();

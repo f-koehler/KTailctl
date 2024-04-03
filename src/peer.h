@@ -29,6 +29,7 @@ class Peer : public QObject
     Q_PROPERTY(bool isRunningSSH READ isRunningSSH NOTIFY isRunningSSHChanged)
     Q_PROPERTY(QString sshCommand READ sshCommand NOTIFY sshCommandChanged)
     Q_PROPERTY(QStringList tags READ tags NOTIFY tagsChanged)
+    Q_PROPERTY(quint64 userId READ userId NOTIFY userIdChanged)
     Q_PROPERTY(bool isMullvad READ isMullvad NOTIFY isMullvadChanged)
     Q_PROPERTY(Location *location READ location NOTIFY locationChanged)
 
@@ -61,6 +62,7 @@ public:
     bool isRunningSSH() const;
     QString sshCommand() const;
     const QStringList &tags() const;
+    quint64 userId() const;
     bool isMullvad() const;
     Location *location() const;
     const PeerData &peerData() const;
@@ -85,6 +87,7 @@ signals:
     void sshCommandChanged(const QString &sshCommand);
     void isRunningSSHChanged(bool isRunningSSH);
     void tagsChanged(const QStringList &tags);
+    void userIdChanged(quint64 userId);
     void isMullvadChanged(bool isMullvad);
     void locationChanged(Location *location);
 

@@ -9,7 +9,7 @@ void from_json(const json &data, UserData &user)
         data.at("ID").get_to<quint64>(user.id);
         data.at("LoginName").get_to<QString>(user.loginName);
         data.at("DisplayName").get_to<QString>(user.displayName);
-        data.at("ProfilePicUrl").get_to<QString>(user.profilePicUrl);
+        data.at("ProfilePicURL").get_to<QString>(user.profilePicUrl);
     } catch (json::exception &exception) {
         qCCritical(logcat_user_data) << "Error parsing user data: " << exception.what();
     }

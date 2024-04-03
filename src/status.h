@@ -6,6 +6,7 @@
 #include "json.h"
 #include "peer.h"
 #include "status_data.h"
+#include "user.h"
 
 class Status : public QObject
 {
@@ -17,7 +18,9 @@ class Status : public QObject
     Q_PROPERTY(QString backendState READ backendState NOTIFY backendStateChanged)
     Q_PROPERTY(Peer *self READ self NOTIFY selfChanged)
     Q_PROPERTY(QVector<Peer *> peers READ peers NOTIFY peersChanged)
+    Q_PROPERTY(QVector<User *> users READ users NOTIFY usersChanged)
     Q_PROPERTY(Peer *currentExitNode READ currentExitNode NOTIFY currentExitNodeChanged)
+    Q_PROPERTY(User *currentUser READ currentUser NOTIFY currentUserChanged)
 
 private:
     bool mSuccess = false;
@@ -25,7 +28,9 @@ private:
     StatusData mData;
     Peer *mSelf = nullptr;
     QVector<Peer *> mPeers;
+    QVector<User *> mUsers;
     Peer *mCurrentExitNode;
+    User *mCurrentUser;
 
     StatusData mNewData;
 
@@ -41,7 +46,9 @@ public:
     Peer *self() const;
     QVector<Peer *> &peers();
     const QVector<Peer *> &peers() const;
+    const QVector<User *> &users() const;
     Peer *currentExitNode();
+    User *currentUser();
 
     const StatusData &statusData() const;
 
@@ -55,7 +62,9 @@ signals:
     void backendStateChanged(const QString &);
     void selfChanged(const Peer *);
     void peersChanged(const QVector<Peer *> &);
+    void usersChanged(const QVector<User *> &);
     void currentExitNodeChanged(Peer *);
+    void currentUserChanged(User *);
 
     void refreshed(const Status &);
 

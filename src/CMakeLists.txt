@@ -25,6 +25,7 @@ add_executable(ktailctl
     taildrop_sender.cpp
     tailscale.cpp
     tray_icon.cpp
+    user.cpp
     user_data.cpp
     util.cpp
     resources.qrc

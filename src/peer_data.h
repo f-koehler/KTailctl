@@ -29,6 +29,7 @@ struct PeerData {
     bool isExitNode;
     QStringList sshHostKeys;
     QStringList tags;
+    quint64 userId;
     bool isMullvad;
     std::optional<LocationData> location;
 

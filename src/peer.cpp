@@ -91,6 +91,10 @@ const QStringList &Peer::tags() const
 {
     return mData.tags;
 }
+quint64 Peer::userId() const
+{
+    return mData.userId;
+}
 bool Peer::isMullvad() const
 {
     return mData.isMullvad;
