@@ -30,7 +30,7 @@
               pname = "tailwrap";
               inherit src version;
               modRoot = "tailwrap";
-              vendorHash = "sha256-NBuV3QKvPcmKBMNpUeHtfVMLRTzgf4eG/j8oR/w4Lew=";
+              vendorHash = "sha256-0AypfiW3waSVGUZQr4ivg7zJR3rnC+Xh+RF1afScFwI=";
             })
             .goModules;
 
