@@ -51,7 +51,7 @@ jobs:
         with:
           submodules: true
       - name: Setup go.
-        uses: actions/setup-go@v5.0.0
+        uses: actions/setup-go@v5.0.1
         with:
           go-version: "stable"
       - name: Add KDE Neon apt repo.
@@ -97,7 +97,7 @@ jobs:
         with:
           submodules: true
       - name: Setup go.
-        uses: actions/setup-go@v5.0.0
+        uses: actions/setup-go@v5.0.1
         with:
           go-version: "stable"
           cache-dependency-path: tailwrap/go.sum
@@ -141,7 +141,7 @@ jobs:
       - name: Check external data.
         run: flatpak run org.flathub.flatpak-external-data-checker --check-outdated org.fkoehler.KTailctl.yml
       - name: Setup go.
-        uses: actions/setup-go@v5.0.0
+        uses: actions/setup-go@v5.0.1
         with:
           go-version: "stable"
       - name: Vendor go dependencies.
@@ -164,7 +164,7 @@ jobs:
         with:
           submodules: true
       - name: Setup go.
-        uses: actions/setup-go@v5.0.0
+        uses: actions/setup-go@v5.0.1
         with:
           go-version: "stable"
           cache-dependency-path: tailwrap/go.sum
@@ -227,7 +227,7 @@ jobs:
         with:
           submodules: true
       - name: Setup go.
-        uses: actions/setup-go@v5.0.0
+        uses: actions/setup-go@v5.0.1
         with:
           go-version: "stable"
           cache-dependency-path: tailwrap/go.sum
