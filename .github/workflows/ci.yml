@@ -26,7 +26,7 @@ jobs:
         with:
           submodules: true
       - name: Setup nix.
-        uses: cachix/install-nix-action@v26
+        uses: cachix/install-nix-action@v27
         with:
           nix_path: nixpkgs=channel:nixos-unstable
       - name: Run ${{ matrix.check.script }}.
@@ -203,7 +203,7 @@ jobs:
         with:
           submodules: true
       - name: Install nix
-        uses: cachix/install-nix-action@v26
+        uses: cachix/install-nix-action@v27
         with:
           nix_path: nixpkgs=channel:nixos-unstable
       - name: Vendor go dependencies.
