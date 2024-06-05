@@ -24,20 +24,9 @@ add_executable(ktailctl
 )
 
 target_link_libraries(ktailctl
-    # KF6::ConfigCore
-    # KF6::ConfigGui
-    # KF6::CoreAddons
-    # KF6::GuiAddons
     KF6::I18n
-    # KF6::Notifications
-    # Qt6::Core
-    # Qt6::Gui
-    # Qt6::Qml
     Qt6::Quick
     Qt6::QuickControls2
-    # Qt6::Svg
-    # Qt6::Widgets
-    # nlohmann_json::nlohmann_json
     ktailctl_data
     ktailctl_models
     ktailctl_config
