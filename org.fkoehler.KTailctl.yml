@@ -44,8 +44,8 @@ modules:
       - "-DCMAKE_C_COMPILER=clang"
     sources:
       - type: "archive"
-        url: https://download.kde.org/stable/kirigami-addons/kirigami-addons-1.2.0.tar.xz
-        sha256: 8ff36458aa90ff1d980629357b6ddf5e88ab6bc917b011a7f9fa5d5e12acf51a
+        url: https://download.kde.org/stable/kirigami-addons/kirigami-addons-1.2.1.tar.xz
+        sha256: 657426f9ec55cfec5a7f04848ed2b4df2ac8bfcb33c25626ad239219d444ee98 
         x-checker-data:
           type: "anitya"
           project-id: 242933
