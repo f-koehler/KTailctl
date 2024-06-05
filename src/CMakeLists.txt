@@ -21,7 +21,9 @@ add_executable(ktailctl
     statistics.cpp
     tailscale.cpp
     tray_icon.cpp
-    resources.qrc
+    icons/icons.qrc
+    ui/ui.qrc
+    country-flags/country-flags.qrc
 )
 
 target_link_libraries(ktailctl

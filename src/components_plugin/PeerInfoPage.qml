@@ -5,7 +5,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15 as Controls
 import QtQuick.Layouts 1.15
 import org.fkoehler.KTailctl 1.0
-import org.fkoehler.KTailctl.Components 1.0 as MyComponents
+import org.fkoehler.KTailctl.Components 1.0 as KTailctlComponents
 import org.kde.kirigami 2.19 as Kirigami
 import org.kde.kirigamiaddons.formcard 1.0 as FormCard
 import org.kde.kirigamiaddons.labs.components 1.0 as Components
@@ -42,7 +42,7 @@ Kirigami.ScrollablePage {
             ColumnLayout {
                 spacing: 0
 
-                MyComponents.FormCopyLabelDelegate {
+                KTailctlComponents.FormCopyLabelDelegate {
                     text: i18nc("@label", "Hostname:")
                     copyData: peer.hostName
                 }
@@ -50,7 +50,7 @@ Kirigami.ScrollablePage {
                 FormCard.FormDelegateSeparator {
                 }
 
-                MyComponents.FormCopyLabelDelegate {
+                KTailctlComponents.FormCopyLabelDelegate {
                     text: i18nc("@label", "DNS name:")
                     copyData: peer.dnsName
                 }
@@ -58,7 +58,7 @@ Kirigami.ScrollablePage {
                 FormCard.FormDelegateSeparator {
                 }
 
-                MyComponents.FormCopyLabelDelegate {
+                KTailctlComponents.FormCopyLabelDelegate {
                     text: i18nc("@label", "Tailscale ID:")
                     copyData: peer.tailscaleID
                 }
@@ -66,7 +66,7 @@ Kirigami.ScrollablePage {
                 FormCard.FormDelegateSeparator {
                 }
 
-                MyComponents.FormCopyLabelDelegate {
+                KTailctlComponents.FormCopyLabelDelegate {
                     text: i18nc("@label", "Created:")
                     copyData: {
                         var duration = Util.formatDurationHumanReadable(peer.created);
@@ -83,7 +83,7 @@ Kirigami.ScrollablePage {
                 FormCard.FormDelegateSeparator {
                 }
 
-                MyComponents.FormCopyLabelDelegate {
+                KTailctlComponents.FormCopyLabelDelegate {
                     text: i18nc("@label", "Last seen:")
                     copyData: {
                         var duration = Util.formatDurationHumanReadable(peer.lastSeen);
@@ -101,7 +101,7 @@ Kirigami.ScrollablePage {
                     visible: peer.os != ""
                 }
 
-                MyComponents.FormCopyLabelDelegate {
+                KTailctlComponents.FormCopyLabelDelegate {
                     text: i18nc("@label", "OS:")
                     copyData: peer.os
                     visible: peer.os != ""
@@ -110,7 +110,7 @@ Kirigami.ScrollablePage {
                 FormCard.FormDelegateSeparator {
                 }
 
-                MyComponents.FormCopyChipsDelegate {
+                KTailctlComponents.FormCopyChipsDelegate {
                     text: i18nc("@label", "Addresses:")
                     model: peer.tailscaleIps
                 }
@@ -119,7 +119,7 @@ Kirigami.ScrollablePage {
                     visible: peer.tags.length > 0
                 }
 
-                MyComponents.FormCopyChipsDelegate {
+                KTailctlComponents.FormCopyChipsDelegate {
                     text: i18nc("@label", "Tags:")
                     visible: peer.tags.length > 0
                     model: peer.tags
@@ -141,7 +141,7 @@ Kirigami.ScrollablePage {
             ColumnLayout {
                 spacing: 0
 
-                MyComponents.FormLabeledIconDelegate {
+                KTailctlComponents.FormLabeledIconDelegate {
                     text: i18nc("@label", "Exit node:")
                     label: peer.isExitNode ? "Yes" : "No"
                     source: peer.isExitNode ? "dialog-ok" : "dialog-cancel"
@@ -178,7 +178,7 @@ Kirigami.ScrollablePage {
             ColumnLayout {
                 spacing: 0
 
-                MyComponents.FormLabeledIconDelegate {
+                KTailctlComponents.FormLabeledIconDelegate {
                     text: i18nc("@label", "Runs Tailscale SSH:")
                     label: peer.isRunningSSH ? "Yes" : "No"
                     source: peer.isRunningSSH ? "dialog-ok" : "dialog-cancel"
@@ -187,7 +187,7 @@ Kirigami.ScrollablePage {
                 FormCard.FormDelegateSeparator {
                 }
 
-                MyComponents.FormCopyLabelDelegate {
+                KTailctlComponents.FormCopyLabelDelegate {
                     text: i18nc("@label", "SSH command:")
                     copyData: i18nc("@label", "Copy")
                     enabled: peer.isRunningSSH
@@ -214,7 +214,7 @@ Kirigami.ScrollablePage {
             ColumnLayout {
                 spacing: 0
 
-                MyComponents.FormLabeledIconDelegate {
+                KTailctlComponents.FormLabeledIconDelegate {
                     text: i18nc("@label", "Country:")
                     label: peer.location == null ? "" : peer.location.country + " (" + peer.location.countryCode + ")"
                     source: peer.location == null ? "question" : "qrc:/country-flags/" + peer.location.countryCode.toLowerCase() + ".svg"
@@ -226,7 +226,7 @@ Kirigami.ScrollablePage {
                 FormCard.FormDelegateSeparator {
                 }
 
-                MyComponents.FormLabelDelegate {
+                KTailctlComponents.FormLabelDelegate {
                     text: i18nc("@label", "City:")
                     label: peer.location == null ? "" : peer.location.city + " (" + peer.location.cityCode + ")"
                     onClicked: {
@@ -252,7 +252,7 @@ Kirigami.ScrollablePage {
             ColumnLayout {
                 spacing: 0
 
-                MyComponents.FormLabeledIconDelegate {
+                KTailctlComponents.FormLabeledIconDelegate {
                     text: i18nc("@label", "Download:")
                     label: root.isSelf ? "" : Util.formatCapacityHumanReadable(peer.rxBytes) + " (" + Util.formatSpeedHumanReadable(Tailscale.statistics.speedDown(peer.tailscaleID).average1Second) + ")"
                     source: "cloud-download"
@@ -264,7 +264,7 @@ Kirigami.ScrollablePage {
                 FormCard.FormDelegateSeparator {
                 }
 
-                MyComponents.FormLabeledIconDelegate {
+                KTailctlComponents.FormLabeledIconDelegate {
                     text: i18nc("@label", "Upload:")
                     label: root.isSelf ? "" : Util.formatCapacityHumanReadable(peer.txBytes) + " (" + Util.formatSpeedHumanReadable(Tailscale.statistics.speedUp(peer.tailscaleID).average1Second) + ")"
                     source: "cloud-upload"
