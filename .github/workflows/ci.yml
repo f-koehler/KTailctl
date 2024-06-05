@@ -20,11 +20,23 @@ jobs:
             dependencies: "cppcheck"
           - script: flawfinder
             dependencies: "flawfinder"
+          - script: clazy
+            dependencies: "clazy"
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v4
         with:
           submodules: true
+      - name: Setup go.
+        uses: actions/setup-go@v5.0.0
+        with:
+          go-version: "stable"
+          cache-dependency-path: tailwrap/go.sum
+      - name: Vendor go dependencies.
+        run: go mod vendor
+        working-directory: tailwrap
+      - name: Install dependencies.
+        run: sudo ./scripts/ubuntu-deps.sh
       - name: Setup nix.
         uses: cachix/install-nix-action@v27
         with:

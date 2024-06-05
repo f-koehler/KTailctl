@@ -28,6 +28,7 @@ repos:
     rev: "v4.0.0-alpha.8"
     hooks:
       - id: prettier
+        exclude: "^.clang-format$"
   - repo: local
     hooks:
       - id: cppcheck
@@ -39,4 +40,9 @@ repos:
         name: flawfinder
         language: script
         entry: ./scripts/flawfinder.sh
+        pass_filenames: false
+      - id: clazy
+        name: clazy
+        language: script
+        entry: ./scripts/clazy.sh
         pass_filenames: false
