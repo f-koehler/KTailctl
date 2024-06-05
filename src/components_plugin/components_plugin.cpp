@@ -1,8 +1,5 @@
-#include <QClipboard>
-#include <QMimeData>
 #include <QQmlEngine>
 #include <QQmlExtensionPlugin>
-#include <ksystemclipboard.h>
 
 class ComponentsPlugin : public QQmlExtensionPlugin
 {
@@ -19,4 +16,4 @@ public:
     }
 };
 
-#include "componentsplugin.moc"
+#include "components_plugin.moc"

@@ -10,6 +10,7 @@ add_subdirectory(models)
 add_subdirectory(config)
 add_subdirectory(taildrop)
 add_subdirectory(util)
+add_subdirectory(components_plugin)
 
 add_executable(ktailctl
     about.cpp
@@ -75,5 +76,4 @@ if(APPLE)
     )
 endif()
 
-add_subdirectory(Components)
-add_dependencies(ktailctl mycomponentsplugin)
+add_dependencies(ktailctl ktailctl_components_plugin)
