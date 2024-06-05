@@ -75,6 +75,7 @@ endif()
 
 add_subdirectory(src)
 add_subdirectory(tailwrap)
+add_subdirectory(tests)
 
 execute_process(
     COMMAND ${GIT_EXECUTABLE} describe --tags --dirty --match "v*"

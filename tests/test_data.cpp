@@ -154,4 +154,4 @@ void TestJSON::toPeerData()
 }
 
 QTEST_MAIN(TestJSON)
-#include "tests.moc"
+#include "test_data.moc"
