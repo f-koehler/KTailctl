@@ -1,5 +1,5 @@
-#ifndef KTAILCTL_STATUS_DATA_H
-#define KTAILCTL_STATUS_DATA_H
+#ifndef KTAILCTL_DATA_STATUS_DATA_H
+#define KTAILCTL_DATA_STATUS_DATA_H
 
 #include "peer_data.h"
 
@@ -17,4 +17,4 @@ struct StatusData {
 
 void from_json(const json &j, StatusData &s);
 
-#endif /* KTAILCTL_STATUS_DATA_H */
+#endif /* KTAILCTL_DATA_STATUS_DATA_H */

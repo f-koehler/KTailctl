@@ -4,46 +4,44 @@
 include(CheckIPOSupported)
 check_ipo_supported(RESULT ipo_supported OUTPUT ipo_output)
 
+add_subdirectory(common)
+add_subdirectory(data)
+add_subdirectory(models)
+add_subdirectory(config)
+add_subdirectory(taildrop)
+add_subdirectory(util)
+
 add_executable(ktailctl
     about.cpp
     app.cpp
-    exit_node_model.cpp
-    location.cpp
-    location_data.cpp
     logging.cpp
     main.cpp
-    json.cpp
-    peer.cpp
-    peer_data.cpp
-    peer_model.cpp
-    preferences.cpp
     speed_statistics.cpp
     statistics.cpp
-    status.cpp
-    status_data.cpp
-    taildrop_receiver.cpp
-    taildrop_sender.cpp
     tailscale.cpp
     tray_icon.cpp
-    util.cpp
     resources.qrc
 )
 
 target_link_libraries(ktailctl
-    KF6::ConfigCore
-    KF6::ConfigGui
-    KF6::CoreAddons
-    KF6::GuiAddons
+    # KF6::ConfigCore
+    # KF6::ConfigGui
+    # KF6::CoreAddons
+    # KF6::GuiAddons
     KF6::I18n
-    KF6::Notifications
-    Qt6::Core
-    Qt6::Gui
-    Qt6::Qml
+    # KF6::Notifications
+    # Qt6::Core
+    # Qt6::Gui
+    # Qt6::Qml
     Qt6::Quick
     Qt6::QuickControls2
-    Qt6::Svg
-    Qt6::Widgets
-    nlohmann_json::nlohmann_json
+    # Qt6::Svg
+    # Qt6::Widgets
+    # nlohmann_json::nlohmann_json
+    ktailctl_data
+    ktailctl_models
+    ktailctl_config
+    ktailctl_taildrop
 )
 
 target_include_directories(
@@ -62,7 +60,6 @@ endif()
 
 target_compile_definitions(ktailctl PRIVATE QT_MESSAGELOGCONTEXT)
 
-kconfig_add_kcfg_files(ktailctl GENERATE_MOC ktailctlconfig.kcfgc)
 install(TARGETS ktailctl ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 if(ipo_supported)
@@ -91,19 +88,3 @@ endif()
 
 add_subdirectory(Components)
 add_dependencies(ktailctl mycomponentsplugin)
-
-enable_testing(true)
-add_executable(tests
-    tests.cpp
-    json.cpp
-    status_data.cpp
-    location_data.cpp
-    peer_data.cpp
-)
-target_link_libraries(tests
-    Qt6::Core
-    Qt6::Gui
-    Qt6::Test
-    nlohmann_json::nlohmann_json
-)
-add_test(NAME tests COMMAND tests)

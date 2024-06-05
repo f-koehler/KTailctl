@@ -1,4 +1,4 @@
-#include "tests.h"
+#include "test_data.h"
 #include "json.h"
 #include "location.h"
 #include "peer.h"

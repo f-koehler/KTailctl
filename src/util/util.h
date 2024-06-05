@@ -7,6 +7,7 @@
 #include <QIcon>
 #include <QObject>
 #include <QString>
+#include <QUrl>
 
 #include <tuple>
 

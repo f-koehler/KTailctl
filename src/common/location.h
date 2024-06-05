@@ -1,5 +1,5 @@
-#ifndef KTAILCTL_LOCATION_H
-#define KTAILCTL_LOCATION_H
+#ifndef KTAILCTL_COMMON_LOCATION_H
+#define KTAILCTL_COMMON_LOCATION_H
 
 #include "location_data.h"
 
@@ -37,4 +37,4 @@ public slots:
     void update(LocationData &newData);
 };
 
-#endif /* KTAILCTL_LOCATION_H */
+#endif /* KTAILCTL_COMMON_LOCATION_H */

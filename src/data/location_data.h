@@ -1,5 +1,5 @@
-#ifndef KTAILCTL_LOCATION_DATA_H
-#define KTAILCTL_LOCATION_DATA_H
+#ifndef KTAILCTL_DATA_LOCATION_DATA_H
+#define KTAILCTL_DATA_LOCATION_DATA_H
 
 #include "json.h"
 #include <QLoggingCategory>
@@ -20,4 +20,4 @@ struct LocationData {
 
 void from_json(const json &j, LocationData &l);
 
-#endif /* KTAILCTL_LOCATION_DATA_H */
+#endif /* KTAILCTL_DATA_LOCATION_DATA_H */

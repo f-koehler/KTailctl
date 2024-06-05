@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
+
+#ifndef KTAILCTL_UTIL_UTIL_CPP
+#define KTAILCTL_UTIL_UTIL_CPP
 #include "util.h"
 
 #include "libtailwrap.h"
@@ -178,3 +181,5 @@ void Util::unsetExitNode()
     GoString tmp{nullptr, 0};
     tailscale_set_exit_node(&tmp);
 }
+
+#endif /* KTAILCTL_UTIL_UTIL_CPP */

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 
-#ifndef KTAILCTL_PEER_MODEL_H
-#define KTAILCTL_PEER_MODEL_H
+#ifndef KTAILCTL_MODELS_PEER_MODEL_H
+#define KTAILCTL_MODELS_PEER_MODEL_H
 
 #include "peer_data.h"
 #include "status.h"
@@ -46,4 +46,4 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
 };
 
-#endif /* KTAILCTL_PEER_MODEL_H */
+#endif /* KTAILCTL_MODELS_PEER_MODEL_H */

@@ -1,5 +1,5 @@
-#ifndef KTAILCTL_PEER_DATA_H
-#define KTAILCTL_PEER_DATA_H
+#ifndef KTAILCTL_DATA_PEER_DATA_H
+#define KTAILCTL_DATA_PEER_DATA_H
 
 #include <optional>
 
@@ -42,4 +42,4 @@ struct PeerData {
 void from_json(const json &j, PeerData &p);
 void from_json(const json &j, QVector<PeerData> &peers);
 
-#endif /* KTAILCTL_PEER_DATA_H */
+#endif /* KTAILCTL_DATA_PEER_DATA_H */
