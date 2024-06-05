@@ -14,5 +14,7 @@ gh release upload ${TAG} tailwrap-vendor-${TAG}.tar.gz
 yq -i '.AppDir.app_info.version = "'${TAG}'"' AppImage/AppImageBuilder.yml
 pushd AppImage
 CC=clang-17 CXX=clang++-17 ./build.sh
+cp KTailctl-${TAG}-x86_64.AppImage.zsync KTailctl-x86_64.AppImage.zsync
 gh release upload ${TAG} KTailctl-${TAG}-x86_64.AppImage
+gh release upload ${TAG} KTailctl-x86_64.AppImage.zsync
 popd
