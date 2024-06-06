@@ -27,10 +27,10 @@
 
           goDeps =
             (buildGoModule {
-              pname = "tailwrap";
+              pname = "ktailctl_wrapper";
               inherit src version;
-              modRoot = "tailwrap";
-              vendorHash = "sha256-0AypfiW3waSVGUZQr4ivg7zJR3rnC+Xh+RF1afScFwI=";
+              modRoot = "src/wrapper";
+              vendorHash = "sha256-fAxSh0em+T5+49tx+iz1kQNVikMyut3jzqFuW6Gi9nA=";
             })
             .goModules;
 
