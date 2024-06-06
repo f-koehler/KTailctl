@@ -35,6 +35,7 @@ target_link_libraries(ktailctl
     ktailctl_models
     ktailctl_config
     ktailctl_taildrop
+    ktailctl_wrapper_logging
     ktailctl_wrapper
 )
 
