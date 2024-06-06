@@ -5,7 +5,7 @@ source ./scripts/lib/goqtflags.sh
 
 go install -v mvdan.cc/gofumpt@latest
 
-cd tailwrap
+cd src/wrapper
 OUTPUT=$(~/go/bin/gofumpt -l -d -w $(ls -1 *.go))
 if [ -n "${OUTPUT}" ]; then
     echo "${OUTPUT}"
