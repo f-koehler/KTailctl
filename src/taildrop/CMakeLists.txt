@@ -7,4 +7,5 @@ target_link_libraries(ktailctl_taildrop
     KF6::CoreAddons
     ktailctl_config
     ktailctl_util
+    ktailctl_wrapper
 )

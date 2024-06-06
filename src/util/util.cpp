@@ -5,7 +5,7 @@
 #define KTAILCTL_UTIL_UTIL_CPP
 #include "util.h"
 
-#include "libtailwrap.h"
+#include "libktailctl_wrapper.h"
 #include <QClipboard>
 #include <QGuiApplication>
 #include <QMimeData>

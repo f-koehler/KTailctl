@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 # SPDX-License-Identifier: BSD-3-Clause
 
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.24)
 
 project(ktailctl VERSION 0.1 LANGUAGES C CXX)
 
@@ -74,7 +74,6 @@ if(NOT nlohmann_json_FOUND)
 endif()
 
 add_subdirectory(src)
-add_subdirectory(tailwrap)
 add_subdirectory(tests)
 
 execute_process(

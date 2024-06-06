@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-#include "libtailwrap.h"
+#include "libktailctl_wrapper.h"
 
 class Preferences : public QObject
 {

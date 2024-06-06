@@ -1,5 +1,5 @@
 #include "status.h"
-#include "libtailwrap.h"
+#include "libktailctl_wrapper.h"
 
 #include <algorithm>
 

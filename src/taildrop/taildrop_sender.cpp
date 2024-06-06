@@ -1,9 +1,9 @@
 #include "taildrop_sender.h"
+#include "libktailctl_wrapper.h"
 #include <QDebug>
 #include <QDir>
 #include <QFileDialog>
 #include <QFileInfo>
-#include <libtailwrap.h>
 #include <utility>
 
 Q_LOGGING_CATEGORY(logcat_taildrop_sender, "org.fkoehler.KTailctl.TaildropSender")

@@ -11,6 +11,7 @@ add_subdirectory(config)
 add_subdirectory(taildrop)
 add_subdirectory(util)
 add_subdirectory(components_plugin)
+add_subdirectory(wrapper)
 
 add_executable(ktailctl
     about.cpp
@@ -34,6 +35,7 @@ target_link_libraries(ktailctl
     ktailctl_models
     ktailctl_config
     ktailctl_taildrop
+    ktailctl_wrapper
 )
 
 target_include_directories(
@@ -43,8 +45,8 @@ target_include_directories(
     ${CMAKE_BINARY_DIR}/lib
 )
 target_link_directories(ktailctl PRIVATE ${CMAKE_BINARY_DIR}/lib)
-target_link_libraries(ktailctl tailwrap_logging_wrapper tailwrap)
-add_dependencies(ktailctl tailwrap_target)
+target_link_libraries(ktailctl ktailctl_wrapper_logging ktailctl_wrapper)
+add_dependencies(ktailctl ktailctl_wrapper_target)
 
 if(KTAILCTL_FLATPAK_BUILD)
     target_compile_definitions(ktailctl PRIVATE KTAILCTL_FLATPAK_BUILD)

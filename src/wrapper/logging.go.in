@@ -2,7 +2,7 @@ package main
 
 // #include <stdlib.h>
 // #include "logging.h"
-// #cgo LDFLAGS: -L@CMAKE_LIBRARY_OUTPUT_DIRECTORY@ -ltailwrap_logging_wrapper
+// #cgo LDFLAGS: -L@CMAKE_LIBRARY_OUTPUT_DIRECTORY@ -lktailctl_wrapper_logging
 import "C"
 
 import (
