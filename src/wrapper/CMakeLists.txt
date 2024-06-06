@@ -4,7 +4,7 @@ find_program(
     REQUIRED
 )
 
-add_library(ktailctl_wrapper_logging STATIC logging.cpp)
+add_library(ktailctl_wrapper_logging SHARED logging.cpp)
 target_link_libraries(ktailctl_wrapper_logging PUBLIC Qt6::Core)
 target_compile_definitions(ktailctl_wrapper_logging PRIVATE QT_MESSAGELOGCONTEXT)
 
