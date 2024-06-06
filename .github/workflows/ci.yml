@@ -103,7 +103,7 @@ jobs:
           cache-dependency-path: tailwrap/go.sum
       - name: Vendor go dependencies.
         run: go mod vendor
-        working-directory: tailwrap
+        working-directory: src/wrapper
       - name: Add KDE Neon apt repo.
         run: sudo ./scripts/add-neon-apt-repo.sh
       - name: Install dependencies.
@@ -146,7 +146,7 @@ jobs:
           go-version: "stable"
       - name: Vendor go dependencies.
         run: go mod vendor
-        working-directory: tailwrap
+        working-directory: src/wrapper
       - name: Build.
         run: flatpak-builder --user --force-clean build-dir org.fkoehler.KTailctl.yml
       - name: Validate build.
@@ -170,7 +170,7 @@ jobs:
           cache-dependency-path: tailwrap/go.sum
       - name: Vendor go dependencies.
         run: go mod vendor
-        working-directory: tailwrap
+        working-directory: src/wrapper
       - name: Add KDE Neon apt repo.
         run: sudo ./scripts/add-neon-apt-repo.sh
       - name: Install dependencies.
@@ -208,7 +208,7 @@ jobs:
           nix_path: nixpkgs=channel:nixos-unstable
       - name: Vendor go dependencies.
         run: nix-shell -p go --command "go mod vendor"
-        working-directory: tailwrap
+        working-directory: src/wrapper
       - name: Build with nix
         run: nix build .
   create_release:

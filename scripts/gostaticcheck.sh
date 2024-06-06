@@ -5,5 +5,5 @@ source ./scripts/lib/goqtflags.sh
 
 go install -v honnef.co/go/tools/cmd/staticcheck@latest
 
-cd tailwrap
+cd src/wrapper
 ~/go/bin/staticcheck .

@@ -1,0 +1,14 @@
+<!--
+    SPDX-License-Identifier: GPL-3.0-or-later
+    SPDX-FileCopyrightText: 2024 Fabian Köhler <me@fkoehler.org>
+-->
+<RCC>
+    <qresource prefix="/icons/">
+        <file>offline-colorful.svg</file>
+        <file>online-colorful.svg</file>
+        <file>offline-breeze-dark.svg</file>
+        <file>online-breeze-dark.svg</file>
+        <file>offline-breeze-light.svg</file>
+        <file>online-breeze-light.svg</file>
+    </qresource>
+</RCC>
