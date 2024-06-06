@@ -4,7 +4,7 @@ find_program(
     REQUIRED
 )
 
-add_library(ktailctl_wrapper_logging SHARED logging.cpp)
+add_library(ktailctl_wrapper_logging STATIC logging.cpp)
 target_link_libraries(ktailctl_wrapper_logging PUBLIC Qt6::Core)
 target_compile_definitions(ktailctl_wrapper_logging PRIVATE QT_MESSAGELOGCONTEXT)
 
@@ -67,6 +67,7 @@ add_custom_target(
     ${KTAILCTL_WRAPPER_LIBRARY}
     ${KTAILCTL_WRAPPER_HEADER}
 )
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 add_library(ktailctl_wrapper SHARED IMPORTED GLOBAL)
 set_target_properties(ktailctl_wrapper PROPERTIES IMPORTED_LOCATION ${KTAILCTL_WRAPPER_LIBRARY})
 set_target_properties(ktailctl_wrapper PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_BINARY_DIR}/lib)
