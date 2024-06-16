@@ -12,6 +12,7 @@
 #include <KAboutData>
 #include <KLocalizedContext>
 #include <KLocalizedString>
+#include <KNotification>
 
 #include "about.h"
 #include "app.h"
@@ -104,6 +105,9 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     } else {
         window->show();
     }
+
+    KNotification *notification = new KNotification("exitNodeDisconnected");
+    notification->setPixmap(QIcon::fromTheme(QStringLiteral("network-offline")).pixmap(64, 64));
 
     // for screenshots for flatpak
     // window->resize(QSize(1598, 869));
