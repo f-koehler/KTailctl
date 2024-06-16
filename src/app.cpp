@@ -100,6 +100,6 @@ void App::setPeerDetails(const QString &id)
 
 void App::quitApp()
 {
-    TaildropReceiver::self()->quit();
+    // TaildropReceiver::self()->quit();
     qApp->quit();
 }

@@ -6,6 +6,7 @@ import QtQuick.Controls 2.15 as Controls
 import QtQuick.Layouts 1.15
 import org.fkoehler.KTailctl 1.0
 import org.kde.kirigami 2.19 as Kirigami
+import QtQuick.Dialogs 1.3 as Dialogs
 
 Kirigami.ScrollablePage {
     id: peers
@@ -152,11 +153,23 @@ Kirigami.ScrollablePage {
                                     }
                                 }
 
+                                Dialogs.FileDialog {
+                                    id: fileDialogSend
+                                    title: "Select file(s) to send"
+                                    folder: shortcuts.home
+                                    selectMultiple: true
+                                    selectExisting: true
+                                    selectFolder: false
+                                    onAccepted: {
+                                        taildropSendJob.addFiles(fileDialogSend.fileUrls)
+                                    }
+                                }
+
                                 Controls.MenuItem {
                                     text: i18nc("@label", "Send file(s)")
                                     icon.name: "document-send"
                                     onClicked: {
-                                        TaildropSender.selectAndSendFiles(dnsName);
+                                        fileDialogSend.open()
                                     }
                                 }
 

@@ -3,6 +3,7 @@
 #ifndef KTAILCTL_TRAY_ICON_H
 #define KTAILCTL_TRAY_ICON_H
 
+#include "ktailctlconfig.h"
 #include "tailscale.h"
 
 #include <QQuickWindow>

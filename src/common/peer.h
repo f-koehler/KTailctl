@@ -1,11 +1,12 @@
-#ifndef KTAILCTL_PEER_H
-#define KTAILCTL_PEER_H
+#ifndef KTAILCTL_COMMON_PEER_H
+#define KTAILCTL_COMMON_PEER_H
 
 #include <QDateTime>
 #include <optional>
 
 #include "location.h"
 #include "peer_data.h"
+#include "taildrop_send_job.h"
 
 class Peer : public QObject
 {
@@ -31,12 +32,14 @@ class Peer : public QObject
     Q_PROPERTY(QStringList tags READ tags NOTIFY tagsChanged)
     Q_PROPERTY(bool isMullvad READ isMullvad NOTIFY isMullvadChanged)
     Q_PROPERTY(Location *location READ location NOTIFY locationChanged)
+    Q_PROPERTY(TaildropSendJob *taildropSendJob READ taildropSendJob NOTIFY taildropSendJobChanged)
 
 private:
     PeerData mData;
     Location *mLocation = nullptr;
     QDateTime mCreated;
     QDateTime mLastSeen;
+    TaildropSendJob *mTaildropSendJob = nullptr;
 
 public:
     explicit Peer(QObject *parent = nullptr);
@@ -64,6 +67,7 @@ public:
     bool isMullvad() const;
     Location *location() const;
     const PeerData &peerData() const;
+    TaildropSendJob *taildropSendJob() const;
 
 signals:
     void idChanged(const QString &id);
@@ -87,9 +91,10 @@ signals:
     void tagsChanged(const QStringList &tags);
     void isMullvadChanged(bool isMullvad);
     void locationChanged(Location *location);
+    void taildropSendJobChanged(TaildropSendJob *taildropSendJob);
 
 public slots:
     void update(PeerData &newData);
 };
 
-#endif /* KTAILCTL_PEER_H */
+#endif /* KTAILCTL_COMMON_PEER_H */

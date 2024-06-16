@@ -22,7 +22,7 @@
 #include "speed_statistics.h"
 #include "statistics.h"
 #include "status.h"
-#include "taildrop_sender.h"
+#include "taildrop_send_job.h"
 #include "tailscale.h"
 #include "util.h"
 #include "version-ktailctl.h"
@@ -67,7 +67,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     auto *tailscale = new Tailscale();
     auto *application = new App(tailscale);
     auto *util = new Util();
-    auto *taildropSender = new TaildropSender();
+    // auto *taildropSender = new TaildropSender();
 
     if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
         QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
@@ -82,7 +82,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Tailscale", tailscale);
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "App", application);
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Util", util);
-    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "TaildropSender", taildropSender);
+    // qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "TaildropSender", taildropSender);
 
     qmlRegisterType<Peer>("org.fkoehler.KTailctl", 1, 0, "Peer");
     qmlRegisterType<Status>("org.fkoehler.KTailctl", 1, 0, "Status");
@@ -90,6 +90,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     qmlRegisterType<Statistics>("org.fkoehler.KTailctl", 1, 0, "Statistics");
     qmlRegisterType<KTailctlConfig>("org.fkoehler.KTailctl", 1, 0, "KTailctlConfig");
     qmlRegisterType<Location>("org.fkoehler.KTailctl", 1, 0, "Location");
+    qmlRegisterType<TaildropSendJob>("org.fkoehler.KTailctl", 1, 0, "TaildropSendJob");
 
     engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
     engine.load(QUrl(QStringLiteral("qrc:///main.qml")));

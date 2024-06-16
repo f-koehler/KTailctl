@@ -103,6 +103,10 @@ const PeerData &Peer::peerData() const
 {
     return mData;
 }
+TaildropSendJob *Peer::taildropSendJob() const
+{
+    return mTaildropSendJob;
+}
 
 void Peer::update(PeerData &newData)
 {
@@ -121,6 +125,13 @@ void Peer::update(PeerData &newData)
     if (newData.dnsName != mData.dnsName) {
         mData.dnsName.swap(newData.dnsName);
         emit dnsNameChanged(mData.dnsName);
+
+        mTaildropSendJob = TaildropSendJob::getJob(mData.dnsName);
+        emit taildropSendJobChanged(mTaildropSendJob);
+    }
+    if (mTaildropSendJob == nullptr) {
+        mTaildropSendJob = TaildropSendJob::getJob(mData.dnsName);
+        emit taildropSendJobChanged(mTaildropSendJob);
     }
     if (newData.os != mData.os) {
         mData.os.swap(newData.os);

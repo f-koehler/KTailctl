@@ -146,8 +146,15 @@ void TrayIcon::regenerate()
             if (mTailscale->status()->isOperator()) {
                 submenu->addSection("Taildrop Send");
                 submenu->addAction(QIcon::fromTheme(QStringLiteral("document-send")), "Send file(s)", [peer]() {
-                    TaildropSendJob::selectAndSendFiles(peer->dnsName());
+                    peer->taildropSendJob()->addFiles(QFileDialog::getOpenFileUrls(nullptr, "Select files to send", QDir::homePath()))->start();
                 });
+
+                if (peer->taildropSendJob()->isRunning()) {
+                    submenu->addAction(QIcon::fromTheme("view-refresh"),
+                                       QString("Sending %1/%2")
+                                           .arg(peer->taildropSendJob()->processedAmount(KJob::Files))
+                                           .arg(peer->taildropSendJob()->totalAmount(KJob::Files)));
+                }
 
                 // if (peer->isCurrentExitNode()) {
                 //     submenu->addAction(QIcon::fromTheme(QStringLiteral("internet-services")), "Unset exit node", []() {
