@@ -5,8 +5,13 @@
       "type": "cmake",
       "label": "CMake: build",
       "command": "build",
-      "targets": ["all"],
-      "group": "build",
+      "targets": [
+        "all"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
       "problemMatcher": [],
       "detail": "CMake template build task"
     }
