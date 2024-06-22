@@ -54,6 +54,11 @@
             kdePackages.qtdeclarative
             kdePackages.qtsvg
             nlohmann_json
+            cargo
+            rustc
+            rustfmt
+            rustPackages.clippy
+            corrosion
           ];
 
           postPatch = ''
@@ -107,6 +112,11 @@
           kdePackages.qtdeclarative
           kdePackages.qtsvg
           nlohmann_json
+          cargo
+          rustc
+          rustfmt
+          rustPackages.clippy
+          corrosion
         ];
       };
     });

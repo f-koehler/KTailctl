@@ -1,0 +1,22 @@
+[package]
+name = "ktailctl-json"
+version = "0.1.0"
+edition = "2021"
+authors = ["Fabian Koehler <fabian.koehler@proton.me>"]
+
+[lib]
+crate-type = ["staticlib"]
+
+[dependencies]
+cxx = { version = "1.0.124", features = ["c++20", "c++14", "c++17"] }
+cxx-qt = "0.6.1"
+cxx-qt-lib = "0.6.1"
+serde = { version = "1.0.203", features = ["derive"] }
+serde_json = "1.0.117"
+
+[build-dependencies]
+cxx-qt-build = "0.6.1"
+cxx-qt-lib-headers = "0.6.1"
+
+[features]
+link_qt_object_files = ["cxx-qt-build/link_qt_object_files"]

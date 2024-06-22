@@ -12,6 +12,7 @@ add_subdirectory(taildrop)
 add_subdirectory(util)
 add_subdirectory(components_plugin)
 add_subdirectory(wrapper)
+add_subdirectory(json)
 
 add_executable(ktailctl
     about.cpp

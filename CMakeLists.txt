@@ -73,6 +73,11 @@ if(NOT nlohmann_json_FOUND)
     add_subdirectory(deps/json)
 endif()
 
+find_package(Corrosion)
+if(NOT Corrosion_FOUND)
+    add_subdirectory(deps/corrosion)
+endif()
+
 add_subdirectory(src)
 add_subdirectory(tests)
 
