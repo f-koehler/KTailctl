@@ -20,7 +20,7 @@ private:
     quint64 mCurrentFileBytesSent;
 
 public:
-    TaildropSendThread(QString target, const QStringList &files, QObject *parent = nullptr);
+    TaildropSendThread(const QString &target, const QStringList &files, QObject *parent = nullptr);
 
 protected:
     void run() override;

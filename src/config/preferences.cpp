@@ -33,20 +33,20 @@ void Preferences::refresh()
 
     char *tmpString = tailscale_get_hostname();
     if (tmpString != nullptr) {
+        const std::unique_ptr<char, decltype(&free)> tmpStringPtr(tmpString, free);
         if (mHostname != tmpString) {
             mHostname = tmpString;
             emit hostnameChanged(mHostname);
         }
-        free(tmpString);
     }
 
     tmpString = tailscale_get_operator_user();
     if (tmpString != nullptr) {
+        const std::unique_ptr<char, decltype(&free)> tmpStringPtr(tmpString, free);
         if (mOperatorUser != tmpString) {
             mOperatorUser = tmpString;
             emit operatorUserChanged(mOperatorUser);
         }
-        free(tmpString);
     }
 }
 
