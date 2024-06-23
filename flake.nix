@@ -91,6 +91,7 @@
       package = nixpkgsFor.${system}.stdenv.mkDerivation {
         name = "ktailctl-devShell-${system}";
         buildInputs = with nixpkgsFor.${system}; [
+          clang-tools
           appstream
           cmake
           extra-cmake-modules
