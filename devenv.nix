@@ -48,7 +48,17 @@
   languages.go.enable = true;
 
   # https://devenv.sh/pre-commit-hooks/
-  # pre-commit.hooks.shellcheck.enable = true;
+  pre-commit.hooks = {
+    check-added-large-files.enable = true;
+    check-executables-have-shebangs.enable = true;
+    check-merge-conflicts.enable = true;
+    check-symlinks.enable = true;
+    clang-format.enable = true;
+    cmake-format.enable = true;
+    prettier.enable = true;
+    trim-trailing-whitespace = true;
+    end-of-file-fixer = true;
+  };
 
   # https://devenv.sh/processes/
   # processes.ping.exec = "ping example.com";
