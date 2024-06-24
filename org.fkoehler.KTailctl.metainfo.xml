@@ -28,7 +28,7 @@
     </screenshot>
   </screenshots>
   <releases>
-    <release version="0.16.1" date="2024-06-24" urgency="critical">
+    <release version="0.16.2" date="2024-06-24" urgency="critical">
       <description>
         <p>Fixes KTailctl not being able to run at all.</p>
       </description>
