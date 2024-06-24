@@ -7,3 +7,4 @@ target_link_libraries(ktailctl_config
     KF6::ConfigGui
     ktailctl_wrapper
 )
+install(TARGETS ktailctl_config)
