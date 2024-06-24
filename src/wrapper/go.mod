@@ -4,6 +4,7 @@ go 1.22.1
 
 require (
 	golang.org/x/net v0.26.0
+	software.sslmate.com/src/go-pkcs12 v0.4.0
 	tailscale.com v1.66.0
 )
 
@@ -56,9 +57,7 @@ require (
 	golang.zx2c4.com/wireguard/windows v0.5.3 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/protobuf v1.33.0 // indirect
-	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	k8s.io/client-go v0.29.1 // indirect
 	nhooyr.io/websocket v1.8.10 // indirect
 	sigs.k8s.io/yaml v1.4.0 // indirect
-	software.sslmate.com/src/go-pkcs12 v0.4.0 // indirect
 )
