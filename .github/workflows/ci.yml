@@ -28,7 +28,7 @@ jobs:
       - name: Install devenv.sh
         run: nix profile install nixpkgs#devenv
       - name: Run pre-commit hooks.
-        run: devenv shell pre-commit --all-files
+        run: devenv shell pre-commit -- run --all-files
   cpplinting:
     name: "C++ Linting: ${{ matrix.check.script }}"
     runs-on: ubuntu-latest
