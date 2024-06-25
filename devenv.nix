@@ -43,9 +43,11 @@
   # services.postgres.enable = true;
 
   # https://devenv.sh/languages/
-  languages.c.enable = true;
-  languages.cplusplus.enable = true;
-  languages.go.enable = true;
+  languages = {
+    c.enable = true;
+    cplusplus.enable = true;
+    go.enable = true;
+  };
 
   # https://devenv.sh/pre-commit-hooks/
   pre-commit.hooks = {

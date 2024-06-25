@@ -17,7 +17,7 @@
       });
   in {
     # A Nixpkgs overlay.
-    overlay = final: prev: {
+    overlay = final: _: {
       ktailctl = with final;
         stdenv.mkDerivation rec {
           pname = "ktailctl";
