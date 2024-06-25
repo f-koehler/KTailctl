@@ -36,7 +36,7 @@ include(KDECMakeSettings)
 include(ECMSetupVersion)
 include(ECMGenerateHeaders)
 include(ECMPoQmTools)
-include(KDEClangFormat)
+# include(KDEClangFormat)
 
 # include(KDEGitCommitHooks)
 file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES *.cpp *.h *.hpp *.c)
