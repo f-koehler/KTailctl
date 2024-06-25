@@ -53,11 +53,21 @@
     check-executables-have-shebangs.enable = true;
     check-merge-conflicts.enable = true;
     check-symlinks.enable = true;
-    clang-format.enable = true;
     cmake-format.enable = true;
     prettier.enable = true;
-    trim-trailing-whitespace = true;
-    end-of-file-fixer = true;
+    # end-of-line-fixer.enable = true;
+    # trim-trailing-whitespace = true;
+    # end-of-file-fixer = true;
+
+    # C++
+    clang-format.enable = true;
+
+    # nix
+    alejandra.enable = true;
+    deadnix.enable = true;
+    flake-checker.enable = true;
+    nil.enable = true;
+    statix.enable = true;
   };
 
   # https://devenv.sh/processes/
