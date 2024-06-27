@@ -24,8 +24,8 @@
     kdePackages.qtdeclarative
     kdePackages.qtsvg
     nlohmann_json
-    cmake-lint
     cmake-format
+    cmake-lint
   ];
 
   # https://devenv.sh/scripts/
@@ -57,7 +57,6 @@
     check-executables-have-shebangs.enable = true;
     check-merge-conflicts.enable = true;
     check-symlinks.enable = true;
-    cmake-format.enable = true;
     prettier.enable = true;
     # end-of-line-fixer.enable = true;
     # trim-trailing-whitespace = true;
@@ -65,6 +64,14 @@
 
     # C++
     clang-format.enable = true;
+
+    # Go
+    gofmt.enable = true;
+    govet.enable = true;
+    revive.enable = true;
+
+    # CMake
+    cmake-format.enable = true;
 
     # nix
     alejandra.enable = true;
