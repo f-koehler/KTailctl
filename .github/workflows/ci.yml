@@ -9,6 +9,26 @@ on:
     branches:
       - main
 jobs:
+  pre-commit:
+    name: "Pre-commit hooks"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository.
+        uses: actions/checkout@v4.1.7
+        with:
+          submodules: true
+      - name: Setup nix.
+        uses: cachix/install-nix-action@v27
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+      - name: Use cachix.
+        uses: cachix/cachix-action@v15
+        with:
+          name: devenv
+      - name: Install devenv.sh
+        run: nix profile install nixpkgs#devenv
+      - name: Run pre-commit hooks.
+        run: devenv shell pre-commit -- run --all-files
   cpplinting:
     name: "C++ Linting: ${{ matrix.check.script }}"
     runs-on: ubuntu-latest
@@ -22,7 +42,7 @@ jobs:
             dependencies: "flawfinder"
     steps:
       - name: Checkout repository.
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.7
         with:
           submodules: true
       - name: Setup nix.
@@ -47,7 +67,7 @@ jobs:
           - gostaticcheck
     steps:
       - name: Checkout repository.
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.7
         with:
           submodules: true
       - name: Setup go.
@@ -67,7 +87,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository.
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.7
         with:
           submodules: true
       - name: Add KDE Neon apt repo.
@@ -93,7 +113,7 @@ jobs:
         llvm_version: [15, 16, 17, 18]
     steps:
       - name: Checkout repository.
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.7
         with:
           submodules: true
       - name: Setup go.
@@ -127,7 +147,7 @@ jobs:
       - cpplinting
     steps:
       - name: Checkout repository.
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.7
         with:
           submodules: true
       - name: Update apt cache.
@@ -160,7 +180,7 @@ jobs:
       - cpplinting
     steps:
       - name: Checkout repository.
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.7
         with:
           submodules: true
       - name: Setup go.
@@ -199,10 +219,10 @@ jobs:
       - cpplinting
     steps:
       - name: Checkout repository.
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.7
         with:
           submodules: true
-      - name: Install nix
+      - name: Setup nix.
         uses: cachix/install-nix-action@v27
         with:
           nix_path: nixpkgs=channel:nixos-unstable
@@ -219,11 +239,12 @@ jobs:
       - build
       - flatpak_build
       - appimage_build
+      - pre-commit
     permissions:
       contents: write
     steps:
       - name: Checkout repository.
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.7
         with:
           submodules: true
       - name: Setup go.
