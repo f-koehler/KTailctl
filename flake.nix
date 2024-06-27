@@ -58,7 +58,7 @@
           ];
 
           postPatch = ''
-            cp -r --reflink=auto ${goDeps} tailwrap/vendor
+            cp -r --reflink=auto ${goDeps} src/wrapper/vendor
           '';
 
           preBuild = ''
