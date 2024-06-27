@@ -67,8 +67,6 @@
 
     # Go
     gofmt.enable = true;
-    govet.enable = true;
-    revive.enable = true;
 
     # CMake
     cmake-format.enable = true;
