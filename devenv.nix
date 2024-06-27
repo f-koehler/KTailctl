@@ -24,6 +24,8 @@
     kdePackages.qtdeclarative
     kdePackages.qtsvg
     nlohmann_json
+    cmake-lint
+    cmake-format
   ];
 
   # https://devenv.sh/scripts/
