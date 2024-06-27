@@ -54,6 +54,7 @@
             kdePackages.qtdeclarative
             kdePackages.qtsvg
             nlohmann_json
+            cmake-format
           ];
 
           postPatch = ''
