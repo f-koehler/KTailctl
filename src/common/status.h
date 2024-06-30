@@ -18,7 +18,7 @@ class Status : public QObject
     Q_PROPERTY(Peer *self READ self NOTIFY selfChanged)
     Q_PROPERTY(QVector<Peer *> peers READ peers NOTIFY peersChanged)
     Q_PROPERTY(Peer *currentExitNode READ currentExitNode NOTIFY currentExitNodeChanged)
-    Q_PROPERTY(QString suggestedExitNode READ suggestedExitNode NOTIFY suggestedExitNodeChanged)
+    Q_PROPERTY(Peer *suggestedExitNode READ suggestedExitNode NOTIFY suggestedExitNodeChanged)
 
 private:
     bool mSuccess = false;
@@ -27,7 +27,7 @@ private:
     Peer *mSelf = nullptr;
     QVector<Peer *> mPeers;
     Peer *mCurrentExitNode;
-    QString mSuggestedExitNode;
+    Peer *mSuggestedExitNode = nullptr;
 
     StatusData mNewData;
 
@@ -44,7 +44,7 @@ public:
     QVector<Peer *> &peers();
     const QVector<Peer *> &peers() const;
     Peer *currentExitNode();
-    const QString &suggestedExitNode() const;
+    Peer *suggestedExitNode() const;
 
     const StatusData &statusData() const;
 
@@ -59,7 +59,7 @@ signals:
     void selfChanged(const Peer *);
     void peersChanged(const QVector<Peer *> &);
     void currentExitNodeChanged(Peer *);
-    void suggestedExitNodeChanged(const QString &);
+    void suggestedExitNodeChanged(const Peer *);
 
     void refreshed(const Status &);
 
