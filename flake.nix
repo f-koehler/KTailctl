@@ -17,7 +17,7 @@
       });
   in {
     # A Nixpkgs overlay.
-    overlay = final: prev: {
+    overlay = final: _: {
       ktailctl = with final;
         stdenv.mkDerivation rec {
           pname = "ktailctl";
@@ -30,7 +30,7 @@
               pname = "ktailctl_wrapper";
               inherit src version;
               modRoot = "src/wrapper";
-              vendorHash = "sha256-fAxSh0em+T5+49tx+iz1kQNVikMyut3jzqFuW6Gi9nA=";
+              vendorHash = "sha256-GD+G+7b8GBwR3OrRPJbGJVom+kLC67VvlGFIA0S7UF8=";
             })
             .goModules;
 
@@ -54,10 +54,11 @@
             kdePackages.qtdeclarative
             kdePackages.qtsvg
             nlohmann_json
+            cmake-format
           ];
 
           postPatch = ''
-            cp -r --reflink=auto ${goDeps} tailwrap/vendor
+            cp -r --reflink=auto ${goDeps} src/wrapper/vendor
           '';
 
           preBuild = ''
@@ -86,30 +87,5 @@
       nixpkgs.overlays = [self.overlay];
       environment.systemPackages = [pkgs.ktailctl];
     };
-
-    devShells = forAllSystems (system: {
-      package = nixpkgsFor.${system}.stdenv.mkDerivation {
-        name = "ktailctl-devShell-${system}";
-        buildInputs = with nixpkgsFor.${system}; [
-          clang-tools
-          appstream
-          cmake
-          extra-cmake-modules
-          git
-          go
-          kdePackages.kconfig
-          kdePackages.kcoreaddons
-          kdePackages.kguiaddons
-          kdePackages.ki18n
-          kdePackages.kirigami
-          kdePackages.kirigami-addons
-          kdePackages.knotifications
-          kdePackages.qtbase
-          kdePackages.qtdeclarative
-          kdePackages.qtsvg
-          nlohmann_json
-        ];
-      };
-    });
   };
 }
