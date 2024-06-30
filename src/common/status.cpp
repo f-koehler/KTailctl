@@ -51,7 +51,7 @@ const StatusData &Status::statusData() const
 {
     return mData;
 }
-const QString &Status::suggestedExitNode() const
+Peer *Status::suggestedExitNode() const
 {
     return mSuggestedExitNode;
 }
@@ -154,10 +154,15 @@ void Status::refresh()
         }
 
         const std::unique_ptr<char, decltype(&free)> suggestedExitNode(tailscale_suggest_exit_node(), free);
-        const QString newSuggestedExitNode = QString::fromUtf8(suggestedExitNode.get());
-        if (newSuggestedExitNode != mSuggestedExitNode) {
-            mSuggestedExitNode = newSuggestedExitNode;
-            qInfo() << "Suggested exit node:" << mSuggestedExitNode;
+        const QString suggestedExitNodeStr = QString::fromUtf8(suggestedExitNode.get());
+        if ((mSuggestedExitNode == nullptr) || (suggestedExitNodeStr != mSuggestedExitNode->id())) {
+            mSuggestedExitNode = nullptr;
+            for (Peer *peer : mPeers) {
+                if (peer->id() == suggestedExitNodeStr) {
+                    mSuggestedExitNode = peer;
+                    break;
+                }
+            }
             emit suggestedExitNodeChanged(mSuggestedExitNode);
         }
     }

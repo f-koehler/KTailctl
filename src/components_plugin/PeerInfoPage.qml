@@ -158,7 +158,7 @@ Kirigami.ScrollablePage {
                         if (peer.isCurrentExitNode)
                             Util.unsetExitNode();
                         else
-                            Util.setExitNode(peer.tailscaleIps[0]);
+                            Util.setExitNode(peer);
                     }
                 }
 

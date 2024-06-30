@@ -87,15 +87,12 @@ void TrayIcon::regenerate()
                 menu_exit_nodes->addSeparator();
             }
 
-            if (!mTailscale->status()->suggestedExitNode().isEmpty()) {
-                for (const auto *node : mTailscale->status()->peers()) {
-                    if (node->id() == mTailscale->status()->suggestedExitNode()) {
-                        menu_exit_nodes->addAction(QIcon::fromTheme("network-vpn"), QString("Suggested: %1").arg(node->hostName()), [node]() {
-                            setExitNode(node->tailscaleIps().front());
-                        });
-                        break;
-                    }
-                }
+            if (mTailscale->status()->suggestedExitNode() != nullptr) {
+                menu_exit_nodes->addAction(QIcon::fromTheme("network-vpn"),
+                                           QString("Suggested: %1").arg(mTailscale->status()->suggestedExitNode()->hostName()),
+                                           [this]() {
+                                               setExitNode(mTailscale->status()->suggestedExitNode());
+                                           });
             }
 
             if (!mullvad_nodes.empty()) {
@@ -113,7 +110,7 @@ void TrayIcon::regenerate()
                                                  menu_mullvad_nodes->addMenu(QIcon(QString(":/country-flags/%1").arg(country_code.toLower())), country_code));
                     }
                     menu_pos.value()->addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), node->hostName(), [node]() {
-                        setExitNode(node->tailscaleIps().front());
+                        setExitNode(node);
                     });
                 }
             }
@@ -121,7 +118,7 @@ void TrayIcon::regenerate()
             if (!exit_nodes.empty()) {
                 for (const auto *node : exit_nodes) {
                     menu_exit_nodes->addAction(loadOsIcon(node->os()), node->hostName(), [node]() {
-                        setExitNode(node->tailscaleIps().front());
+                        setExitNode(node);
                     });
                 }
             }

@@ -247,58 +247,6 @@ Kirigami.ScrollablePage {
                     }
                     enabled: Tailscale.status.isOperator && Tailscale.status.success
                 }
-
-                FormCard.AbstractFormDelegate {
-
-                    contentItem: ColumnLayout {
-                        RowLayout {
-                            Controls.Label {
-                                text: i18nc("@label", "Exit node:")
-                            }
-
-                            Item {
-                                Layout.fillWidth: true
-                            }
-
-                            Controls.ComboBox {
-                                id: comboExitNode
-
-                                model: App.exitNodeModel
-                                textRole: "hostName"
-                                valueRole: "ip"
-                                currentIndex: {
-                                    if (!Tailscale.status.currentExitNode)
-                                        return -1;
-
-                                    if (Tailscale.status.currentExitNode.tailscaleIps.size < 1)
-                                        return -1;
-
-                                    return indexOfValue(Tailscale.status.currentExitNode.tailscaleIps[0]);
-                                }
-                                onActivated: function(index) {
-                                    Util.setExitNode(currentValue);
-                                }
-                            }
-
-                            Controls.Button {
-                                text: i18n("Unset")
-                                display: Controls.Button.IconOnly
-                                icon.name: "dialog-close"
-                                Controls.ToolTip.text: text
-                                Controls.ToolTip.visible: hovered
-                                Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
-                                onClicked: {
-                                    Util.unsetExitNode();
-                                    comboExitNode.currentIndex = -1;
-                                }
-                            }
-
-                        }
-
-                    }
-
-                }
-
             }
 
         }

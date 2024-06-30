@@ -3,6 +3,8 @@
 #ifndef KTAILCTL_UTIL_H
 #define KTAILCTL_UTIL_H
 
+#include "peer.h"
+
 #include <QDateTime>
 #include <QIcon>
 #include <QObject>
@@ -19,7 +21,7 @@ QString fileUrlToString(const QUrl &url);
 QStringList fileUrlsToStrings(const QList<QUrl> &urls);
 qint64 toMSecsSinceEpoch(const QDateTime &dateTime);
 QIcon loadOsIcon(QString osname);
-void setExitNode(const QString &node);
+void setExitNode(const Peer *node);
 void unsetExitNode();
 
 class Util : public QObject
@@ -38,7 +40,8 @@ public:
     Q_INVOKABLE static QStringList fileUrlsToStrings(const QList<QUrl> &urls);
     Q_INVOKABLE static qint64 toMSecsSinceEpoch(const QDateTime &dateTime);
     Q_INVOKABLE static QIcon loadOsIcon(const QString &operating_system);
-    Q_INVOKABLE static void setExitNode(const QString &node);
+    Q_INVOKABLE static void setExitNode(const Peer *node);
+    Q_INVOKABLE static void setExitNodeFromIP(const QString &ip); // TODO: get rid of this
     Q_INVOKABLE static void unsetExitNode();
 };
 
