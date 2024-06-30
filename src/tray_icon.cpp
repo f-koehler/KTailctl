@@ -87,15 +87,12 @@ void TrayIcon::regenerate()
                 menu_exit_nodes->addSeparator();
             }
 
-            if (!mTailscale->status()->suggestedExitNode().isEmpty()) {
-                for (const auto *node : mTailscale->status()->peers()) {
-                    if (node->id() == mTailscale->status()->suggestedExitNode()) {
-                        menu_exit_nodes->addAction(QIcon::fromTheme("network-vpn"), QString("Suggested: %1").arg(node->hostName()), [node]() {
-                            setExitNode(node->tailscaleIps().front());
-                        });
-                        break;
-                    }
-                }
+            if (mTailscale->status()->suggestedExitNode() != nullptr) {
+                menu_exit_nodes->addAction(QIcon::fromTheme("network-vpn"),
+                                           QString("Suggested: %1").arg(mTailscale->status()->suggestedExitNode()->hostName()),
+                                           [this]() {
+                                               setExitNode(mTailscale->status()->suggestedExitNode()->tailscaleIps().front());
+                                           });
             }
 
             if (!mullvad_nodes.empty()) {
