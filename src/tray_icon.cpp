@@ -98,7 +98,7 @@ void TrayIcon::regenerate()
             if (!mullvad_nodes.empty()) {
                 auto *menu_mullvad_nodes = menu_exit_nodes->addMenu(QIcon::fromTheme("network-vpn"), "Mullvad Exit Nodes");
                 QMap<QString, QMenu *> mullvad_menus;
-                for (const auto *node : mullvad_nodes) {
+                for (Peer *node : mullvad_nodes) {
                     if (node->location() == nullptr) {
                         continue;
                     }
@@ -116,7 +116,7 @@ void TrayIcon::regenerate()
             }
 
             if (!exit_nodes.empty()) {
-                for (const auto *node : exit_nodes) {
+                for (Peer *node : exit_nodes) {
                     menu_exit_nodes->addAction(loadOsIcon(node->os()), node->hostName(), [this, node]() {
                         mTailscale->status()->setExitNode(node);
                     });

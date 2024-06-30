@@ -82,7 +82,7 @@ std::tuple<QList<Peer *>, QList<Peer *>> Status::exitNodes() const
     return {exit_nodes, mullvad_nodes};
 }
 
-void Status::setExitNode(const Peer *node)
+void Status::setExitNode(Peer *node)
 {
     if (node == nullptr) {
         unsetExitNode();
@@ -95,21 +95,31 @@ void Status::setExitNode(const Peer *node)
     const QByteArray bytes = node->tailscaleIps().front().toUtf8();
     GoString tmp{bytes.data(), bytes.size()};
     tailscale_set_exit_node(&tmp);
+
+    if ((mCurrentExitNode == nullptr) || (mCurrentExitNode->id() != node->id())) {
+        mCurrentExitNode = node;
+        emit currentExitNodeChanged(mCurrentExitNode);
+    }
 }
-void Status::setExitNodeFromIP(const QString &ip)
+void Status::setExitNodeFromDnsName(const QString &dns)
 {
     // TODO: get rid of this
-    GoUint8 false_ = 0;
-    tailscale_set_advertise_exit_node(&false_);
-
-    const QByteArray bytes = ip.toUtf8();
-    GoString tmp{bytes.data(), bytes.size()};
-    tailscale_set_exit_node(&tmp);
+    for (Peer *peer : mPeers) {
+        if (peer->hostName() == dns) {
+            setExitNode(peer);
+            return;
+        }
+    }
+    unsetExitNode();
 }
 void Status::unsetExitNode()
 {
     GoString tmp{nullptr, 0};
     tailscale_set_exit_node(&tmp);
+
+    if (mCurrentExitNode != nullptr) {
+        emit currentExitNodeChanged(nullptr);
+    }
 }
 
 void Status::update(StatusData &newData)

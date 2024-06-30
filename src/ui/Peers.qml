@@ -164,7 +164,7 @@ Kirigami.ScrollablePage {
                                         if (isCurrentExitNode)
                                             Tailscale.status.unsetExitNode();
                                         else
-                                            Tailscale.status.setExitNodeFromIP(tailscaleIps[0]);
+                                            Tailscale.status.setExitNodeFromDns(dnsName);
                                     }
                                 }
 
