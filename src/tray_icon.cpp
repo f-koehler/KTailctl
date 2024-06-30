@@ -81,8 +81,8 @@ void TrayIcon::regenerate()
             if (mTailscale->status()->currentExitNode() != nullptr) {
                 menu_exit_nodes->addAction(QIcon::fromTheme("dialog-cancel"),
                                            QString("Unset %1").arg(mTailscale->status()->currentExitNode()->hostName()),
-                                           []() {
-                                               unsetExitNode();
+                                           [this]() {
+                                               mTailscale->status()->unsetExitNode();
                                            });
                 menu_exit_nodes->addSeparator();
             }
@@ -91,7 +91,7 @@ void TrayIcon::regenerate()
                 menu_exit_nodes->addAction(QIcon::fromTheme("network-vpn"),
                                            QString("Suggested: %1").arg(mTailscale->status()->suggestedExitNode()->hostName()),
                                            [this]() {
-                                               setExitNode(mTailscale->status()->suggestedExitNode());
+                                               mTailscale->status()->setExitNode(mTailscale->status()->suggestedExitNode());
                                            });
             }
 
@@ -109,16 +109,16 @@ void TrayIcon::regenerate()
                             mullvad_menus.insert(country_code,
                                                  menu_mullvad_nodes->addMenu(QIcon(QString(":/country-flags/%1").arg(country_code.toLower())), country_code));
                     }
-                    menu_pos.value()->addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), node->hostName(), [node]() {
-                        setExitNode(node);
+                    menu_pos.value()->addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), node->hostName(), [this, node]() {
+                        mTailscale->status()->setExitNode(node);
                     });
                 }
             }
 
             if (!exit_nodes.empty()) {
                 for (const auto *node : exit_nodes) {
-                    menu_exit_nodes->addAction(loadOsIcon(node->os()), node->hostName(), [node]() {
-                        setExitNode(node);
+                    menu_exit_nodes->addAction(loadOsIcon(node->os()), node->hostName(), [this, node]() {
+                        mTailscale->status()->setExitNode(node);
                     });
                 }
             }

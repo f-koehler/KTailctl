@@ -29,14 +29,14 @@ Kirigami.ScrollablePage {
 
                 KTailctlComponents.FormLabelDelegate {
                     text: i18nc("@label", "Currently not using any exit node.")
-                    visible: App.tailscale.status.exitNode == null
+                    visible: Tailscale.status.exitNode == null
                 }
 
                 FormCard.FormButtonDelegate {
-                    text: "Unset current: " + App.tailscale.status.exitNode.dnsName
-                    visible: App.tailscale.status.exitNode != null
+                    text: "Unset current: " + Tailscale.status.exitNode.dnsName
+                    visible: Tailscale.status.exitNode != null
                     onClicked: {
-                        Util.unsetExitNode()
+                        Tailscale.status.unsetExitNode()
                     }
                 }
 
@@ -55,10 +55,10 @@ Kirigami.ScrollablePage {
             ColumnLayout {
                 spacing: 0
                 FormCard.FormButtonDelegate {
-                    text: "Use suggested: " + App.tailscale.status.suggestedExitNode.dnsName
-                    visible: App.tailscale.status.suggestedExitNode != null
+                    text: "Use suggested: " + Tailscale.status.suggestedExitNode.dnsName
+                    visible: Tailscale.status.suggestedExitNode != null
                     onClicked: {
-                        Util.setExitNode(App.tailscale.status.suggestedExitNode)
+                        Tailscale.status.setExitNode(Tailscale.status.suggestedExitNode)
                     }
                 }
             }

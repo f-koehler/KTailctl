@@ -23,7 +23,7 @@ Kirigami.ScrollablePage {
             text: (Tailscale.status.backendState == "Running") ? "Stop tailscale" : "Start tailscale"
             icon.name: (Tailscale.status.backendState == "Running") ? "process-stop" : "media-playback-start"
             onTriggered: {
-                App.tailscale.toggle();
+                Tailscale.toggle();
             }
         }
     ]
@@ -143,7 +143,7 @@ Kirigami.ScrollablePage {
                     text: i18nc("@label", "Enable Tailscale:")
                     checked: Tailscale.status.backendState == "Running"
                     onClicked: {
-                        App.tailscale.toggle();
+                        Tailscale.toggle();
                     }
                     enabled: Tailscale.status.isOperator && Tailscale.status.success
                 }
@@ -238,7 +238,7 @@ Kirigami.ScrollablePage {
                     checked: Tailscale.preferences.advertiseExitNode
                     onClicked: {
                         if (!Tailscale.preferences.advertiseExitNode) {
-                            Util.unsetExitNode();
+                            Tailscale.status.unsetExitNode();
                             comboExitNode.currentIndex = 0;
                             Tailscale.preferences.advertiseExitNode = true;
                         } else {
