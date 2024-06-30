@@ -73,7 +73,7 @@ QString formatSpeedHumanReadable(double bytes_per_second)
     return "0 B/s";
 }
 
-QString formatDurationHumanReadable(const QDateTime &from, const QDateTime &to)
+QString formatDurationHumanReadable(const QDateTime &startTime, const QDateTime &endTime)
 {
     static constexpr std::array<qint64, 6> conversions = {365LL * 30LL * 24LL * 60LL * 60LL * 1000LL,
                                                           34 * 30LL * 60LL * 60LL * 1000LL,
@@ -84,10 +84,10 @@ QString formatDurationHumanReadable(const QDateTime &from, const QDateTime &to)
     static constexpr std::array<const char *, 6> units = {"year", "month", "day", "hour", "minute", "second"};
 
     QString result = "";
-    if (from > to) {
+    if (startTime > endTime) {
         return result;
     }
-    qint64 msecs = from.msecsTo(to);
+    qint64 msecs = startTime.msecsTo(endTime);
     if (msecs < 1000) {
         return result;
     }
@@ -127,7 +127,7 @@ void setExitNode(const QString &node)
     GoUint8 false_ = 0;
     tailscale_set_advertise_exit_node(&false_);
 
-    QByteArray bytes = node.toUtf8();
+    const QByteArray bytes = node.toUtf8();
     GoString tmp{bytes.data(), bytes.size()};
     tailscale_set_exit_node(&tmp);
 }
@@ -150,9 +150,9 @@ QString Util::formatSpeedHumanReadable(double bytes_per_second)
 {
     return ::formatSpeedHumanReadable(bytes_per_second);
 }
-QString Util::formatDurationHumanReadable(const QDateTime &from, const QDateTime &to)
+QString Util::formatDurationHumanReadable(const QDateTime &startTime, const QDateTime &endTime)
 {
-    return ::formatDurationHumanReadable(from, to);
+    return ::formatDurationHumanReadable(startTime, endTime);
 }
 QString Util::fileUrlToString(const QUrl &url)
 {
@@ -172,7 +172,7 @@ QIcon Util::loadOsIcon(const QString &operating_system)
 }
 void Util::setExitNode(const QString &node)
 {
-    QByteArray bytes = node.toUtf8();
+    const QByteArray bytes = node.toUtf8();
     GoString tmp{bytes.data(), bytes.size()};
     tailscale_set_exit_node(&tmp);
 }

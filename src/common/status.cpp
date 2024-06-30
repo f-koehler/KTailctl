@@ -138,8 +138,8 @@ void Status::refresh()
     char *jsonStr = tailscale_status();
     const bool statusSuccess = jsonStr != nullptr;
     if (statusSuccess) {
+        const std::unique_ptr<char, decltype(&free)> jsonStrPtr(jsonStr, free);
         json::parse(jsonStr).get_to<StatusData>(mNewData);
-        free(jsonStr);
         update(mNewData);
         emit refreshed(*this);
 
