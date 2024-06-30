@@ -180,6 +180,16 @@ void Util::setExitNode(const Peer *node)
 {
     ::setExitNode(node);
 }
+void Util::setExitNodeFromIP(const QString &ip)
+{
+    // TODO: get rid of this
+    GoUint8 false_ = 0;
+    tailscale_set_advertise_exit_node(&false_);
+
+    const QByteArray bytes = ip.toUtf8();
+    GoString tmp{bytes.data(), bytes.size()};
+    tailscale_set_exit_node(&tmp);
+}
 void Util::unsetExitNode()
 {
     ::unsetExitNode();
