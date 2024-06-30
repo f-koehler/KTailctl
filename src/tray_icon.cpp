@@ -76,7 +76,7 @@ void TrayIcon::regenerate()
 
         const auto [exit_nodes, mullvad_nodes] = mTailscale->status()->exitNodes();
         if ((!exit_nodes.empty()) || (!mullvad_nodes.empty())) {
-            auto *menu_exit_nodes = menu->addMenu(QIcon::fromTheme("internet-services"), "Exit Nodes");
+            auto *menu_exit_nodes = menu->addMenu(QIcon::fromTheme("globe"), "Exit Nodes");
 
             if (mTailscale->status()->currentExitNode() != nullptr) {
                 menu_exit_nodes->addAction(QIcon::fromTheme("dialog-cancel"),
