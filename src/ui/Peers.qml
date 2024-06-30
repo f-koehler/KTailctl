@@ -32,10 +32,6 @@ Kirigami.ScrollablePage {
         }
     ]
 
-    Controls.Label {
-        text: "test"
-    }
-
     Kirigami.CardsListView {
         id: listPeers
 
@@ -168,7 +164,7 @@ Kirigami.ScrollablePage {
                                         if (isCurrentExitNode)
                                             Util.unsetExitNode();
                                         else
-                                            Util.setExitNode(tailscaleIps[0]);
+                                            Util.setExitNodeFromIP(tailscaleIps[0]);
                                     }
                                 }
 
