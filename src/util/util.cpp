@@ -4,6 +4,7 @@
 #ifndef KTAILCTL_UTIL_UTIL_CPP
 #define KTAILCTL_UTIL_UTIL_CPP
 #include "util.h"
+#include "peer.h"
 
 #include "libktailctl_wrapper.h"
 #include <QClipboard>
@@ -122,12 +123,17 @@ qint64 toMSecsSinceEpoch(const QDateTime &dateTime)
     return dateTime.toMSecsSinceEpoch();
 }
 
-void setExitNode(const QString &node)
+void setExitNode(const Peer *node)
 {
+    if (node == nullptr) {
+        unsetExitNode();
+        return;
+    }
+
     GoUint8 false_ = 0;
     tailscale_set_advertise_exit_node(&false_);
 
-    const QByteArray bytes = node.toUtf8();
+    const QByteArray bytes = node->tailscaleIps().front().toUtf8();
     GoString tmp{bytes.data(), bytes.size()};
     tailscale_set_exit_node(&tmp);
 }
@@ -170,16 +176,13 @@ QIcon Util::loadOsIcon(const QString &operating_system)
 {
     return ::loadOsIcon(operating_system);
 }
-void Util::setExitNode(const QString &node)
+void Util::setExitNode(const Peer *node)
 {
-    const QByteArray bytes = node.toUtf8();
-    GoString tmp{bytes.data(), bytes.size()};
-    tailscale_set_exit_node(&tmp);
+    ::setExitNode(node);
 }
 void Util::unsetExitNode()
 {
-    GoString tmp{nullptr, 0};
-    tailscale_set_exit_node(&tmp);
+    ::unsetExitNode();
 }
 
 #endif /* KTAILCTL_UTIL_UTIL_CPP */

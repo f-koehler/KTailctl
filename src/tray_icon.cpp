@@ -91,7 +91,7 @@ void TrayIcon::regenerate()
                 menu_exit_nodes->addAction(QIcon::fromTheme("network-vpn"),
                                            QString("Suggested: %1").arg(mTailscale->status()->suggestedExitNode()->hostName()),
                                            [this]() {
-                                               setExitNode(mTailscale->status()->suggestedExitNode()->tailscaleIps().front());
+                                               setExitNode(mTailscale->status()->suggestedExitNode());
                                            });
             }
 
@@ -110,7 +110,7 @@ void TrayIcon::regenerate()
                                                  menu_mullvad_nodes->addMenu(QIcon(QString(":/country-flags/%1").arg(country_code.toLower())), country_code));
                     }
                     menu_pos.value()->addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), node->hostName(), [node]() {
-                        setExitNode(node->tailscaleIps().front());
+                        setExitNode(node);
                     });
                 }
             }
@@ -118,7 +118,7 @@ void TrayIcon::regenerate()
             if (!exit_nodes.empty()) {
                 for (const auto *node : exit_nodes) {
                     menu_exit_nodes->addAction(loadOsIcon(node->os()), node->hostName(), [node]() {
-                        setExitNode(node->tailscaleIps().front());
+                        setExitNode(node);
                     });
                 }
             }
