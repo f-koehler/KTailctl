@@ -50,9 +50,9 @@ public:
 
     Q_INVOKABLE std::tuple<QList<Peer *>, QList<Peer *>> exitNodes() const;
 
-    Q_INVOKABLE static void setExitNode(const Peer *node);
-    Q_INVOKABLE static void setExitNodeFromIP(const QString &ip); // TODO: get rid of this
-    Q_INVOKABLE static void unsetExitNode();
+    Q_INVOKABLE void setExitNode(const Peer *node);
+    Q_INVOKABLE void setExitNodeFromIP(const QString &ip); // TODO: get rid of this
+    Q_INVOKABLE void unsetExitNode();
 
 signals:
     void successChanged(bool);
