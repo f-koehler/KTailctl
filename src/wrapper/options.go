@@ -112,6 +112,16 @@ func tailscale_set_exit_node(exit_node *string) bool {
 	return apply_prefs(prefs)
 }
 
+//export tailscale_suggest_exit_node
+func tailscale_suggest_exit_node() *C.char {
+	res, err := client.SuggestExitNode(context.Background())
+	if err != nil {
+		log_critical(fmt.Sprintf("failed to suggest exit node: %v", err))
+		return nil
+	}
+	return C.CString(string(res.ID))
+}
+
 //export tailscale_get_accept_dns
 func tailscale_get_accept_dns(accept_dns *bool) bool {
 	curPrefs, err := client.GetPrefs(context.Background())

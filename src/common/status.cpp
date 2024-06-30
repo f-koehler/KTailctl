@@ -51,6 +51,10 @@ const StatusData &Status::statusData() const
 {
     return mData;
 }
+const QString &Status::suggestedExitNode() const
+{
+    return mSuggestedExitNode;
+}
 
 std::tuple<QList<Peer *>, QList<Peer *>> Status::exitNodes() const
 {
@@ -147,6 +151,14 @@ void Status::refresh()
         if (newIsOperator != mIsOperator) {
             mIsOperator = newIsOperator;
             emit isOperatorChanged(mIsOperator);
+        }
+
+        const std::unique_ptr<char, decltype(&free)> suggestedExitNode(tailscale_suggest_exit_node(), free);
+        const QString newSuggestedExitNode = QString::fromUtf8(suggestedExitNode.get());
+        if (newSuggestedExitNode != mSuggestedExitNode) {
+            mSuggestedExitNode = newSuggestedExitNode;
+            qInfo() << "Suggested exit node:" << mSuggestedExitNode;
+            emit suggestedExitNodeChanged(mSuggestedExitNode);
         }
     }
     if (mSuccess != statusSuccess) {
