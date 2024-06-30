@@ -36,7 +36,7 @@ Kirigami.ScrollablePage {
                     text: "Unset current: " + App.tailscale.status.exitNode.dnsName
                     visible: App.tailscale.status.exitNode != null
                     onClicked: {
-                        Util.unsetExitNode(App.tailscale.status.suggestedExitNode.tailscaleIps[0])
+                        Util.unsetExitNode()
                     }
                 }
 
@@ -58,7 +58,7 @@ Kirigami.ScrollablePage {
                     text: "Use suggested: " + App.tailscale.status.suggestedExitNode.dnsName
                     visible: App.tailscale.status.suggestedExitNode != null
                     onClicked: {
-                        Util.setExitNode(App.tailscale.status.suggestedExitNode.tailscaleIps[0])
+                        Util.setExitNode(App.tailscale.status.suggestedExitNode)
                     }
                 }
             }
