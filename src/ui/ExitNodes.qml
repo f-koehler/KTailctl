@@ -29,12 +29,12 @@ Kirigami.ScrollablePage {
 
                 KTailctlComponents.FormLabelDelegate {
                     text: i18nc("@label", "Currently not using any exit node.")
-                    visible: Tailscale.status.exitNode == null
+                    visible: Tailscale.status.currentExitNode == null
                 }
 
                 FormCard.FormButtonDelegate {
-                    text: "Unset current: " + Tailscale.status.exitNode.dnsName
-                    visible: Tailscale.status.exitNode != null
+                    text: "Unset current: " + Tailscale.status.currentExitNode.dnsName
+                    visible: Tailscale.status.currentExitNode != null
                     onClicked: {
                         Tailscale.status.unsetExitNode()
                     }
