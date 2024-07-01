@@ -70,6 +70,8 @@ set_target_properties(
   ktailctl_wrapper PROPERTIES INTERFACE_LINK_LIBRARIES_DIRECT
                               ktailctl_wrapper_logging)
 add_dependencies(ktailctl_wrapper ktailctl_wrapper_target)
+add_library(KTailctl::Wrapper ALIAS ktailctl_wrapper)
+add_library(KTailctl::WrapperLogging ALIAS ktailctl_wrapper_logging)
 
 install(FILES ${KTAILCTL_WRAPPER_LIBRARY} TYPE LIB)
 install(TARGETS ktailctl_wrapper_logging)

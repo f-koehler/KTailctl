@@ -32,18 +32,17 @@ target_link_libraries(
   KF6::I18n
   Qt6::Quick
   Qt6::QuickControls2
-  ktailctl_data
-  ktailctl_models
-  ktailctl_config
-  ktailctl_taildrop
-  ktailctl_wrapper_logging
-  ktailctl_wrapper)
+  KTailctl::Data
+  KTailctl::Models
+  KTailctl::Config
+  KTailctl::Taildrop
+  KTailctl::WrapperLogging
+  KTailctl::Wrapper)
 
 target_include_directories(
   ktailctl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/src
                    ${CMAKE_BINARY_DIR}/lib)
 target_link_directories(ktailctl PRIVATE ${CMAKE_BINARY_DIR}/lib)
-target_link_libraries(ktailctl ktailctl_wrapper_logging ktailctl_wrapper)
 add_dependencies(ktailctl ktailctl_wrapper_target)
 
 if(KTAILCTL_FLATPAK_BUILD)
