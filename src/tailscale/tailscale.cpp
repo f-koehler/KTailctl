@@ -19,6 +19,10 @@ PeerModel *Tailscale::peerModel() const
 {
     return mPeerModel;
 }
+PeerModel *Tailscale::exitNodeModel() const
+{
+    return mExitNodeModel;
+}
 bool Tailscale::success() const
 {
     return mSuccess;

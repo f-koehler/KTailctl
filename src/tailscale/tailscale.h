@@ -11,6 +11,7 @@ class Tailscale : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(PeerModel *peerModel READ peerModel CONSTANT)
+    Q_PROPERTY(PeerModel *exitNodeModel READ exitNodeModel CONSTANT)
     Q_PROPERTY(bool success READ success NOTIFY successChanged)
     Q_PROPERTY(QString version READ version NOTIFY versionChanged)
     Q_PROPERTY(bool isOperator READ isOperator NOTIFY isOperatorChanged)
@@ -52,6 +53,7 @@ public:
     virtual ~Tailscale() = default;
 
     PeerModel *peerModel() const;
+    PeerModel *exitNodeModel() const;
     bool success() const;
     const QString &version() const;
     bool isOperator() const;
