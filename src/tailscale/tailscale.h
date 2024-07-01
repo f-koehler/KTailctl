@@ -37,10 +37,6 @@ private:
 
     explicit Tailscale(QObject *parent = nullptr);
 
-    Q_INVOKABLE void setExitNode(Peer *node);
-    Q_INVOKABLE void setExitNodeFromDnsName(const QString &dns); // TODO: get rid of this
-    Q_INVOKABLE void unsetExitNode();
-
 signals:
     void successChanged(bool);
     void versionChanged(const QString &);
@@ -71,6 +67,10 @@ public slots:
     Q_INVOKABLE void down();
     Q_INVOKABLE void toggle();
     Q_INVOKABLE void refresh();
+
+    Q_INVOKABLE void setExitNode(Peer *node);
+    Q_INVOKABLE void setExitNodeFromDnsName(const QString &dns); // TODO: get rid of this
+    Q_INVOKABLE void unsetExitNode();
 };
 
 #endif /* KTAILCTL_TAILSCALE_TAILSCALE_H */

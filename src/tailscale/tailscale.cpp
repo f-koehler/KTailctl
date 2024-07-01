@@ -220,3 +220,33 @@ void Tailscale::refresh()
         }
     }
 }
+
+void Tailscale::setExitNode(Peer *node)
+{
+    if (node == nullptr) {
+        unsetExitNode();
+        return;
+    }
+
+    GoUint8 false_ = 0;
+    tailscale_set_advertise_exit_node(&false_);
+
+    QByteArray bytes = node->tailscaleIps().front().toUtf8();
+    GoString tmp{bytes.data(), bytes.size()};
+    tailscale_set_exit_node(&tmp);
+}
+void Tailscale::setExitNodeFromDnsName(const QString &dns)
+{
+    // TODO: get rid of this
+    for (Peer *peer : mPeers) {
+        if (peer->dnsName() == dns) {
+            setExitNode(peer);
+            return;
+        }
+    }
+}
+void Tailscale::unsetExitNode()
+{
+    GoString tmp{nullptr, 0};
+    tailscale_set_exit_node(&tmp);
+}
