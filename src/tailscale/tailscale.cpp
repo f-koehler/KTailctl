@@ -187,36 +187,36 @@ void Tailscale::refresh()
         }
     }
 
-    // if (didExitNodesChange) {
-    //     emit exitNodesChanged(mExitNodes);
-    // }
+    if (didExitNodesChange) {
+        emit exitNodesChanged(mExitNodes);
+    }
 
-    // if (const bool newIsOperator = tailscale_is_operator(); newIsOperator != mIsOperator) {
-    //     mIsOperator = newIsOperator;
-    //     emit isOperatorChanged(mIsOperator);
-    // }
+    if (const bool newIsOperator = tailscale_is_operator(); newIsOperator != mIsOperator) {
+        mIsOperator = newIsOperator;
+        emit isOperatorChanged(mIsOperator);
+    }
 
-    // {
-    //     const std::unique_ptr<char, decltype(&free)> suggestedExitNode(tailscale_suggest_exit_node(), free);
-    //     const QString suggestedExitNodeStr = QString::fromUtf8(suggestedExitNode.get());
-    //     if (suggestedExitNodeStr.isEmpty()) {
-    //         if (mSuggestedExitNode != nullptr) {
-    //             mSuggestedExitNode->deleteLater();
-    //             mSuggestedExitNode = nullptr;
-    //             emit suggestedExitNodeChanged(mSuggestedExitNode);
-    //         }
-    //     } else {
-    //         for (Peer *peer : mPeers) {
-    //             if (peer->id() == suggestedExitNodeStr) {
-    //                 if (mSuggestedExitNode == nullptr) {
-    //                     mSuggestedExitNode = new Peer(this);
-    //                     emit suggestedExitNodeChanged(mSuggestedExitNode);
-    //                 }
-    //                 PeerData data = PeerData(peer->peerData());
-    //                 mSuggestedExitNode->update(data);
-    //                 break;
-    //             }
-    //         }
-    //     }
-    // }
+    {
+        const std::unique_ptr<char, decltype(&free)> suggestedExitNode(tailscale_suggest_exit_node(), free);
+        const QString suggestedExitNodeStr = QString::fromUtf8(suggestedExitNode.get());
+        if (suggestedExitNodeStr.isEmpty()) {
+            if (mSuggestedExitNode != nullptr) {
+                mSuggestedExitNode->deleteLater();
+                mSuggestedExitNode = nullptr;
+                emit suggestedExitNodeChanged(mSuggestedExitNode);
+            }
+        } else {
+            for (Peer *peer : mPeers) {
+                if (peer->id() == suggestedExitNodeStr) {
+                    if (mSuggestedExitNode == nullptr) {
+                        mSuggestedExitNode = new Peer(this);
+                        emit suggestedExitNodeChanged(mSuggestedExitNode);
+                    }
+                    PeerData data = PeerData(peer->peerData());
+                    mSuggestedExitNode->update(data);
+                    break;
+                }
+            }
+        }
+    }
 }
