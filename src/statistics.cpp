@@ -2,20 +2,21 @@
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 #include "statistics.h"
 #include "libktailctl_wrapper.h"
+#include "peer.h"
+#include "tailscale.h"
 
 #include <QFile>
 #include <QTextStream>
 
 Q_LOGGING_CATEGORY(logcat_statistics, "org.fkoehler.KTailctl.Statistics")
 
-Statistics::Statistics(Status *status, QObject *parent)
+Statistics::Statistics(QObject *parent)
     : QObject(parent)
-    , mStatus(status)
     , mTimerTotalSpeed(new QTimer(this))
     , mSpeedUpTotal(new SpeedStatistics(this))
     , mSpeedDownTotal(new SpeedStatistics(this))
 {
-    for (const Peer *peer : mStatus->peers()) {
+    for (const Peer *peer : Tailscale::instance()->peers()) {
         auto iterUp = mSpeedUp.insert(peer->id(), new SpeedStatistics(this));
         auto iterDown = mSpeedDown.insert(peer->id(), new SpeedStatistics(this));
         iterUp.value()->update(peer->txBytes());
@@ -24,8 +25,6 @@ Statistics::Statistics(Status *status, QObject *parent)
         QObject::connect(peer, &Peer::txBytesChanged, iterUp.value(), &SpeedStatistics::update);
         QObject::connect(peer, &Peer::rxBytesChanged, iterDown.value(), &SpeedStatistics::update);
     }
-
-    QObject::connect(mStatus, &Status::refreshed, this, &Statistics::statusRefreshed);
 
     QObject::connect(mTimerTotalSpeed, &QTimer::timeout, this, &Statistics::refreshTotalSpeed);
     mTimerTotalSpeed->setInterval(200);
@@ -60,10 +59,10 @@ SpeedStatistics *Statistics::totalDownSpeed() const
     return mSpeedDownTotal;
 }
 
-void Statistics::statusRefreshed(const Status &status)
+void Statistics::statusRefreshed()
 {
     bool newPeers = false;
-    for (const Peer *peer : status.peers()) {
+    for (const Peer *peer : Tailscale::instance()->peers()) {
         if (mSpeedUp.contains(peer->id())) {
             continue;
         }

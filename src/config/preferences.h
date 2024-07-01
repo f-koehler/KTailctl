@@ -25,6 +25,8 @@ private:
     bool mShieldsUp{};
     bool mSSH{};
 
+    explicit Preferences(QObject *parent = nullptr);
+
 signals:
     void acceptRoutesChanged(bool);
     void acceptDNSChanged(bool);
@@ -35,7 +37,7 @@ signals:
     void sshChanged(bool);
 
 public:
-    explicit Preferences(QObject *parent = nullptr);
+    static Preferences *instance();
     virtual ~Preferences() = default;
 
     Q_INVOKABLE void refresh();

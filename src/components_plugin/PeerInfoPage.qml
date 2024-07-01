@@ -153,7 +153,7 @@ Kirigami.ScrollablePage {
                 FormCard.FormSwitchDelegate {
                     text: i18nc("@label", "Use this exit node:")
                     checked: peer.isCurrentExitNode
-                    enabled: peer.isExitNode && !Tailscale.preferences.advertiseExitNode
+                    enabled: peer.isExitNode && !Preferences.advertiseExitNode
                     onToggled: {
                         if (peer.isCurrentExitNode)
                             Tailscale.status.unsetExitNode();
@@ -238,58 +238,58 @@ Kirigami.ScrollablePage {
 
         }
 
-        FormCard.FormHeader {
-            Layout.fillWidth: true
-            Layout.topMargin: Kirigami.Units.largeSpacing
-            visible: !root.isSelf
-            title: i18nc("@title:group", "Statistics")
-        }
+        // FormCard.FormHeader {
+        //     Layout.fillWidth: true
+        //     Layout.topMargin: Kirigami.Units.largeSpacing
+        //     visible: !root.isSelf
+        //     title: i18nc("@title:group", "Statistics")
+        // }
 
-        FormCard.FormCard {
-            Layout.fillWidth: true
-            visible: !root.isSelf
+        // FormCard.FormCard {
+        //     Layout.fillWidth: true
+        //     visible: !root.isSelf
 
-            ColumnLayout {
-                spacing: 0
+        //     ColumnLayout {
+        //         spacing: 0
 
-                KTailctlComponents.FormLabeledIconDelegate {
-                    text: i18nc("@label", "Download:")
-                    label: root.isSelf ? "" : Util.formatCapacityHumanReadable(peer.rxBytes) + " (" + Util.formatSpeedHumanReadable(Tailscale.statistics.speedDown(peer.tailscaleID).average1Second) + ")"
-                    source: "cloud-download"
-                    onClicked: {
-                        Util.setClipboardText(peer.rxBytes);
-                    }
-                }
+        //         KTailctlComponents.FormLabeledIconDelegate {
+        //             text: i18nc("@label", "Download:")
+        //             label: root.isSelf ? "" : Util.formatCapacityHumanReadable(peer.rxBytes) + " (" + Util.formatSpeedHumanReadable(Tailscale.statistics.speedDown(peer.tailscaleID).average1Second) + ")"
+        //             source: "cloud-download"
+        //             onClicked: {
+        //                 Util.setClipboardText(peer.rxBytes);
+        //             }
+        //         }
 
-                FormCard.FormDelegateSeparator {
-                }
+        //         FormCard.FormDelegateSeparator {
+        //         }
 
-                KTailctlComponents.FormLabeledIconDelegate {
-                    text: i18nc("@label", "Upload:")
-                    label: root.isSelf ? "" : Util.formatCapacityHumanReadable(peer.txBytes) + " (" + Util.formatSpeedHumanReadable(Tailscale.statistics.speedUp(peer.tailscaleID).average1Second) + ")"
-                    source: "cloud-upload"
-                    onClicked: {
-                        Util.setClipboardText(peer.txBytes);
-                    }
-                }
+        //         KTailctlComponents.FormLabeledIconDelegate {
+        //             text: i18nc("@label", "Upload:")
+        //             label: root.isSelf ? "" : Util.formatCapacityHumanReadable(peer.txBytes) + " (" + Util.formatSpeedHumanReadable(Tailscale.statistics.speedUp(peer.tailscaleID).average1Second) + ")"
+        //             source: "cloud-upload"
+        //             onClicked: {
+        //                 Util.setClipboardText(peer.txBytes);
+        //             }
+        //         }
 
-            }
+        //     }
 
-        }
+        // }
 
     }
 
     header: ColumnLayout {
         Components.Banner {
             width: parent.width
-            visible: !Tailscale.status.success
+            visible: !Tailscale.success
             type: Kirigami.MessageType.Error
             text: i18n("Tailscaled is not running")
         }
 
         Components.Banner {
             width: parent.width
-            visible: (!Tailscale.status.isOperator) && Tailscale.status.success
+            visible: (!Tailscale.isOperator) && Tailscale.success
             type: Kirigami.MessageType.Warning
             text: "KTailctl functionality limited, current user is not the Tailscale operator"
         }

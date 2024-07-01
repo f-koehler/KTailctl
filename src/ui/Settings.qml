@@ -19,9 +19,9 @@ Kirigami.ScrollablePage {
     rightPadding: 0
     actions: [
         Kirigami.Action {
-            visible: Tailscale.status.success && Tailscale.status.isOperator
-            text: (Tailscale.status.backendState == "Running") ? "Stop tailscale" : "Start tailscale"
-            icon.name: (Tailscale.status.backendState == "Running") ? "process-stop" : "media-playback-start"
+            visible: Tailscale.success && Tailscale.isOperator
+            text: (Tailscale.backendState == "Running") ? "Stop tailscale" : "Start tailscale"
+            icon.name: (Tailscale.backendState == "Running") ? "process-stop" : "media-playback-start"
             onTriggered: {
                 Tailscale.toggle();
             }
@@ -37,7 +37,7 @@ Kirigami.ScrollablePage {
         //         App.config.taildropStrategy = comboTaildropStrategy.currentText;
         //         App.config.save()
         //     }
-        //     enabled: Tailscale.status.isOperator
+        //     enabled: Tailscale.isOperator
         // }
 
         FormCard.FormHeader {
@@ -141,20 +141,20 @@ Kirigami.ScrollablePage {
                     id: enableTailscale
 
                     text: i18nc("@label", "Enable Tailscale:")
-                    checked: Tailscale.status.backendState == "Running"
+                    checked: Tailscale.backendState == "Running"
                     onClicked: {
                         Tailscale.toggle();
                     }
-                    enabled: Tailscale.status.isOperator && Tailscale.status.success
+                    enabled: Tailscale.isOperator && Tailscale.success
                 }
 
                 FormCard.FormSwitchDelegate {
                     id: acceptRoutes
 
                     text: i18nc("@label", "Accept Routes:")
-                    checked: Tailscale.preferences.acceptRoutes
-                    onClicked: Tailscale.preferences.acceptRoutes = !Tailscale.preferences.acceptRoutes
-                    enabled: Tailscale.status.isOperator && Tailscale.status.success
+                    checked: Preferences.acceptRoutes
+                    onClicked: Preferences.acceptRoutes = !Preferences.acceptRoutes
+                    enabled: Tailscale.isOperator && Tailscale.success
                 }
 
                 FormCard.FormDelegateSeparator {
@@ -166,9 +166,9 @@ Kirigami.ScrollablePage {
                     id: acceptDNS
 
                     text: i18nc("@label", "Accept DNS:")
-                    checked: Tailscale.preferences.acceptDNS
-                    onClicked: Tailscale.preferences.acceptDNS = !Tailscale.preferences.acceptDNS
-                    enabled: Tailscale.status.isOperator && Tailscale.status.success
+                    checked: Preferences.acceptDNS
+                    onClicked: Preferences.acceptDNS = !Preferences.acceptDNS
+                    enabled: Tailscale.isOperator && Tailscale.success
                 }
 
                 FormCard.FormDelegateSeparator {
@@ -180,11 +180,11 @@ Kirigami.ScrollablePage {
                     id: textTailscaleHostname
 
                     label: i18nc("@label", "Hostname:")
-                    text: Tailscale.preferences.hostname
+                    text: Preferences.hostname
                     onEditingFinished: {
-                        Tailscale.preferences.hostname = textTailscaleHostname.text;
+                        Preferences.hostname = textTailscaleHostname.text;
                     }
-                    enabled: Tailscale.status.isOperator && Tailscale.status.success
+                    enabled: Tailscale.isOperator && Tailscale.success
                 }
 
                 FormCard.FormDelegateSeparator {
@@ -196,9 +196,9 @@ Kirigami.ScrollablePage {
                     id: shieldsUp
 
                     text: i18nc("@label", "Shields up:")
-                    checked: Tailscale.preferences.shieldsUp
-                    onClicked: Tailscale.preferences.shieldsUp = !Tailscale.preferences.shieldsUp
-                    enabled: Tailscale.status.isOperator && Tailscale.status.success
+                    checked: Preferences.shieldsUp
+                    onClicked: Preferences.shieldsUp = !Preferences.shieldsUp
+                    enabled: Tailscale.isOperator && Tailscale.success
                 }
 
                 FormCard.FormDelegateSeparator {
@@ -210,9 +210,9 @@ Kirigami.ScrollablePage {
                     id: ssh
 
                     text: i18nc("@label", "SSH:")
-                    checked: Tailscale.preferences.ssh
-                    onClicked: Tailscale.preferences.ssh = !Tailscale.preferences.ssh
-                    enabled: Tailscale.status.isOperator && Tailscale.status.success
+                    checked: Preferences.ssh
+                    onClicked: Preferences.ssh = !Preferences.ssh
+                    enabled: Tailscale.isOperator && Tailscale.success
                 }
 
             }
@@ -235,17 +235,18 @@ Kirigami.ScrollablePage {
                     id: advertiseExitNode
 
                     text: i18nc("@label", "Run exit node:")
-                    checked: Tailscale.preferences.advertiseExitNode
+                    checked: Preferences.advertiseExitNode
                     onClicked: {
-                        if (!Tailscale.preferences.advertiseExitNode) {
-                            Tailscale.status.unsetExitNode();
+                        if (!Preferences.advertiseExitNode) {
+                            Util.unsetExitNode();
+                            Tailscale.unsetExitNode();
                             comboExitNode.currentIndex = 0;
-                            Tailscale.preferences.advertiseExitNode = true;
+                            Preferences.advertiseExitNode = true;
                         } else {
-                            Tailscale.preferences.advertiseExitNode = false;
+                            Preferences.advertiseExitNode = false;
                         }
                     }
-                    enabled: Tailscale.status.isOperator && Tailscale.status.success
+                    enabled: Tailscale.isOperator && Tailscale.success
                 }
             }
 
@@ -272,7 +273,7 @@ Kirigami.ScrollablePage {
                         App.config.taildropEnabled = !App.config.taildropEnabled;
                         App.config.save();
                     }
-                    enabled: Tailscale.status.isOperator && Tailscale.status.success
+                    enabled: Tailscale.isOperator && Tailscale.success
                 }
 
                 FormCard.FormDelegateSeparator {
@@ -280,7 +281,7 @@ Kirigami.ScrollablePage {
                 }
 
                 FormCard.AbstractFormDelegate {
-                    enabled: Tailscale.status.isOperator && Tailscale.status.success
+                    enabled: Tailscale.isOperator && Tailscale.success
 
                     contentItem: ColumnLayout {
                         Controls.Label {
@@ -335,7 +336,7 @@ Kirigami.ScrollablePage {
 
     header: Components.Banner {
         width: parent.width
-        visible: !Tailscale.status.success
+        visible: !Tailscale.success
         type: Kirigami.MessageType.Error
         text: i18n("Tailscaled is not running")
     }

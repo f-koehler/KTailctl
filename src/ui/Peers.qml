@@ -36,7 +36,7 @@ Kirigami.ScrollablePage {
         id: listPeers
 
         model: App.peerModel
-        visible: Tailscale.status.success
+        visible: Tailscale.success
         headerPositioning: ListView.OverlayHeader
 
         delegate: Kirigami.AbstractCard {
@@ -79,21 +79,21 @@ Kirigami.ScrollablePage {
                                 source: isOnline ? "online" : "offline"
                             }
 
-                            Kirigami.Icon {
-                                source: "cloud-upload"
-                            }
+                            // Kirigami.Icon {
+                            //     source: "cloud-upload"
+                            // }
 
-                            Controls.Label {
-                                text: Util.formatSpeedHumanReadable(Tailscale.statistics.speedUp(tailscaleID).average1Second)
-                            }
+                            // Controls.Label {
+                            //     text: Util.formatSpeedHumanReadable(Tailscale.statistics.speedUp(tailscaleID).average1Second)
+                            // }
 
-                            Kirigami.Icon {
-                                source: "cloud-download"
-                            }
+                            // Kirigami.Icon {
+                            //     source: "cloud-download"
+                            // }
 
-                            Controls.Label {
-                                text: Util.formatSpeedHumanReadable(Tailscale.statistics.speedDown(tailscaleID).average1Second)
-                            }
+                            // Controls.Label {
+                            //     text: Util.formatSpeedHumanReadable(Tailscale.statistics.speedDown(tailscaleID).average1Second)
+                            // }
 
                         }
 
@@ -159,7 +159,7 @@ Kirigami.ScrollablePage {
                                 Controls.MenuItem {
                                     text: i18nc("@label", isCurrentExitNode ? "Unset exit node" : "Use exit node")
                                     icon.name: "internet-services"
-                                    visible: isExitNode && !Tailscale.preferences.advertiseExitNode
+                                    visible: isExitNode && !Preferences.advertiseExitNode
                                     onClicked: {
                                         if (isCurrentExitNode)
                                             Tailscale.status.unsetExitNode();

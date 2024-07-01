@@ -11,6 +11,6 @@ import org.kde.kirigamiaddons.formcard 1.0 as FormCard
 import org.kde.kirigamiaddons.labs.components 1.0 as Components
 
 KTailctlComponents.PeerInfoPage {
-    peer: Tailscale.status.self
+    peer: Tailscale.self
     isSelf: true
 }

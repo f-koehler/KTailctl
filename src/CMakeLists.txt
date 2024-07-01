@@ -4,11 +4,10 @@
 include(CheckIPOSupported)
 check_ipo_supported(RESULT ipo_supported OUTPUT ipo_output)
 
-add_subdirectory(common)
 add_subdirectory(data)
-add_subdirectory(models)
 add_subdirectory(config)
 add_subdirectory(taildrop)
+add_subdirectory(tailscale)
 add_subdirectory(util)
 add_subdirectory(components_plugin)
 add_subdirectory(wrapper)
@@ -21,7 +20,6 @@ add_executable(
   main.cpp
   speed_statistics.cpp
   statistics.cpp
-  tailscale.cpp
   tray_icon.cpp
   icons/icons.qrc
   ui/ui.qrc
@@ -32,18 +30,16 @@ target_link_libraries(
   KF6::I18n
   Qt6::Quick
   Qt6::QuickControls2
-  ktailctl_data
-  ktailctl_models
-  ktailctl_config
-  ktailctl_taildrop
-  ktailctl_wrapper_logging
-  ktailctl_wrapper)
+  KTailctl::Data
+  KTailctl::Config
+  KTailctl::Taildrop
+  KTailctl::WrapperLogging
+  KTailctl::Wrapper)
 
 target_include_directories(
   ktailctl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/src
                    ${CMAKE_BINARY_DIR}/lib)
 target_link_directories(ktailctl PRIVATE ${CMAKE_BINARY_DIR}/lib)
-target_link_libraries(ktailctl ktailctl_wrapper_logging ktailctl_wrapper)
 add_dependencies(ktailctl ktailctl_wrapper_target)
 
 if(KTAILCTL_FLATPAK_BUILD)
