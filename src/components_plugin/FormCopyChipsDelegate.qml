@@ -17,6 +17,7 @@ FormCard.AbstractFormDelegate {
         spacing: Kirigami.Units.largeSpacing
 
         Controls.Label {
+            Layout.fillWidth: true
             text: root.text
             elide: Text.ElideRight
             wrapMode: Text.Wrap
@@ -25,7 +26,6 @@ FormCard.AbstractFormDelegate {
         }
 
         Flow {
-            Layout.fillWidth: true
             spacing: Kirigami.Units.smallSpacing
 
             Repeater {
