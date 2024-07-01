@@ -42,7 +42,7 @@ public:
     explicit Peer(QObject *parent = nullptr);
     virtual ~Peer() = default;
 
-    bool update(PeerData &newData);
+    bool update(const PeerData &newData);
 
     const QString &id() const;
     const QString &publicKey() const;
