@@ -23,17 +23,17 @@ App::App(QObject *parent)
     , mTrayIcon(new TrayIcon(this))
 {
     // QObject::connect(tailscale->status(), &Status::refreshed, &mPeerDetails, &Peer::updateFromStatus);
-    QObject::connect(Tailscale::getInstance(), &Tailscale::backendStateChanged, mTrayIcon, &TrayIcon::regenerate);
+    QObject::connect(Tailscale::instance(), &Tailscale::backendStateChanged, mTrayIcon, &TrayIcon::regenerate);
     QObject::connect(mTrayIcon, &TrayIcon::quitClicked, this, &App::quitApp);
 
     if (KTailctlConfig::peerFilter() == "UNINITIALIZED") {
-        Tailscale::getInstance()->refresh();
-        const auto domain = Tailscale::getInstance()->self()->dnsName().section('.', 1);
+        Tailscale::instance()->refresh();
+        const auto domain = Tailscale::instance()->self()->dnsName().section('.', 1);
         mPeerProxyModel->setFilterRegularExpression(domain);
         KTailctlConfig::setPeerFilter(domain);
         mConfig->save();
     }
-    mPeerProxyModel->setSourceModel(Tailscale::getInstance()->peerModel());
+    mPeerProxyModel->setSourceModel(Tailscale::instance()->peerModel());
     mPeerProxyModel->setFilterRole(PeerModel::DnsNameRole);
 }
 
@@ -73,10 +73,10 @@ void App::saveWindowGeometry(QQuickWindow *window, const QString &group)
 
 void App::setPeerDetails(const QString &id)
 {
-    auto pos = std::find_if(Tailscale::getInstance()->peers().begin(), Tailscale::getInstance()->peers().end(), [&id](Peer *peer) {
+    auto pos = std::find_if(Tailscale::instance()->peers().begin(), Tailscale::instance()->peers().end(), [&id](Peer *peer) {
         return peer->id() == id;
     });
-    if (pos == Tailscale::getInstance()->peers().end()) {
+    if (pos == Tailscale::instance()->peers().end()) {
         qCWarning(logcat_app) << "Peer" << id << "not found";
         return;
     }

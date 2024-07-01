@@ -48,7 +48,7 @@ signals:
     void suggestedExitNodeChanged(Peer *);
 
 public:
-    static Tailscale *getInstance();
+    static Tailscale *instance();
     virtual ~Tailscale() = default;
 
     PeerModel *peerModel() const;

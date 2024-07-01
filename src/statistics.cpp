@@ -16,7 +16,7 @@ Statistics::Statistics(QObject *parent)
     , mSpeedUpTotal(new SpeedStatistics(this))
     , mSpeedDownTotal(new SpeedStatistics(this))
 {
-    for (const Peer *peer : Tailscale::getInstance()->peers()) {
+    for (const Peer *peer : Tailscale::instance()->peers()) {
         auto iterUp = mSpeedUp.insert(peer->id(), new SpeedStatistics(this));
         auto iterDown = mSpeedDown.insert(peer->id(), new SpeedStatistics(this));
         iterUp.value()->update(peer->txBytes());
@@ -62,7 +62,7 @@ SpeedStatistics *Statistics::totalDownSpeed() const
 void Statistics::statusRefreshed()
 {
     bool newPeers = false;
-    for (const Peer *peer : Tailscale::getInstance()->peers()) {
+    for (const Peer *peer : Tailscale::instance()->peers()) {
         if (mSpeedUp.contains(peer->id())) {
             continue;
         }

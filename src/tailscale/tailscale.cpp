@@ -9,7 +9,7 @@ Tailscale::Tailscale(QObject *parent)
 {
 }
 
-Tailscale *Tailscale::getInstance()
+Tailscale *Tailscale::instance()
 {
     static Tailscale instance;
     return &instance;

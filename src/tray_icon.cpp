@@ -14,7 +14,7 @@
 
 TrayIcon::TrayIcon(QObject *parent)
     : QSystemTrayIcon(parent)
-    , mTailscale(Tailscale::getInstance())
+    , mTailscale(Tailscale::instance())
     , mConfig(KTailctlConfig::self())
 {
     updateIcon();
