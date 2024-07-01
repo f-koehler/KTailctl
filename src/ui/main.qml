@@ -136,7 +136,7 @@ Kirigami.ApplicationWindow {
                         text: (Tailscale.backendState == "Running") ? "Stop tailscale" : "Start tailscale"
                         icon.name: (Tailscale.backendState == "Running") ? "process-stop" : "media-playback-start"
                         onTriggered: {
-                            App.tailscale.toggle();
+                            Tailscale.toggle();
                         }
                     },
                     Kirigami.Action {

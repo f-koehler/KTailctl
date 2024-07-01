@@ -23,7 +23,7 @@ Kirigami.ScrollablePage {
             text: (Tailscale.backendState == "Running") ? "Stop tailscale" : "Start tailscale"
             icon.name: (Tailscale.backendState == "Running") ? "process-stop" : "media-playback-start"
             onTriggered: {
-                App.tailscale.toggle();
+                Tailscale.toggle();
             }
         }
     ]
@@ -143,7 +143,7 @@ Kirigami.ScrollablePage {
                     text: i18nc("@label", "Enable Tailscale:")
                     checked: Tailscale.backendState == "Running"
                     onClicked: {
-                        App.tailscale.toggle();
+                        Tailscale.toggle();
                     }
                     enabled: Tailscale.isOperator && Tailscale.success
                 }
