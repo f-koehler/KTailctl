@@ -35,7 +35,7 @@ Kirigami.ScrollablePage {
     Kirigami.CardsListView {
         id: listPeers
 
-        model: Tailscale.peerModel
+        model: App.peerModel
         visible: Tailscale.success
         headerPositioning: ListView.OverlayHeader
 
