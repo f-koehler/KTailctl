@@ -19,6 +19,8 @@ public:
     explicit Location(QObject *parent = nullptr);
     virtual ~Location() = default;
 
+    bool update(LocationData &newData);
+
     const QString &country() const;
     const QString &countryCode() const;
     const QString &city() const;
@@ -32,9 +34,6 @@ signals:
     void cityChanged(const QString &city);
     void cityCodeChanged(const QString &cityCode);
     void priorityChanged(int priority);
-
-public slots:
-    void update(LocationData &newData);
 };
 
 #endif /* KTAILCTL_COMMON_LOCATION_H */

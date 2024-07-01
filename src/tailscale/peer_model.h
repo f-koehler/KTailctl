@@ -4,20 +4,28 @@
 #ifndef KTAILCTL_MODELS_PEER_MODEL_H
 #define KTAILCTL_MODELS_PEER_MODEL_H
 
+#include "peer.h"
 #include "peer_data.h"
-#include "status.h"
 
 #include <QAbstractListModel>
+#include <QVector>
+
+class Tailscale;
 
 class PeerModel : public QAbstractListModel
 {
     Q_OBJECT
 
-private:
-    QVector<PeerData> mData;
+    friend class Tailscale;
 
-public slots:
-    void updatePeers(const Status &status);
+    // private:
+    //     QVector<PeerData> mData;
+
+    // public slots:
+    //     void updatePeers(const Status &status);
+    //
+private:
+    const QVector<Peer *> *mPeerList;
 
 public:
     enum Roles : int {
@@ -38,7 +46,7 @@ public:
         IsMullvadRole,
     };
 
-    explicit PeerModel(QObject *parent = nullptr);
+    explicit PeerModel(const QVector<Peer *> *peerList, QObject *parent = nullptr);
     virtual ~PeerModel() = default;
 
     int rowCount(const QModelIndex &parent) const override;

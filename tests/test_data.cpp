@@ -2,7 +2,6 @@
 #include "json.h"
 #include "location.h"
 #include "peer.h"
-#include "status.h"
 
 #include <QString>
 #include <QStringLiteral>

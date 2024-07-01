@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 #include "tray_icon.h"
+#include "ktailctlconfig.h"
+#include "taildrop_sender.h"
 #include "util.h"
 
 #include <QClipboard>
@@ -10,9 +12,9 @@
 #include <QMenu>
 #include <QMessageBox>
 
-TrayIcon::TrayIcon(Tailscale *tailscale, QObject *parent)
+TrayIcon::TrayIcon(QObject *parent)
     : QSystemTrayIcon(parent)
-    , mTailscale(tailscale)
+    , mTailscale(Tailscale::getInstance())
     , mConfig(KTailctlConfig::self())
 {
     updateIcon();
@@ -60,11 +62,11 @@ void TrayIcon::regenerate()
         menu->addSeparator();
     }
 
-    if (mTailscale->status()->isOperator() && mTailscale->status()->success()) {
+    if (mTailscale->isOperator() && mTailscale->success()) {
         auto *action_toggle = menu->addAction("Toggle", [this]() {
             mTailscale->toggle();
         });
-        if (mTailscale->status()->backendState() == "Running") {
+        if (mTailscale->backendState() == "Running") {
             action_toggle->setChecked(true);
             action_toggle->setText("Stop Tailscale");
             action_toggle->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
@@ -74,54 +76,53 @@ void TrayIcon::regenerate()
             action_toggle->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
         }
 
-        const auto [exit_nodes, mullvad_nodes] = mTailscale->status()->exitNodes();
-        if ((!exit_nodes.empty()) || (!mullvad_nodes.empty())) {
+        const QVector<Peer *> &exitNodes = mTailscale->exitNodes();
+        if (!exitNodes.empty()) {
             auto *menu_exit_nodes = menu->addMenu(QIcon::fromTheme("internet-services"), "Exit Nodes");
 
-            if (mTailscale->status()->currentExitNode() != nullptr) {
-                menu_exit_nodes->addAction(QIcon::fromTheme("dialog-cancel"),
-                                           QString("Unset %1").arg(mTailscale->status()->currentExitNode()->hostName()),
-                                           []() {
-                                               unsetExitNode();
-                                           });
+            if (mTailscale->exitNode() != nullptr) {
+                menu_exit_nodes->addAction(QIcon::fromTheme("dialog-cancel"), QString("Unset %1").arg(mTailscale->exitNode()->dnsName()), []() {
+                    unsetExitNode();
+                });
                 menu_exit_nodes->addSeparator();
             }
 
-            if (mTailscale->status()->suggestedExitNode() != nullptr) {
+            if (mTailscale->suggestedExitNode() != nullptr) {
                 menu_exit_nodes->addAction(QIcon::fromTheme("network-vpn"),
-                                           QString("Suggested: %1").arg(mTailscale->status()->suggestedExitNode()->hostName()),
+                                           QString("Suggested: %1").arg(mTailscale->suggestedExitNode()->hostName()),
                                            [this]() {
-                                               setExitNode(mTailscale->status()->suggestedExitNode());
+                                               setExitNode(mTailscale->suggestedExitNode());
                                            });
             }
 
-            if (!mullvad_nodes.empty()) {
-                auto *menu_mullvad_nodes = menu_exit_nodes->addMenu(QIcon::fromTheme("network-vpn"), "Mullvad Exit Nodes");
-                QMap<QString, QMenu *> mullvad_menus;
-                for (const auto *node : mullvad_nodes) {
-                    if (node->location() == nullptr) {
-                        continue;
-                    }
-                    const auto country_code = node->location()->countryCode();
-                    auto menu_pos = mullvad_menus.lowerBound(country_code);
-                    if (menu_pos.key() != country_code) {
-                        menu_pos =
-                            mullvad_menus.insert(country_code,
-                                                 menu_mullvad_nodes->addMenu(QIcon(QString(":/country-flags/%1").arg(country_code.toLower())), country_code));
-                    }
-                    menu_pos.value()->addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), node->hostName(), [node]() {
-                        setExitNode(node);
-                    });
-                }
-            }
+            // if (!mullvad_nodes.empty()) {
+            //     auto *menu_mullvad_nodes = menu_exit_nodes->addMenu(QIcon::fromTheme("network-vpn"), "Mullvad Exit Nodes");
+            //     QMap<QString, QMenu *> mullvad_menus;
+            //     for (const auto *node : mullvad_nodes) {
+            //         if (node->location() == nullptr) {
+            //             continue;
+            //         }
+            //         const auto country_code = node->location()->countryCode();
+            //         auto menu_pos = mullvad_menus.lowerBound(country_code);
+            //         if (menu_pos.key() != country_code) {
+            //             menu_pos =
+            //                 mullvad_menus.insert(country_code,
+            //                                      menu_mullvad_nodes->addMenu(QIcon(QString(":/country-flags/%1").arg(country_code.toLower())),
+            //                                      country_code));
+            //         }
+            //         menu_pos.value()->addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), node->hostName(), [node]() {
+            //             setExitNode(node);
+            //         });
+            //     }
+            // }
 
-            if (!exit_nodes.empty()) {
-                for (const auto *node : exit_nodes) {
-                    menu_exit_nodes->addAction(loadOsIcon(node->os()), node->hostName(), [node]() {
-                        setExitNode(node);
-                    });
-                }
-            }
+            // if (!exit_nodes.empty()) {
+            //     for (const auto *node : exit_nodes) {
+            //         menu_exit_nodes->addAction(loadOsIcon(node->os()), node->hostName(), [node]() {
+            //             setExitNode(node);
+            //         });
+            //     }
+            // }
         }
         menu->addSeparator();
     }
@@ -133,9 +134,9 @@ void TrayIcon::regenerate()
         return action;
     };
 
-    if (mTailscale->status()->success()) {
+    if (mTailscale->success()) {
         auto *peer_menu = menu->addMenu(QIcon::fromTheme("applications-network"), "Peers");
-        for (auto *peer : mTailscale->status()->peers()) {
+        for (auto *peer : mTailscale->peers()) {
             if (peer->isMullvad()) {
                 continue;
             }
@@ -146,12 +147,12 @@ void TrayIcon::regenerate()
             }
             submenu->addSection("Statistics");
 
-            auto *statsDown = mTailscale->statistics()->speedDown(peer->id());
-            auto *statsUp = mTailscale->statistics()->speedUp(peer->id());
-            auto *actionDown = submenu->addAction(QIcon::fromTheme("cloud-download"), formatSpeedHumanReadable(statsDown->average()));
-            auto *actionUp = submenu->addAction(QIcon::fromTheme("cloud-upload"), formatSpeedHumanReadable(statsUp->average()));
+            // auto *statsDown = mTailscale->statistics()->speedDown(peer->id());
+            // auto *statsUp = mTailscale->statistics()->speedUp(peer->id());
+            // auto *actionDown = submenu->addAction(QIcon::fromTheme("cloud-download"), formatSpeedHumanReadable(statsDown->average()));
+            // auto *actionUp = submenu->addAction(QIcon::fromTheme("cloud-upload"), formatSpeedHumanReadable(statsUp->average()));
 
-            if (mTailscale->status()->isOperator()) {
+            if (mTailscale->isOperator()) {
                 submenu->addSection("Taildrop Send");
                 submenu->addAction(QIcon::fromTheme(QStringLiteral("document-send")), "Send file(s)", [peer]() {
                     TaildropSendJob::selectAndSendFiles(peer->dnsName());
@@ -175,12 +176,12 @@ void TrayIcon::regenerate()
                 }
             }
 
-            QObject::connect(statsUp, &SpeedStatistics::refreshed, [actionUp, statsUp]() {
-                actionUp->setText(formatSpeedHumanReadable(statsUp->average()));
-            });
-            QObject::connect(statsDown, &SpeedStatistics::refreshed, [actionDown, statsDown]() {
-                actionDown->setText(formatSpeedHumanReadable(statsDown->average()));
-            });
+            // QObject::connect(statsUp, &SpeedStatistics::refreshed, [actionUp, statsUp]() {
+            //     actionUp->setText(formatSpeedHumanReadable(statsUp->average()));
+            // });
+            // QObject::connect(statsDown, &SpeedStatistics::refreshed, [actionDown, statsDown]() {
+            //     actionDown->setText(formatSpeedHumanReadable(statsDown->average()));
+            // });
         }
     }
 
@@ -194,7 +195,7 @@ void TrayIcon::regenerate()
 void TrayIcon::updateIcon()
 {
     QString icon_path = ":/icons/";
-    if (mTailscale->status()->backendState() == "Running") {
+    if (mTailscale->backendState() == "Running") {
         icon_path += "online";
     } else {
         icon_path += "offline";

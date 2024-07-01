@@ -4,10 +4,8 @@
 #ifndef KTAILCTL_APP_H
 #define KTAILCTL_APP_H
 
-#include "exit_node_model.h"
 #include "ktailctlconfig.h"
 #include "peer_model.h"
-#include "status.h"
 #include "tailscale.h"
 #include "tray_icon.h"
 
@@ -23,20 +21,14 @@ class QQuickWindow;
 class App : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(Tailscale *tailscale READ tailscale CONSTANT)
     Q_PROPERTY(KTailctlConfig *config READ config CONSTANT)
     Q_PROPERTY(Peer *peerDetails READ peerDetails NOTIFY peerDetailsChanged)
-    Q_PROPERTY(QSortFilterProxyModel *peerModel READ peerModel CONSTANT)
-    Q_PROPERTY(QAbstractItemModel *exitNodeModel READ exitNodeModel CONSTANT)
     // Q_PROPERTY(TrayIcon *trayIcon READ trayIcon CONSTANT)
 
 private:
-    Tailscale *mTailscale;
     KTailctlConfig *mConfig;
     Peer *mPeerDetails;
-    PeerModel *mPeerModel;
     QSortFilterProxyModel *mPeerProxyModel;
-    ExitNodeModel *mExitNodeModel;
     bool mFilterInitialized = false;
 
     TrayIcon *mTrayIcon;
@@ -48,14 +40,12 @@ public slots:
     static void quitApp();
 
 public:
-    explicit App(Tailscale *tailscale, QObject *parent = nullptr);
+    explicit App(QObject *parent = nullptr);
     virtual ~App() = default;
 
-    Tailscale *tailscale();
     KTailctlConfig *config();
     Peer *peerDetails();
     QSortFilterProxyModel *peerModel();
-    ExitNodeModel *exitNodeModel();
     TrayIcon *trayIcon();
 
     // Restore current window geometry

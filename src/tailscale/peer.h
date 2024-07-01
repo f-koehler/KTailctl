@@ -42,6 +42,8 @@ public:
     explicit Peer(QObject *parent = nullptr);
     virtual ~Peer() = default;
 
+    bool update(PeerData &newData);
+
     const QString &id() const;
     const QString &publicKey() const;
     const QString &hostName() const;
@@ -87,9 +89,6 @@ signals:
     void tagsChanged(const QStringList &tags);
     void isMullvadChanged(bool isMullvad);
     void locationChanged(Location *location);
-
-public slots:
-    void update(PeerData &newData);
 };
 
 #endif /* KTAILCTL_PEER_H */
