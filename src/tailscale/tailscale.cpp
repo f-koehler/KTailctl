@@ -205,8 +205,6 @@ void Tailscale::refresh()
         emit exitNodesChanged(mExitNodes);
     }
 
-    qInfo() << "Exit nodes:" << exitNodeIndices.size();
-
     if (const bool newIsOperator = tailscale_is_operator(); newIsOperator != mIsOperator) {
         mIsOperator = newIsOperator;
         emit isOperatorChanged(mIsOperator);
