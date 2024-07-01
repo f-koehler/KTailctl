@@ -4,11 +4,10 @@
 include(CheckIPOSupported)
 check_ipo_supported(RESULT ipo_supported OUTPUT ipo_output)
 
-add_subdirectory(common)
 add_subdirectory(data)
-add_subdirectory(models)
 add_subdirectory(config)
 add_subdirectory(taildrop)
+add_subdirectory(tailscale)
 add_subdirectory(util)
 add_subdirectory(components_plugin)
 add_subdirectory(wrapper)
@@ -21,7 +20,6 @@ add_executable(
   main.cpp
   speed_statistics.cpp
   statistics.cpp
-  tailscale.cpp
   tray_icon.cpp
   icons/icons.qrc
   ui/ui.qrc
@@ -33,7 +31,6 @@ target_link_libraries(
   Qt6::Quick
   Qt6::QuickControls2
   KTailctl::Data
-  KTailctl::Models
   KTailctl::Config
   KTailctl::Taildrop
   KTailctl::WrapperLogging

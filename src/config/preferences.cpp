@@ -6,6 +6,12 @@ Preferences::Preferences(QObject *parent)
     refresh();
 }
 
+Preferences *Preferences::instance()
+{
+    static Preferences instance;
+    return &instance;
+}
+
 void Preferences::refresh()
 {
     GoUint8 tmpBool = 0;

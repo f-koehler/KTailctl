@@ -19,9 +19,9 @@
 #include "logging.h"
 #include "peer.h"
 #include "peer_model.h"
+#include "preferences.h"
 #include "speed_statistics.h"
 #include "statistics.h"
-#include "status.h"
 #include "taildrop_sender.h"
 #include "tailscale.h"
 #include "util.h"
@@ -64,8 +64,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     KAboutData::setApplicationData(aboutData);
 
     auto *about = new AboutType();
-    auto *tailscale = new Tailscale();
-    auto *application = new App(tailscale);
+    auto *application = new App();
     auto *util = new Util();
     auto *taildropSender = new TaildropSender();
 
@@ -79,13 +78,13 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QQmlApplicationEngine engine; // NOLINT(misc-const-correctness)
 
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "AboutType", about);
-    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Tailscale", tailscale);
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Tailscale", Tailscale::instance());
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Preferences", Preferences::instance());
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "App", application);
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Util", util);
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "TaildropSender", taildropSender);
 
     qmlRegisterType<Peer>("org.fkoehler.KTailctl", 1, 0, "Peer");
-    qmlRegisterType<Status>("org.fkoehler.KTailctl", 1, 0, "Status");
     qmlRegisterType<SpeedStatistics>("org.fkoehler.KTailctl", 1, 0, "SpeedStatistics");
     qmlRegisterType<Statistics>("org.fkoehler.KTailctl", 1, 0, "Statistics");
     qmlRegisterType<KTailctlConfig>("org.fkoehler.KTailctl", 1, 0, "KTailctlConfig");

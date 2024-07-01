@@ -4,7 +4,6 @@
 #define KTAILCTL_STATISTICS_H
 
 #include "speed_statistics.h"
-#include "status.h"
 
 #include <QLoggingCategory>
 #include <QMap>
@@ -19,7 +18,6 @@ class Statistics : public QObject
     Q_PROPERTY(SpeedStatistics *totalDownSpeed READ totalDownSpeed CONSTANT)
 
 private:
-    Status *mStatus;
     QMap<QString, SpeedStatistics *> mSpeedUp;
     QMap<QString, SpeedStatistics *> mSpeedDown;
 
@@ -28,7 +26,7 @@ private:
     SpeedStatistics *mSpeedDownTotal;
 
 public:
-    explicit Statistics(Status *status = nullptr, QObject *parent = nullptr);
+    explicit Statistics(QObject *parent = nullptr);
     virtual ~Statistics() = default;
 
     Q_INVOKABLE SpeedStatistics *speedUp(const QString &id);
@@ -37,7 +35,7 @@ public:
     SpeedStatistics *totalDownSpeed() const;
 
 private slots:
-    void statusRefreshed(const Status &status);
+    void statusRefreshed();
     void refreshTotalSpeed();
 
 signals:

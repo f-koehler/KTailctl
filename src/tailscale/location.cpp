@@ -31,22 +31,28 @@ const LocationData &Location::locationData() const
     return mData;
 }
 
-void Location::update(LocationData &newData)
+bool Location::update(LocationData &newData)
 {
+    bool changed = false;
     if (newData.country != mData.country) {
+        changed = true;
         mData.country.swap(newData.country);
         emit countryChanged(mData.country);
     }
     if (newData.countryCode != mData.countryCode) {
+        changed = true;
         mData.countryCode.swap(newData.countryCode);
         emit countryCodeChanged(mData.countryCode);
     }
     if (newData.city != mData.city) {
+        changed = true;
         mData.city.swap(newData.city);
         emit cityChanged(mData.city);
     }
     if (newData.cityCode != mData.cityCode) {
+        changed = true;
         mData.cityCode.swap(newData.cityCode);
         emit cityCodeChanged(mData.cityCode);
     }
+    return changed;
 }

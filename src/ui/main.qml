@@ -50,7 +50,7 @@ Kirigami.ApplicationWindow {
 
         interval: App.config.refreshInterval ? App.config.refreshInterval : 500
         onTriggered: {
-            Tailscale.status.refresh();
+            Tailscale.refresh();
         }
         triggeredOnStart: true
         running: true
@@ -132,11 +132,11 @@ Kirigami.ApplicationWindow {
                         onTriggered: navigateTo("About")
                     },
                     Kirigami.Action {
-                        visible: Tailscale.status.success && Tailscale.status.isOperator
-                        text: (Tailscale.status.backendState == "Running") ? "Stop tailscale" : "Start tailscale"
-                        icon.name: (Tailscale.status.backendState == "Running") ? "process-stop" : "media-playback-start"
+                        visible: Tailscale.success && Tailscale.isOperator
+                        text: (Tailscale.backendState == "Running") ? "Stop tailscale" : "Start tailscale"
+                        icon.name: (Tailscale.backendState == "Running") ? "process-stop" : "media-playback-start"
                         onTriggered: {
-                            App.tailscale.toggle();
+                            Tailscale.toggle();
                         }
                     },
                     Kirigami.Action {
