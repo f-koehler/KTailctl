@@ -19,7 +19,7 @@ public:
     explicit Location(QObject *parent = nullptr);
     virtual ~Location() = default;
 
-    bool update(LocationData &newData);
+    bool update(const LocationData &newData);
 
     const QString &country() const;
     const QString &countryCode() const;

@@ -105,43 +105,43 @@ const PeerData &Peer::peerData() const
     return mData;
 }
 
-bool Peer::update(PeerData &newData)
+bool Peer::update(const PeerData &newData)
 {
     bool changed = false;
     if (newData.id != mData.id) {
         changed = true;
-        mData.id.swap(newData.id);
+        mData.id = newData.id;
         emit idChanged(mData.id);
     }
     if (newData.publicKey != mData.publicKey) {
         changed = true;
-        mData.publicKey.swap(newData.publicKey);
+        mData.publicKey = newData.publicKey;
         emit publicKeyChanged(mData.publicKey);
     }
     if (newData.hostName != mData.hostName) {
         changed = true;
-        mData.hostName.swap(newData.hostName);
+        mData.hostName = newData.hostName;
         emit hostNameChanged(mData.hostName);
     }
     if (newData.dnsName != mData.dnsName) {
         changed = true;
-        mData.dnsName.swap(newData.dnsName);
+        mData.dnsName = newData.dnsName;
         emit dnsNameChanged(mData.dnsName);
     }
     if (newData.os != mData.os) {
         changed = true;
-        mData.os.swap(newData.os);
+        mData.os = newData.os;
         emit osChanged(mData.os);
     }
     if (newData.tailscaleIps != mData.tailscaleIps) {
         changed = true;
-        mData.tailscaleIps.swap(newData.tailscaleIps);
+        mData.tailscaleIps = newData.tailscaleIps;
         emit tailscaleIpsChanged(mData.tailscaleIps);
         emit sshCommandChanged(sshCommand());
     }
     if (newData.relay != mData.relay) {
         changed = true;
-        mData.relay.swap(newData.relay);
+        mData.relay = newData.relay;
         emit relayChanged(mData.relay);
     }
     if (newData.rxBytes != mData.rxBytes) {
@@ -156,13 +156,13 @@ bool Peer::update(PeerData &newData)
     }
     if (newData.created != mData.created) {
         changed = true;
-        mData.created.swap(newData.created);
+        mData.created = newData.created;
         mCreated = get_date_from_string(mData.created);
         emit createdChanged(mCreated);
     }
     if (newData.lastSeen != mData.lastSeen) {
         changed = true;
-        mData.lastSeen.swap(newData.lastSeen);
+        mData.lastSeen = newData.lastSeen;
         mLastSeen = get_date_from_string(mData.lastSeen);
         emit lastSeenChanged(mLastSeen);
     }
@@ -192,12 +192,12 @@ bool Peer::update(PeerData &newData)
             emit isRunningSSHChanged(!newData.sshHostKeys.empty());
             emit sshCommandChanged(sshCommand());
         }
-        mData.sshHostKeys.swap(newData.sshHostKeys);
+        mData.sshHostKeys = newData.sshHostKeys;
         emit sshHostKeysChanged(mData.sshHostKeys);
     }
     if (newData.tags != mData.tags) {
         changed = true;
-        mData.tags.swap(newData.tags);
+        mData.tags = newData.tags;
         emit tagsChanged(mData.tags);
     }
     if (newData.isMullvad != mData.isMullvad) {

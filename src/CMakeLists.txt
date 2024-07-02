@@ -33,6 +33,7 @@ target_link_libraries(
   KTailctl::Data
   KTailctl::Config
   KTailctl::Taildrop
+  KTailctl::Tailscale
   KTailctl::WrapperLogging
   KTailctl::Wrapper)
 

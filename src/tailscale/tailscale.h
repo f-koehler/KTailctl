@@ -11,6 +11,8 @@ class Tailscale : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(PeerModel *peerModel READ peerModel CONSTANT)
+    Q_PROPERTY(PeerModel *exitNodeModel READ exitNodeModel CONSTANT)
+    Q_PROPERTY(PeerModel *mullvadExitNodeModel READ mullvadExitNodeModel CONSTANT)
     Q_PROPERTY(bool success READ success NOTIFY successChanged)
     Q_PROPERTY(QString version READ version NOTIFY versionChanged)
     Q_PROPERTY(bool isOperator READ isOperator NOTIFY isOperatorChanged)
@@ -18,12 +20,14 @@ class Tailscale : public QObject
     Q_PROPERTY(Peer *self READ self CONSTANT)
     Q_PROPERTY(QVector<Peer *> peers READ peers NOTIFY peersChanged)
     Q_PROPERTY(QVector<Peer *> exitNodes READ exitNodes NOTIFY exitNodesChanged)
+    Q_PROPERTY(QVector<Peer *> mullvadExitNodes READ mullvadExitNodes NOTIFY mullvadExitNodesChanged)
     Q_PROPERTY(Peer *exitNode READ exitNode NOTIFY exitNodeChanged)
     Q_PROPERTY(Peer *suggestedExitNode READ suggestedExitNode NOTIFY suggestedExitNodeChanged)
 
 private:
     PeerModel *mPeerModel = nullptr;
     PeerModel *mExitNodeModel = nullptr;
+    PeerModel *mMullvadExitNodeModel = nullptr;
 
     bool mSuccess = false;
     QString mVersion;
@@ -32,6 +36,7 @@ private:
     Peer *mSelf = nullptr;
     QVector<Peer *> mPeers;
     QVector<Peer *> mExitNodes;
+    QVector<Peer *> mMullvadExitNodes;
     Peer *mExitNode = nullptr;
     Peer *mSuggestedExitNode = nullptr;
 
@@ -44,6 +49,7 @@ signals:
     void backendStateChanged(const QString &);
     void peersChanged(const QVector<Peer *> &);
     void exitNodesChanged(const QVector<Peer *> &);
+    void mullvadExitNodesChanged(const QVector<Peer *> &);
     void exitNodeChanged(Peer *);
     void suggestedExitNodeChanged(Peer *);
 
@@ -52,6 +58,8 @@ public:
     virtual ~Tailscale() = default;
 
     PeerModel *peerModel() const;
+    PeerModel *exitNodeModel() const;
+    PeerModel *mullvadExitNodeModel() const;
     bool success() const;
     const QString &version() const;
     bool isOperator() const;
@@ -59,6 +67,7 @@ public:
     Peer *self() const;
     const QVector<Peer *> &peers() const;
     const QVector<Peer *> &exitNodes() const;
+    const QVector<Peer *> &mullvadExitNodes() const;
     Peer *exitNode() const;
     Peer *suggestedExitNode() const;
 
@@ -67,6 +76,10 @@ public slots:
     Q_INVOKABLE void down();
     Q_INVOKABLE void toggle();
     Q_INVOKABLE void refresh();
+
+    Q_INVOKABLE void setExitNode(Peer *node);
+    Q_INVOKABLE void setExitNodeFromDnsName(const QString &dns); // TODO: get rid of this
+    Q_INVOKABLE void unsetExitNode();
 };
 
 #endif /* KTAILCTL_TAILSCALE_TAILSCALE_H */

@@ -239,6 +239,7 @@ Kirigami.ScrollablePage {
                     onClicked: {
                         if (!Preferences.advertiseExitNode) {
                             Util.unsetExitNode();
+                            Tailscale.unsetExitNode();
                             comboExitNode.currentIndex = 0;
                             Preferences.advertiseExitNode = true;
                         } else {

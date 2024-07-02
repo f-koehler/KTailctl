@@ -5,6 +5,7 @@ Tailscale::Tailscale(QObject *parent)
     : QObject(parent)
     , mPeerModel(new PeerModel(&mPeers, this))
     , mExitNodeModel(new PeerModel(&mExitNodes, this))
+    , mMullvadExitNodeModel(new PeerModel(&mMullvadExitNodes, this))
     , mSelf(new Peer(this))
 {
 }
@@ -18,6 +19,14 @@ Tailscale *Tailscale::instance()
 PeerModel *Tailscale::peerModel() const
 {
     return mPeerModel;
+}
+PeerModel *Tailscale::exitNodeModel() const
+{
+    return mExitNodeModel;
+}
+PeerModel *Tailscale::mullvadExitNodeModel() const
+{
+    return mMullvadExitNodeModel;
 }
 bool Tailscale::success() const
 {
@@ -46,6 +55,10 @@ const QVector<Peer *> &Tailscale::peers() const
 const QVector<Peer *> &Tailscale::exitNodes() const
 {
     return mExitNodes;
+}
+const QVector<Peer *> &Tailscale::mullvadExitNodes() const
+{
+    return mMullvadExitNodes;
 }
 Peer *Tailscale::exitNode() const
 {
@@ -105,6 +118,8 @@ void Tailscale::refresh()
     mSelf->update(data.self);
 
     // shrink mPeers if necessary
+    QVector<int> exitNodeIndices;
+    QVector<int> mullvadExitNodeIndices;
     bool didPeersChange = mPeers.size() != data.peers.size();
     if (!mPeers.empty() && (mPeers.size() > data.peers.size())) {
         mPeerModel->beginRemoveRows(QModelIndex(), data.peers.size(), mPeers.size() - 1);
@@ -116,14 +131,17 @@ void Tailscale::refresh()
     }
 
     // update peers in mPeers
-    int numExitNodes = 0;
     for (int i = 0; i < mPeers.size(); ++i) {
         if (mPeers[i]->update(data.peers[i])) {
             mPeerModel->dataChanged(mPeerModel->index(i), mPeerModel->index(i));
             didPeersChange = true;
         }
         if (data.peers[i].isExitNode) {
-            ++numExitNodes;
+            if (data.peers[i].isMullvad) {
+                mullvadExitNodeIndices.append(i);
+            } else {
+                exitNodeIndices.append(i);
+            }
         }
         if (data.peers[i].isCurrentExitNode) {
             if (mExitNode == nullptr) {
@@ -140,7 +158,11 @@ void Tailscale::refresh()
             mPeers.append(new Peer(this));
             didPeersChange = didPeersChange || mPeers[i]->update(data.peers[i]);
             if (data.peers[i].isExitNode) {
-                ++numExitNodes;
+                if (data.peers[i].isMullvad) {
+                    mullvadExitNodeIndices.append(i);
+                } else {
+                    exitNodeIndices.append(i);
+                }
             }
             if (data.peers[i].isCurrentExitNode) {
                 if (mExitNode == nullptr) {
@@ -155,40 +177,79 @@ void Tailscale::refresh()
         emit peersChanged(mPeers);
     }
 
+    // Sort exit node indices by dnsName
+    std::stable_sort(exitNodeIndices.begin(), exitNodeIndices.end(), [&data](int a, int b) {
+        return data.peers[a].dnsName < data.peers[b].dnsName;
+    });
+    std::stable_sort(mullvadExitNodeIndices.begin(), mullvadExitNodeIndices.end(), [&data](int a, int b) {
+        return data.peers[a].dnsName < data.peers[b].dnsName;
+    });
+
+    bool didExitNodesChange = (mExitNodes.size() != exitNodeIndices.size());
+
     // shrink mExitNodes if necessary
-    bool didExitNodesChange = mExitNodes.size() != numExitNodes;
-    if (!mExitNodes.empty() && (mExitNodes.size() > numExitNodes)) {
-        mExitNodeModel->beginRemoveRows(QModelIndex(), numExitNodes, mExitNodes.size() - 1);
-        mExitNodes.erase(mExitNodes.begin() + numExitNodes, mExitNodes.end());
+    if (!mExitNodes.empty() || (mExitNodes.size() > exitNodeIndices.size())) {
+        mExitNodeModel->beginRemoveRows(QModelIndex(), exitNodeIndices.size(), mExitNodes.size() - 1);
+        std::for_each(mExitNodes.begin() + exitNodeIndices.size(), mExitNodes.end(), [](Peer *peer) {
+            peer->deleteLater();
+        });
+        mExitNodes.erase(mExitNodes.begin() + exitNodeIndices.size(), mExitNodes.end());
         mExitNodeModel->endRemoveRows();
     }
 
-    // grow mExitNodes if necessary
-    if (mExitNodes.size() < numExitNodes) {
-        mExitNodeModel->beginInsertRows(QModelIndex(), mExitNodes.size(), numExitNodes - 1);
-        std::generate_n(std::back_inserter(mExitNodes), data.peers.size() - mExitNodes.size(), [this]() {
-            return new Peer(this);
-        });
-        mExitNodeModel->endInsertRows();
+    // update peers in mExitNodes
+    for (int i = 0; i < mExitNodes.size(); ++i) {
+        if (mExitNodes[i]->update(data.peers[exitNodeIndices[i]])) {
+            didExitNodesChange = true;
+            mExitNodeModel->dataChanged(mExitNodeModel->index(i), mExitNodeModel->index(i));
+        }
     }
 
-    // update peers in mExitNodes
-    if (numExitNodes > 0) {
-        int index = 0;
-        for (PeerData peer : data.peers) {
-            if (!peer.isExitNode) {
-                continue;
-            }
-            if (mExitNodes.at(index)->update(peer)) {
-                mExitNodeModel->dataChanged(mExitNodeModel->index(index), mExitNodeModel->index(index));
-                didExitNodesChange = true;
-            }
-            ++index;
+    // grow mExitNodes if necessary
+    if (mExitNodes.size() < exitNodeIndices.size()) {
+        mExitNodeModel->beginInsertRows(QModelIndex(), mExitNodes.size(), exitNodeIndices.size() - 1);
+        for (int i = mExitNodes.size(); i < exitNodeIndices.size(); ++i) {
+            mExitNodes.append(new Peer(this));
+            didExitNodesChange = didExitNodesChange || mExitNodes[i]->update(data.peers[exitNodeIndices[i]]);
         }
+        mExitNodeModel->endInsertRows();
     }
 
     if (didExitNodesChange) {
         emit exitNodesChanged(mExitNodes);
+    }
+
+    bool didMullvadExitNodesChange = (mMullvadExitNodes.size() != mullvadExitNodeIndices.size());
+
+    // shrink mMullvadExitNodes if necessary
+    if (!mMullvadExitNodes.empty() || (mMullvadExitNodes.size() > mullvadExitNodeIndices.size())) {
+        mMullvadExitNodeModel->beginRemoveRows(QModelIndex(), mullvadExitNodeIndices.size(), mMullvadExitNodes.size() - 1);
+        std::for_each(mMullvadExitNodes.begin() + mullvadExitNodeIndices.size(), mMullvadExitNodes.end(), [](Peer *peer) {
+            peer->deleteLater();
+        });
+        mMullvadExitNodes.erase(mMullvadExitNodes.begin() + mullvadExitNodeIndices.size(), mMullvadExitNodes.end());
+        mMullvadExitNodeModel->endRemoveRows();
+    }
+
+    // update peers in mExitNodes
+    for (int i = 0; i < mMullvadExitNodes.size(); ++i) {
+        if (mMullvadExitNodes[i]->update(data.peers[mullvadExitNodeIndices[i]])) {
+            didMullvadExitNodesChange = true;
+            mMullvadExitNodeModel->dataChanged(mMullvadExitNodeModel->index(i), mMullvadExitNodeModel->index(i));
+        }
+    }
+
+    // grow mExitNodes if necessary
+    if (mMullvadExitNodes.size() < mullvadExitNodeIndices.size()) {
+        mMullvadExitNodeModel->beginInsertRows(QModelIndex(), mMullvadExitNodes.size(), mullvadExitNodeIndices.size() - 1);
+        for (int i = mMullvadExitNodes.size(); i < mullvadExitNodeIndices.size(); ++i) {
+            mMullvadExitNodes.append(new Peer(this));
+            didMullvadExitNodesChange = didExitNodesChange || mMullvadExitNodes[i]->update(data.peers[mullvadExitNodeIndices[i]]);
+        }
+        mMullvadExitNodeModel->endInsertRows();
+    }
+    if (didMullvadExitNodesChange) {
+        emit mullvadExitNodesChanged(mMullvadExitNodes);
     }
 
     if (const bool newIsOperator = tailscale_is_operator(); newIsOperator != mIsOperator) {
@@ -219,4 +280,34 @@ void Tailscale::refresh()
             }
         }
     }
+}
+
+void Tailscale::setExitNode(Peer *node)
+{
+    if (node == nullptr) {
+        unsetExitNode();
+        return;
+    }
+
+    GoUint8 false_ = 0;
+    tailscale_set_advertise_exit_node(&false_);
+
+    QByteArray bytes = node->tailscaleIps().front().toUtf8();
+    GoString tmp{bytes.data(), bytes.size()};
+    tailscale_set_exit_node(&tmp);
+}
+void Tailscale::setExitNodeFromDnsName(const QString &dns)
+{
+    // TODO: get rid of this
+    for (Peer *peer : mPeers) {
+        if (peer->dnsName() == dns) {
+            setExitNode(peer);
+            return;
+        }
+    }
+}
+void Tailscale::unsetExitNode()
+{
+    GoString tmp{nullptr, 0};
+    tailscale_set_exit_node(&tmp);
 }

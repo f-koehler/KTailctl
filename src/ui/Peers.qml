@@ -162,9 +162,9 @@ Kirigami.ScrollablePage {
                                     visible: isExitNode && !Preferences.advertiseExitNode
                                     onClicked: {
                                         if (isCurrentExitNode)
-                                            Util.unsetExitNode();
+                                            Tailscale.status.unsetExitNode();
                                         else
-                                            Util.setExitNodeFromIP(tailscaleIps[0]);
+                                            Tailscale.status.setExitNodeFromDnsName(dnsName);
                                     }
                                 }
 

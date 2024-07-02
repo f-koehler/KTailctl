@@ -156,9 +156,9 @@ Kirigami.ScrollablePage {
                     enabled: peer.isExitNode && !Preferences.advertiseExitNode
                     onToggled: {
                         if (peer.isCurrentExitNode)
-                            Util.unsetExitNode();
+                            Tailscale.status.unsetExitNode();
                         else
-                            Util.setExitNode(peer);
+                            Tailscale.status.setExitNode(peer);
                     }
                 }
 
