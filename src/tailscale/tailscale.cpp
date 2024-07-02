@@ -5,6 +5,7 @@ Tailscale::Tailscale(QObject *parent)
     : QObject(parent)
     , mPeerModel(new PeerModel(&mPeers, this))
     , mExitNodeModel(new PeerModel(&mExitNodes, this))
+    , mMullvadExitNodeModel(new PeerModel(&mMullvadExitNodes, this))
     , mSelf(new Peer(this))
 {
 }
@@ -22,6 +23,10 @@ PeerModel *Tailscale::peerModel() const
 PeerModel *Tailscale::exitNodeModel() const
 {
     return mExitNodeModel;
+}
+PeerModel *Tailscale::mullvadExitNodeModel() const
+{
+    return mMullvadExitNodeModel;
 }
 bool Tailscale::success() const
 {
@@ -50,6 +55,10 @@ const QVector<Peer *> &Tailscale::peers() const
 const QVector<Peer *> &Tailscale::exitNodes() const
 {
     return mExitNodes;
+}
+const QVector<Peer *> &Tailscale::mullvadExitNodes() const
+{
+    return mMullvadExitNodes;
 }
 Peer *Tailscale::exitNode() const
 {
@@ -110,6 +119,7 @@ void Tailscale::refresh()
 
     // shrink mPeers if necessary
     QVector<int> exitNodeIndices;
+    QVector<int> mullvadExitNodeIndices;
     bool didPeersChange = mPeers.size() != data.peers.size();
     if (!mPeers.empty() && (mPeers.size() > data.peers.size())) {
         mPeerModel->beginRemoveRows(QModelIndex(), data.peers.size(), mPeers.size() - 1);
@@ -127,7 +137,11 @@ void Tailscale::refresh()
             didPeersChange = true;
         }
         if (data.peers[i].isExitNode) {
-            exitNodeIndices.append(i);
+            if (data.peers[i].isMullvad) {
+                mullvadExitNodeIndices.append(i);
+            } else {
+                exitNodeIndices.append(i);
+            }
         }
         if (data.peers[i].isCurrentExitNode) {
             if (mExitNode == nullptr) {
@@ -144,7 +158,11 @@ void Tailscale::refresh()
             mPeers.append(new Peer(this));
             didPeersChange = didPeersChange || mPeers[i]->update(data.peers[i]);
             if (data.peers[i].isExitNode) {
-                exitNodeIndices.append(i);
+                if (data.peers[i].isMullvad) {
+                    mullvadExitNodeIndices.append(i);
+                } else {
+                    exitNodeIndices.append(i);
+                }
             }
             if (data.peers[i].isCurrentExitNode) {
                 if (mExitNode == nullptr) {
@@ -159,16 +177,12 @@ void Tailscale::refresh()
         emit peersChanged(mPeers);
     }
 
-    // Sort exit nod indices:
-    // Mullvad exit nodes first
-    // Then order is determined by dnsName
+    // Sort exit node indices by dnsName
     std::stable_sort(exitNodeIndices.begin(), exitNodeIndices.end(), [&data](int a, int b) {
-        const PeerData &peerA = data.peers[a];
-        const PeerData &peerB = data.peers[b];
-        if (peerA.isMullvad != peerB.isMullvad) {
-            return peerA.isMullvad;
-        }
-        return peerA.dnsName < peerB.dnsName;
+        return data.peers[a].dnsName < data.peers[b].dnsName;
+    });
+    std::stable_sort(mullvadExitNodeIndices.begin(), mullvadExitNodeIndices.end(), [&data](int a, int b) {
+        return data.peers[a].dnsName < data.peers[b].dnsName;
     });
 
     bool didExitNodesChange = (mExitNodes.size() != exitNodeIndices.size());
@@ -203,6 +217,39 @@ void Tailscale::refresh()
 
     if (didExitNodesChange) {
         emit exitNodesChanged(mExitNodes);
+    }
+
+    bool didMullvadExitNodesChange = (mMullvadExitNodes.size() != mullvadExitNodeIndices.size());
+
+    // shrink mMullvadExitNodes if necessary
+    if (!mMullvadExitNodes.empty() || (mMullvadExitNodes.size() > mullvadExitNodeIndices.size())) {
+        mMullvadExitNodeModel->beginRemoveRows(QModelIndex(), mullvadExitNodeIndices.size(), mMullvadExitNodes.size() - 1);
+        std::for_each(mMullvadExitNodes.begin() + mullvadExitNodeIndices.size(), mMullvadExitNodes.end(), [](Peer *peer) {
+            peer->deleteLater();
+        });
+        mMullvadExitNodes.erase(mMullvadExitNodes.begin() + mullvadExitNodeIndices.size(), mMullvadExitNodes.end());
+        mMullvadExitNodeModel->endRemoveRows();
+    }
+
+    // update peers in mExitNodes
+    for (int i = 0; i < mMullvadExitNodes.size(); ++i) {
+        if (mMullvadExitNodes[i]->update(data.peers[mullvadExitNodeIndices[i]])) {
+            didMullvadExitNodesChange = true;
+            mMullvadExitNodeModel->dataChanged(mMullvadExitNodeModel->index(i), mMullvadExitNodeModel->index(i));
+        }
+    }
+
+    // grow mExitNodes if necessary
+    if (mMullvadExitNodes.size() < mullvadExitNodeIndices.size()) {
+        mMullvadExitNodeModel->beginInsertRows(QModelIndex(), mMullvadExitNodes.size(), mullvadExitNodeIndices.size() - 1);
+        for (int i = mMullvadExitNodes.size(); i < mullvadExitNodeIndices.size(); ++i) {
+            mMullvadExitNodes.append(new Peer(this));
+            didMullvadExitNodesChange = didExitNodesChange || mMullvadExitNodes[i]->update(data.peers[mullvadExitNodeIndices[i]]);
+        }
+        mMullvadExitNodeModel->endInsertRows();
+    }
+    if (didMullvadExitNodesChange) {
+        emit mullvadExitNodesChanged(mMullvadExitNodes);
     }
 
     if (const bool newIsOperator = tailscale_is_operator(); newIsOperator != mIsOperator) {
