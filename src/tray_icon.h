@@ -18,6 +18,12 @@ private:
     QQuickWindow *mWindow{};
     KTailctlConfig *mConfig;
 
+    void addToggleAction(QMenu *menu);
+    void addExitNodeMenu(QMenu *menu);
+    void addMullvadMenu(QMenu *menu);
+    void addExitNodeActions(QMenu *menu);
+    void addPeerMenu(QMenu *menu);
+
 public slots:
     void regenerate();
     void updateIcon();

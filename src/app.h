@@ -22,20 +22,16 @@ class App : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(KTailctlConfig *config READ config CONSTANT)
-    Q_PROPERTY(Peer *peerDetails READ peerDetails NOTIFY peerDetailsChanged)
-    Q_PROPERTY(QSortFilterProxyModel *peerModel READ peerModel CONSTANT)
+    Q_PROPERTY(PeerModel *peerModel READ peerModel CONSTANT)
+    Q_PROPERTY(QSortFilterProxyModel *mullvadNodesForCountryModel READ mullvadNodesForCountryModel CONSTANT)
     // Q_PROPERTY(TrayIcon *trayIcon READ trayIcon CONSTANT)
 
 private:
     KTailctlConfig *mConfig;
-    Peer *mPeerDetails;
-    QSortFilterProxyModel *mPeerProxyModel;
+    QSortFilterProxyModel *mMullvadNodesForCountryModel;
     bool mFilterInitialized = false;
 
     TrayIcon *mTrayIcon;
-
-signals:
-    void peerDetailsChanged();
 
 public slots:
     static void quitApp();
@@ -45,8 +41,8 @@ public:
     virtual ~App() = default;
 
     KTailctlConfig *config();
-    Peer *peerDetails();
-    QSortFilterProxyModel *peerModel();
+    PeerModel *peerModel();
+    QSortFilterProxyModel *mullvadNodesForCountryModel();
     TrayIcon *trayIcon();
 
     // Restore current window geometry

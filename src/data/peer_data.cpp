@@ -5,7 +5,7 @@ Q_LOGGING_CATEGORY(logcat_peer_data, "org.fkoehler.KTailctl.PeerData")
 
 bool PeerData::isRunningSSH() const
 {
-    return !sshHostKeys.isEmpty();
+    return !mSshHostKeys.isEmpty();
 }
 
 QString PeerData::sshCommand() const
@@ -13,7 +13,7 @@ QString PeerData::sshCommand() const
     if (!isRunningSSH()) {
         return {""};
     }
-    return QString("tailscale ssh %1").arg(dnsName);
+    return QString("tailscale ssh %1").arg(mDnsName);
 }
 
 void from_json(const json &j, QVector<PeerData> &peers)
@@ -25,41 +25,50 @@ void from_json(const json &j, QVector<PeerData> &peers)
         ++i;
     }
     std::stable_sort(peers.begin(), peers.end(), [](const PeerData &a, const PeerData &b) {
-        return a.dnsName < b.dnsName;
+        return a.mDnsName < b.mDnsName;
     });
 }
 
 void from_json(const json &j, PeerData &p)
 {
     try {
-        j.at("ID").get_to<QString>(p.id);
-        j.at("PublicKey").get_to<QString>(p.publicKey);
-        j.at("HostName").get_to<QString>(p.hostName);
-        j.at("DNSName").get_to<QString>(p.dnsName);
-        j.at("OS").get_to<QString>(p.os);
-        j.at("TailscaleIPs").get_to<QStringList>(p.tailscaleIps);
-        j.at("Relay").get_to<QString>(p.relay);
-        j.at("RxBytes").get_to<long>(p.rxBytes);
-        j.at("TxBytes").get_to<long>(p.txBytes);
-        j.at("Created").get_to<QString>(p.created);
-        j.at("LastSeen").get_to<QString>(p.lastSeen);
-        j.at("Online").get_to<bool>(p.isOnline);
-        j.at("Active").get_to<bool>(p.isActive);
-        j.at("ExitNode").get_to<bool>(p.isCurrentExitNode);
-        j.at("ExitNodeOption").get_to<bool>(p.isExitNode);
+        j.at("ID").get_to<QString>(p.mId);
+        j.at("PublicKey").get_to<QString>(p.mPublicKey);
+        j.at("HostName").get_to<QString>(p.mHostName);
+        j.at("DNSName").get_to<QString>(p.mDnsName);
+        j.at("OS").get_to<QString>(p.mOs);
+        j.at("TailscaleIPs").get_to<QStringList>(p.mTailscaleIps);
+        j.at("Relay").get_to<QString>(p.mRelay);
+        j.at("RxBytes").get_to<long>(p.mRxBytes);
+        j.at("TxBytes").get_to<long>(p.mTxBytes);
+        j.at("Created").get_to<QString>(p.mCreated);
+        j.at("LastSeen").get_to<QString>(p.mLastSeen);
+        j.at("Online").get_to<bool>(p.mIsOnline);
+        j.at("Active").get_to<bool>(p.mIsActive);
+        j.at("ExitNode").get_to<bool>(p.mIsCurrentExitNode);
+        j.at("ExitNodeOption").get_to<bool>(p.mIsExitNode);
         if (j.contains("sshHostKeys")) {
-            j["sshHostKeys"].get_to<QStringList>(p.sshHostKeys);
+            j["sshHostKeys"].get_to<QStringList>(p.mSshHostKeys);
         } else {
-            p.sshHostKeys.clear();
+            p.mSshHostKeys.clear();
         }
         if (j.contains("Tags")) {
-            j["Tags"].get_to<QStringList>(p.tags);
+            j["Tags"].get_to<QStringList>(p.mTags);
         } else {
-            p.tags.clear();
+            p.mTags.clear();
         }
-        p.isMullvad = p.tags.contains("tag:mullvad-exit-node");
+        p.mIsMullvad = p.mTags.contains("tag:mullvad-exit-node");
         if (j.contains("Location")) {
-            p.location = j["Location"].get<LocationData>();
+            const json &loc = j.at("Location");
+            loc.at("Country").get_to<QString>(p.mCountry);
+            loc.at("CountryCode").get_to<QString>(p.mCountryCode);
+            loc.at("City").get_to<QString>(p.mCity);
+            loc.at("CityCode").get_to<QString>(p.mCityCode);
+        } else {
+            p.mCountryCode = QStringLiteral("UNK");
+            p.mCountry = QStringLiteral("UNKNOWN");
+            p.mCityCode = QStringLiteral("UNK");
+            p.mCity = QStringLiteral("UNKNOWN");
         }
     } catch (json::exception &e) {
         qCCritical(logcat_peer_data) << "Error parsing peer data: " << e.what();

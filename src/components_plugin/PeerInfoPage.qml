@@ -180,8 +180,8 @@ Kirigami.ScrollablePage {
 
                 KTailctlComponents.FormLabeledIconDelegate {
                     text: i18nc("@label", "Runs Tailscale SSH:")
-                    label: peer.isRunningSSH ? "Yes" : "No"
-                    source: peer.isRunningSSH ? "dialog-ok" : "dialog-cancel"
+                    label: peer.isRunningSSH() ? "Yes" : "No"
+                    source: peer.isRunningSSH() ? "dialog-ok" : "dialog-cancel"
                 }
 
                 FormCard.FormDelegateSeparator {
@@ -190,7 +190,7 @@ Kirigami.ScrollablePage {
                 KTailctlComponents.FormCopyLabelDelegate {
                     text: i18nc("@label", "SSH command:")
                     copyData: i18nc("@label", "Copy")
-                    enabled: peer.isRunningSSH
+                    enabled: peer.isRunningSSH()
                     onClicked: {
                         Util.setClipboardText(peer.sshCommand());
                     }

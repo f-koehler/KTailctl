@@ -3,8 +3,6 @@
 #ifndef KTAILCTL_UTIL_H
 #define KTAILCTL_UTIL_H
 
-#include "peer.h"
-
 #include <QDateTime>
 #include <QIcon>
 #include <QObject>

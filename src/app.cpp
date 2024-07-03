@@ -18,36 +18,38 @@ Q_LOGGING_CATEGORY(logcat_app, "org.fkoehler.KTailctl.App")
 App::App(QObject *parent)
     : QObject(parent)
     , mConfig(KTailctlConfig::self())
-    , mPeerDetails(new Peer(this))
-    , mPeerProxyModel(new QSortFilterProxyModel(this))
+    , mMullvadNodesForCountryModel(new QSortFilterProxyModel(this))
     , mTrayIcon(new TrayIcon(this))
 {
     // QObject::connect(tailscale->status(), &Status::refreshed, &mPeerDetails, &Peer::updateFromStatus);
     QObject::connect(Tailscale::instance(), &Tailscale::backendStateChanged, mTrayIcon, &TrayIcon::regenerate);
     QObject::connect(mTrayIcon, &TrayIcon::quitClicked, this, &App::quitApp);
 
+    mMullvadNodesForCountryModel->setSourceModel(Tailscale::instance()->mullvadNodeModel());
+    mMullvadNodesForCountryModel->setFilterRole(PeerModel::CountryCodeRole);
+
     if (KTailctlConfig::peerFilter() == "UNINITIALIZED") {
         Tailscale::instance()->refresh();
-        const auto domain = Tailscale::instance()->self()->dnsName().section('.', 1);
-        mPeerProxyModel->setFilterRegularExpression(domain);
-        KTailctlConfig::setPeerFilter(domain);
+        // const auto domain = Tailscale::instance()->self()->dnsName().section('.', 1);
+        // mPeerProxyModel->setFilterRegularExpression(domain);
+        // KTailctlConfig::setPeerFilter(domain);
         mConfig->save();
     }
-    mPeerProxyModel->setSourceModel(Tailscale::instance()->peerModel());
-    mPeerProxyModel->setFilterRole(PeerModel::DnsNameRole);
+    // mPeerProxyModel->setSourceModel(Tailscale::instance()->peerModel());
+    // mPeerProxyModel->setFilterRole(PeerModel::DnsNameRole);
 }
 
 KTailctlConfig *App::config()
 {
     return mConfig;
 }
-Peer *App::peerDetails()
+PeerModel *App::peerModel()
 {
-    return mPeerDetails;
+    return Tailscale::instance()->peerModel();
 }
-QSortFilterProxyModel *App::peerModel()
+QSortFilterProxyModel *App::mullvadNodesForCountryModel()
 {
-    return mPeerProxyModel;
+    return mMullvadNodesForCountryModel;
 }
 TrayIcon *App::trayIcon()
 {
@@ -73,15 +75,15 @@ void App::saveWindowGeometry(QQuickWindow *window, const QString &group)
 
 void App::setPeerDetails(const QString &id)
 {
-    auto pos = std::find_if(Tailscale::instance()->peers().begin(), Tailscale::instance()->peers().end(), [&id](Peer *peer) {
-        return peer->id() == id;
-    });
-    if (pos == Tailscale::instance()->peers().end()) {
-        qCWarning(logcat_app) << "Peer" << id << "not found";
-        return;
-    }
-    PeerData data = (*pos)->peerData();
-    mPeerDetails->update(data);
+    // auto pos = std::find_if(Tailscale::instance()->peers().begin(), Tailscale::instance()->peers().end(), [&id](Peer *peer) {
+    //     return peer->id() == id;
+    // });
+    // if (pos == Tailscale::instance()->peers().end()) {
+    //     qCWarning(logcat_app) << "Peer" << id << "not found";
+    //     return;
+    // }
+    // PeerData data = (*pos)->peerData();
+    // mPeerDetails->update(data);
 }
 
 void App::quitApp()
