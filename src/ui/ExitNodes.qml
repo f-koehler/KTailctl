@@ -66,7 +66,7 @@ Kirigami.ScrollablePage {
 
                 FormCard.FormTextDelegate {
                     text: "None available."
-                    visible: Tailscale.exitNodes.length == 0
+                    visible: Tailscale.exitNodeModel.rowCount() == 0
                 }
 
                 Repeater {
@@ -96,6 +96,7 @@ Kirigami.ScrollablePage {
                     model: Tailscale.mullvadCountryModel
                     delegate: FormCard.FormButtonDelegate {
                         text: countryName
+                        icon.source: "qrc:country-flags/" + countryCode.toLowerCase() + ".svg"
                         onClicked: {
                             App.mullvadNodesForCountryModel.setFilterFixedString(countryCode)
                             pageStack.layers.push("qrc:MullvadNodes.qml");
