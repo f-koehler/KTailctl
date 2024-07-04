@@ -26,8 +26,12 @@
     nlohmann_json
     cmake-format
     cmake-lint
-  ];
 
+    libsForQt5.plasma-sdk # for cuttlefish icon browser, not yet updated for Plasma 6
+    libsForQt5.kirigami-gallery # version in Plasma 6 currently broken in nixpkgs
+    gdb
+    lldb
+  ];
   # https://devenv.sh/scripts/
   # scripts.hello.exec = "echo hello from $GREET";
 
