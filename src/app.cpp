@@ -25,6 +25,8 @@ App::App(QObject *parent)
     QObject::connect(Tailscale::instance(), &Tailscale::backendStateChanged, mTrayIcon, &TrayIcon::regenerate);
     QObject::connect(mTrayIcon, &TrayIcon::quitClicked, this, &App::quitApp);
 
+    QObject::connect(Tailscale::instance(), &Tailscale::refreshed, this, &App::refreshDetails);
+
     mMullvadNodesForCountryModel->setSourceModel(Tailscale::instance()->mullvadNodeModel());
     mMullvadNodesForCountryModel->setFilterRole(PeerModel::CountryCodeRole);
 
@@ -51,6 +53,10 @@ QSortFilterProxyModel *App::mullvadNodesForCountryModel()
 {
     return mMullvadNodesForCountryModel;
 }
+const PeerData &App::peerDetails() const
+{
+    return mPeerDetails;
+}
 TrayIcon *App::trayIcon()
 {
     return mTrayIcon;
@@ -75,19 +81,37 @@ void App::saveWindowGeometry(QQuickWindow *window, const QString &group)
 
 void App::setPeerDetails(const QString &id)
 {
-    // auto pos = std::find_if(Tailscale::instance()->peers().begin(), Tailscale::instance()->peers().end(), [&id](Peer *peer) {
-    //     return peer->id() == id;
-    // });
-    // if (pos == Tailscale::instance()->peers().end()) {
-    //     qCWarning(logcat_app) << "Peer" << id << "not found";
-    //     return;
-    // }
-    // PeerData data = (*pos)->peerData();
-    // mPeerDetails->update(data);
+    const QVector<PeerData> &peers = Tailscale::instance()->peerModel()->peers();
+    const QVector<PeerData>::const_iterator position = std::find_if(peers.begin(), peers.end(), [&id](const PeerData &peer) {
+        return peer.mId == id;
+    });
+    if (position == peers.end()) {
+        qCWarning(logcat_app) << "Peer" << id << "not found";
+        return;
+    }
+    if (*position != mPeerDetails) {
+        mPeerDetails = *position;
+        emit peerDetailsChanged(mPeerDetails);
+    }
 }
 
 void App::quitApp()
 {
     TaildropReceiver::self()->quit();
     qApp->quit();
+}
+
+void App::refreshDetails()
+{
+    for (const PeerData &peer : Tailscale::instance()->peerModel()->peers()) {
+        if (peer.mId == mPeerDetails.mId) {
+            if (peer != mPeerDetails) {
+                mPeerDetails = peer;
+                emit peerDetailsChanged(peer);
+            }
+            return;
+        }
+    }
+    mPeerDetails = Tailscale::instance()->peerModel()->peers().front();
+    emit peerDetailsChanged(mPeerDetails);
 }

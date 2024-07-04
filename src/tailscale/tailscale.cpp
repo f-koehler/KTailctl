@@ -146,6 +146,9 @@ void Tailscale::refresh()
     //         }
     //     }
     // }
+    //
+
+    emit refreshed();
 }
 
 void Tailscale::setExitNode(const QString &ip)

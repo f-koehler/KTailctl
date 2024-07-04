@@ -42,6 +42,7 @@ signals:
     void isOperatorChanged(bool);
     void backendStateChanged(const QString &);
     void selfChanged(const PeerData &);
+    void refreshed();
 
 public:
     static Tailscale *instance();

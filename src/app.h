@@ -5,6 +5,7 @@
 #define KTAILCTL_APP_H
 
 #include "ktailctlconfig.h"
+#include "peer_data.h"
 #include "peer_model.h"
 #include "tailscale.h"
 #include "tray_icon.h"
@@ -24,6 +25,7 @@ class App : public QObject
     Q_PROPERTY(KTailctlConfig *config READ config CONSTANT)
     Q_PROPERTY(PeerModel *peerModel READ peerModel CONSTANT)
     Q_PROPERTY(QSortFilterProxyModel *mullvadNodesForCountryModel READ mullvadNodesForCountryModel CONSTANT)
+    Q_PROPERTY(PeerData peerDetails READ peerDetails NOTIFY peerDetailsChanged)
     // Q_PROPERTY(TrayIcon *trayIcon READ trayIcon CONSTANT)
 
 private:
@@ -32,9 +34,14 @@ private:
     bool mFilterInitialized = false;
 
     TrayIcon *mTrayIcon;
+    PeerData mPeerDetails;
 
 public slots:
+    void refreshDetails();
     static void quitApp();
+
+signals:
+    void peerDetailsChanged(const PeerData &peerDetails);
 
 public:
     explicit App(QObject *parent = nullptr);
@@ -43,6 +50,7 @@ public:
     KTailctlConfig *config();
     PeerModel *peerModel();
     QSortFilterProxyModel *mullvadNodesForCountryModel();
+    const PeerData &peerDetails() const;
     TrayIcon *trayIcon();
 
     // Restore current window geometry

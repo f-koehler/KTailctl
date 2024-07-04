@@ -42,6 +42,8 @@ public:
     QHash<int, QByteArray> roleNames() const override;
     QVariant data(const QModelIndex &index, int role) const override;
 
+    const QVector<PeerData> &peers() const;
+
 public slots:
     void update(const QVector<PeerData> &peers);
 };

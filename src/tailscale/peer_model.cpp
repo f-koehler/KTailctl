@@ -82,6 +82,11 @@ QVariant PeerModel::data(const QModelIndex &index, int role) const
     }
 }
 
+const QVector<PeerData> &PeerModel::peers() const
+{
+    return mPeers;
+}
+
 void PeerModel::update(const QVector<PeerData> &peers)
 {
     if (mPeers.size() > peers.size()) {
