@@ -54,6 +54,22 @@ const PeerData &Tailscale::self() const
 {
     return mSelf;
 }
+bool Tailscale::hasSuggestedExitNode() const
+{
+    return mHasSuggestedExitNode;
+}
+bool Tailscale::hasCurrentExitNode() const
+{
+    return mHasCurrentExitNode;
+}
+const PeerData &Tailscale::suggestedExitNode() const
+{
+    return mSuggestedExitNode;
+}
+const PeerData &Tailscale::currentExitNode() const
+{
+    return mCurrentExitNode;
+}
 
 void Tailscale::up()
 {
@@ -93,6 +109,23 @@ void Tailscale::refresh()
         return a.mId < b.mId;
     });
 
+    QString suggestedExitNode;
+    {
+        const std::unique_ptr<char, decltype(&free)> suggestedExitNodePtr(tailscale_suggest_exit_node(), free);
+        suggestedExitNode = QString::fromUtf8(suggestedExitNodePtr.get());
+        if (suggestedExitNode.isEmpty()) {
+            if (mHasSuggestedExitNode) {
+                mHasSuggestedExitNode = false;
+                emit hasSuggestedExitNodeChanged(mHasSuggestedExitNode);
+            }
+        } else {
+            if (!mHasSuggestedExitNode) {
+                mHasSuggestedExitNode = true;
+                emit hasSuggestedExitNodeChanged(mHasSuggestedExitNode);
+            }
+        }
+    }
+
     if (data.version != mVersion) {
         mVersion = data.version;
         emit versionChanged(mVersion);
@@ -116,37 +149,37 @@ void Tailscale::refresh()
 
     QMap<QString, QString> countries;
     // TODO: collect this data when bulding peer model?
+    bool foundCurrentExitNode = false;
     for (const PeerData &peer : data.peers) {
         if (peer.mIsMullvad) {
             countries.insert(peer.mCountryCode, peer.mCountry);
         }
+        if (peer.mId == suggestedExitNode) {
+            if (mSuggestedExitNode != peer) {
+                mSuggestedExitNode = peer;
+                emit suggestedExitNodeChanged(mSuggestedExitNode);
+            }
+        }
+        if (peer.mIsCurrentExitNode) {
+            foundCurrentExitNode = true;
+            if (!mHasCurrentExitNode) {
+                mHasCurrentExitNode = true;
+                emit hasCurrentExitNodeChanged(true);
+            }
+            if (peer != mCurrentExitNode) {
+                mCurrentExitNode = peer;
+                emit currentExitNodeChanged(mCurrentExitNode);
+            }
+        }
     }
-    mMullvadCountryModel->update(countries);
+    if (!foundCurrentExitNode) {
+        if (mHasCurrentExitNode) {
+            mHasCurrentExitNode = false;
+            emit hasCurrentExitNodeChanged(false);
+        }
+    }
 
-    // {
-    //     const std::unique_ptr<char, decltype(&free)> suggestedExitNode(tailscale_suggest_exit_node(), free);
-    //     const QString suggestedExitNodeStr = QString::fromUtf8(suggestedExitNode.get());
-    //     if (suggestedExitNodeStr.isEmpty()) {
-    //         if (mSuggestedExitNode != nullptr) {
-    //             mSuggestedExitNode->deleteLater();
-    //             mSuggestedExitNode = nullptr;
-    //             emit suggestedExitNodeChanged(mSuggestedExitNode);
-    //         }
-    //     } else {
-    //         for (Peer *peer : mPeers) {
-    //             if (peer->id() == suggestedExitNodeStr) {
-    //                 if (mSuggestedExitNode == nullptr) {
-    //                     mSuggestedExitNode = new Peer(this);
-    //                     emit suggestedExitNodeChanged(mSuggestedExitNode);
-    //                 }
-    //                 PeerData data = PeerData(peer->peerData());
-    //                 mSuggestedExitNode->update(data);
-    //                 break;
-    //             }
-    //         }
-    //     }
-    // }
-    //
+    mMullvadCountryModel->update(countries);
 
     emit refreshed();
 }

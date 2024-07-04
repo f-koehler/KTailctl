@@ -36,20 +36,17 @@ Kirigami.ScrollablePage {
 
                 FormCard.FormButtonDelegate {
                     text: "Unset current: " + Tailscale.currentExitNode.dnsName
-                    visible: Tailscale.currentExitNode != null
+                    visible: Tailscale.hasCurrentExitNode
                     onClicked: {
                         Tailscale.unsetExitNode();
                     }
                 }
 
-                FormCard.FormDelegateSeparator {
-                }
-
                 FormCard.FormButtonDelegate {
                     text: "Use suggested: " + Tailscale.suggestedExitNode.dnsName
-                    visible: Tailscale.suggestedExitNode != null
+                    visible: Tailscale.hasSuggestedExitNode
                     onClicked: {
-                        Tailscale.setExitNode(Tailscale.suggestedExitNode);
+                        Tailscale.setExitNode(Tailscale.suggestedExitNode.tailscaleIps[0]);
                     }
                 }
             }

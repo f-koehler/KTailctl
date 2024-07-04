@@ -66,8 +66,19 @@ void TrayIcon::addExitNodeMenu(QMenu *menu)
     bool hasExitNodes = mTailscale->exitNodeModel()->rowCount() > 0;
     bool hasMullvadNodes = mTailscale->mullvadNodeModel()->rowCount() > 0;
     QMenu *menuExitNodes = nullptr;
-    if (hasExitNodes || hasMullvadNodes) {
-        menuExitNodes = menu->addMenu(QIcon::fromTheme("internet-services"), "Exit Nodes");
+    if (!hasExitNodes && !hasMullvadNodes) {
+        return;
+    }
+    menuExitNodes = menu->addMenu(QIcon::fromTheme("internet-services"), "Exit Nodes");
+    if (mTailscale->hasCurrentExitNode()) {
+        menuExitNodes->addAction(QIcon::fromTheme("dialog-cancel"), QString("Unset %1").arg(mTailscale->currentExitNode().mDnsName), [this]() {
+            mTailscale->unsetExitNode();
+        });
+    }
+    if (mTailscale->hasSuggestedExitNode()) {
+        menuExitNodes->addAction(QIcon::fromTheme("network-vpn"), QString("Use suggested: %1").arg(mTailscale->suggestedExitNode().mDnsName), [this]() {
+            mTailscale->setExitNode(mTailscale->suggestedExitNode().mTailscaleIps.front());
+        });
     }
     if (hasMullvadNodes) {
         addMullvadMenu(menuExitNodes);
@@ -91,9 +102,10 @@ void TrayIcon::addMullvadMenu(QMenu *menu)
 
     for (int i = 0; i < numCountries; ++i) {
         const QModelIndex index = mullvadCountryModel->index(i, 0);
-        countryMenus.insert(index.data(MullvadCountryModel::CountryCode).toString(),
-                            mullvadMenu->addMenu(QIcon(QString(":/country-flags/%1").arg(index.data(MullvadCountryModel::CountryCode).toString().toLower())),
-                                                 index.data(MullvadCountryModel::CountryName).toString()));
+        const QString countryCode = index.data(MullvadCountryModel::CountryCode).toString();
+        countryMenus.insert(
+            countryCode,
+            mullvadMenu->addMenu(QIcon(QString(":/country-flags/%1").arg(countryCode.toLower())), index.data(MullvadCountryModel::CountryName).toString()));
     }
 
     // Add nodes to the country menus

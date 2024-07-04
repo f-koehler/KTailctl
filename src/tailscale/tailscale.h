@@ -21,6 +21,10 @@ class Tailscale : public QObject
     Q_PROPERTY(bool isOperator READ isOperator NOTIFY isOperatorChanged)
     Q_PROPERTY(QString backendState READ backendState NOTIFY backendStateChanged)
     Q_PROPERTY(PeerData self READ self NOTIFY selfChanged)
+    Q_PROPERTY(bool hasSuggestedExitNode READ hasSuggestedExitNode NOTIFY hasSuggestedExitNodeChanged)
+    Q_PROPERTY(bool hasCurrentExitNode READ hasCurrentExitNode NOTIFY hasCurrentExitNodeChanged)
+    Q_PROPERTY(PeerData suggestedExitNode READ suggestedExitNode NOTIFY suggestedExitNodeChanged)
+    Q_PROPERTY(PeerData currentExitNode READ currentExitNode NOTIFY currentExitNodeChanged)
 
 private:
     PeerModel *mPeerModel = nullptr;
@@ -34,6 +38,11 @@ private:
     QString mBackendState;
     PeerData mSelf;
 
+    bool mHasSuggestedExitNode = false;
+    bool mHasCurrentExitNode = false;
+    PeerData mSuggestedExitNode;
+    PeerData mCurrentExitNode;
+
     explicit Tailscale(QObject *parent = nullptr);
 
 signals:
@@ -42,6 +51,10 @@ signals:
     void isOperatorChanged(bool);
     void backendStateChanged(const QString &);
     void selfChanged(const PeerData &);
+    void hasSuggestedExitNodeChanged(bool);
+    void hasCurrentExitNodeChanged(bool);
+    void suggestedExitNodeChanged(const PeerData &);
+    void currentExitNodeChanged(const PeerData &);
     void refreshed();
 
 public:
@@ -57,6 +70,10 @@ public:
     bool isOperator() const;
     const QString &backendState() const;
     const PeerData &self() const;
+    bool hasSuggestedExitNode() const;
+    bool hasCurrentExitNode() const;
+    const PeerData &suggestedExitNode() const;
+    const PeerData &currentExitNode() const;
 
 public slots:
     Q_INVOKABLE void up();
