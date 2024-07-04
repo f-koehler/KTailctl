@@ -25,7 +25,10 @@ Kirigami.ScrollablePage {
                 Repeater {
                     model: App.mullvadNodesForCountryModel
                     delegate: FormCard.FormButtonDelegate {
-                        text: city + "(" + dnsName + ")"
+                        text: dnsName + " (" + city + ")"
+                        onClicked: {
+                            Tailscale.setExitNode(tailscaleIps[0]);
+                        }
                     }
                 }
             }

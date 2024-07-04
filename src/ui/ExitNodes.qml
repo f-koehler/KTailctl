@@ -77,7 +77,7 @@ Kirigami.ScrollablePage {
                     delegate: FormCard.FormButtonDelegate {
                         text: dnsName
                         onClicked: {
-                            Tailscale.setExitNodeFromDnsName(dnsName);
+                            Tailscale.setExitNode(tailscaleIps[0]);
                         }
                     }
                 }
