@@ -2,7 +2,6 @@
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 #include "statistics.h"
 #include "libktailctl_wrapper.h"
-#include "peer.h"
 #include "tailscale.h"
 
 #include <QFile>
@@ -16,15 +15,15 @@ Statistics::Statistics(QObject *parent)
     , mSpeedUpTotal(new SpeedStatistics(this))
     , mSpeedDownTotal(new SpeedStatistics(this))
 {
-    for (const Peer *peer : Tailscale::instance()->peers()) {
-        auto iterUp = mSpeedUp.insert(peer->id(), new SpeedStatistics(this));
-        auto iterDown = mSpeedDown.insert(peer->id(), new SpeedStatistics(this));
-        iterUp.value()->update(peer->txBytes());
-        iterDown.value()->update(peer->rxBytes());
+    // for (const Peer *peer : Tailscale::instance()->peers()) {
+    //     auto iterUp = mSpeedUp.insert(peer->id(), new SpeedStatistics(this));
+    //     auto iterDown = mSpeedDown.insert(peer->id(), new SpeedStatistics(this));
+    //     iterUp.value()->update(peer->txBytes());
+    //     iterDown.value()->update(peer->rxBytes());
 
-        QObject::connect(peer, &Peer::txBytesChanged, iterUp.value(), &SpeedStatistics::update);
-        QObject::connect(peer, &Peer::rxBytesChanged, iterDown.value(), &SpeedStatistics::update);
-    }
+    //     QObject::connect(peer, &Peer::txBytesChanged, iterUp.value(), &SpeedStatistics::update);
+    //     QObject::connect(peer, &Peer::rxBytesChanged, iterDown.value(), &SpeedStatistics::update);
+    // }
 
     QObject::connect(mTimerTotalSpeed, &QTimer::timeout, this, &Statistics::refreshTotalSpeed);
     mTimerTotalSpeed->setInterval(200);
@@ -61,27 +60,27 @@ SpeedStatistics *Statistics::totalDownSpeed() const
 
 void Statistics::statusRefreshed()
 {
-    bool newPeers = false;
-    for (const Peer *peer : Tailscale::instance()->peers()) {
-        if (mSpeedUp.contains(peer->id())) {
-            continue;
-        }
+    // bool newPeers = false;
+    // for (const Peer *peer : Tailscale::instance()->peers()) {
+    //     if (mSpeedUp.contains(peer->id())) {
+    //         continue;
+    //     }
 
-        newPeers = true;
+    //     newPeers = true;
 
-        auto iterUp = mSpeedUp.insert(peer->id(), new SpeedStatistics(this));
-        auto iterDown = mSpeedDown.insert(peer->id(), new SpeedStatistics(this));
-        iterUp.value()->update(peer->txBytes());
-        iterDown.value()->update(peer->rxBytes());
+    //     auto iterUp = mSpeedUp.insert(peer->id(), new SpeedStatistics(this));
+    //     auto iterDown = mSpeedDown.insert(peer->id(), new SpeedStatistics(this));
+    //     iterUp.value()->update(peer->txBytes());
+    //     iterDown.value()->update(peer->rxBytes());
 
-        QObject::connect(peer, &Peer::txBytesChanged, iterUp.value(), &SpeedStatistics::update);
-        QObject::connect(peer, &Peer::rxBytesChanged, iterDown.value(), &SpeedStatistics::update);
-    }
+    //     QObject::connect(peer, &Peer::txBytesChanged, iterUp.value(), &SpeedStatistics::update);
+    //     QObject::connect(peer, &Peer::rxBytesChanged, iterDown.value(), &SpeedStatistics::update);
+    // }
 
-    if (newPeers) {
-        emit speedUpChanged();
-        emit speedDownChanged();
-    }
+    // if (newPeers) {
+    //     emit speedUpChanged();
+    //     emit speedDownChanged();
+    // }
 }
 
 void Statistics::refreshTotalSpeed()

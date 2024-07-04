@@ -117,6 +117,11 @@ Kirigami.ApplicationWindow {
                         onTriggered: navigateTo("Self")
                     },
                     Kirigami.Action {
+                        text: i18n("Exit Nodes")
+                        icon.name: "globe"
+                        onTriggered: navigateTo("ExitNodes")
+                    },
+                    Kirigami.Action {
                         text: i18n("Statistics")
                         icon.name: "office-chart-line-stacked"
                         onTriggered: navigateTo("Statistics")

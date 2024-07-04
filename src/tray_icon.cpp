@@ -45,6 +45,139 @@ TrayIcon::TrayIcon(QObject *parent)
     show();
 }
 
+void TrayIcon::addToggleAction(QMenu *menu)
+{
+    QAction *actionToggle = menu->addAction("Toggle", [this]() {
+        mTailscale->toggle();
+    });
+    if (mTailscale->backendState() == "Running") {
+        actionToggle->setChecked(true);
+        actionToggle->setText("Stop Tailscale");
+        actionToggle->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
+    } else {
+        actionToggle->setChecked(false);
+        actionToggle->setText("Start Tailscale");
+        actionToggle->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
+    }
+}
+
+void TrayIcon::addExitNodeMenu(QMenu *menu)
+{
+    bool hasExitNodes = mTailscale->exitNodeModel()->rowCount() > 0;
+    bool hasMullvadNodes = mTailscale->mullvadNodeModel()->rowCount() > 0;
+    QMenu *menuExitNodes = nullptr;
+    if (!hasExitNodes && !hasMullvadNodes) {
+        return;
+    }
+    menuExitNodes = menu->addMenu(QIcon::fromTheme("internet-services"), "Exit Nodes");
+    if (mTailscale->hasCurrentExitNode()) {
+        menuExitNodes->addAction(QIcon::fromTheme("dialog-cancel"), QString("Unset %1").arg(mTailscale->currentExitNode().mDnsName), [this]() {
+            mTailscale->unsetExitNode();
+        });
+    }
+    if (mTailscale->hasSuggestedExitNode()) {
+        menuExitNodes->addAction(QIcon::fromTheme("network-vpn"), QString("Use suggested: %1").arg(mTailscale->suggestedExitNode().mDnsName), [this]() {
+            mTailscale->setExitNode(mTailscale->suggestedExitNode().mTailscaleIps.front());
+        });
+    }
+    if (hasMullvadNodes) {
+        addMullvadMenu(menuExitNodes);
+        if (hasExitNodes) {
+            menuExitNodes->addSeparator();
+        }
+    }
+    if (hasExitNodes) {
+        addExitNodeActions(menuExitNodes);
+    }
+}
+
+void TrayIcon::addMullvadMenu(QMenu *menu)
+{
+    QMenu *mullvadMenu = menu->addMenu(QIcon::fromTheme("network-vpn"), "Mullvad");
+    MullvadCountryModel *mullvadCountryModel = mTailscale->mullvadCountryModel();
+
+    // Create a menu for each country
+    const int numCountries = mullvadCountryModel->rowCount({});
+    QMap<QString, QMenu *> countryMenus;
+
+    for (int i = 0; i < numCountries; ++i) {
+        const QModelIndex index = mullvadCountryModel->index(i, 0);
+        const QString countryCode = index.data(MullvadCountryModel::CountryCode).toString();
+        countryMenus.insert(
+            countryCode,
+            mullvadMenu->addMenu(QIcon(QString(":/country-flags/%1").arg(countryCode.toLower())), index.data(MullvadCountryModel::CountryName).toString()));
+    }
+
+    // Add nodes to the country menus
+    // The nodes are sorted by country code and then by DNS name
+    MullvadNodeModel *mullvadNodeModel = mTailscale->mullvadNodeModel();
+    const int numNodes = mullvadNodeModel->rowCount({});
+    for (int i = 0; i < numNodes; ++i) {
+        const QModelIndex index = mullvadNodeModel->index(i, 0);
+        const QString countryCode = index.data(PeerModel::CountryCodeRole).toString();
+        countryMenus[countryCode]->addAction(QIcon::fromTheme("network-vpn"), index.data(PeerModel::DnsNameRole).toString(), [this, &index]() {
+            mTailscale->setExitNode(index.data(PeerModel::TailscaleIpsRole).toStringList().front());
+        });
+    }
+}
+void TrayIcon::addExitNodeActions(QMenu *menu)
+{
+    const int numNodes = mTailscale->exitNodeModel()->rowCount();
+    for (int i = 0; i < numNodes; ++i) {
+        const QModelIndex index = mTailscale->exitNodeModel()->index(i, 0);
+        menu->addAction(QIcon::fromTheme("network-vpn"), index.data(PeerModel::DnsNameRole).toString(), [this, &index]() {
+            mTailscale->setExitNode(index.data(PeerModel::TailscaleIpsRole).toStringList().front());
+        });
+    }
+}
+void TrayIcon::addPeerMenu(QMenu *menu)
+{
+    QMenu *peerMenu = menu->addMenu(QIcon::fromTheme("applications-network"), "Peers");
+    const PeerModel *model = mTailscale->peerModel();
+    const int numPeers = model->rowCount({});
+
+    auto createCopyAction = [](QMenu *menu, const QString &text) {
+        auto *action = menu->addAction(QIcon::fromTheme("edit-copy"), text, [text]() {
+            setClipboardText(text);
+        });
+        return action;
+    };
+
+    for (int i = 0; i < numPeers; ++i) {
+        const QModelIndex index = model->index(i, 0);
+        const QString dnsName = index.data(PeerModel::DnsNameRole).toString();
+        if (index.data(PeerModel::IsMullvadRole).toBool()) {
+            continue;
+        }
+
+        QMenu *submenu = peerMenu->addMenu(loadOsIcon(index.data(PeerModel::OsRole).toString()), dnsName);
+        createCopyAction(submenu, dnsName);
+        const QStringList ips = index.data(PeerModel::TailscaleIpsRole).toStringList();
+        for (const QString &ip : ips) {
+            createCopyAction(submenu, ip);
+        }
+
+        if (!mTailscale->isOperator()) {
+            continue;
+        }
+
+        submenu->addSection("Taildrop Send");
+        submenu->addAction(QIcon::fromTheme(QStringLiteral("document-send")), "Send file(s)", [&dnsName]() {
+            TaildropSendJob::selectAndSendFiles(dnsName);
+        });
+
+        if (index.data(PeerModel::IsCurrentExitNodeRole).toBool()) {
+            submenu->addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), "Unset exit node", [this]() {
+                mTailscale->unsetExitNode();
+            });
+        } else if (index.data(PeerModel::IsExitNodeRole).toBool()) {
+            submenu->addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), "Set as exit node", [this, &index]() {
+                mTailscale->setExitNode(index.data(PeerModel::TailscaleIpsRole).toStringList().front());
+            });
+        }
+    }
+}
+
 void TrayIcon::regenerate()
 {
     if (!isVisible()) {
@@ -63,123 +196,11 @@ void TrayIcon::regenerate()
         menu->addSeparator();
     }
 
-    if (mTailscale->isOperator() && mTailscale->success()) {
-        auto *actionToggle = menu->addAction("Toggle", [this]() {
-            mTailscale->toggle();
-        });
-        if (mTailscale->backendState() == "Running") {
-            actionToggle->setChecked(true);
-            actionToggle->setText("Stop Tailscale");
-            actionToggle->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
-        } else {
-            actionToggle->setChecked(false);
-            actionToggle->setText("Start Tailscale");
-            actionToggle->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
-        }
-
-        const QVector<Peer *> &exitNodes = mTailscale->exitNodes();
-        if (!exitNodes.empty()) {
-            auto *menuExitNodes = menu->addMenu(QIcon::fromTheme("internet-services"), "Exit Nodes");
-
-            if (mTailscale->exitNode() != nullptr) {
-                menuExitNodes->addAction(QIcon::fromTheme("dialog-cancel"), QString("Unset %1").arg(mTailscale->exitNode()->dnsName()), []() {
-                    unsetExitNode();
-                });
-                menuExitNodes->addSeparator();
-            }
-
-            if (mTailscale->suggestedExitNode() != nullptr) {
-                menuExitNodes->addAction(QIcon::fromTheme("network-vpn"), QString("Suggested: %1").arg(mTailscale->suggestedExitNode()->hostName()), [this]() {
-                    setExitNode(mTailscale->suggestedExitNode());
-                });
-            }
-
-            QMenu *menuMullvadNodes = menuExitNodes->addMenu(QIcon::fromTheme("network-vpn"), "Mullvad Exit Nodes");
-            QMap<QString, QMenu *> mullvadSubMenus;
-            for (const Peer *node : mTailscale->exitNodes()) {
-                if (!node->isMullvad()) {
-                    menuExitNodes->addAction(loadOsIcon(node->os()), node->hostName(), [node]() {
-                        setExitNode(node);
-                    });
-                    continue;
-                }
-                if (node->location() == nullptr) {
-                    continue;
-                }
-                const QString &countryCode = node->location()->countryCode();
-                auto menuPosition = mullvadSubMenus.lowerBound(countryCode);
-                if ((menuPosition == mullvadSubMenus.end()) || menuPosition.key() != countryCode) {
-                    QMenu *menu = new QMenu(countryCode, menuMullvadNodes);
-                    menu->setIcon(QIcon(QString(":/country-flags/%1").arg(countryCode.toLower())));
-                    menuPosition = mullvadSubMenus.insert(countryCode, menu);
-                }
-                menuPosition.value()->addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), node->hostName(), [node]() {
-                    setExitNode(node);
-                });
-            }
-
-            for (auto it = mullvadSubMenus.begin(); it != mullvadSubMenus.end(); ++it) {
-                menuMullvadNodes->addMenu(it.value());
-            }
-        }
-        menu->addSeparator();
-    }
-
-    auto create_action = [](QMenu *menu, const QString &text) {
-        auto *action = menu->addAction(QIcon::fromTheme("edit-copy"), text, [text]() {
-            setClipboardText(text);
-        });
-        return action;
-    };
-
     if (mTailscale->success()) {
-        auto *peer_menu = menu->addMenu(QIcon::fromTheme("applications-network"), "Peers");
-        for (auto *peer : mTailscale->peers()) {
-            if (peer->isMullvad()) {
-                continue;
-            }
-            auto *submenu = peer_menu->addMenu(loadOsIcon(peer->os()), peer->hostName());
-            create_action(submenu, peer->dnsName());
-            for (const auto &address : peer->tailscaleIps()) {
-                create_action(submenu, address);
-            }
-            submenu->addSection("Statistics");
-
-            // auto *statsDown = mTailscale->statistics()->speedDown(peer->id());
-            // auto *statsUp = mTailscale->statistics()->speedUp(peer->id());
-            // auto *actionDown = submenu->addAction(QIcon::fromTheme("cloud-download"), formatSpeedHumanReadable(statsDown->average()));
-            // auto *actionUp = submenu->addAction(QIcon::fromTheme("cloud-upload"), formatSpeedHumanReadable(statsUp->average()));
-
-            if (mTailscale->isOperator()) {
-                submenu->addSection("Taildrop Send");
-                submenu->addAction(QIcon::fromTheme(QStringLiteral("document-send")), "Send file(s)", [peer]() {
-                    TaildropSendJob::selectAndSendFiles(peer->dnsName());
-                });
-
-                // if (peer->isCurrentExitNode()) {
-                //     submenu->addAction(QIcon::fromTheme(QStringLiteral("internet-services")), "Unset exit node", []() {
-                //         unsetExitNode();
-                //     });
-                // } else if (peer->isExitNode()) {
-                //     submenu->addAction(QIcon::fromTheme(QStringLiteral("internet-services")), "Set as exit node", [peer]() {
-                //         setExitNode(peer->tailscaleIps().front());
-                //     });
-                // }
-
-                if (peer->isRunningSSH()) {
-                    submenu->addSection("SSH");
-                    submenu->addAction(QIcon::fromTheme(QStringLiteral("akonadiconsole")), "Copy SSH command", [peer]() {
-                        setClipboardText(peer->sshCommand());
-                    });
-                }
-            }
-
-            // QObject::connect(statsUp, &SpeedStatistics::refreshed, [actionUp, statsUp]() {
-            //     actionUp->setText(formatSpeedHumanReadable(statsUp->average()));
-            // });
-            // QObject::connect(statsDown, &SpeedStatistics::refreshed, [actionDown, statsDown]() {
-            //     actionDown->setText(formatSpeedHumanReadable(statsDown->average()));
-            // });
+        addPeerMenu(menu);
+        if (mTailscale->isOperator()) {
+            addExitNodeMenu(menu);
+            addToggleAction(menu);
         }
     }
 

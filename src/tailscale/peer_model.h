@@ -1,31 +1,17 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
-// SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
+#ifndef KTAILCTL_TAILSCALE_PEER_MODEL_H
+#define KTAILCTL_TAILSCALE_PEER_MODEL_H
 
-#ifndef KTAILCTL_MODELS_PEER_MODEL_H
-#define KTAILCTL_MODELS_PEER_MODEL_H
-
-#include "peer.h"
 #include "peer_data.h"
-
 #include <QAbstractListModel>
-#include <QVector>
-
-class Tailscale;
 
 class PeerModel : public QAbstractListModel
 {
     Q_OBJECT
 
-    friend class Tailscale;
-
-    // private:
-    //     QVector<PeerData> mData;
-
-    // public slots:
-    //     void updatePeers(const Status &status);
-    //
 private:
-    const QVector<Peer *> *mPeerList;
+    QVector<PeerData> mPeers;
+
+    QList<int> updateRow(int row, const PeerData &peer);
 
 public:
     enum Roles : int {
@@ -39,19 +25,27 @@ public:
         IsActiveRole,
         IsExitNodeRole,
         IsCurrentExitNodeRole,
-        SSHHostKeysRole,
         IsRunningSSHRole,
         SSHCommandRole,
         TagsRole,
         IsMullvadRole,
+        CountryRole,
+        CountryCodeRole,
+        CityRole,
+        CityCodeRole,
     };
 
-    explicit PeerModel(const QVector<Peer *> *peerList, QObject *parent = nullptr);
+    explicit PeerModel(QObject *parent = nullptr);
     virtual ~PeerModel() = default;
 
     int rowCount(const QModelIndex &parent) const override;
     QHash<int, QByteArray> roleNames() const override;
     QVariant data(const QModelIndex &index, int role) const override;
+
+    const QVector<PeerData> &peers() const;
+
+public slots:
+    void update(const QVector<PeerData> &peers);
 };
 
-#endif /* KTAILCTL_MODELS_PEER_MODEL_H */
+#endif /* KTAILCTL_TAILSCALE_PEER_MODEL_H */

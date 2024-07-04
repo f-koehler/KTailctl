@@ -1,7 +1,6 @@
 #include "test_data.h"
 #include "json.h"
-#include "location.h"
-#include "peer.h"
+#include "peer_data.h"
 
 #include <QString>
 #include <QStringLiteral>
@@ -37,35 +36,6 @@ void TestJSON::toQStringList()
     QCOMPARE(j_array_str2.size(), 2);
     QCOMPARE(j_array_str2[0], QStringLiteral("bar"));
     QCOMPARE(j_array_str2[1], QStringLiteral("baz"));
-}
-
-void TestJSON::toLocationData()
-{
-    const auto j = json::parse(R"(
-        {
-            "Country": "USA",
-            "CountryCode": "US",
-            "City": "San Jose, CA",
-            "CityCode": "SJC",
-            "Priority": 1
-        }
-    )");
-    const auto location = j.get<LocationData>();
-    QCOMPARE(location.country, QStringLiteral("USA"));
-    QCOMPARE(location.countryCode, QStringLiteral("US"));
-    QCOMPARE(location.city, QStringLiteral("San Jose, CA"));
-    QCOMPARE(location.cityCode, QStringLiteral("SJC"));
-    QCOMPARE(location.priority, 1);
-
-    QVERIFY(location == location);
-    QVERIFY(!(location != location));
-
-    auto location2 = j.get<LocationData>();
-    QVERIFY(location == location2);
-    QVERIFY(!(location != location2));
-    location2.city = QStringLiteral("San Francisco, CA");
-    QVERIFY(!(location == location2));
-    QVERIFY(location != location2);
 }
 
 void TestJSON::toPeerData()
@@ -112,34 +82,33 @@ void TestJSON::toPeerData()
         }
     )");
     const auto peer = j.get<PeerData>();
-    QCOMPARE(peer.id, QStringLiteral("n9ERQQ5CNTRL"));
-    QCOMPARE(peer.publicKey, QStringLiteral("nodekey:00d69102d8f1aa93e0a7bafd5634c37e704c8acf8ccd28025dced364c6b4567a"));
-    QCOMPARE(peer.hostName, QStringLiteral("gb-mnc-wg-007"));
-    QCOMPARE(peer.dnsName, QStringLiteral("gb-mnc-wg-007.mullvad.ts.net."));
-    QCOMPARE(peer.os, QStringLiteral(""));
-    QCOMPARE(peer.tailscaleIps.size(), 2);
-    QCOMPARE(peer.tailscaleIps[0], QStringLiteral("100.116.86.124"));
-    QCOMPARE(peer.tailscaleIps[1], QStringLiteral("fd7a:115c:a1e0:ab12:4843:cd96:6274:567c"));
-    QCOMPARE(peer.tags.size(), 1);
-    QCOMPARE(peer.tags[0], QStringLiteral("tag:mullvad-exit-node"));
-    QCOMPARE(peer.rxBytes, 0);
-    QCOMPARE(peer.txBytes, 0);
-    QCOMPARE(peer.created, QStringLiteral("2023-09-22T12:32:45.752541995Z"));
-    QCOMPARE(peer.lastSeen, QStringLiteral("0001-01-01T00:00:00Z"));
-    QCOMPARE(peer.isOnline, true);
-    QCOMPARE(peer.isCurrentExitNode, false);
-    QCOMPARE(peer.isExitNode, true);
-    QCOMPARE(peer.isActive, false);
-    QVERIFY(peer.sshHostKeys.isEmpty());
-    QCOMPARE(peer.tags.size(), 1);
-    QCOMPARE(peer.tags[0], QStringLiteral("tag:mullvad-exit-node"));
-    QVERIFY(peer.isMullvad);
-    QVERIFY(peer.location.has_value());
-    QCOMPARE(peer.location.value().country, QStringLiteral("UK"));
-    QCOMPARE(peer.location.value().countryCode, QStringLiteral("GB"));
-    QCOMPARE(peer.location.value().city, QStringLiteral("Manchester"));
-    QCOMPARE(peer.location.value().cityCode, QStringLiteral("MNC"));
-    QCOMPARE(peer.location.value().priority, 100);
+    QCOMPARE(peer.mId, QStringLiteral("n9ERQQ5CNTRL"));
+    QCOMPARE(peer.mPublicKey, QStringLiteral("nodekey:00d69102d8f1aa93e0a7bafd5634c37e704c8acf8ccd28025dced364c6b4567a"));
+    QCOMPARE(peer.mHostName, QStringLiteral("gb-mnc-wg-007"));
+    QCOMPARE(peer.mDnsName, QStringLiteral("gb-mnc-wg-007.mullvad.ts.net."));
+    QCOMPARE(peer.mOs, QStringLiteral(""));
+    QCOMPARE(peer.mTailscaleIps.size(), 2);
+    QCOMPARE(peer.mTailscaleIps[0], QStringLiteral("100.116.86.124"));
+    QCOMPARE(peer.mTailscaleIps[1], QStringLiteral("fd7a:115c:a1e0:ab12:4843:cd96:6274:567c"));
+    QCOMPARE(peer.mTags.size(), 1);
+    QCOMPARE(peer.mTags[0], QStringLiteral("tag:mullvad-exit-node"));
+    QCOMPARE(peer.mRxBytes, 0);
+    QCOMPARE(peer.mTxBytes, 0);
+    QCOMPARE(peer.mCreated, QStringLiteral("2023-09-22T12:32:45.752541995Z"));
+    QCOMPARE(peer.mLastSeen, QStringLiteral("0001-01-01T00:00:00Z"));
+    QCOMPARE(peer.mIsOnline, true);
+    QCOMPARE(peer.mIsCurrentExitNode, false);
+    QCOMPARE(peer.mIsExitNode, true);
+    QCOMPARE(peer.mIsActive, false);
+    QVERIFY(peer.mSshHostKeys.isEmpty());
+    QCOMPARE(peer.mTags.size(), 1);
+    QCOMPARE(peer.mTags[0], QStringLiteral("tag:mullvad-exit-node"));
+    QVERIFY(peer.mIsMullvad);
+
+    QCOMPARE(peer.mCountry, QStringLiteral("UK"));
+    QCOMPARE(peer.mCountryCode, QStringLiteral("GB"));
+    QCOMPARE(peer.mCity, QStringLiteral("Manchester"));
+    QCOMPARE(peer.mCityCode, QStringLiteral("MNC"));
 
     QVERIFY(peer == peer);
     QVERIFY(!(peer != peer));
@@ -147,7 +116,7 @@ void TestJSON::toPeerData()
     auto peer2 = j.get<PeerData>();
     QVERIFY(peer == peer2);
     QVERIFY(!(peer != peer2));
-    peer2.hostName = QStringLiteral("gb-mnc-wg-008");
+    peer2.mHostName = QStringLiteral("gb-mnc-wg-008");
     QVERIFY(!(peer == peer2));
     QVERIFY(peer != peer2);
 }

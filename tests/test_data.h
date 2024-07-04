@@ -10,7 +10,6 @@ class TestJSON : public QObject
 private slots:
     static void toQString();
     static void toQStringList();
-    static void toLocationData();
     static void toPeerData();
 };
 

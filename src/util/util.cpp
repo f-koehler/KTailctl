@@ -4,7 +4,6 @@
 #ifndef KTAILCTL_UTIL_UTIL_CPP
 #define KTAILCTL_UTIL_UTIL_CPP
 #include "util.h"
-#include "peer.h"
 
 #include "libktailctl_wrapper.h"
 #include <QClipboard>
@@ -123,27 +122,6 @@ qint64 toMSecsSinceEpoch(const QDateTime &dateTime)
     return dateTime.toMSecsSinceEpoch();
 }
 
-void setExitNode(const Peer *node)
-{
-    if (node == nullptr) {
-        unsetExitNode();
-        return;
-    }
-
-    GoUint8 false_ = 0;
-    tailscale_set_advertise_exit_node(&false_);
-
-    const QByteArray bytes = node->tailscaleIps().front().toUtf8();
-    GoString tmp{bytes.data(), bytes.size()};
-    tailscale_set_exit_node(&tmp);
-}
-
-void unsetExitNode()
-{
-    GoString tmp{nullptr, 0};
-    tailscale_set_exit_node(&tmp);
-}
-
 void Util::setClipboardText(const QString &text)
 {
     ::setClipboardText(text);
@@ -175,24 +153,6 @@ qint64 Util::toMSecsSinceEpoch(const QDateTime &dateTime)
 QIcon Util::loadOsIcon(const QString &operating_system)
 {
     return ::loadOsIcon(operating_system);
-}
-void Util::setExitNode(const Peer *node)
-{
-    ::setExitNode(node);
-}
-void Util::setExitNodeFromIP(const QString &ip)
-{
-    // TODO: get rid of this
-    GoUint8 false_ = 0;
-    tailscale_set_advertise_exit_node(&false_);
-
-    const QByteArray bytes = ip.toUtf8();
-    GoString tmp{bytes.data(), bytes.size()};
-    tailscale_set_exit_node(&tmp);
-}
-void Util::unsetExitNode()
-{
-    ::unsetExitNode();
 }
 
 #endif /* KTAILCTL_UTIL_UTIL_CPP */
