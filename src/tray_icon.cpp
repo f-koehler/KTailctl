@@ -78,7 +78,7 @@ void TrayIcon::addExitNodeMenu(QMenu *menu)
     if (mTailscale->hasSuggestedExitNode()) {
         const QIcon icon = (mTailscale->suggestedExitNode().mCountryCode.isEmpty())
             ? QIcon::fromTheme("network-vpn")
-            : QIcon(QString(":/country-flags/%1").arg(mTailscale->suggestedExitNode().mCountryCode.toLower()));
+            : QIcon(QString(":/country-flags/country-flag-%1").arg(mTailscale->suggestedExitNode().mCountryCode.toLower()));
         menuExitNodes->addAction(icon, QString("Use suggested: %1").arg(mTailscale->suggestedExitNode().mDnsName), [this]() {
             mTailscale->setExitNode(mTailscale->suggestedExitNode().mTailscaleIps.front());
         });
@@ -105,10 +105,10 @@ void TrayIcon::addMullvadMenu(QMenu *menu)
 
     for (int i = 0; i < numCountries; ++i) {
         const QModelIndex index = mullvadCountryModel->index(i, 0);
-        const QString countryCode = index.data(MullvadCountryModel::CountryCode).toString();
+        const QString countryCode = index.data(MullvadCountryModel::CountryCode).toString().toLower();
         countryMenus.insert(
             countryCode,
-            mullvadMenu->addMenu(QIcon(QString(":/country-flags/%1").arg(countryCode.toLower())), index.data(MullvadCountryModel::CountryName).toString()));
+            mullvadMenu->addMenu(QIcon(QString(":/country-flags/country-flag-%1").arg(countryCode)), index.data(MullvadCountryModel::CountryName).toString()));
     }
 
     // Add nodes to the country menus
@@ -117,10 +117,12 @@ void TrayIcon::addMullvadMenu(QMenu *menu)
     const int numNodes = mullvadNodeModel->rowCount({});
     for (int i = 0; i < numNodes; ++i) {
         const QModelIndex index = mullvadNodeModel->index(i, 0);
-        const QString countryCode = index.data(PeerModel::CountryCodeRole).toString();
-        countryMenus[countryCode]->addAction(QIcon::fromTheme("network-vpn"), index.data(PeerModel::DnsNameRole).toString(), [this, &index]() {
-            mTailscale->setExitNode(index.data(PeerModel::TailscaleIpsRole).toStringList().front());
-        });
+        const QString countryCode = index.data(PeerModel::CountryCodeRole).toString().toLower();
+        countryMenus[countryCode]->addAction(QIcon(QString(":/country-flags/country-flag-%1").arg(countryCode)),
+                                             index.data(PeerModel::DnsNameRole).toString(),
+                                             [this, &index]() {
+                                                 mTailscale->setExitNode(index.data(PeerModel::TailscaleIpsRole).toStringList().front());
+                                             });
     }
 }
 void TrayIcon::addExitNodeActions(QMenu *menu)
