@@ -59,6 +59,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
                         i18nc("@info:credit", "Project Maintainer"),
                         QStringLiteral("me@fkoehler.org"),
                         QStringLiteral("https://fkoehler.org"));
+    aboutData.setProgramLogo(QIcon(QStringLiteral(":/icons/logo.svg")));
     KAboutData::setApplicationData(aboutData);
 
     auto *about = new AboutType();
