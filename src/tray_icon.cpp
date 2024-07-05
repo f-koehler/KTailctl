@@ -22,7 +22,7 @@ TrayIcon::TrayIcon(QObject *parent)
     setContextMenu(new QMenu());
 
     QObject::connect(contextMenu(), &QMenu::aboutToShow, this, &TrayIcon::regenerate);
-    QObject::connect(mConfig, &KTailctlConfig::trayIconStyleChanged, this, &TrayIcon::updateIcon);
+    QObject::connect(mConfig, &KTailctlConfig::trayIconThemeChanged, this, &TrayIcon::updateIcon);
     QObject::connect(this, &QSystemTrayIcon::activated, [this](const QSystemTrayIcon::ActivationReason &reason) {
         switch (reason) {
         case QSystemTrayIcon::ActivationReason::Trigger:
@@ -218,22 +218,8 @@ void TrayIcon::regenerate()
 
 void TrayIcon::updateIcon()
 {
-    QString icon_path = ":/icons/";
-    if (mTailscale->backendState() == "Running") {
-        icon_path += "online";
-    } else {
-        icon_path += "offline";
-    }
-
-    const QString style = KTailctlConfig::trayIconStyle();
-    if (style == QStringLiteral("Breeze Dark")) {
-        icon_path += "-breeze-dark";
-    } else if (style == QStringLiteral("Breeze Light")) {
-        icon_path += "-breeze-light";
-    } else {
-        icon_path += "-colorful";
-    }
-    setIcon(QIcon(icon_path));
+    setIcon(QIcon(QString(":/icons/%1-%2")
+                      .arg((mTailscale->backendState() == "Running") ? QStringLiteral("online") : QStringLiteral("offline"), KTailctlConfig::trayIconTheme())));
 }
 
 void TrayIcon::setWindow(QQuickWindow *window)
