@@ -76,7 +76,10 @@ void TrayIcon::addExitNodeMenu(QMenu *menu)
         });
     }
     if (mTailscale->hasSuggestedExitNode()) {
-        menuExitNodes->addAction(QIcon::fromTheme("network-vpn"), QString("Use suggested: %1").arg(mTailscale->suggestedExitNode().mDnsName), [this]() {
+        const QIcon icon = (mTailscale->suggestedExitNode().mCountryCode.isEmpty())
+            ? QIcon::fromTheme("network-vpn")
+            : QIcon(QString(":/country-flags/%1").arg(mTailscale->suggestedExitNode().mCountryCode.toLower()));
+        menuExitNodes->addAction(icon, QString("Use suggested: %1").arg(mTailscale->suggestedExitNode().mDnsName), [this]() {
             mTailscale->setExitNode(mTailscale->suggestedExitNode().mTailscaleIps.front());
         });
     }
