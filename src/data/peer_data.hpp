@@ -1,5 +1,5 @@
-#ifndef KTAILCTL_DATA_PEER_DATA_H
-#define KTAILCTL_DATA_PEER_DATA_H
+#ifndef KTAILCTL_DATA_PEER_DATA_HPP
+#define KTAILCTL_DATA_PEER_DATA_HPP
 
 #include <optional>
 
@@ -7,7 +7,7 @@
 #include <QLoggingCategory>
 #include <QVariant>
 
-#include "json.h"
+#include "json.hpp"
 
 Q_DECLARE_LOGGING_CATEGORY(logcat_peer_data)
 
@@ -71,4 +71,4 @@ Q_DECLARE_METATYPE(PeerData)
 void from_json(const json &j, PeerData &p);
 void from_json(const json &j, QVector<PeerData> &peers);
 
-#endif /* KTAILCTL_DATA_PEER_DATA_H */
+#endif /* KTAILCTL_DATA_PEER_DATA_HPP */

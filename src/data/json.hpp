@@ -1,5 +1,5 @@
-#ifndef KTAILCTL_STLTYPES_H
-#define KTAILCTL_STLTYPES_H
+#ifndef KTAILCTL_DATA_JSON_HPP
+#define KTAILCTL_DATA_JSON_HPP
 
 #include <QDateTime>
 #include <QDebug>
@@ -12,4 +12,4 @@ using json = nlohmann::json;
 void from_json(const json &j, QString &string);
 void from_json(const json &j, QStringList &value);
 
-#endif /* KTAILCTL_STLTYPES_H */
+#endif /* KTAILCTL_DATA_JSON_HPP */

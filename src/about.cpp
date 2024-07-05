@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // PDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 
-#include "about.h"
+#include "about.hpp"
 #include <version.h>
 KAboutData AboutType::aboutData()
 {

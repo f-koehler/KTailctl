@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
-#include "tray_icon.h"
+#include "tray_icon.hpp"
 #include "ktailctlconfig.h"
-#include "taildrop_sender.h"
-#include "util.h"
+#include "taildrop_sender.hpp"
+#include "util.hpp"
 
 #include <QClipboard>
 #include <QFileDialog>

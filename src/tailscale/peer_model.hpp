@@ -1,7 +1,7 @@
-#ifndef KTAILCTL_TAILSCALE_PEER_MODEL_H
-#define KTAILCTL_TAILSCALE_PEER_MODEL_H
+#ifndef KTAILCTL_TAILSCALE_PEER_MODEL_HPP
+#define KTAILCTL_TAILSCALE_PEER_MODEL_HPP
 
-#include "peer_data.h"
+#include "peer_data.hpp"
 #include <QAbstractListModel>
 
 class PeerModel : public QAbstractListModel
@@ -48,4 +48,4 @@ public slots:
     void update(const QVector<PeerData> &peers);
 };
 
-#endif /* KTAILCTL_TAILSCALE_PEER_MODEL_H */
+#endif /* KTAILCTL_TAILSCALE_PEER_MODEL_HPP */

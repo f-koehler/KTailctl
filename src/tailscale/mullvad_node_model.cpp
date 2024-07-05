@@ -1,5 +1,5 @@
-#include "mullvad_node_model.h"
-#include "peer_model.h"
+#include "mullvad_node_model.hpp"
+#include "peer_model.hpp"
 
 MullvadNodeModel::MullvadNodeModel(QObject *parent)
     : QSortFilterProxyModel(parent)

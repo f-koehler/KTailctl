@@ -1,6 +1,6 @@
-#include "test_data.h"
-#include "json.h"
-#include "peer_data.h"
+#include "test_data.hpp"
+#include "json.hpp"
+#include "peer_data.hpp"
 
 #include <QString>
 #include <QStringLiteral>

@@ -1,5 +1,5 @@
-#ifndef KTAILCTL_PREFERENCES_H
-#define KTAILCTL_PREFERENCES_H
+#ifndef KTAILCTL_CONFIG_PREFERENCES_HPP
+#define KTAILCTL_CONFIG_PREFERENCES_HPP
 
 #include <QObject>
 
@@ -59,4 +59,4 @@ public:
     void setSSH(bool ssh);
 };
 
-#endif /* KTAILCTL_PREFERENCES_H */
+#endif /* KTAILCTL_CONFIG_PREFERENCES_HPP */

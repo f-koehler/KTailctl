@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
-#include "statistics.h"
+#include "statistics.hpp"
 #include "libktailctl_wrapper.h"
-#include "tailscale.h"
+#include "tailscale.hpp"
 
 #include <QFile>
 #include <QTextStream>

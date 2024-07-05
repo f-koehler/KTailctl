@@ -1,5 +1,5 @@
-#include "exit_node_model.h"
-#include "peer_model.h"
+#include "exit_node_model.hpp"
+#include "peer_model.hpp"
 
 ExitNodeModel::ExitNodeModel(QObject *parent)
     : QSortFilterProxyModel(parent)

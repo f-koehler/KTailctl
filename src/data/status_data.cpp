@@ -1,4 +1,4 @@
-#include "status_data.h"
+#include "status_data.hpp"
 
 Q_LOGGING_CATEGORY(logcat_status_data, "org.fkoehler.KTailctl.StatusData")
 

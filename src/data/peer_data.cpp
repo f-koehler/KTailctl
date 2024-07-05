@@ -1,4 +1,4 @@
-#include "peer_data.h"
+#include "peer_data.hpp"
 #include <iostream>
 
 Q_LOGGING_CATEGORY(logcat_peer_data, "org.fkoehler.KTailctl.PeerData")

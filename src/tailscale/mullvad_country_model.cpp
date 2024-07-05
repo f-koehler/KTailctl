@@ -1,4 +1,4 @@
-#include "mullvad_country_model.h"
+#include "mullvad_country_model.hpp"
 
 MullvadCountryModel::MullvadCountryModel(QObject *parent)
     : QAbstractListModel(parent)
