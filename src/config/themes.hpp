@@ -1,17 +1,17 @@
 
-#ifndef KTAILCTL_CONFIG_THEMES_HPP
-#define KTAILCTL_CONFIG_THEMES_HPP
+#ifndef KTAILCTL_GENERATE_ICONS_PY
+#define KTAILCTL_GENERATE_ICONS_PY
 
 #include <QStringList>
 
-static const QStringList themes = {QStringLiteral("+breeze-dark"),
-                                   QStringLiteral("+breeze-light"),
-                                   QStringLiteral("+colorful"),
-                                   QStringLiteral("+adwaita-dark"),
-                                   QStringLiteral("+adwaita-light"),
-                                   QStringLiteral("+catppuccin-latte"),
-                                   QStringLiteral("+catppuccin-frappe"),
-                                   QStringLiteral("+catppuccin-macchiato"),
-                                   QStringLiteral("+catppuccin-mocha")};
+static const QStringList TrayIconThemes = {QStringLiteral("breeze-light"),
+                                           QStringLiteral("breeze-dark"),
+                                           QStringLiteral("colorful"),
+                                           QStringLiteral("adwaita-dark"),
+                                           QStringLiteral("adwaita-light"),
+                                           QStringLiteral("catppuccin-latte"),
+                                           QStringLiteral("catppuccin-frappe"),
+                                           QStringLiteral("catppuccin-macchiato"),
+                                           QStringLiteral("catppuccin-mocha")};
 
-#endif /* KTAILCTL_CONFIG_THEMES_HPP */
+#endif /* KTAILCTL_GENERATE_ICONS_PY */

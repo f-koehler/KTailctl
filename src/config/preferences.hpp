@@ -4,7 +4,6 @@
 #include <QObject>
 
 #include "libktailctl_wrapper.h"
-#include "themes.hpp"
 
 class Preferences : public QObject
 {
@@ -16,6 +15,7 @@ class Preferences : public QObject
     Q_PROPERTY(QString operatorUser READ operatorUser WRITE setOperatorUser NOTIFY operatorUserChanged)
     Q_PROPERTY(bool shieldsUp READ shieldsUp WRITE setShieldsUp NOTIFY shieldsUpChanged)
     Q_PROPERTY(bool ssh READ ssh WRITE setSSH NOTIFY sshChanged)
+    Q_PROPERTY(QStringList trayIconThemes READ trayIconThemes CONSTANT)
 
 private:
     bool mAcceptRoutes{};
@@ -58,6 +58,8 @@ public:
     void setOperatorUser(const QString &operatorUser);
     void setShieldsUp(bool shieldsUp);
     void setSSH(bool ssh);
+
+    const QStringList &trayIconThemes();
 };
 
 #endif /* KTAILCTL_CONFIG_PREFERENCES_HPP */

@@ -1,4 +1,5 @@
 #include "preferences.hpp"
+#include "themes.hpp"
 
 Preferences::Preferences(QObject *parent)
     : QObject(parent)
@@ -146,4 +147,9 @@ void Preferences::setSSH(bool ssh)
         mSSH = ssh;
         emit sshChanged(mSSH);
     }
+}
+
+const QStringList &Preferences::trayIconThemes()
+{
+    return TrayIconThemes;
 }
