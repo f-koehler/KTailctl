@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include "libktailctl_wrapper.h"
+#include "themes.hpp"
 
 class Preferences : public QObject
 {
