@@ -24,8 +24,11 @@ FormCard.AbstractFormDelegate {
             color: root.enabled ? Kirigami.Theme.textColor : Kirigami.Theme.disabledTextColor
         }
 
-        Flow {
+        Item {
             Layout.fillWidth: true
+        }
+
+        Flow {
             spacing: Kirigami.Units.smallSpacing
 
             Repeater {
