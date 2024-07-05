@@ -29,6 +29,8 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 {
     qInstallMessageHandler(handleLogMessage);
 
+    QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths() << QStringLiteral(":/country-flags"));
+
 #ifdef __APPLE__
     QQuickStyle::setStyle(QStringLiteral("macOS"));
 #endif

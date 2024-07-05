@@ -26,6 +26,7 @@ Kirigami.ScrollablePage {
                     model: App.mullvadNodesForCountryModel
                     delegate: FormCard.FormButtonDelegate {
                         text: dnsName + " (" + city + ")"
+                        icon.name: "country-flag-" + countryCode.toLowerCase()
                         onClicked: {
                             Tailscale.setExitNode(tailscaleIps[0]);
                         }

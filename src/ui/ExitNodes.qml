@@ -96,7 +96,7 @@ Kirigami.ScrollablePage {
                     model: Tailscale.mullvadCountryModel
                     delegate: FormCard.FormButtonDelegate {
                         text: countryName
-                        icon.source: "qrc:country-flags/" + countryCode.toLowerCase() + ".svg"
+                        icon.name: "country-flag-" + countryCode.toLowerCase()
                         onClicked: {
                             App.mullvadNodesForCountryModel.setFilterFixedString(countryCode)
                             pageStack.layers.push("qrc:MullvadNodes.qml");
