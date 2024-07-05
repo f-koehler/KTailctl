@@ -18,7 +18,9 @@ Q_LOGGING_CATEGORY(logcat_app, "org.fkoehler.KTailctl.App")
 App::App(QObject *parent)
     : QObject(parent)
     , mConfig(KTailctlConfig::self())
+    , mPeerModel(new QSortFilterProxyModel(this))
     , mMullvadNodesForCountryModel(new QSortFilterProxyModel(this))
+    , mMullvadCountryModel(new QSortFilterProxyModel(this))
     , mTrayIcon(new TrayIcon(this))
 {
     // QObject::connect(tailscale->status(), &Status::refreshed, &mPeerDetails, &Peer::updateFromStatus);
@@ -27,27 +29,27 @@ App::App(QObject *parent)
 
     QObject::connect(Tailscale::instance(), &Tailscale::refreshed, this, &App::refreshDetails);
 
+    mPeerModel->setSourceModel(Tailscale::instance()->peerModel());
+    mPeerModel->setFilterRole(PeerModel::DnsNameRole);
     mMullvadNodesForCountryModel->setSourceModel(Tailscale::instance()->mullvadNodeModel());
     mMullvadNodesForCountryModel->setFilterRole(PeerModel::CountryCodeRole);
 
     if (KTailctlConfig::peerFilter() == "UNINITIALIZED") {
         Tailscale::instance()->refresh();
-        // const auto domain = Tailscale::instance()->self()->dnsName().section('.', 1);
-        // mPeerProxyModel->setFilterRegularExpression(domain);
-        // KTailctlConfig::setPeerFilter(domain);
+        const QString domain = Tailscale::instance()->self().mDnsName.section('.', 1);
+        mPeerModel->setFilterRegularExpression(domain);
+        KTailctlConfig::setPeerFilter(domain);
         mConfig->save();
     }
-    // mPeerProxyModel->setSourceModel(Tailscale::instance()->peerModel());
-    // mPeerProxyModel->setFilterRole(PeerModel::DnsNameRole);
 }
 
 KTailctlConfig *App::config()
 {
     return mConfig;
 }
-PeerModel *App::peerModel()
+QSortFilterProxyModel *App::peerModel()
 {
-    return Tailscale::instance()->peerModel();
+    return mPeerModel;
 }
 QSortFilterProxyModel *App::mullvadNodesForCountryModel()
 {

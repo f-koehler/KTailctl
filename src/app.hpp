@@ -23,13 +23,14 @@ class App : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(KTailctlConfig *config READ config CONSTANT)
-    Q_PROPERTY(PeerModel *peerModel READ peerModel CONSTANT)
+    Q_PROPERTY(QSortFilterProxyModel *peerModel READ peerModel CONSTANT)
     Q_PROPERTY(QSortFilterProxyModel *mullvadNodesForCountryModel READ mullvadNodesForCountryModel CONSTANT)
     Q_PROPERTY(PeerData peerDetails READ peerDetails NOTIFY peerDetailsChanged)
     // Q_PROPERTY(TrayIcon *trayIcon READ trayIcon CONSTANT)
 
 private:
     KTailctlConfig *mConfig;
+    QSortFilterProxyModel *mPeerModel;
     QSortFilterProxyModel *mMullvadNodesForCountryModel;
     bool mFilterInitialized = false;
 
@@ -48,7 +49,7 @@ public:
     virtual ~App() = default;
 
     KTailctlConfig *config();
-    PeerModel *peerModel();
+    QSortFilterProxyModel *peerModel();
     QSortFilterProxyModel *mullvadNodesForCountryModel();
     const PeerData &peerDetails() const;
     TrayIcon *trayIcon();
