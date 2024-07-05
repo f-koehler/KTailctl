@@ -56,6 +56,28 @@ Kirigami.ApplicationWindow {
         running: true
         repeat: true
     }
+    
+    Loader {
+        source: "qrc:About.qml"
+    }
+    Loader {
+        source: "qrc:ExitNodes.qml"
+    }
+    Loader {
+        source: "qrc:MullvadNodes.qml"
+    }
+    Loader {
+        source: "qrc:Peer.qml"
+    }
+    Loader {
+        source: "qrc:Self.qml"
+    }
+    Loader {
+        source: "qrc:Settings.qml"
+    }
+    Loader {
+        source: "qrc:Statistics.qml"
+    }
 
     globalDrawer: Kirigami.OverlayDrawer {
         id: drawer
