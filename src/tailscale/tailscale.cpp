@@ -106,7 +106,7 @@ void Tailscale::refresh()
     }
     json::parse(tailscale_status()).get_to(data);
     std::stable_sort(data.peers.begin(), data.peers.end(), [](const PeerData &a, const PeerData &b) {
-        return a.mId < b.mId;
+        return a.mDnsName < b.mDnsName;
     });
 
     QString suggestedExitNode;
