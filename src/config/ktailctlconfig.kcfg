@@ -14,7 +14,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <group name="General">
         <entry name="refreshInterval" type="Int">
             <label>Refresh interval for the tailscale status in milliseconds</label>
-            <default>500</default>
+            <default>1000</default>
         </entry>
     </group>
     <group name="Taildrop">
