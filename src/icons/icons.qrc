@@ -10,5 +10,6 @@
         <file>online-breeze-dark.svg</file>
         <file>offline-breeze-light.svg</file>
         <file>online-breeze-light.svg</file>
+        <file>logo.svg</file>
     </qresource>
 </RCC>
