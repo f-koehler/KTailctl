@@ -3,7 +3,7 @@
 
 #ifndef KTAILCTL_UTIL_UTIL_CPP
 #define KTAILCTL_UTIL_UTIL_CPP
-#include "util.h"
+#include "util.hpp"
 
 #include "libktailctl_wrapper.h"
 #include <QClipboard>

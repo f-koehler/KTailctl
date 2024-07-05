@@ -13,16 +13,16 @@
 #include <KLocalizedContext>
 #include <KLocalizedString>
 
-#include "about.h"
-#include "app.h"
-#include "logging.h"
-#include "peer_model.h"
-#include "preferences.h"
-#include "speed_statistics.h"
-#include "statistics.h"
-#include "taildrop_sender.h"
-#include "tailscale.h"
-#include "util.h"
+#include "about.hpp"
+#include "app.hpp"
+#include "logging.hpp"
+#include "peer_model.hpp"
+#include "preferences.hpp"
+#include "speed_statistics.hpp"
+#include "statistics.hpp"
+#include "taildrop_sender.hpp"
+#include "tailscale.hpp"
+#include "util.hpp"
 #include "version-ktailctl.h"
 
 Q_DECL_EXPORT int main(int argc, char *argv[])

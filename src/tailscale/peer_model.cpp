@@ -1,4 +1,4 @@
-#include "peer_model.h"
+#include "peer_model.hpp"
 #include <algorithm>
 
 PeerModel::PeerModel(QObject *parent)

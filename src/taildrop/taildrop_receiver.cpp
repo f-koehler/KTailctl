@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
-#include "taildrop_receiver.h"
+#include "taildrop_receiver.hpp"
 #include "libktailctl_wrapper.h"
-#include "util.h"
+#include "util.hpp"
 
 #include <QDebug>
 #include <QDir>

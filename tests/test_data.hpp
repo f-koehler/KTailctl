@@ -1,5 +1,5 @@
-#ifndef KTAILCTL_DATA_TEST_DATA_H
-#define KTAILCTL_DATA_TEST_DATA_H
+#ifndef KTAILCTL_TEST_DATA_HPP
+#define KTAILCTL_TEST_DATA_HPP
 
 #include <QTest>
 
@@ -13,4 +13,4 @@ private slots:
     static void toPeerData();
 };
 
-#endif /* KTAILCTL_DATA_TEST_DATA_H */
+#endif /* KTAILCTL_TEST_DATA_HPP */

@@ -1,13 +1,13 @@
-#ifndef KTAILCTL_TAILSCALE_TAILSCALE_H
-#define KTAILCTL_TAILSCALE_TAILSCALE_H
+#ifndef KTAILCTL_TAILSCALE_TAILSCALE_HPP
+#define KTAILCTL_TAILSCALE_TAILSCALE_HPP
 
 #include <QObject>
 
-#include "exit_node_model.h"
-#include "mullvad_country_model.h"
-#include "mullvad_node_model.h"
-#include "peer_model.h"
-#include "status_data.h"
+#include "exit_node_model.hpp"
+#include "mullvad_country_model.hpp"
+#include "mullvad_node_model.hpp"
+#include "peer_model.hpp"
+#include "status_data.hpp"
 
 class Tailscale : public QObject
 {
@@ -85,4 +85,4 @@ public slots:
     Q_INVOKABLE void unsetExitNode();
 };
 
-#endif /* KTAILCTL_TAILSCALE_TAILSCALE_H */
+#endif /* KTAILCTL_TAILSCALE_TAILSCALE_HPP */

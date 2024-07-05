@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 
-#include "app.h"
-#include "taildrop_receiver.h"
+#include "app.hpp"
+#include "taildrop_receiver.hpp"
 #include <KSharedConfig>
 #include <KWindowConfig>
 #include <QClipboard>

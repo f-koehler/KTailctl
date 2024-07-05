@@ -1,4 +1,4 @@
-#include "tailscale.h"
+#include "tailscale.hpp"
 #include "libktailctl_wrapper.h"
 
 Tailscale::Tailscale(QObject *parent)

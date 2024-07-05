@@ -1,7 +1,7 @@
-#ifndef KTAILCTL_DATA_STATUS_DATA_H
-#define KTAILCTL_DATA_STATUS_DATA_H
+#ifndef KTAILCTL_DATA_STATUS_DATA_HPP
+#define KTAILCTL_DATA_STATUS_DATA_HPP
 
-#include "peer_data.h"
+#include "peer_data.hpp"
 
 #include <QLoggingCategory>
 
@@ -17,4 +17,4 @@ struct StatusData {
 
 void from_json(const json &j, StatusData &s);
 
-#endif /* KTAILCTL_DATA_STATUS_DATA_H */
+#endif /* KTAILCTL_DATA_STATUS_DATA_HPP */

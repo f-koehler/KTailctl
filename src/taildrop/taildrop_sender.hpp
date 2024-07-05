@@ -1,5 +1,5 @@
-#ifndef KTAILCTL_TAILDROP_SENDER_H
-#define KTAILCTL_TAILDROP_SENDER_H
+#ifndef KTAILCTL_TAILDROP_TAILDROP_SENDER_HPP
+#define KTAILCTL_TAILDROP_TAILDROP_SENDER_HPP
 
 #include <KJob>
 #include <QLoggingCategory>
@@ -53,4 +53,4 @@ public:
     Q_INVOKABLE static void sendFiles(const QString &target, const QStringList &files);
 };
 
-#endif
+#endif /* KTAILCTL_TAILDROP_TAILDROP_SENDER_HPP */

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
-#ifndef KTAILCTL_TAILDROP_RECEIVER_H
-#define KTAILCTL_TAILDROP_RECEIVER_H
+#ifndef KTAILCTL_TAILDROP_TAILDROP_RECEIVER_HPP
+#define KTAILCTL_TAILDROP_TAILDROP_RECEIVER_HPP
 
 #include "ktailctlconfig.h"
 #include <QLoggingCategory>
@@ -48,4 +48,4 @@ signals:
     void strategyChanged(const QString &strategy);
 };
 
-#endif /* KTAILCTL_TAILDROP_RECEIVER_H */
+#endif /* KTAILCTL_TAILDROP_TAILDROP_RECEIVER_HPP */

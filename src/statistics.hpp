@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
-#ifndef KTAILCTL_STATISTICS_H
-#define KTAILCTL_STATISTICS_H
+#ifndef KTAILCTL_STATISTICS_HPP
+#define KTAILCTL_STATISTICS_HPP
 
-#include "speed_statistics.h"
+#include "speed_statistics.hpp"
 
 #include <QLoggingCategory>
 #include <QMap>
@@ -45,4 +45,4 @@ signals:
     void totalDownSpeedChanged();
 };
 
-#endif /* KTAILCTL_STATISTICS_H */
+#endif /* KTAILCTL_STATISTICS_HPP */

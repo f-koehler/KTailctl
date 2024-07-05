@@ -1,4 +1,4 @@
-#include "taildrop_sender.h"
+#include "taildrop_sender.hpp"
 #include "libktailctl_wrapper.h"
 #include <QDebug>
 #include <QDir>

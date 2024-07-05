@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 
-#ifndef KTAILCTL_APP_H
-#define KTAILCTL_APP_H
+#ifndef KTAILCTL_APP_HPP
+#define KTAILCTL_APP_HPP
 
 #include "ktailctlconfig.h"
-#include "peer_data.h"
-#include "peer_model.h"
-#include "tailscale.h"
-#include "tray_icon.h"
+#include "peer_data.hpp"
+#include "peer_model.hpp"
+#include "tailscale.hpp"
+#include "tray_icon.hpp"
 
 #include <QLoggingCategory>
 #include <QObject>
@@ -61,4 +61,4 @@ public:
     Q_INVOKABLE void setPeerDetails(const QString &id);
 };
 
-#endif /* KTAILCTL_APP_H */
+#endif /* KTAILCTL_APP_HPP */

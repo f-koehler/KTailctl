@@ -1,5 +1,5 @@
-#ifndef KTAILCTL_LOGGING_H
-#define KTAILCTL_LOGGING_H
+#ifndef KTAILCTL_LOGGING_HPP
+#define KTAILCTL_LOGGING_HPP
 
 #include <QFile>
 #include <QMessageLogContext>
@@ -7,4 +7,4 @@
 
 void handleLogMessage(QtMsgType type, const QMessageLogContext &context, const QString &message);
 
-#endif /* KTAILCTL_LOGGING_H */
+#endif /* KTAILCTL_LOGGING_HPP */

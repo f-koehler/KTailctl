@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
-#ifndef KTAILCTL_TRAY_ICON_H
-#define KTAILCTL_TRAY_ICON_H
+#ifndef KTAILCTL_TRAY_ICON_HPP
+#define KTAILCTL_TRAY_ICON_HPP
 
 #include "ktailctlconfig.h"
-#include "tailscale.h"
+#include "tailscale.hpp"
 
 #include <QQuickWindow>
 #include <QSystemTrayIcon>
@@ -38,4 +38,4 @@ public:
     void setWindow(QQuickWindow *window);
 };
 
-#endif /* KTAILCTL_TRAY_ICON_H */
+#endif /* KTAILCTL_TRAY_ICON_HPP */

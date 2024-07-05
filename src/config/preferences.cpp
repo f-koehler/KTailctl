@@ -1,4 +1,4 @@
-#include "preferences.h"
+#include "preferences.hpp"
 
 Preferences::Preferences(QObject *parent)
     : QObject(parent)
