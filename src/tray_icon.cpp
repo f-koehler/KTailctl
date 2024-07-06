@@ -6,6 +6,7 @@
 #include "util.hpp"
 
 #include <QClipboard>
+#include <QElapsedTimer>
 #include <QFileDialog>
 #include <QGuiApplication>
 #include <QIcon>
@@ -19,9 +20,68 @@ TrayIcon::TrayIcon(QObject *parent)
     , mConfig(KTailctlConfig::self())
 {
     updateIcon();
-    setContextMenu(new QMenu());
 
-    QObject::connect(contextMenu(), &QMenu::aboutToShow, this, &TrayIcon::regenerate);
+    mContextMenu = new QMenu();
+    setContextMenu(mContextMenu);
+
+    mOpenAction = mContextMenu->addAction(QIcon::fromTheme(QStringLiteral("window")), QStringLiteral("Open"), [this]() {
+        mWindow->show();
+    });
+    mContextMenu->addSeparator();
+    mToggleAction = mContextMenu->addAction(QStringLiteral("Toggle"), [this]() {
+        mTailscale->toggle();
+    });
+    mPeerMenu = mContextMenu->addMenu(QIcon::fromTheme(QStringLiteral("applications-network")), QStringLiteral("Peers"));
+    mExitNodeMenu = mContextMenu->addMenu(QIcon::fromTheme(QStringLiteral("internet-services")), QStringLiteral("Exit Nodes"));
+    mUnsetAction = mExitNodeMenu->addAction(QIcon::fromTheme(QStringLiteral("dialog-cancel")), QStringLiteral("Unset"));
+    mSuggestedAction = mExitNodeMenu->addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), QStringLiteral("Use suggested"));
+    mExitNodeMenu->addSeparator();
+    mMullvadMenu = mExitNodeMenu->addMenu(QIcon::fromTheme(QStringLiteral("network-vpn")), QStringLiteral("Mullvad"));
+    mSelfHostedMenu = mExitNodeMenu->addMenu(QIcon::fromTheme(QStringLiteral("network-vpn")), QStringLiteral("Self-hosted"));
+    mContextMenu->addSeparator();
+    mQuitAction = mContextMenu->addAction(QIcon::fromTheme(QStringLiteral("application-exit")), QStringLiteral("Quit"), [this]() {
+        emit quitClicked();
+    });
+
+    connect(mTailscale, &Tailscale::backendStateChanged, [this]() {
+        updateIcon();
+        if (mTailscale->backendState() == QStringLiteral("Running")) {
+            mToggleAction->setChecked(true);
+            mToggleAction->setText(QStringLiteral("Stop Tailscale"));
+            mToggleAction->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
+            buildPeerMenu(mPeerMenu);
+        } else {
+            mToggleAction->setChecked(false);
+            mToggleAction->setText(QStringLiteral("Start Tailscale"));
+            mToggleAction->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
+        }
+    });
+    connect(mTailscale, &Tailscale::successChanged, [this]() {
+        if (mTailscale->success()) {
+            buildPeerMenu(mPeerMenu);
+            mPeerMenu->setEnabled(true);
+            if (mTailscale->isOperator()) {
+                mToggleAction->setEnabled(true);
+                mExitNodeMenu->setEnabled(true);
+            }
+        } else {
+            mPeerMenu->setEnabled(false);
+            mToggleAction->setEnabled(false);
+            mExitNodeMenu->setEnabled(false);
+        }
+    });
+    connect(mTailscale, &Tailscale::isOperatorChanged, [this]() {
+        if (mTailscale->isOperator()) {
+            mToggleAction->setEnabled(true);
+            mPeerMenu->setEnabled(true);
+            mExitNodeMenu->setEnabled(true);
+        } else {
+            mToggleAction->setEnabled(false);
+            mPeerMenu->setEnabled(false);
+            mExitNodeMenu->setEnabled(false);
+        }
+    });
+
     QObject::connect(mConfig, &KTailctlConfig::trayIconThemeChanged, this, &TrayIcon::updateIcon);
     QObject::connect(this, &QSystemTrayIcon::activated, [this](const QSystemTrayIcon::ActivationReason &reason) {
         switch (reason) {
@@ -43,22 +103,6 @@ TrayIcon::TrayIcon(QObject *parent)
     });
 
     show();
-}
-
-void TrayIcon::addToggleAction(QMenu *menu)
-{
-    QAction *actionToggle = menu->addAction("Toggle", [this]() {
-        mTailscale->toggle();
-    });
-    if (mTailscale->backendState() == "Running") {
-        actionToggle->setChecked(true);
-        actionToggle->setText("Stop Tailscale");
-        actionToggle->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
-    } else {
-        actionToggle->setChecked(false);
-        actionToggle->setText("Start Tailscale");
-        actionToggle->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
-    }
 }
 
 void TrayIcon::addExitNodeMenu(QMenu *menu)
@@ -135,30 +179,25 @@ void TrayIcon::addExitNodeActions(QMenu *menu)
         });
     }
 }
-void TrayIcon::addPeerMenu(QMenu *menu)
+void TrayIcon::buildPeerMenu(QMenu *menu)
 {
-    QMenu *peerMenu = menu->addMenu(QIcon::fromTheme("applications-network"), "Peers");
-    const PeerModel *model = mTailscale->peerModel();
-    const int numPeers = model->rowCount({});
+    menu->clear();
+    const QVector<PeerData> &peers = mTailscale->peerModel()->peers();
 
     auto createCopyAction = [](QMenu *menu, const QString &text) {
-        auto *action = menu->addAction(QIcon::fromTheme("edit-copy"), text, [text]() {
+        QAction *action = menu->addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), text, [text]() {
             setClipboardText(text);
         });
         return action;
     };
 
-    for (int i = 0; i < numPeers; ++i) {
-        const QModelIndex index = model->index(i, 0);
-        const QString dnsName = index.data(PeerModel::DnsNameRole).toString();
-        if (index.data(PeerModel::IsMullvadRole).toBool()) {
+    for (const PeerData &peer : peers) {
+        if (peer.mIsMullvad) {
             continue;
         }
-
-        QMenu *submenu = peerMenu->addMenu(loadOsIcon(index.data(PeerModel::OsRole).toString()), dnsName);
-        createCopyAction(submenu, dnsName);
-        const QStringList ips = index.data(PeerModel::TailscaleIpsRole).toStringList();
-        for (const QString &ip : ips) {
+        QMenu *submenu = menu->addMenu(loadOsIcon(peer.mOs), peer.mDnsName);
+        createCopyAction(submenu, peer.mDnsName);
+        for (const QString &ip : peer.mTailscaleIps) {
             createCopyAction(submenu, ip);
         }
 
@@ -166,54 +205,21 @@ void TrayIcon::addPeerMenu(QMenu *menu)
             continue;
         }
 
-        submenu->addSection("Taildrop Send");
-        submenu->addAction(QIcon::fromTheme(QStringLiteral("document-send")), "Send file(s)", [&dnsName]() {
-            TaildropSendJob::selectAndSendFiles(dnsName);
+        submenu->addSection(QStringLiteral("Taildrop Send"));
+        submenu->addAction(QIcon::fromTheme(QStringLiteral("document-send")), QStringLiteral("Send file(s)"), [&peer]() {
+            TaildropSendJob::selectAndSendFiles(peer.mDnsName);
         });
 
-        if (index.data(PeerModel::IsCurrentExitNodeRole).toBool()) {
-            submenu->addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), "Unset exit node", [this]() {
+        if (peer.mIsCurrentExitNode) {
+            submenu->addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), QStringLiteral("Unset exit node"), [this]() {
                 mTailscale->unsetExitNode();
             });
-        } else if (index.data(PeerModel::IsExitNodeRole).toBool()) {
-            submenu->addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), "Set as exit node", [this, &index]() {
-                mTailscale->setExitNode(index.data(PeerModel::TailscaleIpsRole).toStringList().front());
+        } else if (peer.mIsExitNode) {
+            submenu->addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), QStringLiteral("Set as exit node"), [this, &peer]() {
+                mTailscale->setExitNode(peer.mTailscaleIps.front());
             });
         }
     }
-}
-
-void TrayIcon::regenerate()
-{
-    if (!isVisible()) {
-        return;
-    }
-
-    QMenu *menu = contextMenu();
-    menu->clear();
-
-    updateIcon();
-
-    if (mWindow != nullptr) {
-        menu->addAction(QIcon::fromTheme("window"), "Open", this, [this]() {
-            mWindow->show();
-        });
-        menu->addSeparator();
-    }
-
-    if (mTailscale->success()) {
-        addPeerMenu(menu);
-        if (mTailscale->isOperator()) {
-            addExitNodeMenu(menu);
-            addToggleAction(menu);
-        }
-    }
-
-    menu->addSeparator();
-    menu->addAction(QIcon::fromTheme("application-exit"), "Quit", [this]() {
-        emit quitClicked();
-    });
-    setContextMenu(menu);
 }
 
 void TrayIcon::updateIcon()
@@ -221,8 +227,13 @@ void TrayIcon::updateIcon()
     setIcon(QIcon(QString(":/icons/%1-%2")
                       .arg((mTailscale->backendState() == "Running") ? QStringLiteral("online") : QStringLiteral("offline"), KTailctlConfig::trayIconTheme())));
 }
+void TrayIcon::regenerate()
+{
+    buildPeerMenu(mPeerMenu);
+}
 
 void TrayIcon::setWindow(QQuickWindow *window)
 {
     mWindow = window;
+    mOpenAction->setVisible(mWindow != nullptr);
 }
