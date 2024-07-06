@@ -106,23 +106,19 @@ void TrayIcon::addMullvadMenu(QMenu *menu)
     for (int i = 0; i < numCountries; ++i) {
         const QModelIndex index = mullvadCountryModel->index(i, 0);
         const QString countryCode = index.data(MullvadCountryModel::CountryCode).toString().toLower();
-        countryMenus.insert(
-            countryCode,
-            mullvadMenu->addMenu(QIcon(QString(":/country-flags/country-flag-%1").arg(countryCode)), index.data(MullvadCountryModel::CountryName).toString()));
+        countryMenus.insert(countryCode, mullvadMenu->addMenu(QIcon(QString(":/country-flags/country-flag-%1").arg(countryCode)), countryCode));
     }
 
     // Add nodes to the country menus
     // The nodes are sorted by country code and then by DNS name
-    MullvadNodeModel *mullvadNodeModel = mTailscale->mullvadNodeModel();
-    const int numNodes = mullvadNodeModel->rowCount({});
-    for (int i = 0; i < numNodes; ++i) {
-        const QModelIndex index = mullvadNodeModel->index(i, 0);
-        const QString countryCode = index.data(PeerModel::CountryCodeRole).toString().toLower();
-        countryMenus[countryCode]->addAction(QIcon(QString(":/country-flags/country-flag-%1").arg(countryCode)),
-                                             index.data(PeerModel::DnsNameRole).toString(),
-                                             [this, &index]() {
-                                                 mTailscale->setExitNode(index.data(PeerModel::TailscaleIpsRole).toStringList().front());
-                                             });
+    for (const PeerData &node : mTailscale->peerModel()->peers()) {
+        if (!node.mIsMullvad) {
+            continue;
+        }
+        const QString countryCode = node.mCountryCode.toLower();
+        countryMenus[countryCode]->addAction(QIcon(QString(":/country-flags/country-flag-%1").arg(countryCode)), node.mDnsName, [this, &node]() {
+            mTailscale->setExitNode(node.mTailscaleIps.front());
+        });
     }
 }
 void TrayIcon::addExitNodeActions(QMenu *menu)

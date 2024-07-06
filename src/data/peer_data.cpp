@@ -68,10 +68,10 @@ void from_json(const json &j, PeerData &p)
             loc.at("City").get_to<QString>(p.mCity);
             loc.at("CityCode").get_to<QString>(p.mCityCode);
         } else {
-            p.mCountryCode = QStringLiteral("UNK");
-            p.mCountry = QStringLiteral("UNKNOWN");
-            p.mCityCode = QStringLiteral("UNK");
-            p.mCity = QStringLiteral("UNKNOWN");
+            p.mCountryCode.clear();
+            p.mCountry.clear();
+            p.mCityCode.clear();
+            p.mCity.clear();
         }
     } catch (json::exception &e) {
         qCCritical(logcat_peer_data) << "Error parsing peer data: " << e.what();
