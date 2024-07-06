@@ -20,7 +20,6 @@ App::App(QObject *parent)
     , mConfig(KTailctlConfig::self())
     , mPeerModel(new QSortFilterProxyModel(this))
     , mMullvadNodesForCountryModel(new QSortFilterProxyModel(this))
-    , mMullvadCountryModel(new QSortFilterProxyModel(this))
     , mTrayIcon(new TrayIcon(this))
 {
     // QObject::connect(tailscale->status(), &Status::refreshed, &mPeerDetails, &Peer::updateFromStatus);
