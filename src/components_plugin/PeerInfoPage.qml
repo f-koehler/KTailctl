@@ -81,10 +81,12 @@ Kirigami.ScrollablePage {
                 }
 
                 FormCard.FormDelegateSeparator {
+                    visible: !isSelf
                 }
 
                 KTailctlComponents.FormCopyLabelDelegate {
                     text: i18nc("@label", "Last seen:")
+                    visible: !isSelf
                     copyData: {
                         var duration = Util.formatDurationHumanReadable(peer.lastSeen);
                         if (duration == "")
