@@ -37,45 +37,11 @@ void MullvadCountryModel::update(const QMap<QString, QString> &countries)
     }
     beginResetModel();
     for (auto it = countries.cbegin(); it != countries.cend(); ++it) {
+        if (it->isEmpty()) {
+            continue;
+        }
         mCountries.append({it.key(), it.value()});
     }
+    qInfo() << mCountries;
     endResetModel();
 }
-
-// void MullvadCountryModel::update(const QVector<Peer> &mullvadNodes)
-// {
-//     Location *location = nullptr;
-//     for (Peer *node : mullvadNodes) {
-//         location = node->location();
-//         if (location == nullptr) {
-//             continue;
-//         }
-//         mCountriesNew.insert(location->countryCode(), location->country());
-//     }
-
-//     if (mCountries.size() > mCountriesNew.size()) {
-//         beginRemoveRows(QModelIndex(), mCountriesNew.size(), mCountries.size() - 1);
-//         mCountries.erase(mCountries.begin() + mCountriesNew.size(), mCountries.end());
-//         endRemoveRows();
-//     }
-
-//     if (!mCountries.isEmpty()) {
-//         int index = 0;
-//         for (auto it = mCountriesNew.cbegin(); it != mCountriesNew.cend(); ++it) {
-//             if (mCountries[index].first != mCountriesNew[it.key()]) {
-//                 mCountries[index].first = it.key();
-//                 mCountries[index].second = it.value();
-//                 emit dataChanged(createIndex(index, 0), createIndex(index, 0));
-//             }
-//             ++index;
-//         }
-//     }
-
-//     if (mCountries.size() < mCountriesNew.size()) {
-//         for (auto it = mCountriesNew.cbegin() + mCountries.size(); it != mCountriesNew.cend(); ++it) {
-//             beginInsertRows(QModelIndex(), mCountries.size(), mCountries.size());
-//             mCountries.append({it.key(), it.value()});
-//             endInsertRows();
-//         }
-//     }
-// }
