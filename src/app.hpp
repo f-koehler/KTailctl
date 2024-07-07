@@ -26,7 +26,7 @@ class App : public QObject
     Q_PROPERTY(QSortFilterProxyModel *peerModel READ peerModel CONSTANT)
     Q_PROPERTY(QSortFilterProxyModel *mullvadNodesForCountryModel READ mullvadNodesForCountryModel CONSTANT)
     Q_PROPERTY(PeerData peerDetails READ peerDetails NOTIFY peerDetailsChanged)
-    // Q_PROPERTY(TrayIcon *trayIcon READ trayIcon CONSTANT)
+    Q_PROPERTY(TrayIcon *trayIcon READ trayIcon CONSTANT)
 
 private:
     KTailctlConfig *mConfig;
