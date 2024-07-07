@@ -37,6 +37,7 @@ Kirigami.ScrollablePage {
                 FormCard.FormButtonDelegate {
                     text: "Unset current: " + Tailscale.currentExitNode.dnsName
                     visible: Tailscale.hasCurrentExitNode
+                    icon.name: "dialog-cancel"
                     onClicked: {
                         Tailscale.unsetExitNode();
                     }
@@ -45,6 +46,7 @@ Kirigami.ScrollablePage {
                 FormCard.FormButtonDelegate {
                     text: "Use suggested: " + Tailscale.suggestedExitNode.dnsName
                     visible: Tailscale.hasSuggestedExitNode
+                    icon.name: "country-flag-" + Tailscale.suggestedExitNode.countryCode.toLowerCase()
                     onClicked: {
                         Tailscale.setExitNode(Tailscale.suggestedExitNode.tailscaleIps[0]);
                     }
