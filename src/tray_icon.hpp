@@ -30,14 +30,16 @@ private:
     QMap<QString, QMenu *> mMullvadCountryMenus;
     QAction *mQuitAction;
 
-    void addExitNodeMenu(QMenu *menu);
-    void addMullvadMenu(QMenu *menu);
-    void addExitNodeActions(QMenu *menu);
-    void buildPeerMenu(QMenu *menu);
+    int mNumMullvadNodes;
 
 public slots:
     void updateIcon();
     void regenerate();
+    void buildSelfHostedMenu();
+    void buildMullvadMenu();
+    void buildPeerMenu();
+    void buildUseSuggestedAction();
+    void buildUnsetAction();
 
 signals:
     void quitClicked();

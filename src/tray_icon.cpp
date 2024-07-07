@@ -28,20 +28,27 @@ TrayIcon::TrayIcon(QObject *parent)
         mWindow->show();
     });
     mContextMenu->addSeparator();
-    mToggleAction = mContextMenu->addAction(QStringLiteral("Toggle"), [this]() {
-        mTailscale->toggle();
-    });
     mPeerMenu = mContextMenu->addMenu(QIcon::fromTheme(QStringLiteral("applications-network")), QStringLiteral("Peers"));
     mExitNodeMenu = mContextMenu->addMenu(QIcon::fromTheme(QStringLiteral("internet-services")), QStringLiteral("Exit Nodes"));
-    mUnsetAction = mExitNodeMenu->addAction(QIcon::fromTheme(QStringLiteral("dialog-cancel")), QStringLiteral("Unset"));
-    mSuggestedAction = mExitNodeMenu->addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), QStringLiteral("Use suggested"));
+    mUnsetAction = mExitNodeMenu->addAction(QIcon::fromTheme(QStringLiteral("dialog-cancel")), QStringLiteral("Unset"), [this] {
+        mTailscale->unsetExitNode();
+    });
+    mSuggestedAction = mExitNodeMenu->addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), QStringLiteral("Use suggested"), [this]() {
+        mTailscale->setExitNode(mTailscale->suggestedExitNode().mTailscaleIps.front());
+    });
     mExitNodeMenu->addSeparator();
     mMullvadMenu = mExitNodeMenu->addMenu(QIcon::fromTheme(QStringLiteral("network-vpn")), QStringLiteral("Mullvad"));
     mSelfHostedMenu = mExitNodeMenu->addMenu(QIcon::fromTheme(QStringLiteral("network-vpn")), QStringLiteral("Self-hosted"));
+    mToggleAction = mContextMenu->addAction(QStringLiteral("Toggle"), [this]() {
+        mTailscale->toggle();
+    });
     mContextMenu->addSeparator();
     mQuitAction = mContextMenu->addAction(QIcon::fromTheme(QStringLiteral("application-exit")), QStringLiteral("Quit"), [this]() {
         emit quitClicked();
     });
+
+    buildUnsetAction();
+    buildUseSuggestedAction();
 
     connect(mTailscale, &Tailscale::backendStateChanged, [this]() {
         updateIcon();
@@ -49,16 +56,18 @@ TrayIcon::TrayIcon(QObject *parent)
             mToggleAction->setChecked(true);
             mToggleAction->setText(QStringLiteral("Stop Tailscale"));
             mToggleAction->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
-            buildPeerMenu(mPeerMenu);
+            buildPeerMenu();
         } else {
             mToggleAction->setChecked(false);
             mToggleAction->setText(QStringLiteral("Start Tailscale"));
             mToggleAction->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
+            mExitNodeMenu->setEnabled(false);
         }
     });
     connect(mTailscale, &Tailscale::successChanged, [this]() {
         if (mTailscale->success()) {
-            buildPeerMenu(mPeerMenu);
+            buildPeerMenu();
+            buildMullvadMenu();
             mPeerMenu->setEnabled(true);
             if (mTailscale->isOperator()) {
                 mToggleAction->setEnabled(true);
@@ -81,9 +90,15 @@ TrayIcon::TrayIcon(QObject *parent)
             mExitNodeMenu->setEnabled(false);
         }
     });
+    connect(mTailscale, &Tailscale::hasSuggestedExitNodeChanged, this, &TrayIcon::buildUseSuggestedAction);
+    connect(mTailscale, &Tailscale::suggestedExitNodeChanged, this, &TrayIcon::buildUseSuggestedAction);
+    connect(mTailscale, &Tailscale::hasCurrentExitNodeChanged, this, &TrayIcon::buildUnsetAction);
+    connect(mTailscale, &Tailscale::currentExitNodeChanged, this, &TrayIcon::buildUnsetAction);
+    connect(mTailscale, &Tailscale::refreshed, this, &TrayIcon::buildMullvadMenu);
 
-    QObject::connect(mConfig, &KTailctlConfig::trayIconThemeChanged, this, &TrayIcon::updateIcon);
-    QObject::connect(this, &QSystemTrayIcon::activated, [this](const QSystemTrayIcon::ActivationReason &reason) {
+    connect(contextMenu(), &QMenu::aboutToShow, this, &TrayIcon::regenerate);
+    connect(mConfig, &KTailctlConfig::trayIconThemeChanged, this, &TrayIcon::updateIcon);
+    connect(this, &QSystemTrayIcon::activated, [this](const QSystemTrayIcon::ActivationReason &reason) {
         switch (reason) {
         case QSystemTrayIcon::ActivationReason::Trigger:
         case QSystemTrayIcon::ActivationReason::DoubleClick:
@@ -105,84 +120,60 @@ TrayIcon::TrayIcon(QObject *parent)
     show();
 }
 
-void TrayIcon::addExitNodeMenu(QMenu *menu)
+void TrayIcon::buildMullvadMenu()
 {
-    bool hasExitNodes = mTailscale->exitNodeModel()->rowCount() > 0;
-    bool hasMullvadNodes = mTailscale->mullvadNodeModel()->rowCount() > 0;
-    QMenu *menuExitNodes = nullptr;
-    if (!hasExitNodes && !hasMullvadNodes) {
+    // check if rebuild is necessary
+    const int newNumMullvadCountries = mTailscale->mullvadCountryModel()->rowCount({});
+    const int newNumMullvadNodes = mTailscale->mullvadNodeModel()->rowCount({});
+    if ((newNumMullvadCountries == mMullvadCountryMenus.size()) && (newNumMullvadNodes == mNumMullvadNodes)) {
         return;
     }
-    menuExitNodes = menu->addMenu(QIcon::fromTheme("internet-services"), "Exit Nodes");
-    if (mTailscale->hasCurrentExitNode()) {
-        menuExitNodes->addAction(QIcon::fromTheme("dialog-cancel"), QString("Unset %1").arg(mTailscale->currentExitNode().mDnsName), [this]() {
-            mTailscale->unsetExitNode();
-        });
+    mNumMullvadNodes = newNumMullvadNodes;
+
+    // clear mullvad menu
+    for (auto &countryMenu : mMullvadCountryMenus) {
+        countryMenu->clear();
     }
-    if (mTailscale->hasSuggestedExitNode()) {
-        const QIcon icon = (mTailscale->suggestedExitNode().mCountryCode.isEmpty())
-            ? QIcon::fromTheme("network-vpn")
-            : QIcon(QString(":/country-flags/country-flag-%1").arg(mTailscale->suggestedExitNode().mCountryCode.toLower()));
-        menuExitNodes->addAction(icon, QString("Use suggested: %1").arg(mTailscale->suggestedExitNode().mDnsName), [this]() {
-            mTailscale->setExitNode(mTailscale->suggestedExitNode().mTailscaleIps.front());
-        });
-    }
-    if (hasMullvadNodes) {
-        addMullvadMenu(menuExitNodes);
-        if (hasExitNodes) {
-            menuExitNodes->addSeparator();
+
+    // create per-country menus
+    if (newNumMullvadCountries != mMullvadCountryMenus.size()) {
+        mMullvadMenu->clear();
+        for (int i = 0; i < newNumMullvadCountries; ++i) {
+            const QModelIndex index = mTailscale->mullvadCountryModel()->index(i, 0);
+            const QString countryCode = index.data(MullvadCountryModel::CountryCode).toString().toLower();
+            QMenu *countryMenu = mMullvadMenu->addMenu(QIcon(QString(":/country-flags/country-flag-%1").arg(countryCode)), countryCode);
+            mMullvadCountryMenus.insert(countryCode, countryMenu);
         }
-    }
-    if (hasExitNodes) {
-        addExitNodeActions(menuExitNodes);
-    }
-}
-
-void TrayIcon::addMullvadMenu(QMenu *menu)
-{
-    QMenu *mullvadMenu = menu->addMenu(QIcon::fromTheme("network-vpn"), "Mullvad");
-    MullvadCountryModel *mullvadCountryModel = mTailscale->mullvadCountryModel();
-
-    // Create a menu for each country
-    const int numCountries = mullvadCountryModel->rowCount({});
-    QMap<QString, QMenu *> countryMenus;
-
-    for (int i = 0; i < numCountries; ++i) {
-        const QModelIndex index = mullvadCountryModel->index(i, 0);
-        const QString countryCode = index.data(MullvadCountryModel::CountryCode).toString().toLower();
-        countryMenus.insert(
-            countryCode,
-            mullvadMenu->addMenu(QIcon(QString(":/country-flags/country-flag-%1").arg(countryCode)), index.data(MullvadCountryModel::CountryName).toString()));
     }
 
     // Add nodes to the country menus
     // The nodes are sorted by country code and then by DNS name
-    MullvadNodeModel *mullvadNodeModel = mTailscale->mullvadNodeModel();
-    const int numNodes = mullvadNodeModel->rowCount({});
-    for (int i = 0; i < numNodes; ++i) {
-        const QModelIndex index = mullvadNodeModel->index(i, 0);
+    for (int i = 0; i < newNumMullvadNodes; ++i) {
+        const QModelIndex index = mTailscale->mullvadNodeModel()->index(i, 0);
         const QString countryCode = index.data(PeerModel::CountryCodeRole).toString().toLower();
-        countryMenus[countryCode]->addAction(QIcon(QString(":/country-flags/country-flag-%1").arg(countryCode)),
-                                             index.data(PeerModel::DnsNameRole).toString(),
-                                             [this, &index]() {
-                                                 mTailscale->setExitNode(index.data(PeerModel::TailscaleIpsRole).toStringList().front());
-                                             });
+        mMullvadCountryMenus[countryCode]->addAction(QIcon(QString(":/country-flags/country-flag-%1").arg(countryCode)),
+                                                     index.data(PeerModel::DnsNameRole).toString(),
+                                                     [this, &index]() {
+                                                         mTailscale->setExitNode(index.data(PeerModel::TailscaleIpsRole).toStringList().front());
+                                                     });
     }
 }
-void TrayIcon::addExitNodeActions(QMenu *menu)
+
+void TrayIcon::buildSelfHostedMenu()
 {
+    mSelfHostedMenu->clear();
     const int numNodes = mTailscale->exitNodeModel()->rowCount();
     for (int i = 0; i < numNodes; ++i) {
         const QModelIndex index = mTailscale->exitNodeModel()->index(i, 0);
-        menu->addAction(QIcon::fromTheme("network-vpn"), index.data(PeerModel::DnsNameRole).toString(), [this, &index]() {
+        mSelfHostedMenu->addAction(loadOsIcon(index.data(PeerModel::OsRole).toString()), index.data(PeerModel::DnsNameRole).toString(), [this, index]() {
             mTailscale->setExitNode(index.data(PeerModel::TailscaleIpsRole).toStringList().front());
         });
     }
 }
-void TrayIcon::buildPeerMenu(QMenu *menu)
+
+void TrayIcon::buildPeerMenu()
 {
-    menu->clear();
-    const QVector<PeerData> &peers = mTailscale->peerModel()->peers();
+    mPeerMenu->clear();
 
     auto createCopyAction = [](QMenu *menu, const QString &text) {
         QAction *action = menu->addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), text, [text]() {
@@ -191,11 +182,11 @@ void TrayIcon::buildPeerMenu(QMenu *menu)
         return action;
     };
 
-    for (const PeerData &peer : peers) {
+    for (const PeerData &peer : mTailscale->peerModel()->peers()) {
         if (peer.mIsMullvad) {
             continue;
         }
-        QMenu *submenu = menu->addMenu(loadOsIcon(peer.mOs), peer.mDnsName);
+        QMenu *submenu = mPeerMenu->addMenu(loadOsIcon(peer.mOs), peer.mDnsName);
         createCopyAction(submenu, peer.mDnsName);
         for (const QString &ip : peer.mTailscaleIps) {
             createCopyAction(submenu, ip);
@@ -221,6 +212,29 @@ void TrayIcon::buildPeerMenu(QMenu *menu)
         }
     }
 }
+void TrayIcon::buildUseSuggestedAction()
+{
+    mSuggestedAction->setEnabled(mTailscale->hasSuggestedExitNode());
+    if (mTailscale->hasSuggestedExitNode()) {
+        mSuggestedAction->setText(QStringLiteral("Use suggested (%1)").arg(mTailscale->suggestedExitNode().mDnsName));
+        if (!mTailscale->suggestedExitNode().mCountryCode.isEmpty()) {
+            mSuggestedAction->setIcon(QIcon(QString(":/country-flags/country-flag-%1").arg(mTailscale->suggestedExitNode().mCountryCode.toLower())));
+        } else {
+            mSuggestedAction->setIcon(loadOsIcon(mTailscale->suggestedExitNode().mOs));
+        }
+    } else {
+        mSuggestedAction->setText(QStringLiteral("No suggestion"));
+    }
+}
+void TrayIcon::buildUnsetAction()
+{
+    mUnsetAction->setEnabled(mTailscale->hasCurrentExitNode());
+    if (mTailscale->hasCurrentExitNode()) {
+        mUnsetAction->setText(QStringLiteral("Unset (%1)").arg(mTailscale->currentExitNode().mDnsName));
+    } else {
+        mUnsetAction->setText(QStringLiteral("None set"));
+    }
+}
 
 void TrayIcon::updateIcon()
 {
@@ -229,7 +243,8 @@ void TrayIcon::updateIcon()
 }
 void TrayIcon::regenerate()
 {
-    buildPeerMenu(mPeerMenu);
+    buildPeerMenu();
+    buildSelfHostedMenu();
 }
 
 void TrayIcon::setWindow(QQuickWindow *window)
