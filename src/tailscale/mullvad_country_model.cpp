@@ -42,6 +42,5 @@ void MullvadCountryModel::update(const QMap<QString, QString> &countries)
         }
         mCountries.append({it.key(), it.value()});
     }
-    qInfo() << mCountries;
     endResetModel();
 }
