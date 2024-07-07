@@ -18,15 +18,28 @@ private:
     QQuickWindow *mWindow{};
     KTailctlConfig *mConfig;
 
-    void addToggleAction(QMenu *menu);
-    void addExitNodeMenu(QMenu *menu);
-    void addMullvadMenu(QMenu *menu);
-    void addExitNodeActions(QMenu *menu);
-    void addPeerMenu(QMenu *menu);
+    QMenu *mContextMenu;
+    QAction *mOpenAction;
+    QAction *mToggleAction;
+    QMenu *mPeerMenu;
+    QMenu *mExitNodeMenu;
+    QAction *mUnsetAction;
+    QAction *mSuggestedAction;
+    QMenu *mMullvadMenu;
+    QMenu *mSelfHostedMenu;
+    QMap<QString, QMenu *> mMullvadCountryMenus;
+    QAction *mQuitAction;
+
+    int mNumMullvadNodes;
 
 public slots:
-    void regenerate();
     void updateIcon();
+    void regenerate();
+    void buildSelfHostedMenu();
+    void buildMullvadMenu();
+    void buildPeerMenu();
+    void buildUseSuggestedAction();
+    void buildUnsetAction();
 
 signals:
     void quitClicked();

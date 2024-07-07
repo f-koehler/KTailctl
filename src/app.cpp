@@ -22,7 +22,6 @@ App::App(QObject *parent)
     , mMullvadNodesForCountryModel(new QSortFilterProxyModel(this))
     , mTrayIcon(new TrayIcon(this))
 {
-    // QObject::connect(tailscale->status(), &Status::refreshed, &mPeerDetails, &Peer::updateFromStatus);
     QObject::connect(Tailscale::instance(), &Tailscale::backendStateChanged, mTrayIcon, &TrayIcon::regenerate);
     QObject::connect(mTrayIcon, &TrayIcon::quitClicked, this, &App::quitApp);
 
