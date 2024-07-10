@@ -25,7 +25,7 @@
     kdePackages.qtsvg
     nlohmann_json
     cmake-format
-    cmake-lint
+    # cmake-lint
     python3Full
 
     libsForQt5.plasma-sdk # for cuttlefish icon browser, not yet updated for Plasma 6
