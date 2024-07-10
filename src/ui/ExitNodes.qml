@@ -46,7 +46,7 @@ Kirigami.ScrollablePage {
                 FormCard.FormButtonDelegate {
                     text: "Use suggested: " + Tailscale.suggestedExitNode.dnsName
                     visible: Tailscale.hasSuggestedExitNode
-                    icon.name: "country-flag-" + Tailscale.suggestedExitNode.countryCode.toLowerCase()
+                    icon.name: Tailscale.suggestedExitNode.isMullvad ? "country-flag-" + Tailscale.suggestedExitNode.countryCode.toLowerCase() : "network-vpn"
                     onClicked: {
                         Tailscale.setExitNode(Tailscale.suggestedExitNode.tailscaleIps[0]);
                     }
@@ -75,6 +75,7 @@ Kirigami.ScrollablePage {
                     model: Tailscale.exitNodeModel
                     delegate: FormCard.FormButtonDelegate {
                         text: dnsName
+                        icon.name:  "network-vpn"
                         onClicked: {
                             Tailscale.setExitNode(tailscaleIps[0]);
                         }
