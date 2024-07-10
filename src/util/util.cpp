@@ -75,6 +75,13 @@ QString formatSpeedHumanReadable(double bytes_per_second)
 
 QString formatDurationHumanReadable(const QDateTime &startTime, const QDateTime &endTime)
 {
+    // for whatever reason tailscale uses the following special datetime to denote "now"
+    static const QDateTime tailscaleNow = QDateTime(QDate(1, 1, 1), QTime(0, 0, 0, 0), Qt::UTC);
+
+    if ((startTime == tailscaleNow) || (startTime == endTime)) {
+        return QStringLiteral("");
+    }
+
     static constexpr std::array<qint64, 6> conversions = {365LL * 30LL * 24LL * 60LL * 60LL * 1000LL,
                                                           34 * 30LL * 60LL * 60LL * 1000LL,
                                                           24LL * 60LL * 60LL * 1000LL,
