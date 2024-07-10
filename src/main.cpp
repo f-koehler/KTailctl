@@ -18,8 +18,6 @@
 #include "logging.hpp"
 #include "peer_model.hpp"
 #include "preferences.hpp"
-#include "speed_statistics.hpp"
-#include "statistics.hpp"
 #include "taildrop_sender.hpp"
 #include "tailscale.hpp"
 #include "util.hpp"
@@ -85,8 +83,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Util", util);
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "TaildropSender", taildropSender);
 
-    qmlRegisterType<SpeedStatistics>("org.fkoehler.KTailctl", 1, 0, "SpeedStatistics");
-    qmlRegisterType<Statistics>("org.fkoehler.KTailctl", 1, 0, "Statistics");
     qmlRegisterType<KTailctlConfig>("org.fkoehler.KTailctl", 1, 0, "KTailctlConfig");
 
     engine.rootContext()->setContextObject(new KLocalizedContext(&engine));

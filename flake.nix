@@ -53,6 +53,7 @@
             kdePackages.qtbase
             kdePackages.qtdeclarative
             kdePackages.qtsvg
+            kdePackages.kquickcharts
             nlohmann_json
             cmake-format
           ];
