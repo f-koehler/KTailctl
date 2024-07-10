@@ -6,7 +6,7 @@
 <component type="desktop-application">
   <id>org.fkoehler.KTailctl</id>
   <name>KTailctl</name>
-  <summary>GUI for Tailscale mesh network</summary>
+  <summary>Manage and monitor Tailscale</summary>
   <metadata_license>FSFAP</metadata_license>
   <project_license>GPL-3.0+</project_license>
   <developer_name>Fabian Köhler</developer_name>
@@ -23,8 +23,20 @@
   </description>
   <screenshots>
     <screenshot type="default">
-      <caption>Main window of KTailctl</caption>
-      <image>https://raw.githubusercontent.com/f-koehler/KTailctl/main/screenshots/main.png</image>
+      <image>https://raw.githubusercontent.com/f-koehler/KTailctl/main/screenshots/peerlist.png</image>
+      <caption>Tailscale peer list</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/f-koehler/KTailctl/main/screenshots/peerdetails.png</image>
+      <caption>Detailed peer information</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/f-koehler/KTailctl/main/screenshots/exitnodes.png</image>
+      <caption>Exit node management</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/f-koehler/KTailctl/main/screenshots/settings.png</image>
+      <caption>Management of app and Tailscale settings</caption>
     </screenshot>
   </screenshots>
   <releases>
