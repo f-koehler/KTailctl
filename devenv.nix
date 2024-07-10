@@ -23,6 +23,8 @@
     kdePackages.qtbase
     kdePackages.qtdeclarative
     kdePackages.qtsvg
+    kdePackages.kquickcharts
+    kdePackages.kdeclarative
     nlohmann_json
     cmake-format
     cmake-lint

@@ -18,8 +18,6 @@ add_executable(
   app.cpp
   logging.cpp
   main.cpp
-  speed_statistics.cpp
-  statistics.cpp
   tray_icon.cpp
   icons/icons.qrc
   ui/ui.qrc
