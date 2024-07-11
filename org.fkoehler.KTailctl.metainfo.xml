@@ -40,6 +40,17 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.17.1" date="2024-07-12" urgency="critical">
+      <description>
+        <p>Fix a bug that causes KTailctl to consume a lot of memory over time.</p>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.17.1</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.17.1.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.17.0" date="2024-07-10" urgency="medium">
       <description>
         <p>This update refactors most of the backend of the app and improves the performance of the
