@@ -99,12 +99,12 @@ void Tailscale::refresh()
             }
             return;
         }
+        if (!mSuccess) {
+            mSuccess = true;
+            emit successChanged(mSuccess);
+        }
+        json::parse(jsonStr.get()).get_to(data);
     }
-    if (!mSuccess) {
-        mSuccess = true;
-        emit successChanged(mSuccess);
-    }
-    json::parse(tailscale_status()).get_to(data);
     std::stable_sort(data.peers.begin(), data.peers.end(), [](const PeerData &a, const PeerData &b) {
         return a.mDnsName < b.mDnsName;
     });
