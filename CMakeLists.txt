@@ -27,6 +27,7 @@ set(CMAKE_CXX_FLAGS
     -Wno-c99-extensions \
     -Wno-c++98-compat \
 ")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer")
 
 find_package(ECM ${KF6_MIN_VERSION} REQUIRED NO_MODULE)
 find_package(Git REQUIRED)
