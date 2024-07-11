@@ -38,21 +38,23 @@ void Preferences::refresh()
         }
     }
 
-    char *tmpString = tailscale_get_hostname();
-    if (tmpString != nullptr) {
-        const std::unique_ptr<char, decltype(&free)> tmpStringPtr(tmpString, free);
-        if (mHostname != tmpString) {
-            mHostname = tmpString;
-            emit hostnameChanged(mHostname);
+    {
+        std::unique_ptr<char, decltype(&free)> tmpString(tailscale_get_hostname(), free);
+        if (tmpString != nullptr) {
+            if (mHostname != tmpString.get()) {
+                mHostname = tmpString.get();
+                emit hostnameChanged(mHostname);
+            }
         }
     }
 
-    tmpString = tailscale_get_operator_user();
-    if (tmpString != nullptr) {
-        const std::unique_ptr<char, decltype(&free)> tmpStringPtr(tmpString, free);
-        if (mOperatorUser != tmpString) {
-            mOperatorUser = tmpString;
-            emit operatorUserChanged(mOperatorUser);
+    {
+        std::unique_ptr<char, decltype(&free)> tmpString(tailscale_get_operator_user(), free);
+        if (tmpString != nullptr) {
+            if (mOperatorUser != tmpString.get()) {
+                mOperatorUser = tmpString.get();
+                emit operatorUserChanged(mOperatorUser);
+            }
         }
     }
 }
