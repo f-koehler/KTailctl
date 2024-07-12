@@ -33,7 +33,9 @@
     libsForQt5.kirigami-gallery # version in Plasma 6 currently broken in nixpkgs
     gdb
     lldb
+    heaptrack # for memory-leak checking
   ];
+
   # https://devenv.sh/scripts/
   # scripts.hello.exec = "echo hello from $GREET";
 
