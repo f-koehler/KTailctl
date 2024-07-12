@@ -69,6 +69,7 @@ Kirigami.ScrollablePage {
                 KTailctlComponents.FormCopyLabelDelegate {
                     text: i18nc("@label", "Created:")
                     copyData: {
+                        if (!peer.created ) { return "undefined"; }
                         var duration = Util.formatDurationHumanReadable(peer.created);
                         if (duration == "")
                             return "now";
@@ -88,6 +89,7 @@ Kirigami.ScrollablePage {
                     text: i18nc("@label", "Last seen:")
                     visible: !isSelf
                     copyData: {
+                        if (!peer.lastSeen ) { return "undefined"; }
                         var duration = Util.formatDurationHumanReadable(peer.lastSeen);
                         if (duration == "")
                             return "now";
