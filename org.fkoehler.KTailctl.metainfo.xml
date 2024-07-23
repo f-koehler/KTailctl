@@ -40,6 +40,21 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.17.2" date="2024-07-23" urgency="low">
+      <description>
+        <p>Update for Tailscale 1.70.0.</p>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.17.2</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.17.2.tar.gz</location>
+        </artifact>
+        <artifact type="source">
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.17.2/tailwrap-vendor-v0.17.2.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.17.1" date="2024-07-12" urgency="critical">
       <description>
         <p>Fix a bug that causes KTailctl to consume a lot of memory over time.</p>
