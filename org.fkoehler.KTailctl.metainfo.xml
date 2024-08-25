@@ -42,7 +42,7 @@
   <releases>
     <release version="0.17.2" date="2024-07-23" urgency="low">
       <description>
-        <p>Update for Tailscale 1.70.0.</p>
+        <p>Fix setting exit node from peers page.</p>
       </description>
       <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.17.2</url>
       <artifacts>
