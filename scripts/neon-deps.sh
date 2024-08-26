@@ -18,6 +18,7 @@ PACKAGES=(
     libkf6notifications-dev
     libqt6quickcontrols2-6
     libqt6svg6-dev
+    nlohmann-json3-dev
     pkg-config
     qt6-base-dev
     qt6-declarative-dev

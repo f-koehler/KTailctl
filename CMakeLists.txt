@@ -63,12 +63,6 @@ find_package(
 find_package(KF6 ${KF6_MIN_VERSION} REQUIRED
              COMPONENTS Config CoreAddons GuiAddons I18n Kirigami Notifications)
 find_package(nlohmann_json)
-if(NOT nlohmann_json_FOUND)
-  set(JSON_BuildTests
-      OFF
-      CACHE INTERNAL "")
-  add_subdirectory(deps/json)
-endif()
 
 add_subdirectory(src)
 add_subdirectory(tests)
