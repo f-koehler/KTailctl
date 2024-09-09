@@ -10,47 +10,47 @@ import org.kde.kirigami 2.19 as Kirigami
 Kirigami.ScrollablePage {
     id: peers
 
-    objectName: "Peers"
     Layout.fillWidth: true
+    objectName: "Peers"
     title: i18n("Peers")
+
     actions: [
         Kirigami.Action {
-            text: "DNS Regex"
             icon.name: "search"
+            text: "DNS Regex"
 
             displayComponent: Kirigami.SearchField {
                 id: peerFilter
 
                 text: App.config.peerFilter
+
                 onAccepted: {
                     App.peerModel.setFilterRegularExpression(peerFilter.text);
                     App.config.peerFilter = peerFilter.text;
                     App.config.save();
                 }
             }
-
         }
     ]
 
     Kirigami.CardsListView {
         id: listPeers
 
+        headerPositioning: ListView.OverlayHeader
         model: App.peerModel
         visible: Tailscale.success
-        headerPositioning: ListView.OverlayHeader
 
         delegate: Kirigami.AbstractCard {
-
             contentItem: Item {
-                implicitWidth: delegateLayout.implicitWidth
                 implicitHeight: delegateLayout.implicitHeight
+                implicitWidth: delegateLayout.implicitWidth
 
                 GridLayout {
                     id: delegateLayout
 
-                    rowSpacing: Kirigami.Units.largeSpacing
                     columnSpacing: Kirigami.Units.smallSpacing
                     columns: 3
+                    rowSpacing: Kirigami.Units.largeSpacing
 
                     anchors {
                         left: parent.left
@@ -65,11 +65,12 @@ Kirigami.ScrollablePage {
                     ColumnLayout {
                         RowLayout {
                             Kirigami.Chip {
-                                text: dnsName
-                                icon.name: "edit-copy"
-                                closable: false
                                 checkable: false
                                 checked: false
+                                closable: false
+                                icon.name: "edit-copy"
+                                text: dnsName
+
                                 onClicked: {
                                     Util.setClipboardText(dnsName);
                                 }
@@ -108,58 +109,60 @@ Kirigami.ScrollablePage {
                                 model: tailscaleIps
 
                                 Kirigami.Chip {
-                                    text: modelData
-                                    icon.name: "edit-copy"
-                                    closable: false
                                     checkable: false
                                     checked: false
+                                    closable: false
+                                    icon.name: "edit-copy"
+                                    text: modelData
+
                                     onClicked: {
                                         Util.setClipboardText(modelData);
                                     }
                                 }
-
                             }
-
                         }
-
                     }
 
                     ColumnLayout {
                         Controls.Button {
-                            text: i18nc("@label", "Menu")
+                            Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
+                            Controls.ToolTip.text: text
+                            Controls.ToolTip.visible: hovered
+                            display: Controls.Button.IconOnly
                             icon.name: "menu_new"
+                            text: i18nc("@label", "Menu")
+
                             onClicked: {
                                 menu.open();
                             }
-                            display: Controls.Button.IconOnly
-                            Controls.ToolTip.text: text
-                            Controls.ToolTip.visible: hovered
-                            Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
 
                             Controls.Menu {
                                 id: menu
 
                                 Controls.MenuItem {
-                                    text: i18nc("@label", "Copy SSH command")
                                     icon.name: "akonadiconsole"
+                                    text: i18nc("@label", "Copy SSH command")
                                     visible: isRunningSSH
+
                                     onClicked: {
                                         Util.setClipboardText(sshCommand);
                                     }
                                 }
 
                                 Controls.MenuItem {
-                                    text: i18nc("@label", "Send file(s)")
                                     icon.name: "document-send"
+                                    text: i18nc("@label", "Send file(s)")
+
                                     onClicked: {
                                         TaildropSender.selectAndSendFiles(dnsName);
                                     }
                                 }
 
                                 Controls.MenuItem {
-                                    text: i18nc("@label", isCurrentExitNode ? "Unset exit node" : "Use exit node")
                                     icon.name: "internet-services"
+                                    text: i18nc("@label", isCurrentExitNode ? "Unset exit node" : "Use exit node")
                                     visible: isExitNode && !Preferences.advertiseExitNode
+
                                     onClicked: {
                                         if (isCurrentExitNode)
                                             Tailscale.unsetExitNode();
@@ -167,42 +170,36 @@ Kirigami.ScrollablePage {
                                             Tailscale.setExitNode(dnsName);
                                     }
                                 }
-
                             }
-
                         }
 
                         Controls.Button {
-                            text: i18nc("@label", "Details")
+                            Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
+                            Controls.ToolTip.text: text
+                            Controls.ToolTip.visible: hovered
+                            display: Controls.Button.IconOnly
                             icon.name: "view-list-details"
+                            text: i18nc("@label", "Details")
+
                             onClicked: {
                                 App.setPeerDetails(tailscaleID);
                                 pageStack.layers.push('qrc:Peer.qml');
                             }
-                            display: Controls.Button.IconOnly
-                            Controls.ToolTip.text: text
-                            Controls.ToolTip.visible: hovered
-                            Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
                         }
-
                     }
-
                 }
 
                 DropArea {
                     anchors.fill: parent
-                    onEntered: {
-                        drag.accept(Qt.LinkAction);
-                    }
+
                     onDropped: {
                         TaildropSender.sendFiles(dnsName, Util.fileUrlsToStrings(drop.urls));
                     }
+                    onEntered: {
+                        drag.accept(Qt.LinkAction);
+                    }
                 }
-
             }
-
         }
-
     }
-
 }

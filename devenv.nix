@@ -105,6 +105,13 @@
       entry = "flawfinder --error-level=0 ./src";
     };
 
+    # QML
+    qmlformat = {
+      enable = true;
+      types = ["qml"];
+      entry = "qmlformat -i -n --objects-spacing --functions-spacing";
+    };
+
     # Go
     gofmt.enable = true;
     gofumpt = {

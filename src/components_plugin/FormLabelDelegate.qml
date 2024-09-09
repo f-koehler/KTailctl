@@ -16,11 +16,11 @@ FormCard.AbstractFormDelegate {
         spacing: Kirigami.Units.largeSpacing
 
         Controls.Label {
-            text: root.text
-            elide: Text.ElideRight
-            wrapMode: Text.Wrap
-            maximumLineCount: 2
             color: root.enabled ? Kirigami.Theme.textColor : Kirigami.Theme.disabledTextColor
+            elide: Text.ElideRight
+            maximumLineCount: 2
+            text: root.text
+            wrapMode: Text.Wrap
         }
 
         Item {
@@ -28,17 +28,15 @@ FormCard.AbstractFormDelegate {
         }
 
         Controls.Label {
-            text: root.label
-            elide: Text.ElideRight
-            wrapMode: Text.Wrap
-            maximumLineCount: 2
             color: root.enabled ? Kirigami.Theme.textColor : Kirigami.Theme.disabledTextColor
+            elide: Text.ElideRight
+            maximumLineCount: 2
+            text: root.label
+            wrapMode: Text.Wrap
         }
 
         Item {
             implicitWidth: Kirigami.Units.iconSizes.small
         }
-
     }
-
 }
