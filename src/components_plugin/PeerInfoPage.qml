@@ -59,7 +59,7 @@ Kirigami.ScrollablePage {
                 spacing: 0
 
                 KTailctlComponents.FormCopyLabelDelegate {
-                    copyData: peer.hostName
+                    copyData: root.peer.hostName
                     text: i18nc("@label", "Hostname:")
                 }
 
@@ -67,7 +67,7 @@ Kirigami.ScrollablePage {
                 }
 
                 KTailctlComponents.FormCopyLabelDelegate {
-                    copyData: peer.dnsName
+                    copyData: root.peer.dnsName
                     text: i18nc("@label", "DNS name:")
                 }
 
@@ -75,7 +75,7 @@ Kirigami.ScrollablePage {
                 }
 
                 KTailctlComponents.FormCopyLabelDelegate {
-                    copyData: peer.tailscaleID
+                    copyData: root.peer.tailscaleID
                     text: i18nc("@label", "Tailscale ID:")
                 }
 
@@ -84,7 +84,7 @@ Kirigami.ScrollablePage {
 
                 KTailctlComponents.FormCopyLabelDelegate {
                     copyData: {
-                        if (!peer.created) {
+                        if (!root.peer.created) {
                             return "undefined";
                         }
                         var duration = Util.formatDurationHumanReadable(peer.created);
@@ -101,12 +101,12 @@ Kirigami.ScrollablePage {
                 }
 
                 FormCard.FormDelegateSeparator {
-                    visible: !isSelf
+                    visible: !root.isSelf
                 }
 
                 KTailctlComponents.FormCopyLabelDelegate {
                     copyData: {
-                        if (!peer.lastSeen) {
+                        if (!root.peer.lastSeen) {
                             return "undefined";
                         }
                         var duration = Util.formatDurationHumanReadable(peer.lastSeen);
@@ -116,7 +116,7 @@ Kirigami.ScrollablePage {
                             return duration + " ago";
                     }
                     text: i18nc("@label", "Last seen:")
-                    visible: !isSelf
+                    visible: !root.isSelf
 
                     onClicked: {
                         Util.setClipboardText(Util.toMSecsSinceEpoch(peer.lastSeen));
@@ -124,31 +124,31 @@ Kirigami.ScrollablePage {
                 }
 
                 FormCard.FormDelegateSeparator {
-                    visible: peer.os != ""
+                    visible: root.peer.os != ""
                 }
 
                 KTailctlComponents.FormCopyLabelDelegate {
-                    copyData: peer.os
+                    copyData: root.peer.os
                     text: i18nc("@label", "OS:")
-                    visible: peer.os != ""
+                    visible: root.peer.os != ""
                 }
 
                 FormCard.FormDelegateSeparator {
                 }
 
                 KTailctlComponents.FormCopyChipsDelegate {
-                    model: peer.tailscaleIps
+                    model: root.peer.tailscaleIps
                     text: i18nc("@label", "Addresses:")
                 }
 
                 FormCard.FormDelegateSeparator {
-                    visible: peer.tags.length > 0
+                    visible: root.peer.tags.length > 0
                 }
 
                 KTailctlComponents.FormCopyChipsDelegate {
-                    model: peer.tags
+                    model: root.peer.tags
                     text: i18nc("@label", "Tags:")
-                    visible: peer.tags.length > 0
+                    visible: root.peer.tags.length > 0
                 }
             }
         }
@@ -166,8 +166,8 @@ Kirigami.ScrollablePage {
                 spacing: 0
 
                 KTailctlComponents.FormLabeledIconDelegate {
-                    label: peer.isExitNode ? "Yes" : "No"
-                    source: peer.isExitNode ? "dialog-ok" : "dialog-cancel"
+                    label: root.peer.isExitNode ? "Yes" : "No"
+                    source: root.peer.isExitNode ? "dialog-ok" : "dialog-cancel"
                     text: i18nc("@label", "Exit node:")
                 }
 
@@ -175,12 +175,12 @@ Kirigami.ScrollablePage {
                 }
 
                 FormCard.FormSwitchDelegate {
-                    checked: peer.isCurrentExitNode
-                    enabled: peer.isExitNode && !Preferences.advertiseExitNode
+                    checked: root.peer.isCurrentExitNode
+                    enabled: root.peer.isExitNode && !Preferences.advertiseExitNode
                     text: i18nc("@label", "Use this exit node:")
 
                     onToggled: {
-                        if (peer.isCurrentExitNode)
+                        if (root.peer.isCurrentExitNode)
                             Tailscale.unsetExitNode();
                         else
                             Tailscale.setExitNode(peer.tailscaleIps[0]);
@@ -202,8 +202,8 @@ Kirigami.ScrollablePage {
                 spacing: 0
 
                 KTailctlComponents.FormLabeledIconDelegate {
-                    label: peer.isRunningSSH() ? "Yes" : "No"
-                    source: peer.isRunningSSH() ? "dialog-ok" : "dialog-cancel"
+                    label: root.peer.isRunningSSH() ? "Yes" : "No"
+                    source: root.peer.isRunningSSH() ? "dialog-ok" : "dialog-cancel"
                     text: i18nc("@label", "Runs Tailscale SSH:")
                 }
 
@@ -212,7 +212,7 @@ Kirigami.ScrollablePage {
 
                 KTailctlComponents.FormCopyLabelDelegate {
                     copyData: i18nc("@label", "Copy")
-                    enabled: peer.isRunningSSH()
+                    enabled: root.peer.isRunningSSH()
                     text: i18nc("@label", "SSH command:")
 
                     onClicked: {
@@ -226,19 +226,19 @@ Kirigami.ScrollablePage {
             Layout.fillWidth: true
             Layout.topMargin: Kirigami.Units.largeSpacing
             title: i18nc("@title:group", "Location")
-            visible: peer.location != null
+            visible: root.peer.location != null
         }
 
         FormCard.FormCard {
             Layout.fillWidth: true
-            visible: peer.location != null
+            visible: root.peer.location != null
 
             ColumnLayout {
                 spacing: 0
 
                 KTailctlComponents.FormLabeledIconDelegate {
-                    label: peer.location == null ? "" : peer.location.country + " (" + peer.location.countryCode + ")"
-                    source: peer.location == null ? "question" : "qrc:/country-flags/" + peer.location.countryCode.toLowerCase() + ".svg"
+                    label: root.peer.location == null ? "" : peer.location.country + " (" + peer.location.countryCode + ")"
+                    source: root.peer.location == null ? "question" : "qrc:/country-flags/" + peer.location.countryCode.toLowerCase() + ".svg"
                     text: i18nc("@label", "Country:")
 
                     onClicked: {
@@ -250,7 +250,7 @@ Kirigami.ScrollablePage {
                 }
 
                 KTailctlComponents.FormLabelDelegate {
-                    label: peer.location == null ? "" : peer.location.city + " (" + peer.location.cityCode + ")"
+                    label: root.peer.location == null ? "" : peer.location.city + " (" + peer.location.cityCode + ")"
                     text: i18nc("@label", "City:")
 
                     onClicked: {

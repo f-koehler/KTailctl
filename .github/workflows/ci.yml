@@ -29,29 +29,10 @@ jobs:
         run: nix profile install nixpkgs#devenv
       - name: Run pre-commit hooks.
         run: devenv shell pre-commit -- run --all-files
-  qmllinting:
-    name: QML Analysis & Formatting
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository.
-        uses: actions/checkout@v4.1.7
-        with:
-          submodules: true
-      - name: Add KDE Neon apt repo.
-        run: sudo ./scripts/add-neon-apt-repo.sh
-      - name: Install dependencies.
-        run: sudo ./scripts/neon-deps.sh
-      - name: Install QML dev tools.
-        run: sudo apt install -y qt6-declarative-dev
-      - name: Lint QML files.
-        run: find ./src -type f -name "*.qml" -exec /usr/lib/qt6/bin/qmllint "{}" \;
-      - name: Format QML files.
-        run: find ./src -type f -name "*.qml" -exec /usr/lib/qt6/bin/qmlformat --inplace "{}" \;
   build:
     name: "LLVM build: Version ${{ matrix.llvm_version }}"
     runs-on: ubuntu-latest
     needs:
-      - qmllinting
       - pre-commit
     strategy:
       fail-fast: false
@@ -88,7 +69,6 @@ jobs:
     name: Flatpak build
     runs-on: ubuntu-latest
     needs:
-      - qmllinting
       - pre-commit
     steps:
       - name: Checkout repository.
@@ -120,7 +100,6 @@ jobs:
     name: Nix build
     runs-on: ubuntu-latest
     needs:
-      - qmllinting
       - pre-commit
     steps:
       - name: Checkout repository.

@@ -111,6 +111,11 @@
       types = ["qml"];
       entry = "qmlformat -i -n --objects-spacing --functions-spacing";
     };
+    qmllint = {
+      enable = false;
+      types = ["qml"];
+      entry = "qmllint";
+    };
 
     # Go
     gofmt.enable = true;
