@@ -34,6 +34,12 @@
     gdb
     lldb
     heaptrack # for memory-leak checking
+
+    gosec
+    go-critic
+    gofumpt
+    go-tools
+    gotools
   ];
 
   # https://devenv.sh/scripts/
@@ -75,6 +81,31 @@
 
     # Go
     gofmt.enable = true;
+    gofumpt = {
+      enable = true;
+      entry = "gofumpt -l -w";
+      types = ["go"];
+    };
+    gosec = {
+      enable = false;
+      pass_filenames = false;
+      entry = "gosec src/wrapper";
+    };
+    go-critic = {
+      enable = true;
+      pass_filenames = false;
+      entry = "gocritic check src/wrapper";
+    };
+    gostaticcheck = {
+      enable = true;
+      pass_filenames = false;
+      entry = "staticcheck ./src/wrapper";
+    };
+    goimports = {
+      enable = true;
+      entry = "goimports -w";
+      types = ["go"];
+    };
 
     # CMake
     cmake-format.enable = true;
