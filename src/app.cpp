@@ -103,14 +103,20 @@ void App::quitApp()
 
 void App::refreshDetails()
 {
-    for (const PeerData &peer : Tailscale::instance()->peerModel()->peers()) {
-        if (peer.mId == mPeerDetails.mId) {
-            if (peer != mPeerDetails) {
-                mPeerDetails = peer;
-                emit peerDetailsChanged(peer);
-            }
-            return;
-        }
+    if (std::find_if(Tailscale::instance()->peerModel()->peers().begin(),
+                     Tailscale::instance()->peerModel()->peers().end(),
+                     [this](const PeerData &peer) {
+                         if (peer.mId == mPeerDetails.mId) {
+                             if (peer != mPeerDetails) {
+                                 mPeerDetails = peer;
+                                 emit peerDetailsChanged(peer);
+                             }
+                             return true;
+                         }
+                         return false;
+                     })
+        != Tailscale::instance()->peerModel()->peers().end()) {
+        return;
     }
     mPeerDetails = Tailscale::instance()->peerModel()->peers().front();
     emit peerDetailsChanged(mPeerDetails);

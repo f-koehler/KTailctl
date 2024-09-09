@@ -141,6 +141,8 @@ void TrayIcon::buildMullvadMenu()
         for (int i = 0; i < newNumMullvadCountries; ++i) {
             const QModelIndex index = mTailscale->mullvadCountryModel()->index(i, 0);
             const QString countryCode = index.data(MullvadCountryModel::CountryCode).toString().toLower();
+
+            // cppcheck-suppress constVariablePointer
             QMenu *countryMenu = mMullvadMenu->addMenu(QIcon(QString(":/country-flags/country-flag-%1").arg(countryCode)), countryCode);
             mMullvadCountryMenus.insert(countryCode, countryMenu);
         }

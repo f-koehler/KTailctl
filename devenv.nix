@@ -35,6 +35,11 @@
     lldb
     heaptrack # for memory-leak checking
 
+    # C++ linting
+    flawfinder
+    cppcheck
+
+    # Go linting
     gosec
     go-critic
     gofumpt
@@ -78,6 +83,27 @@
 
     # C++
     clang-format.enable = true;
+    cppcheck = {
+      enable = true;
+      types = ["c++"];
+      entry = ''
+        cppcheck \
+            --check-level=exhaustive \
+            --enable=performance \
+            --enable=portability \
+            --enable=style \
+            --enable=warning \
+            --library=qt \
+            --error-exitcode=1 \
+            --inline-suppr \
+            --suppress=unusedStructMember
+      '';
+    };
+    flawfinder = {
+      enable = true;
+      pass_filenames = false;
+      entry = "flawfinder --error-level=0 ./src";
+    };
 
     # Go
     gofmt.enable = true;

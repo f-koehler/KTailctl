@@ -29,28 +29,6 @@ jobs:
         run: nix profile install nixpkgs#devenv
       - name: Run pre-commit hooks.
         run: devenv shell pre-commit -- run --all-files
-  cpplinting:
-    name: "C++ Linting: ${{ matrix.check.script }}"
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        check:
-          - script: cppcheck
-            dependencies: "cppcheck"
-          - script: flawfinder
-            dependencies: "flawfinder"
-    steps:
-      - name: Checkout repository.
-        uses: actions/checkout@v4.1.7
-        with:
-          submodules: true
-      - name: Setup nix.
-        uses: cachix/install-nix-action@v27
-        with:
-          nix_path: nixpkgs=channel:nixos-unstable
-      - name: Run ${{ matrix.check.script }}.
-        run: nix-shell -p ${{ matrix.check.dependencies }} --run "./scripts/${{ matrix.check.script }}.sh"
   qmllinting:
     name: QML Analysis & Formatting
     runs-on: ubuntu-latest
@@ -74,7 +52,6 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - qmllinting
-      - cpplinting
       - pre-commit
     strategy:
       fail-fast: false
@@ -112,7 +89,6 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - qmllinting
-      - cpplinting
       - pre-commit
     steps:
       - name: Checkout repository.
@@ -145,7 +121,6 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - qmllinting
-      - cpplinting
       - pre-commit
     steps:
       - name: Checkout repository.
