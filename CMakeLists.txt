@@ -1,6 +1,3 @@
-# SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
-# SPDX-License-Identifier: BSD-3-Clause
-
 cmake_minimum_required(VERSION 3.24)
 
 project(
@@ -43,8 +40,8 @@ include(ECMGenerateHeaders)
 include(ECMPoQmTools)
 # include(KDEClangFormat)
 
-# include(KDEGitCommitHooks) file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES
-# *.cpp *.h *.hpp *.c) kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
+# include(KDEGitCommitHooks) file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES *.cpp *.h *.hpp *.c)
+# kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
 
 # kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
 ecm_setup_version(${PROJECT_VERSION} VARIABLE_PREFIX TAILCTL VERSION_HEADER
@@ -60,8 +57,7 @@ find_package(
              Svg
              Test
              Widgets)
-find_package(KF6 ${KF6_MIN_VERSION} REQUIRED
-             COMPONENTS Config CoreAddons GuiAddons I18n Kirigami Notifications)
+find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS Config CoreAddons GuiAddons I18n Kirigami Notifications)
 find_package(nlohmann_json)
 
 add_subdirectory(src)
@@ -83,13 +79,9 @@ endif()
 message(STATUS "Version from git: ${KTAILCTL_VERSION}")
 configure_file(version.h.in ${CMAKE_CURRENT_BINARY_DIR}/src/version.h @ONLY)
 
-install(PROGRAMS org.fkoehler.KTailctl.desktop
-        DESTINATION ${KDE_INSTALL_APPDIR})
-install(FILES org.fkoehler.KTailctl.metainfo.xml
-        DESTINATION ${KDE_INSTALL_METAINFODIR})
+install(PROGRAMS org.fkoehler.KTailctl.desktop DESTINATION ${KDE_INSTALL_APPDIR})
+install(FILES org.fkoehler.KTailctl.metainfo.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 install(FILES KTailctl.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
-install(FILES org.fkoehler.KTailctl.svg
-        DESTINATION ${KDE_INSTALL_FULL_ICONDIR}/hicolor/scalable/apps)
+install(FILES org.fkoehler.KTailctl.svg DESTINATION ${KDE_INSTALL_FULL_ICONDIR}/hicolor/scalable/apps)
 
-feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES
-                         FATAL_ON_MISSING_REQUIRED_PACKAGES)
+feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)

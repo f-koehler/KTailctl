@@ -1,5 +1,4 @@
-# SPDX-License-Identifier: BSD-3-Clause SPDX-FileCopyrightText: 2023 Fabian
-# Köhler <me@fkoehler.org>
+# SPDX-License-Identifier: BSD-3-Clause SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 
 include(CheckIPOSupported)
 check_ipo_supported(RESULT ipo_supported OUTPUT ipo_output)
@@ -37,9 +36,8 @@ target_link_libraries(
   KTailctl::WrapperLogging
   KTailctl::Wrapper)
 
-target_include_directories(
-  ktailctl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/src
-                   ${CMAKE_BINARY_DIR}/lib)
+target_include_directories(ktailctl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/src
+                                            ${CMAKE_BINARY_DIR}/lib)
 target_link_directories(ktailctl PRIVATE ${CMAKE_BINARY_DIR}/lib)
 add_dependencies(ktailctl ktailctl_wrapper_target)
 

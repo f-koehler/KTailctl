@@ -25,7 +25,7 @@
     kdePackages.qtsvg
     nlohmann_json
     cmake-format
-    # cmake-lint
+    cmake-lint
     python3Full
     flatpak-builder
 
@@ -146,7 +146,16 @@
     };
 
     # CMake
-    cmake-format.enable = true;
+    cmake-format = {
+      enable = true;
+      types = ["cmake"];
+      entry = "cmake-format -c .cmake.yaml -i";
+    };
+    cmake-lint = {
+      enable = true;
+      types = ["cmake"];
+      entry = "cmake-lint -c .cmake.yaml";
+    };
 
     # nix
     alejandra.enable = true;
