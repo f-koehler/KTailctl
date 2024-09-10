@@ -38,6 +38,7 @@
     # C++ linting
     flawfinder
     cppcheck
+    clazy
 
     # Go linting
     gosec
@@ -90,6 +91,11 @@
       enable = false;
       types_or = ["c++" "c"];
       entry = "clang-tidy -p build --fix";
+    };
+    clazy = {
+      enable = false;
+      types = ["c++"];
+      entry = "clazy-standalone -p build/compile_commands.json";
     };
     cppcheck = {
       enable = true;
