@@ -1,80 +1,86 @@
 #include "taildrop_sender.hpp"
 #include "libktailctl_wrapper.h"
-#include <QDebug>
-#include <QDir>
 #include <QFileDialog>
-#include <QFileInfo>
-#include <utility>
+#include <QLoggingCategory>
+#include <QTimer>
 
-Q_LOGGING_CATEGORY(logcat_taildrop_sender, "org.fkoehler.KTailctl.TaildropSender")
+Q_LOGGING_CATEGORY(logcat_taildrop_send_job, "org.fkoehler.KTailctl.TaildropSendJob")
 
-TaildropSendThread::TaildropSendThread(const QString &target, const QStringList &files, QObject *parent)
-    : QThread(parent)
-    , mTarget(std::move(target))
-    , mFiles(files)
-    , mBytesSent(0UL)
-    , mBytesTotal(0UL)
-    , mCurrentFileBytesSent(0UL)
-{
-    mBytesTotal = std::accumulate(files.begin(), files.end(), mBytesTotal, [](quint64 acc, const QString &file) {
-        return acc + static_cast<quint64>(QFileInfo(file).size());
-    });
-}
-
-void TaildropSendThread::run()
-{
-    QByteArray const targetBytes = mTarget.toUtf8();
-    GoString const target{targetBytes.constData(), targetBytes.length()};
-
-    GoString file;
-    for (const auto &filename : mFiles) {
-        mCurrentFileBytesSent = 0UL;
-        QByteArray const fileBytes = filename.toUtf8();
-        file.p = fileBytes.constData();
-        file.n = fileBytes.length();
-        tailscale_send_file(target, file, [](unsigned long n) {
-            qDebug() << "Bytes sent" << n;
-        });
-        mBytesSent += static_cast<quint64>(QFileInfo(filename).size());
-    }
-    mBytesSent = mBytesTotal;
-}
-
-TaildropSendJob::TaildropSendJob(const QString &target, const QStringList &files, QObject *parent)
+TaildropSendJob::TaildropSendJob(const QString &target, const QList<QUrl> &files, QObject *parent)
     : KJob(parent)
-    , mThread(new TaildropSendThread(target, files, this))
+    , mTarget(target)
+    , mFiles(files)
 {
-    connect(mThread, &TaildropSendThread::finished, this, &TaildropSendJob::emitResult);
 }
 
-TaildropSendJob *TaildropSendJob::selectAndSendFiles(const QString &target)
+void TaildropSendJob::sendFiles()
 {
-    auto *job = new TaildropSendJob(target, QFileDialog::getOpenFileNames(nullptr, "Select files to send", QDir::homePath()));
-    job->start();
-    return job;
-}
-TaildropSendJob *TaildropSendJob::sendFiles(const QString &target, const QStringList &files)
-{
-    auto *job = new TaildropSendJob(target, files);
-    job->start();
-    return job;
+    setProgressUnit(Files);
+    setTotalAmount(Files, mFiles.size());
+    setProcessedAmount(Files, 0);
+
+    const QByteArray targetBytes = mTarget.toUtf8();
+    const GoString targetGo{targetBytes.constData(), targetBytes.size()};
+    qulonglong counter = 0;
+
+    for (const QUrl &file : std::as_const(mFiles)) {
+        const QByteArray fileBytes = file.path().toUtf8();
+        const GoString fileGo{fileBytes.constData(), fileBytes.size()};
+        qCInfo(logcat_taildrop_send_job) << "Sending file:" << fileGo.p << "to target:" << mTarget;
+
+        tailscale_send_file(targetGo, fileGo, [](unsigned long n) {
+            qDebug() << "Bytes sent:" << n;
+        });
+        ++counter;
+        setTotalAmount(Files, counter);
+        qCInfo(logcat_taildrop_send_job) << "Completed sending file:" << fileGo.p << "to target:" << mTarget;
+    }
+    emitResult();
 }
 
 void TaildropSendJob::start()
 {
-    mThread->start();
+    QTimer::singleShot(0, this, &TaildropSendJob::sendFiles);
 }
 
 TaildropSender::TaildropSender(QObject *parent)
     : QObject(parent)
+    , mMutex()
 {
+}
+
+void TaildropSender::sendFiles(const QString &target, const QList<QUrl> &files)
+{
+    const QMutexLocker locker(&mMutex);
+    auto *job = new TaildropSendJob(target, files, this);
+    if (!mPeerJobs.contains(target)) {
+        mPeerJobs.insert(target, QList<TaildropSendJob *>())->push_back(job);
+    }
+    job->start();
+    QObject::connect(job, &KJob::result, this, &TaildropSender::cleanupJobs);
 }
 
 void TaildropSender::selectAndSendFiles(const QString &target)
 {
-    TaildropSendJob::selectAndSendFiles(target);
+    sendFiles(target, QFileDialog::getOpenFileUrls(nullptr, "Select file(s) to send", QDir::homePath(), "All files (*)"));
 }
-void TaildropSender::sendFiles(const QString &target, const QStringList &files)
+
+TaildropSender *TaildropSender::instance()
 {
-    TaildropSendJob::sendFiles(target, files);
+    static TaildropSender instance;
+    return &instance;
+}
+
+void TaildropSender::cleanupJobs()
+{
+    const QMutexLocker locker(&mMutex);
+    for (auto &jobs : mPeerJobs) {
+        jobs.removeIf([](TaildropSendJob *job) {
+            if (job->isFinished()) {
+                job->deleteLater();
+                return true;
+            }
+            return false;
+        });
+    }
 }

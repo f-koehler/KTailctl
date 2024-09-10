@@ -1,56 +1,54 @@
-#ifndef KTAILCTL_TAILDROP_TAILDROP_SENDER_HPP
-#define KTAILCTL_TAILDROP_TAILDROP_SENDER_HPP
+#ifndef KTAILCTL_TAILDROP_TAILDROP_SEND_JOB_HPP
+#define KTAILCTL_TAILDROP_TAILDROP_SEND_JOB_HPP
 
 #include <KJob>
+#include <QList>
 #include <QLoggingCategory>
-#include <QPointer>
-#include <QThread>
+#include <QMutex>
+#include <QMutexLocker>
+#include <QObject>
+#include <QUrl>
 
-Q_DECLARE_LOGGING_CATEGORY(logcat_taildrop_sender)
-
-class TaildropSendThread : public QThread
-{
-    Q_OBJECT
-
-private:
-    QString mTarget;
-    QStringList mFiles;
-    quint64 mBytesSent;
-    quint64 mBytesTotal;
-    quint64 mCurrentFileBytesSent;
-
-public:
-    TaildropSendThread(const QString &target, const QStringList &files, QObject *parent = nullptr);
-
-protected:
-    void run() override;
-};
+Q_DECLARE_LOGGING_CATEGORY(logcat_taildrop_send_job)
 
 class TaildropSendJob : public KJob
 {
     Q_OBJECT
 
 private:
-    QPointer<TaildropSendThread> mThread;
+    QString mTarget;
+    QList<QUrl> mFiles;
+
+    void sendFiles();
 
 public:
-    explicit TaildropSendJob(const QString &target, const QStringList &files, QObject *parent = nullptr);
-    virtual ~TaildropSendJob() = default;
-
-    static TaildropSendJob *selectAndSendFiles(const QString &target);
-    static TaildropSendJob *sendFiles(const QString &target, const QStringList &files);
-
-public slots:
+    explicit TaildropSendJob(const QString &target, const QList<QUrl> &files, QObject *parent = nullptr);
     void start() override;
+
+    bool isFinished() const
+    {
+        return KJob::isFinished();
+    }
 };
 
 class TaildropSender : public QObject
 {
     Q_OBJECT
-public:
+
+private:
+    QMap<QString, QList<TaildropSendJob *>> mPeerJobs;
+    QMutex mMutex;
+
     explicit TaildropSender(QObject *parent = nullptr);
-    Q_INVOKABLE static void selectAndSendFiles(const QString &target);
-    Q_INVOKABLE static void sendFiles(const QString &target, const QStringList &files);
+
+public:
+    void sendFiles(const QString &target, const QList<QUrl> &files);
+    Q_INVOKABLE void selectAndSendFiles(const QString &target);
+
+    static TaildropSender *instance();
+
+public slots:
+    void cleanupJobs();
 };
 
-#endif /* KTAILCTL_TAILDROP_TAILDROP_SENDER_HPP */
+#endif /* KTAILCTL_TAILDROP_TAILDROP_SEND_JOB_HPP */
