@@ -1,5 +1,4 @@
 ---
 Checks: "clang-diagnostic-*,clang-analyzer-*,bugprone-*,cert-*,concurrency-*,cppcoreguidelines-*,misc-*,modernize-*,performance-*,portability-*,readability-*,-modernize-use-trailing-return-type,-misc-include-cleaner,-cppcoreguidelines-owning-memory"
-AnalyzeTemporaryDtors: false
 WarningsAsErrors: true
 UseColor: true
