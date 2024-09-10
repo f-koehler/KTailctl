@@ -38,6 +38,7 @@
     # C++ linting
     flawfinder
     cppcheck
+    clazy
 
     # Go linting
     gosec
@@ -82,7 +83,20 @@
     # end-of-file-fixer = true;
 
     # C++
-    clang-format.enable = true;
+    clang-format = {
+      enable = true;
+      types_or = ["c++" "c"];
+    };
+    clang-tidy = {
+      enable = false;
+      types_or = ["c++" "c"];
+      entry = "clang-tidy -p build --fix";
+    };
+    clazy = {
+      enable = false;
+      types = ["c++"];
+      entry = "clazy-standalone -p build/compile_commands.json";
+    };
     cppcheck = {
       enable = true;
       types = ["c++"];

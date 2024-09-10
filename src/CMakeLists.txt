@@ -26,15 +26,15 @@ add_executable(
 
 target_link_libraries(
   ktailctl
-  KF6::I18n
-  Qt6::Quick
-  Qt6::QuickControls2
-  KTailctl::Data
-  KTailctl::Config
-  KTailctl::Taildrop
-  KTailctl::Tailscale
-  KTailctl::WrapperLogging
-  KTailctl::Wrapper)
+  PUBLIC KF6::I18n
+         Qt6::Quick
+         Qt6::QuickControls2
+         KTailctl::Data
+         KTailctl::Config
+         KTailctl::Taildrop
+         KTailctl::Tailscale
+         KTailctl::WrapperLogging
+         KTailctl::Wrapper)
 
 target_include_directories(ktailctl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/src
                                             ${CMAKE_BINARY_DIR}/lib)
