@@ -31,7 +31,7 @@ public:
     }
 };
 
-class TaildropSendJobs : public QObject
+class TaildropSender : public QObject
 {
     Q_OBJECT
 
@@ -39,13 +39,13 @@ private:
     QMap<QString, QList<TaildropSendJob *>> mPeerJobs;
     QMutex mMutex;
 
-    explicit TaildropSendJobs(QObject *parent = nullptr);
+    explicit TaildropSender(QObject *parent = nullptr);
 
 public:
     void sendFiles(const QString &target, const QList<QUrl> &files);
     Q_INVOKABLE void selectAndSendFiles(const QString &target);
 
-    static TaildropSendJobs *instance();
+    static TaildropSender *instance();
 
 public slots:
     void cleanupJobs();

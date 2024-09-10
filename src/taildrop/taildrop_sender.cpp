@@ -1,4 +1,4 @@
-#include "taildrop_send_job.hpp"
+#include "taildrop_sender.hpp"
 #include "libktailctl_wrapper.h"
 #include <QFileDialog>
 #include <QLoggingCategory>
@@ -43,13 +43,13 @@ void TaildropSendJob::start()
     QTimer::singleShot(0, this, &TaildropSendJob::sendFiles);
 }
 
-TaildropSendJobs::TaildropSendJobs(QObject *parent)
+TaildropSender::TaildropSender(QObject *parent)
     : QObject(parent)
     , mMutex()
 {
 }
 
-void TaildropSendJobs::sendFiles(const QString &target, const QList<QUrl> &files)
+void TaildropSender::sendFiles(const QString &target, const QList<QUrl> &files)
 {
     const QMutexLocker locker(&mMutex);
     auto *job = new TaildropSendJob(target, files, this);
@@ -57,21 +57,21 @@ void TaildropSendJobs::sendFiles(const QString &target, const QList<QUrl> &files
         mPeerJobs.insert(target, QList<TaildropSendJob *>())->push_back(job);
     }
     job->start();
-    QObject::connect(job, &KJob::result, this, &TaildropSendJobs::cleanupJobs);
+    QObject::connect(job, &KJob::result, this, &TaildropSender::cleanupJobs);
 }
 
-void TaildropSendJobs::selectAndSendFiles(const QString &target)
+void TaildropSender::selectAndSendFiles(const QString &target)
 {
     sendFiles(target, QFileDialog::getOpenFileUrls(nullptr, "Select file(s) to send", QDir::homePath(), "All files (*)"));
 }
 
-TaildropSendJobs *TaildropSendJobs::instance()
+TaildropSender *TaildropSender::instance()
 {
-    static TaildropSendJobs instance;
+    static TaildropSender instance;
     return &instance;
 }
 
-void TaildropSendJobs::cleanupJobs()
+void TaildropSender::cleanupJobs()
 {
     const QMutexLocker locker(&mMutex);
     for (auto &jobs : mPeerJobs) {
