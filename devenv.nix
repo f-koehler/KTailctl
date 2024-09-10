@@ -86,6 +86,11 @@
       enable = true;
       types_or = ["c++" "c"];
     };
+    clang-tidy = {
+      enable = false;
+      types_or = ["c++" "c"];
+      entry = "clang-tidy -p build --fix";
+    };
     cppcheck = {
       enable = true;
       types = ["c++"];
