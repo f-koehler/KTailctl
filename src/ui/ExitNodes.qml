@@ -12,8 +12,8 @@ import org.fkoehler.KTailctl.Components 1.0 as KTailctlComponents
 Kirigami.ScrollablePage {
     id: exitNodes
 
-    objectName: "ExitNodes"
     Layout.fillWidth: true
+    objectName: "ExitNodes"
     title: i18n("Exit Nodes")
 
     ColumnLayout {
@@ -35,18 +35,20 @@ Kirigami.ScrollablePage {
                 }
 
                 FormCard.FormButtonDelegate {
+                    icon.name: "dialog-cancel"
                     text: "Unset current: " + Tailscale.currentExitNode.dnsName
                     visible: Tailscale.hasCurrentExitNode
-                    icon.name: "dialog-cancel"
+
                     onClicked: {
                         Tailscale.unsetExitNode();
                     }
                 }
 
                 FormCard.FormButtonDelegate {
+                    icon.name: Tailscale.suggestedExitNode.isMullvad ? "country-flag-" + Tailscale.suggestedExitNode.countryCode.toLowerCase() : "network-vpn"
                     text: "Use suggested: " + Tailscale.suggestedExitNode.dnsName
                     visible: Tailscale.hasSuggestedExitNode
-                    icon.name: Tailscale.suggestedExitNode.isMullvad ? "country-flag-" + Tailscale.suggestedExitNode.countryCode.toLowerCase() : "network-vpn"
+
                     onClicked: {
                         Tailscale.setExitNode(Tailscale.suggestedExitNode.tailscaleIps[0]);
                     }
@@ -73,9 +75,11 @@ Kirigami.ScrollablePage {
 
                 Repeater {
                     model: Tailscale.exitNodeModel
+
                     delegate: FormCard.FormButtonDelegate {
+                        icon.name: "network-vpn"
                         text: dnsName
-                        icon.name:  "network-vpn"
+
                         onClicked: {
                             Tailscale.setExitNode(tailscaleIps[0]);
                         }
@@ -95,13 +99,16 @@ Kirigami.ScrollablePage {
 
             ColumnLayout {
                 spacing: 0
+
                 Repeater {
                     model: Tailscale.mullvadCountryModel
+
                     delegate: FormCard.FormButtonDelegate {
-                        text: countryName
                         icon.name: "country-flag-" + countryCode.toLowerCase()
+                        text: countryName
+
                         onClicked: {
-                            App.mullvadNodesForCountryModel.setFilterFixedString(countryCode)
+                            App.mullvadNodesForCountryModel.setFilterFixedString(countryCode);
                             pageStack.layers.push("qrc:MullvadNodes.qml");
                         }
                     }

@@ -11,19 +11,16 @@ FormCard.AbstractFormDelegate {
     property string copyData
 
     focusPolicy: Qt.StrongFocus
-    onClicked: {
-        KTailctl.Util.setClipboardText(root.copyData);
-    }
 
     contentItem: RowLayout {
         spacing: Kirigami.Units.largeSpacing
 
         Controls.Label {
-            text: root.text
-            elide: Text.ElideRight
-            wrapMode: Text.Wrap
-            maximumLineCount: 2
             color: root.enabled ? Kirigami.Theme.textColor : Kirigami.Theme.disabledTextColor
+            elide: Text.ElideRight
+            maximumLineCount: 2
+            text: root.text
+            wrapMode: Text.Wrap
         }
 
         Item {
@@ -31,19 +28,21 @@ FormCard.AbstractFormDelegate {
         }
 
         Controls.Label {
-            text: root.copyData
-            elide: Text.ElideRight
-            wrapMode: Text.Wrap
-            maximumLineCount: 2
             color: root.enabled ? Kirigami.Theme.textColor : Kirigami.Theme.disabledTextColor
+            elide: Text.ElideRight
+            maximumLineCount: 2
+            text: root.copyData
+            wrapMode: Text.Wrap
         }
 
         Kirigami.Icon {
-            implicitWidth: Kirigami.Units.iconSizes.small
             implicitHeight: Kirigami.Units.iconSizes.small
+            implicitWidth: Kirigami.Units.iconSizes.small
             source: "edit-copy"
         }
-
     }
 
+    onClicked: {
+        KTailctl.Util.setClipboardText(root.copyData);
+    }
 }

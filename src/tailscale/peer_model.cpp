@@ -61,6 +61,8 @@ QVariant PeerModel::data(const QModelIndex &index, int role) const
         return mPeers.at(index.row()).mIsExitNode;
     case IsCurrentExitNodeRole:
         return mPeers.at(index.row()).mIsCurrentExitNode;
+    case SSHHostKeysRole:
+        return mPeers.at(index.row()).mSshHostKeys;
     case IsRunningSSHRole:
         return mPeers.at(index.row()).isRunningSSH();
     case SSHCommandRole:
@@ -155,6 +157,7 @@ QList<int> PeerModel::updateRow(int row, const PeerData &peer)
     }
     if (current.mSshHostKeys != peer.mSshHostKeys) {
         current.mSshHostKeys = peer.mSshHostKeys;
+        result.append(SSHHostKeysRole);
     }
     if (current.sshCommand() != peer.sshCommand()) {
         result.append(SSHCommandRole);

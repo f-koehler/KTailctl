@@ -23,11 +23,27 @@ Kirigami.ScrollablePage {
 
     id: root
 
-    property var peer: null
     property bool isSelf: false
+    property var peer: null
 
     objectName: "Peer"
     title: "Peer: " + peer.hostName
+
+    header: ColumnLayout {
+        Components.Banner {
+            text: i18n("Tailscaled is not running")
+            type: Kirigami.MessageType.Error
+            visible: !Tailscale.success
+            width: parent.width
+        }
+
+        Components.Banner {
+            text: "KTailctl functionality limited, current user is not the Tailscale operator"
+            type: Kirigami.MessageType.Warning
+            visible: (!Tailscale.isOperator) && Tailscale.success
+            width: parent.width
+        }
+    }
 
     ColumnLayout {
         FormCard.FormHeader {
@@ -43,94 +59,98 @@ Kirigami.ScrollablePage {
                 spacing: 0
 
                 KTailctlComponents.FormCopyLabelDelegate {
+                    copyData: root.peer.hostName
                     text: i18nc("@label", "Hostname:")
-                    copyData: peer.hostName
                 }
 
                 FormCard.FormDelegateSeparator {
                 }
 
                 KTailctlComponents.FormCopyLabelDelegate {
+                    copyData: root.peer.dnsName
                     text: i18nc("@label", "DNS name:")
-                    copyData: peer.dnsName
                 }
 
                 FormCard.FormDelegateSeparator {
                 }
 
                 KTailctlComponents.FormCopyLabelDelegate {
+                    copyData: root.peer.tailscaleID
                     text: i18nc("@label", "Tailscale ID:")
-                    copyData: peer.tailscaleID
                 }
 
                 FormCard.FormDelegateSeparator {
                 }
 
                 KTailctlComponents.FormCopyLabelDelegate {
-                    text: i18nc("@label", "Created:")
                     copyData: {
-                        if (!peer.created ) { return "undefined"; }
+                        if (!root.peer.created) {
+                            return "undefined";
+                        }
                         var duration = Util.formatDurationHumanReadable(peer.created);
                         if (duration == "")
                             return "now";
                         else
                             return duration + " ago";
                     }
+                    text: i18nc("@label", "Created:")
+
                     onClicked: {
                         Util.setClipboardText(Util.toMSecsSinceEpoch(peer.created));
                     }
                 }
 
                 FormCard.FormDelegateSeparator {
-                    visible: !isSelf
+                    visible: !root.isSelf
                 }
 
                 KTailctlComponents.FormCopyLabelDelegate {
-                    text: i18nc("@label", "Last seen:")
-                    visible: !isSelf
                     copyData: {
-                        if (!peer.lastSeen ) { return "undefined"; }
+                        if (!root.peer.lastSeen) {
+                            return "undefined";
+                        }
                         var duration = Util.formatDurationHumanReadable(peer.lastSeen);
                         if (duration == "")
                             return "now";
                         else
                             return duration + " ago";
                     }
+                    text: i18nc("@label", "Last seen:")
+                    visible: !root.isSelf
+
                     onClicked: {
                         Util.setClipboardText(Util.toMSecsSinceEpoch(peer.lastSeen));
                     }
                 }
 
                 FormCard.FormDelegateSeparator {
-                    visible: peer.os != ""
+                    visible: root.peer.os != ""
                 }
 
                 KTailctlComponents.FormCopyLabelDelegate {
+                    copyData: root.peer.os
                     text: i18nc("@label", "OS:")
-                    copyData: peer.os
-                    visible: peer.os != ""
+                    visible: root.peer.os != ""
                 }
 
                 FormCard.FormDelegateSeparator {
                 }
 
                 KTailctlComponents.FormCopyChipsDelegate {
+                    model: root.peer.tailscaleIps
                     text: i18nc("@label", "Addresses:")
-                    model: peer.tailscaleIps
                 }
 
                 FormCard.FormDelegateSeparator {
-                    visible: peer.tags.length > 0
+                    visible: root.peer.tags.length > 0
                 }
 
                 KTailctlComponents.FormCopyChipsDelegate {
+                    model: root.peer.tags
                     text: i18nc("@label", "Tags:")
-                    visible: peer.tags.length > 0
-                    model: peer.tags
+                    visible: root.peer.tags.length > 0
                 }
-
             }
-
         }
 
         FormCard.FormHeader {
@@ -146,28 +166,27 @@ Kirigami.ScrollablePage {
                 spacing: 0
 
                 KTailctlComponents.FormLabeledIconDelegate {
+                    label: root.peer.isExitNode ? "Yes" : "No"
+                    source: root.peer.isExitNode ? "dialog-ok" : "dialog-cancel"
                     text: i18nc("@label", "Exit node:")
-                    label: peer.isExitNode ? "Yes" : "No"
-                    source: peer.isExitNode ? "dialog-ok" : "dialog-cancel"
                 }
 
                 FormCard.FormDelegateSeparator {
                 }
 
                 FormCard.FormSwitchDelegate {
+                    checked: root.peer.isCurrentExitNode
+                    enabled: root.peer.isExitNode && !Preferences.advertiseExitNode
                     text: i18nc("@label", "Use this exit node:")
-                    checked: peer.isCurrentExitNode
-                    enabled: peer.isExitNode && !Preferences.advertiseExitNode
+
                     onToggled: {
-                        if (peer.isCurrentExitNode)
+                        if (root.peer.isCurrentExitNode)
                             Tailscale.unsetExitNode();
                         else
                             Tailscale.setExitNode(peer.tailscaleIps[0]);
                     }
                 }
-
             }
-
         }
 
         FormCard.FormHeader {
@@ -183,45 +202,45 @@ Kirigami.ScrollablePage {
                 spacing: 0
 
                 KTailctlComponents.FormLabeledIconDelegate {
+                    label: root.peer.isRunningSSH() ? "Yes" : "No"
+                    source: root.peer.isRunningSSH() ? "dialog-ok" : "dialog-cancel"
                     text: i18nc("@label", "Runs Tailscale SSH:")
-                    label: peer.isRunningSSH() ? "Yes" : "No"
-                    source: peer.isRunningSSH() ? "dialog-ok" : "dialog-cancel"
                 }
 
                 FormCard.FormDelegateSeparator {
                 }
 
                 KTailctlComponents.FormCopyLabelDelegate {
-                    text: i18nc("@label", "SSH command:")
                     copyData: i18nc("@label", "Copy")
-                    enabled: peer.isRunningSSH()
+                    enabled: root.peer.isRunningSSH()
+                    text: i18nc("@label", "SSH command:")
+
                     onClicked: {
                         Util.setClipboardText(peer.sshCommand());
                     }
                 }
-
             }
-
         }
 
         FormCard.FormHeader {
             Layout.fillWidth: true
             Layout.topMargin: Kirigami.Units.largeSpacing
-            visible: peer.location != null
             title: i18nc("@title:group", "Location")
+            visible: root.peer.location != null
         }
 
         FormCard.FormCard {
             Layout.fillWidth: true
-            visible: peer.location != null
+            visible: root.peer.location != null
 
             ColumnLayout {
                 spacing: 0
 
                 KTailctlComponents.FormLabeledIconDelegate {
+                    label: root.peer.location == null ? "" : peer.location.country + " (" + peer.location.countryCode + ")"
+                    source: root.peer.location == null ? "question" : "qrc:/country-flags/" + peer.location.countryCode.toLowerCase() + ".svg"
                     text: i18nc("@label", "Country:")
-                    label: peer.location == null ? "" : peer.location.country + " (" + peer.location.countryCode + ")"
-                    source: peer.location == null ? "question" : "qrc:/country-flags/" + peer.location.countryCode.toLowerCase() + ".svg"
+
                     onClicked: {
                         Util.setClipboardText(peer.location.country);
                     }
@@ -231,15 +250,14 @@ Kirigami.ScrollablePage {
                 }
 
                 KTailctlComponents.FormLabelDelegate {
+                    label: root.peer.location == null ? "" : peer.location.city + " (" + peer.location.cityCode + ")"
                     text: i18nc("@label", "City:")
-                    label: peer.location == null ? "" : peer.location.city + " (" + peer.location.cityCode + ")"
+
                     onClicked: {
                         Util.setClipboardText(peer.location.city);
                     }
                 }
-
             }
-
         }
 
         // FormCard.FormHeader {
@@ -282,22 +300,4 @@ Kirigami.ScrollablePage {
         // }
 
     }
-
-    header: ColumnLayout {
-        Components.Banner {
-            width: parent.width
-            visible: !Tailscale.success
-            type: Kirigami.MessageType.Error
-            text: i18n("Tailscaled is not running")
-        }
-
-        Components.Banner {
-            width: parent.width
-            visible: (!Tailscale.isOperator) && Tailscale.success
-            type: Kirigami.MessageType.Warning
-            text: "KTailctl functionality limited, current user is not the Tailscale operator"
-        }
-
-    }
-
 }

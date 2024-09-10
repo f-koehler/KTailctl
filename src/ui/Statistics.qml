@@ -10,8 +10,8 @@ import org.kde.kirigami 2.19 as Kirigami
 Kirigami.ScrollablePage {
     id: statistics
 
-    objectName: "Statistics"
     Layout.fillWidth: true
+    objectName: "Statistics"
     title: i18n("Statistics")
 
     Kirigami.FormLayout {
@@ -26,7 +26,5 @@ Kirigami.ScrollablePage {
             Kirigami.FormData.label: "Total download speed"
             text: Util.formatSpeedHumanReadable(Tailscale.statistics.totalDownSpeed.average1Second)
         }
-
     }
-
 }

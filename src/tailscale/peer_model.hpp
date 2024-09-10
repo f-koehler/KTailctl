@@ -25,6 +25,7 @@ public:
         IsActiveRole,
         IsExitNodeRole,
         IsCurrentExitNodeRole,
+        SSHHostKeysRole,
         IsRunningSSHRole,
         SSHCommandRole,
         TagsRole,

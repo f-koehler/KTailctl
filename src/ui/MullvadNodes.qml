@@ -10,23 +10,26 @@ import org.fkoehler.KTailctl.Components 1.0 as KTailctlComponents
 
 Kirigami.ScrollablePage {
     id: mullvadNodes
-    
-    objectName: "MullvadNodes"
+
     Layout.fillWidth: true
+    objectName: "MullvadNodes"
     title: i18n("Mullvad Nodes")
 
     ColumnLayout {
         FormCard.FormCard {
             Layout.fillWidth: true
             Layout.topMargin: Kirigami.Units.largeSpacing
-            
+
             ColumnLayout {
                 spacing: 0
+
                 Repeater {
                     model: App.mullvadNodesForCountryModel
+
                     delegate: FormCard.FormButtonDelegate {
-                        text: dnsName + " (" + city + ")"
                         icon.name: "country-flag-" + countryCode.toLowerCase()
+                        text: dnsName + " (" + city + ")"
+
                         onClicked: {
                             Tailscale.setExitNode(tailscaleIps[0]);
                         }

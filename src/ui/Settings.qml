@@ -13,20 +13,28 @@ import org.kde.kirigamiaddons.labs.components 1.0 as Components
 Kirigami.ScrollablePage {
     id: settings
 
-    objectName: "Settings"
-    title: i18n("Settings")
     leftPadding: 0
+    objectName: "Settings"
     rightPadding: 0
+    title: i18n("Settings")
+
     actions: [
         Kirigami.Action {
-            visible: Tailscale.success && Tailscale.isOperator
-            text: (Tailscale.backendState == "Running") ? "Stop tailscale" : "Start tailscale"
             icon.name: (Tailscale.backendState == "Running") ? "process-stop" : "media-playback-start"
+            text: (Tailscale.backendState == "Running") ? "Stop tailscale" : "Start tailscale"
+            visible: Tailscale.success && Tailscale.isOperator
+
             onTriggered: {
                 Tailscale.toggle();
             }
         }
     ]
+    header: Components.Banner {
+        text: i18n("Tailscaled is not running")
+        type: Kirigami.MessageType.Error
+        visible: !Tailscale.success
+        width: parent.width
+    }
 
     ColumnLayout {
         // Controls.ComboBox {
@@ -55,46 +63,48 @@ Kirigami.ScrollablePage {
                 FormCard.FormSwitchDelegate {
                     id: startMinimized
 
-                    text: i18nc("@label", "Start minimized:")
                     checked: App.config.startMinimized
+                    enabled: App.config.enableTrayIcon
+                    text: i18nc("@label", "Start minimized:")
+
                     onClicked: {
                         App.config.startMinimized = !App.config.startMinimized;
                         App.config.save();
                     }
-                    enabled: App.config.enableTrayIcon
                 }
 
                 FormCard.FormDelegateSeparator {
-                    below: startMinimized
                     above: enableTrayIcon
+                    below: startMinimized
                 }
 
                 FormCard.FormSwitchDelegate {
                     id: enableTrayIcon
 
-                    text: i18nc("@label", "Enable tray icon:")
                     checked: App.config.enableTrayIcon
+                    text: i18nc("@label", "Enable tray icon:")
+
                     onClicked: {
                         App.config.enableTrayIcon = !App.config.enableTrayIcon;
                         if (!App.config.enableTrayIcon)
                             App.config.startMinimized = false;
-
                         App.config.save();
                         App.trayIcon.visible = App.config.enableTrayIcon;
                     }
                 }
 
                 FormCard.FormDelegateSeparator {
-                    below: enableTrayIcon
                     above: trayIconTheme
+                    below: enableTrayIcon
                 }
 
                 FormCard.FormComboBoxDelegate {
                     id: trayIconTheme
 
-                    text: i18nc("@label", "Tray icon theme:")
-                    model: Preferences.trayIconThemes
                     displayText: App.config.trayIconTheme
+                    model: Preferences.trayIconThemes
+                    text: i18nc("@label", "Tray icon theme:")
+
                     onActivated: {
                         App.config.trayIconTheme = trayIconTheme.currentText;
                         App.config.save();
@@ -102,27 +112,26 @@ Kirigami.ScrollablePage {
                 }
 
                 FormCard.FormDelegateSeparator {
-                    below: trayIconTheme
                     above: spinRefreshInterval
+                    below: trayIconTheme
                 }
 
                 FormCard.FormSpinBoxDelegate {
                     id: spinRefreshInterval
 
                     from: 10
+                    label: i18nc("@label", "Refresh rate (ms):")
+                    stepSize: 100
                     to: 10000
                     value: refreshStatusTimer.interval
-                    stepSize: 100
+
                     onValueChanged: {
                         refreshStatusTimer.interval = spinRefreshInterval.value;
                         App.config.refreshInterval = spinRefreshInterval.value;
                         App.config.save();
                     }
-                    label: i18nc("@label", "Refresh rate (ms):")
                 }
-
             }
-
         }
 
         FormCard.FormHeader {
@@ -140,21 +149,23 @@ Kirigami.ScrollablePage {
                 FormCard.FormSwitchDelegate {
                     id: enableTailscale
 
-                    text: i18nc("@label", "Enable Tailscale:")
                     checked: Tailscale.backendState == "Running"
+                    enabled: Tailscale.isOperator && Tailscale.success
+                    text: i18nc("@label", "Enable Tailscale:")
+
                     onClicked: {
                         Tailscale.toggle();
                     }
-                    enabled: Tailscale.isOperator && Tailscale.success
                 }
 
                 FormCard.FormSwitchDelegate {
                     id: acceptRoutes
 
-                    text: i18nc("@label", "Accept Routes:")
                     checked: Preferences.acceptRoutes
-                    onClicked: Preferences.acceptRoutes = !Preferences.acceptRoutes
                     enabled: Tailscale.isOperator && Tailscale.success
+                    text: i18nc("@label", "Accept Routes:")
+
+                    onClicked: Preferences.acceptRoutes = !Preferences.acceptRoutes
                 }
 
                 FormCard.FormDelegateSeparator {
@@ -165,10 +176,11 @@ Kirigami.ScrollablePage {
                 FormCard.FormSwitchDelegate {
                     id: acceptDNS
 
-                    text: i18nc("@label", "Accept DNS:")
                     checked: Preferences.acceptDNS
-                    onClicked: Preferences.acceptDNS = !Preferences.acceptDNS
                     enabled: Tailscale.isOperator && Tailscale.success
+                    text: i18nc("@label", "Accept DNS:")
+
+                    onClicked: Preferences.acceptDNS = !Preferences.acceptDNS
                 }
 
                 FormCard.FormDelegateSeparator {
@@ -179,12 +191,13 @@ Kirigami.ScrollablePage {
                 FormCard.FormTextFieldDelegate {
                     id: textTailscaleHostname
 
+                    enabled: Tailscale.isOperator && Tailscale.success
                     label: i18nc("@label", "Hostname:")
                     text: Preferences.hostname
+
                     onEditingFinished: {
                         Preferences.hostname = textTailscaleHostname.text;
                     }
-                    enabled: Tailscale.isOperator && Tailscale.success
                 }
 
                 FormCard.FormDelegateSeparator {
@@ -195,10 +208,11 @@ Kirigami.ScrollablePage {
                 FormCard.FormSwitchDelegate {
                     id: shieldsUp
 
-                    text: i18nc("@label", "Shields up:")
                     checked: Preferences.shieldsUp
-                    onClicked: Preferences.shieldsUp = !Preferences.shieldsUp
                     enabled: Tailscale.isOperator && Tailscale.success
+                    text: i18nc("@label", "Shields up:")
+
+                    onClicked: Preferences.shieldsUp = !Preferences.shieldsUp
                 }
 
                 FormCard.FormDelegateSeparator {
@@ -209,14 +223,13 @@ Kirigami.ScrollablePage {
                 FormCard.FormSwitchDelegate {
                     id: ssh
 
-                    text: i18nc("@label", "SSH:")
                     checked: Preferences.ssh
-                    onClicked: Preferences.ssh = !Preferences.ssh
                     enabled: Tailscale.isOperator && Tailscale.success
+                    text: i18nc("@label", "SSH:")
+
+                    onClicked: Preferences.ssh = !Preferences.ssh
                 }
-
             }
-
         }
 
         FormCard.FormHeader {
@@ -234,8 +247,10 @@ Kirigami.ScrollablePage {
                 FormCard.FormSwitchDelegate {
                     id: advertiseExitNode
 
-                    text: i18nc("@label", "Run exit node:")
                     checked: Preferences.advertiseExitNode
+                    enabled: Tailscale.isOperator && Tailscale.success
+                    text: i18nc("@label", "Run exit node:")
+
                     onClicked: {
                         if (!Preferences.advertiseExitNode) {
                             Util.unsetExitNode();
@@ -246,10 +261,8 @@ Kirigami.ScrollablePage {
                             Preferences.advertiseExitNode = false;
                         }
                     }
-                    enabled: Tailscale.isOperator && Tailscale.success
                 }
             }
-
         }
 
         FormCard.FormHeader {
@@ -267,13 +280,14 @@ Kirigami.ScrollablePage {
                 FormCard.FormSwitchDelegate {
                     id: status
 
-                    text: i18nc("@label", "Status:")
                     checked: App.config.taildropEnabled
+                    enabled: Tailscale.isOperator && Tailscale.success
+                    text: i18nc("@label", "Status:")
+
                     onClicked: {
                         App.config.taildropEnabled = !App.config.taildropEnabled;
                         App.config.save();
                     }
-                    enabled: Tailscale.isOperator && Tailscale.success
                 }
 
                 FormCard.FormDelegateSeparator {
@@ -292,8 +306,9 @@ Kirigami.ScrollablePage {
                             Controls.TextField {
                                 id: textTaildropDirectory
 
-                                text: App.config.taildropDirectory
                                 Layout.fillWidth: true
+                                text: App.config.taildropDirectory
+
                                 onEditingFinished: {
                                     App.config.taildropDirectory = textTaildropDirectory.text;
                                     App.config.save();
@@ -304,6 +319,7 @@ Kirigami.ScrollablePage {
                                 id: folderDialogTaildropDirectory
 
                                 currentFolder: App.config.taildropDirectory
+
                                 onAccepted: {
                                     App.config.taildropDirectory = App.fileUrlToString(folderDialogTaildropDirectory.fileUrls[0]);
                                     App.config.save();
@@ -311,34 +327,21 @@ Kirigami.ScrollablePage {
                             }
 
                             Controls.Button {
+                                Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
+                                Controls.ToolTip.text: text
+                                Controls.ToolTip.visible: hovered
+                                display: Controls.Button.IconOnly
                                 icon.name: "folder-open"
                                 text: i18n("Select")
-                                display: Controls.Button.IconOnly
+
                                 onClicked: {
                                     folderDialogTaildropDirectory.open();
                                 }
-                                Controls.ToolTip.text: text
-                                Controls.ToolTip.visible: hovered
-                                Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
                             }
-
                         }
-
                     }
-
                 }
-
             }
-
         }
-
     }
-
-    header: Components.Banner {
-        width: parent.width
-        visible: !Tailscale.success
-        type: Kirigami.MessageType.Error
-        text: i18n("Tailscaled is not running")
-    }
-
 }

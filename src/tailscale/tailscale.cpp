@@ -109,11 +109,11 @@ void Tailscale::refresh()
         return a.mDnsName < b.mDnsName;
     });
 
-    QString suggestedExitNode;
+    QString suggestedExitNodeValue;
     {
         const std::unique_ptr<char, decltype(&free)> suggestedExitNodePtr(tailscale_suggest_exit_node(), free);
-        suggestedExitNode = QString::fromUtf8(suggestedExitNodePtr.get());
-        if (suggestedExitNode.isEmpty()) {
+        suggestedExitNodeValue = QString::fromUtf8(suggestedExitNodePtr.get());
+        if (suggestedExitNodeValue.isEmpty()) {
             if (mHasSuggestedExitNode) {
                 mHasSuggestedExitNode = false;
                 emit hasSuggestedExitNodeChanged(mHasSuggestedExitNode);
@@ -139,9 +139,9 @@ void Tailscale::refresh()
         emit selfChanged(mSelf);
     }
 
-    const bool isOperator = tailscale_is_operator();
-    if (isOperator != mIsOperator) {
-        mIsOperator = isOperator;
+    const bool isOperatorValue = tailscale_is_operator();
+    if (isOperatorValue != mIsOperator) {
+        mIsOperator = isOperatorValue;
         emit isOperatorChanged(mIsOperator);
     }
 
@@ -154,7 +154,7 @@ void Tailscale::refresh()
         if (peer.mIsMullvad) {
             countries.insert(peer.mCountryCode, peer.mCountry);
         }
-        if (peer.mId == suggestedExitNode) {
+        if (peer.mId == suggestedExitNodeValue) {
             if (mSuggestedExitNode != peer) {
                 mSuggestedExitNode = peer;
                 emit suggestedExitNodeChanged(mSuggestedExitNode);

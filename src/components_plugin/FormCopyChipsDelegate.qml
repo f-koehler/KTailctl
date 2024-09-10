@@ -17,11 +17,11 @@ FormCard.AbstractFormDelegate {
         spacing: Kirigami.Units.largeSpacing
 
         Controls.Label {
-            text: root.text
-            elide: Text.ElideRight
-            wrapMode: Text.Wrap
-            maximumLineCount: 2
             color: root.enabled ? Kirigami.Theme.textColor : Kirigami.Theme.disabledTextColor
+            elide: Text.ElideRight
+            maximumLineCount: 2
+            text: root.text
+            wrapMode: Text.Wrap
         }
 
         Item {
@@ -35,20 +35,17 @@ FormCard.AbstractFormDelegate {
                 model: root.model
 
                 delegate: Kirigami.Chip {
-                    text: modelData
-                    icon.name: "edit-copy"
-                    closable: false
                     checkable: false
                     checked: false
+                    closable: false
+                    icon.name: "edit-copy"
+                    text: modelData
+
                     onClicked: {
                         KTailctl.Util.setClipboardText(modelData);
                     }
                 }
-
             }
-
         }
-
     }
-
 }
