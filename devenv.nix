@@ -82,7 +82,10 @@
     # end-of-file-fixer = true;
 
     # C++
-    clang-format.enable = true;
+    clang-format = {
+      enable = true;
+      types_or = ["c++" "c"];
+    };
     cppcheck = {
       enable = true;
       types = ["c++"];
