@@ -2,7 +2,7 @@
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 #include "tray_icon.hpp"
 #include "ktailctlconfig.h"
-#include "taildrop_sender.hpp"
+#include "taildrop_send_job.hpp"
 #include "util.hpp"
 
 #include <QClipboard>
@@ -200,7 +200,7 @@ void TrayIcon::buildPeerMenu()
 
         submenu->addSection(QStringLiteral("Taildrop Send"));
         submenu->addAction(QIcon::fromTheme(QStringLiteral("document-send")), QStringLiteral("Send file(s)"), [&peer]() {
-            TaildropSendJob::selectAndSendFiles(peer.mDnsName);
+            TaildropSendJobs::instance()->selectAndSendFiles(peer.mDnsName);
         });
 
         if (peer.mIsCurrentExitNode) {

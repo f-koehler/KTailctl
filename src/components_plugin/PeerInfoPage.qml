@@ -17,7 +17,7 @@ Kirigami.ScrollablePage {
     //         drag.accept (Qt.LinkAction)
     //     }
     //     onDropped: {
-    //         TaildropSender.sendFiles(peer.dnsName, Util.fileUrlsToStrings(drop.urls))
+    //         TaildropSendJobs.sendFiles(peer.dnsName, Util.fileUrlsToStrings(drop.urls))
     //     }
     // }
 

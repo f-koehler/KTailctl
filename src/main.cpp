@@ -20,7 +20,7 @@
 #include "preferences.hpp"
 #include "speed_statistics.hpp"
 #include "statistics.hpp"
-#include "taildrop_sender.hpp"
+#include "taildrop_send_job.hpp"
 #include "tailscale.hpp"
 #include "util.hpp"
 #include "version-ktailctl.h"
@@ -67,7 +67,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     auto *about = new AboutType();
     auto *application = new App();
     auto *util = new Util();
-    auto *taildropSender = new TaildropSender();
 
     if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
         QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
@@ -83,7 +82,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Preferences", Preferences::instance());
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "App", application);
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Util", util);
-    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "TaildropSender", taildropSender);
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "TailscaleSendJobs", TaildropSendJobs::instance());
 
     qmlRegisterType<SpeedStatistics>("org.fkoehler.KTailctl", 1, 0, "SpeedStatistics");
     qmlRegisterType<Statistics>("org.fkoehler.KTailctl", 1, 0, "Statistics");
