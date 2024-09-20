@@ -26,11 +26,11 @@
           src = ./.;
 
           goDeps =
-            (buildGoModule {
+            (buildGo123Module {
               pname = "ktailctl_wrapper";
               inherit src version;
               modRoot = "src/wrapper";
-              vendorHash = "sha256-q6cm92+Oarip0VB4+r76BVFddsm44dl3Dnlrohd9sHI=";
+              vendorHash = "sha256-KdkvAPLnoC7DccRVIz7t/Ns71dnG59DpO5qwOhJk7qc=";
             })
             .goModules;
 
@@ -38,7 +38,7 @@
             cmake
             extra-cmake-modules
             git
-            go
+            go_1_23
             kdePackages.wrapQtAppsHook
           ];
           buildInputs = [

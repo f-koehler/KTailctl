@@ -1,10 +1,12 @@
 module tailwrap
 
-go 1.22.0
+go 1.23
+
+toolchain go1.23.1
 
 require (
 	golang.org/x/net v0.29.0
-	tailscale.com v1.72.1
+	tailscale.com v1.74.1
 )
 
 require (
@@ -37,11 +39,10 @@ require (
 	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e // indirect
 	github.com/tailscale/go-winio v0.0.0-20231025203758-c4f33415bf55 // indirect
 	github.com/tailscale/goupnp v1.0.1-0.20210804011211-c64d0f06ea05 // indirect
-	github.com/tailscale/netlink v1.1.1-0.20211101221916-cabfb018fe85 // indirect
+	github.com/tailscale/netlink v1.1.1-0.20240822203006-4d49adab4de7 // indirect
 	github.com/tailscale/web-client-prebuilt v0.0.0-20240226180453-5db17b287bf1 // indirect
 	github.com/tcnksm/go-httpstat v0.2.0 // indirect
 	github.com/toqueteos/webbrowser v1.2.0 // indirect
-	github.com/vishvananda/netlink v1.2.1-beta.2 // indirect
 	github.com/vishvananda/netns v0.0.4 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	go4.org/mem v0.0.0-20220726221520-4f986261bf13 // indirect
