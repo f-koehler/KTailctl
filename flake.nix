@@ -26,7 +26,7 @@
           src = ./.;
 
           goDeps =
-            (buildGoModule {
+            (buildGo123Module {
               pname = "ktailctl_wrapper";
               inherit src version;
               modRoot = "src/wrapper";
