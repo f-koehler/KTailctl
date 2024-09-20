@@ -1,4 +1,6 @@
-find_program(KTAILCTL_WRAPPER_GO_EXECUTABLE go REQUIRED)
+if(NOT DEFINED KTAILCTL_WRAPPER_GO_EXECUTABLE)
+  find_program(KTAILCTL_WRAPPER_GO_EXECUTABLE go REQUIRED)
+endif()
 message(STATUS "Go executable: ${KTAILCTL_WRAPPER_GO_EXECUTABLE}")
 
 add_library(ktailctl_wrapper_logging SHARED logging.cpp)
