@@ -38,7 +38,7 @@
             cmake
             extra-cmake-modules
             git
-            go
+            go_1_23
             kdePackages.wrapQtAppsHook
           ];
           buildInputs = [

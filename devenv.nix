@@ -68,7 +68,10 @@
   languages = {
     c.enable = true;
     cplusplus.enable = true;
-    go.enable = true;
+    go = {
+      enable = true;
+      package = pkgs.go_1_23;
+    };
   };
 
   # https://devenv.sh/pre-commit-hooks/
