@@ -36,7 +36,7 @@ void from_json(const json &j, PeerData &p)
         j.at("PublicKey").get_to<QString>(p.mPublicKey);
         j.at("HostName").get_to<QString>(p.mHostName);
         j.at("DNSName").get_to<QString>(p.mDnsName);
-        if (p.mDnsName.back() == QChar('.')) {
+        if (!p.mDnsName.isEmpty() && (p.mDnsName.back() == QChar('.'))) {
             p.mDnsName.chop(1);
         }
         j.at("OS").get_to<QString>(p.mOs);

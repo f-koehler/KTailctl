@@ -118,6 +118,8 @@ void App::refreshDetails()
         != Tailscale::instance()->peerModel()->peers().end()) {
         return;
     }
-    mPeerDetails = Tailscale::instance()->peerModel()->peers().front();
+    if (!Tailscale::instance()->peerModel()->peers().isEmpty()) {
+        mPeerDetails = Tailscale::instance()->peerModel()->peers().front();
+    }
     emit peerDetailsChanged(mPeerDetails);
 }
