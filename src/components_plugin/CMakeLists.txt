@@ -9,5 +9,6 @@ ecm_target_qml_sources(
   FormCopyLabelDelegate.qml
   FormLabeledIconDelegate.qml
   FormLabelDelegate.qml
+  HeaderBanner.qml
   PeerInfoPage.qml)
 ecm_finalize_qml_module(ktailctl_components_plugin DESTINATION ${KDE_INSTALL_QMLDIR})

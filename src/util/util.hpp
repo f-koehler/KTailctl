@@ -19,6 +19,7 @@ QString fileUrlToString(const QUrl &url);
 QStringList fileUrlsToStrings(const QList<QUrl> &urls);
 qint64 toMSecsSinceEpoch(const QDateTime &dateTime);
 QIcon loadOsIcon(QString osname);
+QString getUsername();
 
 class Util : public QObject
 {
@@ -36,6 +37,7 @@ public:
     Q_INVOKABLE static QStringList fileUrlsToStrings(const QList<QUrl> &urls);
     Q_INVOKABLE static qint64 toMSecsSinceEpoch(const QDateTime &dateTime);
     Q_INVOKABLE static QIcon loadOsIcon(const QString &operating_system);
+    Q_INVOKABLE static QString getUsername();
 };
 
 #endif /* KTAILCTL_UTIL_UTIL_HPP */

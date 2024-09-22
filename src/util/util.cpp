@@ -45,6 +45,15 @@ QIcon loadOsIcon(QString osname)
     return QIcon::fromTheme("network-vpn");
 }
 
+QString getUsername()
+{
+    QString username = qgetenv("USER");
+    if (username.isEmpty()) {
+        username = qgetenv("USERNAME");
+    }
+    return username;
+}
+
 QString formatCapacityHumanReadable(long bytes)
 {
     static constexpr std::array<const char *, 5> units = {"TiB", "GiB", "MiB", "KiB", "B"};
@@ -160,6 +169,10 @@ qint64 Util::toMSecsSinceEpoch(const QDateTime &dateTime)
 QIcon Util::loadOsIcon(const QString &operating_system)
 {
     return ::loadOsIcon(operating_system);
+}
+QString Util::getUsername()
+{
+    return ::getUsername();
 }
 
 #endif /* KTAILCTL_UTIL_UTIL_CPP */
