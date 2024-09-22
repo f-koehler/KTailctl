@@ -4,7 +4,9 @@
   # config,
   # inputs,
   ...
-}: {
+}: let
+  go = pkgs.go_1_23;
+in {
   # https://devenv.sh/basics/
   env.GREET = "devenv";
 
@@ -52,7 +54,7 @@
   # scripts.hello.exec = "echo hello from $GREET";
 
   enterShell = ''
-    git --version
+    export KTAILCTL_WRAPPER_GO_EXECUTABLE=${go}/bin/go
   '';
 
   # https://devenv.sh/tests/
@@ -70,7 +72,7 @@
     cplusplus.enable = true;
     go = {
       enable = true;
-      package = pkgs.go_1_23;
+      package = go;
     };
   };
 
