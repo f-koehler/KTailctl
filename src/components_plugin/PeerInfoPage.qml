@@ -29,20 +29,7 @@ Kirigami.ScrollablePage {
     objectName: "Peer"
     title: "Peer: " + peer.hostName
 
-    header: ColumnLayout {
-        Components.Banner {
-            text: i18n("Tailscaled is not running")
-            type: Kirigami.MessageType.Error
-            visible: !Tailscale.success
-            width: parent.width
-        }
-
-        Components.Banner {
-            text: "KTailctl functionality limited, current user is not the Tailscale operator"
-            type: Kirigami.MessageType.Warning
-            visible: (!Tailscale.isOperator) && Tailscale.success
-            width: parent.width
-        }
+    header: KTailctlComponents.HeaderBanner {
     }
 
     ColumnLayout {

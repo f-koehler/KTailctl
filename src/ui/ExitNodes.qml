@@ -16,6 +16,9 @@ Kirigami.ScrollablePage {
     objectName: "ExitNodes"
     title: i18n("Exit Nodes")
 
+    header: KTailctlComponents.HeaderBanner {
+    }
+
     ColumnLayout {
         FormCard.FormHeader {
             Layout.fillWidth: true

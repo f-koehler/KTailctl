@@ -15,6 +15,9 @@ Kirigami.ScrollablePage {
     objectName: "MullvadNodes"
     title: i18n("Mullvad Nodes")
 
+    header: KTailctlComponents.HeaderBanner {
+    }
+
     ColumnLayout {
         FormCard.FormCard {
             Layout.fillWidth: true
