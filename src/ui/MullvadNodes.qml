@@ -34,7 +34,7 @@ Kirigami.ScrollablePage {
                         text: dnsName + " (" + city + ")"
 
                         onClicked: {
-                            Tailscale.setExitNode(tailscaleIps[0]);
+                            Tailscale.setExitNode(dnsName);
                         }
                     }
                 }

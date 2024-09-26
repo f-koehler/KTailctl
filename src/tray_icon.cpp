@@ -155,8 +155,8 @@ void TrayIcon::buildMullvadMenu()
         const QString countryCode = index.data(PeerModel::CountryCodeRole).toString().toLower();
         mMullvadCountryMenus[countryCode]->addAction(QIcon(QString(":/country-flags/country-flag-%1").arg(countryCode)),
                                                      index.data(PeerModel::DnsNameRole).toString(),
-                                                     [this, &index]() {
-                                                         mTailscale->setExitNode(index.data(PeerModel::TailscaleIpsRole).toStringList().front());
+                                                     [this, index]() {
+                                                         mTailscale->setExitNode(index.data(PeerModel::DnsNameRole).toString());
                                                      });
     }
 }
@@ -168,7 +168,7 @@ void TrayIcon::buildSelfHostedMenu()
     for (int i = 0; i < numNodes; ++i) {
         const QModelIndex index = mTailscale->exitNodeModel()->index(i, 0);
         mSelfHostedMenu->addAction(loadOsIcon(index.data(PeerModel::OsRole).toString()), index.data(PeerModel::DnsNameRole).toString(), [this, index]() {
-            mTailscale->setExitNode(index.data(PeerModel::TailscaleIpsRole).toStringList().front());
+            mTailscale->setExitNode(index.data(PeerModel::DnsNameRole).toString());
         });
     }
 }
@@ -209,7 +209,7 @@ void TrayIcon::buildPeerMenu()
             });
         } else if (peer.mIsExitNode) {
             submenu->addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), QStringLiteral("Set as exit node"), [this, &peer]() {
-                mTailscale->setExitNode(peer.mTailscaleIps.front());
+                mTailscale->setExitNode(peer.mDnsName);
             });
         }
     }

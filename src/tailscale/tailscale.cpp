@@ -184,9 +184,9 @@ void Tailscale::refresh()
     emit refreshed();
 }
 
-void Tailscale::setExitNode(const QString &ip)
+void Tailscale::setExitNode(const QString &node)
 {
-    const QByteArray bytes = ip.toUtf8();
+    const QByteArray bytes = node.toUtf8();
     GoString tmp{bytes.data(), bytes.size()};
     tailscale_set_exit_node(&tmp);
 }

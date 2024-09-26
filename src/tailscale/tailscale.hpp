@@ -81,7 +81,7 @@ public slots:
     Q_INVOKABLE void toggle();
     Q_INVOKABLE void refresh();
 
-    Q_INVOKABLE void setExitNode(const QString &ip);
+    Q_INVOKABLE void setExitNode(const QString &node);
     Q_INVOKABLE void unsetExitNode();
 };
 
