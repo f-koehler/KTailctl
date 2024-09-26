@@ -53,7 +53,7 @@ Kirigami.ScrollablePage {
                     visible: Tailscale.hasSuggestedExitNode
 
                     onClicked: {
-                        Tailscale.setExitNode(Tailscale.suggestedExitNode.tailscaleIps[0]);
+                        Tailscale.setExitNode(Tailscale.suggestedExitNode.dnsName);
                     }
                 }
             }
@@ -84,7 +84,7 @@ Kirigami.ScrollablePage {
                         text: dnsName
 
                         onClicked: {
-                            Tailscale.setExitNode(tailscaleIps[0]);
+                            Tailscale.setExitNode(dnsName);
                         }
                     }
                 }

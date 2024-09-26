@@ -170,7 +170,7 @@ Kirigami.ScrollablePage {
                         if (root.peer.isCurrentExitNode)
                             Tailscale.unsetExitNode();
                         else
-                            Tailscale.setExitNode(peer.tailscaleIps[0]);
+                            Tailscale.setExitNode(peer.dnsName);
                     }
                 }
             }
