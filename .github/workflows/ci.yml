@@ -18,7 +18,7 @@ jobs:
         with:
           submodules: true
       - name: Setup nix.
-        uses: cachix/install-nix-action@v27
+        uses: cachix/install-nix-action@v29
         with:
           nix_path: nixpkgs=channel:nixos-unstable
       - name: Use cachix.
@@ -107,7 +107,7 @@ jobs:
         with:
           submodules: true
       - name: Setup nix.
-        uses: cachix/install-nix-action@v27
+        uses: cachix/install-nix-action@v29
         with:
           nix_path: nixpkgs=channel:nixos-unstable
       - name: Vendor go dependencies.
