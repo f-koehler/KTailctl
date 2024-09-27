@@ -265,83 +265,83 @@ Kirigami.ScrollablePage {
             }
         }
 
-        FormCard.FormHeader {
-            Layout.fillWidth: true
-            Layout.topMargin: Kirigami.Units.largeSpacing
-            title: i18nc("@title:group", "Taildrop (requires restart)")
-        }
+        // FormCard.FormHeader {
+        //     Layout.fillWidth: true
+        //     Layout.topMargin: Kirigami.Units.largeSpacing
+        //     title: i18nc("@title:group", "Taildrop (requires restart)")
+        // }
 
-        FormCard.FormCard {
-            Layout.fillWidth: true
+        // FormCard.FormCard {
+        //     Layout.fillWidth: true
 
-            ColumnLayout {
-                spacing: 0
+        //     ColumnLayout {
+        //         spacing: 0
 
-                FormCard.FormSwitchDelegate {
-                    id: status
+        //         FormCard.FormSwitchDelegate {
+        //             id: status
 
-                    checked: App.config.taildropEnabled
-                    enabled: Tailscale.isOperator && Tailscale.success
-                    text: i18nc("@label", "Status:")
+        //             checked: App.config.taildropEnabled
+        //             enabled: Tailscale.isOperator && Tailscale.success
+        //             text: i18nc("@label", "Status:")
 
-                    onClicked: {
-                        App.config.taildropEnabled = !App.config.taildropEnabled;
-                        App.config.save();
-                    }
-                }
+        //             onClicked: {
+        //                 App.config.taildropEnabled = !App.config.taildropEnabled;
+        //                 App.config.save();
+        //             }
+        //         }
 
-                FormCard.FormDelegateSeparator {
-                    above: status
-                }
+        //         FormCard.FormDelegateSeparator {
+        //             above: status
+        //         }
 
-                FormCard.AbstractFormDelegate {
-                    enabled: Tailscale.isOperator && Tailscale.success
+        //         FormCard.AbstractFormDelegate {
+        //             enabled: Tailscale.isOperator && Tailscale.success
 
-                    contentItem: ColumnLayout {
-                        Controls.Label {
-                            text: i18nc("@label", "Directory")
-                        }
+        //             contentItem: ColumnLayout {
+        //                 Controls.Label {
+        //                     text: i18nc("@label", "Directory")
+        //                 }
 
-                        RowLayout {
-                            Controls.TextField {
-                                id: textTaildropDirectory
+        //                 RowLayout {
+        //                     Controls.TextField {
+        //                         id: textTaildropDirectory
 
-                                Layout.fillWidth: true
-                                text: App.config.taildropDirectory
+        //                         Layout.fillWidth: true
+        //                         text: App.config.taildropDirectory
 
-                                onEditingFinished: {
-                                    App.config.taildropDirectory = textTaildropDirectory.text;
-                                    App.config.save();
-                                }
-                            }
+        //                         onEditingFinished: {
+        //                             App.config.taildropDirectory = textTaildropDirectory.text;
+        //                             App.config.save();
+        //                         }
+        //                     }
 
-                            FolderDialog {
-                                id: folderDialogTaildropDirectory
+        //                     FolderDialog {
+        //                         id: folderDialogTaildropDirectory
 
-                                currentFolder: App.config.taildropDirectory
+        //                         currentFolder: App.config.taildropDirectory
 
-                                onAccepted: {
-                                    App.config.taildropDirectory = App.fileUrlToString(folderDialogTaildropDirectory.fileUrls[0]);
-                                    App.config.save();
-                                }
-                            }
+        //                         onAccepted: {
+        //                             App.config.taildropDirectory = App.fileUrlToString(folderDialogTaildropDirectory.fileUrls[0]);
+        //                             App.config.save();
+        //                         }
+        //                     }
 
-                            Controls.Button {
-                                Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
-                                Controls.ToolTip.text: text
-                                Controls.ToolTip.visible: hovered
-                                display: Controls.Button.IconOnly
-                                icon.name: "folder-open"
-                                text: i18n("Select")
+        //                     Controls.Button {
+        //                         Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
+        //                         Controls.ToolTip.text: text
+        //                         Controls.ToolTip.visible: hovered
+        //                         display: Controls.Button.IconOnly
+        //                         icon.name: "folder-open"
+        //                         text: i18n("Select")
 
-                                onClicked: {
-                                    folderDialogTaildropDirectory.open();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        //                         onClicked: {
+        //                             folderDialogTaildropDirectory.open();
+        //                         }
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
     }
 }

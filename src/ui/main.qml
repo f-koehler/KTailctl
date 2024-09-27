@@ -87,12 +87,12 @@ Kirigami.ApplicationWindow {
 
                         onTriggered: navigateTo("ExitNodes")
                     },
-                    Kirigami.Action {
-                        icon.name: "office-chart-line-stacked"
-                        text: i18n("Statistics")
+                    // Kirigami.Action {
+                    //     icon.name: "office-chart-line-stacked"
+                    //     text: i18n("Statistics")
 
-                        onTriggered: navigateTo("Statistics")
-                    },
+                    //     onTriggered: navigateTo("Statistics")
+                    // },
                     Kirigami.Action {
                         icon.name: "settings-configure"
                         text: i18n("Settings")
