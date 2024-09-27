@@ -157,7 +157,7 @@ Kirigami.ScrollablePage {
                                     text: i18nc("@label", "Send file(s)")
 
                                     onClicked: {
-                                        TaildropSender.selectAndSendFiles(dnsName);
+                                        TaildropSendJobFactory.selectAndSendFiles(dnsName);
                                     }
                                 }
 
@@ -196,7 +196,7 @@ Kirigami.ScrollablePage {
                     anchors.fill: parent
 
                     onDropped: {
-                        TaildropSender.sendFiles(dnsName, drop.urls);
+                        TaildropSendJobFactory.sendFiles(dnsName, drop.urls);
                     }
                     onEntered: {
                         drag.accept(Qt.LinkAction);

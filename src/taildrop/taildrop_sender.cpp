@@ -6,23 +6,19 @@
 
 Q_LOGGING_CATEGORY(logcat_taildrop_send_job, "org.fkoehler.KTailctl.TaildropSendJob")
 
-TaildropSendJob::TaildropSendJob(const QString &target, const QList<QUrl> &files, QObject *parent)
-    : KJob(parent)
+TaildropSendWorker::TaildropSendWorker(const QString &target, const QList<QUrl> &files, QObject *parent)
+    : QThread(parent)
     , mTarget(target)
     , mFiles(files)
 {
 }
 
-void TaildropSendJob::sendFiles()
+void TaildropSendWorker::run()
 {
-    setProgressUnit(Files);
-    setTotalAmount(Files, mFiles.size());
-    setProcessedAmount(Files, 0);
-
     const QByteArray targetBytes = mTarget.toUtf8();
     const GoString targetGo{targetBytes.constData(), targetBytes.size()};
-    qulonglong counter = 0;
 
+    qsizetype fileCounter = 0;
     for (const QUrl &file : std::as_const(mFiles)) {
         const QByteArray fileBytes = file.path().toUtf8();
         const GoString fileGo{fileBytes.constData(), fileBytes.size()};
@@ -31,56 +27,49 @@ void TaildropSendJob::sendFiles()
         tailscale_send_file(targetGo, fileGo, [](unsigned long n) {
             qDebug() << "Bytes sent:" << n;
         });
-        ++counter;
-        setTotalAmount(Files, counter);
         qCInfo(logcat_taildrop_send_job) << "Completed sending file:" << fileGo.p << "to target:" << mTarget;
+
+        ++fileCounter;
+        emit filesSent(fileCounter);
     }
-    emitResult();
+    emit sendingFinished();
+}
+
+TaildropSendJob::TaildropSendJob(const QString &target, const QList<QUrl> &files, QObject *parent)
+    : KJob(parent)
+    , mWorker(new TaildropSendWorker(target, files, this))
+{
+    setProgressUnit(KJob::Files);
+    setTotalAmount(KJob::Files, files.size());
+    setProcessedAmount(KJob::Files, 0);
+
+    connect(mWorker, &TaildropSendWorker::sendingFinished, this, &TaildropSendJob::emitResult);
+    connect(mWorker, &TaildropSendWorker::filesSent, this, [this](qsizetype filesSent) {
+        setProcessedAmount(KJob::Files, filesSent);
+    });
 }
 
 void TaildropSendJob::start()
 {
-    QTimer::singleShot(0, this, &TaildropSendJob::sendFiles);
+    QTimer::singleShot(0, [this]() {
+        mWorker->start();
+    });
 }
 
-TaildropSender::TaildropSender(QObject *parent)
-    : QObject(parent)
-    , mMutex()
+TaildropSendJobFactory *TaildropSendJobFactory::instance()
 {
-}
-
-void TaildropSender::sendFiles(const QString &target, const QList<QUrl> &files)
-{
-    const QMutexLocker locker(&mMutex);
-    auto *job = new TaildropSendJob(target, files, this);
-    if (!mPeerJobs.contains(target)) {
-        mPeerJobs.insert(target, QList<TaildropSendJob *>())->push_back(job);
-    }
-    job->start();
-    QObject::connect(job, &KJob::result, this, &TaildropSender::cleanupJobs);
-}
-
-void TaildropSender::selectAndSendFiles(const QString &target)
-{
-    sendFiles(target, QFileDialog::getOpenFileUrls(nullptr, "Select file(s) to send", QDir::homePath(), "All files (*)"));
-}
-
-TaildropSender *TaildropSender::instance()
-{
-    static TaildropSender instance;
+    static TaildropSendJobFactory instance;
     return &instance;
 }
 
-void TaildropSender::cleanupJobs()
+TaildropSendJob *TaildropSendJobFactory::sendFiles(const QString &target, const QList<QUrl> &files)
 {
-    const QMutexLocker locker(&mMutex);
-    for (auto &jobs : mPeerJobs) {
-        jobs.removeIf([](TaildropSendJob *job) {
-            if (job->isFinished()) {
-                job->deleteLater();
-                return true;
-            }
-            return false;
-        });
-    }
+    auto *job = new TaildropSendJob(target, files, instance());
+    job->start();
+    return job;
+}
+
+TaildropSendJob *TaildropSendJobFactory::selectAndSendFiles(const QString &target)
+{
+    return sendFiles(target, QFileDialog::getOpenFileUrls(nullptr, "Select file(s) to send", QDir::homePath(), "All files (*)"));
 }
