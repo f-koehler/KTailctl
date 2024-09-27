@@ -40,6 +40,23 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.18.0" date="2024-09-27" urgency="medium">
+      <description>
+        <p>This release fixes various crashes of KTailctl, fixes sendinf of files with Taildrop
+          send, hides some currently broken features and provides the user with help (e.g. when he
+          is logged out).</p>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.18.0</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.18.0.tar.gz</location>
+        </artifact>
+        <artifact type="source">
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.18.0/tailwrap-vendor-v0.18.0.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.17.2" date="2024-07-23" urgency="low">
       <description>
         <p>Fix setting exit node from peers page.</p>
