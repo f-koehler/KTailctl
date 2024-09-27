@@ -58,6 +58,20 @@ void Preferences::refresh()
         }
     }
 
+    if (tailscale_get_shields_up(&tmpBool) != 0U) {
+        if (static_cast<bool>(tmpBool) != mShieldsUp) {
+            mShieldsUp = (tmpBool != 0U);
+            emit shieldsUpChanged(mShieldsUp);
+        }
+    }
+
+    if (tailscale_get_ssh(&tmpBool) != 0U) {
+        if (static_cast<bool>(tmpBool) != mSSH) {
+            mSSH = (tmpBool != 0U);
+            emit sshChanged(mSSH);
+        }
+    }
+
     if (tailscale_get_webclient(&tmpBool) != 0U) {
         if (static_cast<bool>(tmpBool) != mWebClient) {
             mWebClient = (tmpBool != 0U);
