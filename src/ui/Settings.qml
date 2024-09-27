@@ -6,6 +6,7 @@ import QtQuick.Controls 2.15 as Controls
 import QtQuick.Dialogs
 import QtQuick.Layouts 1.15
 import org.fkoehler.KTailctl 1.0
+import org.fkoehler.KTailctl.Components 1.0 as KTailctlComponents
 import org.kde.kirigami 2.19 as Kirigami
 import org.kde.kirigamiaddons.formcard 1.0 as FormCard
 import org.kde.kirigamiaddons.labs.components 1.0 as Components
@@ -228,6 +229,31 @@ Kirigami.ScrollablePage {
                     text: i18nc("@label", "SSH:")
 
                     onClicked: Preferences.ssh = !Preferences.ssh
+                }
+
+                FormCard.FormDelegateSeparator {
+                    above: shieldsUp
+                    below: webclient
+                }
+
+                FormCard.FormSwitchDelegate {
+                    id: webclient
+
+                    checked: Preferences.webClient
+                    enabled: Tailscale.isOperator && Tailscale.success
+                    text: i18nc("@label", "Web interface:")
+
+                    onClicked: Preferences.webClient = !Preferences.webClient
+                }
+
+                FormCard.FormDelegateSeparator {
+                    visible: Preferences.webClient && Tailscale.isOperator
+                }
+
+                KTailctlComponents.FormCopyLabelDelegate {
+                    copyData: Tailscale.self.dnsName + ":5252"
+                    text: i18nc("@label", "Web interface URL:")
+                    visible: Preferences.webClient && Tailscale.isOperator
                 }
             }
         }
