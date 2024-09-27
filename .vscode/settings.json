@@ -13,5 +13,7 @@
     "**/__pycache__/": true,
     ".flatpak/**": true,
     "_build/**": true
-  }
+  },
+  "C_Cpp.codeAnalysis.clangTidy.enabled": true,
+  "C_Cpp.codeAnalysis.runAutomatically": false
 }
