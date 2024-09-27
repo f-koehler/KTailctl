@@ -26,7 +26,7 @@ Kirigami.ScrollablePage {
         anchors.fill: parent
 
         onDropped: {
-            TaildropSender.sendFiles(peer.dnsName, drop.urls);
+            TaildropSendJobFactory.sendFiles(peer.dnsName, drop.urls);
         }
         onEntered: {
             drag.accept(Qt.LinkAction);

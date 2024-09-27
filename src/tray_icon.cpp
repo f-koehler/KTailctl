@@ -200,7 +200,7 @@ void TrayIcon::buildPeerMenu()
 
         submenu->addSection(QStringLiteral("Taildrop Send"));
         submenu->addAction(QIcon::fromTheme(QStringLiteral("document-send")), QStringLiteral("Send file(s)"), [&peer]() {
-            TaildropSender::instance()->selectAndSendFiles(peer.mDnsName);
+            TaildropSendJobFactory::selectAndSendFiles(peer.mDnsName);
         });
 
         if (peer.mIsCurrentExitNode) {
