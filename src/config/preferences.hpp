@@ -16,6 +16,7 @@ class Preferences : public QObject
     Q_PROPERTY(bool shieldsUp READ shieldsUp WRITE setShieldsUp NOTIFY shieldsUpChanged)
     Q_PROPERTY(bool ssh READ ssh WRITE setSSH NOTIFY sshChanged)
     Q_PROPERTY(QStringList trayIconThemes READ trayIconThemes CONSTANT)
+    Q_PROPERTY(bool webClient READ webClient WRITE setWebClient NOTIFY webClientChanged)
 
 private:
     bool mAcceptRoutes{};
@@ -25,6 +26,7 @@ private:
     QString mOperatorUser;
     bool mShieldsUp{};
     bool mSSH{};
+    bool mWebClient{};
 
     explicit Preferences(QObject *parent = nullptr);
 
@@ -36,6 +38,7 @@ signals:
     void operatorUserChanged(const QString &);
     void shieldsUpChanged(bool);
     void sshChanged(bool);
+    void webClientChanged(bool);
 
 public:
     static Preferences *instance();
@@ -50,6 +53,7 @@ public:
     const QString &operatorUser() const;
     bool shieldsUp() const;
     bool ssh() const;
+    bool webClient() const;
 
     void setAcceptRoutes(bool acceptRoutes);
     void setAcceptDNS(bool acceptDNS);
@@ -58,6 +62,7 @@ public:
     void setOperatorUser(const QString &operatorUser);
     void setShieldsUp(bool shieldsUp);
     void setSSH(bool ssh);
+    void setWebClient(bool webClient);
 
     const QStringList &trayIconThemes();
 };

@@ -57,6 +57,13 @@ void Preferences::refresh()
             }
         }
     }
+
+    if (tailscale_get_webclient(&tmpBool) != 0U) {
+        if (static_cast<bool>(tmpBool) != mWebClient) {
+            mWebClient = (tmpBool != 0U);
+            emit webClientChanged(mWebClient);
+        }
+    }
 }
 
 bool Preferences::acceptRoutes() const
@@ -86,6 +93,10 @@ bool Preferences::shieldsUp() const
 bool Preferences::ssh() const
 {
     return mSSH;
+}
+bool Preferences::webClient() const
+{
+    return mWebClient;
 }
 
 void Preferences::setAcceptRoutes(bool acceptRoutes)
@@ -148,6 +159,14 @@ void Preferences::setSSH(bool ssh)
     if (tailscale_set_ssh(&tmp) != 0U) {
         mSSH = ssh;
         emit sshChanged(mSSH);
+    }
+}
+void Preferences::setWebClient(bool webClient)
+{
+    auto tmp = static_cast<GoUint8>(webClient);
+    if (tailscale_set_webclient(&tmp) != 0U) {
+        mWebClient = webClient;
+        emit webClientChanged(mWebClient);
     }
 }
 

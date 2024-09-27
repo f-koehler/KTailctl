@@ -290,3 +290,32 @@ func tailscale_set_ssh(ssh *bool) bool {
 		RunSSHSet: true,
 	})
 }
+
+//export tailscale_get_webclient
+func tailscale_get_webclient(webclient *bool) bool {
+	curPrefs, err := client.GetPrefs(context.Background())
+	if err != nil {
+		log_critical(fmt.Sprintf("failed to get tailscale preferences: %v", err))
+		return false
+	}
+	*webclient = curPrefs.RunWebClient
+	return true
+}
+
+//export tailscale_set_webclient
+func tailscale_set_webclient(webclient *bool) bool {
+	var cur bool
+	tailscale_get_webclient(&cur)
+	if cur == *webclient {
+		log_warning(fmt.Sprintf("webclient already set to %v", *webclient))
+		return true
+	}
+
+	log_info(fmt.Sprintf("set webclient to %v", *webclient))
+	return apply_prefs(&ipn.MaskedPrefs{
+		Prefs: ipn.Prefs{
+			RunWebClient: *webclient,
+		},
+		RunWebClientSet: true,
+	})
+}
