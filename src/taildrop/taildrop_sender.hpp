@@ -42,7 +42,7 @@ private:
     explicit TaildropSender(QObject *parent = nullptr);
 
 public:
-    void sendFiles(const QString &target, const QList<QUrl> &files);
+    Q_INVOKABLE void sendFiles(const QString &target, const QList<QUrl> &files);
     Q_INVOKABLE void selectAndSendFiles(const QString &target);
 
     static TaildropSender *instance();

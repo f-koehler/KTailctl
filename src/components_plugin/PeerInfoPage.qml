@@ -11,16 +11,6 @@ import org.kde.kirigamiaddons.formcard 1.0 as FormCard
 import org.kde.kirigamiaddons.labs.components 1.0 as Components
 
 Kirigami.ScrollablePage {
-    // DropArea {
-    //     anchors.fill: parent
-    //     onEntered: {
-    //         drag.accept (Qt.LinkAction)
-    //     }
-    //     onDropped: {
-    //         TaildropSender.sendFiles(peer.dnsName, Util.fileUrlsToStrings(drop.urls))
-    //     }
-    // }
-
     id: root
 
     property bool isSelf: false
@@ -30,6 +20,17 @@ Kirigami.ScrollablePage {
     title: "Peer: " + peer.hostName
 
     header: KTailctlComponents.HeaderBanner {
+    }
+
+    DropArea {
+        anchors.fill: parent
+
+        onDropped: {
+            TaildropSender.sendFiles(peer.dnsName, drop.urls);
+        }
+        onEntered: {
+            drag.accept(Qt.LinkAction);
+        }
     }
 
     ColumnLayout {
