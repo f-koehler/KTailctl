@@ -40,6 +40,18 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.18.1" date="2024-09-29" urgency="medium">
+      <description>
+        <p>This release improves taildrop send and exit node integration while also resolving a bug
+          when trying to use a self-hosted exit node.</p>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.18.1</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.18.1.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.18.0" date="2024-09-27" urgency="medium">
       <description>
         <p>This release fixes various crashes of KTailctl, fixes sendinf of files with Taildrop
