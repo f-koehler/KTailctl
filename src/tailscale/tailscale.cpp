@@ -184,10 +184,27 @@ void Tailscale::refresh()
     emit refreshed();
 }
 
-void Tailscale::setExitNode(const QString &node)
+void Tailscale::setExitNode(const QString &dnsName)
 {
-    const QByteArray bytes = node.toUtf8();
-    GoString tmp{bytes.data(), bytes.size()};
+    const QModelIndexList hits = mPeerModel->match(mPeerModel->index(0), PeerModel::DnsNameRole, QVariant::fromValue(dnsName));
+    if (hits.isEmpty()) {
+        qCritical() << "Cannot find exit node in node model: " << dnsName;
+        return;
+    }
+
+    QByteArray targetBytes;
+    const QStringList ips = hits.first().data(PeerModel::TailscaleIpsRole).toStringList();
+    if (!ips.isEmpty()) {
+        targetBytes = ips.first().toUtf8();
+    } else {
+        if (hits.first().data(PeerModel::IsMullvadRole).toBool()) {
+            targetBytes = dnsName.toUtf8();
+        } else {
+            targetBytes = hits.first().data(PeerModel::HostNameRole).toString().toUtf8();
+        }
+    }
+
+    GoString tmp{targetBytes.data(), targetBytes.size()};
     tailscale_set_exit_node(&tmp);
 }
 void Tailscale::unsetExitNode()
