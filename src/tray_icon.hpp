@@ -49,6 +49,9 @@ public:
     virtual ~TrayIcon() = default;
 
     void setWindow(QQuickWindow *window);
+
+protected:
+    void setExitNodeMenuEnabled(bool enabled);
 };
 
 #endif /* KTAILCTL_TRAY_ICON_HPP */

@@ -29,7 +29,7 @@ TrayIcon::TrayIcon(QObject *parent)
     });
     mContextMenu->addSeparator();
     mPeerMenu = mContextMenu->addMenu(QIcon::fromTheme(QStringLiteral("applications-network")), QStringLiteral("Peers"));
-    mExitNodeMenu = mContextMenu->addMenu(QIcon::fromTheme(QStringLiteral("internet-services")), QStringLiteral("Exit Nodes"));
+    mExitNodeMenu = mContextMenu->addMenu(QIcon::fromTheme(QStringLiteral("internet-services")), QStringLiteral("Exit nodes"));
     mUnsetAction = mExitNodeMenu->addAction(QIcon::fromTheme(QStringLiteral("dialog-cancel")), QStringLiteral("Unset"), [this] {
         mTailscale->unsetExitNode();
     });
@@ -124,13 +124,13 @@ void TrayIcon::buildMullvadMenu()
 {
     if (mTailscale->mullvadNodeModel()->rowCount() == 0) {
         mMullvadMenu->setEnabled(false);
-        if (mTailscale->exitNodeModel()->rowCount() == 0) {
-            mExitNodeMenu->setEnabled(false);
-        }
+        mMullvadMenu->setTitle(QStringLiteral("No Mullvad"));
+        setExitNodeMenuEnabled(mTailscale->exitNodeModel()->rowCount() > 0);
         return;
     }
+    setExitNodeMenuEnabled(true);
     mMullvadMenu->setEnabled(true);
-    mExitNodeMenu->setEnabled(true);
+    mMullvadMenu->setTitle(QStringLiteral("Mullvad"));
 
     // check if rebuild is necessary
     const int newNumMullvadCountries = mTailscale->mullvadCountryModel()->rowCount({});
@@ -175,13 +175,13 @@ void TrayIcon::buildSelfHostedMenu()
 {
     if (mTailscale->exitNodeModel()->rowCount() == 0) {
         mSelfHostedMenu->setEnabled(false);
-        if (mTailscale->mullvadNodeModel()->rowCount() == 0) {
-            mExitNodeMenu->setEnabled(false);
-        }
+        mSelfHostedMenu->setTitle(QStringLiteral("No self-hosted"));
+        setExitNodeMenuEnabled(mTailscale->mullvadNodeModel()->rowCount() > 0);
         return;
     }
+    setExitNodeMenuEnabled(true);
+    mSelfHostedMenu->setTitle(QStringLiteral("Self-hosted"));
     mSelfHostedMenu->setEnabled(true);
-    mExitNodeMenu->setEnabled(true);
 
     mSelfHostedMenu->clear();
     const int numNodes = mTailscale->exitNodeModel()->rowCount();
@@ -273,4 +273,14 @@ void TrayIcon::setWindow(QQuickWindow *window)
 {
     mWindow = window;
     mOpenAction->setVisible(mWindow != nullptr);
+}
+
+void TrayIcon::setExitNodeMenuEnabled(bool enabled)
+{
+    mExitNodeMenu->setEnabled(enabled);
+    if (!enabled) {
+        mExitNodeMenu->setTitle(QStringLiteral("No exit nodes"));
+    } else {
+        mExitNodeMenu->setTitle(QStringLiteral("Exit nodes"));
+    }
 }
