@@ -23,11 +23,20 @@ Kirigami.ScrollablePage {
         FormCard.FormHeader {
             Layout.fillWidth: true
             Layout.topMargin: Kirigami.Units.largeSpacing
+            title: i18nc("@title:group", "No exit nodes available!")
+            visible: (Tailscale.exitNodeModel.rowCount() == 0) && (Tailscale.mullvadNodeModel.rowCount() == 0)
+        }
+
+        FormCard.FormHeader {
+            Layout.fillWidth: true
+            Layout.topMargin: Kirigami.Units.largeSpacing
             title: i18nc("@title:group", "Current")
+            visible: (Tailscale.exitNodeModel.rowCount() > 0) || (Tailscale.mullvadNodeModel.rowCount() > 0)
         }
 
         FormCard.FormCard {
             Layout.fillWidth: true
+            visible: (Tailscale.exitNodeModel.rowCount() > 0) || (Tailscale.mullvadNodeModel.rowCount() > 0)
 
             ColumnLayout {
                 spacing: 0
@@ -95,10 +104,12 @@ Kirigami.ScrollablePage {
             Layout.fillWidth: true
             Layout.topMargin: Kirigami.Units.largeSpacing
             title: i18nc("@title:group", "Mullvad")
+            visible: Tailscale.mullvadNodeModel.rowCount() > 0
         }
 
         FormCard.FormCard {
             Layout.fillWidth: true
+            visible: Tailscale.mullvadNodeModel.rowCount() > 0
 
             ColumnLayout {
                 spacing: 0
