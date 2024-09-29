@@ -122,6 +122,16 @@ TrayIcon::TrayIcon(QObject *parent)
 
 void TrayIcon::buildMullvadMenu()
 {
+    if (mTailscale->mullvadNodeModel()->rowCount() == 0) {
+        mMullvadMenu->setEnabled(false);
+        if (mTailscale->exitNodeModel()->rowCount() == 0) {
+            mExitNodeMenu->setEnabled(false);
+        }
+        return;
+    }
+    mMullvadMenu->setEnabled(true);
+    mExitNodeMenu->setEnabled(true);
+
     // check if rebuild is necessary
     const int newNumMullvadCountries = mTailscale->mullvadCountryModel()->rowCount({});
     const int newNumMullvadNodes = mTailscale->mullvadNodeModel()->rowCount({});
@@ -163,6 +173,16 @@ void TrayIcon::buildMullvadMenu()
 
 void TrayIcon::buildSelfHostedMenu()
 {
+    if (mTailscale->exitNodeModel()->rowCount() == 0) {
+        mSelfHostedMenu->setEnabled(false);
+        if (mTailscale->mullvadNodeModel()->rowCount() == 0) {
+            mExitNodeMenu->setEnabled(false);
+        }
+        return;
+    }
+    mSelfHostedMenu->setEnabled(true);
+    mExitNodeMenu->setEnabled(true);
+
     mSelfHostedMenu->clear();
     const int numNodes = mTailscale->exitNodeModel()->rowCount();
     for (int i = 0; i < numNodes; ++i) {
