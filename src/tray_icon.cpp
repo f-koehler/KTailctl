@@ -34,7 +34,7 @@ TrayIcon::TrayIcon(QObject *parent)
         mTailscale->unsetExitNode();
     });
     mSuggestedAction = mExitNodeMenu->addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), QStringLiteral("Use suggested"), [this]() {
-        mTailscale->setExitNode(mTailscale->suggestedExitNode().mTailscaleIps.front());
+        mTailscale->setExitNode(mTailscale->suggestedExitNode().mDnsName);
     });
     mExitNodeMenu->addSeparator();
     mMullvadMenu = mExitNodeMenu->addMenu(QIcon::fromTheme(QStringLiteral("network-vpn")), QStringLiteral("Mullvad"));
