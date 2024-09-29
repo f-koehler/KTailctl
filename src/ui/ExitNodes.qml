@@ -95,10 +95,12 @@ Kirigami.ScrollablePage {
             Layout.fillWidth: true
             Layout.topMargin: Kirigami.Units.largeSpacing
             title: i18nc("@title:group", "Mullvad")
+            visible: Tailscale.mullvadNodeModel.rowCount() > 0
         }
 
         FormCard.FormCard {
             Layout.fillWidth: true
+            visible: Tailscale.mullvadNodeModel.rowCount() > 0
 
             ColumnLayout {
                 spacing: 0
