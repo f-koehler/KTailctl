@@ -36,6 +36,7 @@ Kirigami.ScrollablePage {
 
         FormCard.FormCard {
             Layout.fillWidth: true
+            visible: (Tailscale.exitNodeModel.rowCount() > 0) || (Tailscale.mullvadNodeModel.rowCount() > 0)
 
             ColumnLayout {
                 spacing: 0
