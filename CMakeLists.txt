@@ -58,7 +58,7 @@ find_package(
              Test
              Widgets)
 find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS Config CoreAddons GuiAddons I18n Kirigami Notifications)
-find_package(nlohmann_json)
+find_package(nlohmann_json REQUIRED)
 
 add_subdirectory(src)
 add_subdirectory(tests)
