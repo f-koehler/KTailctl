@@ -24,7 +24,14 @@ if(NOT KTAILCTL_FLATPAK_BUILD)
     COMMENT "Downloading Go dependencies")
 endif()
 
-set(KTAILCTL_WRAPPER_LIBRARY ${CMAKE_BINARY_DIR}/lib/libktailctl_wrapper.a)
+
+if(APPLE)
+	set(KTAILCTL_WRAPPER_BUILDMODE c-shared)
+	set(KTAILCTL_WRAPPER_LIBRARY ${CMAKE_BINARY_DIR}/lib/libktailctl_wrapper.dylib)
+else()
+	set(KTAILCTL_WRAPPER_BUILDMODE c-archive)
+	set(KTAILCTL_WRAPPER_LIBRARY ${CMAKE_BINARY_DIR}/lib/libktailctl_wrapper.a)
+endif()
 set(KTAILCTL_WRAPPER_HEADER ${CMAKE_BINARY_DIR}/lib/libktailctl_wrapper.h)
 message(STATUS "KTailctl wrapper library: ${KTAILCTL_WRAPPER_LIBRARY}")
 message(STATUS "KTailctl wrapper header:  ${KTAILCTL_WRAPPER_HEADER}")
@@ -33,7 +40,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
   add_custom_command(
     OUTPUT ${KTAILCTL_WRAPPER_LIBRARY} ${KTAILCTL_WRAPPER_HEADER}
     COMMAND GOEXPERIMENT=cgocheck2 ${KTAILCTL_WRAPPER_GO_EXECUTABLE} build -v -trimpath -mod vendor -o
-            ${KTAILCTL_WRAPPER_LIBRARY} -buildmode=c-archive wrapper.go options.go taildrop.go callbacks.go logging.go
+            ${KTAILCTL_WRAPPER_LIBRARY} -buildmode=${KTAILCTL_WRAPPER_BUILDMODE} wrapper.go options.go taildrop.go callbacks.go logging.go
     MAIN_DEPENDENCY wrapper.go
     DEPENDS go.mod
             go.sum
@@ -48,7 +55,7 @@ else()
   add_custom_command(
     OUTPUT ${KTAILCTL_WRAPPER_LIBRARY} ${KTAILCTL_WRAPPER_HEADER}
     COMMAND ${KTAILCTL_WRAPPER_GO_EXECUTABLE} build -v -trimpath -mod vendor -o ${KTAILCTL_WRAPPER_LIBRARY}
-            -buildmode=c-archive wrapper.go options.go taildrop.go callbacks.go logging.go
+            -buildmode=${KTAILCTL_WRAPPER_BUILDMODE} wrapper.go options.go taildrop.go callbacks.go logging.go
     MAIN_DEPENDENCY wrapper.go
     DEPENDS go.mod
             go.sum
