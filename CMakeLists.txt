@@ -58,7 +58,19 @@ find_package(
              Test
              Widgets)
 find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS Config CoreAddons GuiAddons I18n Kirigami Notifications)
-find_package(nlohmann_json REQUIRED)
+
+if(APPLE)
+  include(FetchContent)
+  FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz)
+  FetchContent_Declare(
+    kirigami-addons
+    GIT_REPOSITORY https://invent.kde.org/libraries/kirigami-addons
+    GIT_TAG v1.5.0
+  )
+  FetchContent_MakeAvailable(json kirigami-addons)
+else()
+  find_package(nlohmann_json REQUIRED)
+endif()
 
 add_subdirectory(src)
 add_subdirectory(tests)
