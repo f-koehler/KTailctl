@@ -1,0 +1,5 @@
+extra-cmake-modules
+kconfig
+kcoreaddons
+kirigami
+qqc2-desktop-style
