@@ -44,7 +44,7 @@ jobs:
         with:
           submodules: true
       - name: Setup go.
-        uses: actions/setup-go@v5.0.2
+        uses: actions/setup-go@v5.1.0
         with:
           go-version: "stable"
           cache-dependency-path: tailwrap/go.sum
@@ -86,7 +86,7 @@ jobs:
       - name: Check external data.
         run: flatpak run org.flathub.flatpak-external-data-checker --check-outdated org.fkoehler.KTailctl.yml
       - name: Setup go.
-        uses: actions/setup-go@v5.0.2
+        uses: actions/setup-go@v5.1.0
         with:
           go-version: "stable"
       - name: Vendor go dependencies.
@@ -131,7 +131,7 @@ jobs:
         with:
           submodules: true
       - name: Setup go.
-        uses: actions/setup-go@v5.0.2
+        uses: actions/setup-go@v5.1.0
         with:
           go-version: "stable"
           cache-dependency-path: tailwrap/go.sum
