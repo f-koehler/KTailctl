@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository.
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
         with:
           submodules: true
       - name: Setup nix.
@@ -40,11 +40,11 @@ jobs:
         llvm_version: [15, 16, 17, 18, 19]
     steps:
       - name: Checkout repository.
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
         with:
           submodules: true
       - name: Setup go.
-        uses: actions/setup-go@v5.0.2
+        uses: actions/setup-go@v5
         with:
           go-version: "stable"
           cache-dependency-path: tailwrap/go.sum
@@ -72,7 +72,7 @@ jobs:
       - pre-commit
     steps:
       - name: Checkout repository.
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
         with:
           submodules: true
       - name: Update apt cache.
@@ -86,7 +86,7 @@ jobs:
       - name: Check external data.
         run: flatpak run org.flathub.flatpak-external-data-checker --check-outdated org.fkoehler.KTailctl.yml
       - name: Setup go.
-        uses: actions/setup-go@v5.0.2
+        uses: actions/setup-go@v5
         with:
           go-version: "stable"
       - name: Vendor go dependencies.
@@ -103,7 +103,7 @@ jobs:
       - pre-commit
     steps:
       - name: Checkout repository.
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
         with:
           submodules: true
       - name: Setup nix.
@@ -127,11 +127,11 @@ jobs:
       contents: write
     steps:
       - name: Checkout repository.
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
         with:
           submodules: true
       - name: Setup go.
-        uses: actions/setup-go@v5.0.2
+        uses: actions/setup-go@v5
         with:
           go-version: "stable"
           cache-dependency-path: tailwrap/go.sum
