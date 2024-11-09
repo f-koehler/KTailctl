@@ -2,8 +2,6 @@ module tailwrap
 
 go 1.23.1
 
-toolchain go1.23.3
-
 require (
 	golang.org/x/net v0.30.0
 	tailscale.com v1.76.6
