@@ -50,6 +50,8 @@ modules:
     config-opts:
       - "-DKTAILCTL_FLATPAK_BUILD=ON"
       - "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+      - "-DCMAKE_INSTALL_LIBDIR=/app/lib"
+      - "-DLIB_INSTALL_DIR=/app/lib"
     sources:
       - type: dir
         path: .
