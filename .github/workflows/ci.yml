@@ -79,6 +79,8 @@ jobs:
         run: sudo apt-get update -yq
       - name: Install flatpak-builder.
         run: sudo apt-get install -yq flatpak-builder flatpak appstream
+      - name: Show flatpak-builder version.
+        run: flatpak-builder --version
       - name: Install flatpak dependencies.
         run: ./scripts/flatpak-deps.sh
       - name: Validate manifest.
