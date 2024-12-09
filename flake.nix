@@ -30,7 +30,7 @@
               pname = "ktailctl_wrapper";
               inherit src version;
               modRoot = "src/wrapper";
-              vendorHash = "sha256-M4zJvN6iQ9tZPiT+FbmuwPzjPgaO91TuRht6VfxSR2M=";
+              vendorHash = "sha256-UjgHfR+MJ8ROqOPIM0ZkqgFGVEkw8gKYlVQ6oxoIcgE=";
             })
             .goModules;
 
