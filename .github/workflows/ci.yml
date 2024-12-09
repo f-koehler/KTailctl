@@ -78,7 +78,7 @@ jobs:
       - name: Update apt cache.
         run: sudo apt-get update -yq
       - name: Install flatpak-builder.
-        run: sudo apt-get install -yq flatpak-builder flatpak
+        run: sudo apt-get install -yq flatpak-builder flatpak appstream
       - name: Install flatpak dependencies.
         run: ./scripts/flatpak-deps.sh
       - name: Validate manifest.

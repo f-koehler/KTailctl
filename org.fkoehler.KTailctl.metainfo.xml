@@ -40,6 +40,21 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.18.2" date="2024-12-09" urgency="low">
+      <description>
+        <p>No user-facing changes.</p>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.18.2</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.18.2.tar.gz</location>
+        </artifact>
+        <artifact type="source">
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.18.2/tailwrap-vendor-v0.18.2.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.18.1" date="2024-09-29" urgency="medium">
       <description>
         <p>This release improves taildrop send and exit node integration while also resolving a bug
