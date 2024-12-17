@@ -160,6 +160,16 @@ Kirigami.ScrollablePage {
                 }
 
                 FormCard.FormSwitchDelegate {
+                    id: enableExitNodeLanAccess
+
+                    checked: Preferences.allowLANAccess
+                    enabled: Tailscale.isOperator && Tailscale.success
+                    text: i18nc("@label", "Allow LAN Access:")
+
+                    onClicked: Preferences.allowLANAccess = !Preferences.allowLANAccess
+                }
+
+                FormCard.FormSwitchDelegate {
                     id: acceptRoutes
 
                     checked: Preferences.acceptRoutes
