@@ -54,6 +54,29 @@ func tailscale_set_accept_routes(accept_routes *bool) bool {
 	return true
 }
 
+//export tailscale_get_exit_node_allow_lan_access
+func tailscale_get_exit_node_allow_lan_access(allow_lan_access *bool) bool {
+	curPrefs, err := client.GetPrefs(context.Background())
+	if err != nil {
+		log_critical(fmt.Sprintf("failed to get tailscale preferences: %v", err))
+		return false
+	}
+	*allow_lan_access = curPrefs.ExitNodeAllowLANAccess
+	return true
+}
+
+//export tailscale_set_exit_node_allow_lan_access
+func tailscale_set_exit_node_allow_lan_access(allow_lan_access *bool) bool {
+	args := []string{"set", "--exit-node-allow-lan-access=" + strconv.FormatBool(*allow_lan_access)}
+	err := cli.Run(args)
+	if err != nil {
+		log_critical(fmt.Sprintf("failed to set allow LAN access: %v", err))
+		return false
+	}
+	log_info(fmt.Sprintf("set allow LAN access to %v", *allow_lan_access))
+	return true
+}
+
 //export tailscale_get_advertise_exit_node
 func tailscale_get_advertise_exit_node(exit_node *bool) bool {
 	curPrefs, err := client.GetPrefs(context.Background())
