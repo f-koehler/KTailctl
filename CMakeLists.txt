@@ -57,7 +57,16 @@ find_package(
              Svg
              Test
              Widgets)
-find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS Config CoreAddons GuiAddons I18n Kirigami Notifications)
+find_package(
+  KF6 ${KF6_MIN_VERSION} REQUIRED
+  COMPONENTS Config
+             CoreAddons
+             DBusAddons
+             GuiAddons
+             I18n
+             Kirigami
+             Notifications
+             WindowSystem)
 find_package(nlohmann_json REQUIRED)
 
 add_subdirectory(src)

@@ -15,6 +15,8 @@ in {
     extra-cmake-modules
     git
     appstream
+    kdePackages.kdbusaddons
+    kdePackages.kwindowsystem
     kdePackages.kconfig
     kdePackages.kcoreaddons
     kdePackages.kguiaddons

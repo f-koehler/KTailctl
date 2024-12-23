@@ -27,6 +27,8 @@ add_executable(
 target_link_libraries(
   ktailctl
   PUBLIC KF6::I18n
+         KF6::DBusAddons
+         KF6::WindowSystem
          Qt6::Quick
          Qt6::QuickControls2
          KTailctl::Data

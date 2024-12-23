@@ -43,6 +43,8 @@
           ];
           buildInputs = [
             appstream
+            kdePackages.kdbusaddons
+            kdePackages.kwindowsystem
             kdePackages.kconfig
             kdePackages.kcoreaddons
             kdePackages.kguiaddons
