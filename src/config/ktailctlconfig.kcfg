@@ -73,5 +73,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <label>Theme of the tray icon</label>
             <default>colorful</default>
         </entry>
+        <entry name="lastUsedExitNode" type="String">
+            <label>Last used exit node</label>
+            <default></default>
+        </entry>
     </group>
 </kcfg>
