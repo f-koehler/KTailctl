@@ -261,6 +261,7 @@ void TrayIcon::buildLastUsedAction()
     if (lastUsedExitNode.isEmpty()) {
         return;
     }
+    mLastUsedAction->setIcon(QIcon::fromTheme("folder-recent-symbolic"));
     mLastUsedAction->setText(QStringLiteral("Last used (%1)").arg(lastUsedExitNode));
 }
 void TrayIcon::buildUnsetAction()

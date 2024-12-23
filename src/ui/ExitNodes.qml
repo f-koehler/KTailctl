@@ -67,7 +67,7 @@ Kirigami.ScrollablePage {
                 }
 
                 FormCard.FormButtonDelegate {
-                    icon.name: "network-vpn"
+                    icon.name: "folder-recent-symbolic"
                     text: "Last used: " + App.config.lastUsedExitNode
                     visible: App.config.lastUsedExitNode.length > 0
 
