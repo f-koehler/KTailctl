@@ -1,4 +1,5 @@
 #include "tailscale.hpp"
+#include "ktailctlconfig.h"
 #include "libktailctl_wrapper.h"
 
 Tailscale::Tailscale(QObject *parent)
@@ -191,6 +192,9 @@ void Tailscale::setExitNode(const QString &dnsName)
         qCritical() << "Cannot find exit node in node model: " << dnsName;
         return;
     }
+
+    KTailctlConfig::self()->setLastUsedExitNode(dnsName);
+    KTailctlConfig::self()->save();
 
     QByteArray targetBytes;
     const QStringList ips = hits.first().data(PeerModel::TailscaleIpsRole).toStringList();

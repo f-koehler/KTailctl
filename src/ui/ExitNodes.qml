@@ -27,12 +27,12 @@ Kirigami.ScrollablePage {
             visible: (Tailscale.exitNodeModel.rowCount() == 0) && (Tailscale.mullvadNodeModel.rowCount() == 0)
         }
 
-        FormCard.FormHeader {
-            Layout.fillWidth: true
-            Layout.topMargin: Kirigami.Units.largeSpacing
-            title: i18nc("@title:group", "Current")
-            visible: (Tailscale.exitNodeModel.rowCount() > 0) || (Tailscale.mullvadNodeModel.rowCount() > 0)
-        }
+        // FormCard.FormHeader {
+        //     Layout.fillWidth: true
+        //     Layout.topMargin: Kirigami.Units.largeSpacing
+        //     title: i18nc("@title:group", "Current")
+        //     visible: (Tailscale.exitNodeModel.rowCount() > 0) || (Tailscale.mullvadNodeModel.rowCount() > 0)
+        // }
 
         FormCard.FormCard {
             Layout.fillWidth: true
@@ -63,6 +63,16 @@ Kirigami.ScrollablePage {
 
                     onClicked: {
                         Tailscale.setExitNode(Tailscale.suggestedExitNode.dnsName);
+                    }
+                }
+
+                FormCard.FormButtonDelegate {
+                    icon.name: "folder-recent-symbolic"
+                    text: "Last used: " + App.config.lastUsedExitNode
+                    visible: App.config.lastUsedExitNode.length > 0
+
+                    onClicked: {
+                        Tailscale.setExitNode(App.config.lastUsedExitNode);
                     }
                 }
             }

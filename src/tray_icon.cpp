@@ -36,6 +36,9 @@ TrayIcon::TrayIcon(QObject *parent)
     mSuggestedAction = mExitNodeMenu->addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), QStringLiteral("Use suggested"), [this]() {
         mTailscale->setExitNode(mTailscale->suggestedExitNode().mDnsName);
     });
+    mLastUsedAction = mExitNodeMenu->addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), QStringLiteral("Last used"), [this]() {
+        mTailscale->setExitNode(mConfig->lastUsedExitNode());
+    });
     mExitNodeMenu->addSeparator();
     mMullvadMenu = mExitNodeMenu->addMenu(QIcon::fromTheme(QStringLiteral("network-vpn")), QStringLiteral("Mullvad"));
     mSelfHostedMenu = mExitNodeMenu->addMenu(QIcon::fromTheme(QStringLiteral("network-vpn")), QStringLiteral("Self-hosted"));
@@ -49,6 +52,7 @@ TrayIcon::TrayIcon(QObject *parent)
 
     buildUnsetAction();
     buildUseSuggestedAction();
+    buildLastUsedAction();
 
     connect(mTailscale, &Tailscale::backendStateChanged, [this]() {
         updateIcon();
@@ -92,6 +96,7 @@ TrayIcon::TrayIcon(QObject *parent)
     });
     connect(mTailscale, &Tailscale::hasSuggestedExitNodeChanged, this, &TrayIcon::buildUseSuggestedAction);
     connect(mTailscale, &Tailscale::suggestedExitNodeChanged, this, &TrayIcon::buildUseSuggestedAction);
+    connect(mConfig, &KTailctlConfig::lastUsedExitNodeChanged, this, &TrayIcon::buildLastUsedAction);
     connect(mTailscale, &Tailscale::hasCurrentExitNodeChanged, this, &TrayIcon::buildUnsetAction);
     connect(mTailscale, &Tailscale::currentExitNodeChanged, this, &TrayIcon::buildUnsetAction);
     connect(mTailscale, &Tailscale::refreshed, this, &TrayIcon::buildMullvadMenu);
@@ -247,6 +252,17 @@ void TrayIcon::buildUseSuggestedAction()
     } else {
         mSuggestedAction->setText(QStringLiteral("No suggestion"));
     }
+}
+void TrayIcon::buildLastUsedAction()
+{
+    const QString lastUsedExitNode = mConfig->lastUsedExitNode();
+    mLastUsedAction->setEnabled(!lastUsedExitNode.isEmpty());
+    mLastUsedAction->setVisible(!lastUsedExitNode.isEmpty());
+    if (lastUsedExitNode.isEmpty()) {
+        return;
+    }
+    mLastUsedAction->setIcon(QIcon::fromTheme("folder-recent-symbolic"));
+    mLastUsedAction->setText(QStringLiteral("Last used (%1)").arg(lastUsedExitNode));
 }
 void TrayIcon::buildUnsetAction()
 {

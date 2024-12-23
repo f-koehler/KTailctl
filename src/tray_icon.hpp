@@ -25,6 +25,7 @@ private:
     QMenu *mExitNodeMenu;
     QAction *mUnsetAction;
     QAction *mSuggestedAction;
+    QAction *mLastUsedAction;
     QMenu *mMullvadMenu;
     QMenu *mSelfHostedMenu;
     QMap<QString, QMenu *> mMullvadCountryMenus;
@@ -39,6 +40,7 @@ public slots:
     void buildMullvadMenu();
     void buildPeerMenu();
     void buildUseSuggestedAction();
+    void buildLastUsedAction();
     void buildUnsetAction();
 
 signals:
