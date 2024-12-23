@@ -194,6 +194,7 @@ void Tailscale::setExitNode(const QString &dnsName)
     }
 
     KTailctlConfig::self()->setLastUsedExitNode(dnsName);
+    KTailctlConfig::self()->save();
 
     QByteArray targetBytes;
     const QStringList ips = hits.first().data(PeerModel::TailscaleIpsRole).toStringList();
