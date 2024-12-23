@@ -16,6 +16,8 @@ PACKAGES=(
     libkf6i18n-dev
     libkf6notifications-dev
     libkf6notifications-dev
+    libkf6windowsystem-dev
+    libkf6dbusaddons-dev
     libqt6quickcontrols2-6
     libqt6svg6-dev
     nlohmann-json3-dev
