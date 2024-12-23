@@ -10,8 +10,10 @@
 #include <QtQml>
 
 #include <KAboutData>
+#include <KDBusService>
 #include <KLocalizedContext>
 #include <KLocalizedString>
+#include <KWindowSystem>
 
 #include "about.hpp"
 #include "app.hpp"
@@ -104,6 +106,22 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     // for screenshots for flatpak
     // window->resize(QSize(1598, 869));
+
+    if (engine.rootObjects().isEmpty()) {
+        return -1;
+    }
+    KDBusService service(KDBusService::Unique);
+    QObject::connect(&service, &KDBusService::activateRequested, &engine, [&engine](const QStringList &, const QString &) {
+        const auto rootObjects = engine.rootObjects();
+        for (auto obj : rootObjects) {
+            auto view = qobject_cast<QQuickWindow *>(obj);
+            if (view) {
+                KWindowSystem::updateStartupId(view);
+                KWindowSystem::activateWindow(view);
+                return;
+            }
+        }
+    });
 
     return QApplication::exec();
 }
