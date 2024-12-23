@@ -10,6 +10,7 @@ class Preferences : public QObject
     Q_OBJECT
     Q_PROPERTY(bool acceptRoutes READ acceptRoutes WRITE setAcceptRoutes NOTIFY acceptRoutesChanged)
     Q_PROPERTY(bool acceptDNS READ acceptDNS WRITE setAcceptDNS NOTIFY acceptDNSChanged)
+    Q_PROPERTY(bool allowLANAccess READ allowLANAccess WRITE setExitNodeAllowLANAccess NOTIFY allowLANAccessChanged)
     Q_PROPERTY(bool advertiseExitNode READ advertiseExitNode WRITE setAdvertiseExitNode NOTIFY advertiseExitNodeChanged)
     Q_PROPERTY(QString hostname READ hostname WRITE setHostname NOTIFY hostnameChanged)
     Q_PROPERTY(QString operatorUser READ operatorUser WRITE setOperatorUser NOTIFY operatorUserChanged)
@@ -27,11 +28,13 @@ private:
     bool mShieldsUp{};
     bool mSSH{};
     bool mWebClient{};
+    bool mExitNodeAllowLANAccess{};
 
     explicit Preferences(QObject *parent = nullptr);
 
 signals:
     void acceptRoutesChanged(bool);
+    void allowLANAccessChanged(bool);
     void acceptDNSChanged(bool);
     void advertiseExitNodeChanged(bool);
     void hostnameChanged(const QString &);
@@ -48,6 +51,7 @@ public:
 
     bool acceptRoutes() const;
     bool acceptDNS() const;
+    bool allowLANAccess() const;
     bool advertiseExitNode() const;
     const QString &hostname() const;
     const QString &operatorUser() const;
@@ -56,6 +60,7 @@ public:
     bool webClient() const;
 
     void setAcceptRoutes(bool acceptRoutes);
+    void setExitNodeAllowLANAccess(bool allowLANAccess);
     void setAcceptDNS(bool acceptDNS);
     void setAdvertiseExitNode(bool advertiseExitNode);
     void setHostname(const QString &hostname);

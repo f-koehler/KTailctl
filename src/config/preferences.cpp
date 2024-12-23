@@ -24,6 +24,13 @@ void Preferences::refresh()
         }
     }
 
+    if (tailscale_get_exit_node_allow_lan_access(&tmpBool) != 0U) {
+        if (static_cast<bool>(tmpBool) != mExitNodeAllowLANAccess) {
+            mExitNodeAllowLANAccess = (tmpBool != 0U);
+            emit allowLANAccessChanged(mExitNodeAllowLANAccess);
+        }
+    }
+
     if (tailscale_get_accept_dns(&tmpBool) != 0U) {
         if (static_cast<bool>(tmpBool) != mAcceptDNS) {
             mAcceptDNS = (tmpBool != 0U);
@@ -88,6 +95,10 @@ bool Preferences::acceptDNS() const
 {
     return mAcceptDNS;
 }
+bool Preferences::allowLANAccess() const
+{
+    return mExitNodeAllowLANAccess;
+}
 bool Preferences::advertiseExitNode() const
 {
     return mAdvertiseExitNode;
@@ -119,6 +130,14 @@ void Preferences::setAcceptRoutes(bool acceptRoutes)
     if (tailscale_set_accept_routes(&tmp) != 0U) {
         mAcceptRoutes = acceptRoutes;
         emit acceptRoutesChanged(mAcceptRoutes);
+    }
+}
+void Preferences::setExitNodeAllowLANAccess(bool allowLANAccess)
+{
+    auto tmp = static_cast<GoUint8>(allowLANAccess);
+    if (tailscale_set_exit_node_allow_lan_access(&tmp) != 0U) {
+        mExitNodeAllowLANAccess = allowLANAccess;
+        emit allowLANAccessChanged(mExitNodeAllowLANAccess);
     }
 }
 void Preferences::setAcceptDNS(bool acceptDNS)
