@@ -118,6 +118,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
             if (view) {
                 KWindowSystem::updateStartupId(view);
                 KWindowSystem::activateWindow(view);
+                view->show();
                 return;
             }
         }
