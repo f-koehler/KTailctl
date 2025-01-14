@@ -115,7 +115,51 @@
             {
               env.KTAILCTL_WRAPPER_GO_EXECUTABLE = "${go}/bin/go";
               # https://devenv.sh/reference/options/
-              packages = [go];
+              packages = [
+                go
+                pkgs.extra-cmake-modules
+                pkgs.git
+                pkgs.appstream
+                pkgs.kdePackages.kdbusaddons
+                pkgs.kdePackages.kwindowsystem
+                pkgs.kdePackages.kconfig
+                pkgs.kdePackages.kcoreaddons
+                pkgs.kdePackages.kguiaddons
+                pkgs.kdePackages.ki18n
+                pkgs.kdePackages.kirigami
+                pkgs.kdePackages.kirigami-addons
+                pkgs.kdePackages.knotifications
+                pkgs.kdePackages.qtbase
+                pkgs.kdePackages.qtdeclarative
+                pkgs.kdePackages.qtsvg
+                pkgs.nlohmann_json
+                pkgs.cmake-format
+                pkgs.cmake-lint
+                pkgs.python3Full
+                pkgs.flatpak-builder
+
+                pkgs.libsForQt5.plasma-sdk # for cuttlefish icon browser, not yet updated for Plasma 6
+                pkgs.libsForQt5.kirigami-gallery # version in Plasma 6 currently broken in nixpkgs
+                pkgs.gdb
+                pkgs.lldb
+                pkgs.heaptrack # for memory-leak checking
+
+                pkgs
+                . # C++ linting
+                pkgs
+                .flawfinder
+                pkgs.cppcheck
+                pkgs.clazy
+
+                pkgs
+                . # Go linting
+                pkgs
+                .gosec
+                pkgs.go-critic
+                pkgs.gofumpt
+                pkgs.go-tools
+                pkgs.gotools
+              ];
 
               languages = {
                 c.enable = true;
