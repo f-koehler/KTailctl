@@ -111,15 +111,12 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
         return -1;
     }
     KDBusService service(KDBusService::Unique);
-    QObject::connect(&service, &KDBusService::activateRequested, &engine, [&engine](const QStringList &, const QString &) {
-        const auto rootObjects = engine.rootObjects();
-        for (auto obj : rootObjects) {
-            auto view = qobject_cast<QQuickWindow *>(obj);
-            if (view) {
-                KWindowSystem::updateStartupId(view);
-                KWindowSystem::activateWindow(view);
-                return;
-            }
+    QObject::connect(&service, &KDBusService::activateRequested, &engine, [&engine, window](const QStringList &, const QString &) {
+        if (window) {
+            window->show();
+            KWindowSystem::updateStartupId(window);
+            window->raise();
+            KWindowSystem::activateWindow(window);
         }
     });
 
