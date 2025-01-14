@@ -28,7 +28,7 @@ jobs:
       - name: Install devenv.sh
         run: nix profile install nixpkgs#devenv
       - name: Run pre-commit hooks.
-        run: devenv shell pre-commit -- run --all-files
+        run: nix develop --no-pure-eval --command pre-commit run --all-files
   build:
     name: "LLVM build: Version ${{ matrix.llvm_version }}"
     runs-on: ubuntu-latest
