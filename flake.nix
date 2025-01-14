@@ -117,6 +117,7 @@
               # https://devenv.sh/reference/options/
               packages = [
                 go
+                pkgs.gcc
                 pkgs.extra-cmake-modules
                 pkgs.git
                 pkgs.appstream
@@ -144,17 +145,13 @@
                 pkgs.lldb
                 pkgs.heaptrack # for memory-leak checking
 
-                pkgs
-                . # C++ linting
-                pkgs
-                .flawfinder
+                # C++ linting
+                pkgs.flawfinder
                 pkgs.cppcheck
                 pkgs.clazy
 
-                pkgs
-                . # Go linting
-                pkgs
-                .gosec
+                # Go linting
+                pkgs.gosec
                 pkgs.go-critic
                 pkgs.gofumpt
                 pkgs.go-tools
