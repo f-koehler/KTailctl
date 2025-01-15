@@ -40,6 +40,23 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.19.0" date="2025-01-16" urgency="medium">
+      <description>
+        <p>This update prevents KTailctl from starting multiple instances and instead puts the
+          existing one in the foreground. A new toggle in the settings allows to enable and disable
+          LAN access while using an exit node.</p>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.19.0</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.19.0.tar.gz</location>
+        </artifact>
+        <artifact type="source">
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.19.0/tailwrap-vendor-v0.19.0.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.18.2" date="2024-12-09" urgency="low">
       <description>
         <p>No user-facing changes.</p>
