@@ -40,6 +40,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QCoreApplication::setApplicationName(QStringLiteral("KTailctl"));
     QCoreApplication::setOrganizationName(QStringLiteral("fkoehler.org"));
     QApplication app(argc, argv); // NOLINT(misc-const-correctness)
+    KDBusService service(KDBusService::Unique);
 
     QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("ktailctl")));
 
@@ -107,7 +108,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     // for screenshots for flatpak
     // window->resize(QSize(1598, 869));
 
-    KDBusService service(KDBusService::Unique);
     QObject::connect(&service, &KDBusService::activateRequested, &engine, [&engine, window](const QStringList &, const QString &) {
         if (window) {
             window->show();
