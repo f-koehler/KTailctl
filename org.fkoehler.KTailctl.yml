@@ -13,6 +13,7 @@ finish-args:
   - --talk-name=org.kde.StatusNotifierWatcher
   - --filesystem=/run/tailscale:ro
   - --filesystem=/sys/class/net:ro
+  - --talk-name=org.fkoehler.KTailctl
 build-options:
   prepend-path: /usr/lib/sdk/golang/bin
 modules:
