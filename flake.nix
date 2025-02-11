@@ -21,11 +21,13 @@
     lastModifiedDate = self.lastModifiedDate or self.lastModified or "19700101";
     version = builtins.substring 0 8 lastModifiedDate;
     forEachSystem = nixpkgs.lib.genAttrs (import systems);
-    nixpkgsFor = forEachSystem (system:
-      import nixpkgs {
-        inherit system;
-        overlays = [self.overlay];
-      });
+    nixpkgsFor = forEachSystem (
+      system:
+        import nixpkgs {
+          inherit system;
+          overlays = [self.overlay];
+        }
+    );
   in {
     packages = forEachSystem (system: {
       devenv-up = self.devShells.${system}.default.config.procfileScript;
@@ -52,7 +54,7 @@
               pname = "ktailctl_wrapper";
               inherit src version;
               modRoot = "src/wrapper";
-              vendorHash = "sha256-xe2LUdh/F3ATRi2+5UbfLGAMgDnYj/J1ZIaB1lMPIkk=";
+              vendorHash = "sha256-h/05K/JeJxJbV+G7HUxHZaolLsvGhW66A2ZofRFaafo=";
             })
             .goModules;
 
@@ -102,9 +104,8 @@
         };
     };
 
-    devShells =
-      forEachSystem
-      (system: let
+    devShells = forEachSystem (
+      system: let
         pkgs = nixpkgs.legacyPackages.${system};
         inherit (nixpkgs) lib;
         go = pkgs.go_1_23;
@@ -180,11 +181,17 @@
                 # C++
                 clang-format = {
                   enable = true;
-                  types_or = ["c++" "c"];
+                  types_or = [
+                    "c++"
+                    "c"
+                  ];
                 };
                 clang-tidy = {
                   enable = false;
-                  types_or = ["c++" "c"];
+                  types_or = [
+                    "c++"
+                    "c"
+                  ];
                   entry = "clang-tidy -p build --fix";
                 };
                 clazy = {
@@ -276,6 +283,7 @@
             }
           ];
         };
-      });
+      }
+    );
   };
 }
