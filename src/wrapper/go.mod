@@ -4,7 +4,7 @@ go 1.23.1
 
 require (
 	golang.org/x/net v0.35.0
-	tailscale.com v1.80.1
+	tailscale.com v1.80.2
 )
 
 require (
