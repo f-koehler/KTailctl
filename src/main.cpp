@@ -2,6 +2,7 @@
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 
 #include <QApplication>
+#include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
 #include <QQuickWindow>
@@ -36,9 +37,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 #ifdef __APPLE__
     QQuickStyle::setStyle(QStringLiteral("macOS"));
 #endif
-    QCoreApplication::setOrganizationDomain(QStringLiteral("fkoehler.org"));
-    QCoreApplication::setApplicationName(QStringLiteral("KTailctl"));
-    QCoreApplication::setOrganizationName(QStringLiteral("fkoehler.org"));
     QApplication app(argc, argv); // NOLINT(misc-const-correctness)
     KDBusService service(KDBusService::Unique);
 
@@ -57,9 +55,12 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
         // The license this code is released under.
         KAboutLicense::GPL,
         // Copyright Statement.
-        i18n("(c) 2023"));
-    aboutData.setHomepage("https://github.com/f-koehler/KTailctl");
+        i18n("(c) Fabian Koehler 2023"));
+
     aboutData.setBugAddress("https://github.com/f-koehler/KTailctl/issues");
+    aboutData.setDesktopFileName(QStringLiteral("org.fkoehler.KTailctl.desktop"));
+    aboutData.setHomepage(QStringLiteral("https://github.com/f-koehler/KTailctl"));
+    aboutData.setOrganizationDomain("fkoehler.org");
     aboutData.addAuthor(i18nc("@info:credit", "Fabian Köhler"),
                         i18nc("@info:credit", "Project Maintainer"),
                         QStringLiteral("me@fkoehler.org"),
