@@ -69,6 +69,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     aboutData.setProgramLogo(QIcon(QStringLiteral(":/icons/logo.svg")));
     KAboutData::setApplicationData(aboutData);
     KDBusService service(KDBusService::Unique);
+    qInfo() << "KDBusService name:" << service.serviceName();
 
     auto *about = new AboutType();
     auto *application = new App();
