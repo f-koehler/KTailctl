@@ -41,6 +41,9 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("ktailctl")));
 
+    QCoreApplication::setOrganizationDomain(QStringLiteral("fkoehler.org"));
+    QCoreApplication::setApplicationName(QStringLiteral("KTailctl"));
+    QCoreApplication::setOrganizationName(QStringLiteral("fkoehler.org"));
     KAboutData aboutData( // NOLINT(misc-const-correctness)
                           // The program name used internally.
         QStringLiteral("KTailctl"),
