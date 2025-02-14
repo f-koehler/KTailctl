@@ -38,13 +38,11 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QQuickStyle::setStyle(QStringLiteral("macOS"));
 #endif
     QApplication app(argc, argv); // NOLINT(misc-const-correctness)
-    KDBusService service(KDBusService::Unique);
 
     QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("ktailctl")));
 
     KAboutData aboutData( // NOLINT(misc-const-correctness)
-
-        // The program name used internally.
+                          // The program name used internally.
         QStringLiteral("KTailctl"),
         // A displayable program name string.
         i18nc("@title", "KTailctl"),
@@ -67,6 +65,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
                         QStringLiteral("https://fkoehler.org"));
     aboutData.setProgramLogo(QIcon(QStringLiteral(":/icons/logo.svg")));
     KAboutData::setApplicationData(aboutData);
+    KDBusService service(KDBusService::Unique);
 
     auto *about = new AboutType();
     auto *application = new App();
