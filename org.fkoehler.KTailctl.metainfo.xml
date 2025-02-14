@@ -40,6 +40,17 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.19.3" date="2025-02-14" urgency="low">
+      <description>
+        <p>Fixes crash caused by regression in v0.19.2.</p>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.19.3</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.19.3.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.19.2" date="2025-02-14" urgency="low">
       <description>
         <p>Fixes the missing window icon.</p>

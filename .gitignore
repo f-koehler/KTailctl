@@ -26,3 +26,4 @@ devenv.local.nix
 
 *.qml.bak
 /out/
+compile_commands.json
