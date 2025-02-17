@@ -92,7 +92,7 @@ QString formatDurationHumanReadable(const QDateTime &startTime, const QDateTime 
     }
 
     static constexpr std::array<qint64, 6> conversions = {365LL * 30LL * 24LL * 60LL * 60LL * 1000LL,
-                                                          34 * 30LL * 60LL * 60LL * 1000LL,
+                                                          30LL * 24LL * 60LL * 60LL * 1000LL,
                                                           24LL * 60LL * 60LL * 1000LL,
                                                           60LL * 60LL * 1000LL,
                                                           60LL * 1000LL,
