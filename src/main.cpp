@@ -59,7 +59,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
         i18n("(c) Fabian Koehler 2023"));
 
     aboutData.setBugAddress("https://github.com/f-koehler/KTailctl/issues");
-    aboutData.setDesktopFileName(QStringLiteral("org.fkoehler.KTailctl.desktop"));
+    aboutData.setDesktopFileName(QStringLiteral("org.fkoehler.KTailctl"));
     aboutData.setHomepage(QStringLiteral("https://github.com/f-koehler/KTailctl"));
     aboutData.setOrganizationDomain("fkoehler.org");
     aboutData.addAuthor(i18nc("@info:credit", "Fabian Köhler"),
