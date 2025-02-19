@@ -87,12 +87,12 @@ devenv.lib.mkShell {
             "c++"
             "c"
           ];
-          entry = "clang-tidy -p build --fix";
+          entry = "${lib.getExe' pkgs.clang-tools "clang-tidy"} -p build --fix";
         };
         clazy = {
           enable = false;
           types = [ "c++" ];
-          entry = "clazy-standalone -p build/compile_commands.json";
+          entry = "${lib.getExe pkgs.clazy "clazy-standalone"} -p build/compile_commands.json";
         };
         cppcheck = {
           enable = true;
@@ -120,12 +120,12 @@ devenv.lib.mkShell {
         qmlformat = {
           enable = true;
           types = [ "qml" ];
-          entry = "${pkgs.kdePackages.qtdeclarative}/bin/qmlformat -i -n --objects-spacing --functions-spacing";
+          entry = "${lib.getExe' pkgs.kdePackages.qtdeclarative "qmlformat"} -i -n --objects-spacing --functions-spacing";
         };
         qmllint = {
           enable = false;
           types = [ "qml" ];
-          entry = "${pkgs.kdePackages.qtdeclarative}/bin/qmllint";
+          entry = "${lib.getExe' pkgs.kdePackages.qtdeclarative "qmllint"}";
         };
 
         # Go
@@ -148,11 +148,11 @@ devenv.lib.mkShell {
         gostaticcheck = {
           enable = true;
           pass_filenames = false;
-          entry = "${pkgs.go-tools}/bin/staticcheck ./src/wrapper";
+          entry = "${lib.getExe' pkgs.go-tools "staticcheck"} ./src/wrapper";
         };
         goimports = {
           enable = true;
-          entry = "${pkgs.gotools}/bin/goimports -w";
+          entry = "${lib.getExe' pkgs.gotools "goimports"} -w";
           types = [ "go" ];
         };
 
@@ -160,12 +160,12 @@ devenv.lib.mkShell {
         cmake-format = {
           enable = true;
           types = [ "cmake" ];
-          entry = "${pkgs.cmake-format}/bin/cmake-format -c .cmake.yaml -i";
+          entry = "${lib.getExe' pkgs.cmake-format "cmake-format"} -c .cmake.yaml -i";
         };
         cmake-lint = {
           enable = true;
           types = [ "cmake" ];
-          entry = "${pkgs.cmake-format}/bin/cmake-lint -c .cmake.yaml";
+          entry = "${lib.getExe' pkgs.cmake-format "cmake-lint"} -c .cmake.yaml";
         };
 
         # nix
