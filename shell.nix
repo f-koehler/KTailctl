@@ -98,7 +98,7 @@ devenv.lib.mkShell {
           enable = true;
           types = [ "c++" ];
           entry = ''
-            ${lib.getExe pkgs.cppcheck} \
+            ${lib.getExe' pkgs.cppcheck "cppcheck"} \
                 --check-level=exhaustive \
                 --enable=performance \
                 --enable=portability \
