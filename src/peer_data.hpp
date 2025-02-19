@@ -9,8 +9,6 @@
 
 #include "json.hpp"
 
-Q_DECLARE_LOGGING_CATEGORY(logcat_peer_data)
-
 struct PeerData {
     Q_GADGET
     Q_PROPERTY(QString tailscaleID MEMBER mId)

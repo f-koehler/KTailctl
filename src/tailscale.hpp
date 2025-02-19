@@ -36,12 +36,12 @@ private:
     QString mVersion;
     bool mIsOperator = false;
     QString mBackendState;
-    PeerData mSelf;
+    PeerData mSelf{};
 
     bool mHasSuggestedExitNode = false;
     bool mHasCurrentExitNode = false;
-    PeerData mSuggestedExitNode;
-    PeerData mCurrentExitNode;
+    PeerData mSuggestedExitNode{};
+    PeerData mCurrentExitNode{};
 
     explicit Tailscale(QObject *parent = nullptr);
 

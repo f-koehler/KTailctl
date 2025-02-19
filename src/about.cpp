@@ -2,10 +2,10 @@
 // PDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 
 #include "about.hpp"
-#include <version.h>
+#include "version-ktailctl.h"
 KAboutData AboutType::aboutData()
 {
     auto aboutData = KAboutData::applicationData();
-    aboutData.setVersion(QByteArray::fromStdString(getVersion()));
+    aboutData.setVersion(KTAILCTL_VERSION_STRING);
     return aboutData;
 }
