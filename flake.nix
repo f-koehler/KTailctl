@@ -46,6 +46,7 @@
             inherit pkgs;
             inherit lib;
             inherit inputs;
+            inherit (self.packages.${system}) ktailctl;
           };
         }
       );
