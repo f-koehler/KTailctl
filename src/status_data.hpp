@@ -5,8 +5,6 @@
 
 #include <QLoggingCategory>
 
-Q_DECLARE_LOGGING_CATEGORY(logcat_status_data)
-
 struct StatusData {
     QString version;
     bool isTun;

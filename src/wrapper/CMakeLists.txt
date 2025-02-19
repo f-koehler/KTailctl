@@ -12,6 +12,7 @@ message(STATUS "Go version: ${KTAILCTL_WRAPPER_GO_VERSION}")
 add_library(ktailctl_wrapper_logging SHARED logging.cpp)
 target_link_libraries(ktailctl_wrapper_logging PUBLIC Qt6::Core)
 target_compile_definitions(ktailctl_wrapper_logging PRIVATE QT_MESSAGELOGCONTEXT)
+target_include_directories(ktailctl_wrapper_logging PRIVATE ${PROJECT_BINARY_DIR}/src)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/logging.go.in ${CMAKE_CURRENT_SOURCE_DIR}/logging.go @ONLY)
 

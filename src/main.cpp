@@ -50,7 +50,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
         // A displayable program name string.
         i18nc("@title", "KTailctl"),
         // The program version string.
-        QStringLiteral(TAILCTL_VERSION_STRING),
+        QStringLiteral(KTAILCTL_VERSION_STRING),
         // Short description of what the app does.
         i18n("GUI for tailscale on the KDE Plasma desktop"),
         // The license this code is released under.
@@ -96,7 +96,8 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     qmlRegisterType<KTailctlConfig>("org.fkoehler.KTailctl", 1, 0, "KTailctlConfig");
 
     engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
-    engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
+    engine.rootContext()->setContextProperty(QStringLiteral("styleName"), QQuickStyle::name());
+    engine.loadFromModule("org.fkoehler.KTailctl", "Main");
     if (engine.rootObjects().isEmpty()) {
         return -1;
     }

@@ -1,5 +1,5 @@
-#ifndef KTAILCTL_TAILDROP_TAILDROP_SEND_JOB_HPP
-#define KTAILCTL_TAILDROP_TAILDROP_SEND_JOB_HPP
+#ifndef KTAILCTL_TAILDROP_SENDER_HPP
+#define KTAILCTL_TAILDROP_SENDER_HPP
 
 #include <KJob>
 #include <QList>
@@ -9,8 +9,6 @@
 #include <QObject>
 #include <QThread>
 #include <QUrl>
-
-Q_DECLARE_LOGGING_CATEGORY(logcat_taildrop_send_job)
 
 class TaildropSendWorker : public QThread
 {
@@ -57,4 +55,4 @@ public:
     Q_INVOKABLE static TaildropSendJob *selectAndSendFiles(const QString &target);
 };
 
-#endif /* KTAILCTL_TAILDROP_TAILDROP_SEND_JOB_HPP */
+#endif /* KTAILCTL_TAILDROP_SENDER_HPP */

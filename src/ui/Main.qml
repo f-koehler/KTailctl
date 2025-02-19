@@ -1,28 +1,38 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15 as Controls
-import QtQuick.Layouts 1.15
-import org.fkoehler.KTailctl 1.0
-import org.kde.kirigami 2.19 as Kirigami
-import org.kde.kirigamiaddons.delegates 1.0 as Delegates
+import QtQuick
+import QtQuick.Controls as Controls
+import QtQuick.Layouts
+import org.fkoehler.KTailctl
+import org.kde.kirigami as Kirigami
+import org.kde.kirigamiaddons.delegates as Delegates
 
 Kirigami.ApplicationWindow {
     id: root
 
-    function navigateTo(name) {
-        if (pageStack.currentItem.objectName == name)
-            return;
-        while (pageStack.depth > 1)
-            pageStack.pop();
-        if (pageStack.currentItem.objectName != name)
-            pageStack.replace("qrc:" + name + ".qml");
+    function pushPage(page): void {
+        var pageObject = Qt.createComponent("org.fkoehler.KTailctl", page);
+        if (!pageObject) {
+            page = "Peers";
+            pageObject = Qt.createComponent("org.fkoehler.KTailctl", page);
+        }
+        pageStack.clear();
+        pageStack.layers.clear();
+        pageStack.push(page);
     }
+
+    // function navigateTo(name) {
+    //     if (pageStack.currentItem.objectName == name)
+    //         return;
+    //     while (pageStack.depth > 1)
+    //         pageStack.pop();
+    //     if (pageStack.currentItem.objectName != name)
+    //         pageStack.replace("qrc:" + name + ".qml");
+    // }
 
     minimumHeight: Kirigami.Units.gridUnit * 20
     minimumWidth: Kirigami.Units.gridUnit * 20
-    pageStack.initialPage: "qrc:Peers.qml"
     title: i18n("KTailctl")
 
     contextDrawer: Kirigami.ContextDrawer {
@@ -73,37 +83,37 @@ Kirigami.ApplicationWindow {
                         icon.name: "network-wired"
                         text: i18n("Peers")
 
-                        onTriggered: navigateTo("Peers")
+                        onTriggered: pushPage("Peers")
                     },
                     Kirigami.Action {
                         icon.name: "computer-symbolic"
                         text: i18n("This PC")
 
-                        onTriggered: navigateTo("Self")
+                        onTriggered: pushPage("Self")
                     },
                     Kirigami.Action {
                         icon.name: "globe"
                         text: i18n("Exit Nodes")
 
-                        onTriggered: navigateTo("ExitNodes")
+                        onTriggered: pushPage("ExitNodes")
                     },
                     // Kirigami.Action {
                     //     icon.name: "office-chart-line-stacked"
                     //     text: i18n("Statistics")
 
-                    //     onTriggered: navigateTo("Statistics")
+                    //     onTriggered: pushPage("Statistics")
                     // },
                     Kirigami.Action {
                         icon.name: "settings-configure"
                         text: i18n("Settings")
 
-                        onTriggered: navigateTo("Settings")
+                        onTriggered: pushPage("Settings")
                     },
                     Kirigami.Action {
                         icon.name: "help-about"
                         text: i18n("About KTailctl")
 
-                        onTriggered: navigateTo("About")
+                        onTriggered: pushPage("About")
                     },
                     Kirigami.Action {
                         icon.name: (Tailscale.backendState == "Running") ? "process-stop" : "media-playback-start"
@@ -149,7 +159,10 @@ Kirigami.ApplicationWindow {
         onModalChanged: drawerOpen = !modal
     }
 
-    Component.onCompleted: App.restoreWindowGeometry(root)
+    Component.onCompleted: {
+        pageStack.initialPage = pushPage("Peers");
+        App.restoreWindowGeometry(root);
+    }
     onClosing: App.saveWindowGeometry(root)
     onHeightChanged: saveWindowGeometryTimer.restart()
     onWidthChanged: saveWindowGeometryTimer.restart()
@@ -181,33 +194,5 @@ Kirigami.ApplicationWindow {
         onTriggered: {
             Tailscale.refresh();
         }
-    }
-
-    Loader {
-        source: "qrc:About.qml"
-    }
-
-    Loader {
-        source: "qrc:ExitNodes.qml"
-    }
-
-    Loader {
-        source: "qrc:MullvadNodes.qml"
-    }
-
-    Loader {
-        source: "qrc:Peer.qml"
-    }
-
-    Loader {
-        source: "qrc:Self.qml"
-    }
-
-    Loader {
-        source: "qrc:Settings.qml"
-    }
-
-    Loader {
-        source: "qrc:Statistics.qml"
     }
 }

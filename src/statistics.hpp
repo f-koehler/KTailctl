@@ -9,8 +9,6 @@
 #include <QMap>
 #include <QTimer>
 
-Q_DECLARE_LOGGING_CATEGORY(logcat_statistics)
-
 class Statistics : public QObject
 {
     Q_OBJECT

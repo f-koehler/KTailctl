@@ -2,12 +2,11 @@
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 #include "statistics.hpp"
 #include "libktailctl_wrapper.h"
+#include "logging_statistics.hpp"
 #include "tailscale.hpp"
 
 #include <QFile>
 #include <QTextStream>
-
-Q_LOGGING_CATEGORY(logcat_statistics, "org.fkoehler.KTailctl.Statistics")
 
 Statistics::Statistics(QObject *parent)
     : QObject(parent)
@@ -34,7 +33,7 @@ SpeedStatistics *Statistics::speedUp(const QString &id)
 {
     auto iter = mSpeedUp.find(id);
     if (iter == mSpeedUp.end()) {
-        qCCritical(logcat_statistics) << "No up speed statistics for peer" << id;
+        qCCritical(Logging::Statistics) << "No up speed statistics for peer" << id;
         return nullptr;
     }
     return iter.value();
@@ -43,7 +42,7 @@ SpeedStatistics *Statistics::speedDown(const QString &id)
 {
     auto iter = mSpeedDown.find(id);
     if (iter == mSpeedDown.end()) {
-        qCCritical(logcat_statistics) << "No down speed statistics for peer" << id;
+        qCCritical(Logging::Statistics) << "No down speed statistics for peer" << id;
         return nullptr;
     }
     return iter.value();

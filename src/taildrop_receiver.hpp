@@ -8,8 +8,6 @@
 #include <QObject>
 #include <QThread>
 
-Q_DECLARE_LOGGING_CATEGORY(logcat_taildrop_receiver)
-
 class TaildropReceiver : public QThread
 {
     Q_OBJECT

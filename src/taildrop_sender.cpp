@@ -1,10 +1,9 @@
 #include "taildrop_sender.hpp"
 #include "libktailctl_wrapper.h"
+#include "logging_taildrop_send.hpp"
 #include <QFileDialog>
 #include <QLoggingCategory>
 #include <QTimer>
-
-Q_LOGGING_CATEGORY(logcat_taildrop_send_job, "org.fkoehler.KTailctl.TaildropSendJob")
 
 TaildropSendWorker::TaildropSendWorker(const QString &target, const QList<QUrl> &files, QObject *parent)
     : QThread(parent)
@@ -22,12 +21,12 @@ void TaildropSendWorker::run()
     for (const QUrl &file : std::as_const(mFiles)) {
         const QByteArray fileBytes = file.path().toUtf8();
         const GoString fileGo{fileBytes.constData(), fileBytes.size()};
-        qCInfo(logcat_taildrop_send_job) << "Sending file:" << fileGo.p << "to target:" << mTarget;
+        qCInfo(Logging::TaildropSend) << "Sending file:" << fileGo.p << "to target:" << mTarget;
 
         tailscale_send_file(targetGo, fileGo, [](unsigned long n) {
             qDebug() << "Bytes sent:" << n;
         });
-        qCInfo(logcat_taildrop_send_job) << "Completed sending file:" << fileGo.p << "to target:" << mTarget;
+        qCInfo(Logging::TaildropSend) << "Completed sending file:" << fileGo.p << "to target:" << mTarget;
 
         ++fileCounter;
         emit filesSent(fileCounter);

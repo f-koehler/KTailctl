@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2024 Fabian Köhler <me@fkoehler.org>
-import QtQuick.Layouts 1.15
-import QtQuick 2.15
-import QtQuick.Controls 2.15 as Controls
-import org.kde.kirigami 2.19 as Kirigami
-import org.kde.kirigamiaddons.formcard 1.0 as FormCard
-import org.fkoehler.KTailctl 1.0
-import org.fkoehler.KTailctl.Components 1.0 as KTailctlComponents
+import QtQuick.Layouts
+import QtQuick
+import QtQuick.Controls as Controls
+import org.kde.kirigami as Kirigami
+import org.kde.kirigamiaddons.formcard as FormCard
+import org.fkoehler.KTailctl
+import org.fkoehler.KTailctl.Components as KTailctlComponents
 
 Kirigami.ScrollablePage {
     id: mullvadNodes

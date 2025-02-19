@@ -2,6 +2,7 @@
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 
 #include "app.hpp"
+#include "logging_app.hpp"
 #include "taildrop_receiver.hpp"
 #include <KSharedConfig>
 #include <KWindowConfig>
@@ -12,8 +13,6 @@
 #include <QQuickWindow>
 
 #include <functional>
-
-Q_LOGGING_CATEGORY(logcat_app, "org.fkoehler.KTailctl.App")
 
 App::App(QObject *parent)
     : QObject(parent)
@@ -86,7 +85,7 @@ void App::setPeerDetails(const QString &id)
         return peer.mId == id;
     });
     if (position == peers.end()) {
-        qCWarning(logcat_app) << "Peer" << id << "not found";
+        qCWarning(Logging::App) << "Peer" << id << "not found";
         return;
     }
     if (*position != mPeerDetails) {

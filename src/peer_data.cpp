@@ -1,7 +1,5 @@
 #include "peer_data.hpp"
-#include <iostream>
-
-Q_LOGGING_CATEGORY(logcat_peer_data, "org.fkoehler.KTailctl.PeerData")
+#include "logging_peer_data.hpp"
 
 bool PeerData::isRunningSSH() const
 {
@@ -74,6 +72,6 @@ void from_json(const json &j, PeerData &p)
             p.mCity.clear();
         }
     } catch (json::exception &e) {
-        qCCritical(logcat_peer_data) << "Error parsing peer data: " << e.what();
+        qCCritical(Logging::PeerData) << "Error parsing peer data: " << e.what();
     }
 }

@@ -15,8 +15,6 @@
 #include <QQuickWindow>
 #include <QSortFilterProxyModel>
 
-Q_DECLARE_LOGGING_CATEGORY(logcat_app)
-
 class QQuickWindow;
 
 class App : public QObject

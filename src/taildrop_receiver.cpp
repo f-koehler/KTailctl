@@ -2,12 +2,11 @@
 // SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
 #include "taildrop_receiver.hpp"
 #include "libktailctl_wrapper.h"
+#include "logging_taildrop_receive.hpp"
 #include "util.hpp"
 
 #include <QDebug>
 #include <QDir>
-
-Q_LOGGING_CATEGORY(logcat_taildrop_receiver, "org.fkoehler.KTailctl.TaildropReceiver")
 
 QString strategyToString(const KTailctlConfig::EnumTaildropStrategy::type &strategy)
 {
@@ -92,7 +91,7 @@ void TaildropReceiver::setEnabled(bool enabled)
 void TaildropReceiver::setDirectory(const QString &directory)
 {
     if (mDirectory != directory) {
-        qCDebug(logcat_taildrop_receiver) << "set directory" << directory;
+        qCDebug(Logging::TaildropReceive) << "set directory" << directory;
         QDir().mkpath(directory);
         mDirectory = directory;
         terminate();
@@ -104,7 +103,7 @@ void TaildropReceiver::setDirectory(const QString &directory)
 void TaildropReceiver::setStrategy(const QString &strategy)
 {
     if (mStrategy != strategy) {
-        qCDebug(logcat_taildrop_receiver) << "set strategy" << strategy;
+        qCDebug(Logging::TaildropReceive) << "set strategy" << strategy;
         mStrategy = strategy;
         terminate();
         wait();
