@@ -2,7 +2,6 @@
   devenv,
   pkgs,
   lib,
-  go,
   inputs,
   ...
 }:
@@ -11,9 +10,9 @@ devenv.lib.mkShell {
   inherit inputs;
   modules = [
     {
-      env.KTAILCTL_WRAPPER_GO_EXECUTABLE = "${lib.getExe' go "go"}";
+      env.KTAILCTL_WRAPPER_GO_EXECUTABLE = "${lib.getExe' pkgs.go_1_24 "go"}";
       packages = [
-        go
+        pkgs.go_1_24
         pkgs.gcc
         pkgs.extra-cmake-modules
         pkgs.git
@@ -60,7 +59,7 @@ devenv.lib.mkShell {
         cplusplus.enable = true;
         go = {
           enable = true;
-          package = go;
+          package = pkgs.go_1_24;
         };
       };
 
