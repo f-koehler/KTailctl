@@ -5,28 +5,32 @@
   lib,
 
   appstream,
+  buildGo124Module,
+  cmake,
+  cmake-format,
+  extra-cmake-modules,
+  git,
+  go_1_24,
   kdePackages,
   nlohmann_json,
-  cmake-format,
-  cmake,
-  go_1_24,
-  git,
-  extra-cmake-modules,
-  buildGoModule,
 }:
-stdenv.mkDerivation rec {
-  pname = "ktailctl";
-  inherit version;
-
+let
   src = ./.;
 
   goDeps =
-    (buildGoModule {
+    (buildGo124Module {
       pname = "ktailctl_wrapper";
       inherit src version;
       modRoot = "src/wrapper";
       vendorHash = "sha256-o7eH3f+yeRr5CnBIuL2jMtVQaBLVihz2dg5RTF8RvaM=";
     }).goModules;
+in
+stdenv.mkDerivation {
+  pname = "ktailctl";
+
+  inherit version;
+  inherit goDeps;
+  inherit src;
 
   nativeBuildInputs = [
     cmake
@@ -37,20 +41,22 @@ stdenv.mkDerivation rec {
   ];
   buildInputs = [
     appstream
-    kdePackages.kdbusaddons
-    kdePackages.kwindowsystem
+    cmake-format
     kdePackages.kconfig
     kdePackages.kcoreaddons
+    kdePackages.kdbusaddons
     kdePackages.kguiaddons
     kdePackages.ki18n
     kdePackages.kirigami
     kdePackages.kirigami-addons
     kdePackages.knotifications
+    kdePackages.kwindowsystem
+    kdePackages.qqc2-desktop-style
     kdePackages.qtbase
     kdePackages.qtdeclarative
     kdePackages.qtsvg
+    kdePackages.qtwayland
     nlohmann_json
-    cmake-format
   ];
 
   postPatch = ''
@@ -65,10 +71,10 @@ stdenv.mkDerivation rec {
     "-DKTAILCTL_FLATPAK_BUILD=ON"
   ];
   meta = with lib; {
-    description = "A GUI to monitor and manage Tailscale on your Linux desktop";
+    description = "GUI to monitor and manage Tailscale on your Linux desktop";
     homepage = "https://github.com/f-koehler/KTailctl";
     license = licenses.gpl3Only;
     mainProgram = "ktailctl";
-    platforms = platforms.all;
+    platforms = platforms.unix;
   };
 }
