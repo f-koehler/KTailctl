@@ -93,7 +93,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     qmlRegisterType<SpeedStatistics>("org.fkoehler.KTailctl", 1, 0, "SpeedStatistics");
     qmlRegisterType<Statistics>("org.fkoehler.KTailctl", 1, 0, "Statistics");
-    qmlRegisterType<KTailctlConfig>("org.fkoehler.KTailctl", 1, 0, "KTailctlConfig");
+    qmlRegisterType<KTailctlConfig>("org.fkoehler.KTailctl", 1, 0, "KTailctlConfig"); // TODO(fk): remove, now handled via CMake
 
     engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
     engine.rootContext()->setContextProperty(QStringLiteral("styleName"), QQuickStyle::name());
