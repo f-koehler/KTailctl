@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2024 Fabian Köhler <me@fkoehler.org>
-import org.kde.kirigami 2.19 as Kirigami
-import org.kde.kirigamiaddons.labs.components 1.0 as Components
-import org.fkoehler.KTailctl 1.0
+import org.kde.kirigami as Kirigami
+import org.kde.kirigamiaddons.labs.components as Components
+import org.fkoehler.KTailctl
 
 Components.Banner {
     id: root
