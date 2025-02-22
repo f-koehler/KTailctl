@@ -26,8 +26,7 @@ add_executable(
   taildrop_sender.cpp
   tailscale.cpp
   tray_icon.cpp
-  util.cpp
-  country-flags/country-flags.qrc)
+  util.cpp)
 
 ecm_add_qml_module(ktailctl URI org.fkoehler.KTailctl GENERATE_PLUGIN_SOURCE)
 ecm_target_qml_sources(
@@ -160,6 +159,7 @@ set_source_files_properties(icons/online-catppuccin-mocha.svg PROPERTIES QT_RESO
                                                                          icons/online-catppuccin-mocha.svg)
 set_source_files_properties(icons/online-colorful.svg PROPERTIES QT_RESOURECE_ALIAS icons/online-colorful.svg)
 
+include(./CountryFlags.cmake)
 qt_add_resources(
   ktailctl
   "icons"
@@ -183,6 +183,7 @@ qt_add_resources(
   icons/online-catppuccin-macchiato.svg
   icons/online-catppuccin-mocha.svg
   icons/online-colorful.svg)
+qt_add_resources(ktailctl "flags" PREFIX "/country-flags" FILES ${KTAILCTL_FLAG_FILES})
 
 kconfig_target_kcfg_file(
   ktailctl
