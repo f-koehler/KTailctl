@@ -8,7 +8,7 @@ import org.fkoehler.KTailctl
 import org.fkoehler.KTailctl.Components as KTailctlComponents
 import org.kde.kirigami as Kirigami
 import org.kde.kirigamiaddons.formcard as FormCard
-import org.kde.kirigaiaddons.labs.components as Components
+import org.kde.kirigamiaddons.labs.components as Components
 
 KTailctlComponents.PeerInfoPage {
     isSelf: true

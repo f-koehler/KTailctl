@@ -3,7 +3,7 @@ import QtQuick.Controls as Controls
 import QtQuick.Layouts
 import org.fkoehler.KTailctl as KTailctl
 import org.kde.kirigami as Kirigami
-import org.kde.kirigaiaddons.formcard as FormCard
+import org.kde.kirigamiaddons.formcard as FormCard
 
 FormCard.AbstractFormDelegate {
     id: root

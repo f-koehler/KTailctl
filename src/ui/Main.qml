@@ -12,14 +12,14 @@ Kirigami.ApplicationWindow {
     id: root
 
     function pushPage(page): void {
-    // var pageObject = Qt.createComponent("org.fkoehler.KTailctl", page);
-    // if (!pageObject) {
-    //     page = "Peers";
-    //     pageObject = Qt.createComponent("org.fkoehler.KTailctl", page);
-    // }
-    // pageStack.clear();
-    // pageStack.layers.clear();
-    // pageStack.push(page);
+        var pageObject = Qt.createComponent("org.fkoehler.KTailctl", page);
+        if (!pageObject) {
+            page = "Peers";
+            pageObject = Qt.createComponent("org.fkoehler.KTailctl", page);
+        }
+        pageStack.clear();
+        pageStack.layers.clear();
+        pageStack.push(pageObject);
     }
 
     // function navigateTo(name) {
@@ -162,7 +162,9 @@ Kirigami.ApplicationWindow {
     Component.onCompleted:
     // pushPage("Peers");
     //     App.restoreWindowGeometry(root);
-    {}
+    {
+        pushPage("Peers");
+    }
     onClosing: App.saveWindowGeometry(root)
     onHeightChanged: saveWindowGeometryTimer.restart()
     onWidthChanged: saveWindowGeometryTimer.restart()
