@@ -15,7 +15,7 @@ def download_flag(country_code: str) -> Path | None:
     symbol2 = unicodedata.lookup("REGIONAL INDICATOR SYMBOL LETTER " + country_code[1])
     hex1 = hex(ord(symbol1)).lstrip("0x")
     hex2 = hex(ord(symbol2)).lstrip("0x")
-    url = f"https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/{hex1}-{hex2}.svg"
+    url = f"https://raw.githubusercontent.com/jdecked/twemoji/master/assets/svg/{hex1}-{hex2}.svg"
     target = Path(__file__).resolve().parent / "country-flags" / f"{country_code}.svg"
     target.parent.mkdir(parents=True, exist_ok=True)
     try:
