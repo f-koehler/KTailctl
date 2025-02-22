@@ -133,7 +133,7 @@ Kirigami.ScrollablePage {
 
                         onClicked: {
                             App.mullvadNodesForCountryModel.setFilterFixedString(countryCode);
-                            pageStack.layers.push("qrc:MullvadNodes.qml");
+                            pageStack.layers.push(Qt.createComponent("org.fkoehler.KTailctl", "MullvadNodes"));
                         }
                     }
                 }
