@@ -159,12 +159,11 @@ set_source_files_properties(icons/online-catppuccin-mocha.svg PROPERTIES QT_RESO
                                                                          icons/online-catppuccin-mocha.svg)
 set_source_files_properties(icons/online-colorful.svg PROPERTIES QT_RESOURECE_ALIAS icons/online-colorful.svg)
 
-include(CountryFlags.cmake)
+include(./CountryFlags.cmake)
 qt_add_resources(
   ktailctl
   "icons"
   FILES
-  ${KTAILCTL_FLAG_FILES}
   icons/logo.svg
   icons/offline-adwaita-dark.svg
   icons/offline-adwaita-light.svg
@@ -184,6 +183,7 @@ qt_add_resources(
   icons/online-catppuccin-macchiato.svg
   icons/online-catppuccin-mocha.svg
   icons/online-colorful.svg)
+qt_add_resources(ktailctl "flags" PREFIX "/country-flags" FILES ${KTAILCTL_FLAG_FILES})
 
 kconfig_target_kcfg_file(
   ktailctl

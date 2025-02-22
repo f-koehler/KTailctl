@@ -1,749 +1,997 @@
-set_source_files_properties(country-flags/aw.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/aw.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/aw.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-aw.svg)
 
-set_source_files_properties(country-flags/af.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/af.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/af.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-af.svg)
 
-set_source_files_properties(country-flags/ao.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ao.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ao.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ao.svg)
 
-set_source_files_properties(country-flags/ai.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ai.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ai.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ai.svg)
 
-set_source_files_properties(country-flags/ax.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ax.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ax.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ax.svg)
 
-set_source_files_properties(country-flags/al.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/al.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/al.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-al.svg)
 
-set_source_files_properties(country-flags/ad.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ad.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ad.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ad.svg)
 
-set_source_files_properties(country-flags/ae.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ae.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ae.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ae.svg)
 
-set_source_files_properties(country-flags/ar.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ar.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ar.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ar.svg)
 
-set_source_files_properties(country-flags/am.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/am.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/am.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-am.svg)
 
-set_source_files_properties(country-flags/as.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/as.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/as.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-as.svg)
 
-set_source_files_properties(country-flags/aq.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/aq.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/aq.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-aq.svg)
 
-set_source_files_properties(country-flags/tf.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/tf.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/tf.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-tf.svg)
 
-set_source_files_properties(country-flags/ag.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ag.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ag.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ag.svg)
 
-set_source_files_properties(country-flags/au.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/au.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/au.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-au.svg)
 
-set_source_files_properties(country-flags/at.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/at.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/at.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-at.svg)
 
-set_source_files_properties(country-flags/az.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/az.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/az.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-az.svg)
 
-set_source_files_properties(country-flags/bi.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/bi.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/bi.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-bi.svg)
 
-set_source_files_properties(country-flags/be.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/be.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/be.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-be.svg)
 
-set_source_files_properties(country-flags/bj.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/bj.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/bj.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-bj.svg)
 
-set_source_files_properties(country-flags/bq.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/bq.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/bq.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-bq.svg)
 
-set_source_files_properties(country-flags/bf.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/bf.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/bf.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-bf.svg)
 
-set_source_files_properties(country-flags/bd.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/bd.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/bd.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-bd.svg)
 
-set_source_files_properties(country-flags/bg.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/bg.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/bg.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-bg.svg)
 
-set_source_files_properties(country-flags/bh.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/bh.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/bh.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-bh.svg)
 
-set_source_files_properties(country-flags/bs.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/bs.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/bs.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-bs.svg)
 
-set_source_files_properties(country-flags/ba.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ba.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ba.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ba.svg)
 
-set_source_files_properties(country-flags/bl.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/bl.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/bl.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-bl.svg)
 
-set_source_files_properties(country-flags/by.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/by.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/by.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-by.svg)
 
-set_source_files_properties(country-flags/bz.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/bz.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/bz.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-bz.svg)
 
-set_source_files_properties(country-flags/bm.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/bm.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/bm.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-bm.svg)
 
-set_source_files_properties(country-flags/bo.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/bo.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/bo.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-bo.svg)
 
-set_source_files_properties(country-flags/br.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/br.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/br.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-br.svg)
 
-set_source_files_properties(country-flags/bb.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/bb.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/bb.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-bb.svg)
 
-set_source_files_properties(country-flags/bn.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/bn.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/bn.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-bn.svg)
 
-set_source_files_properties(country-flags/bt.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/bt.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/bt.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-bt.svg)
 
-set_source_files_properties(country-flags/bv.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/bv.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/bv.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-bv.svg)
 
-set_source_files_properties(country-flags/bw.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/bw.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/bw.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-bw.svg)
 
-set_source_files_properties(country-flags/cf.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/cf.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/cf.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-cf.svg)
 
-set_source_files_properties(country-flags/ca.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ca.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ca.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ca.svg)
 
-set_source_files_properties(country-flags/cc.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/cc.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/cc.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-cc.svg)
 
-set_source_files_properties(country-flags/ch.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ch.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ch.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ch.svg)
 
-set_source_files_properties(country-flags/cl.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/cl.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/cl.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-cl.svg)
 
-set_source_files_properties(country-flags/cn.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/cn.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/cn.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-cn.svg)
 
-set_source_files_properties(country-flags/ci.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ci.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ci.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ci.svg)
 
-set_source_files_properties(country-flags/cm.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/cm.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/cm.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-cm.svg)
 
-set_source_files_properties(country-flags/cd.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/cd.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/cd.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-cd.svg)
 
-set_source_files_properties(country-flags/cg.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/cg.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/cg.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-cg.svg)
 
-set_source_files_properties(country-flags/ck.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ck.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ck.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ck.svg)
 
-set_source_files_properties(country-flags/co.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/co.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/co.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-co.svg)
 
-set_source_files_properties(country-flags/km.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/km.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/km.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-km.svg)
 
-set_source_files_properties(country-flags/cv.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/cv.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/cv.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-cv.svg)
 
-set_source_files_properties(country-flags/cr.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/cr.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/cr.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-cr.svg)
 
-set_source_files_properties(country-flags/cu.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/cu.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/cu.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-cu.svg)
 
-set_source_files_properties(country-flags/cw.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/cw.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/cw.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-cw.svg)
 
-set_source_files_properties(country-flags/cx.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/cx.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/cx.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-cx.svg)
 
-set_source_files_properties(country-flags/ky.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ky.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ky.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ky.svg)
 
-set_source_files_properties(country-flags/cy.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/cy.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/cy.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-cy.svg)
 
-set_source_files_properties(country-flags/cz.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/cz.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/cz.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-cz.svg)
 
-set_source_files_properties(country-flags/de.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/de.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/de.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-de.svg)
 
-set_source_files_properties(country-flags/dj.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/dj.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/dj.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-dj.svg)
 
-set_source_files_properties(country-flags/dm.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/dm.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/dm.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-dm.svg)
 
-set_source_files_properties(country-flags/dk.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/dk.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/dk.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-dk.svg)
 
-set_source_files_properties(country-flags/do.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/do.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/do.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-do.svg)
 
-set_source_files_properties(country-flags/dz.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/dz.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/dz.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-dz.svg)
 
-set_source_files_properties(country-flags/ec.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ec.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ec.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ec.svg)
 
-set_source_files_properties(country-flags/eg.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/eg.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/eg.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-eg.svg)
 
-set_source_files_properties(country-flags/er.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/er.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/er.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-er.svg)
 
-set_source_files_properties(country-flags/eh.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/eh.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/eh.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-eh.svg)
 
-set_source_files_properties(country-flags/es.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/es.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/es.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-es.svg)
 
-set_source_files_properties(country-flags/ee.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ee.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ee.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ee.svg)
 
-set_source_files_properties(country-flags/et.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/et.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/et.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-et.svg)
 
-set_source_files_properties(country-flags/fi.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/fi.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/fi.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-fi.svg)
 
-set_source_files_properties(country-flags/fj.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/fj.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/fj.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-fj.svg)
 
-set_source_files_properties(country-flags/fk.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/fk.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/fk.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-fk.svg)
 
-set_source_files_properties(country-flags/fr.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/fr.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/fr.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-fr.svg)
 
-set_source_files_properties(country-flags/fo.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/fo.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/fo.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-fo.svg)
 
-set_source_files_properties(country-flags/fm.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/fm.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/fm.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-fm.svg)
 
-set_source_files_properties(country-flags/ga.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ga.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ga.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ga.svg)
 
-set_source_files_properties(country-flags/gb.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/gb.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/gb.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-gb.svg)
 
-set_source_files_properties(country-flags/ge.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ge.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ge.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ge.svg)
 
-set_source_files_properties(country-flags/gg.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/gg.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/gg.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-gg.svg)
 
-set_source_files_properties(country-flags/gh.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/gh.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/gh.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-gh.svg)
 
-set_source_files_properties(country-flags/gi.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/gi.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/gi.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-gi.svg)
 
-set_source_files_properties(country-flags/gn.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/gn.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/gn.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-gn.svg)
 
-set_source_files_properties(country-flags/gp.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/gp.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/gp.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-gp.svg)
 
-set_source_files_properties(country-flags/gm.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/gm.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/gm.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-gm.svg)
 
-set_source_files_properties(country-flags/gw.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/gw.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/gw.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-gw.svg)
 
-set_source_files_properties(country-flags/gq.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/gq.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/gq.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-gq.svg)
 
-set_source_files_properties(country-flags/gr.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/gr.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/gr.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-gr.svg)
 
-set_source_files_properties(country-flags/gd.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/gd.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/gd.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-gd.svg)
 
-set_source_files_properties(country-flags/gl.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/gl.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/gl.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-gl.svg)
 
-set_source_files_properties(country-flags/gt.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/gt.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/gt.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-gt.svg)
 
-set_source_files_properties(country-flags/gf.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/gf.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/gf.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-gf.svg)
 
-set_source_files_properties(country-flags/gu.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/gu.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/gu.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-gu.svg)
 
-set_source_files_properties(country-flags/gy.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/gy.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/gy.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-gy.svg)
 
-set_source_files_properties(country-flags/hk.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/hk.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/hk.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-hk.svg)
 
-set_source_files_properties(country-flags/hm.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/hm.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/hm.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-hm.svg)
 
-set_source_files_properties(country-flags/hn.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/hn.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/hn.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-hn.svg)
 
-set_source_files_properties(country-flags/hr.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/hr.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/hr.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-hr.svg)
 
-set_source_files_properties(country-flags/ht.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ht.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ht.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ht.svg)
 
-set_source_files_properties(country-flags/hu.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/hu.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/hu.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-hu.svg)
 
-set_source_files_properties(country-flags/id.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/id.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/id.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-id.svg)
 
-set_source_files_properties(country-flags/im.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/im.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/im.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-im.svg)
 
-set_source_files_properties(country-flags/in.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/in.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/in.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-in.svg)
 
-set_source_files_properties(country-flags/io.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/io.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/io.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-io.svg)
 
-set_source_files_properties(country-flags/ie.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ie.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ie.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ie.svg)
 
-set_source_files_properties(country-flags/ir.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ir.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ir.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ir.svg)
 
-set_source_files_properties(country-flags/iq.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/iq.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/iq.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-iq.svg)
 
-set_source_files_properties(country-flags/is.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/is.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/is.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-is.svg)
 
-set_source_files_properties(country-flags/il.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/il.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/il.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-il.svg)
 
-set_source_files_properties(country-flags/it.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/it.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/it.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-it.svg)
 
-set_source_files_properties(country-flags/jm.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/jm.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/jm.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-jm.svg)
 
-set_source_files_properties(country-flags/je.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/je.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/je.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-je.svg)
 
-set_source_files_properties(country-flags/jo.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/jo.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/jo.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-jo.svg)
 
-set_source_files_properties(country-flags/jp.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/jp.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/jp.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-jp.svg)
 
-set_source_files_properties(country-flags/kz.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/kz.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/kz.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-kz.svg)
 
-set_source_files_properties(country-flags/ke.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ke.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ke.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ke.svg)
 
-set_source_files_properties(country-flags/kg.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/kg.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/kg.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-kg.svg)
 
-set_source_files_properties(country-flags/kh.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/kh.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/kh.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-kh.svg)
 
-set_source_files_properties(country-flags/ki.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ki.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ki.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ki.svg)
 
-set_source_files_properties(country-flags/kn.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/kn.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/kn.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-kn.svg)
 
-set_source_files_properties(country-flags/kr.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/kr.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/kr.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-kr.svg)
 
-set_source_files_properties(country-flags/kw.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/kw.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/kw.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-kw.svg)
 
-set_source_files_properties(country-flags/la.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/la.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/la.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-la.svg)
 
-set_source_files_properties(country-flags/lb.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/lb.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/lb.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-lb.svg)
 
-set_source_files_properties(country-flags/lr.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/lr.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/lr.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-lr.svg)
 
-set_source_files_properties(country-flags/ly.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ly.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ly.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ly.svg)
 
-set_source_files_properties(country-flags/lc.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/lc.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/lc.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-lc.svg)
 
-set_source_files_properties(country-flags/li.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/li.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/li.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-li.svg)
 
-set_source_files_properties(country-flags/lk.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/lk.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/lk.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-lk.svg)
 
-set_source_files_properties(country-flags/ls.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ls.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ls.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ls.svg)
 
-set_source_files_properties(country-flags/lt.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/lt.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/lt.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-lt.svg)
 
-set_source_files_properties(country-flags/lu.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/lu.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/lu.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-lu.svg)
 
-set_source_files_properties(country-flags/lv.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/lv.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/lv.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-lv.svg)
 
-set_source_files_properties(country-flags/mo.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/mo.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/mo.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-mo.svg)
 
-set_source_files_properties(country-flags/mf.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/mf.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/mf.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-mf.svg)
 
-set_source_files_properties(country-flags/ma.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ma.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ma.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ma.svg)
 
-set_source_files_properties(country-flags/mc.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/mc.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/mc.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-mc.svg)
 
-set_source_files_properties(country-flags/md.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/md.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/md.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-md.svg)
 
-set_source_files_properties(country-flags/mg.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/mg.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/mg.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-mg.svg)
 
-set_source_files_properties(country-flags/mv.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/mv.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/mv.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-mv.svg)
 
-set_source_files_properties(country-flags/mx.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/mx.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/mx.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-mx.svg)
 
-set_source_files_properties(country-flags/mh.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/mh.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/mh.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-mh.svg)
 
-set_source_files_properties(country-flags/mk.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/mk.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/mk.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-mk.svg)
 
-set_source_files_properties(country-flags/ml.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ml.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ml.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ml.svg)
 
-set_source_files_properties(country-flags/mt.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/mt.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/mt.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-mt.svg)
 
-set_source_files_properties(country-flags/mm.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/mm.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/mm.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-mm.svg)
 
-set_source_files_properties(country-flags/me.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/me.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/me.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-me.svg)
 
-set_source_files_properties(country-flags/mn.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/mn.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/mn.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-mn.svg)
 
-set_source_files_properties(country-flags/mp.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/mp.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/mp.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-mp.svg)
 
-set_source_files_properties(country-flags/mz.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/mz.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/mz.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-mz.svg)
 
-set_source_files_properties(country-flags/mr.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/mr.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/mr.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-mr.svg)
 
-set_source_files_properties(country-flags/ms.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ms.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ms.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ms.svg)
 
-set_source_files_properties(country-flags/mq.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/mq.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/mq.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-mq.svg)
 
-set_source_files_properties(country-flags/mu.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/mu.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/mu.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-mu.svg)
 
-set_source_files_properties(country-flags/mw.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/mw.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/mw.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-mw.svg)
 
-set_source_files_properties(country-flags/my.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/my.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/my.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-my.svg)
 
-set_source_files_properties(country-flags/yt.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/yt.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/yt.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-yt.svg)
 
-set_source_files_properties(country-flags/na.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/na.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/na.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-na.svg)
 
-set_source_files_properties(country-flags/nc.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/nc.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/nc.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-nc.svg)
 
-set_source_files_properties(country-flags/ne.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ne.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ne.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ne.svg)
 
-set_source_files_properties(country-flags/nf.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/nf.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/nf.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-nf.svg)
 
-set_source_files_properties(country-flags/ng.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ng.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ng.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ng.svg)
 
-set_source_files_properties(country-flags/ni.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ni.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ni.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ni.svg)
 
-set_source_files_properties(country-flags/nu.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/nu.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/nu.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-nu.svg)
 
-set_source_files_properties(country-flags/nl.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/nl.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/nl.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-nl.svg)
 
-set_source_files_properties(country-flags/no.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/no.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/no.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-no.svg)
 
-set_source_files_properties(country-flags/np.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/np.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/np.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-np.svg)
 
-set_source_files_properties(country-flags/nr.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/nr.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/nr.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-nr.svg)
 
-set_source_files_properties(country-flags/nz.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/nz.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/nz.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-nz.svg)
 
-set_source_files_properties(country-flags/om.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/om.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/om.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-om.svg)
 
-set_source_files_properties(country-flags/pk.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/pk.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/pk.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-pk.svg)
 
-set_source_files_properties(country-flags/pa.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/pa.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/pa.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-pa.svg)
 
-set_source_files_properties(country-flags/pn.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/pn.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/pn.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-pn.svg)
 
-set_source_files_properties(country-flags/pe.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/pe.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/pe.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-pe.svg)
 
-set_source_files_properties(country-flags/ph.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ph.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ph.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ph.svg)
 
-set_source_files_properties(country-flags/pw.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/pw.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/pw.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-pw.svg)
 
-set_source_files_properties(country-flags/pg.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/pg.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/pg.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-pg.svg)
 
-set_source_files_properties(country-flags/pl.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/pl.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/pl.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-pl.svg)
 
-set_source_files_properties(country-flags/pr.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/pr.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/pr.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-pr.svg)
 
-set_source_files_properties(country-flags/kp.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/kp.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/kp.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-kp.svg)
 
-set_source_files_properties(country-flags/pt.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/pt.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/pt.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-pt.svg)
 
-set_source_files_properties(country-flags/py.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/py.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/py.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-py.svg)
 
-set_source_files_properties(country-flags/ps.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ps.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ps.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ps.svg)
 
-set_source_files_properties(country-flags/pf.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/pf.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/pf.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-pf.svg)
 
-set_source_files_properties(country-flags/qa.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/qa.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/qa.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-qa.svg)
 
-set_source_files_properties(country-flags/re.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/re.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/re.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-re.svg)
 
-set_source_files_properties(country-flags/ro.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ro.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ro.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ro.svg)
 
-set_source_files_properties(country-flags/ru.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ru.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ru.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ru.svg)
 
-set_source_files_properties(country-flags/rw.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/rw.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/rw.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-rw.svg)
 
-set_source_files_properties(country-flags/sa.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/sa.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/sa.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-sa.svg)
 
-set_source_files_properties(country-flags/sd.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/sd.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/sd.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-sd.svg)
 
-set_source_files_properties(country-flags/sn.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/sn.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/sn.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-sn.svg)
 
-set_source_files_properties(country-flags/sg.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/sg.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/sg.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-sg.svg)
 
-set_source_files_properties(country-flags/gs.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/gs.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/gs.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-gs.svg)
 
-set_source_files_properties(country-flags/sh.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/sh.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/sh.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-sh.svg)
 
-set_source_files_properties(country-flags/sj.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/sj.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/sj.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-sj.svg)
 
-set_source_files_properties(country-flags/sb.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/sb.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/sb.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-sb.svg)
 
-set_source_files_properties(country-flags/sl.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/sl.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/sl.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-sl.svg)
 
-set_source_files_properties(country-flags/sv.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/sv.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/sv.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-sv.svg)
 
-set_source_files_properties(country-flags/sm.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/sm.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/sm.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-sm.svg)
 
-set_source_files_properties(country-flags/so.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/so.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/so.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-so.svg)
 
-set_source_files_properties(country-flags/pm.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/pm.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/pm.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-pm.svg)
 
-set_source_files_properties(country-flags/rs.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/rs.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/rs.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-rs.svg)
 
-set_source_files_properties(country-flags/ss.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ss.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ss.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ss.svg)
 
-set_source_files_properties(country-flags/st.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/st.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/st.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-st.svg)
 
-set_source_files_properties(country-flags/sr.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/sr.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/sr.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-sr.svg)
 
-set_source_files_properties(country-flags/sk.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/sk.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/sk.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-sk.svg)
 
-set_source_files_properties(country-flags/si.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/si.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/si.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-si.svg)
 
-set_source_files_properties(country-flags/se.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/se.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/se.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-se.svg)
 
-set_source_files_properties(country-flags/sz.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/sz.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/sz.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-sz.svg)
 
-set_source_files_properties(country-flags/sx.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/sx.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/sx.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-sx.svg)
 
-set_source_files_properties(country-flags/sc.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/sc.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/sc.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-sc.svg)
 
-set_source_files_properties(country-flags/sy.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/sy.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/sy.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-sy.svg)
 
-set_source_files_properties(country-flags/tc.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/tc.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/tc.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-tc.svg)
 
-set_source_files_properties(country-flags/td.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/td.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/td.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-td.svg)
 
-set_source_files_properties(country-flags/tg.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/tg.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/tg.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-tg.svg)
 
-set_source_files_properties(country-flags/th.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/th.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/th.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-th.svg)
 
-set_source_files_properties(country-flags/tj.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/tj.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/tj.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-tj.svg)
 
-set_source_files_properties(country-flags/tk.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/tk.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/tk.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-tk.svg)
 
-set_source_files_properties(country-flags/tm.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/tm.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/tm.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-tm.svg)
 
-set_source_files_properties(country-flags/tl.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/tl.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/tl.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-tl.svg)
 
-set_source_files_properties(country-flags/to.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/to.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/to.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-to.svg)
 
-set_source_files_properties(country-flags/tt.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/tt.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/tt.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-tt.svg)
 
-set_source_files_properties(country-flags/tn.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/tn.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/tn.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-tn.svg)
 
-set_source_files_properties(country-flags/tr.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/tr.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/tr.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-tr.svg)
 
-set_source_files_properties(country-flags/tv.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/tv.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/tv.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-tv.svg)
 
-set_source_files_properties(country-flags/tw.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/tw.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/tw.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-tw.svg)
 
-set_source_files_properties(country-flags/tz.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/tz.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/tz.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-tz.svg)
 
-set_source_files_properties(country-flags/ug.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ug.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ug.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ug.svg)
 
-set_source_files_properties(country-flags/ua.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ua.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ua.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ua.svg)
 
-set_source_files_properties(country-flags/um.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/um.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/um.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-um.svg)
 
-set_source_files_properties(country-flags/uy.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/uy.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/uy.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-uy.svg)
 
-set_source_files_properties(country-flags/us.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/us.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/us.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-us.svg)
 
-set_source_files_properties(country-flags/uz.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/uz.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/uz.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-uz.svg)
 
-set_source_files_properties(country-flags/va.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/va.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/va.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-va.svg)
 
-set_source_files_properties(country-flags/vc.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/vc.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/vc.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-vc.svg)
 
-set_source_files_properties(country-flags/ve.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ve.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ve.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ve.svg)
 
-set_source_files_properties(country-flags/vg.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/vg.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/vg.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-vg.svg)
 
-set_source_files_properties(country-flags/vi.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/vi.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/vi.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-vi.svg)
 
-set_source_files_properties(country-flags/vn.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/vn.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/vn.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-vn.svg)
 
-set_source_files_properties(country-flags/vu.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/vu.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/vu.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-vu.svg)
 
-set_source_files_properties(country-flags/wf.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/wf.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/wf.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-wf.svg)
 
-set_source_files_properties(country-flags/ws.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ws.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ws.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ws.svg)
 
-set_source_files_properties(country-flags/ye.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/ye.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/ye.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-ye.svg)
 
-set_source_files_properties(country-flags/za.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/za.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/za.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-za.svg)
 
-set_source_files_properties(country-flags/zm.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/zm.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/zm.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-zm.svg)
 
-set_source_files_properties(country-flags/zw.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/zw.svg)
+set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/country-flags/zw.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                                      country-flag-zw.svg)
 
 set(KTAILCTL_FLAG_FILES
-    country-flags/aw.svg
-    country-flags/af.svg
-    country-flags/ao.svg
-    country-flags/ai.svg
-    country-flags/ax.svg
-    country-flags/al.svg
-    country-flags/ad.svg
-    country-flags/ae.svg
-    country-flags/ar.svg
-    country-flags/am.svg
-    country-flags/as.svg
-    country-flags/aq.svg
-    country-flags/tf.svg
-    country-flags/ag.svg
-    country-flags/au.svg
-    country-flags/at.svg
-    country-flags/az.svg
-    country-flags/bi.svg
-    country-flags/be.svg
-    country-flags/bj.svg
-    country-flags/bq.svg
-    country-flags/bf.svg
-    country-flags/bd.svg
-    country-flags/bg.svg
-    country-flags/bh.svg
-    country-flags/bs.svg
-    country-flags/ba.svg
-    country-flags/bl.svg
-    country-flags/by.svg
-    country-flags/bz.svg
-    country-flags/bm.svg
-    country-flags/bo.svg
-    country-flags/br.svg
-    country-flags/bb.svg
-    country-flags/bn.svg
-    country-flags/bt.svg
-    country-flags/bv.svg
-    country-flags/bw.svg
-    country-flags/cf.svg
-    country-flags/ca.svg
-    country-flags/cc.svg
-    country-flags/ch.svg
-    country-flags/cl.svg
-    country-flags/cn.svg
-    country-flags/ci.svg
-    country-flags/cm.svg
-    country-flags/cd.svg
-    country-flags/cg.svg
-    country-flags/ck.svg
-    country-flags/co.svg
-    country-flags/km.svg
-    country-flags/cv.svg
-    country-flags/cr.svg
-    country-flags/cu.svg
-    country-flags/cw.svg
-    country-flags/cx.svg
-    country-flags/ky.svg
-    country-flags/cy.svg
-    country-flags/cz.svg
-    country-flags/de.svg
-    country-flags/dj.svg
-    country-flags/dm.svg
-    country-flags/dk.svg
-    country-flags/do.svg
-    country-flags/dz.svg
-    country-flags/ec.svg
-    country-flags/eg.svg
-    country-flags/er.svg
-    country-flags/eh.svg
-    country-flags/es.svg
-    country-flags/ee.svg
-    country-flags/et.svg
-    country-flags/fi.svg
-    country-flags/fj.svg
-    country-flags/fk.svg
-    country-flags/fr.svg
-    country-flags/fo.svg
-    country-flags/fm.svg
-    country-flags/ga.svg
-    country-flags/gb.svg
-    country-flags/ge.svg
-    country-flags/gg.svg
-    country-flags/gh.svg
-    country-flags/gi.svg
-    country-flags/gn.svg
-    country-flags/gp.svg
-    country-flags/gm.svg
-    country-flags/gw.svg
-    country-flags/gq.svg
-    country-flags/gr.svg
-    country-flags/gd.svg
-    country-flags/gl.svg
-    country-flags/gt.svg
-    country-flags/gf.svg
-    country-flags/gu.svg
-    country-flags/gy.svg
-    country-flags/hk.svg
-    country-flags/hm.svg
-    country-flags/hn.svg
-    country-flags/hr.svg
-    country-flags/ht.svg
-    country-flags/hu.svg
-    country-flags/id.svg
-    country-flags/im.svg
-    country-flags/in.svg
-    country-flags/io.svg
-    country-flags/ie.svg
-    country-flags/ir.svg
-    country-flags/iq.svg
-    country-flags/is.svg
-    country-flags/il.svg
-    country-flags/it.svg
-    country-flags/jm.svg
-    country-flags/je.svg
-    country-flags/jo.svg
-    country-flags/jp.svg
-    country-flags/kz.svg
-    country-flags/ke.svg
-    country-flags/kg.svg
-    country-flags/kh.svg
-    country-flags/ki.svg
-    country-flags/kn.svg
-    country-flags/kr.svg
-    country-flags/kw.svg
-    country-flags/la.svg
-    country-flags/lb.svg
-    country-flags/lr.svg
-    country-flags/ly.svg
-    country-flags/lc.svg
-    country-flags/li.svg
-    country-flags/lk.svg
-    country-flags/ls.svg
-    country-flags/lt.svg
-    country-flags/lu.svg
-    country-flags/lv.svg
-    country-flags/mo.svg
-    country-flags/mf.svg
-    country-flags/ma.svg
-    country-flags/mc.svg
-    country-flags/md.svg
-    country-flags/mg.svg
-    country-flags/mv.svg
-    country-flags/mx.svg
-    country-flags/mh.svg
-    country-flags/mk.svg
-    country-flags/ml.svg
-    country-flags/mt.svg
-    country-flags/mm.svg
-    country-flags/me.svg
-    country-flags/mn.svg
-    country-flags/mp.svg
-    country-flags/mz.svg
-    country-flags/mr.svg
-    country-flags/ms.svg
-    country-flags/mq.svg
-    country-flags/mu.svg
-    country-flags/mw.svg
-    country-flags/my.svg
-    country-flags/yt.svg
-    country-flags/na.svg
-    country-flags/nc.svg
-    country-flags/ne.svg
-    country-flags/nf.svg
-    country-flags/ng.svg
-    country-flags/ni.svg
-    country-flags/nu.svg
-    country-flags/nl.svg
-    country-flags/no.svg
-    country-flags/np.svg
-    country-flags/nr.svg
-    country-flags/nz.svg
-    country-flags/om.svg
-    country-flags/pk.svg
-    country-flags/pa.svg
-    country-flags/pn.svg
-    country-flags/pe.svg
-    country-flags/ph.svg
-    country-flags/pw.svg
-    country-flags/pg.svg
-    country-flags/pl.svg
-    country-flags/pr.svg
-    country-flags/kp.svg
-    country-flags/pt.svg
-    country-flags/py.svg
-    country-flags/ps.svg
-    country-flags/pf.svg
-    country-flags/qa.svg
-    country-flags/re.svg
-    country-flags/ro.svg
-    country-flags/ru.svg
-    country-flags/rw.svg
-    country-flags/sa.svg
-    country-flags/sd.svg
-    country-flags/sn.svg
-    country-flags/sg.svg
-    country-flags/gs.svg
-    country-flags/sh.svg
-    country-flags/sj.svg
-    country-flags/sb.svg
-    country-flags/sl.svg
-    country-flags/sv.svg
-    country-flags/sm.svg
-    country-flags/so.svg
-    country-flags/pm.svg
-    country-flags/rs.svg
-    country-flags/ss.svg
-    country-flags/st.svg
-    country-flags/sr.svg
-    country-flags/sk.svg
-    country-flags/si.svg
-    country-flags/se.svg
-    country-flags/sz.svg
-    country-flags/sx.svg
-    country-flags/sc.svg
-    country-flags/sy.svg
-    country-flags/tc.svg
-    country-flags/td.svg
-    country-flags/tg.svg
-    country-flags/th.svg
-    country-flags/tj.svg
-    country-flags/tk.svg
-    country-flags/tm.svg
-    country-flags/tl.svg
-    country-flags/to.svg
-    country-flags/tt.svg
-    country-flags/tn.svg
-    country-flags/tr.svg
-    country-flags/tv.svg
-    country-flags/tw.svg
-    country-flags/tz.svg
-    country-flags/ug.svg
-    country-flags/ua.svg
-    country-flags/um.svg
-    country-flags/uy.svg
-    country-flags/us.svg
-    country-flags/uz.svg
-    country-flags/va.svg
-    country-flags/vc.svg
-    country-flags/ve.svg
-    country-flags/vg.svg
-    country-flags/vi.svg
-    country-flags/vn.svg
-    country-flags/vu.svg
-    country-flags/wf.svg
-    country-flags/ws.svg
-    country-flags/ye.svg
-    country-flags/za.svg
-    country-flags/zm.svg
-    country-flags/zw.svg
-    PARENT_SCOPE)
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/aw.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/af.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ao.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ai.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ax.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/al.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ad.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ae.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ar.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/am.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/as.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/aq.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/tf.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ag.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/au.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/at.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/az.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/bi.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/be.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/bj.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/bq.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/bf.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/bd.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/bg.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/bh.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/bs.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ba.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/bl.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/by.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/bz.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/bm.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/bo.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/br.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/bb.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/bn.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/bt.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/bv.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/bw.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/cf.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ca.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/cc.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ch.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/cl.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/cn.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ci.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/cm.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/cd.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/cg.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ck.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/co.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/km.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/cv.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/cr.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/cu.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/cw.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/cx.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ky.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/cy.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/cz.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/de.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/dj.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/dm.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/dk.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/do.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/dz.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ec.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/eg.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/er.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/eh.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/es.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ee.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/et.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/fi.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/fj.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/fk.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/fr.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/fo.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/fm.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ga.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/gb.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ge.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/gg.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/gh.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/gi.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/gn.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/gp.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/gm.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/gw.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/gq.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/gr.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/gd.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/gl.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/gt.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/gf.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/gu.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/gy.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/hk.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/hm.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/hn.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/hr.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ht.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/hu.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/id.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/im.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/in.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/io.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ie.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ir.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/iq.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/is.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/il.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/it.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/jm.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/je.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/jo.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/jp.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/kz.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ke.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/kg.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/kh.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ki.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/kn.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/kr.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/kw.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/la.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/lb.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/lr.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ly.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/lc.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/li.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/lk.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ls.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/lt.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/lu.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/lv.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/mo.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/mf.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ma.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/mc.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/md.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/mg.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/mv.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/mx.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/mh.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/mk.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ml.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/mt.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/mm.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/me.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/mn.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/mp.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/mz.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/mr.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ms.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/mq.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/mu.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/mw.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/my.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/yt.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/na.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/nc.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ne.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/nf.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ng.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ni.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/nu.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/nl.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/no.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/np.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/nr.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/nz.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/om.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/pk.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/pa.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/pn.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/pe.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ph.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/pw.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/pg.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/pl.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/pr.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/kp.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/pt.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/py.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ps.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/pf.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/qa.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/re.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ro.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ru.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/rw.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/sa.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/sd.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/sn.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/sg.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/gs.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/sh.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/sj.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/sb.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/sl.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/sv.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/sm.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/so.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/pm.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/rs.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ss.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/st.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/sr.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/sk.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/si.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/se.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/sz.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/sx.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/sc.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/sy.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/tc.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/td.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/tg.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/th.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/tj.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/tk.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/tm.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/tl.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/to.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/tt.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/tn.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/tr.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/tv.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/tw.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/tz.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ug.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ua.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/um.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/uy.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/us.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/uz.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/va.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/vc.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ve.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/vg.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/vi.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/vn.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/vu.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/wf.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ws.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/ye.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/za.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/zm.svg
+    ${CMAKE_CURRENT_LIST_DIR}/country-flags/zw.svg)
