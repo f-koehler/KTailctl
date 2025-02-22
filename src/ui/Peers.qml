@@ -41,6 +41,7 @@ Kirigami.ScrollablePage {
 
         headerPositioning: ListView.OverlayHeader
         model: App.peerModel
+        spacing: Kirigami.Units.smallSpacing
         visible: Tailscale.success
 
         delegate: Kirigami.AbstractCard {
