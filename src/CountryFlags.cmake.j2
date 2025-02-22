@@ -1,0 +1,9 @@
+{% for flag in flags %}
+set_source_files_properties(country-flags/{{ flag }}.svg PROPERTIES QT_RESOURCE_ALIAS country-flags/{{ flag }}.svg)
+{% endfor %}
+
+set(KTAILCTL_FLAG_FILES
+{% for flag in flags %}
+country-flags/{{ flag }}.svg
+{% endfor %}
+PARENT_SCOPE)
