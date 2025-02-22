@@ -29,6 +29,10 @@ devenv.lib.mkShell {
           enable = true;
           package = pkgs.go_1_24;
         };
+        python = {
+          enable = true;
+          uv.enable = true;
+        };
       };
 
       pre-commit.hooks = {
