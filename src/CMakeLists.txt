@@ -3,7 +3,7 @@
 include(CheckIPOSupported)
 check_ipo_supported(RESULT ipo_supported OUTPUT ipo_output)
 
-add_subdirectory(components_plugin)
+add_subdirectory(ui/components)
 add_subdirectory(wrapper)
 
 add_executable(
@@ -28,6 +28,20 @@ add_executable(
   tray_icon.cpp
   util.cpp
   country-flags/country-flags.qrc)
+
+ecm_add_qml_module(ktailctl URI org.fkoehler.KTailctl GENERATE_PLUGIN_SOURCE)
+ecm_target_qml_sources(
+  ktailctl
+  SOURCES
+  ui/About.qml
+  ui/ExitNodes.qml
+  ui/Main.qml
+  ui/MullvadNodes.qml
+  ui/Peer.qml
+  ui/Peers.qml
+  ui/Self.qml
+  ui/Settings.qml
+  ui/Statistics.qml)
 
 ecm_qt_declare_logging_category(
   ktailctl
@@ -116,21 +130,6 @@ target_link_libraries(
           KTailctl::WrapperLogging
           KTailctl::Wrapper)
 target_compile_definitions(ktailctl PRIVATE WITH_BREEZEICONS_LIB)
-
-qt_add_qml_module(
-  ktailctl
-  URI
-  org.fkoehler.KTailctl
-  QML_FILES
-  ui/About.qml
-  ui/ExitNodes.qml
-  ui/Main.qml
-  ui/MullvadNodes.qml
-  ui/Peer.qml
-  ui/Peers.qml
-  ui/Self.qml
-  ui/Settings.qml
-  ui/Statistics.qml)
 
 set_source_files_properties(icons/logo.svg PROPERTIES QT_RESOURECE_ALIAS icons/logo.svg)
 set_source_files_properties(icons/offline-adwaita-dark.svg PROPERTIES QT_RESOURECE_ALIAS icons/offline-adwaita-dark.svg)
@@ -238,6 +237,8 @@ if(APPLE)
     window)
 endif()
 
-add_dependencies(ktailctl ktailctl_components_plugin)
+add_dependencies(ktailctl ktailctl_components)
+
+ecm_finalize_qml_module(ktailctl DESTINATION ${KDE_INSTALL_QMLDIR})
 
 install(TARGETS ktailctl ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
