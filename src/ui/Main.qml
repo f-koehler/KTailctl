@@ -7,6 +7,7 @@ import QtQuick.Layouts
 import org.fkoehler.KTailctl
 import org.kde.kirigami as Kirigami
 import org.kde.kirigamiaddons.delegates as Delegates
+import org.kde.config as KConfig
 
 Kirigami.ApplicationWindow {
     id: root
@@ -165,11 +166,14 @@ Kirigami.ApplicationWindow {
     {
         pushPage("Peers");
     }
-    onClosing: App.saveWindowGeometry(root)
     onHeightChanged: saveWindowGeometryTimer.restart()
     onWidthChanged: saveWindowGeometryTimer.restart()
     onXChanged: saveWindowGeometryTimer.restart()
     onYChanged: saveWindowGeometryTimer.restart()
+
+    KConfig.WindowStateSaver {
+        configGroupName: "MainWindow"
+    }
 
     // This timer allows to batch update the window size change to reduce
     // the io load and also work around the fact that x/y/width/height are
