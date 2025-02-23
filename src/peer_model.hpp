@@ -34,6 +34,7 @@ public:
         CountryCodeRole,
         CityRole,
         CityCodeRole,
+        AdminPanelUrl,
     };
 
     explicit PeerModel(QObject *parent = nullptr);

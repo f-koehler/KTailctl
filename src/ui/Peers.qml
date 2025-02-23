@@ -130,7 +130,7 @@ Kirigami.ScrollablePage {
 
                             Controls.MenuItem {
                                 icon.name: "internet-services"
-                                text: i18nc("@label", isCurrentExitNode ? "Unset exit node" : "Use exit node")
+                                text: isCurrentExitNode ? i18nc("@label", "Unset exit node") : i18nc("@label", "Use exit node")
                                 visible: isExitNode && !Preferences.advertiseExitNode
 
                                 onClicked: {
@@ -139,6 +139,13 @@ Kirigami.ScrollablePage {
                                     else
                                         Tailscale.setExitNode(dnsName);
                                 }
+                            }
+
+                            Controls.MenuItem {
+                                icon.name: "internet-web-browser"
+                                text: i18nc("@label", "Open admin panel")
+
+                                onClicked: Util.openUrl(adminPanelUrl)
                             }
                         }
                     }

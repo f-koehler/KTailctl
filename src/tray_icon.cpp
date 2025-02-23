@@ -219,6 +219,10 @@ void TrayIcon::buildPeerMenu()
             createCopyAction(submenu, ip);
         }
 
+        submenu->addAction(QIcon::fromTheme(QStringLiteral("internet-web-browser")), QStringLiteral("Go to admin panel"), [this, &peer]() {
+            Util::openUrl(peer.mAdminPanelUrl);
+        });
+
         if (!mTailscale->isOperator()) {
             continue;
         }

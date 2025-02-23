@@ -7,6 +7,7 @@
 
 #include "libktailctl_wrapper.h"
 #include <QClipboard>
+#include <QDesktopServices>
 #include <QGuiApplication>
 #include <QMimeData>
 #include <QUrl>
@@ -137,6 +138,10 @@ qint64 toMSecsSinceEpoch(const QDateTime &dateTime)
 {
     return dateTime.toMSecsSinceEpoch();
 }
+void openUrl(const QUrl &url)
+{
+    QDesktopServices::openUrl(url);
+}
 
 void Util::setClipboardText(const QString &text)
 {
@@ -173,6 +178,10 @@ QIcon Util::loadOsIcon(const QString &operating_system)
 QString Util::getUsername()
 {
     return ::getUsername();
+}
+void Util::openUrl(const QUrl &url)
+{
+    ::openUrl(url);
 }
 
 #endif /* KTAILCTL_UTIL_UTIL_CPP */

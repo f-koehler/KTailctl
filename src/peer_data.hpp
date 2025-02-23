@@ -5,6 +5,7 @@
 
 #include <QDateTime>
 #include <QLoggingCategory>
+#include <QUrl>
 #include <QVariant>
 
 #include "json.hpp"
@@ -33,6 +34,7 @@ struct PeerData {
     Q_PROPERTY(QString countryCode MEMBER mCountryCode)
     Q_PROPERTY(QString city MEMBER mCity)
     Q_PROPERTY(QString cityCode MEMBER mCityCode)
+    Q_PROPERTY(QUrl adminPanelUrl MEMBER mAdminPanelUrl)
 
 public:
     QString mId;
@@ -57,6 +59,7 @@ public:
     QString mCountryCode;
     QString mCity;
     QString mCityCode;
+    QUrl mAdminPanelUrl;
 
     bool operator==(const PeerData &other) const = default;
     bool operator!=(const PeerData &other) const = default;
