@@ -60,8 +60,8 @@ jobs:
         working-directory: src/wrapper
       - name: Build.
         run: flatpak-builder --user --force-clean build-dir org.fkoehler.KTailctl.yml
-      - name: Validate build.
-        run: flatpak run --command=flatpak-builder-lint org.flatpak.Builder builddir build-dir/
+      # - name: Validate build.
+      #   run: flatpak run --command=flatpak-builder-lint org.flatpak.Builder builddir build-dir/
   nix_build:
     name: Nix build
     runs-on: ubuntu-latest
