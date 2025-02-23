@@ -41,168 +41,120 @@ Kirigami.ScrollablePage {
 
         headerPositioning: ListView.OverlayHeader
         model: App.peerModel
+        spacing: Kirigami.Units.smallSpacing
         visible: Tailscale.success
 
         delegate: Kirigami.AbstractCard {
-            contentItem: Item {
-                implicitHeight: delegateLayout.implicitHeight
-                implicitWidth: delegateLayout.implicitWidth
-
-                GridLayout {
-                    id: delegateLayout
-
-                    columnSpacing: Kirigami.Units.smallSpacing
-                    columns: 3
-                    rowSpacing: Kirigami.Units.largeSpacing
-
-                    anchors {
-                        left: parent.left
-                        right: parent.right
-                        top: parent.top
-                    }
+            contentItem: RowLayout {
+                Row {
+                    Layout.alignment: Qt.AlignLeft
 
                     Kirigami.Icon {
                         source: Util.loadOsIcon(os)
                     }
 
-                    ColumnLayout {
-                        RowLayout {
-                            Kirigami.Chip {
-                                checkable: false
-                                checked: false
-                                closable: false
-                                icon.name: "edit-copy"
-                                text: dnsName
+                    Kirigami.Icon {
+                        source: isOnline ? "online" : "offline"
+                    }
 
-                                onClicked: {
-                                    Util.setClipboardText(dnsName);
-                                }
-                            }
+                    Controls.ToolButton {
+                        icon.name: "edit-copy"
+                        text: dnsName
 
-                            Kirigami.Icon {
-                                source: isOnline ? "online" : "offline"
-                            }
-
-                            // Kirigami.Icon {
-                            //     source: "cloud-upload"
-                            // }
-
-                            // Controls.Label {
-                            //     text: Util.formatSpeedHumanReadable(Tailscale.statistics.speedUp(tailscaleID).average1Second)
-                            // }
-
-                            // Kirigami.Icon {
-                            //     source: "cloud-download"
-                            // }
-
-                            // Controls.Label {
-                            //     text: Util.formatSpeedHumanReadable(Tailscale.statistics.speedDown(tailscaleID).average1Second)
-                            // }
-
-                        }
-
-                        Kirigami.Separator {
-                            Layout.fillWidth: true
-                        }
-
-                        Flow {
-                            spacing: Kirigami.Units.smallSpacing
-
-                            Repeater {
-                                model: tailscaleIps
-
-                                Kirigami.Chip {
-                                    checkable: false
-                                    checked: false
-                                    closable: false
-                                    icon.name: "edit-copy"
-                                    text: modelData
-
-                                    onClicked: {
-                                        Util.setClipboardText(modelData);
-                                    }
-                                }
-                            }
+                        onClicked: {
+                            Util.setClipboardText(dnsName);
                         }
                     }
 
-                    ColumnLayout {
-                        Controls.Button {
-                            Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
-                            Controls.ToolTip.text: text
-                            Controls.ToolTip.visible: hovered
-                            display: Controls.Button.IconOnly
-                            icon.name: "menu_new"
-                            text: i18nc("@label", "Menu")
+                    Controls.ToolButton {
+                        icon.name: "edit-copy"
+                        text: tailscaleIps[0]
 
-                            onClicked: {
-                                menu.open();
-                            }
-
-                            Controls.Menu {
-                                id: menu
-
-                                Controls.MenuItem {
-                                    icon.name: "akonadiconsole"
-                                    text: i18nc("@label", "Copy SSH command")
-                                    visible: isRunningSSH
-
-                                    onClicked: {
-                                        Util.setClipboardText(sshCommand);
-                                    }
-                                }
-
-                                Controls.MenuItem {
-                                    icon.name: "document-send"
-                                    text: i18nc("@label", "Send file(s)")
-
-                                    onClicked: {
-                                        TaildropSendJobFactory.selectAndSendFiles(dnsName);
-                                    }
-                                }
-
-                                Controls.MenuItem {
-                                    icon.name: "internet-services"
-                                    text: i18nc("@label", isCurrentExitNode ? "Unset exit node" : "Use exit node")
-                                    visible: isExitNode && !Preferences.advertiseExitNode
-
-                                    onClicked: {
-                                        if (isCurrentExitNode)
-                                            Tailscale.unsetExitNode();
-                                        else
-                                            Tailscale.setExitNode(dnsName);
-                                    }
-                                }
-                            }
-                        }
-
-                        Controls.Button {
-                            Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
-                            Controls.ToolTip.text: text
-                            Controls.ToolTip.visible: hovered
-                            display: Controls.Button.IconOnly
-                            icon.name: "view-list-details"
-                            text: i18nc("@label", "Details")
-
-                            onClicked: {
-                                App.setPeerDetails(tailscaleID);
-                                pageStack.layers.push('qrc:Peer.qml');
-                            }
+                        onClicked: {
+                            Util.setClipboardText(tailscaleIps[0]);
                         }
                     }
                 }
 
-                DropArea {
-                    anchors.fill: parent
+                Row {
+                    Layout.alignment: Qt.AlignRight
 
-                    onDropped: {
-                        TaildropSendJobFactory.sendFiles(dnsName, drop.urls);
+                    Controls.ToolButton {
+                        Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
+                        Controls.ToolTip.text: text
+                        Controls.ToolTip.visible: hovered
+                        Layout.alignment: Qt.AlignRight
+                        icon.name: "view-list-details"
+                        text: i18nc("@label", "Details")
+
+                        onClicked: {
+                            App.setPeerDetails(tailscaleID);
+                            pageStack.layers.push(Qt.createComponent("org.fkoehler.KTailctl", "Peer"));
+                        }
                     }
-                    onEntered: {
-                        drag.accept(Qt.LinkAction);
+
+                    Controls.ToolButton {
+                        Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
+                        Controls.ToolTip.text: text
+                        Controls.ToolTip.visible: hovered
+                        Layout.alignment: Qt.AlignRight
+                        display: Controls.Button.IconOnly
+                        icon.name: "menu_new"
+                        text: i18nc("@label", "Menu")
+
+                        onClicked: {
+                            menu.open();
+                        }
+
+                        Controls.Menu {
+                            id: menu
+
+                            Controls.MenuItem {
+                                icon.name: "akonadiconsole"
+                                text: i18nc("@label", "Copy SSH command")
+                                visible: isRunningSSH
+
+                                onClicked: {
+                                    Util.setClipboardText(sshCommand);
+                                }
+                            }
+
+                            Controls.MenuItem {
+                                icon.name: "document-send"
+                                text: i18nc("@label", "Send file(s)")
+
+                                onClicked: {
+                                    TaildropSendJobFactory.selectAndSendFiles(dnsName);
+                                }
+                            }
+
+                            Controls.MenuItem {
+                                icon.name: "internet-services"
+                                text: i18nc("@label", isCurrentExitNode ? "Unset exit node" : "Use exit node")
+                                visible: isExitNode && !Preferences.advertiseExitNode
+
+                                onClicked: {
+                                    if (isCurrentExitNode)
+                                        Tailscale.unsetExitNode();
+                                    else
+                                        Tailscale.setExitNode(dnsName);
+                                }
+                            }
+                        }
                     }
                 }
             }
+
+            // DropArea {
+            //     anchors.fill: parent
+
+            //     onDropped: {
+            //         TaildropSendJobFactory.sendFiles(dnsName, drop.urls);
+            //     }
+            //     onEntered: {
+            //         drag.accept(Qt.LinkAction);
+            //     }
+            // }
         }
     }
 }
