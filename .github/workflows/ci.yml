@@ -48,7 +48,7 @@ jobs:
       - name: Install flatpak dependencies.
         run: ./scripts/flatpak-deps.sh
       - name: Validate manifest.
-        run: flatpak run --command=flatpak-builder-lint org.flatpak.Builder manifest org.fkoehler.KTailctl.yml
+        run: flatpak run --command=flatpak-builder-lint org.flatpak.Builder manifest org.fkoehler.KTailctl.yml --user-exceptions flatpak-local-exceptions.json
       - name: Check external data.
         run: flatpak run org.flathub.flatpak-external-data-checker --check-outdated org.fkoehler.KTailctl.yml
       - name: Setup go.
