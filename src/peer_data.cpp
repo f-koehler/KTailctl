@@ -39,6 +39,8 @@ void from_json(const json &j, PeerData &p)
         }
         j.at("OS").get_to<QString>(p.mOs);
         j.at("TailscaleIPs").get_to<QStringList>(p.mTailscaleIps);
+        p.mAdminPanelUrl = p.mTailscaleIps.isEmpty() ? QStringLiteral("https://login.tailscale.com/admin/machines/")
+                                                     : QString("https://login.tailscale.com/admin/machines/%1").arg(p.mTailscaleIps.first());
         j.at("Relay").get_to<QString>(p.mRelay);
         j.at("RxBytes").get_to<long>(p.mRxBytes);
         j.at("TxBytes").get_to<long>(p.mTxBytes);

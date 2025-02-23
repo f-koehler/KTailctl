@@ -31,7 +31,8 @@ QHash<int, QByteArray> PeerModel::roleNames() const
                                               {CountryRole, "country"},
                                               {CountryCodeRole, "countryCode"},
                                               {CityRole, "city"},
-                                              {CityCodeRole, "cityCode"}};
+                                              {CityCodeRole, "cityCode"},
+                                              {AdminPanelUrl, "adminPanelUrl"}};
     return roles;
 }
 
@@ -79,6 +80,8 @@ QVariant PeerModel::data(const QModelIndex &index, int role) const
         return mPeers.at(index.row()).mCity;
     case CityCodeRole:
         return mPeers.at(index.row()).mCityCode;
+    case AdminPanelUrl:
+        return mPeers.at(index.row()).mAdminPanelUrl;
     default:
         return QStringLiteral("Invalid role");
     }

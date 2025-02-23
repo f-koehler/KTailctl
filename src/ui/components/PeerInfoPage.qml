@@ -138,6 +138,16 @@ Kirigami.ScrollablePage {
                     text: i18nc("@label", "Tags:")
                     visible: root.peer.tags.length > 0
                 }
+
+                FormCard.FormDelegateSeparator {
+                }
+
+                FormCard.FormButtonDelegate {
+                    icon.name: "internet-web-browser"
+                    text: i18nc("@label", "Go to admin panel in browser")
+
+                    onClicked: Util.openUrl(root.peer.adminPanelUrl)
+                }
             }
         }
 
