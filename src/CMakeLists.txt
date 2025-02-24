@@ -130,34 +130,51 @@ target_link_libraries(
           KTailctl::Wrapper)
 target_compile_definitions(ktailctl PRIVATE WITH_BREEZEICONS_LIB)
 
-set_source_files_properties(icons/logo.svg PROPERTIES QT_RESOURECE_ALIAS icons/logo.svg)
-set_source_files_properties(icons/offline-adwaita-dark.svg PROPERTIES QT_RESOURECE_ALIAS icons/offline-adwaita-dark.svg)
-set_source_files_properties(icons/offline-adwaita-light.svg PROPERTIES QT_RESOURECE_ALIAS
+set_source_files_properties(icons/logo.svg PROPERTIES QT_RESOURCE_ALIAS icons/logo.svg)
+set_source_files_properties(icons/offline-adwaita-dark.svg PROPERTIES QT_RESOURCE_ALIAS icons/offline-adwaita-dark.svg)
+set_source_files_properties(icons/offline-adwaita-light.svg PROPERTIES QT_RESOURCE_ALIAS
                                                                        icons/offline-adwaita-light.svg)
-set_source_files_properties(icons/offline-breeze-dark.svg PROPERTIES QT_RESOURECE_ALIAS icons/offline-breeze-dark.svg)
-set_source_files_properties(icons/offline-breeze-light.svg PROPERTIES QT_RESOURECE_ALIAS icons/offline-breeze-light.svg)
-set_source_files_properties(icons/offline-catppuccin-frappe.svg PROPERTIES QT_RESOURECE_ALIAS
+set_source_files_properties(icons/offline-breeze-dark.svg PROPERTIES QT_RESOURCE_ALIAS icons/offline-breeze-dark.svg)
+set_source_files_properties(icons/offline-breeze-light.svg PROPERTIES QT_RESOURCE_ALIAS icons/offline-breeze-light.svg)
+set_source_files_properties(icons/offline-catppuccin-frappe.svg PROPERTIES QT_RESOURCE_ALIAS
                                                                            icons/offline-catppuccin-frappe.svg)
-set_source_files_properties(icons/offline-catppuccin-latte.svg PROPERTIES QT_RESOURECE_ALIAS
+set_source_files_properties(icons/offline-catppuccin-latte.svg PROPERTIES QT_RESOURCE_ALIAS
                                                                           icons/offline-catppuccin-latte.svg)
-set_source_files_properties(icons/offline-catppuccin-macchiato.svg PROPERTIES QT_RESOURECE_ALIAS
+set_source_files_properties(icons/offline-catppuccin-macchiato.svg PROPERTIES QT_RESOURCE_ALIAS
                                                                               icons/offline-catppuccin-macchiato.svg)
-set_source_files_properties(icons/offline-catppuccin-mocha.svg PROPERTIES QT_RESOURECE_ALIAS
+set_source_files_properties(icons/offline-catppuccin-mocha.svg PROPERTIES QT_RESOURCE_ALIAS
                                                                           icons/offline-catppuccin-mocha.svg)
-set_source_files_properties(icons/offline-colorful.svg PROPERTIES QT_RESOURECE_ALIAS icons/offline-colorful.svg)
-set_source_files_properties(icons/online-adwaita-dark.svg PROPERTIES QT_RESOURECE_ALIAS icons/online-adwaita-dark.svg)
-set_source_files_properties(icons/online-adwaita-light.svg PROPERTIES QT_RESOURECE_ALIAS icons/online-adwaita-light.svg)
-set_source_files_properties(icons/online-breeze-dark.svg PROPERTIES QT_RESOURECE_ALIAS icons/online-breeze-dark.svg)
-set_source_files_properties(icons/online-breeze-light.svg PROPERTIES QT_RESOURECE_ALIAS icons/online-breeze-light.svg)
-set_source_files_properties(icons/online-catppuccin-frappe.svg PROPERTIES QT_RESOURECE_ALIAS
+set_source_files_properties(icons/offline-colorful.svg PROPERTIES QT_RESOURCE_ALIAS icons/offline-colorful.svg)
+set_source_files_properties(icons/online-adwaita-dark.svg PROPERTIES QT_RESOURCE_ALIAS icons/online-adwaita-dark.svg)
+set_source_files_properties(icons/online-adwaita-light.svg PROPERTIES QT_RESOURCE_ALIAS icons/online-adwaita-light.svg)
+set_source_files_properties(icons/online-breeze-dark.svg PROPERTIES QT_RESOURCE_ALIAS icons/online-breeze-dark.svg)
+set_source_files_properties(icons/online-breeze-light.svg PROPERTIES QT_RESOURCE_ALIAS icons/online-breeze-light.svg)
+set_source_files_properties(icons/online-catppuccin-frappe.svg PROPERTIES QT_RESOURCE_ALIAS
                                                                           icons/online-catppuccin-frappe.svg)
-set_source_files_properties(icons/online-catppuccin-latte.svg PROPERTIES QT_RESOURECE_ALIAS
+set_source_files_properties(icons/online-catppuccin-latte.svg PROPERTIES QT_RESOURCE_ALIAS
                                                                          icons/online-catppuccin-latte.svg)
-set_source_files_properties(icons/online-catppuccin-macchiato.svg PROPERTIES QT_RESOURECE_ALIAS
+set_source_files_properties(icons/online-catppuccin-macchiato.svg PROPERTIES QT_RESOURCE_ALIAS
                                                                              icons/online-catppuccin-macchiato.svg)
-set_source_files_properties(icons/online-catppuccin-mocha.svg PROPERTIES QT_RESOURECE_ALIAS
+set_source_files_properties(icons/online-catppuccin-mocha.svg PROPERTIES QT_RESOURCE_ALIAS
                                                                          icons/online-catppuccin-mocha.svg)
-set_source_files_properties(icons/online-colorful.svg PROPERTIES QT_RESOURECE_ALIAS icons/online-colorful.svg)
+set_source_files_properties(icons/online-colorful.svg PROPERTIES QT_RESOURCE_ALIAS icons/online-colorful.svg)
+set_source_files_properties(icons/exit-node-adwaita-dark.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                        icons/exit-node-adwaita-dark.svg)
+set_source_files_properties(icons/exit-node-adwaita-light.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                         icons/exit-node-adwaita-light.svg)
+set_source_files_properties(icons/exit-node-breeze-dark.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                       icons/exit-node-breeze-dark.svg)
+set_source_files_properties(icons/exit-node-breeze-light.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                        icons/exit-node-breeze-light.svg)
+set_source_files_properties(icons/exit-node-catppuccin-frappe.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                             icons/exit-node-catppuccin-frappe.svg)
+set_source_files_properties(icons/exit-node-catppuccin-latte.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                            icons/exit-node-catppuccin-latte.svg)
+set_source_files_properties(icons/exit-node-catppuccin-macchiato.svg
+                            PROPERTIES QT_RESOURCE_ALIAS icons/exit-node-catppuccin-macchiato.svg)
+set_source_files_properties(icons/exit-node-catppuccin-mocha.svg PROPERTIES QT_RESOURCE_ALIAS
+                                                                            icons/exit-node-catppuccin-mocha.svg)
+set_source_files_properties(icons/exit-node-colorful.svg PROPERTIES QT_RESOURCE_ALIAS icons/exit-node-colorful.svg)
 
 include(./CountryFlags.cmake)
 qt_add_resources(
@@ -182,7 +199,16 @@ qt_add_resources(
   icons/online-catppuccin-latte.svg
   icons/online-catppuccin-macchiato.svg
   icons/online-catppuccin-mocha.svg
-  icons/online-colorful.svg)
+  icons/online-colorful.svg
+  icons/exit-node-adwaita-dark.svg
+  icons/exit-node-adwaita-light.svg
+  icons/exit-node-breeze-dark.svg
+  icons/exit-node-breeze-light.svg
+  icons/exit-node-catppuccin-frappe.svg
+  icons/exit-node-catppuccin-latte.svg
+  icons/exit-node-catppuccin-macchiato.svg
+  icons/exit-node-catppuccin-mocha.svg
+  icons/exit-node-colorful.svg)
 qt_add_resources(ktailctl "flags" PREFIX "/country-flags" FILES ${KTAILCTL_FLAG_FILES})
 
 kconfig_target_kcfg_file(

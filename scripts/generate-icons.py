@@ -1,3 +1,4 @@
+#!/usr/bin/env -S uv run
 import dataclasses
 from pathlib import Path
 
@@ -25,29 +26,16 @@ if __name__ == "__main__":
     icon_dir = Path.cwd() / "src" / "icons"
     offline_base = (icon_dir / "base" / "offline.svg").read_text()
     online_base = (icon_dir / "base" / "online.svg").read_text()
+    exit_node_base = (icon_dir / "base" / "exit-node.svg").read_text()
 
-    qrc = """
-    <!--
-        SPDX-License-Identifier: GPL-3.0-or-later
-        SPDX-FileCopyrightText: 2024 Fabian Köhler <me@fkoehler.org>
-    -->
-    <RCC>
-        <qresource prefix="/icons/">
-            <file>logo.svg</file>
-    """
     for theme in themes:
         offline = offline_base.replace("#232629", theme.color_offline)
         online = online_base.replace("#232629", theme.color_online)
+        exit_node = exit_node_base.replace("#232629", theme.color_online)
 
         (icon_dir / ("offline-" + theme.name)).with_suffix(".svg").write_text(offline)
         (icon_dir / ("online-" + theme.name)).with_suffix(".svg").write_text(online)
-        qrc += f"        <file>offline-{theme.name}.svg</file>\n"
-        qrc += f"        <file>online-{theme.name}.svg</file>\n"
-    qrc += """
-        </qresource>
-    </RCC>
-    """
-    (icon_dir / "icons.qrc").write_text(qrc)
+        (icon_dir / ("exit-node-" + theme.name)).with_suffix(".svg").write_text(exit_node)
 
     header = (
         """
@@ -65,4 +53,4 @@ if __name__ == "__main__":
     #endif /* KTAILCTL_GENERATE_ICONS_PY */
     """
     )
-    (Path.cwd() / "src" / "config" / "themes.hpp").write_text(header)
+    (Path.cwd() / "src" / "themes.hpp").write_text(header)
