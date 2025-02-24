@@ -12,7 +12,13 @@ import org.kde.config as KConfig
 Kirigami.ApplicationWindow {
     id: root
 
+    property string pageName
+
     function pushPage(page): void {
+        if (pageName == page) {
+            return;
+        }
+
         var pageObject = Qt.createComponent("org.fkoehler.KTailctl", page);
         if (!pageObject) {
             page = "Peers";
@@ -21,16 +27,8 @@ Kirigami.ApplicationWindow {
         pageStack.clear();
         pageStack.layers.clear();
         pageStack.push(pageObject);
+        pageName = page;
     }
-
-    // function navigateTo(name) {
-    //     if (pageStack.currentItem.objectName == name)
-    //         return;
-    //     while (pageStack.depth > 1)
-    //         pageStack.pop();
-    //     if (pageStack.currentItem.objectName != name)
-    //         pageStack.replace("qrc:" + name + ".qml");
-    // }
 
     minimumHeight: Kirigami.Units.gridUnit * 20
     minimumWidth: Kirigami.Units.gridUnit * 20
@@ -160,10 +158,7 @@ Kirigami.ApplicationWindow {
         onModalChanged: drawerOpen = !modal
     }
 
-    Component.onCompleted:
-    // pushPage("Peers");
-    //     App.restoreWindowGeometry(root);
-    {
+    Component.onCompleted: {
         pushPage("Peers");
     }
     onHeightChanged: saveWindowGeometryTimer.restart()
