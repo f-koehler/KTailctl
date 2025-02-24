@@ -98,6 +98,7 @@ TrayIcon::TrayIcon(QObject *parent)
     connect(mTailscale, &Tailscale::suggestedExitNodeChanged, this, &TrayIcon::buildUseSuggestedAction);
     connect(mConfig, &KTailctlConfig::lastUsedExitNodeChanged, this, &TrayIcon::buildLastUsedAction);
     connect(mTailscale, &Tailscale::hasCurrentExitNodeChanged, this, &TrayIcon::buildUnsetAction);
+    connect(mTailscale, &Tailscale::hasCurrentExitNodeChanged, this, &TrayIcon::updateIcon);
     connect(mTailscale, &Tailscale::currentExitNodeChanged, this, &TrayIcon::buildUnsetAction);
     connect(mTailscale, &Tailscale::refreshed, this, &TrayIcon::buildMullvadMenu);
 
@@ -280,8 +281,17 @@ void TrayIcon::buildUnsetAction()
 
 void TrayIcon::updateIcon()
 {
-    setIcon(QIcon(QString(":/icons/%1-%2")
-                      .arg((mTailscale->backendState() == "Running") ? QStringLiteral("online") : QStringLiteral("offline"), KTailctlConfig::trayIconTheme())));
+    QString name;
+    if (mTailscale->backendState() == "Running") {
+        if (mTailscale->hasCurrentExitNode()) {
+            name = QStringLiteral("exit-node");
+        } else {
+            name = QStringLiteral("online");
+        }
+    } else {
+        name = QStringLiteral("offline");
+    }
+    setIcon(QIcon(QString(":/icons/%1-%2").arg(name, KTailctlConfig::trayIconTheme())));
 }
 void TrayIcon::regenerate()
 {
