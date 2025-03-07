@@ -29,12 +29,18 @@ Kirigami.ScrollablePage {
                 Repeater {
                     model: App.mullvadNodesForCountryModel
 
-                    delegate: FormCard.FormButtonDelegate {
-                        icon.name: "country-flag-" + countryCode.toLowerCase()
-                        text: dnsName + " (" + city + ")"
+                    delegate: ColumnLayout {
+                        FormCard.FormButtonDelegate {
+                            icon.name: "country-flag-" + countryCode.toLowerCase()
+                            text: dnsName + " (" + city + ")"
 
-                        onClicked: {
-                            Tailscale.setExitNode(dnsName);
+                            onClicked: {
+                                Tailscale.setExitNode(dnsName);
+                            }
+                        }
+
+                        FormCard.FormDelegateSeparator {
+                            visible: index < App.mullvadNodesForCountryModel.rowCount() - 1
                         }
                     }
                 }
