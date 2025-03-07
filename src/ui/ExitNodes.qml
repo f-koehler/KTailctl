@@ -49,11 +49,15 @@ Kirigami.ScrollablePage {
                 FormCard.FormButtonDelegate {
                     icon.name: "dialog-cancel"
                     text: "Unset current: " + Tailscale.currentExitNode.dnsName
-                    visible: Tailscale.hasCurrentExitNode
+                    visible: Tailscale.currentExitNode != null
 
                     onClicked: {
                         Tailscale.unsetExitNode();
                     }
+                }
+
+                FormCard.FormDelegateSeparator {
+                    visible: Tailscale.hasSuggestedExitNode
                 }
 
                 FormCard.FormButtonDelegate {
@@ -64,6 +68,10 @@ Kirigami.ScrollablePage {
                     onClicked: {
                         Tailscale.setExitNode(Tailscale.suggestedExitNode.dnsName);
                     }
+                }
+
+                FormCard.FormDelegateSeparator {
+                    visible: App.config.lastUsedExitNode.length > 0
                 }
 
                 FormCard.FormButtonDelegate {
@@ -98,12 +106,18 @@ Kirigami.ScrollablePage {
                 Repeater {
                     model: Tailscale.exitNodeModel
 
-                    delegate: FormCard.FormButtonDelegate {
-                        icon.name: "network-vpn"
-                        text: dnsName
+                    delegate: ColumnLayout {
+                        FormCard.FormButtonDelegate {
+                            icon.name: "network-vpn"
+                            text: dnsName
 
-                        onClicked: {
-                            Tailscale.setExitNode(dnsName);
+                            onClicked: {
+                                Tailscale.setExitNode(dnsName);
+                            }
+                        }
+
+                        FormCard.FormDelegateSeparator {
+                            visible: index < Tailscale.exitNodeModel.rowCount() - 1
                         }
                     }
                 }
@@ -127,13 +141,19 @@ Kirigami.ScrollablePage {
                 Repeater {
                     model: Tailscale.mullvadCountryModel
 
-                    delegate: FormCard.FormButtonDelegate {
-                        icon.name: "country-flag-" + countryCode.toLowerCase()
-                        text: countryName
+                    delegate: ColumnLayout {
+                        FormCard.FormButtonDelegate {
+                            icon.name: "country-flag-" + countryCode.toLowerCase()
+                            text: countryName
 
-                        onClicked: {
-                            App.mullvadNodesForCountryModel.setFilterFixedString(countryCode);
-                            pageStack.layers.push(Qt.createComponent("org.fkoehler.KTailctl", "MullvadNodes"));
+                            onClicked: {
+                                App.mullvadNodesForCountryModel.setFilterFixedString(countryCode);
+                                pageStack.layers.push(Qt.createComponent("org.fkoehler.KTailctl", "MullvadNodes"));
+                            }
+                        }
+
+                        FormCard.FormDelegateSeparator {
+                            visible: index < Tailscale.mullvadCountryModel.rowCount() - 1
                         }
                     }
                 }
