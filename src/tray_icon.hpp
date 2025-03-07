@@ -42,6 +42,7 @@ public slots:
     void buildUseSuggestedAction();
     void buildLastUsedAction();
     void buildUnsetAction();
+    void buildTooltip();
 
 signals:
     void quitClicked();
