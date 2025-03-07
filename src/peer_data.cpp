@@ -46,6 +46,9 @@ void from_json(const json &j, PeerData &p)
         j.at("TxBytes").get_to<long>(p.mTxBytes);
         j.at("Created").get_to<QString>(p.mCreated);
         j.at("LastSeen").get_to<QString>(p.mLastSeen);
+        if (p.mLastSeen == QStringLiteral("0001-01-01T00:00:00Z")) {
+            p.mLastSeen = QDateTime::currentDateTimeUtc().toString(Qt::ISODateWithMs);
+        }
         j.at("Online").get_to<bool>(p.mIsOnline);
         j.at("Active").get_to<bool>(p.mIsActive);
         j.at("ExitNode").get_to<bool>(p.mIsCurrentExitNode);
