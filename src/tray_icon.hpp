@@ -28,6 +28,7 @@ private:
     QAction *mLastUsedAction;
     QMenu *mMullvadMenu;
     QMenu *mSelfHostedMenu;
+    QMenu *mSelfMenu;
     QMap<QString, QMenu *> mMullvadCountryMenus;
     QAction *mQuitAction;
 
@@ -36,12 +37,14 @@ private:
 public slots:
     void updateIcon();
     void regenerate();
+    void buildSelfMenu();
     void buildSelfHostedMenu();
     void buildMullvadMenu();
     void buildPeerMenu();
     void buildUseSuggestedAction();
     void buildLastUsedAction();
     void buildUnsetAction();
+    void buildTooltip();
 
 signals:
     void quitClicked();

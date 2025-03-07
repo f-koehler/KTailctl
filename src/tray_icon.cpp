@@ -28,6 +28,7 @@ TrayIcon::TrayIcon(QObject *parent)
         mWindow->show();
     });
     mContextMenu->addSeparator();
+    mSelfMenu = mContextMenu->addMenu(QIcon::fromTheme(QStringLiteral("computer")), QStringLiteral("This Node"));
     mPeerMenu = mContextMenu->addMenu(QIcon::fromTheme(QStringLiteral("applications-network")), QStringLiteral("Peers"));
     mExitNodeMenu = mContextMenu->addMenu(QIcon::fromTheme(QStringLiteral("internet-services")), QStringLiteral("Exit nodes"));
     mUnsetAction = mExitNodeMenu->addAction(QIcon::fromTheme(QStringLiteral("dialog-cancel")), QStringLiteral("Unset"), [this] {
@@ -53,9 +54,12 @@ TrayIcon::TrayIcon(QObject *parent)
     buildUnsetAction();
     buildUseSuggestedAction();
     buildLastUsedAction();
+    buildTooltip();
+    buildSelfMenu();
 
     connect(mTailscale, &Tailscale::backendStateChanged, [this]() {
         updateIcon();
+        buildTooltip();
         if (mTailscale->backendState() == QStringLiteral("Running")) {
             mToggleAction->setChecked(true);
             mToggleAction->setText(QStringLiteral("Stop Tailscale"));
@@ -70,6 +74,8 @@ TrayIcon::TrayIcon(QObject *parent)
     });
     connect(mTailscale, &Tailscale::successChanged, [this]() {
         if (mTailscale->success()) {
+            buildTooltip();
+            buildSelfMenu();
             buildPeerMenu();
             buildMullvadMenu();
             mPeerMenu->setEnabled(true);
@@ -99,8 +105,12 @@ TrayIcon::TrayIcon(QObject *parent)
     connect(mConfig, &KTailctlConfig::lastUsedExitNodeChanged, this, &TrayIcon::buildLastUsedAction);
     connect(mTailscale, &Tailscale::hasCurrentExitNodeChanged, this, &TrayIcon::buildUnsetAction);
     connect(mTailscale, &Tailscale::hasCurrentExitNodeChanged, this, &TrayIcon::updateIcon);
+    connect(mTailscale, &Tailscale::hasCurrentExitNodeChanged, this, &TrayIcon::buildTooltip);
     connect(mTailscale, &Tailscale::currentExitNodeChanged, this, &TrayIcon::buildUnsetAction);
+    connect(mTailscale, &Tailscale::currentExitNodeChanged, this, &TrayIcon::buildTooltip);
     connect(mTailscale, &Tailscale::refreshed, this, &TrayIcon::buildMullvadMenu);
+    connect(mTailscale, &Tailscale::selfChanged, this, &TrayIcon::buildTooltip);
+    connect(mTailscale, &Tailscale::selfChanged, this, &TrayIcon::buildSelfMenu);
 
     connect(contextMenu(), &QMenu::aboutToShow, this, &TrayIcon::regenerate);
     connect(mConfig, &KTailctlConfig::trayIconThemeChanged, this, &TrayIcon::updateIcon);
@@ -124,6 +134,19 @@ TrayIcon::TrayIcon(QObject *parent)
     });
 
     show();
+}
+
+void TrayIcon::buildSelfMenu()
+{
+    mSelfMenu->clear();
+    mSelfMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), mTailscale->self().mDnsName, [this]() {
+        setClipboardText(mTailscale->self().mDnsName);
+    });
+    for (const auto &addr : mTailscale->self().mTailscaleIps) {
+        mSelfMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), addr, [this, &addr]() {
+            setClipboardText(addr);
+        });
+    }
 }
 
 void TrayIcon::buildMullvadMenu()
@@ -277,6 +300,19 @@ void TrayIcon::buildUnsetAction()
     } else {
         mUnsetAction->setText(QStringLiteral("None set"));
     }
+}
+
+void TrayIcon::buildTooltip()
+{
+    QStringList tooltip;
+    tooltip << QStringLiteral("Status: %1").arg(mTailscale->backendState());
+    if (!mTailscale->self().mTailscaleIps.empty()) {
+        tooltip << QStringLiteral("IP: %1").arg(mTailscale->self().mTailscaleIps.front());
+    }
+    if (mTailscale->hasCurrentExitNode()) {
+        tooltip << QStringLiteral("Exit node: %1").arg(mTailscale->currentExitNode().mDnsName);
+    }
+    setToolTip(tooltip.join('\n'));
 }
 
 void TrayIcon::updateIcon()
