@@ -166,6 +166,36 @@ Kirigami.ApplicationWindow {
     onXChanged: saveWindowGeometryTimer.restart()
     onYChanged: saveWindowGeometryTimer.restart()
 
+    Loader {
+        asynchronous: true
+        source: "About.qml"
+    }
+
+    Loader {
+        asynchronous: true
+        source: "ExitNodes.qml"
+    }
+
+    Loader {
+        asynchronous: true
+        source: "MullvadNodes.qml"
+    }
+
+    Loader {
+        asynchronous: true
+        source: "Peer.qml"
+    }
+
+    Loader {
+        asynchronous: true
+        source: "Self.qml"
+    }
+
+    Loader {
+        asynchronous: true
+        source: "Settings.qml"
+    }
+
     KConfig.WindowStateSaver {
         configGroupName: "MainWindow"
     }
