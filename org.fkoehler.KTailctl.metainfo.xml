@@ -44,6 +44,22 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.20.0" date="2025-03-08" urgency="low">
+      <description>
+        <p>Reworks the peer list as well as exit node page and indicates exit node usage in the tray
+          icon. Also includes a lot of small bugfixes.</p>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.20.0</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.20.0.tar.gz</location>
+        </artifact>
+        <artifact type="source">
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.20.0/tailwrap-vendor-v0.20.0.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.19.3" date="2025-02-14" urgency="low">
       <description>
         <p>Fixes crash caused by regression in v0.19.2.</p>
