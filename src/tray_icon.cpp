@@ -118,7 +118,6 @@ TrayIcon::TrayIcon(QObject *parent)
         switch (reason) {
         case QSystemTrayIcon::ActivationReason::Trigger:
         case QSystemTrayIcon::ActivationReason::DoubleClick:
-        case QSystemTrayIcon::ActivationReason::MiddleClick:
             if (mWindow == nullptr) {
                 return;
             }
@@ -128,6 +127,8 @@ TrayIcon::TrayIcon(QObject *parent)
                 mWindow->show();
             }
             break;
+        case QSystemTrayIcon::ActivationReason::MiddleClick:
+            mTailscale->toggle();
         default:
             break;
         };
