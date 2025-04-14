@@ -44,6 +44,21 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.20.1" date="2025-04-14" urgency="low">
+      <description>
+        <p>Allows toggling tailscale via a middle click on the tray icon and updates dependencies.</p>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.20.1</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.20.1.tar.gz</location>
+        </artifact>
+        <artifact type="source">
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.20.1/tailwrap-vendor-v0.20.1.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.20.0" date="2025-03-08" urgency="low">
       <description>
         <p>Reworks the peer list as well as exit node page and indicates exit node usage in the tray
