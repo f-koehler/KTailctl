@@ -8,4 +8,4 @@ gh release create -F changelog/${TAG}.md --verify-tag ${TAG}
 
 # Attach vendored go dependencies
 ./scripts/vendor.sh
-gh release upload ${TAG} tailwrap-vendor-${TAG}.tar.gz
+gh release upload ${TAG} ktailctl-wrapper-vendor-${TAG}.tar.gz
