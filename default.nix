@@ -22,7 +22,7 @@ let
       pname = "ktailctl_wrapper";
       inherit src version;
       modRoot = "src/wrapper";
-      vendorHash = "sha256-odjYF69QUMHwHCrjODExEdWCjuqe6hZv0ApoZSq2YPQ=";
+      vendorHash = "sha256-RQVIjjuhKcmN6nq7sopPaPCcbZTGztWqlPnPHkSRuqM=";
     }).goModules;
 in
 stdenv.mkDerivation {
