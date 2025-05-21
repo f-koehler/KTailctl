@@ -38,8 +38,8 @@ modules:
       - "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
     sources:
       - type: "archive"
-        url: https://download.kde.org/stable/kirigami-addons/kirigami-addons-1.7.0.tar.xz
-        sha256: 7d854975185cf740de486d84f1e2ec3e4eadb66ac9fb897214cba9ab8cc492b1
+        url: https://download.kde.org/stable/kirigami-addons/kirigami-addons-1.8.1.tar.xz
+        sha256: 00028ae4df99e250518345ea28d9cdf49d700e9acac482734bb51384da11f945
         x-checker-data:
           type: "anitya"
           project-id: 242933
