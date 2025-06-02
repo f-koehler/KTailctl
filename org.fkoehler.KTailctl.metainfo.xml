@@ -44,6 +44,21 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.20.2" date="2025-06-02" urgency="low">
+      <description>
+        <p>No user-facing changes.</p>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.20.2</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.20.2.tar.gz</location>
+        </artifact>
+        <artifact type="source">
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.20.2/tailwrap-vendor-v0.20.2.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.20.1" date="2025-04-14" urgency="low">
       <description>
         <p>Allows toggling tailscale via a middle click on the tray icon and updates dependencies.</p>
