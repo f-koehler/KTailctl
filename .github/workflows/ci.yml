@@ -88,6 +88,7 @@ jobs:
     needs:
       - flatpak_build
       - pre-commit
+      - nix-build
     permissions:
       contents: write
     steps:
