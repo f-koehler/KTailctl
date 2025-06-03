@@ -132,6 +132,23 @@ Kirigami.ScrollablePage {
                         App.config.save();
                     }
                 }
+
+                FormCard.FormDelegateSeparator {
+                    above: showTagsInPeerList
+                    below: spinRefreshInterval
+                }
+
+                FormCard.FormSwitchDelegate {
+                    id: showTagsInPeerList
+
+                    checked: App.config.showTagsInPeerList
+                    text: i18nc("@label", "Show tags in peer list:")
+
+                    onClicked: {
+                        App.config.showTagsInPeerList = !App.config.showTagsInPeerList;
+                        App.config.save();
+                    }
+                }
             }
         }
 

@@ -77,5 +77,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <label>Last used exit node</label>
             <default></default>
         </entry>
+        <entry name="showTagsInPeerList" type="Bool">
+            <label>Whether to show tags in the peer list</label>
+            <default>false</default>
+        </entry>
     </group>
 </kcfg>
