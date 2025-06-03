@@ -45,123 +45,148 @@ Kirigami.ScrollablePage {
         visible: Tailscale.success
 
         delegate: Kirigami.AbstractCard {
-            contentItem: RowLayout {
-                Row {
-                    Layout.alignment: Qt.AlignLeft
+            contentItem: ColumnLayout {
+                anchors.fill: parent
 
-                    Kirigami.Icon {
-                        source: Util.loadOsIcon(os)
-                    }
+                RowLayout {
+                    Layout.fillWidth: true
 
-                    Kirigami.Icon {
-                        source: isOnline ? "online" : "offline"
-                    }
+                    Row {
+                        Layout.alignment: Qt.AlignLeft
+                        Layout.fillWidth: true
 
-                    Controls.ToolButton {
-                        icon.name: "edit-copy"
-                        text: dnsName
+                        Kirigami.Icon {
+                            source: Util.loadOsIcon(os)
+                        }
 
-                        onClicked: {
-                            Util.setClipboardText(dnsName);
+                        Kirigami.Icon {
+                            source: isOnline ? "online" : "offline"
+                        }
+
+                        Controls.ToolButton {
+                            icon.name: "edit-copy"
+                            text: dnsName
+
+                            onClicked: {
+                                Util.setClipboardText(dnsName);
+                            }
+                        }
+
+                        Controls.ToolButton {
+                            icon.name: "edit-copy"
+                            text: tailscaleIps[0]
+
+                            onClicked: {
+                                Util.setClipboardText(tailscaleIps[0]);
+                            }
                         }
                     }
 
-                    Controls.ToolButton {
-                        icon.name: "edit-copy"
-                        text: tailscaleIps[0]
+                    Row {
+                        Layout.alignment: Qt.AlignRight
 
-                        onClicked: {
-                            Util.setClipboardText(tailscaleIps[0]);
+                        Controls.ToolButton {
+                            Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
+                            Controls.ToolTip.text: text
+                            Controls.ToolTip.visible: hovered
+                            Layout.alignment: Qt.AlignRight
+                            icon.name: "view-list-details"
+                            text: i18nc("@label", "Details")
+
+                            onClicked: {
+                                App.setPeerDetails(tailscaleID);
+                                pageStack.layers.push(Qt.createComponent("org.fkoehler.KTailctl", "Peer"));
+                            }
+                        }
+
+                        Controls.ToolButton {
+                            Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
+                            Controls.ToolTip.text: text
+                            Controls.ToolTip.visible: hovered
+                            Layout.alignment: Qt.AlignRight
+                            display: Controls.Button.IconOnly
+                            icon.name: "menu_new"
+                            text: i18nc("@label", "Menu")
+
+                            onClicked: {
+                                menu.open();
+                            }
+
+                            Controls.Menu {
+                                id: menu
+
+                                Controls.MenuItem {
+                                    icon.name: "akonadiconsole"
+                                    text: i18nc("@label", "Copy SSH command")
+                                    visible: isRunningSSH
+
+                                    onClicked: {
+                                        Util.setClipboardText(sshCommand);
+                                    }
+                                }
+
+                                Controls.MenuItem {
+                                    icon.name: "document-send"
+                                    text: i18nc("@label", "Send file(s)")
+
+                                    onClicked: {
+                                        TaildropSendJobFactory.selectAndSendFiles(dnsName);
+                                    }
+                                }
+
+                                Controls.MenuItem {
+                                    icon.name: "internet-services"
+                                    text: isCurrentExitNode ? i18nc("@label", "Unset exit node") : i18nc("@label", "Use exit node")
+                                    visible: isExitNode && !Preferences.advertiseExitNode
+
+                                    onClicked: {
+                                        if (isCurrentExitNode)
+                                            Tailscale.unsetExitNode();
+                                        else
+                                            Tailscale.setExitNode(dnsName);
+                                    }
+                                }
+
+                                Controls.MenuItem {
+                                    icon.name: "internet-web-browser"
+                                    text: i18nc("@label", "Open admin panel")
+
+                                    onClicked: Util.openUrl(adminPanelUrl)
+                                }
+                            }
                         }
                     }
                 }
 
-                Row {
-                    Layout.alignment: Qt.AlignRight
+                RowLayout {
+                    visible: App.config.showTagsInPeerList && (tags.length > 0)
 
-                    Controls.ToolButton {
-                        Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
-                        Controls.ToolTip.text: text
-                        Controls.ToolTip.visible: hovered
+                    Flow {
                         Layout.alignment: Qt.AlignRight
-                        icon.name: "view-list-details"
-                        text: i18nc("@label", "Details")
+                        Layout.fillWidth: true
 
-                        onClicked: {
-                            App.setPeerDetails(tailscaleID);
-                            pageStack.layers.push(Qt.createComponent("org.fkoehler.KTailctl", "Peer"));
-                        }
-                    }
+                        Repeater {
+                            model: tags
 
-                    Controls.ToolButton {
-                        Controls.ToolTip.delay: Kirigami.Units.toolTipDelay
-                        Controls.ToolTip.text: text
-                        Controls.ToolTip.visible: hovered
-                        Layout.alignment: Qt.AlignRight
-                        display: Controls.Button.IconOnly
-                        icon.name: "menu_new"
-                        text: i18nc("@label", "Menu")
-
-                        onClicked: {
-                            menu.open();
-                        }
-
-                        Controls.Menu {
-                            id: menu
-
-                            Controls.MenuItem {
-                                icon.name: "akonadiconsole"
-                                text: i18nc("@label", "Copy SSH command")
-                                visible: isRunningSSH
-
-                                onClicked: {
-                                    Util.setClipboardText(sshCommand);
-                                }
-                            }
-
-                            Controls.MenuItem {
-                                icon.name: "document-send"
-                                text: i18nc("@label", "Send file(s)")
-
-                                onClicked: {
-                                    TaildropSendJobFactory.selectAndSendFiles(dnsName);
-                                }
-                            }
-
-                            Controls.MenuItem {
-                                icon.name: "internet-services"
-                                text: isCurrentExitNode ? i18nc("@label", "Unset exit node") : i18nc("@label", "Use exit node")
-                                visible: isExitNode && !Preferences.advertiseExitNode
-
-                                onClicked: {
-                                    if (isCurrentExitNode)
-                                        Tailscale.unsetExitNode();
-                                    else
-                                        Tailscale.setExitNode(dnsName);
-                                }
-                            }
-
-                            Controls.MenuItem {
-                                icon.name: "internet-web-browser"
-                                text: i18nc("@label", "Open admin panel")
-
-                                onClicked: Util.openUrl(adminPanelUrl)
+                            Kirigami.Chip {
+                                closable: false
+                                text: modelData
                             }
                         }
                     }
                 }
+
+                // DropArea {
+                //     anchors.fill: parent
+
+                //     onDropped: {
+                //         TaildropSendJobFactory.sendFiles(dnsName, drop.urls);
+                //     }
+                //     onEntered: {
+                //         drag.accept(Qt.LinkAction);
+                //     }
+                // }
             }
-
-            // DropArea {
-            //     anchors.fill: parent
-
-            //     onDropped: {
-            //         TaildropSendJobFactory.sendFiles(dnsName, drop.urls);
-            //     }
-            //     onEntered: {
-            //         drag.accept(Qt.LinkAction);
-            //     }
-            // }
         }
     }
 }
