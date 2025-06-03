@@ -1,5 +1,6 @@
 #include "peer_data.hpp"
 #include "logging_peer_data.hpp"
+#include <QRegularExpression>
 
 bool PeerData::isRunningSSH() const
 {
@@ -60,6 +61,7 @@ void from_json(const json &j, PeerData &p)
         }
         if (j.contains("Tags")) {
             j["Tags"].get_to<QStringList>(p.mTags);
+            p.mTags.replaceInStrings(QRegularExpression("^tag:"), "");
         } else {
             p.mTags.clear();
         }
