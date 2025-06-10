@@ -223,7 +223,20 @@ Kirigami.ApplicationWindow {
         triggeredOnStart: true
 
         onTriggered: {
-            Tailscale.refresh();
+            Tailscale.refreshStatus();
+        }
+    }
+
+    Timer {
+        id: refreshAccountsTimer
+
+        interval: 5000
+        repeat: true
+        running: true
+        triggeredOnStart: true
+
+        onTriggered: {
+            Tailscale.refreshAccounts();
         }
     }
 }
