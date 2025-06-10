@@ -95,7 +95,7 @@ const QVector<PeerData> &PeerModel::peers() const
 void PeerModel::update(const QVector<PeerData> &peers)
 {
     if (mPeers.size() > peers.size()) {
-        beginRemoveRows(QModelIndex(), 0, mPeers.size() - 1);
+        beginRemoveRows(QModelIndex(), peers.size(), mPeers.size() - 1);
         mPeers.erase(mPeers.begin() + peers.size(), mPeers.end());
         endRemoveRows();
     }
