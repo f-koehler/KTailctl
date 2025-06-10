@@ -3,6 +3,7 @@
 
 #include <QObject>
 
+#include "account_model.hpp"
 #include "exit_node_model.hpp"
 #include "mullvad_country_model.hpp"
 #include "mullvad_node_model.hpp"
@@ -12,6 +13,7 @@
 class Tailscale : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(AccountModel *accountModel READ accountModel CONSTANT)
     Q_PROPERTY(PeerModel *peerModel READ peerModel CONSTANT)
     Q_PROPERTY(ExitNodeModel *exitNodeModel READ exitNodeModel CONSTANT)
     Q_PROPERTY(MullvadNodeModel *mullvadNodeModel READ mullvadNodeModel CONSTANT)
@@ -27,6 +29,7 @@ class Tailscale : public QObject
     Q_PROPERTY(PeerData currentExitNode READ currentExitNode NOTIFY currentExitNodeChanged)
 
 private:
+    AccountModel *mAccountModel = nullptr;
     PeerModel *mPeerModel = nullptr;
     ExitNodeModel *mExitNodeModel = nullptr;
     MullvadNodeModel *mMullvadNodeModel = nullptr;
@@ -64,6 +67,7 @@ public:
     static Tailscale *instance();
     virtual ~Tailscale() = default;
 
+    AccountModel *accountModel() const;
     PeerModel *peerModel() const;
     ExitNodeModel *exitNodeModel() const;
     MullvadNodeModel *mullvadNodeModel() const;
