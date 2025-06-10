@@ -1,5 +1,6 @@
 #include "tailscale.hpp"
 #include "account_data.hpp"
+#include "account_model.hpp"
 #include "ktailctlconfig.h"
 #include "libktailctl_wrapper.h"
 
@@ -20,6 +21,10 @@ Tailscale *Tailscale::instance()
     return &instance;
 }
 
+AccountModel *Tailscale::accountModel() const
+{
+    return mAccountModel;
+}
 PeerModel *Tailscale::peerModel() const
 {
     return mPeerModel;
@@ -188,7 +193,7 @@ void Tailscale::refreshStatus()
 
 void Tailscale::refreshAccounts()
 {
-    AccountData data;
+    QVector<AccountData> data;
     {
         std::unique_ptr<char, decltype(&free)> jsonStr(tailscale_accounts(), free);
         if (jsonStr == nullptr) {
