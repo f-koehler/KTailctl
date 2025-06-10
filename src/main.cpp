@@ -44,6 +44,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain(QStringLiteral("fkoehler.org"));
     QCoreApplication::setApplicationName(QStringLiteral("KTailctl"));
     QCoreApplication::setOrganizationName(QStringLiteral("fkoehler.org"));
+    KLocalizedString::setApplicationDomain(QByteArrayLiteral("org.fkoehler.KTailctl"));
     KAboutData aboutData( // NOLINT(misc-const-correctness)
                           // The program name used internally.
         QStringLiteral("KTailctl"),
