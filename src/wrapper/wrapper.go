@@ -63,5 +63,26 @@ func tailscale_status() *C.char {
 	return C.CString(string(j))
 }
 
+//export tailscale_accounts
+func tailscale_accounts() *C.char {
+	current, all, err := client.ProfileStatus(context.Background())
+	if err != nil {
+		log_critical(fmt.Sprintf("failed to get account status: %v", err))
+		return nil
+	}
+	accounts := []ipn.LoginProfile{current}
+	for _, account := range all {
+		if account.ID != current.ID {
+			accounts = append(accounts, account)
+		}
+	}
+	j, err := json.MarshalIndent(accounts, "", " ")
+	if err != nil {
+		log_critical(fmt.Sprint("failed to create JSON for tailscale accounts: %v", err))
+		return nil
+	}
+	return C.CString(string(j))
+}
+
 func main() {
 }

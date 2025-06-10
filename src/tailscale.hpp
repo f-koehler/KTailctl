@@ -33,6 +33,7 @@ private:
     MullvadCountryModel *mMullvadCountryModel = nullptr;
 
     bool mSuccess = false;
+    bool mAccountsSuccess = false;
     QString mVersion;
     bool mIsOperator = false;
     QString mBackendState;
@@ -47,6 +48,7 @@ private:
 
 signals:
     void successChanged(bool);
+    void accountsSucccessChanged(bool);
     void versionChanged(const QString &);
     void isOperatorChanged(bool);
     void backendStateChanged(const QString &);
@@ -55,7 +57,8 @@ signals:
     void hasCurrentExitNodeChanged(bool);
     void suggestedExitNodeChanged(const PeerData &);
     void currentExitNodeChanged(const PeerData &);
-    void refreshed();
+    void statusRefreshed();
+    void accountsRefreshed();
 
 public:
     static Tailscale *instance();
@@ -79,7 +82,8 @@ public slots:
     Q_INVOKABLE void up();
     Q_INVOKABLE void down();
     Q_INVOKABLE void toggle();
-    Q_INVOKABLE void refresh();
+    Q_INVOKABLE void refreshStatus();
+    Q_INVOKABLE void refreshAccounts();
 
     Q_INVOKABLE void setExitNode(const QString &dnsName);
     Q_INVOKABLE void unsetExitNode();

@@ -24,7 +24,7 @@ App::App(QObject *parent)
     QObject::connect(Tailscale::instance(), &Tailscale::backendStateChanged, mTrayIcon, &TrayIcon::regenerate);
     QObject::connect(mTrayIcon, &TrayIcon::quitClicked, this, &App::quitApp);
 
-    QObject::connect(Tailscale::instance(), &Tailscale::refreshed, this, &App::refreshDetails);
+    QObject::connect(Tailscale::instance(), &Tailscale::statusRefreshed, this, &App::refreshDetails);
 
     mPeerModel->setSourceModel(Tailscale::instance()->peerModel());
     mPeerModel->setFilterRole(PeerModel::DnsNameRole);
@@ -32,7 +32,7 @@ App::App(QObject *parent)
     mMullvadNodesForCountryModel->setFilterRole(PeerModel::CountryCodeRole);
 
     if (KTailctlConfig::peerFilter() == "UNINITIALIZED") {
-        Tailscale::instance()->refresh();
+        Tailscale::instance()->refreshStatus();
         const QString domain = Tailscale::instance()->self().mDnsName.section('.', 1);
         mPeerModel->setFilterRegularExpression(domain);
         KTailctlConfig::setPeerFilter(domain);

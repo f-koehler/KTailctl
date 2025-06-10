@@ -9,6 +9,8 @@ add_subdirectory(wrapper)
 add_executable(
   ktailctl
   about.cpp
+  account_data.cpp
+  account_model.cpp
   app.cpp
   exit_node_model.cpp
   json.cpp
@@ -42,6 +44,16 @@ ecm_target_qml_sources(
   ui/Settings.qml
   ui/Statistics.qml)
 
+ecm_qt_declare_logging_category(
+  ktailctl
+  HEADER
+  "logging_accounts_data.hpp"
+  IDENTIFIER
+  "Logging::AccountsData"
+  CATEGORY_NAME
+  "org.fkoehler.KTailctl.AccountsData"
+  DEFAULT_SEVERITY
+  Info)
 ecm_qt_declare_logging_category(
   ktailctl
   HEADER
