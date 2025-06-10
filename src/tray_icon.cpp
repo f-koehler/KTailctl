@@ -108,7 +108,7 @@ TrayIcon::TrayIcon(QObject *parent)
     connect(mTailscale, &Tailscale::hasCurrentExitNodeChanged, this, &TrayIcon::buildTooltip);
     connect(mTailscale, &Tailscale::currentExitNodeChanged, this, &TrayIcon::buildUnsetAction);
     connect(mTailscale, &Tailscale::currentExitNodeChanged, this, &TrayIcon::buildTooltip);
-    connect(mTailscale, &Tailscale::refreshed, this, &TrayIcon::buildMullvadMenu);
+    connect(mTailscale, &Tailscale::statusRefreshed, this, &TrayIcon::buildMullvadMenu);
     connect(mTailscale, &Tailscale::selfChanged, this, &TrayIcon::buildTooltip);
     connect(mTailscale, &Tailscale::selfChanged, this, &TrayIcon::buildSelfMenu);
 
