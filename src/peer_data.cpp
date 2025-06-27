@@ -65,7 +65,7 @@ void from_json(const json &j, PeerData &p)
         } else {
             p.mTags.clear();
         }
-        p.mIsMullvad = p.mTags.contains("tag:mullvad-exit-node");
+        p.mIsMullvad = p.mTags.contains("mullvad-exit-node");
         if (j.contains("Location")) {
             const json &loc = j.at("Location");
             loc.at("Country").get_to<QString>(p.mCountry);
