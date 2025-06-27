@@ -35,6 +35,7 @@ ecm_target_qml_sources(
   ktailctl
   SOURCES
   ui/About.qml
+  ui/Accounts.qml
   ui/ExitNodes.qml
   ui/Main.qml
   ui/MullvadNodes.qml
