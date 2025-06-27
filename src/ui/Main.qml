@@ -79,6 +79,12 @@ Kirigami.ApplicationWindow {
             Repeater {
                 readonly property list<Kirigami.Action> actions: [
                     Kirigami.Action {
+                        icon.name: "user"
+                        text: i18n("Accounts")
+
+                        onTriggered: pushPage("Accounts")
+                    },
+                    Kirigami.Action {
                         icon.name: "network-wired"
                         text: i18n("Peers")
 
@@ -169,6 +175,11 @@ Kirigami.ApplicationWindow {
     Loader {
         asynchronous: true
         source: "About.qml"
+    }
+
+    Loader {
+        asynchronous: true
+        source: "Accounts.qml"
     }
 
     Loader {
