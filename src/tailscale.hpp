@@ -3,6 +3,7 @@
 
 #include <QObject>
 
+#include "account_model.hpp"
 #include "exit_node_model.hpp"
 #include "mullvad_country_model.hpp"
 #include "mullvad_node_model.hpp"
@@ -12,6 +13,7 @@
 class Tailscale : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(AccountModel *accountModel READ accountModel CONSTANT)
     Q_PROPERTY(PeerModel *peerModel READ peerModel CONSTANT)
     Q_PROPERTY(ExitNodeModel *exitNodeModel READ exitNodeModel CONSTANT)
     Q_PROPERTY(MullvadNodeModel *mullvadNodeModel READ mullvadNodeModel CONSTANT)
@@ -27,12 +29,14 @@ class Tailscale : public QObject
     Q_PROPERTY(PeerData currentExitNode READ currentExitNode NOTIFY currentExitNodeChanged)
 
 private:
+    AccountModel *mAccountModel = nullptr;
     PeerModel *mPeerModel = nullptr;
     ExitNodeModel *mExitNodeModel = nullptr;
     MullvadNodeModel *mMullvadNodeModel = nullptr;
     MullvadCountryModel *mMullvadCountryModel = nullptr;
 
     bool mSuccess = false;
+    bool mAccountsSuccess = false;
     QString mVersion;
     bool mIsOperator = false;
     QString mBackendState;
@@ -47,6 +51,7 @@ private:
 
 signals:
     void successChanged(bool);
+    void accountsSucccessChanged(bool);
     void versionChanged(const QString &);
     void isOperatorChanged(bool);
     void backendStateChanged(const QString &);
@@ -55,12 +60,14 @@ signals:
     void hasCurrentExitNodeChanged(bool);
     void suggestedExitNodeChanged(const PeerData &);
     void currentExitNodeChanged(const PeerData &);
-    void refreshed();
+    void statusRefreshed();
+    void accountsRefreshed();
 
 public:
     static Tailscale *instance();
     virtual ~Tailscale() = default;
 
+    AccountModel *accountModel() const;
     PeerModel *peerModel() const;
     ExitNodeModel *exitNodeModel() const;
     MullvadNodeModel *mullvadNodeModel() const;
@@ -79,7 +86,8 @@ public slots:
     Q_INVOKABLE void up();
     Q_INVOKABLE void down();
     Q_INVOKABLE void toggle();
-    Q_INVOKABLE void refresh();
+    Q_INVOKABLE void refreshStatus();
+    Q_INVOKABLE void refreshAccounts();
 
     Q_INVOKABLE void setExitNode(const QString &dnsName);
     Q_INVOKABLE void unsetExitNode();
