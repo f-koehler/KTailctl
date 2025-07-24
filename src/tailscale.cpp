@@ -1,4 +1,6 @@
 #include "tailscale.hpp"
+#include "account_data.hpp"
+#include "account_model.hpp"
 #include "ktailctlconfig.h"
 #include "libktailctl_wrapper.h"
 
@@ -19,6 +21,10 @@ Tailscale *Tailscale::instance()
     return &instance;
 }
 
+AccountModel *Tailscale::accountModel() const
+{
+    return mAccountModel;
+}
 PeerModel *Tailscale::peerModel() const
 {
     return mPeerModel;
@@ -88,7 +94,7 @@ void Tailscale::toggle()
         up();
     }
 }
-void Tailscale::refresh()
+void Tailscale::refreshStatus()
 {
     StatusData data;
     {
@@ -182,7 +188,29 @@ void Tailscale::refresh()
 
     mMullvadCountryModel->update(countries);
 
-    emit refreshed();
+    emit statusRefreshed();
+}
+
+void Tailscale::refreshAccounts()
+{
+    QVector<AccountData> data;
+    {
+        std::unique_ptr<char, decltype(&free)> jsonStr(tailscale_accounts(), free);
+        if (jsonStr == nullptr) {
+            if (mAccountsSuccess) {
+                mAccountsSuccess = false;
+                emit successChanged(false);
+            }
+            return;
+        }
+        if (!mAccountsSuccess) {
+            mAccountsSuccess = true;
+            emit successChanged(true);
+        }
+        json::parse(jsonStr.get()).get_to(data);
+    }
+
+    emit accountsRefreshed();
 }
 
 void Tailscale::setExitNode(const QString &dnsName)
