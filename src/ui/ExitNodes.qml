@@ -49,7 +49,7 @@ Kirigami.ScrollablePage {
                 FormCard.FormButtonDelegate {
                     icon.name: "dialog-cancel"
                     text: "Unset current: " + Tailscale.currentExitNode.dnsName
-                    visible: Tailscale.currentExitNode != null
+                    visible: Tailscale.hasCurrentExitNode
 
                     onClicked: {
                         Tailscale.unsetExitNode();
