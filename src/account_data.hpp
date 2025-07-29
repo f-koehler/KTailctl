@@ -12,9 +12,8 @@ struct AccountData {
     QString domainName;
     QString magicDnsName;
     QString userName;
-    QString userId;
+    quint64 userId;
     QString loginName;
-    QString profilePictureUrl;
 };
 
 void from_json(const nlohmann::json &j, AccountData &data);

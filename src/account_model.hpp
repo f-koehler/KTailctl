@@ -26,8 +26,7 @@ public:
         MagicDnsNameRole,
         UserIdRole,
         UserNameRole,
-        LoginNameRole,
-        ProfilePictureUrl
+        LoginNameRole
     };
 
     explicit AccountModel(QObject *parent = nullptr);

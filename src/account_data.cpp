@@ -12,9 +12,8 @@ void from_json(const nlohmann::json &j, AccountData &data)
         j.at("NetworkProfile").at("DomainName").get_to<QString>(data.domainName);
         j.at("NetworkProfile").at("MagicDNSName").get_to<QString>(data.magicDnsName);
         j.at("UserProfile").at("DisplayName").get_to<QString>(data.userName);
-        j.at("UserProfile").at("ID").get_to<QString>(data.userId);
+        j.at("UserProfile").at("ID").get_to<quint64>(data.userId);
         j.at("UserProfile").at("LoginName").get_to<QString>(data.loginName);
-        j.at("UserProfile").at("ProfilePicURL").get_to<QString>(data.profilePictureUrl);
     } catch (json::exception &e) {
         qCCritical(Logging::AccountsData) << "Error parsing accounts data: " << e.what();
     }

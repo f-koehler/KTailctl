@@ -15,16 +15,17 @@ int AccountModel::rowCount(const QModelIndex &parent) const
 
 QHash<int, QByteArray> AccountModel::roleNames() const
 {
-    static const QHash<int, QByteArray> roles{{ControlUrlRole, "controlUrl"},
-                                              {IdRole, "id"},
-                                              {KeyRole, "key"},
-                                              {NameRole, "name"},
-                                              {DomainNameRole, "domainName"},
-                                              {MagicDnsNameRole, "magicDnsName"},
-                                              {UserIdRole, "userId"},
-                                              {UserNameRole, "userName"},
-                                              {LoginNameRole, "loginName"},
-                                              {ProfilePictureUrl, "profilePictureUrl"}};
+    static const QHash<int, QByteArray> roles{
+        {ControlUrlRole, "controlUrl"},
+        {IdRole, "id"},
+        {KeyRole, "key"},
+        {NameRole, "name"},
+        {DomainNameRole, "domainName"},
+        {MagicDnsNameRole, "magicDnsName"},
+        {UserIdRole, "userId"},
+        {UserNameRole, "userName"},
+        {LoginNameRole, "loginName"},
+    };
     return roles;
 }
 
@@ -52,8 +53,6 @@ QVariant AccountModel::data(const QModelIndex &index, int role) const
         return mAccounts.at(index.row()).userName;
     case LoginNameRole:
         return mAccounts.at(index.row()).loginName;
-    case ProfilePictureUrl:
-        return mAccounts.at(index.row()).profilePictureUrl;
     default:
         return QStringLiteral("Invalid role");
     }
@@ -125,10 +124,6 @@ QList<int> AccountModel::updateRow(int row, const AccountData &account)
     if (current.loginName != account.loginName) {
         current.loginName = account.loginName;
         result.append(LoginNameRole);
-    }
-    if (current.profilePictureUrl != account.profilePictureUrl) {
-        current.profilePictureUrl = account.profilePictureUrl;
-        result.append(ProfilePictureUrl);
     }
     return result;
 }
