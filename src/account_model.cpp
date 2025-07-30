@@ -25,6 +25,7 @@ QHash<int, QByteArray> AccountModel::roleNames() const
         {UserIdRole, "userId"},
         {UserNameRole, "userName"},
         {LoginNameRole, "loginName"},
+        {IsCurrentRole, "isCurrent"},
     };
     return roles;
 }
@@ -53,6 +54,8 @@ QVariant AccountModel::data(const QModelIndex &index, int role) const
         return mAccounts.at(index.row()).userName;
     case LoginNameRole:
         return mAccounts.at(index.row()).loginName;
+    case IsCurrentRole:
+        return mAccounts.at(index.row()).isCurrent;
     default:
         return QStringLiteral("Invalid role");
     }
@@ -63,7 +66,7 @@ const QVector<AccountData> &AccountModel::accounts() const
     return mAccounts;
 }
 
-void AccountModel::update(const QVector<AccountData> &accounts)
+void AccountModel::update(const QVector<AccountData> &accounts, const QString &currentID)
 {
     if (mAccounts.size() > accounts.size()) {
         beginRemoveRows(QModelIndex(), accounts.size(), mAccounts.size() - 1);
@@ -71,7 +74,7 @@ void AccountModel::update(const QVector<AccountData> &accounts)
         endRemoveRows();
     }
     for (int i = 0; i < mAccounts.size(); ++i) {
-        const QList<int> updatedRoles = updateRow(i, accounts[i]);
+        const QList<int> updatedRoles = updateRow(i, accounts[i], currentID);
         if (!updatedRoles.isEmpty()) {
             emit dataChanged(index(i), index(i), updatedRoles);
         }
@@ -85,7 +88,7 @@ void AccountModel::update(const QVector<AccountData> &accounts)
     }
 }
 
-QList<int> AccountModel::updateRow(int row, const AccountData &account)
+QList<int> AccountModel::updateRow(int row, const AccountData &account, const QString &currentID)
 {
     QList<int> result;
     AccountData &current = mAccounts[row];
@@ -124,6 +127,12 @@ QList<int> AccountModel::updateRow(int row, const AccountData &account)
     if (current.loginName != account.loginName) {
         current.loginName = account.loginName;
         result.append(LoginNameRole);
+    }
+    const bool isCurrent = currentID == account.id;
+    qCritical() << "id: " << account.id << "current: " << currentID << "isCurrent: " << isCurrent;
+    if (isCurrent != current.isCurrent) {
+        current.isCurrent = isCurrent;
+        result.append(IsCurrentRole);
     }
     return result;
 }

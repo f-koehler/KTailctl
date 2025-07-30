@@ -14,6 +14,7 @@ struct AccountData {
     QString userName;
     quint64 userId;
     QString loginName;
+    bool isCurrent;
 };
 
 void from_json(const nlohmann::json &j, AccountData &data);

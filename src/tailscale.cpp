@@ -199,6 +199,7 @@ void Tailscale::refreshStatus()
 void Tailscale::refreshAccounts()
 {
     QVector<AccountData> data;
+    QString currentID;
     {
         std::unique_ptr<char, decltype(&free)> jsonStr(tailscale_accounts(), free);
         if (jsonStr == nullptr) {
@@ -212,10 +213,12 @@ void Tailscale::refreshAccounts()
             mAccountsSuccess = true;
             emit successChanged(true);
         }
-        json::parse(jsonStr.get()).get_to(data);
+        auto parsed = json::parse(jsonStr.get());
+        parsed.at("accounts").get_to(data);
+        parsed.at("currentID").get_to(currentID);
     }
 
-    mAccountModel->update(data);
+    mAccountModel->update(data, currentID);
 
     emit accountsRefreshed();
 }

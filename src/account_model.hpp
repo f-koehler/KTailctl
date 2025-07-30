@@ -14,7 +14,7 @@ class AccountModel : public QAbstractListModel
 private:
     QVector<AccountData> mAccounts;
 
-    QList<int> updateRow(int row, const AccountData &account);
+    QList<int> updateRow(int row, const AccountData &account, const QString &currentID);
 
 public:
     enum Roles : int {
@@ -26,7 +26,8 @@ public:
         MagicDnsNameRole,
         UserIdRole,
         UserNameRole,
-        LoginNameRole
+        LoginNameRole,
+        IsCurrentRole,
     };
 
     explicit AccountModel(QObject *parent = nullptr);
@@ -39,7 +40,7 @@ public:
     const QVector<AccountData> &accounts() const;
 
 public slots:
-    void update(const QVector<AccountData> &accounts);
+    void update(const QVector<AccountData> &accounts, const QString &currentID);
 };
 
 #endif

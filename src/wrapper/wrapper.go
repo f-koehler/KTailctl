@@ -76,7 +76,10 @@ func tailscale_accounts() *C.char {
 			accounts = append(accounts, account)
 		}
 	}
-	j, err := json.MarshalIndent(accounts, "", " ")
+	j, err := json.MarshalIndent(struct {
+		Accounts  []ipn.LoginProfile `json:"accounts"`
+		CurrentID ipn.ProfileID      `json:"currentID"`
+	}{accounts, current.ID}, "", " ")
 	if err != nil {
 		log_critical(fmt.Sprint("failed to create JSON for tailscale accounts: %v", err))
 		return nil
