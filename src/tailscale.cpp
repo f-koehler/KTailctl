@@ -246,6 +246,13 @@ void Tailscale::setExitNode(const QString &dnsName)
     GoString tmp{targetBytes.data(), targetBytes.size()};
     tailscale_set_exit_node(&tmp);
 }
+
+void Tailscale::switchAccount(const QString &account)
+{
+    QByteArray accountBytes = account.toUtf8();
+    GoString tmp{accountBytes.data(), accountBytes.size()};
+    tailscale_switch_account(&tmp);
+}
 void Tailscale::unsetExitNode()
 {
     GoString tmp{nullptr, 0};

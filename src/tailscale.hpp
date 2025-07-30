@@ -93,6 +93,7 @@ public slots:
 
     Q_INVOKABLE void setExitNode(const QString &dnsName);
     Q_INVOKABLE void unsetExitNode();
+    Q_INVOKABLE void switchAccount(const QString &account);
 };
 
 #endif /* KTAILCTL_TAILSCALE_HPP */
