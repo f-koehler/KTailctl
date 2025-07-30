@@ -1,16 +1,33 @@
 import QtQuick
+import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
+import org.kde.kirigamiaddons.formcard as FormCard
+import org.kde.kirigamiaddons.labs.components as Components
 
 Kirigami.ScrollablePage {
     id: accounts
 
-    Layout.fillWidth: true
+    ColumnLayout {
+        FormCard.FormCard {
+            Layout.fillWidth: true
 
-    Kirigami.CardsListView {
-        id: listAccounts
+            ColumnLayout {
+                spacing: 0
 
-        delegate: Kirigami.AbstractCard {
-            contentItem: Flow {
+                Repeater {
+                    model: Tailscale.accountModel
+
+                    FormCard.FormButtonDelegate {
+                        required property QtObject modelData
+
+                        icon.name: "user"
+                        text: modelData.loginName
+
+                        onClicked: {
+                            Tailscale.switchAccount(modelData.loginName);
+                        }
+                    }
+                }
             }
         }
     }
