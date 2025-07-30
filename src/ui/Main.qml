@@ -79,6 +79,12 @@ Kirigami.ApplicationWindow {
             Repeater {
                 readonly property list<Kirigami.Action> actions: [
                     Kirigami.Action {
+                        icon.name: "user"
+                        text: i18n("Accounts")
+
+                        onTriggered: pushPage("Accounts")
+                    },
+                    Kirigami.Action {
                         icon.name: "network-wired"
                         text: i18n("Peers")
 
@@ -173,6 +179,11 @@ Kirigami.ApplicationWindow {
 
     Loader {
         asynchronous: true
+        source: "Accounts.qml"
+    }
+
+    Loader {
+        asynchronous: true
         source: "ExitNodes.qml"
     }
 
@@ -223,7 +234,20 @@ Kirigami.ApplicationWindow {
         triggeredOnStart: true
 
         onTriggered: {
-            Tailscale.refresh();
+            Tailscale.refreshStatus();
+        }
+    }
+
+    Timer {
+        id: refreshAccountsTimer
+
+        interval: App.config.refreshInterval ? App.config.refreshInterval : 500
+        repeat: true
+        running: true
+        triggeredOnStart: true
+
+        onTriggered: {
+            Tailscale.refreshAccounts();
         }
     }
 }

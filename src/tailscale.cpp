@@ -1,10 +1,14 @@
 #include "tailscale.hpp"
+#include "account_data.hpp"
+#include "account_model.hpp"
 #include "ktailctlconfig.h"
 #include "libktailctl_wrapper.h"
+#include <algorithm>
 
 Tailscale::Tailscale(QObject *parent)
     : QObject(parent)
     , mPeerModel(new PeerModel(this))
+    , mAccountModel(new AccountModel(this))
     , mExitNodeModel(new ExitNodeModel(this))
     , mMullvadNodeModel(new MullvadNodeModel(this))
     , mMullvadCountryModel(new MullvadCountryModel(this))
@@ -19,6 +23,10 @@ Tailscale *Tailscale::instance()
     return &instance;
 }
 
+AccountModel *Tailscale::accountModel() const
+{
+    return mAccountModel;
+}
 PeerModel *Tailscale::peerModel() const
 {
     return mPeerModel;
@@ -38,6 +46,10 @@ MullvadCountryModel *Tailscale::mullvadCountryModel() const
 bool Tailscale::success() const
 {
     return mSuccess;
+}
+bool Tailscale::accountsSuccess() const
+{
+    return mAccountsSuccess;
 }
 const QString &Tailscale::version() const
 {
@@ -88,7 +100,7 @@ void Tailscale::toggle()
         up();
     }
 }
-void Tailscale::refresh()
+void Tailscale::refreshStatus()
 {
     StatusData data;
     {
@@ -182,7 +194,36 @@ void Tailscale::refresh()
 
     mMullvadCountryModel->update(countries);
 
-    emit refreshed();
+    emit statusRefreshed();
+}
+
+void Tailscale::refreshAccounts()
+{
+    QVector<AccountData> data;
+    QString currentID;
+    {
+        std::unique_ptr<char, decltype(&free)> jsonStr(tailscale_accounts(), free);
+        if (jsonStr == nullptr) {
+            if (mAccountsSuccess) {
+                mAccountsSuccess = false;
+                emit successChanged(false);
+            }
+            return;
+        }
+        if (!mAccountsSuccess) {
+            mAccountsSuccess = true;
+            emit successChanged(true);
+        }
+        auto parsed = json::parse(jsonStr.get());
+        parsed.at("accounts").get_to(data);
+        parsed.at("currentID").get_to(currentID);
+    }
+    std::sort(data.begin(), data.end(), [](const AccountData &a, const AccountData &b) {
+        return a.id < b.id;
+    });
+    mAccountModel->update(data, currentID);
+
+    emit accountsRefreshed();
 }
 
 void Tailscale::setExitNode(const QString &dnsName)
@@ -210,6 +251,13 @@ void Tailscale::setExitNode(const QString &dnsName)
 
     GoString tmp{targetBytes.data(), targetBytes.size()};
     tailscale_set_exit_node(&tmp);
+}
+
+void Tailscale::switchAccount(const QString &account)
+{
+    QByteArray accountBytes = account.toUtf8();
+    GoString tmp{accountBytes.data(), accountBytes.size()};
+    tailscale_switch_account(&tmp);
 }
 void Tailscale::unsetExitNode()
 {

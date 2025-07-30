@@ -63,5 +63,85 @@ func tailscale_status() *C.char {
 	return C.CString(string(j))
 }
 
+//export tailscale_accounts
+func tailscale_accounts() *C.char {
+	current, all, err := client.ProfileStatus(context.Background())
+	if err != nil {
+		log_critical(fmt.Sprintf("failed to get account status: %v", err))
+		return nil
+	}
+	accounts := []ipn.LoginProfile{current}
+	for _, account := range all {
+		if account.ID != current.ID {
+			accounts = append(accounts, account)
+		}
+	}
+	j, err := json.MarshalIndent(struct {
+		Accounts  []ipn.LoginProfile `json:"accounts"`
+		CurrentID ipn.ProfileID      `json:"currentID"`
+	}{accounts, current.ID}, "", " ")
+	if err != nil {
+		log_critical(fmt.Sprint("failed to create JSON for tailscale accounts: %v", err))
+		return nil
+	}
+	return C.CString(string(j))
+}
+
+//export tailscale_switch_account
+func tailscale_switch_account(account *string) bool {
+	current, all, err := client.ProfileStatus(context.Background())
+	if err != nil {
+		log_critical(fmt.Sprintf("failed to get account status for siwtching: %v", err))
+		return false
+	}
+
+	var profileID ipn.ProfileID
+	// try to match profile ID with argument
+	for _, profile := range all {
+		if profile.ID == ipn.ProfileID(*account) {
+			profileID = profile.ID
+			break
+		}
+	}
+
+	if profileID == "" {
+		// try to match domain name
+		for _, profile := range all {
+			if profile.NetworkProfile.DomainName == *account {
+				profileID = profile.ID
+				break
+			}
+		}
+	}
+
+	if profileID == "" {
+		// try to match name
+		for _, profile := range all {
+			if profile.Name == *account {
+				profileID = profile.ID
+			}
+		}
+	}
+
+	if profileID == "" {
+		log_critical(fmt.Sprintf("failed to find profile for account %v", *account))
+		return false
+	}
+
+	if profileID == current.ID {
+		log_warning(fmt.Sprintf("account %v already active", *account))
+		return true
+	}
+
+	if err := client.SwitchProfile(context.Background(), profileID); err != nil {
+		log_critical(fmt.Sprintf("failed to switch profile: %v", err))
+		return false
+	}
+
+	log_info("switched account to " + *account)
+
+	return true
+}
+
 func main() {
 }

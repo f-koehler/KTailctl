@@ -29,6 +29,7 @@ private:
     QMenu *mMullvadMenu;
     QMenu *mSelfHostedMenu;
     QMenu *mSelfMenu;
+    QMenu *mAccountsMenu;
     QMap<QString, QMenu *> mMullvadCountryMenus;
     QAction *mQuitAction;
 
@@ -41,6 +42,7 @@ public slots:
     void buildSelfHostedMenu();
     void buildMullvadMenu();
     void buildPeerMenu();
+    void buildAccountsMenu();
     void buildUseSuggestedAction();
     void buildLastUsedAction();
     void buildUnsetAction();
