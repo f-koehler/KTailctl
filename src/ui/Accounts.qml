@@ -20,6 +20,7 @@ Kirigami.ScrollablePage {
                     FormCard.FormButtonDelegate {
                         required property QtObject modelData
 
+                        enabled: !modelData.isCurrent
                         icon.name: "user"
                         text: modelData.loginName
 
