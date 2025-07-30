@@ -241,7 +241,7 @@ Kirigami.ApplicationWindow {
     Timer {
         id: refreshAccountsTimer
 
-        interval: 5000
+        interval: App.config.refreshInterval ? App.config.refreshInterval : 500
         repeat: true
         running: true
         triggeredOnStart: true
