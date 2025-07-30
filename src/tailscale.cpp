@@ -3,6 +3,7 @@
 #include "account_model.hpp"
 #include "ktailctlconfig.h"
 #include "libktailctl_wrapper.h"
+#include <algorithm>
 
 Tailscale::Tailscale(QObject *parent)
     : QObject(parent)
@@ -217,7 +218,9 @@ void Tailscale::refreshAccounts()
         parsed.at("accounts").get_to(data);
         parsed.at("currentID").get_to(currentID);
     }
-
+    std::sort(data.begin(), data.end(), [](const AccountData &a, const AccountData &b) {
+        return a.id < b.id;
+    });
     mAccountModel->update(data, currentID);
 
     emit accountsRefreshed();
