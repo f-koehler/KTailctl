@@ -129,7 +129,6 @@ QList<int> AccountModel::updateRow(int row, const AccountData &account, const QS
         result.append(LoginNameRole);
     }
     const bool isCurrent = currentID == account.id;
-    qCritical() << "id: " << account.id << "current: " << currentID << "isCurrent: " << isCurrent;
     if (isCurrent != current.isCurrent) {
         current.isCurrent = isCurrent;
         result.append(IsCurrentRole);
