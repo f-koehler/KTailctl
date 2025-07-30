@@ -28,6 +28,7 @@ TrayIcon::TrayIcon(QObject *parent)
         mWindow->show();
     });
     mContextMenu->addSeparator();
+    mAccountsMenu = mContextMenu->addMenu(QIcon::fromTheme(QStringLiteral("user")), QStringLiteral("Accounts"));
     mSelfMenu = mContextMenu->addMenu(QIcon::fromTheme(QStringLiteral("computer")), QStringLiteral("This Node"));
     mPeerMenu = mContextMenu->addMenu(QIcon::fromTheme(QStringLiteral("applications-network")), QStringLiteral("Peers"));
     mExitNodeMenu = mContextMenu->addMenu(QIcon::fromTheme(QStringLiteral("internet-services")), QStringLiteral("Exit nodes"));
@@ -87,6 +88,11 @@ TrayIcon::TrayIcon(QObject *parent)
             mPeerMenu->setEnabled(false);
             mToggleAction->setEnabled(false);
             mExitNodeMenu->setEnabled(false);
+        }
+    });
+    connect(mTailscale, &Tailscale::accountsSucccessChanged, [this]() {
+        if (mTailscale->accountsSuccess()) {
+            buildAccountsMenu();
         }
     });
     connect(mTailscale, &Tailscale::isOperatorChanged, [this]() {
@@ -269,6 +275,16 @@ void TrayIcon::buildPeerMenu()
         }
     }
 }
+void TrayIcon::buildAccountsMenu()
+{
+    mAccountsMenu->clear();
+
+    for (const AccountData &account : mTailscale->accountModel()->accounts()) {
+        mAccountsMenu->addAction(QIcon::fromTheme(QStringLiteral("user")), account.loginName, [this, &account]() {
+            this->mTailscale->switchAccount(account.loginName);
+        });
+    }
+}
 void TrayIcon::buildUseSuggestedAction()
 {
     mSuggestedAction->setEnabled(mTailscale->hasSuggestedExitNode());
@@ -334,6 +350,7 @@ void TrayIcon::updateIcon()
 void TrayIcon::regenerate()
 {
     buildPeerMenu();
+    buildAccountsMenu();
     buildSelfHostedMenu();
 }
 
