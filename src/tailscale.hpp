@@ -1,5 +1,5 @@
-#ifndef KTAILCTL_TAILSCALE_TAILSCALE_HPP
-#define KTAILCTL_TAILSCALE_TAILSCALE_HPP
+#ifndef KTAILCTL_TAILSCALE_HPP
+#define KTAILCTL_TAILSCALE_HPP
 
 #include <QObject>
 
@@ -19,6 +19,7 @@ class Tailscale : public QObject
     Q_PROPERTY(MullvadNodeModel *mullvadNodeModel READ mullvadNodeModel CONSTANT)
     Q_PROPERTY(MullvadCountryModel *mullvadCountryModel READ mullvadCountryModel CONSTANT)
     Q_PROPERTY(bool success READ success NOTIFY successChanged)
+    Q_PROPERTY(bool accountsSuccess READ accountsSuccess NOTIFY accountsSucccessChanged)
     Q_PROPERTY(QString version READ version NOTIFY versionChanged)
     Q_PROPERTY(bool isOperator READ isOperator NOTIFY isOperatorChanged)
     Q_PROPERTY(QString backendState READ backendState NOTIFY backendStateChanged)
@@ -73,6 +74,7 @@ public:
     MullvadNodeModel *mullvadNodeModel() const;
     MullvadCountryModel *mullvadCountryModel() const;
     bool success() const;
+    bool accountsSuccess() const;
     const QString &version() const;
     bool isOperator() const;
     const QString &backendState() const;
@@ -93,4 +95,4 @@ public slots:
     Q_INVOKABLE void unsetExitNode();
 };
 
-#endif /* KTAILCTL_TAILSCALE_TAILSCALE_HPP */
+#endif /* KTAILCTL_TAILSCALE_HPP */

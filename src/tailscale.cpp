@@ -7,6 +7,7 @@
 Tailscale::Tailscale(QObject *parent)
     : QObject(parent)
     , mPeerModel(new PeerModel(this))
+    , mAccountModel(new AccountModel(this))
     , mExitNodeModel(new ExitNodeModel(this))
     , mMullvadNodeModel(new MullvadNodeModel(this))
     , mMullvadCountryModel(new MullvadCountryModel(this))
@@ -44,6 +45,10 @@ MullvadCountryModel *Tailscale::mullvadCountryModel() const
 bool Tailscale::success() const
 {
     return mSuccess;
+}
+bool Tailscale::accountsSuccess() const
+{
+    return mAccountsSuccess;
 }
 const QString &Tailscale::version() const
 {
@@ -209,6 +214,8 @@ void Tailscale::refreshAccounts()
         }
         json::parse(jsonStr.get()).get_to(data);
     }
+
+    mAccountModel->update(data);
 
     emit accountsRefreshed();
 }
