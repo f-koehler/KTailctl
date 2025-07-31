@@ -35,7 +35,7 @@ devenv.lib.mkShell {
         };
       };
 
-      pre-commit.hooks = {
+      git-hooks.hooks = {
         check-added-large-files.enable = true;
         check-executables-have-shebangs.enable = true;
         check-merge-conflicts.enable = true;
