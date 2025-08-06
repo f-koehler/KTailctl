@@ -1,0 +1,183 @@
+classDiagram
+    Account <|-- NetbirdAccount
+    Account <|-- TailscaleAccount
+    AccountModel~Account~ <|-- NetbirdAccountModel
+    AccountModel~Account~ <|-- TailscaleAccountModel
+    MeshState *-- NetbirdAccount
+    MeshState *-- NetbirdNetwork
+    MeshState *-- TailscaleAccount
+    MeshState *-- TailscaleNetwork
+    NetbirdAccount o--o NetbirdNetwork
+    NetbirdAccountModel o-- NetbirdAccount
+    NetbirdNetwork *-- NetbirdNetworkNode
+    NetbirdNetworkNode *-- NetbirdNodeProperties
+    NetbirdNodeModel o-- NetbirdNetwork
+    NetworkNode~Properties~ <|-- NetbirdNetworkNode
+    NetworkNode~Properties~ <|-- TailscaleNetworkNode
+    Network~Node~ <|-- NetbirdNetwork
+    Network~Node~ <|-- TailscaleNetwork
+    NodeModel~Node~ <|-- NetbirdNodeModel
+    NodeModel~Node~ <|-- TailscaleNodeModel
+    NodeProperties <|-- NetbirdNodeProperties
+    NodeProperties <|-- TailscaleNodeProperties
+    QAbstractListModel <|-- AccountModel~Account~
+    QAbstractListModel <|-- NodeModel~Node~
+    QAbstractListModel <|-- TailscaleMullvadCountryModel
+    QObject <|-- Account
+    QObject <|-- MeshState
+    QObject <|-- NetworkNode~Properties~
+    QObject <|-- Network~Node~
+    QObject <|-- NodeProperties
+    QObject <|-- QAbstractListModel
+    QObject <|-- QSortFilterProxyModel
+    QObject <|-- TailscaleAccountsClient
+    QObject <|-- TailscaleClient
+    QObject <|-- TailscaleNetworkClient
+    QObject <|-- TailscaleSettingsClient
+    QSortFilterProxyModel <|-- TailscaleExitNodeModel
+    QSortFilterProxyModel <|-- TailscaleMullvadExitNodeModel
+    TailscaleAccount o--o TailscaleNetwork
+    TailscaleAccountModel o-- TailscaleAccount
+    TailscaleClient *-- TailscaleAccountsClient
+    TailscaleClient *-- TailscaleNetworkClient
+    TailscaleClient *-- TailscaleSettingsClient
+    TailscaleExitNodeModel o-- TailscaleNodeModel
+    TailscaleMullvadExitNodeModel o-- TailscaleExitNodeModel
+    TailscaleNetwork *-- TailscaleNetworkNode
+    TailscaleNetworkNode *-- TailscaleNodeProperties
+    TailscaleNodeModel o-- TailscaleNetwork
+    
+
+    namespace Qt {
+        class QObject {
+        }
+        class QAbstractListModel {
+            <<abstract>>
+        }
+        class QSortFilterProxyModel {
+        }
+    }
+    
+    class MeshState {
+        -QVector~QPointer<TailscaleAccount>~ tailscaleAccounts
+        -QVector~QPointer<NetbirdAccount>~ netbirdAccounts
+        -QPointer~TailscaleNetwork~ tailscaleNetwork
+        -QVector~QPointer<NetbirdNetwork>~ netbirdNetworks
+        +getTailscaleAccounts() QVector~QPointer<TailscaleAccount>~
+        +getNetbirdAccounts() QVector~QPointer<NetbirdAccount>~
+        +getTailscaleNetwork() QPointer~TailscaleNetwork~
+        +getNetbirdNetworks() QVector~QPointer<NetbirdNetwork>~
+    }
+    
+    namespace Nodes {
+        class NodeProperties {
+           <<abstract>>
+          -QString id
+          -QString name
+          -QString publicKey
+          -QVector~QString~ ipAddresses
+          +const getId() QString&
+          +const getName() QString&
+          +const getPublicKey() QString&
+          +const getIpAddresses() QVector~QString~
+        }
+        class TailscaleNodeProperties {
+          -QVector~QString~ tags
+          -bool exitNode
+          -QString dnsName
+          -QString operatingSystem
+          -QDateTime lastSeen
+          -QDateTime created
+          +getTags() QVector~QString~
+          +isExitNode() bool
+        }
+        class NetbirdNodeProperties~Properties~ {
+        }
+        class NetworkNode {
+            <<abstract>>
+        }
+        class TailscaleNetworkNode {
+            -QPointer~TailscaleNodeProperties~ properties
+            +getProperties() TailscaleNodeProperties&ast;
+        }
+        class NetbirdNetworkNode {
+            -QPointer~NetbirdNodeProperties~ properties
+            +getProperties() NetbirdNodeProperties&ast;
+        }
+    }
+
+    namespace Networks {
+        class Network~Node~  {
+            <<abstract>>
+        }
+        class TailscaleNetwork {
+            -nodes: QHash~QString,QPointer<TailscaleNetworkNode>~
+            +getNodes() QHash~QString,QPointer<TailscaleNetworkNode>~&
+        }
+        class NetbirdNetwork {
+            -nodes: QHash~QString,QPointer<NetbirdNetworkNode>~
+            +getNodes() QHash~QString,QPointer<NetbirdNetworkNode>~&
+        }
+    }
+
+    namespace Accounts {
+        class Account {
+            <<abstract>>
+            -name: QString
+            +getName() const QString&
+        }
+        class TailscaleAccount {
+        }
+        class NetbirdAccount {
+        }
+    }
+        
+    namespace LocalClients {
+        class TailscaleClient {
+            -QPointer<TailscaleNetworkClient> networkClient
+            -QPointer<TailscaleAccountsClient> accountsClient
+            -QPointer<TailscaleSettingsClient> settingsClient
+            +getNetworkClient() TailscaleNetworkClient&ast;
+            +getAccountsClient() TailscaleAccountsClient&ast;
+            +getSettingsClient() TailscaleSettingsClient&ast;
+        }
+        class TailscaleNetworkClient {
+            +up()
+            +down()
+        }
+        class TailscaleAccountsClient {
+            +list()
+            +switch()
+        }
+        class TailscaleSettingsClient {
+            +isAcceptingRoutes() bool
+            +setAcceptingRoutes(bool value) bool
+            +isAcceptingExitNode() bool
+            +setAdvertisingExitNode(bool value) bool
+            +getHostname() QString
+            +setHostname(name)
+        }
+    }
+
+    namespace Models {
+        class NodeModel~Node~ {
+            <<abstract>>
+        }
+        class TailscaleNodeModel {
+        }
+        class NetbirdNodeModel {
+        }
+        class TailscaleExitNodeModel {
+        }
+        class TailscaleMullvadExitNodeModel {
+        }
+        class AccountModel~Account~ {
+            <<abstract>>
+        }
+        class TailscaleAccountModel {
+        }
+        class NetbirdAccountModel {
+        }
+        class TailscaleMullvadCountryModel {
+        }
+    }
