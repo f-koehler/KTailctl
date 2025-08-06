@@ -11,7 +11,14 @@ devenv.lib.mkShell {
   inherit inputs;
   modules = [
     {
-      env.KTAILCTL_WRAPPER_GO_EXECUTABLE = "${lib.getExe' pkgs.go_1_24 "go"}";
+      env = {
+        KTAILCTL_WRAPPER_GO_EXECUTABLE = "${lib.getExe' pkgs.go_1_24 "go"}";
+      };
+      enterShell = ''
+        export DEFAULT_CA_BUNDLE_PATH="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+        export REQUESTS_CA_BUNDLE="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+        export SSL_CERT_FILE="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+      '';
       scripts = {
         cuttlefish.exec = ''
           ${pkgs.lib.getExe' pkgs.libsForQt5.plasma-sdk "cuttlefish"}
