@@ -101,6 +101,7 @@ classDiagram
             -QString mCityName
             -double mLongitude
             -double mLatitude
+            +Location(QObject* parent)
             +getCountryCode() const QString&
             +getCountryName() const QString&
             +getCityCode() const QString&
@@ -115,63 +116,71 @@ classDiagram
             +**signal** latitudeChanged(double)
         }
         class NodeProperties {
-            <<abstract>>
             +**property** id
             +**property** name
             +**property** publicKey
-            +**ipAddresses**
-            -QString mId
+            +**property** ipAddresses
+            -const QString mId
             -QString mName
             -QString mPublicKey
-            -QVector~QString~ mIpAddresses
+            -QStringList mIpAddresses
+            +NodeProperties(const QString& id, QObject&ast; parent)
+            +NodeProperties(QString&& id, QObject&ast; parent)
             +getId() const QString&
             +getName() const QString&
             +getPublicKey() const QString&
-            +getIpAddresses() const QVector~QString~
+            +getIpAddresses() const QStringList&
             +**signal** nameChanged(const QString&)
             +**signal** publicKeyChanged(const QString&)
-            +**signal** ipAddressesChanged(const QVector~QString~)
+            +**signal** ipAddressesChanged(const QStringList&)
         }
         class TailscaleNodeProperties {
-          +**property** tags
-          +**property** isExitNode
-          +**property** operatingSystem
-          +**property** lastSeenTime
-          +**property** creationTime
-          -QVector~QString~ mTags
-          -bool mIsExitNode
-          -QString mDnsName
-          -QString mOperatingSystem
-          -QDateTime mLastSeenTime
-          -QDateTime mCreationTime
-          -QPointer~Location~ mLocation
-          +getTags() QVector~QString~
-          +isExitNode() bool
-          +getDnsName() const QString&
-          +getOperatingSystem() const QString&
-          +getLastSeenTime() const QDateTime&
-          +getCreationTime() const QDateTime&
-          +getLocation() const Location&
-          +**signal** tagsChanged(const QVector~QString~&)
-          +**signal** isExitNodeChanged(bool)
-          +**signal** operatingSystemChanged(const QString&)
-          +**signal** lastSeenTimeChanged(const QDateTime&)
-          +**signal** creationTimeChanged(const QDateTime&)
+            +**property** tags
+            +**property** isExitNode
+            +**property** operatingSystem
+            +**property** lastSeenTime
+            +**property** creationTime
+            -QStringList mTags
+            -bool mIsExitNode
+            -QString mDnsName
+            -QString mOperatingSystem
+            -QDateTime mLastSeenTime
+            -QDateTime mCreationTime
+            -QPointer~Location~ mLocation
+            +TailscaleNodeProperties(const QString& id, QObject&ast; parent)
+            +TailscaleNodeProperties(QString&& id, QObject&ast; parent)
+            +getTags() QStringList
+            +isExitNode() bool
+            +getDnsName() const QString&
+            +getOperatingSystem() const QString&
+            +getLastSeenTime() const QDateTime&
+            +getCreationTime() const QDateTime&
+            +getLocation() const Location&
+            +**signal** tagsChanged(const QStringList&)
+            +**signal** isExitNodeChanged(bool)
+            +**signal** operatingSystemChanged(const QString&)
+            +**signal** lastSeenTimeChanged(const QDateTime&)
+            +**signal** creationTimeChanged(const QDateTime&)
         }
         class NetbirdNodeProperties~Properties~ {
         }
         class NetworkNode {
             <<abstract>>
             +**property** properties
+            +NetworkNode(QObject* parent)
             +getProperties() Properties&ast;
         }
         class TailscaleNetworkNode {
             +**property** properties
             -QPointer~TailscaleNodeProperties~ mProperties
+            +TailscaleNetworNode(const QString& id, QObject* parent)
+            +TailscaleNetworNode(QString&& id, QObject* parent)
+            +getProperties() Properties&ast;
         }
         class NetbirdNetworkNode {
             +**property** properties
             -QPointer~NetbirdNodeProperties~ mProperties
+            +getProperties() Properties&ast;
         }
     }
 
@@ -181,17 +190,21 @@ classDiagram
         class Network~Node~  {
             <<abstract>>
             +**property** nodes
+            +Network~Node~(QObject* parent)
             +getNodes() QHash~QString,QPointer Node~&
-            +**signal** nodesAdded(const QVector~QString~)
-            +**signal** nodesRemoved(const QVector~QString~)
+            +**signal** nodesAdded(const QStringList)
+            +**signal** nodesRemoved(const QStringList)
         }
         class TailscaleNetwork {
             +**property** nodes
-            -nodes: QHash~QString,QPointer TailscaleNetworkNode~
+            +TailscaleNetwork(QObject* parent)
+            -mNodes: QHash~QString,QPointer TailscaleNetworkNode~
+            +getNodes() QHash~QString,QPointer Node~&
         }
         class NetbirdNetwork {
             +**property** nodes
-            -nodes: QHash~QString,QPointer NetbirdNetworkNode~
+            -mNodes: QHash~QString,QPointer NetbirdNetworkNode~
+            +getNodes() QHash~QString,QPointer Node~&
         }
     }
 

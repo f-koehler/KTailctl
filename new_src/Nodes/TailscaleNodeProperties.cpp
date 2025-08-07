@@ -1,0 +1,1 @@
+#include <KTailctl/Nodes/TailscaleNodeProperties.hpp>

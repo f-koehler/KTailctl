@@ -78,6 +78,7 @@ find_package(nlohmann_json REQUIRED)
 
 add_subdirectory(src)
 add_subdirectory(tests)
+add_subdirectory(new_src)
 
 install(PROGRAMS org.fkoehler.KTailctl.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES org.fkoehler.KTailctl.metainfo.xml DESTINATION ${KDE_INSTALL_METAINFODIR})

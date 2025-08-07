@@ -1,0 +1,6 @@
+add_library(ktailctl_networks SHARED)
+ecm_add_qml_module(ktailctl_networks URI org.fkoehler.KTailctl.Networks GENERATE_PLUGIN_SOURCE)
+target_sources(ktailctl_networks PRIVATE TailscaleNetwork.cpp)
+target_include_directories(ktailctl_networks PUBLIC ${PROJECT_SOURCE_DIR}/include)
+ecm_finalize_qml_module(ktailctl_networks)
+install(TARGETS ktailctl_networks ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
