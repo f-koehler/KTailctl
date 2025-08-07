@@ -71,12 +71,15 @@ classDiagram
     TailscaleUpdater -- TailscaleNetwork
     TailscaleUpdater -- TailscaleNodeProperties
     TailscaleUpdater -- Location
+    TailscaleUpdater -- TailscaleAccount
     TailscaleUpdater -- PBTailscaleStatus
     TailscaleUpdater -- PBTailscalePeer
     TailscaleUpdater -- PBTailscaleLocation
+    TailscaleUpdater -- PBTailscaleAccounts
     class TailscaleUpdater {
         <<interface>>
         -QPointer~QTimer~ updateTimer
+        +update(PBTailscaleAccount account, TailscaleAccount acc)
         +update(PBTailscaleStatus status, TailscaleNetwork network)
         +update(PBTailscalePeer peer, TailscaleNodeProperties properties)
         +update(PBTailscaleLocation location, Location loc)
@@ -86,37 +89,62 @@ classDiagram
     TailscaleNodeProperties "1" *-- "1" Location
     namespace Nodes {
         class Location {
-            -QString countryCode
-            -QString countryName
-            -QString cityCode
-            -QString cityName
-            -double longitude
-            -double latitude
+            +**property** countryCode
+            +**property** countryName
+            +**property** cityCode
+            +**property** cityName
+            +**property** longitude
+            +**property** latitude
+            -QString mCountryCode
+            -QString mCountryName
+            -QString mCityCode
+            -QString mCityName
+            -double mLongitude
+            -double mLatitude
             +getCountryCode() const QString&
             +getCountryName() const QString&
             +getCityCode() const QString&
+            +getCityName() const QString&
             +getLongitude() double
             +getLatitutde() double
+            +**signal** countryCodeChanged(const QString&)
+            +**signal** countryChanged(const QString&)
+            +**signal** cityCodeChanged(const QString&)
+            +**signal** cityNameChanged(const QString&)
+            +**signal** longitudeChanged(double)
+            +**signal** latitudeChanged(double)
         }
         class NodeProperties {
-           <<abstract>>
-          -QString id
-          -QString name
-          -QString publicKey
-          -QVector~QString~ ipAddresses
-          +getId() const QString&
-          +getName() const QString&
-          +getPublicKey() const QString&
-          +getIpAddresses() const QVector~QString~
+            <<abstract>>
+            +**property** id
+            +**property** name
+            +**property** publicKey
+            +**ipAddresses**
+            -QString mId
+            -QString mName
+            -QString mPublicKey
+            -QVector~QString~ mIpAddresses
+            +getId() const QString&
+            +getName() const QString&
+            +getPublicKey() const QString&
+            +getIpAddresses() const QVector~QString~
+            +**signal** nameChanged(const QString&)
+            +**signal** publicKeyChanged(const QString&)
+            +**signal** ipAddressesChanged(const QVector~QString~)
         }
         class TailscaleNodeProperties {
-          -QVector~QString~ tags
-          -bool exitNode
-          -QString dnsName
-          -QString operatingSystem
-          -QDateTime lastSeenTime
-          -QDateTime creationTime
-          -QPointer~Location~ location
+          +**property** tags
+          +**property** isExitNode
+          +**property** operatingSystem
+          +**property** lastSeenTime
+          +**property** creationTime
+          -QVector~QString~ mTags
+          -bool mIsExitNode
+          -QString mDnsName
+          -QString mOperatingSystem
+          -QDateTime mLastSeenTime
+          -QDateTime mCreationTime
+          -QPointer~Location~ mLocation
           +getTags() QVector~QString~
           +isExitNode() bool
           +getDnsName() const QString&
@@ -124,18 +152,26 @@ classDiagram
           +getLastSeenTime() const QDateTime&
           +getCreationTime() const QDateTime&
           +getLocation() const Location&
+          +**signal** tagsChanged(const QVector~QString~&)
+          +**signal** isExitNodeChanged(bool)
+          +**signal** operatingSystemChanged(const QString&)
+          +**signal** lastSeenTimeChanged(const QDateTime&)
+          +**signal** creationTimeChanged(const QDateTime&)
         }
         class NetbirdNodeProperties~Properties~ {
         }
         class NetworkNode {
             <<abstract>>
+            +**property** properties
             +getProperties() Properties&ast;
         }
         class TailscaleNetworkNode {
-            -QPointer~TailscaleNodeProperties~ properties
+            +**property** properties
+            -QPointer~TailscaleNodeProperties~ mProperties
         }
         class NetbirdNetworkNode {
-            -QPointer~NetbirdNodeProperties~ properties
+            +**property** properties
+            -QPointer~NetbirdNodeProperties~ mProperties
         }
     }
 
@@ -144,12 +180,17 @@ classDiagram
     namespace Networks {
         class Network~Node~  {
             <<abstract>>
+            +**property** nodes
             +getNodes() QHash~QString,QPointer Node~&
+            +**signal** nodesAdded(const QVector~QString~)
+            +**signal** nodesRemoved(const QVector~QString~)
         }
         class TailscaleNetwork {
+            +**property** nodes
             -nodes: QHash~QString,QPointer TailscaleNetworkNode~
         }
         class NetbirdNetwork {
+            +**property** nodes
             -nodes: QHash~QString,QPointer NetbirdNetworkNode~
         }
     }
@@ -195,6 +236,8 @@ classDiagram
 
     NodeModel~Node~ <|-- NetbirdNodeModel
     NodeModel~Node~ <|-- TailscaleNodeModel
+    TailscaleNodeModel "1" -- "1" TailscaleNetwork
+    TailscaleNodeModel "1" -- "1..*" TailscaleNodeProperties
     namespace Models {
         class NodeModel~Node~ {
             <<abstract>>
@@ -222,6 +265,7 @@ classDiagram
     PBTailscaleStatus "1" *-- "0..*" PBTailscalePeer
     PBTailscaleStatus "1" *-- "1" PBTailscaleState
     PBTailscalePeer "1" *-- "0..1" PBTailscaleLocation
+    PBTailscaleAccounts "1" *-- "0..*" PBTailscaleAccount
     namespace Protobuf {
         class PBTailscaleStatus {
             PBTailscaleState state
@@ -254,5 +298,10 @@ classDiagram
             +string version
             +string backendState
             +bool tun
+        }
+        class PBTailscaleAccounts {
+            +repeated PBTailscaleAccount
+        }
+        class PBTailscaleAccount {
         }
     }
