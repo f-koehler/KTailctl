@@ -14,8 +14,6 @@ class NetworkNode : public QObject
 public:
     using Properties = PropertiesType;
 
-    explicit NetworkNode(QObject *parent = nullptr);
-
     virtual Properties *getProperties() = 0;
     virtual const Properties *getProperties() const = 0;
 };

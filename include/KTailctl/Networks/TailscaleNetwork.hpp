@@ -15,8 +15,6 @@ private:
     QHash<QString, QPointer<TailscaleNetworkNode>> mNodes;
 
 public:
-    explicit TailscaleNetwork(QObject *parent);
-
     const QHash<QString, QPointer<TailscaleNetworkNode>> &getNodes() const override;
     QHash<QString, QPointer<TailscaleNetworkNode>> &getNodes() override;
 };

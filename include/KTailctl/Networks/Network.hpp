@@ -14,7 +14,6 @@ class Network : public QObject
 public:
     using Node = NodeType;
 
-    Network(QObject *parent = nullptr);
     virtual const QHash<QString, QPointer<Node>> &getNodes() const = 0;
     virtual QHash<QString, QPointer<Node>> &getNodes() = 0;
 

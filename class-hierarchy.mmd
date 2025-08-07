@@ -225,9 +225,9 @@ classDiagram
             -QPointer<TailscaleNetworkClient> networkClient
             -QPointer<TailscaleAccountsClient> accountsClient
             -QPointer<TailscaleSettingsClient> settingsClient
-            +getNetworkClient() TailscaleNetworkClient&ast;
-            +getAccountsClient() TailscaleAccountsClient&ast;
-            +getSettingsClient() TailscaleSettingsClient&ast;
+            +getNetworkClient() TailscaleNetworkClient&ast
+            +getAccountsClient() TailscaleAccountsClient&ast
+            +getSettingsClient() TailscaleSettingsClient&ast
         }
         class TailscaleNetworkClient {
             +up()
@@ -253,9 +253,17 @@ classDiagram
     TailscaleNodeModel "1" -- "1..*" TailscaleNodeProperties
     namespace Models {
         class NodeModel~Node~ {
-            <<abstract>>
+            +int NodeModelLastRole$
+            -QHash<QString, QModelIndex> mIdToIndex
+            +rowCount(const QModelIndex &parent) int
+            +**slot** void nodesRemoved(const QStringList& ids)
+            +**slot** void nodesAdded(const QStringList& ids)
         }
         class TailscaleNodeModel {
+            +int TailscaleNodeModelLastRole$
+            -QPointer~TailscaleNetwork~ mNetwork
+            +data(const QModelIndex& index, int role) QVariant
+            +roleNames() QHash~int, QByteArray~
         }
         class NetbirdNodeModel {
         }

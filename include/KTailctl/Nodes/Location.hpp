@@ -25,7 +25,6 @@ private:
     double mLatitude;
 
 public:
-    Location(QObject *parent = nullptr);
     const QString &getCountryCode() const;
     const QString &getCountryName() const;
     const QString &getCityCode() const;
