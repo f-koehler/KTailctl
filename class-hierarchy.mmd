@@ -3,21 +3,13 @@ classDiagram
     Account <|-- TailscaleAccount
     AccountModel~Account~ <|-- NetbirdAccountModel
     AccountModel~Account~ <|-- TailscaleAccountModel
-    MeshState *-- NetbirdAccount
-    MeshState *-- NetbirdNetwork
-    MeshState *-- TailscaleAccount
-    MeshState *-- TailscaleNetwork
-    NetbirdAccount o--o NetbirdNetwork
+    NetbirdAccount "1" o--o "0..1" NetbirdNetwork
     NetbirdAccountModel o-- NetbirdAccount
     NetbirdNetwork *-- NetbirdNetworkNode
     NetbirdNetworkNode *-- NetbirdNodeProperties
     NetbirdNodeModel o-- NetbirdNetwork
     NetworkNode~Properties~ <|-- NetbirdNetworkNode
     NetworkNode~Properties~ <|-- TailscaleNetworkNode
-    Network~Node~ <|-- NetbirdNetwork
-    Network~Node~ <|-- TailscaleNetwork
-    NodeModel~Node~ <|-- NetbirdNodeModel
-    NodeModel~Node~ <|-- TailscaleNodeModel
     NodeProperties <|-- NetbirdNodeProperties
     NodeProperties <|-- TailscaleNodeProperties
     QAbstractListModel <|-- AccountModel~Account~
@@ -58,65 +50,107 @@ classDiagram
         }
     }
     
+    MeshState *-- "0..*" NetbirdAccount
+    MeshState *-- "0..*" NetbirdNetwork
+    MeshState *-- "0..*" TailscaleAccount
+    MeshState *-- "0..1" TailscaleNetwork
+    MeshState *-- "0..1" TailscaleUpdater
     class MeshState {
-        -QVector~QPointer<TailscaleAccount>~ tailscaleAccounts
-        -QVector~QPointer<NetbirdAccount>~ netbirdAccounts
+        -QVector~QPointer TailscaleAccount~ tailscaleAccounts
         -QPointer~TailscaleNetwork~ tailscaleNetwork
-        -QVector~QPointer<NetbirdNetwork>~ netbirdNetworks
-        +getTailscaleAccounts() QVector~QPointer<TailscaleAccount>~
-        +getNetbirdAccounts() QVector~QPointer<NetbirdAccount>~
-        +getTailscaleNetwork() QPointer~TailscaleNetwork~
-        +getNetbirdNetworks() QVector~QPointer<NetbirdNetwork>~
+        -QPointer~TailscaleUpdater~
+        -QVector~QPointer NetbirdAccount~ netbirdAccounts
+        -QVector~QPointer NetbirdNetwork~ netbirdNetworks
+        +getTailscaleAccounts() QVector~QPointer TailscaleAccount~
+        +getNetbirdAccounts() QVector~QPointer NetbirdAccount~
+        +getTailscaleNetwork() TailscaleNetwork&ast;
+        +getNetbirdNetworks() QVector~QPointer NetbirdNetwork~
     }
     
+    QObject <|-- TailscaleUpdater
+    TailscaleUpdater -- TailscaleNetwork
+    TailscaleUpdater -- TailscaleNodeProperties
+    TailscaleUpdater -- Location
+    TailscaleUpdater -- PBTailscaleStatus
+    TailscaleUpdater -- PBTailscalePeer
+    TailscaleUpdater -- PBTailscaleLocation
+    class TailscaleUpdater {
+        <<interface>>
+        -QPointer~QTimer~ updateTimer
+        +update(PBTailscaleStatus status, TailscaleNetwork network)
+        +update(PBTailscalePeer peer, TailscaleNodeProperties properties)
+        +update(PBTailscaleLocation location, Location loc)
+    }
+    
+    QObject <|-- Location
+    TailscaleNodeProperties "1" *-- "1" Location
     namespace Nodes {
+        class Location {
+            -QString countryCode
+            -QString countryName
+            -QString cityCode
+            -QString cityName
+            -double longitude
+            -double latitude
+            +getCountryCode() const QString&
+            +getCountryName() const QString&
+            +getCityCode() const QString&
+            +getLongitude() double
+            +getLatitutde() double
+        }
         class NodeProperties {
            <<abstract>>
           -QString id
           -QString name
           -QString publicKey
           -QVector~QString~ ipAddresses
-          +const getId() QString&
-          +const getName() QString&
-          +const getPublicKey() QString&
-          +const getIpAddresses() QVector~QString~
+          +getId() const QString&
+          +getName() const QString&
+          +getPublicKey() const QString&
+          +getIpAddresses() const QVector~QString~
         }
         class TailscaleNodeProperties {
           -QVector~QString~ tags
           -bool exitNode
           -QString dnsName
           -QString operatingSystem
-          -QDateTime lastSeen
-          -QDateTime created
+          -QDateTime lastSeenTime
+          -QDateTime creationTime
+          -QPointer~Location~ location
           +getTags() QVector~QString~
           +isExitNode() bool
+          +getDnsName() const QString&
+          +getOperatingSystem() const QString&
+          +getLastSeenTime() const QDateTime&
+          +getCreationTime() const QDateTime&
+          +getLocation() const Location&
         }
         class NetbirdNodeProperties~Properties~ {
         }
         class NetworkNode {
             <<abstract>>
+            +getProperties() Properties&ast;
         }
         class TailscaleNetworkNode {
             -QPointer~TailscaleNodeProperties~ properties
-            +getProperties() TailscaleNodeProperties&ast;
         }
         class NetbirdNetworkNode {
             -QPointer~NetbirdNodeProperties~ properties
-            +getProperties() NetbirdNodeProperties&ast;
         }
     }
 
+    Network~Node~ <|-- NetbirdNetwork
+    Network~Node~ <|-- TailscaleNetwork
     namespace Networks {
         class Network~Node~  {
             <<abstract>>
+            +getNodes() QHash~QString,QPointer Node~&
         }
         class TailscaleNetwork {
-            -nodes: QHash~QString,QPointer<TailscaleNetworkNode>~
-            +getNodes() QHash~QString,QPointer<TailscaleNetworkNode>~&
+            -nodes: QHash~QString,QPointer TailscaleNetworkNode~
         }
         class NetbirdNetwork {
-            -nodes: QHash~QString,QPointer<NetbirdNetworkNode>~
-            +getNodes() QHash~QString,QPointer<NetbirdNetworkNode>~&
+            -nodes: QHash~QString,QPointer NetbirdNetworkNode~
         }
     }
 
@@ -159,6 +193,8 @@ classDiagram
         }
     }
 
+    NodeModel~Node~ <|-- NetbirdNodeModel
+    NodeModel~Node~ <|-- TailscaleNodeModel
     namespace Models {
         class NodeModel~Node~ {
             <<abstract>>
@@ -179,5 +215,44 @@ classDiagram
         class NetbirdAccountModel {
         }
         class TailscaleMullvadCountryModel {
+        }
+    }
+    
+    PBTailscaleStatus "1" *-- "1" PBTailscalePeer
+    PBTailscaleStatus "1" *-- "0..*" PBTailscalePeer
+    PBTailscaleStatus "1" *-- "1" PBTailscaleState
+    PBTailscalePeer "1" *-- "0..1" PBTailscaleLocation
+    namespace Protobuf {
+        class PBTailscaleStatus {
+            PBTailscaleState state
+            PBTailscalePeer self
+            repeated PBTailscalePeer peers
+            repeated string health
+        }
+        class PBTailscalePeer {
+            +string id
+            +string publicKey
+            +string hostName
+            +string dnsName
+            +string operatingSystem
+            +repeated string ipAddresses
+            +repeated string tags
+            +Timestamp lastSeenTime
+            +Timestamp createdTime
+            +bool exitNode
+            +optional PBTailscaleLocation location
+        }
+        class PBTailscaleLocation {
+            +string country
+            +string countryCode
+            +string city
+            +string cityCode
+            +double longitude
+            +double latitude
+        }
+        class PBTailscaleState {
+            +string version
+            +string backendState
+            +bool tun
         }
     }
