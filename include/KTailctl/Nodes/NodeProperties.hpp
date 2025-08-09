@@ -24,6 +24,7 @@ private:
 public:
     explicit NodeProperties(const QString &id, QObject *parent = nullptr);
     explicit NodeProperties(QString &&id, QObject *parent = nullptr);
+    virtual ~NodeProperties() = default;
 
     const QString &getId() const;
     const QString &getName() const;

@@ -14,7 +14,11 @@ class NetworkNode : public QObject
 public:
     using Properties = PropertiesType;
 
-    explicit NetworkNode(QObject *parent = nullptr);
+    explicit NetworkNode(QObject *parent = nullptr)
+        : QObject(parent)
+    {
+    }
+    virtual ~NetworkNode() = default;
 
     virtual Properties *getProperties() = 0;
     virtual const Properties *getProperties() const = 0;
