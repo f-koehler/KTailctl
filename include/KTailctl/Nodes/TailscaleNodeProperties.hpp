@@ -27,8 +27,9 @@ private:
     QDateTime mCreationTime;
 
 public:
-    TailscaleNodeProperties(const QString &id, QObject *parent = nullptr);
-    TailscaleNodeProperties(QString &&id, QObject *parent = nullptr);
+    explicit TailscaleNodeProperties(const QString &id, QObject *parent = nullptr);
+    explicit TailscaleNodeProperties(QString &&id, QObject *parent = nullptr);
+    virtual ~TailscaleNodeProperties() = default;
 
     const QStringList &getTags() const;
     bool isExitNode() const;

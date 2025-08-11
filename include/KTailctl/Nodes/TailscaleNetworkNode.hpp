@@ -10,6 +10,7 @@
 class TailscaleNetworkNode : public NetworkNode<TailscaleNodeProperties>
 {
     Q_OBJECT
+    Q_PROPERTY(TailscaleNodeProperties *properties READ getProperties CONSTANT)
     QML_ELEMENT
 
 private:
@@ -18,6 +19,7 @@ private:
 public:
     explicit TailscaleNetworkNode(const QString &id, QObject *parent = nullptr);
     explicit TailscaleNetworkNode(QString &&id, QObject *parent = nullptr);
+    virtual ~TailscaleNetworkNode() = default;
 
     TailscaleNodeProperties *getProperties() override;
     const TailscaleNodeProperties *getProperties() const override;

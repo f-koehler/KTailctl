@@ -3,6 +3,11 @@ classDiagram
     Account <|-- TailscaleAccount
     AccountModel~Account~ <|-- NetbirdAccountModel
     AccountModel~Account~ <|-- TailscaleAccountModel
+    MeshState *-- "0..*" NetbirdAccount
+    MeshState *-- "0..*" NetbirdNetwork
+    MeshState *-- "0..*" TailscaleAccount
+    MeshState *-- "0..1" TailscaleNetwork
+    MeshState *-- "0..1" TailscaleUpdater
     NetbirdAccount "1" o--o "0..1" NetbirdNetwork
     NetbirdAccountModel o-- NetbirdAccount
     NetbirdNetwork *-- NetbirdNetworkNode
@@ -10,12 +15,17 @@ classDiagram
     NetbirdNodeModel o-- NetbirdNetwork
     NetworkNode~Properties~ <|-- NetbirdNetworkNode
     NetworkNode~Properties~ <|-- TailscaleNetworkNode
+    Network~Node~ <|-- NetbirdNetwork
+    Network~Node~ <|-- TailscaleNetwork
+    NodeModel~Node~ <|-- NetbirdNodeModel
+    NodeModel~Node~ <|-- TailscaleNodeModel
     NodeProperties <|-- NetbirdNodeProperties
     NodeProperties <|-- TailscaleNodeProperties
     QAbstractListModel <|-- AccountModel~Account~
     QAbstractListModel <|-- NodeModel~Node~
     QAbstractListModel <|-- TailscaleMullvadCountryModel
     QObject <|-- Account
+    QObject <|-- Location
     QObject <|-- MeshState
     QObject <|-- NetworkNode~Properties~
     QObject <|-- Network~Node~
@@ -26,6 +36,7 @@ classDiagram
     QObject <|-- TailscaleClient
     QObject <|-- TailscaleNetworkClient
     QObject <|-- TailscaleSettingsClient
+    QObject <|-- TailscaleUpdater
     QSortFilterProxyModel <|-- TailscaleExitNodeModel
     QSortFilterProxyModel <|-- TailscaleMullvadExitNodeModel
     TailscaleAccount o--o TailscaleNetwork
@@ -37,8 +48,11 @@ classDiagram
     TailscaleMullvadExitNodeModel o-- TailscaleExitNodeModel
     TailscaleNetwork *-- TailscaleNetworkNode
     TailscaleNetworkNode *-- TailscaleNodeProperties
+    TailscaleNodeModel "1" -- "1" TailscaleNetwork
+    TailscaleNodeModel "1" -- "1..*" TailscaleNodeProperties
     TailscaleNodeModel o-- TailscaleNetwork
-    
+    TailscaleNodeProperties "1" *-- "1" Location
+    TailscaleUpdater -- TailscaleNetwork
 
     namespace Qt {
         class QObject {
@@ -50,13 +64,8 @@ classDiagram
         }
     }
     
-    MeshState *-- "0..*" NetbirdAccount
-    MeshState *-- "0..*" NetbirdNetwork
-    MeshState *-- "0..*" TailscaleAccount
-    MeshState *-- "0..1" TailscaleNetwork
-    MeshState *-- "0..1" TailscaleUpdater
     class MeshState {
-        -QVector~QPointer TailscaleAccount~ tailscaleAccounts
+        -QList~QPointer TailscaleAccount~ tailscaleAccounts
         -QPointer~TailscaleNetwork~ tailscaleNetwork
         -QPointer~TailscaleUpdater~
         -QVector~QPointer NetbirdAccount~ netbirdAccounts
@@ -67,26 +76,7 @@ classDiagram
         +getNetbirdNetworks() QVector~QPointer NetbirdNetwork~
     }
     
-    QObject <|-- TailscaleUpdater
-    TailscaleUpdater -- TailscaleNetwork
-    TailscaleUpdater -- TailscaleNodeProperties
-    TailscaleUpdater -- Location
-    TailscaleUpdater -- TailscaleAccount
-    TailscaleUpdater -- PBTailscaleStatus
-    TailscaleUpdater -- PBTailscalePeer
-    TailscaleUpdater -- PBTailscaleLocation
-    TailscaleUpdater -- PBTailscaleAccounts
-    class TailscaleUpdater {
-        <<interface>>
-        -QPointer~QTimer~ updateTimer
-        +update(PBTailscaleAccount account, TailscaleAccount acc)
-        +update(PBTailscaleStatus status, TailscaleNetwork network)
-        +update(PBTailscalePeer peer, TailscaleNodeProperties properties)
-        +update(PBTailscaleLocation location, Location loc)
-    }
     
-    QObject <|-- Location
-    TailscaleNodeProperties "1" *-- "1" Location
     namespace Nodes {
         class Location {
             +**property** countryCode
@@ -184,8 +174,6 @@ classDiagram
         }
     }
 
-    Network~Node~ <|-- NetbirdNetwork
-    Network~Node~ <|-- TailscaleNetwork
     namespace Networks {
         class Network~Node~  {
             <<abstract>>
@@ -247,10 +235,6 @@ classDiagram
         }
     }
 
-    NodeModel~Node~ <|-- NetbirdNodeModel
-    NodeModel~Node~ <|-- TailscaleNodeModel
-    TailscaleNodeModel "1" -- "1" TailscaleNetwork
-    TailscaleNodeModel "1" -- "1..*" TailscaleNodeProperties
     namespace Models {
         class NodeModel~Node~ {
             +int NodeModelLastRole$
@@ -281,48 +265,11 @@ classDiagram
         class TailscaleMullvadCountryModel {
         }
     }
+
+    class TailscaleUpdater {
+        <<interface>>
+        +update(const TailscaleStatusMessage&ast; msg, TailscaleNetwork* network)
+    }
     
-    PBTailscaleStatus "1" *-- "1" PBTailscalePeer
-    PBTailscaleStatus "1" *-- "0..*" PBTailscalePeer
-    PBTailscaleStatus "1" *-- "1" PBTailscaleState
-    PBTailscalePeer "1" *-- "0..1" PBTailscaleLocation
-    PBTailscaleAccounts "1" *-- "0..*" PBTailscaleAccount
-    namespace Protobuf {
-        class PBTailscaleStatus {
-            PBTailscaleState state
-            PBTailscalePeer self
-            repeated PBTailscalePeer peers
-            repeated string health
-        }
-        class PBTailscalePeer {
-            +string id
-            +string publicKey
-            +string hostName
-            +string dnsName
-            +string operatingSystem
-            +repeated string ipAddresses
-            +repeated string tags
-            +Timestamp lastSeenTime
-            +Timestamp createdTime
-            +bool exitNode
-            +optional PBTailscaleLocation location
-        }
-        class PBTailscaleLocation {
-            +string country
-            +string countryCode
-            +string city
-            +string cityCode
-            +double longitude
-            +double latitude
-        }
-        class PBTailscaleState {
-            +string version
-            +string backendState
-            +bool tun
-        }
-        class PBTailscaleAccounts {
-            +repeated PBTailscaleAccount
-        }
-        class PBTailscaleAccount {
-        }
+    class TailscaleStatusMessage {
     }
