@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository.
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           submodules: true
       - name: Setup nix.
@@ -36,7 +36,7 @@ jobs:
       - pre-commit
     steps:
       - name: Checkout repository.
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           submodules: true
       - name: Update apt cache.
@@ -69,7 +69,7 @@ jobs:
       - pre-commit
     steps:
       - name: Checkout repository.
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           submodules: true
       - name: Setup nix.
@@ -93,7 +93,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout repository.
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           submodules: true
       - name: Setup go.
