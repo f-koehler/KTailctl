@@ -6,6 +6,8 @@ check_ipo_supported(RESULT ipo_supported OUTPUT ipo_output)
 add_subdirectory(ui/components)
 add_subdirectory(wrapper)
 
+qt6_add_dbus_interfaces(KTAILCTL_DBUS_SRCS org.freedesktop.portal.Settings.xml)
+
 add_executable(
   ktailctl
   about.cpp
@@ -13,6 +15,7 @@ add_executable(
   account_model.cpp
   app.cpp
   exit_node_model.cpp
+  freedesktop_settings_portal.cpp
   json.cpp
   logging.cpp
   main.cpp
@@ -28,7 +31,8 @@ add_executable(
   taildrop_sender.cpp
   tailscale.cpp
   tray_icon.cpp
-  util.cpp)
+  util.cpp
+  ${KTAILCTL_DBUS_SRCS})
 
 ecm_add_qml_module(ktailctl URI org.fkoehler.KTailctl GENERATE_PLUGIN_SOURCE)
 ecm_target_qml_sources(
@@ -136,6 +140,8 @@ target_link_libraries(
           KF6::CoreAddons
           KF6::WindowSystem
           KF6::GuiAddons
+          Qt6::Core
+          Qt6::DBus
           Qt6::Widgets
           Qt6::Quick
           Qt6::QuickControls2
