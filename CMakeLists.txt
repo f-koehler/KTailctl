@@ -76,8 +76,7 @@ find_package(
              WindowSystem)
 find_package(nlohmann_json REQUIRED)
 
-add_subdirectory(src)
-add_subdirectory(tests)
+# add_subdirectory(src) add_subdirectory(tests)
 add_subdirectory(new_src)
 
 install(PROGRAMS org.fkoehler.KTailctl.desktop DESTINATION ${KDE_INSTALL_APPDIR})

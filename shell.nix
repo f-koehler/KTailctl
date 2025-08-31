@@ -20,7 +20,7 @@ devenv.lib.mkShell {
           ${pkgs.lib.getExe' pkgs.kdePackages.kirigami-gallery "kirigami2gallery"}
         '';
       };
-      packages = ktailctl.buildInputs;
+      packages = ktailctl.buildInputs ++ [ pkgs.llvmPackages_21.clangUseLLVM ];
 
       languages = {
         c.enable = true;
