@@ -19,23 +19,15 @@ devenv.lib.mkShell {
         export REQUESTS_CA_BUNDLE="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
         export SSL_CERT_FILE="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
       '';
-      scripts = {
-        cuttlefish.exec = ''
-          ${pkgs.lib.getExe' pkgs.libsForQt5.plasma-sdk "cuttlefish"}
-        '';
-        kirigami2gallery.exec = ''
-          ${pkgs.lib.getExe' pkgs.kdePackages.kirigami-gallery "kirigami2gallery"}
-        '';
-      };
       packages = ktailctl.buildInputs;
 
       languages = {
         c.enable = true;
         cplusplus.enable = true;
-        go = {
-          enable = true;
-          package = pkgs.go_1_24;
-        };
+        # go = {
+        #   enable = true;
+        #   package = pkgs.go_1_24;
+        # };
         python = {
           enable = true;
           uv.enable = true;
