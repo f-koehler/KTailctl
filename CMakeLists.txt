@@ -1,9 +1,7 @@
+set(CMAKE_PROJECT_INCLUDE_BEFORE "${CMAKE_SOURCE_DIR}/cmake/git-version.cmake")
 cmake_minimum_required(VERSION 3.24)
 
-project(
-  ktailctl
-  VERSION 0.20
-  LANGUAGES C CXX)
+project(ktailctl LANGUAGES C CXX)
 
 option(KTAILCTL_FLATPAK_BUILD "Build for Flatpak" OFF)
 

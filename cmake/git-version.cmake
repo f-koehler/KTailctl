@@ -1,0 +1,12 @@
+execute_process(
+  COMMAND git describe --tags --abbrev=0
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  OUTPUT_VARIABLE GIT_TAG
+  RESULT_VARIABLE GIT_RESULT
+  OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+if(GIT_RESULT EQUAL 0 AND GIT_TAG MATCHES "^v([0-9]+)\\.([0-9]+)\\.([0-9]+)$")
+  string(REGEX REPLACE "^v" "" PROJECT_VERSION "${GIT_TAG}")
+else()
+  set(PROJECT_VERSION "0.0.0")
+endif()
