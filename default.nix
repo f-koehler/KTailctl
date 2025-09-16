@@ -5,7 +5,7 @@
   lib,
 
   appstream,
-  buildGo124Module,
+  buildGo125Module,
   cmake,
   cmake-format,
   extra-cmake-modules,
@@ -18,7 +18,7 @@ let
   src = ./.;
 
   goDeps =
-    (buildGo124Module {
+    (buildGo125Module {
       pname = "ktailctl_wrapper";
       inherit src version;
       modRoot = "src/wrapper";
