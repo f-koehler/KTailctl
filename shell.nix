@@ -12,7 +12,7 @@ devenv.lib.mkShell {
   modules = [
     {
       env = {
-        KTAILCTL_WRAPPER_GO_EXECUTABLE = "${lib.getExe' pkgs.go_1_24 "go"}";
+        KTAILCTL_WRAPPER_GO_EXECUTABLE = "${lib.getExe' pkgs.go_1_25 "go"}";
       };
       enterShell = ''
         export DEFAULT_CA_BUNDLE_PATH="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
@@ -24,10 +24,10 @@ devenv.lib.mkShell {
       languages = {
         c.enable = true;
         cplusplus.enable = true;
-        # go = {
-        #   enable = true;
-        #   package = pkgs.go_1_24;
-        # };
+        go = {
+          enable = true;
+          package = pkgs.go_1_25;
+        };
         python = {
           enable = true;
           uv.enable = true;
