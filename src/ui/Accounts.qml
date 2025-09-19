@@ -25,7 +25,7 @@ Kirigami.ScrollablePage {
                         text: modelData.name
 
                         onClicked: {
-                            Tailscale.switchAccount(modelData.loginName);
+                            Tailscale.switchAccount(modelData.id);
                         }
                     }
                 }

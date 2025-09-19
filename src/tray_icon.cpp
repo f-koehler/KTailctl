@@ -281,7 +281,7 @@ void TrayIcon::buildAccountsMenu()
 
     for (const AccountData &account : mTailscale->accountModel()->accounts()) {
         QAction *action = mAccountsMenu->addAction(QIcon::fromTheme(QStringLiteral("user")), account.name, [this, &account]() {
-            this->mTailscale->switchAccount(account.loginName);
+            this->mTailscale->switchAccount(account.id);
         });
         action->setCheckable(true);
         action->setChecked(account.isCurrent);
