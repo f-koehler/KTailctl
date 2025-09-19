@@ -44,6 +44,23 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.21.2" date="2025-09-19" urgency="low">
+      <description>
+      <p>
+        Fixes account switching and uses nicknames for accounts.
+      </p>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.21.2</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.21.2.tar.gz</location>
+        </artifact>
+        <artifact type="source">
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.21.2/tailwrap-vendor-v0.21.2.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.21.1" date="2025-09-08" urgency="low">
       <description>
       <p>
