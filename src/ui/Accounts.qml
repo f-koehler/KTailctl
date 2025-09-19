@@ -22,7 +22,7 @@ Kirigami.ScrollablePage {
 
                         enabled: !modelData.isCurrent
                         icon.name: "user"
-                        text: modelData.loginName
+                        text: modelData.name
 
                         onClicked: {
                             Tailscale.switchAccount(modelData.loginName);
