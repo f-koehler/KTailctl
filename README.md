@@ -99,6 +99,7 @@ cmake --build build --parallel 16
 
 1. Create a changelog file `changelog/vX.Y.Z.md`.
 2. Add a new release to `org.fkoehler.ktailctl.metainfo.xml`.
-3. Create a commit called `Release vX.Y.Z.`.
-4. Create a tag from changelog: `git tag -s -F changelog/vX.Y.Z.md vX.Y.Z`.
-5. Push tag: `git push origin vX.Y.Z`.
+3. Update the version in `CMakeLists.txt`
+4. Create a commit called `Release vX.Y.Z.`.
+5. Create a tag from changelog: `git tag -s -F changelog/vX.Y.Z.md vX.Y.Z`.
+6. Push tag: `git push origin vX.Y.Z`.
