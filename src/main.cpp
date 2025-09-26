@@ -18,6 +18,7 @@
 
 #include "about.hpp"
 #include "app.hpp"
+#include "freedesktop_settings_portal.hpp"
 #include "logging.hpp"
 #include "peer_model.hpp"
 #include "preferences.hpp"
@@ -91,6 +92,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "App", application);
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Util", util);
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "TaildropSendJobFactory", TaildropSendJobFactory::instance());
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "FreedesktopSettingsPortal", FreedesktopSettingsPortal::instance());
 
     qmlRegisterType<SpeedStatistics>("org.fkoehler.KTailctl", 1, 0, "SpeedStatistics");
     qmlRegisterType<Statistics>("org.fkoehler.KTailctl", 1, 0, "Statistics");
