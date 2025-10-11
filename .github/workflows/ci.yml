@@ -62,25 +62,6 @@ jobs:
         run: flatpak-builder --user --force-clean build-dir org.fkoehler.KTailctl.yml
       # - name: Validate build.
       #   run: flatpak run --command=flatpak-builder-lint org.flatpak.Builder builddir build-dir/
-  nix_build:
-    name: Nix build
-    runs-on: ubuntu-latest
-    needs:
-      - pre-commit
-    steps:
-      - name: Checkout repository.
-        uses: actions/checkout@v5
-        with:
-          submodules: true
-      - name: Setup nix.
-        uses: cachix/install-nix-action@v31
-        with:
-          nix_path: nixpkgs=channel:nixos-unstable
-      - name: Vendor go dependencies.
-        run: nix-shell -p go --command "go mod vendor"
-        working-directory: src/wrapper
-      - name: Build with nix
-        run: nix build .
   create_release:
     if: startsWith(github.event.ref, 'refs/tags/v')
     name: Create release
@@ -88,7 +69,6 @@ jobs:
     needs:
       - flatpak_build
       - pre-commit
-      - nix_build
     permissions:
       contents: write
     steps:
