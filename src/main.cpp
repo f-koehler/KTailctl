@@ -18,6 +18,7 @@
 
 #include "about.hpp"
 #include "app.hpp"
+#include "ktailctlconfig.h"
 #include "logging.hpp"
 #include "peer_model.hpp"
 #include "preferences.hpp"
@@ -121,6 +122,11 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
             window->raise();
             KWindowSystem::activateWindow(window);
         }
+    });
+
+    QApplication::setQuitOnLastWindowClosed(!KTailctlConfig::self()->enableTrayIcon());
+    QObject::connect(KTailctlConfig::self(), &KTailctlConfig::enableTrayIconChanged, []() {
+        QApplication::setQuitOnLastWindowClosed(!KTailctlConfig::self()->enableTrayIcon());
     });
 
     return QApplication::exec();
