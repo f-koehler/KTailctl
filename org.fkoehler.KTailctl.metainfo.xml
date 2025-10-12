@@ -44,6 +44,23 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.21.3" date="2025-10-12" urgency="low">
+      <description>
+      <p>
+        Resolves an issue in other environments than KDE Plasma where KTailctl would not correctly minimize to the tray icon when the window is closed. Updates some dependencies to their latest versions.
+      </p>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.21.3</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.21.3.tar.gz</location>
+        </artifact>
+        <artifact type="source">
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.21.3/tailwrap-vendor-v0.21.3.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.21.2" date="2025-09-19" urgency="low">
       <description>
       <p>
