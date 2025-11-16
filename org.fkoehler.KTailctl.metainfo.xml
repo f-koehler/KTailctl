@@ -44,6 +44,23 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.21.4" date="2025-11-16" urgency="low">
+      <description>
+      <p>
+        No user-facing changes, only internal dependency updates.
+      </p>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.21.4</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.21.4.tar.gz</location>
+        </artifact>
+        <artifact type="source">
+          <location>
+            https://github.com/f-koehler/KTailctl/releases/download/v0.21.4/tailwrap-vendor-v0.21.4.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.21.3" date="2025-10-12" urgency="low">
       <description>
       <p>
