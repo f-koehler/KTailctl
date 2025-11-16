@@ -8,7 +8,6 @@ import org.fkoehler.KTailctl
 import org.kde.kirigami as Kirigami
 import org.kde.kirigamiaddons.delegates as Delegates
 import org.kde.config as KConfig
-import Qt.labs.platform
 
 Kirigami.ApplicationWindow {
     id: root
@@ -250,56 +249,5 @@ Kirigami.ApplicationWindow {
         }
     }
 
-    SystemTrayIcon {
-        visible: true
-        icon.name: "folder-open"
-
-        onActivated: {
-            window.show();
-            window.raise();
-            window.requestActivate();
-        }
-
-        menu: Menu {
-            MenuItem {
-                text: "Show"
-                icon.name: "window"
-                onTriggered: {
-                    window.show();
-                    window.raise();
-                    window.requestActivate();
-                }
-            }
-            MenuSeparator {}
-            Menu {
-                title: "Accounts"
-                icon.name: "user"
-            }
-            Menu {
-                title: "This Node"
-                icon.name: "computer"
-
-                Menu {
-                    title: "test"
-
-                    MenuItem {
-                        text: "test"
-                    }
-                }
-            }
-            Menu {
-                title: "Peers"
-                icon.name: "applications-network"
-            }
-            Menu {
-                title: "Exit Nodes"
-                icon.name: "internet-services"
-            }
-            MenuSeparator {}
-            MenuItem {
-                text: "Quit"
-                icon.name: "application-exit"
-            }
-        }
-    }
+    TrayMenu {}
 }

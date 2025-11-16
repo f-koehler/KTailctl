@@ -42,7 +42,9 @@ ecm_target_qml_sources(
   ui/Peers.qml
   ui/Self.qml
   ui/Settings.qml
-  ui/Statistics.qml)
+  ui/Statistics.qml
+  ui/TrayMenu.qml
+)
 
 ecm_qt_declare_logging_category(
   ktailctl
