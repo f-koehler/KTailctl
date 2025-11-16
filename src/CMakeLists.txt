@@ -27,7 +27,6 @@ add_executable(
   taildrop_receiver.cpp
   taildrop_sender.cpp
   tailscale.cpp
-  tray_icon.cpp
   util.cpp)
 
 ecm_add_qml_module(ktailctl URI org.fkoehler.KTailctl GENERATE_PLUGIN_SOURCE)
@@ -246,7 +245,7 @@ target_link_directories(ktailctl PRIVATE ${CMAKE_BINARY_DIR}/lib)
 add_dependencies(ktailctl ktailctl_wrapper_target)
 
 if(KTAILCTL_FLATPAK_BUILD)
-  target_compile_definitions(ktailctl PRIVATE KTAILCTL_FLATPAK_BUILD)
+    target_compile_definitions(ktailctl PRIVATE KTAILCTL_FLATPAK_BUILD)
 endif()
 
 target_compile_definitions(ktailctl PRIVATE QT_MESSAGELOGCONTEXT)
@@ -254,11 +253,11 @@ target_compile_definitions(ktailctl PRIVATE QT_MESSAGELOGCONTEXT)
 install(TARGETS ktailctl ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 if(ipo_supported)
-  set_property(TARGET ktailctl PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
+    set_property(TARGET ktailctl PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
 endif()
 
 if(APPLE)
-  kirigami_package_breeze_icons(
+    kirigami_package_breeze_icons(
     ICONS
     application-exit
     applications-graphics

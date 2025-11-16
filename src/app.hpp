@@ -8,7 +8,6 @@
 #include "peer_data.hpp"
 #include "peer_model.hpp"
 #include "tailscale.hpp"
-#include "tray_icon.hpp"
 
 #include <QLoggingCategory>
 #include <QObject>
@@ -24,7 +23,6 @@ class App : public QObject
     Q_PROPERTY(QSortFilterProxyModel *peerModel READ peerModel CONSTANT)
     Q_PROPERTY(QSortFilterProxyModel *mullvadNodesForCountryModel READ mullvadNodesForCountryModel CONSTANT)
     Q_PROPERTY(PeerData peerDetails READ peerDetails NOTIFY peerDetailsChanged)
-    Q_PROPERTY(TrayIcon *trayIcon READ trayIcon CONSTANT)
 
 private:
     KTailctlConfig *mConfig;
@@ -32,7 +30,6 @@ private:
     QSortFilterProxyModel *mMullvadNodesForCountryModel;
     bool mFilterInitialized = false;
 
-    TrayIcon *mTrayIcon;
     PeerData mPeerDetails;
 
 public slots:
@@ -50,7 +47,6 @@ public:
     QSortFilterProxyModel *peerModel();
     QSortFilterProxyModel *mullvadNodesForCountryModel();
     const PeerData &peerDetails() const;
-    TrayIcon *trayIcon();
 
     // Restore current window geometry
     Q_INVOKABLE static void restoreWindowGeometry(QQuickWindow *window, const QString &group = QStringLiteral("main"));

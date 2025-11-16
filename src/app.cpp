@@ -19,11 +19,7 @@ App::App(QObject *parent)
     , mConfig(KTailctlConfig::self())
     , mPeerModel(new QSortFilterProxyModel(this))
     , mMullvadNodesForCountryModel(new QSortFilterProxyModel(this))
-    , mTrayIcon(new TrayIcon(this))
 {
-    QObject::connect(Tailscale::instance(), &Tailscale::backendStateChanged, mTrayIcon, &TrayIcon::regenerate);
-    QObject::connect(mTrayIcon, &TrayIcon::quitClicked, this, &App::quitApp);
-
     QObject::connect(Tailscale::instance(), &Tailscale::statusRefreshed, this, &App::refreshDetails);
 
     mPeerModel->setSourceModel(Tailscale::instance()->peerModel());
@@ -55,10 +51,6 @@ QSortFilterProxyModel *App::mullvadNodesForCountryModel()
 const PeerData &App::peerDetails() const
 {
     return mPeerDetails;
-}
-TrayIcon *App::trayIcon()
-{
-    return mTrayIcon;
 }
 
 void App::restoreWindowGeometry(QQuickWindow *window, const QString &group)

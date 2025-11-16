@@ -105,7 +105,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     }
 
     auto *window = dynamic_cast<QQuickWindow *>(engine.rootObjects().first());
-    application->trayIcon()->setWindow(window);
     if (KTailctlConfig::startMinimized()) {
         window->hide();
     } else {
@@ -122,11 +121,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
             window->raise();
             KWindowSystem::activateWindow(window);
         }
-    });
-
-    QApplication::setQuitOnLastWindowClosed(!KTailctlConfig::self()->enableTrayIcon());
-    QObject::connect(KTailctlConfig::self(), &KTailctlConfig::enableTrayIconChanged, []() {
-        QApplication::setQuitOnLastWindowClosed(!KTailctlConfig::self()->enableTrayIcon());
     });
 
     return QApplication::exec();
