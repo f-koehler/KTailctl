@@ -32,8 +32,6 @@ jobs:
   flatpak_build:
     name: Flatpak build
     runs-on: ubuntu-24.04
-    needs:
-      - pre-commit
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v6
