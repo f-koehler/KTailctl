@@ -7,8 +7,8 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"tailscale.com/cmd/tailscale/cli"
 	"tailscale.com/client/local"
+	"tailscale.com/cmd/tailscale/cli"
 	"tailscale.com/ipn"
 )
 
