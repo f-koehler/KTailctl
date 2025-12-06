@@ -20,6 +20,7 @@
 #include "app.hpp"
 #include "ktailctlconfig.h"
 #include "logging.hpp"
+#include "peer.hpp"
 #include "peer_model.hpp"
 #include "preferences.hpp"
 #include "speed_statistics.hpp"
@@ -96,6 +97,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     qmlRegisterType<SpeedStatistics>("org.fkoehler.KTailctl", 1, 0, "SpeedStatistics");
     qmlRegisterType<Statistics>("org.fkoehler.KTailctl", 1, 0, "Statistics");
     qmlRegisterType<KTailctlConfig>("org.fkoehler.KTailctl", 1, 0, "KTailctlConfig"); // TODO(fk): remove, now handled via CMake
+    qmlRegisterType<Peer>("org.fkoehler.KTailctl", 1, 0, "Peer");
 
     engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
     engine.rootContext()->setContextProperty(QStringLiteral("styleName"), QQuickStyle::name());

@@ -28,7 +28,9 @@ add_executable(
   taildrop_sender.cpp
   tailscale.cpp
   tray_icon.cpp
-  util.cpp)
+  util.cpp
+  property_list_model.hpp
+  peer.hpp)
 
 ecm_add_qml_module(ktailctl URI org.fkoehler.KTailctl GENERATE_PLUGIN_SOURCE)
 ecm_target_qml_sources(
