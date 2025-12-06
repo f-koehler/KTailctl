@@ -7,12 +7,12 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"tailscale.com/client/tailscale"
+	"tailscale.com/client/local"
 	"tailscale.com/cmd/tailscale/cli"
 	"tailscale.com/ipn"
 )
 
-var client tailscale.LocalClient
+var client local.Client
 
 //export tailscale_down
 func tailscale_down() {
