@@ -10,6 +10,7 @@
 #include <QPointer>
 #include <QPropertyNotifier>
 #include <QVariant>
+#include <ranges>
 
 enum class PropertyListModelOwnership : bool {
     Owning,
@@ -153,6 +154,7 @@ public:
         }
 
         mItems.append(item);
+        setupNotifiersForItem(item, insertIndex);
 
         // listen for external destruction of item
         connect(item, &QObject::destroyed, this, [this]() {
@@ -171,6 +173,55 @@ public:
         });
 
         endInsertRows();
+    }
+
+    bool removeItem(int row)
+    {
+        if (row < 0 || row >= mItems.size()) {
+            return false;
+        }
+
+        beginRemoveRows({}, row, row);
+        if constexpr (Ownership == PropertyListModelOwnership::Owning) {
+            mItems[row]->deleteLater();
+        }
+        mItems.removeAt(row);
+        mNotifierGroups.removeAt(row);
+        endRemoveRows();
+        return true;
+    }
+
+    void clear()
+    {
+        beginResetModel();
+        if constexpr (Ownership == PropertyListModelOwnership::Owning) {
+            for (auto &item : mItems) {
+                if (item != nullptr) {
+                    item->deleteLater();
+                }
+            }
+        }
+        mItems.clear();
+        mNotifierGroups.clear();
+        endResetModel();
+    }
+
+    [[nodiscard]] int indexOf(Type *item) const
+    {
+        for (const auto &[index, entry] : std::ranges::views::enumerate(mItems)) {
+            if (entry == item) {
+                return index;
+            }
+        }
+        return -1;
+    }
+
+    [[nodiscard]] Type *at(int row) const
+    {
+        if (row < 0 || row >= mItems.size()) {
+            return nullptr;
+        }
+        return mItems[row];
     }
 };
 
