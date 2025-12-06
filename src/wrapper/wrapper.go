@@ -8,10 +8,11 @@ import (
 	"fmt"
 
 	"tailscale.com/cmd/tailscale/cli"
+	"tailscale.com/client/local"
 	"tailscale.com/ipn"
 )
 
-var client tailscale.LocalClient
+var client local.Client
 
 //export tailscale_down
 func tailscale_down() {
