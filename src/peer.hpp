@@ -6,6 +6,8 @@
 #define KTAILCTL_PEER_H
 
 #include <QBindable>
+#include <QJsonArray>
+#include <QJsonObject>
 #include <QObject>
 #include <QProperty>
 #include <QString>
@@ -15,6 +17,7 @@ class Peer : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString id READ id WRITE setId BINDABLE bindableId)
+    Q_PROPERTY(QString publicKey READ publicKey WRITE setPublicKey BINDABLE bindablePublicKey)
     Q_PROPERTY(QString hostName READ hostName WRITE setHostName BINDABLE bindableHostName)
     Q_PROPERTY(QString dnsName READ dnsName WRITE setDnsName BINDABLE bindableDnsName)
     Q_PROPERTY(QString os READ os WRITE setOs BINDABLE bindableOs)
@@ -38,6 +41,7 @@ class Peer : public QObject
 
 private:
     QProperty<QString> mId;
+    QProperty<QString> mPublickey;
     QProperty<QString> mHostName;
     QProperty<QString> mDnsName;
     QProperty<QString> mOs;
@@ -61,11 +65,41 @@ private:
     QProperty<QUrl> mAdminPanelUrl;
 
 public:
+    explicit Peer(QObject *parent = nullptr)
+        : QObject(parent)
+    {
+    }
+
+    void fromJson(const QJsonObject &object)
+    {
+        setId(object.value(QStringLiteral("ID")).toString());
+        setPublicKey(object.value(QStringLiteral("PublicKey")).toString());
+        setHostName(object.value("HostName").toString());
+        setDnsName(object.value("DNSName").toString());
+        setOs(object.value("OS").toString());
+
+        setTailscaleIps(object.value("TailscaleIPs").toVariant().toStringList());
+
+        setRelay(object.value("Relay").toString());
+        setReceivedBytes(object.value("RxBytes").toInteger());
+        setTransmittedBytes(object.value("TxBytes").toInteger());
+        // TODO(fk): parse lastSeen and Created
+        setIsOnline(object.value("IsOnline").toBool());
+        setIsActive(object.value("IsActive").toBool());
+        // TODO(fk): setIsCurrentExitNode
+        // TODO(fk): setIsExitNode
+    }
+
     // getters
     [[nodiscard]] const QString &id() const
     {
         return mId;
     }
+
+    [[nodiscard]] const QString &publicKey() const
+    {
+        return mPublickey;
+    };
 
     [[nodiscard]] const QString &hostName() const
     {
@@ -178,6 +212,11 @@ public:
         return {&mId};
     }
 
+    QBindable<QString> bindablePublicKey()
+    {
+        return {&mPublickey};
+    }
+
     QBindable<QString> bindableHostName()
     {
         return {&mHostName};
@@ -287,6 +326,11 @@ public:
     void setId(const QString &id)
     {
         mId = id;
+    }
+
+    void setPublicKey(const QString &publickey)
+    {
+        mPublickey = publickey;
     }
 
     void setHostName(const QString &hostName)
