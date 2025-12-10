@@ -18,7 +18,7 @@ enum class PropertyListModelOwnership : bool {
 };
 
 template<typename T, PropertyListModelOwnership O = PropertyListModelOwnership::Owning>
-class PropertyListModel : QAbstractListModel
+class PropertyListModel : public QAbstractListModel
 {
 public:
     using Type = T;
