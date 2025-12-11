@@ -26,6 +26,7 @@ class Status : public QObject
     Q_PROPERTY(BackendState backendState READ backendState BINDABLE bindableBackendState)
     Q_PROPERTY(bool haveNodeKey READ haveNodeKey BINDABLE bindableHaveNodeKey)
     Q_PROPERTY(QString authUrl READ authUrl BINDABLE bindableAuthUrl)
+    Q_PROPERTY(QStringList tailscaleIps READ tailscaleIps BINDABLE bindableTailscaleIps)
     Q_PROPERTY(PeerStatus *self READ self BINDABLE bindableSelf)
     Q_PROPERTY(ExitNodeStatus *exitNodeStatus READ exitNodeStatus BINDABLE bindableExitNodeStatus)
     Q_PROPERTY(QStringList health READ health BINDABLE bindableHealth)
@@ -41,6 +42,7 @@ private:
     QProperty<BackendState> mBackendState;
     QProperty<bool> mHaveNodeKey;
     QProperty<QString> mAuthUrl;
+    QProperty<QStringList> mTailscaleIps;
     QProperty<PeerStatus *> mSelf;
     QProperty<ExitNodeStatus *> mExitNodeStatus;
     QProperty<QStringList> mHealth;
@@ -50,6 +52,53 @@ private:
     QProperty<ClientVersion *> mClientVersion;
 
 public:
+    explicit Status(QObject *parent = nullptr)
+        : QObject(parent)
+    {
+    }
+
+    explicit Status(QJsonObject &json, QObject *parent = nullptr)
+        : QObject(parent)
+    {
+        updateFromJson(json);
+    }
+
+    void updateFromJson(QJsonObject &json)
+    {
+        mVersion = json.take(QStringLiteral("Version")).toString();
+        mIsTun = json.take(QStringLiteral("TUN")).toBool();
+        // mBackendState =
+        mHaveNodeKey = json.take(QStringLiteral("HaveNodeKey")).toBool();
+        mAuthUrl = json.take(QStringLiteral("AuthUrl")).toString();
+        mTailscaleIps = json.take(QStringLiteral("TailscaleIps")).toVariant().toStringList();
+
+        if (json.contains(QStringLiteral("Self"))) {
+            auto selfJson = json.take(QStringLiteral("Self")).toObject();
+            if (mSelf.value() == nullptr) {
+                mSelf = new PeerStatus(this);
+            }
+            mSelf->updateFromJson(selfJson);
+        } else {
+            if (mSelf.value() != nullptr) {
+                mSelf->deleteLater();
+                mSelf = nullptr;
+            }
+        }
+
+        if (json.contains(QStringLiteral("ExitNodeStatus"))) {
+            auto exitNodeStatusJson = json.take(QStringLiteral("ExitNodeStatus")).toObject();
+            if (mExitNodeStatus.value() == nullptr) {
+                mExitNodeStatus = new ExitNodeStatus(this);
+            }
+            mExitNodeStatus->updateFromJson(exitNodeStatusJson);
+        } else {
+            if (mExitNodeStatus.value() != nullptr) {
+                mExitNodeStatus->deleteLater();
+                mExitNodeStatus = nullptr;
+            }
+        }
+    }
+
     // Getters
     [[nodiscard]] const QString &version() const noexcept
     {
