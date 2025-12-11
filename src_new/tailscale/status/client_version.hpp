@@ -16,7 +16,7 @@ class ClientVersion : public QObject
     Q_PROPERTY(QString latestVersion READ latestVersion BINDABLE bindableLatestVersion)
     Q_PROPERTY(bool urgentSecurityUpdate READ urgentSecurityUpdate BINDABLE bindableUrgentSecurityUpdate)
     Q_PROPERTY(bool notify READ notify BINDABLE bindableNotify)
-    Q_PROPERTY(QUrl notifyUrl READ notifyUrl BINDABLE bindableNotifyUrl)
+    Q_PROPERTY(QString notifyUrl READ notifyUrl BINDABLE bindableNotifyUrl)
     Q_PROPERTY(QString notifyText READ notifyText BINDABLE bindableNotifyText)
 
 private:
@@ -24,7 +24,7 @@ private:
     QProperty<QString> mLatestVersion;
     QProperty<bool> mUrgentSecurityUpdate;
     QProperty<bool> mNotify;
-    QProperty<QUrl> mNotifyUrl;
+    QProperty<QString> mNotifyUrl;
     QProperty<QString> mNotifyText;
 
 public:
@@ -33,27 +33,48 @@ public:
     {
     }
 
+    explicit ClientVersion(QJsonObject &json, QObject *parent = nullptr)
+        : QObject(parent)
+    {
+        updateFromJson(json);
+    }
+
+    void updateFromJson(QJsonObject &json)
+    {
+        mRunningLatest = json.take(QStringLiteral("RunningLatest")).toBool();
+        mLatestVersion = json.take(QStringLiteral("Version")).toString();
+        mUrgentSecurityUpdate = json.take(QStringLiteral("UrgentSecurityUpdate")).toBool();
+        mNotify = json.take(QStringLiteral("Notify")).toBool();
+        mNotifyUrl = json.take(QStringLiteral("NotifyUrl")).toString();
+        mNotifyText = json.take(QStringLiteral("NotifyText")).toString();
+    }
+
     // Getters
     [[nodiscard]] bool runningLatest() const noexcept
     {
         return mRunningLatest;
     }
+
     [[nodiscard]] const QString &latestVersion() const noexcept
     {
         return mLatestVersion;
     }
+
     [[nodiscard]] bool urgentSecurityUpdate() const noexcept
     {
         return mUrgentSecurityUpdate;
     }
+
     [[nodiscard]] bool notify() const noexcept
     {
         return mNotify;
     }
-    [[nodiscard]] const QUrl &notifyUrl() const noexcept
+
+    [[nodiscard]] const QString &notifyUrl() const noexcept
     {
         return mNotifyUrl;
     }
+
     [[nodiscard]] const QString &notifyText() const noexcept
     {
         return mNotifyText;
@@ -64,22 +85,27 @@ public:
     {
         return {&mRunningLatest};
     }
+
     [[nodiscard]] QBindable<QString> bindableLatestVersion()
     {
         return {&mLatestVersion};
     }
+
     [[nodiscard]] QBindable<bool> bindableUrgentSecurityUpdate()
     {
         return {&mUrgentSecurityUpdate};
     }
+
     [[nodiscard]] QBindable<bool> bindableNotify()
     {
         return {&mNotify};
     }
-    [[nodiscard]] QBindable<QUrl> bindableNotifyUrl()
+
+    [[nodiscard]] QBindable<QString> bindableNotifyUrl()
     {
         return {&mNotifyUrl};
     }
+
     [[nodiscard]] QBindable<QString> bindableNotifyText()
     {
         return {&mNotifyText};

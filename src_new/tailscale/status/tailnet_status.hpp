@@ -24,15 +24,30 @@ public:
     {
     }
 
+    explicit TailnetStatus(QJsonObject &json, QObject *parent = nullptr)
+        : QObject(parent)
+    {
+        updateFromJson(json);
+    }
+
+    void updateFromJson(QJsonObject &json)
+    {
+        mName = json.take(QStringLiteral("Name")).toString();
+        mMagicDnsSuffix = json.take(QStringLiteral("MagicDnsSuffix")).toString();
+        mMagicDnsEnabled = json.take(QStringLiteral("MagicDnsEnabled")).toBool();
+    }
+
     // Getters
     [[nodiscard]] const QString &name() const noexcept
     {
         return mName;
     }
+
     [[nodiscard]] const QString &magicDnsSuffix() const noexcept
     {
         return mMagicDnsSuffix;
     }
+
     [[nodiscard]] bool magicDnsEnabled() const noexcept
     {
         return mMagicDnsEnabled;
@@ -43,10 +58,12 @@ public:
     {
         return {&mName};
     }
+
     [[nodiscard]] QBindable<QString> bindableMagicDnsSuffix()
     {
         return {&mMagicDnsSuffix};
     }
+
     [[nodiscard]] QBindable<bool> bindableMagicDnsEnabled()
     {
         return {&mMagicDnsEnabled};

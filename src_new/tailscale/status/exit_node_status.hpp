@@ -19,9 +19,22 @@ private:
     QProperty<QStringList> mTailscaleIps;
 
 public:
-    explicit ExitNodeStatus(QObject *parent)
+    explicit ExitNodeStatus(QObject *parent = nullptr)
         : QObject(parent)
     {
+    }
+
+    explicit ExitNodeStatus(QJsonObject &json, QObject *parent = nullptr)
+        : QObject(parent)
+    {
+        updateFromJson(json);
+    }
+
+    void updateFromJson(QJsonObject &json)
+    {
+        mId = json.take(QStringLiteral("ID")).toString();
+        mIsOnline = json.take(QStringLiteral("Online")).toBool();
+        mTailscaleIps = json.take(QStringLiteral("TailscaleIPs")).toVariant().toStringList();
     }
 
     // Getters
@@ -33,7 +46,7 @@ public:
     {
         return mIsOnline;
     }
-    [[nodiscard]] QStringList tailscaleIps() const noexcept
+    [[nodiscard]] const QStringList &tailscaleIps() const noexcept
     {
         return mTailscaleIps;
     }

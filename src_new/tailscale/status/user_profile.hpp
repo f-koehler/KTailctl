@@ -25,19 +25,36 @@ public:
     {
     }
 
+    explicit UserProfile(QJsonObject &json, QObject *parent = nullptr)
+        : QObject(parent)
+    {
+        updateFromJson(json);
+    }
+
+    void updateFromJson(QJsonObject &json)
+    {
+        mUserId = json.take(QStringLiteral("UserID")).toInteger();
+        mLoginName = json.take(QStringLiteral("LoginName")).toString();
+        mDisplayName = json.take(QStringLiteral("DisplayName")).toString();
+        mProfilePicUrl = json.take(QStringLiteral("ProfilePicUrl")).toString();
+    }
+
     // Getters
     [[nodiscard]] qint64 userId() const noexcept
     {
         return mUserId;
     }
+
     [[nodiscard]] const QString &loginName() const noexcept
     {
         return mLoginName;
     }
+
     [[nodiscard]] const QString &displayName() const noexcept
     {
         return mDisplayName;
     }
+
     [[nodiscard]] const QString &profilePicUrl() const noexcept
     {
         return mProfilePicUrl;
@@ -48,14 +65,17 @@ public:
     {
         return {&mUserId};
     }
+
     [[nodiscard]] QBindable<QString> bindableLoginName()
     {
         return {&mLoginName};
     }
+
     [[nodiscard]] QBindable<QString> bindableDisplayName()
     {
         return {&mDisplayName};
     }
+
     [[nodiscard]] QBindable<QString> bindableProfilePicUrl()
     {
         return {&mProfilePicUrl};

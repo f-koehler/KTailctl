@@ -32,31 +32,54 @@ public:
     {
     }
 
+    explicit Location(QJsonObject &json, QObject *parent = nullptr)
+        : QObject(parent)
+    {
+        updateFromJson(json);
+    }
+
+    void updateFromJson(QJsonObject &json)
+    {
+        mCountry = json.take(QStringLiteral("Country")).toString();
+        mCountryCode = json.take(QStringLiteral("CountryCode")).toString();
+        mCity = json.take(QStringLiteral("City")).toString();
+        mCityCode = json.take(QStringLiteral("CityCode")).toString();
+        mLatitude = json.take(QStringLiteral("Latitude")).toDouble();
+        mLongitude = json.take(QStringLiteral("Longitude")).toDouble();
+        mPriority = json.take(QStringLiteral("Priority")).toInt();
+    }
+
     // Getters
     [[nodiscard]] const QString &country() const noexcept
     {
         return mCountry;
     }
+
     [[nodiscard]] const QString &countryCode() const noexcept
     {
         return mCountryCode;
     }
+
     [[nodiscard]] const QString &city() const noexcept
     {
         return mCity;
     }
+
     [[nodiscard]] const QString &cityCode() const noexcept
     {
         return mCityCode;
     }
+
     [[nodiscard]] double latitude() const noexcept
     {
         return mLatitude;
     }
+
     [[nodiscard]] double longitude() const noexcept
     {
         return mLongitude;
     }
+
     [[nodiscard]] int priority() const noexcept
     {
         return mPriority;
@@ -67,26 +90,32 @@ public:
     {
         return {&mCountry};
     }
+
     [[nodiscard]] QBindable<QString> bindableCountryCode()
     {
         return {&mCountryCode};
     }
+
     [[nodiscard]] QBindable<QString> bindableCity()
     {
         return {&mCity};
     }
+
     [[nodiscard]] QBindable<QString> bindableCityCode()
     {
         return {&mCityCode};
     }
+
     [[nodiscard]] QBindable<double> bindableLatitude()
     {
         return {&mLatitude};
     }
+
     [[nodiscard]] QBindable<double> bindableLongitude()
     {
         return {&mLongitude};
     }
+
     [[nodiscard]] QBindable<int> bindablePriority()
     {
         return {&mPriority};
