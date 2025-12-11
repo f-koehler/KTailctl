@@ -113,7 +113,13 @@ public:
     {
     }
 
-    void fromJson(QJsonObject &json)
+    explicit PeerStatus(QJsonObject &json, QObject *parent = nullptr)
+        : QObject(parent)
+    {
+        updateFromJson(json);
+    }
+
+    void updateFromJson(QJsonObject &json)
     {
         mId = json.take(QStringLiteral("ID")).toString();
         mPublicKey = json.take(QStringLiteral("PublicKey")).toString();
@@ -152,9 +158,15 @@ public:
         // mKeyExpiry = json.take(QStringLiteral("KeyExpiry")).toString()
 
         if (json.contains(QStringLiteral("Location"))) {
+            auto locationJson = json.take(QStringLiteral("Location")).toObject();
             if (mLocation.value() == nullptr) {
-                auto locationJson = json.take(QStringLiteral("Location")).toObject();
-                mLocation = new Location(locationJson, this);
+                mLocation = new Location(this);
+            }
+            mLocation->updateFromJson(locationJson);
+        } else {
+            if (mLocation.value() != nullptr) {
+                mLocation->deleteLater();
+                mLocation = nullptr;
             }
         }
     }
