@@ -1,8 +1,10 @@
 #include <QApplication>
 #include <QtQml>
 
+#include "tailscale/status/client_version.hpp"
 #include "tailscale/status/exit_node_status.hpp"
 #include "tailscale/status/peer_status.hpp"
+#include "tailscale/status/status.hpp"
 #include "tailscale/status/tailnet_status.hpp"
 
 int main(int argc, char *argv[])

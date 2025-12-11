@@ -4,15 +4,13 @@ add_executable(
   property_list_model.hpp
   tailscale.hpp
   main.cpp
-  tailscale/status/backend_state.hpp
-  tailscale/status/exit_node_status.hpp
   tailscale/status/status.hpp
   tailscale/status/peer_status.hpp
   tailscale/status/tailnet_status.hpp
   tailscale/status/user_profile.hpp
   tailscale/status/client_version.hpp
-  tailscale/status/taildrop_target_status.hpp
-  tailscale/status/location.hpp)
+  tailscale/status/location.hpp
+  tailscale/status/exit_node_status.hpp)
 target_link_libraries(new_ktailctl PRIVATE Qt6::Core Qt6::Quick Qt6::Widgets)
 ecm_add_qml_module(new_ktailctl URI org.fkoehler.KTailctl GENERATE_PLUGIN_SOURCE)
 ecm_target_qml_sources(new_ktailctl SOURCES ui/Main.qml)

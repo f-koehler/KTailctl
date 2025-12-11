@@ -2,7 +2,6 @@
 #define KTAILCTL_PEER_STATUS_HPP
 
 #include "location.hpp"
-#include "taildrop_target_status.hpp"
 
 #include <QBindable>
 #include <QDateTime>
@@ -15,6 +14,21 @@
 class PeerStatus : public QObject
 {
     Q_OBJECT
+
+    enum class TaildropTargetStatus : uint8_t {
+        Unknown,
+        Available,
+        NoNetmapAvailable,
+        IpnStateNotRunning,
+        MissingCapability,
+        Offline,
+        NoPeerInfo,
+        UnsupportedOs,
+        NoPeerApi,
+        OwnedByOtherUser
+    };
+
+    Q_ENUM(TaildropTargetStatus)
 
     Q_PROPERTY(QString id READ id BINDABLE bindableId)
     Q_PROPERTY(QString publicKey READ publicKey BINDABLE bindablePublicKey)
@@ -52,6 +66,7 @@ class PeerStatus : public QObject
     Q_PROPERTY(QDateTime keyExpiry READ keyExpiry BINDABLE bindableKeyExpiry)
     Q_PROPERTY(Location *location READ location BINDABLE bindableLocation)
 
+public:
 private:
     QProperty<QString> mId;
     QProperty<QString> mPublicKey;
@@ -197,7 +212,7 @@ public:
     {
         return mPeerApiUrls;
     }
-    [[nodiscard]] TaildropTargetStatus::TaildropTargetStatus taildropTargetStatus() const noexcept
+    [[nodiscard]] TaildropTargetStatus taildropTargetStatus() const noexcept
     {
         return mTaildropTargetStatus;
     }

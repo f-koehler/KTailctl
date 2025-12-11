@@ -1,7 +1,6 @@
 #ifndef KTAILCTL_STATUS_HPP
 #define KTAILCTL_STATUS_HPP
 
-#include "backend_state.hpp"
 #include "client_version.hpp"
 #include "exit_node_status.hpp"
 #include "peer_status.hpp"
@@ -17,6 +16,11 @@
 class Status : public QObject
 {
     Q_OBJECT
+
+    enum class BackendState : uint8_t { NoState, NeedsLogin, NeedsMachineAuth, Stopped, Starting, Running };
+
+    Q_ENUM(BackendState)
+
     Q_PROPERTY(QString version READ version BINDABLE bindableVersion)
     Q_PROPERTY(bool isTun READ isTun BINDABLE bindableIsTun)
     Q_PROPERTY(BackendState backendState READ backendState BINDABLE bindableBackendState)
@@ -30,10 +34,11 @@ class Status : public QObject
     Q_PROPERTY(QMap<qint64, UserProfile *> users READ users BINDABLE bindableUsers)
     Q_PROPERTY(ClientVersion *clientVersion READ clientVersion BINDABLE bindableClientVersion)
 
+public:
 private:
     QProperty<QString> mVersion;
     QProperty<bool> mIsTun;
-    QProperty<BackendState::BackendState> mBackendState;
+    QProperty<BackendState> mBackendState;
     QProperty<bool> mHaveNodeKey;
     QProperty<QString> mAuthUrl;
     QProperty<PeerStatus *> mSelf;
@@ -50,46 +55,57 @@ public:
     {
         return mVersion;
     }
+
     [[nodiscard]] bool isTun() const noexcept
     {
         return mIsTun;
     }
+
     [[nodiscard]] BackendState backendState() const noexcept
     {
         return mBackendState;
     }
+
     [[nodiscard]] bool haveNodeKey() const noexcept
     {
         return mHaveNodeKey;
     }
+
     [[nodiscard]] const QString &authUrl() const noexcept
     {
         return mAuthUrl;
     }
+
     [[nodiscard]] PeerStatus *self() const noexcept
     {
         return mSelf;
     }
+
     [[nodiscard]] ExitNodeStatus *exitNodeStatus() const noexcept
     {
         return mExitNodeStatus;
     }
+
     [[nodiscard]] const QStringList &health() const noexcept
     {
         return mHealth;
     }
+
     [[nodiscard]] TailnetStatus *currentTailnet() const noexcept
     {
         return mCurrentTailnet;
     }
+
     [[nodiscard]] const QMap<QString, PeerStatus *> &peers() const noexcept
     {
         return mPeers;
     }
+
     [[nodiscard]] const QMap<qint64, UserProfile *> &users() const noexcept
     {
         return mUsers;
     }
+
     [[nodiscard]] ClientVersion *clientVersion() const noexcept
     {
         return mClientVersion;
@@ -100,46 +116,57 @@ public:
     {
         return {&mVersion};
     }
+
     [[nodiscard]] QBindable<bool> bindableIsTun()
     {
         return {&mIsTun};
     }
+
     [[nodiscard]] QBindable<BackendState> bindableBackendState()
     {
         return {&mBackendState};
     }
+
     [[nodiscard]] QBindable<bool> bindableHaveNodeKey()
     {
         return {&mHaveNodeKey};
     }
+
     [[nodiscard]] QBindable<QString> bindableAuthUrl()
     {
         return {&mAuthUrl};
     }
+
     [[nodiscard]] QBindable<PeerStatus *> bindableSelf()
     {
         return {&mSelf};
     }
+
     [[nodiscard]] QBindable<ExitNodeStatus *> bindableExitNodeStatus()
     {
         return {&mExitNodeStatus};
     }
+
     [[nodiscard]] QBindable<QStringList> bindableHealth()
     {
         return {&mHealth};
     }
+
     [[nodiscard]] QBindable<TailnetStatus *> bindableCurrentTailnet()
     {
         return {&mCurrentTailnet};
     }
+
     [[nodiscard]] QBindable<QMap<QString, PeerStatus *>> bindablePeers()
     {
         return {&mPeers};
     }
+
     [[nodiscard]] QBindable<QMap<qint64, UserProfile *>> bindableUsers()
     {
         return {&mUsers};
     }
+
     [[nodiscard]] QBindable<ClientVersion *> bindableClientVersion()
     {
         return {&mClientVersion};
