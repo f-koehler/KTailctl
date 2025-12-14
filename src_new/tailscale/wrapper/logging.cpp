@@ -1,4 +1,4 @@
-#include "logging_wrapper.hpp"
+#include "logging_tailscale_wrapper.hpp"
 #include <QLoggingCategory>
 #include <QMessageLogContext>
 
@@ -6,18 +6,18 @@ extern "C" {
 
 void ktailctl_critical(const char *message)
 {
-    qCCritical(Logging::Wrapper, "%s", message);
+    qCCritical(Logging::Tailscale::Wrapper, "%s", message);
 }
 void ktailctl_debug(const char *message)
 {
-    qCDebug(Logging::Wrapper, "%s", message);
+    qCDebug(Logging::Tailscale::Wrapper, "%s", message);
 }
 void ktailctl_info(const char *message)
 {
-    qCInfo(Logging::Wrapper, "%s", message);
+    qCInfo(Logging::Tailscale::Wrapper, "%s", message);
 }
 void ktailctl_warning(const char *message)
 {
-    qCWarning(Logging::Wrapper, "%s", message);
+    qCWarning(Logging::Tailscale::Wrapper, "%s", message);
 }
 }

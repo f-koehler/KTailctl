@@ -2,6 +2,7 @@
 #define KTAILCTL_STATUS_HPP
 
 #include "libktailctl_wrapper.h"
+#include "logging_tailscale_status.hpp"
 
 #include "client_version.hpp"
 #include "exit_node_status.hpp"
@@ -72,9 +73,10 @@ public:
         QJsonParseError error;
         QJsonDocument json = QJsonDocument::fromJson(json_buffer, &error);
         if (error.error != QJsonParseError::NoError) {
-            qCritical() << error.errorString();
+            qCCritical(Logging::Tailscale::Status) << error.errorString();
             return;
         }
+        qCInfo(Logging::Tailscale::Status) << "Status refreshed";
         QJsonObject json_obj = json.object();
 
         updateFromJson(json_obj);

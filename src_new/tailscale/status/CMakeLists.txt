@@ -1,3 +1,14 @@
+ecm_qt_declare_logging_category(
+  ktailctl
+  HEADER
+  "logging_tailscale_status.hpp"
+  IDENTIFIER
+  "Logging::Tailscale::Status"
+  CATEGORY_NAME
+  "org.fkoehler.KTailctl.Tailscale.Status"
+  DEFAULT_SEVERITY
+  Info)
+
 target_sources(
   new_ktailctl
   PRIVATE client_version.hpp
@@ -6,4 +17,6 @@ target_sources(
           peer_status.hpp
           status.hpp
           tailnet_status.hpp
-          user_profile.hpp)
+          user_profile.hpp
+          ${CMAKE_CURRENT_BINARY_DIR}/logging_tailscale_status.cpp)
+target_include_directories(new_ktailctl PRIVATE ${CMAKE_CURRENT_BINARY_DIR})

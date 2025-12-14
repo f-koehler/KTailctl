@@ -12,9 +12,9 @@ message(STATUS "Go version: ${GO_VERSION}")
 ecm_qt_declare_logging_category(
   ktailctl
   HEADER
-  "logging_wrapper.hpp"
+  "logging_tailscale_wrapper.hpp"
   IDENTIFIER
-  "Logging::Wrapper"
+  "Logging::Tailscale::Wrapper"
   CATEGORY_NAME
   "org.fkoehler.KTailctl.Tailscale.Wrapper"
   DEFAULT_SEVERITY
@@ -91,4 +91,4 @@ install(FILES ${KTAILCTL_WRAPPER_LIBRARY} TYPE LIB)
 install(TARGETS ktailctl_wrapper_logging)
 
 target_link_libraries(new_ktailctl PRIVATE KTailctl::Wrapper KTailctl::WrapperLogging)
-target_sources(new_ktailctl PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/logging_wrapper.cpp)
+target_sources(new_ktailctl PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/logging_tailscale_wrapper.cpp)
