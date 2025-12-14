@@ -39,7 +39,7 @@ public:
     Q_PROPERTY(ExitNodeStatus *exitNodeStatus READ exitNodeStatus BINDABLE bindableExitNodeStatus)
     Q_PROPERTY(QStringList health READ health BINDABLE bindableHealth)
     Q_PROPERTY(TailnetStatus *currentTailnet READ currentTailnet BINDABLE bindableCurrentTailnet)
-    Q_PROPERTY(PeerModel *peers READ peerModel BINDABLE bindablePeerModel)
+    Q_PROPERTY(PeerModel *peers READ peerModel CONSTANT)
     Q_PROPERTY(QMap<qint64, UserProfile *> users READ users BINDABLE bindableUsers)
     Q_PROPERTY(ClientVersion *clientVersion READ clientVersion BINDABLE bindableClientVersion)
 

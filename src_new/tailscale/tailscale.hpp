@@ -8,13 +8,11 @@
 class TailscaleNew : public QObject
 {
 public:
-    using PeerModel = PropertyListModel<PeerStatus, PropertyListModelOwnership::External>;
-
     Q_OBJECT
-    Q_PROPERTY(Status *status READ status BINDABLE bindableStatus)
+    Q_PROPERTY(Status *status READ status CONSTANT)
 
 private:
-    QProperty<Status *> mStatus;
+    Status *mStatus;
 
 public:
     explicit TailscaleNew(QObject *parent = nullptr)
@@ -24,14 +22,9 @@ public:
         mStatus->refresh();
     }
 
-    Status *status() const
+    [[nodiscard]] Status *status() const noexcept
     {
         return mStatus;
-    }
-
-    QBindable<Status *> bindableStatus()
-    {
-        return {&mStatus};
     }
 };
 

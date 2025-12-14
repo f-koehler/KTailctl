@@ -1,7 +1,6 @@
 #ifndef KTAILCTL_PROPERTY_LIST_MODEL_HPP
 #define KTAILCTL_PROPERTY_LIST_MODEL_HPP
 
-#include <QAbstractListModel>
 #include <QByteArray>
 #include <QHash>
 #include <QMetaObject>
@@ -10,7 +9,6 @@
 #include <QPointer>
 #include <QPropertyNotifier>
 #include <QVariant>
-#include <ranges>
 
 enum class PropertyListModelOwnership : bool {
     Owning,
@@ -23,66 +21,14 @@ class PropertyListModel : public QAbstractListModel
 public:
     using Type = T;
     static constexpr PropertyListModelOwnership Ownership = O;
+    static constexpr int SelfRole = Qt::UserRole;
+
+    static_assert(std::is_base_of_v<QObject, T>, "PropertyListModel<T> requires T to derive from QObject");
 
 private:
     QVector<QPointer<Type>> mItems;
     QHash<int, int> mRoleToPropertyIndex;
     QHash<int, QByteArray> mRoleNames;
-
-    struct NotifierGroup {
-        QVector<QPropertyNotifier> notifiers;
-    };
-
-    QVector<NotifierGroup> mNotifierGroups;
-
-    void setupMetaRoles()
-    {
-        const QMetaObject &metaObject = T::staticMetaObject;
-        int role = Qt::UserRole + 1;
-
-        for (int i = 0; i < metaObject.propertyCount(); ++i) {
-            QMetaProperty property = metaObject.property(i);
-
-            if (!property.isValid()) {
-                continue;
-            }
-            if (!property.isBindable()) {
-                if (const QByteArray typeName = property.typeName(); !typeName.contains('*') && !typeName.contains("QObject")) {
-                    continue;
-                }
-            }
-
-            const QByteArray name = property.name();
-            mRoleToPropertyIndex.insert(role, i);
-            mRoleNames.insert(role, name);
-            ++role;
-        }
-    }
-
-    void setupNotifiersForItem(Type *item, int row)
-    {
-        // NotifierGroup group;
-        // const QMetaObject *metaObject = item->metaObject();
-        //
-        // for (auto it = mRoleToPropertyIndex.constBegin(); it != mRoleToPropertyIndex.constEnd(); ++it) {
-        //     int role = it.key();
-        //     QMetaProperty property = metaObject->property(role);
-        //     if (!property.isValid()) {
-        //         continue;
-        //     }
-        //     if (!property.isBindable()) {
-        //         continue;
-        //     }
-        //     QUntypedBindable bindable = property.bindable(item);
-        //     group.notifiers.emplace_back([this, row, role]() {
-        //         if (row < 0 || row >= rowCount()) {
-        //             return;
-        //         }
-        //         emit dataChanged(index(row), index(row), {role});
-        //     });
-        // }
-        // mNotifierGroups.push_back(std::move(group));
-    }
 
 public:
     explicit PropertyListModel(QObject *parent = nullptr)
@@ -91,89 +37,76 @@ public:
         setupMetaRoles();
     }
 
-    [[nodiscard]] int rowCount(const QModelIndex &parent = QModelIndex()) const override
+    [[nodiscard]] int rowCount([[maybe_unused]] const QModelIndex &parent) const noexcept override
     {
-        if (parent.isValid()) {
-            return 0;
-        }
         return mItems.size();
     }
 
-    [[nodiscard]] QVariant data(const QModelIndex &index, int role) const override
+    [[nodiscard]] QVariant data(const QModelIndex &index, const int role) const override
     {
         if (!index.isValid()) {
             return {};
         }
 
-        int row = index.row();
+        const int row = index.row();
         if (row < 0 || row >= mItems.size()) {
             return {};
         }
 
-        Type *obj = mItems[row];
-        if (obj == nullptr) {
+        const QPointer<Type> &item = mItems[row];
+        if (!item) {
             return {};
         }
 
-        int propertyIndex = mRoleToPropertyIndex.value(role, -1);
+        if (role == SelfRole) {
+            return QVariant::fromValue(static_cast<QObject *>(item.data()));
+        }
+
+        const int propertyIndex = mRoleToPropertyIndex.value(role, -1);
         if (propertyIndex < 0) {
             return {};
         }
 
-        const QMetaProperty property = obj->metaObject()->property(propertyIndex);
-        QVariant value = property.read(obj);
+        const QMetaProperty property = item->metaObject()->property(propertyIndex);
 
-        if (value.userType() == qMetaTypeId<QObject *>()) {
-            auto *qobj = value.value<QObject *>();
-            if (qobject_cast<QAbstractItemModel *>(qobj) != nullptr) {
-                // return nested model
-                return QVariant::fromValue(qobj);
-            }
-        }
-
-        return value;
+        return property.read(item);
     }
 
-    [[nodiscard]] QHash<int, QByteArray> roleNames() const override
+    [[nodiscard]] QHash<int, QByteArray> roleNames() const noexcept override
     {
         return mRoleNames;
     }
+
+    // --- API ----------------------------------------------------------------
 
     int addItem(Type *item)
     {
         if (item == nullptr) {
             return -1;
         }
-        const int insertIndex = mItems.size();
-        beginInsertRows({}, insertIndex, insertIndex);
+
+        const int row = mItems.size();
+        beginInsertRows({}, row, row);
 
         if constexpr (Ownership == PropertyListModelOwnership::Owning) {
-            if (item->parent() == nullptr) {
+            if (!item->parent()) {
                 item->setParent(this);
             }
         }
 
         mItems.append(item);
-        setupNotifiersForItem(item, insertIndex);
 
-        // listen for external destruction of item
-        connect(item, &QObject::destroyed, this, [this]() {
-            QObject *obj = sender();
-            if (obj == nullptr) {
-                return;
-            }
-            Type *t = static_cast<Type *>(obj);
-            int i = indexOf(t);
-            if (i >= 0) {
-                beginRemoveRows({}, i, i);
-                mItems.removeAt(i);
-                mNotifierGroups.removeAt(i);
+        // Remove row automatically if item is destroyed externally
+        connect(item, &QObject::destroyed, this, [this, item]() {
+            if (const int idx = indexOf(item); idx >= 0) {
+                beginRemoveRows({}, idx, idx);
+                mItems.removeAt(idx);
                 endRemoveRows();
             }
         });
 
         endInsertRows();
-        return insertIndex;
+        return row;
     }
 
     bool removeItem(int row)
@@ -183,11 +116,14 @@ public:
         }
 
         beginRemoveRows({}, row, row);
+
         if constexpr (Ownership == PropertyListModelOwnership::Owning) {
-            mItems[row]->deleteLater();
+            if (mItems[row]) {
+                mItems[row]->deleteLater();
+            }
         }
+
         mItems.removeAt(row);
-        mNotifierGroups.removeAt(row);
         endRemoveRows();
         return true;
     }
@@ -195,34 +131,53 @@ public:
     void clear()
     {
         beginResetModel();
+
         if constexpr (Ownership == PropertyListModelOwnership::Owning) {
-            for (auto &item : mItems) {
-                if (item != nullptr) {
+            for (const auto &item : mItems) {
+                if (item) {
                     item->deleteLater();
                 }
             }
         }
+
         mItems.clear();
-        mNotifierGroups.clear();
         endResetModel();
     }
 
-    [[nodiscard]] int indexOf(Type *item) const
-    {
-        for (const auto &[index, entry] : std::ranges::views::enumerate(mItems)) {
-            if (entry == item) {
-                return index;
-            }
-        }
-        return -1;
-    }
-
-    [[nodiscard]] Type *at(int row) const
+    Type *at(int row) const
     {
         if (row < 0 || row >= mItems.size()) {
             return nullptr;
         }
         return mItems[row];
+    }
+
+    int indexOf(Type *item) const
+    {
+        return mItems.indexOf(item);
+    }
+
+private:
+    void setupMetaRoles()
+    {
+        const QMetaObject &metaObject = T::staticMetaObject;
+        int role = Qt::UserRole;
+
+        mRoleNames.insert(role, "self");
+        mRoleToPropertyIndex.insert(role, -1);
+        ++role;
+
+        for (int i = metaObject.propertyOffset(); i < metaObject.propertyCount(); ++i) {
+            const QMetaProperty property = metaObject.property(i);
+
+            if (!property.isValid()) {
+                continue;
+            }
+
+            mRoleToPropertyIndex.insert(role, i);
+            mRoleNames.insert(role, property.name());
+            ++role;
+        }
     }
 };
 

@@ -15,10 +15,10 @@ Kirigami.ApplicationWindow {
             Label {
                 id: delegate
 
-                required property PeerStatus modelData
-                property alias peer: delegate.modelData
+                // required property PeerStatus modelData
+                // property alias peer: delegate.modelData
 
-                text: "Hello World"
+                text: dnsName
             }
         }
     }
