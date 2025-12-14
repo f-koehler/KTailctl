@@ -63,6 +63,10 @@ public:
         updateFromJson(json);
     }
 
+    void refresh()
+    {
+    }
+
     void updateFromJson(QJsonObject &json)
     {
         mVersion = json.take(QStringLiteral("Version")).toString();

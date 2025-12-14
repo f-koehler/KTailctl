@@ -1,4 +1,4 @@
-add_executable(new_ktailctl peer.hpp property_list_model.hpp tailscale.hpp main.cpp)
+add_executable(new_ktailctl peer.hpp property_list_model.hpp main.cpp)
 add_subdirectory(tailscale)
 target_link_libraries(new_ktailctl PRIVATE Qt6::Core Qt6::Quick Qt6::Widgets)
 ecm_add_qml_module(new_ktailctl URI org.fkoehler.KTailctl GENERATE_PLUGIN_SOURCE)
