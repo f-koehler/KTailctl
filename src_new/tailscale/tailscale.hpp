@@ -16,6 +16,7 @@ private:
 public:
     explicit TailscaleNew(QObject *parent = nullptr)
         : QObject(parent)
+        , mStatus(new Status(this))
     {
     }
 

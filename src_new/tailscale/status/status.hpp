@@ -1,6 +1,8 @@
 #ifndef KTAILCTL_STATUS_HPP
 #define KTAILCTL_STATUS_HPP
 
+#include "libktailctl_wrapper.h"
+
 #include "client_version.hpp"
 #include "exit_node_status.hpp"
 #include "peer_status.hpp"
@@ -63,8 +65,19 @@ public:
         updateFromJson(json);
     }
 
-    void refresh()
+    Q_INVOKABLE void refresh()
     {
+        const std::unique_ptr<char, decltype(&::free)> json_str(tailscale_status(), &free);
+        const QByteArray json_buffer(json_str.get(), ::strlen(json_str.get()));
+        QJsonParseError error;
+        QJsonDocument json = QJsonDocument::fromJson(json_buffer, &error);
+        if (error.error != QJsonParseError::NoError) {
+            qCritical() << error.errorString();
+            return;
+        }
+        QJsonObject json_obj = json.object();
+
+        updateFromJson(json_obj);
     }
 
     void updateFromJson(QJsonObject &json)
