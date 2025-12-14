@@ -22,6 +22,7 @@ class Status : public QObject
 {
     Q_OBJECT
 
+public:
     using PeerModel = PropertyListModel<PeerStatus, PropertyListModelOwnership::External>;
 
     enum class BackendState : uint8_t { NoState, NeedsLogin, NeedsMachineAuth, Stopped, Starting, Running };
@@ -42,7 +43,6 @@ class Status : public QObject
     Q_PROPERTY(QMap<qint64, UserProfile *> users READ users BINDABLE bindableUsers)
     Q_PROPERTY(ClientVersion *clientVersion READ clientVersion BINDABLE bindableClientVersion)
 
-public:
 private:
     QProperty<QString> mVersion;
     QProperty<bool> mIsTun;

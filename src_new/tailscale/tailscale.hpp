@@ -22,7 +22,6 @@ public:
         , mStatus(new Status(this))
     {
         mStatus->refresh();
-        qCritical() << "Number of peers" << mStatus->peerModel()->rowCount();
     }
 
     Status *status() const

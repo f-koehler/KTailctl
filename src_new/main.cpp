@@ -23,6 +23,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<Status>("org.fkoehler.KTailctl", 1, 0, "STatus");
     qmlRegisterType<TailnetStatus>("org.fkoehler.KTailctl", 1, 0, "TailnetStatus");
     qmlRegisterType<UserProfile>("org.fkoehler.KTailctl", 1, 0, "UserProfile");
+    qmlRegisterType<Status::PeerModel>("org.fkoehler.KTailctl", 1, 0, "PeerModel");
 
     TailscaleNew *tailscale = new TailscaleNew();
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Tailscale", tailscale);

@@ -18,7 +18,7 @@ Kirigami.ApplicationWindow {
                 required property PeerStatus modelData
                 property alias peer: delegate.modelData
 
-                text: peer.id
+                text: "Hello World"
             }
         }
     }
