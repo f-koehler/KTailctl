@@ -6,6 +6,7 @@
 #include "tailscale/status/peer_status.hpp"
 #include "tailscale/status/status.hpp"
 #include "tailscale/status/tailnet_status.hpp"
+#include "tailscale/tailscale.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -22,6 +23,10 @@ int main(int argc, char *argv[])
     qmlRegisterType<Status>("org.fkoehler.KTailctl", 1, 0, "STatus");
     qmlRegisterType<TailnetStatus>("org.fkoehler.KTailctl", 1, 0, "TailnetStatus");
     qmlRegisterType<UserProfile>("org.fkoehler.KTailctl", 1, 0, "UserProfile");
+
+    TailscaleNew *tailscale = new TailscaleNew();
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Tailscale", tailscale);
+
     engine.loadFromModule("org.fkoehler.KTailctl", "Main");
     if (engine.rootObjects().isEmpty()) {
         return -1;
