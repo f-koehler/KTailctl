@@ -125,6 +125,11 @@ public:
         return mAuthUrl;
     }
 
+    [[nodiscard]] const QStringList &tailscaleIps() const noexcept
+    {
+        return mTailscaleIps;
+    }
+
     [[nodiscard]] PeerStatus *self() const noexcept
     {
         return mSelf;
@@ -184,6 +189,11 @@ public:
     [[nodiscard]] QBindable<QString> bindableAuthUrl()
     {
         return {&mAuthUrl};
+    }
+
+    [[nodiscard]] QBindable<QStringList> bindableTailscaleIps()
+    {
+        return {&mTailscaleIps};
     }
 
     [[nodiscard]] QBindable<PeerStatus *> bindableSelf()
