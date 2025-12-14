@@ -15,10 +15,14 @@
 #include <QPointer>
 #include <QString>
 
+#include "property_list_model.hpp"
+
 // https://pkg.go.dev/tailscale.com/ipn/ipnstate#Status
 class Status : public QObject
 {
     Q_OBJECT
+
+    using PeerModel = PropertyListModel<PeerStatus, PropertyListModelOwnership::External>;
 
     enum class BackendState : uint8_t { NoState, NeedsLogin, NeedsMachineAuth, Stopped, Starting, Running };
 
@@ -34,7 +38,7 @@ class Status : public QObject
     Q_PROPERTY(ExitNodeStatus *exitNodeStatus READ exitNodeStatus BINDABLE bindableExitNodeStatus)
     Q_PROPERTY(QStringList health READ health BINDABLE bindableHealth)
     Q_PROPERTY(TailnetStatus *currentTailnet READ currentTailnet BINDABLE bindableCurrentTailnet)
-    Q_PROPERTY(QMap<QString, PeerStatus *> peers READ peers BINDABLE bindablePeers)
+    Q_PROPERTY(PeerModel *peers READ peerModel BINDABLE bindablePeerModel)
     Q_PROPERTY(QMap<qint64, UserProfile *> users READ users BINDABLE bindableUsers)
     Q_PROPERTY(ClientVersion *clientVersion READ clientVersion BINDABLE bindableClientVersion)
 
@@ -50,20 +54,16 @@ private:
     QProperty<ExitNodeStatus *> mExitNodeStatus;
     QProperty<QStringList> mHealth;
     QProperty<TailnetStatus *> mCurrentTailnet;
-    QProperty<QMap<QString, PeerStatus *>> mPeers;
+    QMap<QString, PeerStatus *> mPeers;
+    QProperty<PeerModel *> mPeerModel;
     QProperty<QMap<qint64, UserProfile *>> mUsers;
     QProperty<ClientVersion *> mClientVersion;
 
 public:
     explicit Status(QObject *parent = nullptr)
         : QObject(parent)
+        , mPeerModel(new PeerModel(this))
     {
-    }
-
-    explicit Status(QJsonObject &json, QObject *parent = nullptr)
-        : QObject(parent)
-    {
-        updateFromJson(json);
     }
 
     Q_INVOKABLE void refresh()
@@ -91,29 +91,71 @@ public:
         mAuthUrl = json.take(QStringLiteral("AuthUrl")).toString();
         mTailscaleIps = json.take(QStringLiteral("TailscaleIps")).toVariant().toStringList();
 
-        if (json.contains(QStringLiteral("Self"))) {
+        if (json.contains(QStringLiteral("Self"))) [[likely]] {
             auto selfJson = json.take(QStringLiteral("Self")).toObject();
-            if (mSelf.value() == nullptr) {
+            if (mSelf.value() == nullptr) [[unlikely]] {
                 mSelf = new PeerStatus(this);
             }
             mSelf->updateFromJson(selfJson);
-        } else {
+        } else [[unlikely]] {
             if (mSelf.value() != nullptr) {
                 mSelf->deleteLater();
                 mSelf = nullptr;
             }
         }
 
-        if (json.contains(QStringLiteral("ExitNodeStatus"))) {
+        if (json.contains(QStringLiteral("ExitNodeStatus"))) [[likely]] {
             auto exitNodeStatusJson = json.take(QStringLiteral("ExitNodeStatus")).toObject();
-            if (mExitNodeStatus.value() == nullptr) {
+            if (mExitNodeStatus.value() == nullptr) [[unlikely]] {
                 mExitNodeStatus = new ExitNodeStatus(this);
             }
             mExitNodeStatus->updateFromJson(exitNodeStatusJson);
-        } else {
+        } else [[unlikely]] {
             if (mExitNodeStatus.value() != nullptr) {
                 mExitNodeStatus->deleteLater();
                 mExitNodeStatus = nullptr;
+            }
+        }
+
+        mHealth = json.take(QStringLiteral("Health")).toVariant().toStringList();
+        if (json.contains(QStringLiteral("CurrentTailnet"))) [[likely]] {
+            auto tailnetJson = json.take(QStringLiteral("CurrentTailnet")).toObject();
+            if (mCurrentTailnet.value() == nullptr) [[unlikely]] {
+                mCurrentTailnet = new TailnetStatus(this);
+            }
+            mCurrentTailnet->updateFromJson(tailnetJson);
+        } else [[unlikely]] {
+            if (mCurrentTailnet.value() != nullptr) {
+                mCurrentTailnet->deleteLater();
+                mCurrentTailnet = nullptr;
+            }
+        }
+
+        if (!json.contains(QStringLiteral("Peer"))) [[unlikely]] {
+            mPeerModel->clear();
+            mPeers.clear();
+        } else [[likely]] {
+            auto peerJson = json.take(QStringLiteral("Peer")).toObject();
+            QSet<QString> peersToRemove(mPeers.keyBegin(), mPeers.keyEnd());
+            for (auto [id, data] : peerJson.asKeyValueRange()) {
+                auto pos = mPeers.find(id.toString());
+                if (pos == mPeers.end()) [[unlikely]] {
+                    pos = mPeers.insert(id.toString(), new PeerStatus(this));
+                    mPeerModel->addItem(pos.value());
+                }
+                auto obj = data.toObject();
+                pos.value()->updateFromJson(obj);
+                peersToRemove.remove(id.toString());
+            }
+            for (const auto &id : peersToRemove) {
+                auto pos = mPeers.find(id);
+                if (pos == mPeers.end()) [[unlikely]] {
+                    // This should not happen
+                    continue;
+                }
+                mPeerModel->removeItem(mPeerModel->indexOf(pos.value()));
+                pos.value()->deleteLater();
+                mPeers.erase(pos);
             }
         }
     }
@@ -169,9 +211,9 @@ public:
         return mCurrentTailnet;
     }
 
-    [[nodiscard]] const QMap<QString, PeerStatus *> &peers() const noexcept
+    [[nodiscard]] PeerModel *peerModel() const noexcept
     {
-        return mPeers;
+        return mPeerModel;
     }
 
     [[nodiscard]] const QMap<qint64, UserProfile *> &users() const noexcept
@@ -235,9 +277,9 @@ public:
         return {&mCurrentTailnet};
     }
 
-    [[nodiscard]] QBindable<QMap<QString, PeerStatus *>> bindablePeers()
+    [[nodiscard]] QBindable<PeerModel *> bindablePeerModel()
     {
-        return {&mPeers};
+        return {&mPeerModel};
     }
 
     [[nodiscard]] QBindable<QMap<qint64, UserProfile *>> bindableUsers()

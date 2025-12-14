@@ -61,27 +61,27 @@ private:
 
     void setupNotifiersForItem(Type *item, int row)
     {
-        NotifierGroup group;
-        const QMetaObject &metaObject = item->metaObject();
-
-        for (auto it = mRoleToPropertyIndex.constBegin(); it != mRoleToPropertyIndex.constEnd(); ++it) {
-            int role = it.key();
-            QMetaProperty property = metaObject.property(role);
-            if (!property.isValid()) {
-                continue;
-            }
-            if (!property.isBindable()) {
-                continue;
-            }
-            QUntypedBindable bindable = property.bindable(item);
-            group.notifiers.emplace_back([this, row, role]() {
-                if (row < 0 || row >= rowCount()) {
-                    return;
-                }
-                emit dataChanged(index(row), index(row), {role});
-            });
-        }
-        mNotifierGroups.push_back(std::move(group));
+        // NotifierGroup group;
+        // const QMetaObject *metaObject = item->metaObject();
+        //
+        // for (auto it = mRoleToPropertyIndex.constBegin(); it != mRoleToPropertyIndex.constEnd(); ++it) {
+        //     int role = it.key();
+        //     QMetaProperty property = metaObject->property(role);
+        //     if (!property.isValid()) {
+        //         continue;
+        //     }
+        //     if (!property.isBindable()) {
+        //         continue;
+        //     }
+        //     QUntypedBindable bindable = property.bindable(item);
+        //     group.notifiers.emplace_back([this, row, role]() {
+        //         if (row < 0 || row >= rowCount()) {
+        //             return;
+        //         }
+        //         emit dataChanged(index(row), index(row), {role});
+        //     });
+        // }
+        // mNotifierGroups.push_back(std::move(group));
     }
 
 public:
@@ -91,7 +91,7 @@ public:
         setupMetaRoles();
     }
 
-    [[nodiscard]] int rowCount(const QModelIndex &parent) const override
+    [[nodiscard]] int rowCount(const QModelIndex &parent = QModelIndex()) const override
     {
         if (parent.isValid()) {
             return 0;
@@ -139,10 +139,10 @@ public:
         return mRoleNames;
     }
 
-    void addItem(Type *item)
+    int addItem(Type *item)
     {
         if (item == nullptr) {
-            return;
+            return -1;
         }
         const int insertIndex = mItems.size();
         beginInsertRows({}, insertIndex, insertIndex);
@@ -173,6 +173,7 @@ public:
         });
 
         endInsertRows();
+        return insertIndex;
     }
 
     bool removeItem(int row)

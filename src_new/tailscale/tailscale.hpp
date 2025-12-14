@@ -7,6 +7,9 @@
 
 class TailscaleNew : public QObject
 {
+public:
+    using PeerModel = PropertyListModel<PeerStatus, PropertyListModelOwnership::External>;
+
     Q_OBJECT
     Q_PROPERTY(Status *status READ status BINDABLE bindableStatus)
 
@@ -18,6 +21,8 @@ public:
         : QObject(parent)
         , mStatus(new Status(this))
     {
+        mStatus->refresh();
+        qCritical() << "Number of peers" << mStatus->peerModel()->rowCount();
     }
 
     Status *status() const
