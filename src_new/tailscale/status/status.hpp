@@ -12,7 +12,6 @@
 
 #include <QMap>
 #include <QObject>
-#include <QPointer>
 #include <QString>
 
 #include "property_list_model.hpp"

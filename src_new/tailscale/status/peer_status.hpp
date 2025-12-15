@@ -6,7 +6,6 @@
 #include <QBindable>
 #include <QDateTime>
 #include <QObject>
-#include <QProperty>
 #include <QString>
 #include <QStringList>
 
