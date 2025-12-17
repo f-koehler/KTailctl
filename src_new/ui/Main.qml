@@ -22,13 +22,23 @@ Kirigami.ApplicationWindow {
                 icon.name: "speedometer"
                 page: "qrc:/ui/PagePeerList.qml"
                 pagePool: mainPagePool
-                text: "Peers"
+                text: i18n("Peers")
             },
             Kirigami.PagePoolAction {
                 icon.name: "help-about"
                 page: "qrc:/ui/PageAbout.qml"
                 pagePool: mainPagePool
-                text: "About"
+                text: i18n("About")
+            },
+            Kirigami.Action {
+                icon.name: "process-stop"
+                text: i18n("Stop tailscale")
+            },
+            Kirigami.Action {
+                icon.name: "application-exit"
+                text: i18n("Quit")
+
+                onTriggered: Qt.quit()
             }
         ]
     }
