@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
+        <file alias="Main.qml">./Main.qml</file>
         <file alias="ui/PagePeerList.qml">./PagePeerList.qml</file>
     </qresource>
 </RCC>

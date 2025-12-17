@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     TailscaleNew *tailscale = new TailscaleNew();
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Tailscale", tailscale);
 
-    engine.loadFromModule("org.fkoehler.KTailctl", "Main");
+    engine.load(QStringLiteral("qrc:/Main.qml"));
     if (engine.rootObjects().isEmpty()) {
         return -1;
     }
