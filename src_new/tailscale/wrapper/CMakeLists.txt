@@ -25,7 +25,7 @@ target_link_libraries(ktailctl_wrapper_logging PUBLIC Qt6::Core)
 target_compile_definitions(ktailctl_wrapper_logging PRIVATE QT_MESSAGELOGCONTEXT)
 target_include_directories(ktailctl_wrapper_logging PRIVATE ${CMAKE_CURRENT_BINARY_DIR}})
 
-configure_file(logging.go.in logging.go @ONLY)
+configure_file(logging.go.in ${CMAKE_CURRENT_SOURCE_DIR}/logging.go @ONLY)
 
 if(NOT KTAILCTL_FLATPAK_BUILD)
   add_custom_command(
