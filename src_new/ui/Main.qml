@@ -15,7 +15,7 @@ Kirigami.ApplicationWindow {
         collapsible: true
         modal: false
         title: "KTailctl"
-        titleIcon: "applications-graphics"
+        titleIcon: ":/icons/logo.svg"
 
         actions: [
             Kirigami.PagePoolAction {
@@ -23,6 +23,12 @@ Kirigami.ApplicationWindow {
                 page: "qrc:/ui/PagePeerList.qml"
                 pagePool: mainPagePool
                 text: "Peers"
+            },
+            Kirigami.PagePoolAction {
+                icon.name: "help-about"
+                page: "qrc:/ui/PageAbout.qml"
+                pagePool: mainPagePool
+                text: "About"
             }
         ]
     }
