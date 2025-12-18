@@ -1,3 +1,5 @@
+#include "util.hpp"
+
 #include <KAboutData>
 #include <KDBusService>
 #include <KLocalizedContext>
@@ -61,7 +63,9 @@ int main(int argc, char *argv[])
     qmlRegisterType<Status::PeerModel>("org.fkoehler.KTailctl", 1, 0, "PeerModel");
 
     TailscaleNew *tailscale = new TailscaleNew();
+    Util* util = new Util();
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Tailscale", tailscale);
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Util", util);
     qmlRegisterSingletonType("org.fkoehler.KTailctl", 1, 0, "About", [](QQmlEngine *engine, QJSEngine *) -> QJSValue {
         return engine->toScriptValue(KAboutData::applicationData());
     });

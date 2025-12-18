@@ -25,6 +25,7 @@ Kirigami.ScrollablePage {
 
         delegate: ItemDelegate {
             width: ListView.view.width
+            id: delegate
 
             // text: dnsName
             contentItem: RowLayout {
@@ -41,6 +42,7 @@ Kirigami.ScrollablePage {
                     ToolTip.visible: hovered
                     icon.name: "edit-copy"
                     text: dnsName
+                    onClicked: KTailctl.Util.setClipboardText(dnsName)
                 }
 
                 ToolButton {
@@ -49,6 +51,7 @@ Kirigami.ScrollablePage {
                     ToolTip.visible: hovered
                     icon.name: "edit-copy"
                     text: tailscaleIps[0]
+                    onClicked: KTailctl.Util.setClipboardText(tailscaleIps[0])
                 }
 
                 Item {
