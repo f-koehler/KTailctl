@@ -25,6 +25,12 @@ Kirigami.ApplicationWindow {
                 text: i18n("Peers")
             },
             Kirigami.PagePoolAction {
+                icon.name: "globe"
+                page: "qrc:/ui/PageExitNodeList.qml"
+                pagePool: mainPagePool
+                text: i18n("Exit Nodes")
+            },
+            Kirigami.PagePoolAction {
                 icon.name: "help-about"
                 page: "qrc:/ui/PageAbout.qml"
                 pagePool: mainPagePool
