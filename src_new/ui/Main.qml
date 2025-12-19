@@ -20,19 +20,19 @@ Kirigami.ApplicationWindow {
         actions: [
             Kirigami.PagePoolAction {
                 icon.name: "speedometer"
-                page: "qrc:/ui/PagePeerList.qml"
+                page: "qrc:/ui/pages/PeerList.qml"
                 pagePool: mainPagePool
                 text: i18n("Peers")
             },
             Kirigami.PagePoolAction {
                 icon.name: "globe"
-                page: "qrc:/ui/PageExitNodeList.qml"
+                page: "qrc:/ui/pages/ExitNodeList.qml"
                 pagePool: mainPagePool
                 text: i18n("Exit Nodes")
             },
             Kirigami.PagePoolAction {
                 icon.name: "help-about"
-                page: "qrc:/ui/PageAbout.qml"
+                page: "qrc:/ui/pages/About.qml"
                 pagePool: mainPagePool
                 text: i18n("About")
             },

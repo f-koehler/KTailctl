@@ -1,8 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file alias="Main.qml">./Main.qml</file>
-        <file alias="ui/PageAbout.qml">./PageAbout.qml</file>
-        <file alias="ui/PageExitNodeList.qml">./PageExitNodeList.qml</file>
-        <file alias="ui/PagePeerList.qml">./PagePeerList.qml</file>
+        <file alias="ui/pages/About.qml">./pages/About.qml</file>
+        <file alias="ui/pages/ExitNodeList.qml">./pages/ExitNodeList.qml</file>
+        <file alias="ui/pages/PeerList.qml">./pages/PeerList.qml</file>
     </qresource>
 </RCC>
