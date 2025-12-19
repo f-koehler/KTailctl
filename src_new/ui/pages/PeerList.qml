@@ -5,6 +5,8 @@ import org.kde.kirigami as Kirigami
 import org.fkoehler.KTailctl as KTailctl
 
 Kirigami.ScrollablePage {
+    id: page
+
     Layout.fillWidth: true
 
     actions: [
@@ -27,7 +29,6 @@ Kirigami.ScrollablePage {
             width: ListView.view.width
             id: delegate
 
-            // text: dnsName
             contentItem: RowLayout {
                 Kirigami.Icon {
                     ToolTip.delay: Kirigami.Units.toolTipDelay
@@ -63,6 +64,16 @@ Kirigami.ScrollablePage {
                     ToolTip.text: "More actions"
                     ToolTip.visible: hovered
                     icon.name: "menu_new"
+                    onClicked: menu.open()
+
+                    Menu {
+                        id: menu
+                        MenuItem {
+                            icon.name: "icon_details"
+                            text: "Node info"
+                            onClicked: root.pageStack.layers.push(pagePeerInfo)
+                        }
+                    }
                 }
 
                 Item {
@@ -70,5 +81,9 @@ Kirigami.ScrollablePage {
                 }
             }
         }
+    }
+    Component {
+        id: pagePeerInfo
+        PeerInfo {}
     }
 }

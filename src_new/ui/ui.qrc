@@ -4,5 +4,6 @@
         <file alias="ui/pages/About.qml">./pages/About.qml</file>
         <file alias="ui/pages/ExitNodeList.qml">./pages/ExitNodeList.qml</file>
         <file alias="ui/pages/PeerList.qml">./pages/PeerList.qml</file>
+        <file alias="ui/pages/PeerInfo.qml">./pages/PeerInfo.qml</file>
     </qresource>
 </RCC>
