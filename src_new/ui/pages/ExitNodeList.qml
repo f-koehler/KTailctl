@@ -15,7 +15,11 @@ Kirigami.ScrollablePage {
             Models.ValueFilter {
                 roleName: "exitNodeOption"
                 value: true
-            }
+            },
+            Models.ValueFilter {
+                roleName: "online"
+                value: true
+            },
         ]
     }
 
