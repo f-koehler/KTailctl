@@ -51,8 +51,9 @@ Kirigami.ApplicationWindow {
 
     Kirigami.PagePool {
         id: mainPagePool
-
     }
+
+    pageStack.initialPage: "qrc:/ui/pages/PeerList.qml"
 
     Timer {
         interval: 5000

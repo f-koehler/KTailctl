@@ -71,7 +71,7 @@ Kirigami.ScrollablePage {
                         MenuItem {
                             icon.name: "icon_details"
                             text: "Node info"
-                            onClicked: root.pageStack.layers.push(pagePeerInfo)
+                            // onClicked: root.pageStack.push("qrc:/ui/pages/PeerInfo.qml")
                         }
                     }
                 }
