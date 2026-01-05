@@ -39,6 +39,7 @@ class PeerStatus : public QObject
     Q_PROPERTY(QStringList tailscaleIps READ tailscaleIps BINDABLE bindableTailscaleIps)
     Q_PROPERTY(QStringList allowedIps READ allowedIps BINDABLE bindableAllowedIps)
     Q_PROPERTY(QStringList tags READ tags BINDABLE bindableTags)
+    Q_PROPERTY(bool mullvadNode READ mullvadNode BINDABLE bindableMullvadNode)
     Q_PROPERTY(QStringList primaryRoutes READ primaryRoutes BINDABLE bindablePrimaryRoutes)
     Q_PROPERTY(QStringList addresses READ addresses BINDABLE bindableAddresses)
     Q_PROPERTY(QString currentAddress READ currentAddress BINDABLE bindableCurrentAddress)
@@ -78,6 +79,7 @@ private:
     QProperty<QStringList> mTailscaleIps;
     QProperty<QStringList> mAllowedIps;
     QProperty<QStringList> mTags;
+    QProperty<bool> mMullvadNode;
     QProperty<QStringList> mPrimaryRoutes;
     QProperty<QStringList> mAddresses;
     QProperty<QString> mCurrentAddress;
@@ -130,6 +132,7 @@ public:
         mTailscaleIps = json.take(QStringLiteral("TailscaleIPs")).toVariant().toStringList();
         mAllowedIps = json.take(QStringLiteral("AllowedIPs")).toVariant().toStringList();
         mTags = json.take(QStringLiteral("Tags")).toVariant().toStringList();
+        mMullvadNode = mTags.value().contains(QStringLiteral("tag:mullvad-exit-node"));
         mPrimaryRoutes = json.take(QStringLiteral("PrimaryRoutes")).toVariant().toStringList();
         mAddresses = json.take(QStringLiteral("Addresses")).toVariant().toStringList();
         mCurrentAddress = json.take(QStringLiteral("CurrentAddress")).toString();
@@ -219,6 +222,11 @@ public:
     [[nodiscard]] const QStringList &tags() const noexcept
     {
         return mTags;
+    }
+
+    [[nodiscard]] bool mullvadNode() const noexcept
+    {
+        return mMullvadNode;
     }
 
     [[nodiscard]] const QStringList &primaryRoutes() const noexcept
@@ -400,6 +408,11 @@ public:
     [[nodiscard]] QBindable<QStringList> bindableTags()
     {
         return {&mTags};
+    }
+
+    [[nodiscard]] QBindable<bool> bindableMullvadNode()
+    {
+        return {&mMullvadNode};
     }
 
     [[nodiscard]] QBindable<QStringList> bindablePrimaryRoutes()
