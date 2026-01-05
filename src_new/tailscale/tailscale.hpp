@@ -76,7 +76,7 @@ public:
             QSet<QString> loginProfilesToRemove(mLoginProfiles.keyBegin(), mLoginProfiles.keyEnd());
             for (auto entry : loginProfilesArray) {
                 auto obj = entry.toObject();
-                const auto id = obj.value(QStringLiteral("id")).toString();
+                const auto id = obj.value(QStringLiteral("ID")).toString();
                 auto pos = mLoginProfiles.find(id);
 
                 // create missing login profiles
