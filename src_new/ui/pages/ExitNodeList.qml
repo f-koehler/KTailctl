@@ -4,8 +4,9 @@ import QtQuick
 import org.kde.kirigami as Kirigami
 import org.fkoehler.KTailctl as KTailctl
 import QtQml.Models as Models
+import org.kde.kirigamiaddons.formcard as FormCard
 
-Kirigami.ScrollablePage {
+FormCard.FormCardPage {
     id: page
 
     Layout.fillWidth: true
@@ -69,50 +70,63 @@ Kirigami.ScrollablePage {
         ]
     }
 
-    ListView {
-        anchors.fill: parent
-        model: exitNodeModel
+    FormCard.FormHeader {
+        title: "Current Exit Node"
+    }
 
-        delegate: ItemDelegate {
-            width: ListView.view.width
-            id: delegate
+    FormCard.FormCard {
+        FormCard.FormTextDelegate {
+            text: "None"
+        }
+    }
 
-            // text: dnsName
-            contentItem: RowLayout {
-                Kirigami.Icon {
-                    ToolTip.delay: Kirigami.Units.toolTipDelay
-                    ToolTip.text: "Country"
-                    ToolTip.visible: hovered
-                    source: "flag"
-                }
+    FormCard.FormHeader {
+        title: "Available Exit Nodes"
+    }
 
-                Label {
+    // FormCard.FormCard {
+    //     // visible: exitNodeModel.rowCount() == 0
+    //     FormCard.FormTextDelegate {
+    //         text: "None"
+    //     }
+    // }
+
+    FormCard.FormCard {
+        // visible: exitNodeModel.rowCount() > 0
+        Repeater {
+            model: exitNodeModel
+            delegate: ColumnLayout {
+                FormCard.FormTextDelegate {
                     text: dnsName
+                    description: mullvadNode ? "Mullvad Exit Node" : "Self-Hosted Exit Node"
+                    leading: Kirigami.Icon {
+                        ToolTip.delay: Kirigami.Units.toolTipDelay
+                        ToolTip.text: "Country"
+                        ToolTip.visible: hovered
+                        source: "flag"
+                    }
+                    trailing: RowLayout {
+                        ToolButton {
+                            ToolTip.delay: Kirigami.Units.toolTipDelay
+                            ToolTip.text: "Enable exit node"
+                            ToolTip.visible: hovered
+                            icon.name: "system-switch-user"
+                        }
+
+                        ToolButton {
+                            ToolTip.delay: Kirigami.Units.toolTipDelay
+                            ToolTip.text: "View node info"
+                            ToolTip.visible: hovered
+                            icon.name: "help-info"
+                            onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
+                                peer: KTailctl.Tailscale.status.peerWithId(id)
+                            })
+                        }
+                    }
                 }
 
-                Item {
-                    Layout.fillWidth: true
-                }
-
-                ToolButton {
-                    ToolTip.delay: Kirigami.Units.toolTipDelay
-                    ToolTip.text: "Enable exit node"
-                    ToolTip.visible: hovered
-                    icon.name: "system-switch-user"
-                }
-
-                ToolButton {
-                    ToolTip.delay: Kirigami.Units.toolTipDelay
-                    ToolTip.text: "View node info"
-                    ToolTip.visible: hovered
-                    icon.name: "help-info"
-                    onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
-                        peer: KTailctl.Tailscale.status.peerWithId(id)
-                    })
-                }
-
-                Item {
-                    width: Kirigami.Units.largeSpacing
+                FormCard.FormDelegateSeparator {
+                    visible: index < exitNodeModel.rowCount() - 1
                 }
             }
         }
