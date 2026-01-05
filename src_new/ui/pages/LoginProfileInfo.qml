@@ -41,7 +41,7 @@ FormCard.FormCardPage {
 
         FormCard.FormDelegateSeparator {
             below: key
-            above: nodId
+            above: nodeId
         }
 
         FormCard.FormTextDelegate {
