@@ -153,7 +153,7 @@ Kirigami.ScrollablePage {
                     ToolTip.delay: Kirigami.Units.toolTipDelay
                     ToolTip.text: "More actions"
                     ToolTip.visible: hovered
-                    icon.name: "menu_new"
+                    icon.name: "open-menu"
                     onClicked: menu.open()
 
                     Menu {
