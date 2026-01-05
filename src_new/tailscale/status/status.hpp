@@ -67,6 +67,21 @@ public:
         refresh();
     }
 
+    Q_INVOKABLE PeerStatus* peerWithId(const QString& id) const noexcept
+    {
+        qCritical() <<  mPeers;
+        if (mSelf != nullptr) [[likely]] {
+            if (mSelf->id() == id) {
+                return mSelf;
+            }
+        }
+        const auto pos = mPeers.find(id);
+        if (pos == mPeers.end()) [[unlikely]] {
+            return nullptr;
+        }
+        return pos.value();
+    }
+
     Q_INVOKABLE void refresh()
     {
             const std::unique_ptr<char, decltype(&::free)> json_str(tailscale_status(), &free);
