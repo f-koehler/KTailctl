@@ -6,6 +6,8 @@ import org.fkoehler.KTailctl as KTailctl
 import QtQml.Models as Models
 
 Kirigami.ScrollablePage {
+    id: page
+
     Layout.fillWidth: true
 
     Component {
@@ -13,6 +15,39 @@ Kirigami.ScrollablePage {
 
         PeerInfo {}
     }
+
+    property bool filterMullvadEnabled: false
+    property bool filterMullvadValue: true
+
+    actions: [
+        Kirigami.Action {
+            id: actionFilterMullvad
+            visible: page.filterMullvadEnabled
+            displayComponent: Kirigami.Chip {
+                text: page.filterMullvadValue ? "Mullvad" : "Not Mullvad"
+                onRemoved: {
+                    page.filterMullvadEnabled = false;
+                }
+                onClicked: {
+                    page.filterMullvadValue = !page.filterMullvadValue;
+                }
+            }
+        },
+        Kirigami.Action {
+            id: actionFilter
+            icon.name: "filter"
+
+            Kirigami.Action {
+                text: "Mullvad"
+                checkable: true
+                checked: page.filterMullvadEnabled
+                icon.name: "globe"
+                onToggled: {
+                    page.filterMullvadEnabled = !page.filterMullvadEnabled;
+                }
+            }
+        }
+    ]
 
     Models.SortFilterProxyModel {
         id: exitNodeModel
@@ -26,6 +61,11 @@ Kirigami.ScrollablePage {
                 roleName: "online"
                 value: true
             },
+            Models.ValueFilter {
+                roleName: "mullvadNode"
+                value: page.filterMullvadValue
+                enabled: page.filterMullvadEnabled
+            }
         ]
     }
 
