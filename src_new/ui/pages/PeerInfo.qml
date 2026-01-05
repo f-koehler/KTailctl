@@ -1,6 +1,7 @@
 import org.kde.kirigamiaddons.formcard as FormCard
 import org.fkoehler.KTailctl as KTailctl
 import QtQuick
+import QtQuick.Controls
 
 FormCard.FormCardPage {
     id: page
@@ -14,6 +15,14 @@ FormCard.FormCardPage {
         FormCard.FormTextDelegate {
             id: peerId
             text: peer?.id ?? ""
+            description: "Node ID"
+            trailing: ToolButton {
+                visible: peer?.id
+                icon.name: "edit-copy"
+                onClicked: {
+                    onClicked: KTailctl.Util.setClipboardText(peer.id)
+                }
+            }
         }
 
         FormCard.FormDelegateSeparator {
@@ -24,6 +33,14 @@ FormCard.FormCardPage {
         FormCard.FormTextDelegate {
             id: publicKey
             text: peer?.publicKey ?? ""
+            description: "Public Key"
+            trailing: ToolButton {
+                visible: peer?.publicKey
+                icon.name: "edit-copy"
+                onClicked: {
+                    onClicked: KTailctl.Util.setClipboardText(peer.publicKey)
+                }
+            }
         }
 
         FormCard.FormDelegateSeparator {
@@ -34,6 +51,14 @@ FormCard.FormCardPage {
         FormCard.FormTextDelegate {
             id: dnsName
             text: peer?.dnsName ?? ""
+            description: "DNS Name"
+            trailing: ToolButton {
+                visible: peer?.dnsName
+                icon.name: "edit-copy"
+                onClicked: {
+                    onClicked: KTailctl.Util.setClipboardText(peer.dnsName)
+                }
+            }
         }
 
         FormCard.FormDelegateSeparator {
@@ -44,6 +69,14 @@ FormCard.FormCardPage {
         FormCard.FormTextDelegate {
             id: hostName
             text: peer?.hostName ?? ""
+            description: "Host Name"
+            trailing: ToolButton {
+                visible: peer?.hostName
+                icon.name: "edit-copy"
+                onClicked: {
+                    onClicked: KTailctl.Util.setClipboardText(peer.hostName)
+                }
+            }
         }
 
         FormCard.FormDelegateSeparator {
@@ -56,6 +89,14 @@ FormCard.FormCardPage {
             visible: peer?.os
             id: os
             text: peer?.os ?? ""
+            description: "Operating System"
+            trailing: ToolButton {
+                visible: peer?.os
+                icon.name: "edit-copy"
+                onClicked: {
+                    onClicked: KTailctl.Util.setClipboardText(peer.os)
+                }
+            }
         }
     }
 
@@ -69,6 +110,12 @@ FormCard.FormCardPage {
 
             FormCard.FormTextDelegate {
                 text: modelData
+                trailing: ToolButton {
+                    icon.name: "edit-copy"
+                    onClicked: {
+                        onClicked: KTailctl.Util.setClipboardText(modelData)
+                    }
+                }
             }
         }
     }
@@ -90,6 +137,16 @@ FormCard.FormCardPage {
 
             FormCard.FormTextDelegate {
                 text: modelData
+
+                FormCard.FormTextDelegate {
+                    text: modelData
+                    trailing: ToolButton {
+                        icon.name: "edit-copy"
+                        onClicked: {
+                            onClicked: KTailctl.Util.setClipboardText(modelData)
+                        }
+                    }
+                }
             }
         }
     }
