@@ -25,7 +25,7 @@ Kirigami.ApplicationWindow {
                 text: i18n("Login Profiles")
             },
             Kirigami.PagePoolAction {
-                icon.name: "speedometer"
+                icon.name: "distribute-graph-directed"
                 page: "qrc:/ui/pages/PeerList.qml"
                 pagePool: mainPagePool
                 text: i18n("Peers")
