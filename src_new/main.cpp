@@ -56,19 +56,22 @@ int main(int argc, char *argv[])
     qmlRegisterType<ClientVersion>("org.fkoehler.KTailctl", 1, 0, "ClientVersion");
     qmlRegisterType<ExitNodeStatus>("org.fkoehler.KTailctl", 1, 0, "ExitNodeStatus");
     qmlRegisterType<Location>("org.fkoehler.KTailctl", 1, 0, "Location");
+    qmlRegisterType<LoginProfile>("org.fkoehler.KTailctl", 1, 0, "LoginProfile");
+    qmlRegisterType<NetworkProfile>("org.fkoehler.KTailctl", 1, 0, "NetworkProfile");
     qmlRegisterType<PeerStatus>("org.fkoehler.KTailctl", 1, 0, "PeerStatus");
+    qmlRegisterType<TailscaleNew::LoginProfileModel>("org.fkoehler.KTailctl", 1, 0, "LoginProfileModel");
+    qmlRegisterType<Status::PeerModel>("org.fkoehler.KTailctl", 1, 0, "PeerModel");
     qmlRegisterType<Status>("org.fkoehler.KTailctl", 1, 0, "STatus");
     qmlRegisterType<TailnetStatus>("org.fkoehler.KTailctl", 1, 0, "TailnetStatus");
     qmlRegisterType<UserProfile>("org.fkoehler.KTailctl", 1, 0, "UserProfile");
-    qmlRegisterType<Status::PeerModel>("org.fkoehler.KTailctl", 1, 0, "PeerModel");
 
     TailscaleNew *tailscale = new TailscaleNew();
     Util* util = new Util();
-    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Tailscale", tailscale);
-    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Util", util);
     qmlRegisterSingletonType("org.fkoehler.KTailctl", 1, 0, "About", [](QQmlEngine *engine, QJSEngine *) -> QJSValue {
         return engine->toScriptValue(KAboutData::applicationData());
     });
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Tailscale", tailscale);
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Util", util);
 
     engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
     engine.load(QStringLiteral("qrc:/Main.qml"));

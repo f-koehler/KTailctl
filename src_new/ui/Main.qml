@@ -19,6 +19,12 @@ Kirigami.ApplicationWindow {
 
         actions: [
             Kirigami.PagePoolAction {
+                icon.name: "config-users"
+                page: "qrc:/ui/pages/LoginProfileList.qml"
+                pagePool: mainPagePool
+                text: i18n("Login Profiles")
+            },
+            Kirigami.PagePoolAction {
                 icon.name: "speedometer"
                 page: "qrc:/ui/pages/PeerList.qml"
                 pagePool: mainPagePool
@@ -62,5 +68,14 @@ Kirigami.ApplicationWindow {
         triggeredOnStart: false
 
         onTriggered: KTailctl.Tailscale.status.refresh()
+    }
+
+    Timer {
+        interval: 30000
+        repeat: true
+        running: true
+        triggeredOnStart: false
+
+        onTriggered: KTailctl.Tailscale.refreshLoginProfiles()
     }
 }
