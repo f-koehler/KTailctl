@@ -1,6 +1,7 @@
 import org.kde.kirigamiaddons.formcard as FormCard
 import org.fkoehler.KTailctl as KTailctl
 import QtQuick
+import QtQuick.Controls
 
 FormCard.FormCardPage {
     property KTailctl.LoginProfile loginProfile: null
@@ -17,6 +18,14 @@ FormCard.FormCardPage {
         FormCard.FormTextDelegate {
             id: loginProfileId
             text: loginProfile?.id ?? ""
+            description: "ID"
+            trailing: ToolButton {
+                visible: loginProfile?.id
+                icon.name: "edit-copy"
+                onClicked: {
+                    onClicked: KTailctl.Util.setClipboardText(loginProfile.id)
+                }
+            }
         }
 
         FormCard.FormDelegateSeparator {
@@ -27,6 +36,14 @@ FormCard.FormCardPage {
         FormCard.FormTextDelegate {
             id: name
             text: loginProfile?.name ?? ""
+            description: "Name"
+            trailing: ToolButton {
+                visible: loginProfile?.name
+                icon.name: "edit-copy"
+                onClicked: {
+                    onClicked: KTailctl.Util.setClipboardText(loginProfile.name)
+                }
+            }
         }
 
         FormCard.FormDelegateSeparator {
@@ -37,6 +54,14 @@ FormCard.FormCardPage {
         FormCard.FormTextDelegate {
             id: key
             text: loginProfile?.key ?? ""
+            description: "Key"
+            trailing: ToolButton {
+                visible: loginProfile?.key
+                icon.name: "edit-copy"
+                onClicked: {
+                    onClicked: KTailctl.Util.setClipboardText(loginProfile.key)
+                }
+            }
         }
 
         FormCard.FormDelegateSeparator {
@@ -47,6 +72,14 @@ FormCard.FormCardPage {
         FormCard.FormTextDelegate {
             id: nodeId
             text: loginProfile?.nodeId ?? ""
+            description: "Node ID"
+            trailing: ToolButton {
+                visible: loginProfile?.nodeId
+                icon.name: "edit-copy"
+                onClicked: {
+                    onClicked: KTailctl.Util.setClipboardText(loginProfile.nodeId)
+                }
+            }
         }
 
         FormCard.FormDelegateSeparator {
@@ -63,6 +96,14 @@ FormCard.FormCardPage {
         FormCard.FormTextDelegate {
             id: controlUrl
             text: loginProfile?.controlUrl ?? ""
+            description: "Control Pane URL"
+            trailing: ToolButton {
+                visible: loginProfile?.controlUrl
+                icon.name: "edit-copy"
+                onClicked: {
+                    onClicked: KTailctl.Util.setClipboardText(loginProfile.controlUrl)
+                }
+            }
         }
     }
 
@@ -73,7 +114,14 @@ FormCard.FormCardPage {
     FormCard.FormCard {
         FormCard.FormTextDelegate {
             id: userId
-            text: loginProfile?.userProfile?.userId ?? ""
+            text: toString(loginProfile?.userProfile?.userId) ?? ""
+            description: "User ID"
+            trailing: ToolButton {
+                icon.name: "edit-copy"
+                onClicked: {
+                    onClicked: KTailctl.Util.setClipboardText(toString(loginProfile.userProfile.userId))
+                }
+            }
         }
 
         FormCard.FormDelegateSeparator {
@@ -83,7 +131,15 @@ FormCard.FormCardPage {
 
         FormCard.FormTextDelegate {
             id: loginName
+            description: "Login Name"
             text: loginProfile?.userProfile?.loginName ?? ""
+            trailing: ToolButton {
+                visible: loginProfile?.userProfile?.loginName
+                icon.name: "edit-copy"
+                onClicked: {
+                    onClicked: KTailctl.Util.setClipboardText(loginProfile.userProfile.loginName)
+                }
+            }
         }
     }
 
@@ -94,7 +150,15 @@ FormCard.FormCardPage {
     FormCard.FormCard {
         FormCard.FormTextDelegate {
             id: magicDnsName
+            description: "Magic DNS Name"
             text: loginProfile?.networkProfile?.magicDnsName ?? ""
+            trailing: ToolButton {
+                visible: loginProfile?.networkProfile?.magicDnsName
+                icon.name: "edit-copy"
+                onClicked: {
+                    onClicked: KTailctl.Util.setClipboardText(loginProfile.networkProfile.magicDnsName)
+                }
+            }
         }
 
         FormCard.FormDelegateSeparator {
@@ -105,6 +169,14 @@ FormCard.FormCardPage {
         FormCard.FormTextDelegate {
             id: domainName
             text: loginProfile?.networkProfile?.domainName ?? ""
+            description: "Domain Name"
+            trailing: ToolButton {
+                visible: loginProfile?.networkProfile?.domainName
+                icon.name: "edit-copy"
+                onClicked: {
+                    onClicked: KTailctl.Util.setClipboardText(loginProfile.networkProfile.domainName)
+                }
+            }
         }
 
         FormCard.FormDelegateSeparator {
@@ -115,6 +187,14 @@ FormCard.FormCardPage {
         FormCard.FormTextDelegate {
             id: displayName
             text: loginProfile?.networkProfile?.displayName ?? ""
+            description: "Display Name"
+            trailing: ToolButton {
+                visible: loginProfile?.networkProfile?.displayName
+                icon.name: "edit-copy"
+                onClicked: {
+                    onClicked: KTailctl.Util.setClipboardText(loginProfile.networkProfile.displayName)
+                }
+            }
         }
     }
 }
