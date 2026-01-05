@@ -8,6 +8,12 @@ import QtQml.Models as Models
 Kirigami.ScrollablePage {
     Layout.fillWidth: true
 
+    Component {
+        id: pagePeerInfo
+
+        PeerInfo {}
+    }
+
     Models.SortFilterProxyModel {
         id: exitNodeModel
         model: KTailctl.Tailscale.status.peers
@@ -35,27 +41,13 @@ Kirigami.ScrollablePage {
             contentItem: RowLayout {
                 Kirigami.Icon {
                     ToolTip.delay: Kirigami.Units.toolTipDelay
-                    ToolTip.text: online ? "Online" : "Offline"
+                    ToolTip.text: "Country"
                     ToolTip.visible: hovered
-                    source: online ? "online" : "offline"
+                    source: "flag"
                 }
 
-                ToolButton {
-                    ToolTip.delay: Kirigami.Units.toolTipDelay
-                    ToolTip.text: "Copy DNS name to clipboard"
-                    ToolTip.visible: hovered
-                    icon.name: "edit-copy"
+                Label {
                     text: dnsName
-                    onClicked: KTailctl.Util.setClipboardText(dnsName)
-                }
-
-                ToolButton {
-                    ToolTip.delay: Kirigami.Units.toolTipDelay
-                    ToolTip.text: "Copy IP address to clipboard"
-                    ToolTip.visible: hovered
-                    icon.name: "edit-copy"
-                    text: tailscaleIps[0]
-                    onClicked: KTailctl.Util.setClipboardText(tailscaleIps[0])
                 }
 
                 Item {
@@ -64,9 +56,19 @@ Kirigami.ScrollablePage {
 
                 ToolButton {
                     ToolTip.delay: Kirigami.Units.toolTipDelay
-                    ToolTip.text: "More actions"
+                    ToolTip.text: "Enable exit node"
                     ToolTip.visible: hovered
-                    icon.name: "menu_new"
+                    icon.name: "system-switch-user"
+                }
+
+                ToolButton {
+                    ToolTip.delay: Kirigami.Units.toolTipDelay
+                    ToolTip.text: "View node info"
+                    ToolTip.visible: hovered
+                    icon.name: "help-info"
+                    onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
+                        peer: KTailctl.Tailscale.status.peerWithId(id)
+                    })
                 }
 
                 Item {
