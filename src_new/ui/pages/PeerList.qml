@@ -1,6 +1,7 @@
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick
+import QtQml.Models
 import org.kde.kirigami as Kirigami
 import org.fkoehler.KTailctl as KTailctl
 
@@ -9,29 +10,100 @@ Kirigami.ScrollablePage {
 
     Layout.fillWidth: true
 
+    property bool filterMullvadEnabled: true
+    property bool filterMullvadValue: false
+    property bool filterOnlineEnabled: false
+    property bool filterOnlineValue: true
+
     actions: [
         Kirigami.Action {
-            id: customAction
+            id: actionFilterOnline
+            visible: page.filterOnlineEnabled
+            displayComponent: Kirigami.Chip {
+                text: page.filterOnlineValue ? "Online" : "Offline"
+                onRemoved: {
+                    page.filterOnlineEnabled = false;
+                }
+                onClicked: {
+                    page.filterOnlineValue = !page.filterOnlineValue;
+                }
+            }
+        },
+        Kirigami.Action {
+            id: actionFilterMullvad
+            visible: page.filterMullvadEnabled
+            displayComponent: Kirigami.Chip {
+                text: page.filterMullvadValue ? "Mullvad" : "Not Mullvad"
+                onRemoved: {
+                    page.filterMullvadEnabled = false;
+                }
+                onClicked: {
+                    page.filterMullvadValue = !page.filterMullvadValue;
+                }
+            }
+        },
+        Kirigami.Action {
+            id: actionFilter
+            icon.name: "filter"
 
-            icon.name: "search"
-            text: "Custom Component"
+            Kirigami.Action {
+                text: "Online"
+                checkable: true
+                checked: page.filterOnlineEnabled
+                icon.name: "online"
+                onToggled: {
+                    page.filterOnlineEnabled = !page.filterOnlineEnabled;
+                }
+            }
 
-            displayComponent: Kirigami.SearchField {
+            Kirigami.Action {
+                text: "Mullvad"
+                checkable: true
+                checked: page.filterMullvadEnabled
+                icon.name: "globe"
+                onToggled: {
+                    page.filterMullvadEnabled = !page.filterMullvadEnabled;
+                }
             }
         }
+        // Kirigami.Action {
+        //     id: customAction
+        //
+        //     icon.name: "search"
+        //     text: "Custom Component"
+        //
+        //     displayComponent: Kirigami.SearchField {
+        //     }
+        // }
     ]
 
-Component {
-    id: pagePeerInfo
+    Component {
+        id: pagePeerInfo
 
-    PeerInfo {
+        PeerInfo {
+        }
     }
-}
 
-
-ListView {
-        anchors.fill: parent
+    SortFilterProxyModel {
+        id: peerModel
         model: KTailctl.Tailscale.status.peers
+        filters: [
+            ValueFilter {
+                roleName: "online"
+                value: page.filterOnlineValue
+                enabled: page.filterOnlineEnabled
+            },
+            ValueFilter {
+                roleName: "mullvadNode"
+                value: page.filterMullvadValue
+                enabled: page.filterMullvadEnabled
+            }
+        ]
+    }
+
+    ListView {
+        anchors.fill: parent
+        model: peerModel
 
         delegate: ItemDelegate {
             width: ListView.view.width
