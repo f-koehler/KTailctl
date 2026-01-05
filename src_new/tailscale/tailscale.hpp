@@ -55,6 +55,15 @@ public:
         return {&mCurrentLoginProfileId};
     }
 
+    Q_INVOKABLE LoginProfile* loginProfileWithId(const QString& id) const noexcept
+    {
+        const auto pos = mLoginProfiles.find(id);
+        if (pos == mLoginProfiles.end()) [[unlikely]] {
+            return nullptr;
+        }
+        return pos.value();
+    }
+
     Q_INVOKABLE void refreshLoginProfiles()
     {
         const std::unique_ptr<char, decltype(&::free)> json_str(tailscale_accounts(), &free);
