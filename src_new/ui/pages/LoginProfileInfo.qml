@@ -1,5 +1,6 @@
 import org.kde.kirigamiaddons.formcard as FormCard
 import org.fkoehler.KTailctl as KTailctl
+import org.kde.kirigami as Kirigami
 import QtQuick
 import QtQuick.Controls
 
@@ -138,6 +139,30 @@ FormCard.FormCardPage {
                 icon.name: "edit-copy"
                 onClicked: {
                     onClicked: KTailctl.Util.setClipboardText(loginProfile.userProfile.loginName)
+                }
+            }
+        }
+
+        FormCard.FormDelegateSeparator {
+            below: loginName
+            above: profilePic
+        }
+
+        FormCard.FormTextDelegate {
+            id: profilePic
+            text: loginProfile?.userProfile?.profilePicUrl ?? ""
+            description: "Profile Picture"
+            leading: Kirigami.Icon {
+                ToolTip.delay: Kirigami.Units.toolTipDelay
+                ToolTip.text: "Profile Picture"
+                ToolTip.visible: hovered
+                source: loginProfile?.userProfile?.profilePicUrl
+            }
+            trailing: ToolButton {
+                visible: loginProfile?.userProfile?.profilePicUrl
+                icon.name: "edit-copy"
+                onClicked: {
+                    onClicked: KTailctl.Util.setClipboardText(loginProfile.userProfile.profilePicUrl)
                 }
             }
         }
