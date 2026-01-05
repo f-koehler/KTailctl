@@ -69,6 +69,16 @@ ListView {
 
                 ToolButton {
                     ToolTip.delay: Kirigami.Units.toolTipDelay
+                    ToolTip.text: "View node info"
+                    ToolTip.visible: hovered
+                    icon.name: "help-info"
+                    onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
+                        peer: KTailctl.Tailscale.status.peerWithId(id)
+                    })
+                }
+
+                ToolButton {
+                    ToolTip.delay: Kirigami.Units.toolTipDelay
                     ToolTip.text: "More actions"
                     ToolTip.visible: hovered
                     icon.name: "menu_new"
@@ -77,7 +87,7 @@ ListView {
                     Menu {
                         id: menu
                         MenuItem {
-                            icon.name: "icon_details"
+                            icon.name: "help-info"
                             text: "Node info"
                             onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
                                 peer: KTailctl.Tailscale.status.peerWithId(id)
