@@ -153,15 +153,16 @@ public:
         } else [[likely]] {
             auto peerJson = json.take(QStringLiteral("Peer")).toObject();
             QSet<QString> peersToRemove(mPeers.keyBegin(), mPeers.keyEnd());
-            for (auto [id, data] : peerJson.asKeyValueRange()) {
-                auto pos = mPeers.find(id.toString());
+            for (auto [_id, data] : peerJson.asKeyValueRange()) {
+                auto obj = data.toObject();
+                const auto id = obj.value(QStringLiteral("ID")).toString();
+                auto pos = mPeers.find(id);
                 if (pos == mPeers.end()) [[unlikely]] {
-                    pos = mPeers.insert(id.toString(), new PeerStatus(this));
+                    pos = mPeers.insert(id, new PeerStatus(this));
                     mPeerModel->addItem(pos.value());
                 }
-                auto obj = data.toObject();
                 pos.value()->updateFromJson(obj);
-                peersToRemove.remove(id.toString());
+                peersToRemove.remove(id);
             }
             for (const auto &id : peersToRemove) {
                 auto pos = mPeers.find(id);
