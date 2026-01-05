@@ -13,7 +13,7 @@ FormCard.FormCardPage {
     FormCard.FormCard {
         FormCard.FormTextDelegate {
             id: peerId
-            text: page.peer.id
+            text: peer?.id ?? ""
         }
 
         FormCard.FormDelegateSeparator {
@@ -23,7 +23,7 @@ FormCard.FormCardPage {
 
         FormCard.FormTextDelegate {
             id: publicKey
-            text: page.peer.publicKey
+            text: peer?.publicKey ?? ""
         }
 
         FormCard.FormDelegateSeparator {
@@ -33,7 +33,7 @@ FormCard.FormCardPage {
 
         FormCard.FormTextDelegate {
             id: dnsName
-            text: page.peer.dnsName
+            text: peer?.dnsName ?? ""
         }
 
         FormCard.FormDelegateSeparator {
@@ -43,17 +43,19 @@ FormCard.FormCardPage {
 
         FormCard.FormTextDelegate {
             id: hostName
-            text: page.peer.hostName
+            text: peer?.hostName ?? ""
         }
 
         FormCard.FormDelegateSeparator {
+            visible: peer?.os
             below: hostName
             above: os
         }
 
         FormCard.FormTextDelegate {
+            visible: peer?.os
             id: os
-            text: page.peer.os
+            text: peer?.os ?? ""
         }
     }
 

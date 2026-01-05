@@ -21,7 +21,15 @@ Kirigami.ScrollablePage {
         }
     ]
 
-    ListView {
+Component {
+    id: pagePeerInfo
+
+    PeerInfo {
+    }
+}
+
+
+ListView {
         anchors.fill: parent
         model: KTailctl.Tailscale.status.peers
 
@@ -71,7 +79,9 @@ Kirigami.ScrollablePage {
                         MenuItem {
                             icon.name: "icon_details"
                             text: "Node info"
-                            // onClicked: root.pageStack.push("qrc:/ui/pages/PeerInfo.qml")
+                            onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
+                                peer: KTailctl.Tailscale.status.peerWithId(id)
+                            })
                         }
                     }
                 }
@@ -81,9 +91,5 @@ Kirigami.ScrollablePage {
                 }
             }
         }
-    }
-    Component {
-        id: pagePeerInfo
-        PeerInfo {}
     }
 }
