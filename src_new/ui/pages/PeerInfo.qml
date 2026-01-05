@@ -72,4 +72,25 @@ FormCard.FormCardPage {
             }
         }
     }
+
+    FormCard.FormHeader {
+        title: "Primary Routes"
+    }
+
+    FormCard.FormCard {
+        visible: peer.primaryRoutes.length == 0
+        FormCard.FormTextDelegate {
+            text: "None"
+        }
+    }
+    FormCard.FormCard {
+        visible: peer.primaryRoutes.length > 0
+        Repeater {
+            model: peer.primaryRoutes
+
+            FormCard.FormTextDelegate {
+                text: modelData
+            }
+        }
+    }
 }
