@@ -33,10 +33,11 @@ public:
 
     void updateFromJson(QJsonObject &json)
     {
-        mUserId = json.take(QStringLiteral("UserID")).toInteger();
+        QJsonDocument doc(json);
+        mUserId = json.take(QStringLiteral("ID")).toInteger();
         mLoginName = json.take(QStringLiteral("LoginName")).toString();
         mDisplayName = json.take(QStringLiteral("DisplayName")).toString();
-        mProfilePicUrl = json.take(QStringLiteral("ProfilePicUrl")).toString();
+        mProfilePicUrl = json.take(QStringLiteral("ProfilePicURL")).toString();
     }
 
     // Getters

@@ -45,9 +45,9 @@ public:
         mLocalUserId = json.take(QStringLiteral("LocalUserId")).toString();
         mControlUrl = json.take(QStringLiteral("ControlUrl")).toString();
 
-        auto networkJson = json.take(QStringLiteral("networkJson")).toObject();
+        auto networkJson = json.take(QStringLiteral("NetworkProfile")).toObject();
         mNetworkProfile->updateFromJson(networkJson);
-        auto userProfileJson = json.take(QStringLiteral("userProfileJson")).toObject();
+        auto userProfileJson = json.take(QStringLiteral("UserProfile")).toObject();
         mUserProfile->updateFromJson(userProfileJson);
     }
 

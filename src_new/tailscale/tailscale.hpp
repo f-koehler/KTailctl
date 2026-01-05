@@ -58,7 +58,6 @@ public:
     Q_INVOKABLE void refreshLoginProfiles()
     {
         const std::unique_ptr<char, decltype(&::free)> json_str(tailscale_accounts(), &free);
-        qCInfo(Logging::TailscaleMain) << json_str.get();
         const QByteArray json_buffer(json_str.get(), ::strlen(json_str.get()));
         QJsonParseError error;
         QJsonDocument json = QJsonDocument::fromJson(json_buffer, &error);
