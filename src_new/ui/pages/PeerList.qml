@@ -14,6 +14,8 @@ Kirigami.ScrollablePage {
     property bool filterMullvadValue: false
     property bool filterOnlineEnabled: false
     property bool filterOnlineValue: true
+    property bool filterDnsNameEnabled: false
+    property string filterDnsNameValue: ""
 
     actions: [
         Kirigami.Action {
@@ -43,6 +45,26 @@ Kirigami.ScrollablePage {
             }
         },
         Kirigami.Action {
+            id: actionSearch
+
+            icon.name: "search"
+            text: "DNS Name"
+
+            displayComponent: Kirigami.SearchField {
+                id: searchField
+                onAccepted: {
+                    page.filterDnsNameValue = searchField.text;
+                    if(page.filterDnsNameValue) {
+                        // we need to toggle the filter to refresh it, just updating the filter value is not sufficient
+                        page.filterDnsNameEnabled = false;
+                        page.filterDnsNameEnabled = true;
+                    } else {
+                        page.filterDnsNameEnabled = false;
+                    }
+                }
+            }
+        },
+        Kirigami.Action {
             id: actionFilter
             icon.name: "filter"
 
@@ -66,22 +88,12 @@ Kirigami.ScrollablePage {
                 }
             }
         }
-        // Kirigami.Action {
-        //     id: customAction
-        //
-        //     icon.name: "search"
-        //     text: "Custom Component"
-        //
-        //     displayComponent: Kirigami.SearchField {
-        //     }
-        // }
     ]
 
     Component {
         id: pagePeerInfo
 
-        PeerInfo {
-        }
+        PeerInfo {}
     }
 
     SortFilterProxyModel {
@@ -97,6 +109,16 @@ Kirigami.ScrollablePage {
                 roleName: "mullvadNode"
                 value: page.filterMullvadValue
                 enabled: page.filterMullvadEnabled
+            },
+            FunctionFilter {
+                id: functionFilterDnsName
+                enabled: page.filterDnsNameEnabled
+                component RoleData: QtObject {
+                    property string dnsName
+                }
+                function filter(data: RoleData) : bool {
+                    return data.dnsName.includes(page.filterDnsNameValue);
+                }
             }
         ]
     }
