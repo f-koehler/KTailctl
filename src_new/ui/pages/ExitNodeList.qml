@@ -17,37 +17,30 @@ FormCard.FormCardPage {
         PeerInfo {}
     }
 
-    property bool filterMullvadEnabled: false
-    property bool filterMullvadValue: true
+    property bool filterMullvadSearchEnabled: false
+    property string filterMullvadSearchValue: ""
 
     actions: [
         Kirigami.Action {
-            id: actionFilterMullvad
-            visible: page.filterMullvadEnabled
-            displayComponent: Kirigami.Chip {
-                text: page.filterMullvadValue ? "Mullvad" : "Not Mullvad"
-                onRemoved: {
-                    page.filterMullvadEnabled = false;
-                }
-                onClicked: {
-                    page.filterMullvadValue = !page.filterMullvadValue;
+            id: actionSearch
+
+            icon.name: "search"
+            text: "Search"
+
+            displayComponent: Kirigami.SearchField {
+                id: searchField
+                onAccepted: {
+                    page.filterMullvadSearchValue = searchField.text;
+                    if(page.filterMullvadSearchValue) {
+                        // we need to toggle the filter to refresh it, just updating the filter value is not sufficient
+                        page.filterMullvadSearchEnabled = false;
+                        page.filterMullvadSearchEnabled = true;
+                    } else {
+                        page.filterMullvadSearchEnabled = false;
+                    }
                 }
             }
         },
-        Kirigami.Action {
-            id: actionFilter
-            icon.name: "filter"
-
-            Kirigami.Action {
-                text: "Mullvad"
-                checkable: true
-                checked: page.filterMullvadEnabled
-                icon.name: "globe"
-                onToggled: {
-                    page.filterMullvadEnabled = !page.filterMullvadEnabled;
-                }
-            }
-        }
     ]
 
     Models.SortFilterProxyModel {
@@ -62,14 +55,40 @@ FormCard.FormCardPage {
                 roleName: "online"
                 value: true
             },
-            Models.ValueFilter {
-                roleName: "mullvadNode"
-                value: page.filterMullvadValue
-                enabled: page.filterMullvadEnabled
-            }
         ]
         sorters: [
             Models.StringSorter { roleName: "dnsName" }
+        ]
+    }
+
+    Models.SortFilterProxyModel {
+        id: mullvadExitNodeModel
+        model: exitNodeModel
+        filters: [
+            Models.ValueFilter {
+                roleName: "mullvadNode"
+                value: true
+            },
+            Models.FunctionFilter {
+                id: functionFilterDnsName
+                enabled: page.filterMullvadSearchEnabled
+                component RoleData: QtObject {
+                    property string dnsName
+                    property KTailctl.Location location
+                }
+                function filter(data: RoleData) : bool {
+                    let search = page.filterMullvadSearchValue.toLowerCase()
+                    if(data.location) {
+                        if(data.location.city.toLowerCase().includes(search)) {
+                            return true;
+                        }
+                        if(data.location.country.toLowerCase().includes(search)) {
+                            return true;
+                        }
+                    }
+                    return data.dnsName.includes(search)
+                }
+            }
         ]
     }
 
@@ -84,20 +103,12 @@ FormCard.FormCardPage {
     }
 
     FormCard.FormHeader {
-        title: "Available Exit Nodes"
+        title: "Mullvad Exit Nodes"
     }
 
-    // FormCard.FormCard {
-    //     // visible: exitNodeModel.rowCount() == 0
-    //     FormCard.FormTextDelegate {
-    //         text: "None"
-    //     }
-    // }
-
     FormCard.FormCard {
-        // visible: exitNodeModel.rowCount() > 0
         Repeater {
-            model: exitNodeModel
+            model: mullvadExitNodeModel
             delegate: ColumnLayout {
                 FormCard.FormTextDelegate {
                     text: dnsName
