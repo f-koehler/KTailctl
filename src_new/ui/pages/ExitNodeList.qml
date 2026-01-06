@@ -30,7 +30,7 @@ FormCard.FormCardPage {
             displayComponent: Kirigami.SearchField {
                 id: searchField
                 onAccepted: {
-                    page.filterMullvadSearchValue = searchField.text;
+                    page.filterMullvadSearchValue = searchField.text.toLowerCase();
                     if(page.filterMullvadSearchValue) {
                         // we need to toggle the filter to refresh it, just updating the filter value is not sufficient
                         page.filterMullvadSearchEnabled = false;
@@ -55,9 +55,39 @@ FormCard.FormCardPage {
                 roleName: "online"
                 value: true
             },
+            Models.FunctionFilter {
+                id: functionFilterDnsName
+                enabled: page.filterMullvadSearchEnabled
+                component RoleData: QtObject {
+                    property string dnsName
+                    property KTailctl.Location location
+                }
+                function filter(data: RoleData) : bool {
+                    if(data.location) {
+                        if(data.location.city.toLowerCase().includes(page.filterMullvadSearchValue)) {
+                            return true;
+                        }
+                        if(data.location.country.toLowerCase().includes(page.filterMullvadSearchValue)) {
+                            return true;
+                        }
+                    }
+                    return data.dnsName.includes(page.filterMullvadSearchValue)
+                }
+            }
         ]
         sorters: [
             Models.StringSorter { roleName: "dnsName" }
+        ]
+    }
+
+    Models.SortFilterProxyModel {
+        id: selfHostedExitNodeModel
+        model: exitNodeModel
+        filters: [
+            Models.ValueFilter {
+                roleName: "mullvadNode"
+                value: false
+            }
         ]
     }
 
@@ -68,26 +98,6 @@ FormCard.FormCardPage {
             Models.ValueFilter {
                 roleName: "mullvadNode"
                 value: true
-            },
-            Models.FunctionFilter {
-                id: functionFilterDnsName
-                enabled: page.filterMullvadSearchEnabled
-                component RoleData: QtObject {
-                    property string dnsName
-                    property KTailctl.Location location
-                }
-                function filter(data: RoleData) : bool {
-                    let search = page.filterMullvadSearchValue.toLowerCase()
-                    if(data.location) {
-                        if(data.location.city.toLowerCase().includes(search)) {
-                            return true;
-                        }
-                        if(data.location.country.toLowerCase().includes(search)) {
-                            return true;
-                        }
-                    }
-                    return data.dnsName.includes(search)
-                }
             }
         ]
     }
@@ -103,6 +113,50 @@ FormCard.FormCardPage {
     }
 
     FormCard.FormHeader {
+        title: "Self-Hosted Exit Nodes"
+    }
+
+    FormCard.FormCard {
+        Repeater {
+            model: selfHostedExitNodeModel
+            delegate: ColumnLayout {
+                FormCard.FormTextDelegate {
+                    text: dnsName
+                    // description: mullvadNode ? "Mullvad Exit Node" : "Self-Hosted Exit Node"
+                    leading: Kirigami.Icon {
+                        ToolTip.delay: Kirigami.Units.toolTipDelay
+                        ToolTip.text: "Country"
+                        ToolTip.visible: hovered
+                        source:  "network-vpn"
+                    }
+                    trailing: RowLayout {
+                        ToolButton {
+                            ToolTip.delay: Kirigami.Units.toolTipDelay
+                            ToolTip.text: "Enable exit node"
+                            ToolTip.visible: hovered
+                            icon.name: "system-switch-user"
+                        }
+
+                        ToolButton {
+                            ToolTip.delay: Kirigami.Units.toolTipDelay
+                            ToolTip.text: "View node info"
+                            ToolTip.visible: hovered
+                            icon.name: "help-info"
+                            onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
+                                peer: KTailctl.Tailscale.status.peerWithId(id)
+                            })
+                        }
+                    }
+                }
+
+                FormCard.FormDelegateSeparator {
+                    visible: index < exitNodeModel.rowCount() - 1
+                }
+            }
+        }
+    }
+
+    FormCard.FormHeader {
         title: "Mullvad Exit Nodes"
     }
 
@@ -112,12 +166,12 @@ FormCard.FormCardPage {
             delegate: ColumnLayout {
                 FormCard.FormTextDelegate {
                     text: dnsName
-                    description: mullvadNode ? "Mullvad Exit Node" : "Self-Hosted Exit Node"
+                    description: location.country
                     leading: Kirigami.Icon {
                         ToolTip.delay: Kirigami.Units.toolTipDelay
                         ToolTip.text: "Country"
                         ToolTip.visible: hovered
-                        source: mullvadNode ? "qrc:/country-flags/country-flag-" + location.countryCode.toLowerCase() : "network-vpn"
+                        source: "qrc:/country-flags/country-flag-" + location.countryCode.toLowerCase()
                     }
                     trailing: RowLayout {
                         ToolButton {
