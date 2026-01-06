@@ -68,6 +68,9 @@ FormCard.FormCardPage {
                 enabled: page.filterMullvadEnabled
             }
         ]
+        sorters: [
+            Models.StringSorter { roleName: "dnsName" }
+        ]
     }
 
     FormCard.FormHeader {
@@ -103,7 +106,7 @@ FormCard.FormCardPage {
                         ToolTip.delay: Kirigami.Units.toolTipDelay
                         ToolTip.text: "Country"
                         ToolTip.visible: hovered
-                        source: "flag"
+                        source: mullvadNode ? "qrc:/country-flags/country-flag-" + location.countryCode.toLowerCase() : "network-vpn"
                     }
                     trailing: RowLayout {
                         ToolButton {
