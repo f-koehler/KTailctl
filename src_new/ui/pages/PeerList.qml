@@ -53,7 +53,7 @@ Kirigami.ScrollablePage {
             displayComponent: Kirigami.SearchField {
                 id: searchField
                 onAccepted: {
-                    page.filterDnsNameValue = searchField.text;
+                    page.filterDnsNameValue = searchField.text.toLowerCase();
                     if(page.filterDnsNameValue) {
                         // we need to toggle the filter to refresh it, just updating the filter value is not sufficient
                         page.filterDnsNameEnabled = false;
