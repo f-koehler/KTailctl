@@ -166,10 +166,10 @@ FormCard.FormCardPage {
             delegate: ColumnLayout {
                 FormCard.FormTextDelegate {
                     text: dnsName
-                    description: location.country
+                    description: location.city + " (" + location.country + ")"
                     leading: Kirigami.Icon {
                         ToolTip.delay: Kirigami.Units.toolTipDelay
-                        ToolTip.text: "Country"
+                        ToolTip.text: location.city + " (" + location.country + ")"
                         ToolTip.visible: hovered
                         source: "qrc:/country-flags/country-flag-" + location.countryCode.toLowerCase()
                     }
