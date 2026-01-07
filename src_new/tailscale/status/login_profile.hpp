@@ -29,14 +29,14 @@ private:
     QProperty<QString> mControlUrl;
 
 public:
-    LoginProfile(QObject *parent = nullptr)
+    explicit LoginProfile(QObject *parent = nullptr)
         : QObject(parent)
         , mNetworkProfile(new NetworkProfile(this))
         , mUserProfile(new UserProfile(this))
     {
     }
 
-    void updateFromJson(QJsonObject& json)
+    void updateFromJson(QJsonObject &json)
     {
         mId = json.take(QStringLiteral("ID")).toString();
         mName = json.take(QStringLiteral("Name")).toString();
