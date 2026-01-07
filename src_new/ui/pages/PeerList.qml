@@ -125,6 +125,73 @@ FormCard.FormCardPage {
     }
 
     FormCard.FormHeader {
+        title: "This Node"
+    }
+
+    FormCard.FormCard {
+        FormCard.FormTextDelegate {
+            text: ""
+
+            leading: RowLayout {
+                Kirigami.Icon {
+                    ToolTip.delay: Kirigami.Units.toolTipDelay
+                    ToolTip.text: KTailctl.Tailscale.status.self.online ? "Online" : "Offline"
+                    ToolTip.visible: hovered
+                    source: KTailctl.Tailscale.status.self.online ? "online" : "offline"
+                }
+                ToolButton {
+                    ToolTip.delay: Kirigami.Units.toolTipDelay
+                    ToolTip.text: "Copy DNS name to clipboard"
+                    ToolTip.visible: hovered
+                    icon.name: "edit-copy"
+                    text: KTailctl.Tailscale.status.self.dnsName
+                    onClicked: KTailctl.Util.setClipboardText(KTailctl.Tailscale.status.self.dnsName)
+                }
+
+                ToolButton {
+                    ToolTip.delay: Kirigami.Units.toolTipDelay
+                    ToolTip.text: "Copy IP address to clipboard"
+                    ToolTip.visible: hovered
+                    icon.name: "edit-copy"
+                    text: KTailctl.Tailscale.status.self.tailscaleIps[0]
+                    onClicked: KTailctl.Util.setClipboardText(KTailctl.Tailscale.status.self.tailscaleIps[0])
+                }
+            }
+
+            trailing: RowLayout {
+                ToolButton {
+                    ToolTip.delay: Kirigami.Units.toolTipDelay
+                    ToolTip.text: "View node info"
+                    ToolTip.visible: hovered
+                    icon.name: "help-info"
+                    onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
+                        peer: KTailctl.Tailscale.status.peerWithId(KTailctl.Tailscale.status.self.id)
+                    })
+                }
+
+                ToolButton {
+                    ToolTip.delay: Kirigami.Units.toolTipDelay
+                    ToolTip.text: "More actions"
+                    ToolTip.visible: hovered
+                    icon.name: "open-menu"
+                    onClicked: menu.open()
+
+                    Menu {
+                        id: menu
+                        MenuItem {
+                            icon.name: "help-info"
+                            text: "Node info"
+                            onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
+                                peer: KTailctl.Tailscale.status.peerWithId(KTailctl.Tailscale.status.self.id)
+                            })
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    FormCard.FormHeader {
         title: "Peers"
     }
 
@@ -199,44 +266,4 @@ FormCard.FormCardPage {
             }
         }
     }
-
-    // ListView {
-    //     anchors.fill: parent
-    //     model: peerModel
-    //
-    //     delegate: ItemDelegate {
-    //         width: ListView.view.width
-    //         id: delegate
-    //
-    //         contentItem: RowLayout {
-    //
-    //             ToolButton {
-    //                 ToolTip.delay: Kirigami.Units.toolTipDelay
-    //                 ToolTip.text: "Copy DNS name to clipboard"
-    //                 ToolTip.visible: hovered
-    //                 icon.name: "edit-copy"
-    //                 text: dnsName
-    //                 onClicked: KTailctl.Util.setClipboardText(dnsName)
-    //             }
-    //
-    //             ToolButton {
-    //                 ToolTip.delay: Kirigami.Units.toolTipDelay
-    //                 ToolTip.text: "Copy IP address to clipboard"
-    //                 ToolTip.visible: hovered
-    //                 icon.name: "edit-copy"
-    //                 text: tailscaleIps[0]
-    //                 onClicked: KTailctl.Util.setClipboardText(tailscaleIps[0])
-    //             }
-    //
-    //             Item {
-    //                 Layout.fillWidth: true
-    //             }
-    //
-    //
-    //             Item {
-    //                 width: Kirigami.Units.largeSpacing
-    //             }
-    //         }
-    //     }
-    // }
 }
