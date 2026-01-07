@@ -138,6 +138,8 @@ FormCard.FormCardPage {
                     ToolTip.text: KTailctl.Tailscale.status.self.online ? "Online" : "Offline"
                     ToolTip.visible: hovered
                     source: KTailctl.Tailscale.status.self.online ? "online" : "offline"
+                    implicitWidth: 22
+                    implicitHeight: 22
                 }
                 ToolButton {
                     ToolTip.delay: Kirigami.Units.toolTipDelay
@@ -208,6 +210,8 @@ FormCard.FormCardPage {
                             ToolTip.text: online ? "Online" : "Offline"
                             ToolTip.visible: hovered
                             source: online ? "online" : "offline"
+                            implicitWidth: 22
+                            implicitHeight: 22
                         }
                         ToolButton {
                             ToolTip.delay: Kirigami.Units.toolTipDelay
