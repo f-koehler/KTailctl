@@ -94,17 +94,11 @@ FormCard.FormCardPage {
         //     text: loginProfile?.localUserId ?? ""
         // }
 
-        FormCard.FormTextDelegate {
+        FormCard.FormLinkDelegate {
             id: controlUrl
+            url: loginProfile?.controlUrl ?? ""
             text: loginProfile?.controlUrl ?? ""
             description: "Control Pane URL"
-            trailing: ToolButton {
-                visible: loginProfile?.controlUrl
-                icon.name: "edit-copy"
-                onClicked: {
-                    onClicked: KTailctl.Util.setClipboardText(loginProfile.controlUrl)
-                }
-            }
         }
     }
 
@@ -148,22 +142,16 @@ FormCard.FormCardPage {
             above: profilePic
         }
 
-        FormCard.FormTextDelegate {
+        FormCard.FormLinkDelegate {
             id: profilePic
             text: loginProfile?.userProfile?.profilePicUrl ?? ""
+            url: loginProfile?.userProfile?.profilePicUrl ?? ""
             description: "Profile Picture"
             leading: Kirigami.Icon {
                 ToolTip.delay: Kirigami.Units.toolTipDelay
                 ToolTip.text: "Profile Picture"
                 ToolTip.visible: hovered
                 source: loginProfile?.userProfile?.profilePicUrl
-            }
-            trailing: ToolButton {
-                visible: loginProfile?.userProfile?.profilePicUrl
-                icon.name: "edit-copy"
-                onClicked: {
-                    onClicked: KTailctl.Util.setClipboardText(loginProfile.userProfile.profilePicUrl)
-                }
             }
         }
     }
