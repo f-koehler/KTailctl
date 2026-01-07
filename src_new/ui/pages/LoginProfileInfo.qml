@@ -16,17 +16,12 @@ FormCard.FormCardPage {
     }
 
     FormCard.FormCard {
-        FormCard.FormTextDelegate {
+        FormCard.FormButtonDelegate {
             id: loginProfileId
             text: loginProfile?.id ?? ""
             description: "ID"
-            trailing: ToolButton {
-                visible: loginProfile?.id
-                icon.name: "edit-copy"
-                onClicked: {
-                    onClicked: KTailctl.Util.setClipboardText(loginProfile.id)
-                }
-            }
+            trailingLogo.source: "edit-copy"
+            onClicked: KTailctl.Util.setClipboardText(loginProfile.id)
         }
 
         FormCard.FormDelegateSeparator {
@@ -34,17 +29,12 @@ FormCard.FormCardPage {
             above: name
         }
 
-        FormCard.FormTextDelegate {
+        FormCard.FormButtonDelegate {
             id: name
             text: loginProfile?.name ?? ""
             description: "Name"
-            trailing: ToolButton {
-                visible: loginProfile?.name
-                icon.name: "edit-copy"
-                onClicked: {
-                    onClicked: KTailctl.Util.setClipboardText(loginProfile.name)
-                }
-            }
+            trailingLogo.source: "edit-copy"
+            onClicked: KTailctl.Util.setClipboardText(loginProfile.name)
         }
 
         FormCard.FormDelegateSeparator {
@@ -52,17 +42,12 @@ FormCard.FormCardPage {
             above: key
         }
 
-        FormCard.FormTextDelegate {
+        FormCard.FormButtonDelegate {
             id: key
             text: loginProfile?.key ?? ""
             description: "Key"
-            trailing: ToolButton {
-                visible: loginProfile?.key
-                icon.name: "edit-copy"
-                onClicked: {
-                    onClicked: KTailctl.Util.setClipboardText(loginProfile.key)
-                }
-            }
+            trailingLogo.source: "edit-copy"
+            onClicked: KTailctl.Util.setClipboardText(loginProfile.key)
         }
 
         FormCard.FormDelegateSeparator {
@@ -70,17 +55,12 @@ FormCard.FormCardPage {
             above: nodeId
         }
 
-        FormCard.FormTextDelegate {
+        FormCard.FormButtonDelegate {
             id: nodeId
             text: loginProfile?.nodeId ?? ""
             description: "Node ID"
-            trailing: ToolButton {
-                visible: loginProfile?.nodeId
-                icon.name: "edit-copy"
-                onClicked: {
-                    onClicked: KTailctl.Util.setClipboardText(loginProfile.nodeId)
-                }
-            }
+            trailingLogo.source: "edit-copy"
+            onClicked: KTailctl.Util.setClipboardText(loginProfile.nodeId)
         }
 
         FormCard.FormDelegateSeparator {
@@ -107,16 +87,12 @@ FormCard.FormCardPage {
     }
 
     FormCard.FormCard {
-        FormCard.FormTextDelegate {
+        FormCard.FormButtonDelegate {
             id: userId
             text: toString(loginProfile?.userProfile?.userId) ?? ""
             description: "User ID"
-            trailing: ToolButton {
-                icon.name: "edit-copy"
-                onClicked: {
-                    onClicked: KTailctl.Util.setClipboardText(toString(loginProfile.userProfile.userId))
-                }
-            }
+            trailingLogo.source: "edit-copy"
+            onClicked: KTailctl.Util.setClipboardText(toString(loginProfile.userProfile.userId))
         }
 
         FormCard.FormDelegateSeparator {
@@ -124,17 +100,12 @@ FormCard.FormCardPage {
             above: loginName
         }
 
-        FormCard.FormTextDelegate {
+        FormCard.FormButtonDelegate {
             id: loginName
             description: "Login Name"
             text: loginProfile?.userProfile?.loginName ?? ""
-            trailing: ToolButton {
-                visible: loginProfile?.userProfile?.loginName
-                icon.name: "edit-copy"
-                onClicked: {
-                    onClicked: KTailctl.Util.setClipboardText(loginProfile.userProfile.loginName)
-                }
-            }
+            trailingLogo.source: "edit-copy"
+            onClicked: KTailctl.Util.setClipboardText(loginProfile.userProfile.loginName)
         }
 
         FormCard.FormDelegateSeparator {
@@ -161,17 +132,12 @@ FormCard.FormCardPage {
     }
 
     FormCard.FormCard {
-        FormCard.FormTextDelegate {
+        FormCard.FormButtonDelegate {
             id: magicDnsName
             description: "Magic DNS Name"
             text: loginProfile?.networkProfile?.magicDnsName ?? ""
-            trailing: ToolButton {
-                visible: loginProfile?.networkProfile?.magicDnsName
-                icon.name: "edit-copy"
-                onClicked: {
-                    onClicked: KTailctl.Util.setClipboardText(loginProfile.networkProfile.magicDnsName)
-                }
-            }
+            trailingLogo.source: "edit-copy"
+            onClicked: KTailctl.Util.setClipboardText(loginProfile.networkProfile.magicDnsName)
         }
 
         FormCard.FormDelegateSeparator {
@@ -179,17 +145,12 @@ FormCard.FormCardPage {
             above: domainName
         }
 
-        FormCard.FormTextDelegate {
+        FormCard.FormButtonDelegate {
             id: domainName
             text: loginProfile?.networkProfile?.domainName ?? ""
             description: "Domain Name"
-            trailing: ToolButton {
-                visible: loginProfile?.networkProfile?.domainName
-                icon.name: "edit-copy"
-                onClicked: {
-                    onClicked: KTailctl.Util.setClipboardText(loginProfile.networkProfile.domainName)
-                }
-            }
+            trailingLogo.source: "edit-copy"
+            onClicked: KTailctl.Util.setClipboardText(loginProfile.networkProfile.domainName)
         }
 
         FormCard.FormDelegateSeparator {
@@ -197,17 +158,12 @@ FormCard.FormCardPage {
             above: displayName
         }
 
-        FormCard.FormTextDelegate {
+        FormCard.FormButtonDelegate {
             id: displayName
             text: loginProfile?.networkProfile?.displayName ?? ""
             description: "Display Name"
-            trailing: ToolButton {
-                visible: loginProfile?.networkProfile?.displayName
-                icon.name: "edit-copy"
-                onClicked: {
-                    onClicked: KTailctl.Util.setClipboardText(loginProfile.networkProfile.displayName)
-                }
-            }
+            trailingLogo.source: "edit-copy"
+            onClicked: KTailctl.Util.setClipboardText(loginProfile.networkProfile.displayName)
         }
     }
 }
