@@ -13,16 +13,13 @@ FormCard.FormCardPage {
     }
 
     FormCard.FormCard {
-        FormCard.FormTextDelegate {
+        FormCard.FormButtonDelegate {
             id: peerId
             text: peer?.id ?? ""
             description: "Node ID"
-            trailing: ToolButton {
-                visible: peer?.id
-                icon.name: "edit-copy"
-                onClicked: {
-                    onClicked: KTailctl.Util.setClipboardText(peer.id)
-                }
+            trailingLogo.source: "edit-copy"
+            onClicked: {
+                onClicked: KTailctl.Util.setClipboardText(peer.id)
             }
         }
 
@@ -31,16 +28,13 @@ FormCard.FormCardPage {
             above: publicKey
         }
 
-        FormCard.FormTextDelegate {
+        FormCard.FormButtonDelegate {
             id: publicKey
             text: peer?.publicKey ?? ""
             description: "Public Key"
-            trailing: ToolButton {
-                visible: peer?.publicKey
-                icon.name: "edit-copy"
-                onClicked: {
-                    onClicked: KTailctl.Util.setClipboardText(peer.publicKey)
-                }
+            trailingLogo.source: "edit-copy"
+            onClicked: {
+                onClicked: KTailctl.Util.setClipboardText(peer.publicKey)
             }
         }
 
@@ -49,16 +43,13 @@ FormCard.FormCardPage {
             above: dnsName
         }
 
-        FormCard.FormTextDelegate {
+        FormCard.FormButtonDelegate {
             id: dnsName
             text: peer?.dnsName ?? ""
             description: "DNS Name"
-            trailing: ToolButton {
-                visible: peer?.dnsName
-                icon.name: "edit-copy"
-                onClicked: {
-                    onClicked: KTailctl.Util.setClipboardText(peer.dnsName)
-                }
+            trailingLogo.source: "edit-copy"
+            onClicked: {
+                onClicked: KTailctl.Util.setClipboardText(peer.dnsName)
             }
         }
 
@@ -67,16 +58,13 @@ FormCard.FormCardPage {
             above: hostName
         }
 
-        FormCard.FormTextDelegate {
+        FormCard.FormButtonDelegate {
             id: hostName
             text: peer?.hostName ?? ""
             description: "Host Name"
-            trailing: ToolButton {
-                visible: peer?.hostName
-                icon.name: "edit-copy"
-                onClicked: {
-                    onClicked: KTailctl.Util.setClipboardText(peer.hostName)
-                }
+            trailingLogo.source: "edit-copy"
+            onClicked: {
+                onClicked: KTailctl.Util.setClipboardText(peer.hostName)
             }
         }
 
@@ -86,17 +74,14 @@ FormCard.FormCardPage {
             above: os
         }
 
-        FormCard.FormTextDelegate {
+        FormCard.FormButtonDelegate {
             visible: peer?.os
             id: os
             text: peer?.os ?? ""
             description: "Operating System"
-            trailing: ToolButton {
-                visible: peer?.os
-                icon.name: "edit-copy"
-                onClicked: {
-                    onClicked: KTailctl.Util.setClipboardText(peer.os)
-                }
+            trailingLogo.source: "edit-copy"
+            onClicked: {
+                onClicked: KTailctl.Util.setClipboardText(peer.os)
             }
         }
     }
@@ -109,13 +94,11 @@ FormCard.FormCardPage {
         Repeater {
             model: page.peer.tailscaleIps
 
-            FormCard.FormTextDelegate {
+            FormCard.FormButtonDelegate {
                 text: modelData
-                trailing: ToolButton {
-                    icon.name: "edit-copy"
-                    onClicked: {
-                        onClicked: KTailctl.Util.setClipboardText(modelData)
-                    }
+                trailingLogo.source: "edit-copy"
+                onClicked: {
+                    onClicked: KTailctl.Util.setClipboardText(modelData)
                 }
             }
         }
@@ -136,16 +119,14 @@ FormCard.FormCardPage {
         Repeater {
             model: peer.primaryRoutes
 
-            FormCard.FormTextDelegate {
+            FormCard.FormButtonDelegate {
                 text: modelData
 
-                FormCard.FormTextDelegate {
+                FormCard.FormButtonDelegate {
                     text: modelData
-                    trailing: ToolButton {
-                        icon.name: "edit-copy"
-                        onClicked: {
-                            onClicked: KTailctl.Util.setClipboardText(modelData)
-                        }
+                    trailingLogo.source: "edit-copy"
+                    onClicked: {
+                        onClicked: KTailctl.Util.setClipboardText(modelData)
                     }
                 }
             }
@@ -157,19 +138,16 @@ FormCard.FormCardPage {
     }
 
     FormCard.FormCard {
-        FormCard.FormTextDelegate {
+        FormCard.FormButtonDelegate {
             id: country
             text: peer.location?.country + " (" + peer.location?.countryCode + ")"
             description: "Country (Country Code)"
             leading: Kirigami.Icon {
                 source: "flag"
             }
-            trailing: ToolButton {
-                visible: peer?.publicKey
-                icon.name: "edit-copy"
-                onClicked: {
-                    onClicked: KTailctl.Util.setClipboardText(peer.location.country)
-                }
+            trailingLogo.source: "edit-copy"
+            onClicked: {
+                onClicked: KTailctl.Util.setClipboardText(peer.location.country)
             }
         }
 
@@ -178,16 +156,13 @@ FormCard.FormCardPage {
             above: city
         }
 
-        FormCard.FormTextDelegate {
+        FormCard.FormButtonDelegate {
             id: city
             text: peer.location?.city + " (" + peer.location?.cityCode + ")"
             description: "City (City Code)"
-            trailing: ToolButton {
-                visible: peer?.publicKey
-                icon.name: "edit-copy"
-                onClicked: {
-                    onClicked: KTailctl.Util.setClipboardText(peer.location.city)
-                }
+            trailingLogo.source: "edit-copy"
+            onClicked: {
+                onClicked: KTailctl.Util.setClipboardText(peer.location.city)
             }
         }
 
@@ -196,15 +171,13 @@ FormCard.FormCardPage {
             above: latitude
         }
 
-        FormCard.FormTextDelegate {
+        FormCard.FormButtonDelegate {
             id: latitude
             text: peer?.location?.latitude
             description: "Latitude"
-            trailing: ToolButton {
-                icon.name: "edit-copy"
-                onClicked: {
-                    onClicked: KTailctl.Util.setClipboardText(peer.location.latitude)
-                }
+            trailingLogo.source: "edit-copy"
+            onClicked: {
+                onClicked: KTailctl.Util.setClipboardText(peer.location.latitude)
             }
         }
 
@@ -213,15 +186,13 @@ FormCard.FormCardPage {
             above: longitude
         }
 
-        FormCard.FormTextDelegate {
+        FormCard.FormButtonDelegate {
             id: longitude
             text: peer?.location?.longitude
             description: "Longitude"
-            trailing: ToolButton {
-                icon.name: "edit-copy"
-                onClicked: {
-                    onClicked: KTailctl.Util.setClipboardText(peer.location.longitude)
-                }
+            trailingLogo.source: "edit-copy"
+            onClicked: {
+                onClicked: KTailctl.Util.setClipboardText(peer.location.longitude)
             }
         }
 
@@ -230,15 +201,13 @@ FormCard.FormCardPage {
             above: priority
         }
 
-        FormCard.FormTextDelegate {
+        FormCard.FormButtonDelegate {
             id: priority
             text: peer?.location?.priority
             description: "Priority"
-            trailing: ToolButton {
-                icon.name: "edit-copy"
-                onClicked: {
-                    onClicked: KTailctl.Util.setClipboardText(peer.location.priority)
-                }
+            trailingLogo.source: "edit-copy"
+            onClicked: {
+                onClicked: KTailctl.Util.setClipboardText(peer.location.priority)
             }
         }
     }
