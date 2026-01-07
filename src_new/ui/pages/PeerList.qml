@@ -4,8 +4,9 @@ import QtQuick
 import QtQml.Models
 import org.kde.kirigami as Kirigami
 import org.fkoehler.KTailctl as KTailctl
+import org.kde.kirigamiaddons.formcard as FormCard
 
-Kirigami.ScrollablePage {
+FormCard.FormCardPage {
     id: page
 
     Layout.fillWidth: true
@@ -123,77 +124,119 @@ Kirigami.ScrollablePage {
         ]
     }
 
-    ListView {
-        anchors.fill: parent
-        model: peerModel
+    FormCard.FormHeader {
+        title: "Peers"
+    }
 
-        delegate: ItemDelegate {
-            width: ListView.view.width
-            id: delegate
+    FormCard.FormCard {
+        Repeater {
+            model: peerModel
+            delegate: ColumnLayout {
+                FormCard.FormTextDelegate {
+                    text: ""
 
-            contentItem: RowLayout {
-                Kirigami.Icon {
-                    ToolTip.delay: Kirigami.Units.toolTipDelay
-                    ToolTip.text: online ? "Online" : "Offline"
-                    ToolTip.visible: hovered
-                    source: online ? "online" : "offline"
-                }
+                    leading: RowLayout {
+                        Kirigami.Icon {
+                            ToolTip.delay: Kirigami.Units.toolTipDelay
+                            ToolTip.text: online ? "Online" : "Offline"
+                            ToolTip.visible: hovered
+                            source: online ? "online" : "offline"
+                        }
+                        ToolButton {
+                            ToolTip.delay: Kirigami.Units.toolTipDelay
+                            ToolTip.text: "Copy DNS name to clipboard"
+                            ToolTip.visible: hovered
+                            icon.name: "edit-copy"
+                            text: dnsName
+                            onClicked: KTailctl.Util.setClipboardText(dnsName)
+                        }
 
-                ToolButton {
-                    ToolTip.delay: Kirigami.Units.toolTipDelay
-                    ToolTip.text: "Copy DNS name to clipboard"
-                    ToolTip.visible: hovered
-                    icon.name: "edit-copy"
-                    text: dnsName
-                    onClicked: KTailctl.Util.setClipboardText(dnsName)
-                }
+                        ToolButton {
+                            ToolTip.delay: Kirigami.Units.toolTipDelay
+                            ToolTip.text: "Copy IP address to clipboard"
+                            ToolTip.visible: hovered
+                            icon.name: "edit-copy"
+                            text: tailscaleIps[0]
+                            onClicked: KTailctl.Util.setClipboardText(tailscaleIps[0])
+                        }
+                    }
 
-                ToolButton {
-                    ToolTip.delay: Kirigami.Units.toolTipDelay
-                    ToolTip.text: "Copy IP address to clipboard"
-                    ToolTip.visible: hovered
-                    icon.name: "edit-copy"
-                    text: tailscaleIps[0]
-                    onClicked: KTailctl.Util.setClipboardText(tailscaleIps[0])
-                }
-
-                Item {
-                    Layout.fillWidth: true
-                }
-
-                ToolButton {
-                    ToolTip.delay: Kirigami.Units.toolTipDelay
-                    ToolTip.text: "View node info"
-                    ToolTip.visible: hovered
-                    icon.name: "help-info"
-                    onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
-                        peer: KTailctl.Tailscale.status.peerWithId(id)
-                    })
-                }
-
-                ToolButton {
-                    ToolTip.delay: Kirigami.Units.toolTipDelay
-                    ToolTip.text: "More actions"
-                    ToolTip.visible: hovered
-                    icon.name: "open-menu"
-                    onClicked: menu.open()
-
-                    Menu {
-                        id: menu
-                        MenuItem {
+                    trailing: RowLayout {
+                        ToolButton {
+                            ToolTip.delay: Kirigami.Units.toolTipDelay
+                            ToolTip.text: "View node info"
+                            ToolTip.visible: hovered
                             icon.name: "help-info"
-                            text: "Node info"
                             onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
                                 peer: KTailctl.Tailscale.status.peerWithId(id)
                             })
                         }
+
+                        ToolButton {
+                            ToolTip.delay: Kirigami.Units.toolTipDelay
+                            ToolTip.text: "More actions"
+                            ToolTip.visible: hovered
+                            icon.name: "open-menu"
+                            onClicked: menu.open()
+
+                            Menu {
+                                id: menu
+                                MenuItem {
+                                    icon.name: "help-info"
+                                    text: "Node info"
+                                    onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
+                                        peer: KTailctl.Tailscale.status.peerWithId(id)
+                                    })
+                                }
+                            }
+                        }
                     }
                 }
 
-                Item {
-                    width: Kirigami.Units.largeSpacing
+                FormCard.FormDelegateSeparator {
+                    visible: index < peerModel.rowCount() - 1
                 }
             }
         }
     }
+
+    // ListView {
+    //     anchors.fill: parent
+    //     model: peerModel
+    //
+    //     delegate: ItemDelegate {
+    //         width: ListView.view.width
+    //         id: delegate
+    //
+    //         contentItem: RowLayout {
+    //
+    //             ToolButton {
+    //                 ToolTip.delay: Kirigami.Units.toolTipDelay
+    //                 ToolTip.text: "Copy DNS name to clipboard"
+    //                 ToolTip.visible: hovered
+    //                 icon.name: "edit-copy"
+    //                 text: dnsName
+    //                 onClicked: KTailctl.Util.setClipboardText(dnsName)
+    //             }
+    //
+    //             ToolButton {
+    //                 ToolTip.delay: Kirigami.Units.toolTipDelay
+    //                 ToolTip.text: "Copy IP address to clipboard"
+    //                 ToolTip.visible: hovered
+    //                 icon.name: "edit-copy"
+    //                 text: tailscaleIps[0]
+    //                 onClicked: KTailctl.Util.setClipboardText(tailscaleIps[0])
+    //             }
+    //
+    //             Item {
+    //                 Layout.fillWidth: true
+    //             }
+    //
+    //
+    //             Item {
+    //                 width: Kirigami.Units.largeSpacing
+    //             }
+    //         }
+    //     }
+    // }
 }
