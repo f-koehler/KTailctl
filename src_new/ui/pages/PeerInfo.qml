@@ -3,6 +3,7 @@ import org.fkoehler.KTailctl as KTailctl
 import org.kde.kirigami as Kirigami
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 
 FormCard.FormCardPage {
     id: page
@@ -92,13 +93,19 @@ FormCard.FormCardPage {
 
     FormCard.FormCard {
         Repeater {
+            id: repeaterIps
             model: page.peer.tailscaleIps
 
-            FormCard.FormButtonDelegate {
-                text: modelData
-                trailingLogo.source: "edit-copy"
-                onClicked: {
-                    onClicked: KTailctl.Util.setClipboardText(modelData)
+            ColumnLayout {
+                FormCard.FormButtonDelegate {
+                    text: modelData
+                    trailingLogo.source: "edit-copy"
+                    onClicked: {
+                        onClicked: KTailctl.Util.setClipboardText(modelData)
+                    }
+                }
+                FormCard.FormDelegateSeparator {
+                    visible: index < repeaterIps.count - 1
                 }
             }
         }
@@ -117,16 +124,18 @@ FormCard.FormCardPage {
     FormCard.FormCard {
         visible: peer.primaryRoutes.length > 0
         Repeater {
+            id: repeaterRoutes
             model: peer.primaryRoutes
 
-            FormCard.FormButtonDelegate {
-                text: modelData
-
+            ColumnLayout {
                 FormCard.FormButtonDelegate {
                     text: modelData
                     trailingLogo.source: "edit-copy"
                     onClicked: {
                         onClicked: KTailctl.Util.setClipboardText(modelData)
+                    }
+                    FormCard.FormDelegateSeparator {
+                        visible: index < repeaterRoutes.count - 1
                     }
                 }
             }
