@@ -42,6 +42,12 @@ Kirigami.ApplicationWindow {
                 pagePool: mainPagePool
                 text: i18n("About")
             },
+            Kirigami.PagePoolAction {
+                icon.name: "settings"
+                page: "qrc:/ui/pages/Settings.qml"
+                pagePool: mainPagePool
+                text: i18n("Settings")
+            },
             Kirigami.Action {
                 icon.name: "process-stop"
                 text: i18n("Stop tailscale")
@@ -68,6 +74,15 @@ Kirigami.ApplicationWindow {
         triggeredOnStart: false
 
         onTriggered: KTailctl.Tailscale.status.refresh()
+    }
+
+    Timer {
+        interval: 5000
+        repeat: true
+        running: true
+        triggeredOnStart: false
+
+        onTriggered: KTailctl.Tailscale.preferences.refresh()
     }
 
     Timer {
