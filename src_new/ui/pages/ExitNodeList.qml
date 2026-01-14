@@ -103,12 +103,21 @@ FormCard.FormCardPage {
     }
 
     FormCard.FormHeader {
-        title: "Current Exit Node"
+           title: "Settings"
     }
 
     FormCard.FormCard {
+        // FormCard.FormSwitchDelegate {
+        //     text: "Advertise exit node"
+        //     value:
+        // }
+        FormCard.FormSwitchDelegate {
+            text: "Allow LAN access"
+            checked: KTailctl.Tailscale.preferences.exitNodeAllowLanAccess
+        }
+
         FormCard.FormTextDelegate {
-            text: "None"
+            text: "Current exit node: None"
         }
     }
 

@@ -48,18 +48,6 @@ FormCard.FormCardPage {
     }
 
     FormCard.FormHeader {
-        title: "Exit Node"
-    }
-    FormCard.FormCard {
-        FormCard.FormSwitchDelegate {
-            text: "Advertise exit node"
-        }
-        FormCard.FormSwitchDelegate {
-            text: "LAN access while using exit node"
-        }
-    }
-
-    FormCard.FormHeader {
         title: "Routing & Firewall"
     }
     FormCard.FormCard {
