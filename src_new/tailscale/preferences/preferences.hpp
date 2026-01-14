@@ -9,6 +9,8 @@
 #include <QObject>
 #include <QProperty>
 #include <QString>
+#include <QMutex>
+#include <QMutexLocker>
 
 // https://pkg.go.dev/tailscale.com/ipn#Prefs
 class Preferences : public QObject
@@ -50,6 +52,8 @@ public:
     Q_PROPERTY(QStringList relayServerStaticEndpoints READ relayServerStaticEndpoints BINDABLE bindableRelayServerStaticEndpoints)
 
 private:
+    QMutex mMutex;
+
     QProperty<QString> mControlUrl;
     QProperty<bool> mRouteAll;
     QProperty<QString> mExitNodeId;
@@ -95,6 +99,8 @@ public:
 
     Q_INVOKABLE void refresh()
     {
+        QMutexLocker lock(&mMutex);
+
         const std::unique_ptr<char, decltype(&::free)> json_str(tailscale_prefs(), &free);
         const QByteArray json_buffer(json_str.get(), ::strlen(json_str.get()));
         QJsonParseError error;

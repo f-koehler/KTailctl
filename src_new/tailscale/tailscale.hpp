@@ -4,11 +4,14 @@
 #include <QBindable>
 #include <QJsonDocument>
 #include <QObject>
+#include <QMutex>
+#include <QMutexLocker>
 
 #include "logging_tailscale.hpp"
 #include "preferences/preferences.hpp"
 #include "property_list_model.hpp"
 #include "status/status.hpp"
+#include "status/login_profile.hpp"
 
 class TailscaleNew : public QObject
 {
@@ -23,6 +26,8 @@ public:
     Q_PROPERTY(QString currentLoginProfileId READ currentLoginProfileId BINDABLE bindableCurrentLoginProfileId)
 
 private:
+    QMutex mMutexLoginProfiles;
+
     Status *mStatus;
     Preferences *mPreferences;
     QMap<QString, LoginProfile *> mLoginProfiles;
@@ -75,6 +80,8 @@ public:
 
     Q_INVOKABLE void refreshLoginProfiles()
     {
+        QMutexLocker lock(&mMutexLoginProfiles);
+
         const std::unique_ptr<char, decltype(&::free)> json_str(tailscale_accounts(), &free);
         const QByteArray json_buffer(json_str.get(), ::strlen(json_str.get()));
         QJsonParseError error;

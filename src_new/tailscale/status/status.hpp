@@ -1,12 +1,10 @@
 #ifndef KTAILCTL_STATUS_HPP
 #define KTAILCTL_STATUS_HPP
 
-#include "libktailctl_wrapper.h"
 #include "logging_tailscale_status.hpp"
 
 #include "client_version.hpp"
 #include "exit_node_status.hpp"
-#include "login_profile.hpp"
 #include "peer_status.hpp"
 #include "tailnet_status.hpp"
 #include "user_profile.hpp"
@@ -14,6 +12,8 @@
 #include <QMap>
 #include <QObject>
 #include <QString>
+#include <QMutex>
+#include <QMutexLocker>
 
 #include "property_list_model.hpp"
 
@@ -44,6 +44,8 @@ public:
     Q_PROPERTY(ClientVersion *clientVersion READ clientVersion BINDABLE bindableClientVersion)
 
 private:
+    QMutex mMutex;
+
     QProperty<QString> mVersion;
     QProperty<bool> mIsTun;
     QProperty<BackendState> mBackendState;
@@ -83,6 +85,8 @@ public:
 
     Q_INVOKABLE void refresh()
     {
+        QMutexLocker lock(&mMutex);
+
         const std::unique_ptr<char, decltype(&::free)> json_str(tailscale_status(), &free);
         const QByteArray json_buffer(json_str.get(), ::strlen(json_str.get()));
         QJsonParseError error;
