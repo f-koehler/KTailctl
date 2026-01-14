@@ -56,7 +56,7 @@ func tailscale_status() *C.char {
 	}
 	j, err := json.MarshalIndent(status, "", "  ")
 	if err != nil {
-		log_critical(fmt.Sprintf("failed to indent tailscale status: %v", err))
+		log_critical(fmt.Sprintf("failed to serialize tailscale status: %v", err))
 		return nil
 	}
 

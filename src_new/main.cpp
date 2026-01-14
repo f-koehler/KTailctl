@@ -8,6 +8,7 @@
 #include <QIcon>
 #include <QtQml>
 
+#include "tailscale/preferences/preferences.hpp"
 #include "tailscale/status/client_version.hpp"
 #include "tailscale/status/exit_node_status.hpp"
 #include "tailscale/status/peer_status.hpp"
@@ -61,7 +62,8 @@ int main(int argc, char *argv[])
     qmlRegisterType<PeerStatus>("org.fkoehler.KTailctl", 1, 0, "PeerStatus");
     qmlRegisterType<TailscaleNew::LoginProfileModel>("org.fkoehler.KTailctl", 1, 0, "LoginProfileModel");
     qmlRegisterType<Status::PeerModel>("org.fkoehler.KTailctl", 1, 0, "PeerModel");
-    qmlRegisterType<Status>("org.fkoehler.KTailctl", 1, 0, "STatus");
+    qmlRegisterType<Status>("org.fkoehler.KTailctl", 1, 0, "Status");
+    qmlRegisterType<Preferences>("org.fkoehler.KTailctl", 1, 0, "Preferences");
     qmlRegisterType<TailnetStatus>("org.fkoehler.KTailctl", 1, 0, "TailnetStatus");
     qmlRegisterType<UserProfile>("org.fkoehler.KTailctl", 1, 0, "UserProfile");
 

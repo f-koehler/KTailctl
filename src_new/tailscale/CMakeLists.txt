@@ -1,8 +1,9 @@
 add_subdirectory(status)
 add_subdirectory(wrapper)
+add_subdirectory(preferences)
 
 ecm_qt_declare_logging_category(
-  ktailctl
+  new_ktailctl
   HEADER
   "logging_tailscale.hpp"
   IDENTIFIER

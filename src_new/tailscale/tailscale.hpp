@@ -1,13 +1,14 @@
 #ifndef KTAILCTL_TAILSCALE_NEW_HPP
 #define KTAILCTL_TAILSCALE_NEW_HPP
 
-#include <QObject>
-#include <QJsonDocument>
 #include <QBindable>
+#include <QJsonDocument>
+#include <QObject>
 
+#include "logging_tailscale.hpp"
+#include "preferences/preferences.hpp"
 #include "property_list_model.hpp"
 #include "status/status.hpp"
-#include "logging_tailscale.hpp"
 
 class TailscaleNew : public QObject
 {
@@ -17,19 +18,22 @@ public:
     using LoginProfileModel = PropertyListModel<LoginProfile, PropertyListModelOwnership::External>;
 
     Q_PROPERTY(Status *status READ status CONSTANT)
+    Q_PROPERTY(Preferences *preferences READ preferences CONSTANT)
     Q_PROPERTY(LoginProfileModel *loginProfiles READ loginProfileModel CONSTANT)
     Q_PROPERTY(QString currentLoginProfileId READ currentLoginProfileId BINDABLE bindableCurrentLoginProfileId)
 
 private:
     Status *mStatus;
+    Preferences *mPreferences;
     QMap<QString, LoginProfile *> mLoginProfiles;
-    LoginProfileModel * mLoginProfileModel;
+    LoginProfileModel *mLoginProfileModel;
     QProperty<QString> mCurrentLoginProfileId;
 
 public:
     explicit TailscaleNew(QObject *parent = nullptr)
         : QObject(parent)
         , mStatus(new Status(this))
+        , mPreferences(new Preferences(this))
         , mLoginProfileModel(new LoginProfileModel(this))
     {
         refreshLoginProfiles();
@@ -40,12 +44,17 @@ public:
         return mStatus;
     }
 
+    [[nodiscard]] Preferences *preferences() const noexcept
+    {
+        return mPreferences;
+    }
+
     [[nodiscard]] LoginProfileModel *loginProfileModel() const noexcept
     {
         return mLoginProfileModel;
     }
 
-    [[nodiscard]] const QString& currentLoginProfileId() const noexcept
+    [[nodiscard]] const QString &currentLoginProfileId() const noexcept
     {
         return mCurrentLoginProfileId;
     }
@@ -55,7 +64,7 @@ public:
         return {&mCurrentLoginProfileId};
     }
 
-    Q_INVOKABLE LoginProfile* loginProfileWithId(const QString& id) const noexcept
+    Q_INVOKABLE LoginProfile *loginProfileWithId(const QString &id) const noexcept
     {
         const auto pos = mLoginProfiles.find(id);
         if (pos == mLoginProfiles.end()) [[unlikely]] {
@@ -76,11 +85,11 @@ public:
         }
         QJsonObject json_obj = json.object();
 
-        if (!json_obj.contains(QStringLiteral("accounts")))  {
+        if (!json_obj.contains(QStringLiteral("accounts"))) {
             // no accounts found -> clear list
             mLoginProfileModel->clear();
             mLoginProfiles.clear();
-        } else  {
+        } else {
             auto loginProfilesArray = json_obj.take(QStringLiteral("accounts")).toArray();
             QSet<QString> loginProfilesToRemove(mLoginProfiles.keyBegin(), mLoginProfiles.keyEnd());
             for (auto entry : loginProfilesArray) {
@@ -89,7 +98,7 @@ public:
                 auto pos = mLoginProfiles.find(id);
 
                 // create missing login profiles
-                if (pos == mLoginProfiles.end())  [[unlikely]]{
+                if (pos == mLoginProfiles.end()) [[unlikely]] {
                     pos = mLoginProfiles.insert(id, new LoginProfile(this));
                     mLoginProfileModel->addItem(pos.value());
                 }
@@ -100,10 +109,10 @@ public:
             }
 
             // remove login profiles that are not present anymore
-            for (const auto& id : loginProfilesToRemove) {
+            for (const auto &id : loginProfilesToRemove) {
                 auto pos = mLoginProfiles.find(id);
                 if (pos == mLoginProfiles.end()) [[unlikely]] {
-                // This should never happen
+                    // This should never happen
                     continue;
                 }
                 mLoginProfileModel->removeItem(mLoginProfileModel->indexOf(pos.value()));

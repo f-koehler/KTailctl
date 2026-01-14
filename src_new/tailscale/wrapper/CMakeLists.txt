@@ -10,7 +10,7 @@ execute_process(COMMAND ${GO_EXECUTABLE} version OUTPUT_VARIABLE GO_VERSION)
 message(STATUS "Go version: ${GO_VERSION}")
 
 ecm_qt_declare_logging_category(
-  ktailctl
+  new_ktailctl
   HEADER
   "logging_tailscale_wrapper.hpp"
   IDENTIFIER

@@ -1,5 +1,5 @@
 ecm_qt_declare_logging_category(
-  ktailctl
+  new_ktailctl
   HEADER
   "logging_tailscale_status.hpp"
   IDENTIFIER
@@ -18,5 +18,7 @@ target_sources(
           status.hpp
           tailnet_status.hpp
           user_profile.hpp
+        login_profile.hpp
+        network_profile.hpp
           ${CMAKE_CURRENT_BINARY_DIR}/logging_tailscale_status.cpp)
 target_include_directories(new_ktailctl PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
