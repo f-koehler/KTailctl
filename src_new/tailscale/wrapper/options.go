@@ -3,23 +3,91 @@ package main
 import "C"
 import (
 	"context"
-	"fmt"
 	"encoding/json"
+	"fmt"
+
+	"tailscale.com/ipn"
 )
 
 //export tailscale_prefs
 func tailscale_prefs() *C.char {
-    curPrefs, err := client.GetPrefs(context.Background())
+	curPrefs, err := client.GetPrefs(context.Background())
 	if err != nil {
 		log_critical(fmt.Sprintf("failed to get tailscale preferences: %v", err))
 		return nil
 	}
-    j, err := json.MarshalIndent(curPrefs, "", "  ")
+	j, err := json.MarshalIndent(curPrefs, "", "  ")
 	if err != nil {
 		log_critical(fmt.Sprintf("failed to serialize tailscale preferences: %v", err))
 		return nil
 	}
 	return C.CString(string(j))
+}
+
+//export tailscale_set_preferences
+func tailscale_set_preferences(jsonStr *string) bool {
+	if jsonStr == nil {
+		log_warning(fmt.Sprintf("empty preferences JSON, nothing to do"))
+		return false
+	}
+
+	ctx := context.Background()
+
+	curPrefs, err := client.GetPrefs(ctx)
+	if err != nil {
+		log_critical(fmt.Sprintf("failed to get current tailscale preferences: %v", err))
+		return false
+	}
+	maskedPrefs := &ipn.MaskedPrefs{
+		Prefs: *curPrefs,
+	}
+
+	var prefs map[string]json.RawMessage
+	if err := json.Unmarshal([]byte(*jsonStr), &prefs); err != nil {
+		log_critical(fmt.Sprintf("failed to parse preferences JSON: %v", err))
+		return false
+	}
+     log_critical(fmt.Sprintf("setting %d prefs", len(prefs)));
+	for key, raw := range prefs {
+		switch key {
+		case "ExitNodeAllowLanAccess":
+			var value bool
+			if err := json.Unmarshal(raw, &value); err != nil {
+				log_critical(fmt.Sprintf("failed to parse ExitNodeAllowLanAccess: %v", err))
+				return false
+			}
+			maskedPrefs.ExitNodeAllowLANAccess = value
+			maskedPrefs.ExitNodeAllowLANAccessSet = true
+		case "CorpDNS":
+			var value bool
+			if err := json.Unmarshal(raw, &value); err != nil {
+				log_critical(fmt.Sprintf("failed to parse CorpDNS: %v", err))
+				return false
+			}
+			maskedPrefs.CorpDNS = value
+			maskedPrefs.CorpDNSSet = true
+		case "RunSSH":
+			var value bool
+			if err := json.Unmarshal(raw, &value); err != nil {
+				log_critical(fmt.Sprintf("failed to parse RunSSH: %v", err))
+				return false
+			}
+			maskedPrefs.RunSSH = value
+			maskedPrefs.RunSSHSet = true
+		}
+	}
+
+	curPrefs.ApplyEdits(maskedPrefs)
+	if err = client.CheckPrefs(ctx, curPrefs); err != nil {
+		log_critical(fmt.Sprintf("failed tailscale preferences check: %v", err))
+	}
+	_, err = client.EditPrefs(ctx, maskedPrefs)
+	if err != nil {
+		log_critical(fmt.Sprintf("failed to set tailscale preferences: %v", err))
+		return false
+	}
+
+	return true
 }
 
 // func apply_prefs(newPrefs *ipn.MaskedPrefs) bool {

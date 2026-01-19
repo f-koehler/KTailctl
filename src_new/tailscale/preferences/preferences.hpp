@@ -3,14 +3,14 @@
 
 #include "app_connector.hpp"
 #include "auto_update.hpp"
-#include "logging_tailscale_preferences.hpp"
 #include "libktailctl_wrapper.h"
+#include "logging_tailscale_preferences.hpp"
 
+#include <QMutex>
+#include <QMutexLocker>
 #include <QObject>
 #include <QProperty>
 #include <QString>
-#include <QMutex>
-#include <QMutexLocker>
 
 // https://pkg.go.dev/tailscale.com/ipn#Prefs
 class Preferences : public QObject
@@ -26,9 +26,9 @@ public:
     Q_PROPERTY(QString exitNodeId READ exitNodeId BINDABLE bindableExitNodeId)
     Q_PROPERTY(QString autoExitNode READ autoExitNode BINDABLE bindableAutoExitNode)
     Q_PROPERTY(QString lastUsedExitNode READ lastUsedExitNode BINDABLE bindableLastUsedExitNode)
-    Q_PROPERTY(bool exitNodeAllowLanAccesss READ exitNodeAllowLanAccess BINDABLE bindableExitNodeAllowLanAccess)
-    Q_PROPERTY(bool corpDns READ corpDns BINDABLE bindableCorpDns)
-    Q_PROPERTY(bool runSSH READ runSSH BINDABLE bindableRunSSH)
+    Q_PROPERTY(bool exitNodeAllowLanAccesss READ exitNodeAllowLanAccess WRITE setExitNodeAllowLanAccess BINDABLE bindableExitNodeAllowLanAccess)
+    Q_PROPERTY(bool corpDns READ corpDns WRITE setCorpDns BINDABLE bindableCorpDns)
+    Q_PROPERTY(bool runSSH READ runSSH WRITE setRunSSH BINDABLE bindableRunSSH)
     Q_PROPERTY(bool runWebClient READ runWebClient BINDABLE bindableRunWebClient)
     Q_PROPERTY(bool wantRunning READ wantRunning BINDABLE bindableWantRunning)
     Q_PROPERTY(bool loggedOut READ loggedOut BINDABLE bindableLoggedOut)
@@ -88,6 +88,19 @@ private:
     QProperty<quint16> mRelayServerPort;
     QProperty<QStringList> mRelayServerStaticEndpoints;
     // persist stuff?
+
+    void _set_preference(const QString& key, const QVariant& value)
+    {
+        GoString string;
+        const QByteArray json = QJsonDocument::fromVariant(QVariantMap{{key, value}}).toJson();
+        string.n = json.size();
+        string.p = json.data();
+        if (tailscale_set_preferences(&string) == 0) {
+            qCCritical(Logging::Tailscale::Preferences) << "Failed to set preferences!";
+        } else {
+            // trigger a refresh of the settings maybe after a short delay
+        }
+    }
 
 public:
     explicit Preferences(QObject *parent = nullptr)
@@ -279,6 +292,21 @@ public:
     [[nodiscard]] const QStringList &relayServerStaticEndpoints() const noexcept
     {
         return mRelayServerStaticEndpoints;
+    }
+
+    void setExitNodeAllowLanAccess(bool value)
+    {
+        _set_preference(QStringLiteral("ExitNodeAllowLanAccess"), value);
+    }
+
+    void setCorpDns(bool value)
+    {
+        _set_preference(QStringLiteral("CorpDNS"), value);
+    }
+
+    void setRunSSH(bool value)
+    {
+        _set_preference(QStringLiteral("RunSSH"), value);
     }
 
     [[nodiscard]] QBindable<QString> bindableControlUrl()
