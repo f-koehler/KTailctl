@@ -13,6 +13,10 @@ PACKAGES=(
     kf6-ki18n-devel
     kf6-kirigami2-devel
     kf6-knotifications-devel
+    kf6-kdbusaddons-devel
+    kf6-kwindowsystem-devel
+    kf6-breeze-icons-devel
+    json-devel
 )
 
-dnf install -y ${PACKAGES[@]}
+dnf install -y "${PACKAGES[@]}"
