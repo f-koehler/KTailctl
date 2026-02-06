@@ -17,6 +17,7 @@ PACKAGES=(
     kf6-kwindowsystem-devel
     kf6-breeze-icons-devel
     json-devel
+    go
 )
 
 dnf install -y "${PACKAGES[@]}"
