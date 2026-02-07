@@ -13,7 +13,7 @@ class Util : public QObject
 public:
     explicit Util(QObject *parent = nullptr) : QObject(parent) {}
 
-    Q_INVOKABLE void setClipboardText(const QString &text)
+    Q_INVOKABLE static void setClipboardText(const QString &text)
     {
         auto *data = new QMimeData();
         data->setData(QStringLiteral("text/plain"), text.toUtf8());
