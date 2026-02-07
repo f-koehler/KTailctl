@@ -27,12 +27,12 @@ signals:
     void toggleTailscale();
 
 public:
-    explicit TrayIcon(QObject *parent = nullptr)
+    explicit TrayIcon(TailscaleNew *tailscale, QObject *parent = nullptr)
         : QSystemTrayIcon(QIcon::fromTheme(QStringLiteral("about_kde")), parent)
         , mContextMenu(new QMenu(QStringLiteral("Tray Menu")))
         , mMenuAccounts(new TrayMenuAccounts())
         , mMenuSelf(new TrayMenuSelf())
-        , mMenuPeers(new TrayMenuPeers())
+        , mMenuPeers(new TrayMenuPeers(tailscale))
         , mMenuExitNodes(new TrayMenuExitNodes())
         , mActionShow(new QAction(QIcon::fromTheme(QStringLiteral("window")), QStringLiteral("Show")))
         , mActionToggle(new QAction(QIcon::fromTheme(QStringLiteral("stop")), QStringLiteral("Stop")))

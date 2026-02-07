@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
     auto *window = dynamic_cast<QQuickWindow *>(engine.rootObjects().first());
 
     // clicking tray icon should toggle window
-    auto *tray_icon = new TrayIcon();
+    auto *tray_icon = new TrayIcon(tailscale);
     tray_icon->show();
     QObject::connect(tray_icon, &QSystemTrayIcon::activated, [window](const QSystemTrayIcon::ActivationReason &reason) {
         switch (reason) {
