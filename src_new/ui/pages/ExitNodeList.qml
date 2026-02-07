@@ -91,17 +91,6 @@ FormCard.FormCardPage {
         ]
     }
 
-    Models.SortFilterProxyModel {
-        id: mullvadExitNodeModel
-        model: exitNodeModel
-        filters: [
-            Models.ValueFilter {
-                roleName: "mullvadNode"
-                value: true
-            }
-        ]
-    }
-
     FormCard.FormHeader {
            title: "Settings"
     }
@@ -171,7 +160,7 @@ FormCard.FormCardPage {
 
     FormCard.FormCard {
         Repeater {
-            model: mullvadExitNodeModel
+            model: KTailctl.Tailscale.status.mullvadExitNodeModel
             delegate: ColumnLayout {
                 FormCard.FormTextDelegate {
                     text: dnsName
@@ -203,7 +192,7 @@ FormCard.FormCardPage {
                 }
 
                 FormCard.FormDelegateSeparator {
-                    visible: index < exitNodeModel.rowCount() - 1
+                    visible: index < KTailctl.Tailscale.status.mullvadExitNodeModel.rowCount() - 1
                 }
             }
         }

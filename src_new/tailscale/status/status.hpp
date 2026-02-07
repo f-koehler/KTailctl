@@ -5,15 +5,16 @@
 
 #include "client_version.hpp"
 #include "exit_node_status.hpp"
+#include "mullvad_exit_node_model.hpp"
 #include "peer_status.hpp"
 #include "tailnet_status.hpp"
 #include "user_profile.hpp"
 
 #include <QMap>
-#include <QObject>
-#include <QString>
 #include <QMutex>
 #include <QMutexLocker>
+#include <QObject>
+#include <QString>
 
 #include "property_list_model.hpp"
 
@@ -40,6 +41,7 @@ public:
     Q_PROPERTY(QStringList health READ health BINDABLE bindableHealth)
     Q_PROPERTY(TailnetStatus *currentTailnet READ currentTailnet BINDABLE bindableCurrentTailnet)
     Q_PROPERTY(PeerModel *peers READ peerModel CONSTANT)
+    Q_PROPERTY(MullvadExitNodeModel *mullvadExitNodeModel READ mullvadExitNodeModel CONSTANT)
     Q_PROPERTY(QMap<qint64, UserProfile *> users READ users BINDABLE bindableUsers)
     Q_PROPERTY(ClientVersion *clientVersion READ clientVersion BINDABLE bindableClientVersion)
 
@@ -57,9 +59,11 @@ private:
     QProperty<QStringList> mHealth;
     QProperty<TailnetStatus *> mCurrentTailnet;
     QMap<QString, PeerStatus *> mPeers;
-    QProperty<PeerModel *> mPeerModel;
+    PeerModel *mPeerModel;
     QProperty<QMap<qint64, UserProfile *>> mUsers;
     QProperty<ClientVersion *> mClientVersion;
+
+    MullvadExitNodeModel *mMullvadExitNodeModel;
 
 public:
     explicit Status(QObject *parent = nullptr)
@@ -67,6 +71,7 @@ public:
         , mPeerModel(new PeerModel(this))
     {
         refresh();
+        mMullvadExitNodeModel = new MullvadExitNodeModel(mPeerModel, this);
     }
 
     Q_INVOKABLE PeerStatus *peerWithId(const QString &id) const noexcept
@@ -236,6 +241,11 @@ public:
         return mPeerModel;
     }
 
+    [[nodiscard]] MullvadExitNodeModel *mullvadExitNodeModel() const noexcept
+    {
+        return mMullvadExitNodeModel;
+    }
+
     [[nodiscard]] const QMap<qint64, UserProfile *> &users() const noexcept
     {
         return mUsers;
@@ -295,11 +305,6 @@ public:
     [[nodiscard]] QBindable<TailnetStatus *> bindableCurrentTailnet()
     {
         return {&mCurrentTailnet};
-    }
-
-    [[nodiscard]] QBindable<PeerModel *> bindablePeerModel()
-    {
-        return {&mPeerModel};
     }
 
     [[nodiscard]] QBindable<QMap<qint64, UserProfile *>> bindableUsers()
