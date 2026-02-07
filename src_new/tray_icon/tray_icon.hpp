@@ -58,6 +58,9 @@ public:
         connect(mActionQuit, &QAction::triggered, this, [this] {
             emit quitRequested();
         });
+
+        connect(mContextMenu, &QMenu::aboutToShow, mMenuSelf, &TrayMenuSelf::rebuildMenu);
+        connect(mContextMenu, &QMenu::aboutToShow, mMenuPeers, &TrayMenuPeers::rebuildMenu);
     }
 };
 

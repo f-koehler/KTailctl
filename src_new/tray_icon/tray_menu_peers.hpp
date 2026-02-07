@@ -79,8 +79,6 @@ public:
             qCCritical(Logging::TrayIcon) << "Failed to find role index for tailscaleIps";
             mRoleIndicesFound = false;
         }
-
-        connect(this, &QMenu::aboutToShow, this, &TrayMenuPeers::rebuildMenu);
     }
 };
 
