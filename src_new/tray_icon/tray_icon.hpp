@@ -33,7 +33,7 @@ public:
         , mMenuAccounts(new TrayMenuAccounts())
         , mMenuSelf(new TrayMenuSelf(tailscale))
         , mMenuPeers(new TrayMenuPeers(tailscale))
-        , mMenuExitNodes(new TrayMenuExitNodes())
+        , mMenuExitNodes(new TrayMenuExitNodes(tailscale))
         , mActionShow(new QAction(QIcon::fromTheme(QStringLiteral("window")), QStringLiteral("Show")))
         , mActionToggle(new QAction(QIcon::fromTheme(QStringLiteral("stop")), QStringLiteral("Stop")))
         , mActionQuit(new QAction(QIcon::fromTheme(QStringLiteral("application-exit")), QStringLiteral("Quit")))
