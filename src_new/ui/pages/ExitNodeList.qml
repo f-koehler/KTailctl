@@ -3,7 +3,6 @@ import QtQuick.Layouts
 import QtQuick
 import org.kde.kirigami as Kirigami
 import org.fkoehler.KTailctl as KTailctl
-import QtQml.Models as Models
 import org.kde.kirigamiaddons.formcard as FormCard
 
 FormCard.FormCardPage {
@@ -43,54 +42,6 @@ FormCard.FormCardPage {
         },
     ]
 
-    Models.SortFilterProxyModel {
-        id: exitNodeModel
-        model: KTailctl.Tailscale.status.peers
-        filters: [
-            Models.ValueFilter {
-                roleName: "exitNodeOption"
-                value: true
-            },
-            Models.ValueFilter {
-                roleName: "online"
-                value: true
-            },
-            Models.FunctionFilter {
-                id: functionFilterDnsName
-                enabled: page.filterMullvadSearchEnabled
-                component RoleData: QtObject {
-                    property string dnsName
-                    property KTailctl.Location location
-                }
-                function filter(data: RoleData) : bool {
-                    if(data.location) {
-                        if(data.location.city.toLowerCase().includes(page.filterMullvadSearchValue)) {
-                            return true;
-                        }
-                        if(data.location.country.toLowerCase().includes(page.filterMullvadSearchValue)) {
-                            return true;
-                        }
-                    }
-                    return data.dnsName.includes(page.filterMullvadSearchValue)
-                }
-            }
-        ]
-        sorters: [
-            Models.StringSorter { roleName: "dnsName" }
-        ]
-    }
-
-    Models.SortFilterProxyModel {
-        id: selfHostedExitNodeModel
-        model: exitNodeModel
-        filters: [
-            Models.ValueFilter {
-                roleName: "mullvadNode"
-                value: false
-            }
-        ]
-    }
-
     FormCard.FormHeader {
            title: "Settings"
     }
@@ -102,7 +53,7 @@ FormCard.FormCardPage {
         // }
         FormCard.FormSwitchDelegate {
             text: "Allow LAN access"
-            checked: KTailctl.Tailscale.preferences.exitNodeAllowLanAccess
+            // checked: KTailctl.Tailscale.preferences.exitNodeAllowLanAccess
         }
 
         FormCard.FormTextDelegate {
@@ -116,7 +67,7 @@ FormCard.FormCardPage {
 
     FormCard.FormCard {
         Repeater {
-            model: selfHostedExitNodeModel
+            model: KTailctl.Tailscale.status.selfHostedExitNodeModel
             delegate: ColumnLayout {
                 FormCard.FormTextDelegate {
                     text: dnsName
@@ -148,7 +99,7 @@ FormCard.FormCardPage {
                 }
 
                 FormCard.FormDelegateSeparator {
-                    visible: index < exitNodeModel.rowCount() - 1
+                    visible: index < KTailctl.Tailscale.status.selfHostedExitNodeModel.rowCount() - 1
                 }
             }
         }

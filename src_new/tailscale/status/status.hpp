@@ -7,16 +7,15 @@
 #include "exit_node_status.hpp"
 #include "mullvad_exit_node_model.hpp"
 #include "peer_status.hpp"
+#include "property_list_model.hpp"
+#include "self_hosted_exit_node_model.hpp"
 #include "tailnet_status.hpp"
 #include "user_profile.hpp"
 
 #include <QMap>
 #include <QMutex>
-#include <QMutexLocker>
 #include <QObject>
 #include <QString>
-
-#include "property_list_model.hpp"
 
 // https://pkg.go.dev/tailscale.com/ipn/ipnstate#Status
 class Status : public QObject
@@ -42,6 +41,7 @@ public:
     Q_PROPERTY(TailnetStatus *currentTailnet READ currentTailnet BINDABLE bindableCurrentTailnet)
     Q_PROPERTY(PeerModel *peers READ peerModel CONSTANT)
     Q_PROPERTY(MullvadExitNodeModel *mullvadExitNodeModel READ mullvadExitNodeModel CONSTANT)
+    Q_PROPERTY(SelfHostedExitNodeModel *selfHostedExitNodeModel READ selfHostedExitNodeModel CONSTANT)
     Q_PROPERTY(QMap<qint64, UserProfile *> users READ users BINDABLE bindableUsers)
     Q_PROPERTY(ClientVersion *clientVersion READ clientVersion BINDABLE bindableClientVersion)
 
@@ -64,6 +64,7 @@ private:
     QProperty<ClientVersion *> mClientVersion;
 
     MullvadExitNodeModel *mMullvadExitNodeModel;
+    SelfHostedExitNodeModel *mSelfHostedExitNodeModel;
 
 public:
     explicit Status(QObject *parent = nullptr)
@@ -72,6 +73,7 @@ public:
     {
         refresh();
         mMullvadExitNodeModel = new MullvadExitNodeModel(mPeerModel, this);
+        mSelfHostedExitNodeModel = new SelfHostedExitNodeModel(mPeerModel, this);
     }
 
     Q_INVOKABLE PeerStatus *peerWithId(const QString &id) const noexcept
@@ -244,6 +246,11 @@ public:
     [[nodiscard]] MullvadExitNodeModel *mullvadExitNodeModel() const noexcept
     {
         return mMullvadExitNodeModel;
+    }
+
+    [[nodiscard]] SelfHostedExitNodeModel *selfHostedExitNodeModel() const noexcept
+    {
+        return mSelfHostedExitNodeModel;
     }
 
     [[nodiscard]] const QMap<qint64, UserProfile *> &users() const noexcept

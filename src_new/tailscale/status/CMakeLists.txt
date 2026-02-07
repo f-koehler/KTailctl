@@ -21,5 +21,6 @@ target_sources(
         login_profile.hpp
         network_profile.hpp
         mullvad_exit_node_model.hpp
+        self_hosted_exit_node_model.hpp
           ${CMAKE_CURRENT_BINARY_DIR}/logging_tailscale_status.cpp)
 target_include_directories(new_ktailctl PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
