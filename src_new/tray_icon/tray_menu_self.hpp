@@ -7,16 +7,32 @@ class TrayMenuSelf : public QMenu
     Q_OBJECT
 
 private:
-    QAction *mActionDnsName;
+    TailscaleNew mTailscale;
+
+public slots:
+    Q_INVOKABLE void rebuildMenu()
+    {
+        clear();
+        const QString &dnsName = mTailscale.status()->self()->dnsName();
+        addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), dnsName, [&dnsName]() {
+            Util::setClipboardText(dnsName);
+        });
+        const QStringList &tailscaleIps = mTailscale.status()->self()->tailscaleIps();
+        for (const QString &ip : tailscaleIps) {
+            addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), ip, [&ip]() {
+                Util::setClipboardText(ip);
+            });
+        }
+    }
 
 public:
-    explicit TrayMenuSelf(QWidget *parent = nullptr)
+    explicit TrayMenuSelf(TailscaleNew *tailscale, QWidget *parent = nullptr)
         : QMenu(QStringLiteral("Self"), parent)
-        , mActionDnsName(new QAction(QIcon::fromTheme(QStringLiteral("edit-copy")), QStringLiteral("DnsName")))
+        , mTailscale(tailscale)
     {
         setIcon(QIcon::fromTheme(QStringLiteral("computer")));
 
-        addAction(mActionDnsName);
+        connect(this, &QMenu::aboutToShow, this, &TrayMenuSelf::rebuildMenu);
     }
 };
 

@@ -31,7 +31,7 @@ public:
         : QSystemTrayIcon(QIcon::fromTheme(QStringLiteral("about_kde")), parent)
         , mContextMenu(new QMenu(QStringLiteral("Tray Menu")))
         , mMenuAccounts(new TrayMenuAccounts())
-        , mMenuSelf(new TrayMenuSelf())
+        , mMenuSelf(new TrayMenuSelf(tailscale))
         , mMenuPeers(new TrayMenuPeers(tailscale))
         , mMenuExitNodes(new TrayMenuExitNodes())
         , mActionShow(new QAction(QIcon::fromTheme(QStringLiteral("window")), QStringLiteral("Show")))
