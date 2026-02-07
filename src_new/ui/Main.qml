@@ -51,6 +51,7 @@ Kirigami.ApplicationWindow {
             Kirigami.Action {
                 icon.name: "process-stop"
                 text: i18n("Stop tailscale")
+                onTriggered: KTailctl.Tailscale.toggleTailscale()
             },
             Kirigami.Action {
                 icon.name: "application-exit"

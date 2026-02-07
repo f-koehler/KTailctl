@@ -36,7 +36,7 @@ private:
     QProperty<QString> mCurrentLoginProfileId;
 
 public slots:
-    void toggleTailscale()
+    Q_INVOKABLE void toggleTailscale()
     {
         qCInfo(Logging::TailscaleMain) << "Toggle tailscale";
     }
