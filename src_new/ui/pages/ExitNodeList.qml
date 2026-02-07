@@ -66,6 +66,16 @@ FormCard.FormCardPage {
     }
 
     FormCard.FormCard {
+        visible: KTailctl.Tailscale.status.selfHostedExitNodeModel.rowCount() === 0
+
+        FormCard.FormTextDelegate {
+            text: "No self-hosted exit nodes available"
+        }
+    }
+
+    FormCard.FormCard {
+        visible: KTailctl.Tailscale.status.selfHostedExitNodeModel.rowCount() > 0
+
         Repeater {
             model: KTailctl.Tailscale.status.selfHostedExitNodeModel
             delegate: ColumnLayout {
@@ -110,6 +120,16 @@ FormCard.FormCardPage {
     }
 
     FormCard.FormCard {
+        visible: KTailctl.Tailscale.status.mullvadExitNodeModel.rowCount() === 0
+
+        FormCard.FormTextDelegate {
+            text: "No Mullvad exit nodes available"
+        }
+    }
+
+    FormCard.FormCard {
+        visible: KTailctl.Tailscale.status.mullvadExitNodeModel.rowCount() > 0
+
         Repeater {
             model: KTailctl.Tailscale.status.mullvadExitNodeModel
             delegate: ColumnLayout {
