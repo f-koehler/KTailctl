@@ -2,16 +2,17 @@
 #define KTAILCTL_TAILSCALE_NEW_HPP
 
 #include <QBindable>
+#include <QJsonArray>
 #include <QJsonDocument>
-#include <QObject>
 #include <QMutex>
 #include <QMutexLocker>
+#include <QObject>
 
 #include "logging_tailscale.hpp"
 #include "preferences/preferences.hpp"
 #include "property_list_model.hpp"
-#include "status/status.hpp"
 #include "status/login_profile.hpp"
+#include "status/status.hpp"
 
 class TailscaleNew : public QObject
 {
@@ -33,6 +34,12 @@ private:
     QMap<QString, LoginProfile *> mLoginProfiles;
     LoginProfileModel *mLoginProfileModel;
     QProperty<QString> mCurrentLoginProfileId;
+
+public slots:
+    void toggleTailscale()
+    {
+        qCInfo(Logging::TailscaleMain) << "Toggle tailscale";
+    }
 
 public:
     explicit TailscaleNew(QObject *parent = nullptr)

@@ -1,13 +1,5 @@
 #include "util.hpp"
 
-#include <KAboutData>
-#include <KDBusService>
-#include <KLocalizedContext>
-#include <KLocalizedString>
-#include <QApplication>
-#include <QIcon>
-#include <QtQml>
-
 #include "tailscale/preferences/preferences.hpp"
 #include "tailscale/status/client_version.hpp"
 #include "tailscale/status/exit_node_status.hpp"
@@ -15,6 +7,15 @@
 #include "tailscale/status/status.hpp"
 #include "tailscale/status/tailnet_status.hpp"
 #include "tailscale/tailscale.hpp"
+#include "tray_icon/tray_icon.hpp"
+#include <KAboutData>
+#include <KDBusService>
+#include <KLocalizedContext>
+#include <KLocalizedString>
+#include <QApplication>
+#include <QIcon>
+#include <QQuickWindow>
+#include <QtQml>
 
 int main(int argc, char *argv[])
 {
@@ -68,7 +69,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<UserProfile>("org.fkoehler.KTailctl", 1, 0, "UserProfile");
 
     TailscaleNew *tailscale = new TailscaleNew();
-    Util* util = new Util();
+    Util *util = new Util();
     qmlRegisterSingletonType("org.fkoehler.KTailctl", 1, 0, "About", [](QQmlEngine *engine, QJSEngine *) -> QJSValue {
         return engine->toScriptValue(KAboutData::applicationData());
     });
@@ -80,6 +81,36 @@ int main(int argc, char *argv[])
     if (engine.rootObjects().isEmpty()) {
         return -1;
     }
+
+    auto *window = dynamic_cast<QQuickWindow *>(engine.rootObjects().first());
+
+    // clicking tray icon should toggle window
+    auto *tray_icon = new TrayIcon();
+    tray_icon->show();
+    QObject::connect(tray_icon, &QSystemTrayIcon::activated, [window](const QSystemTrayIcon::ActivationReason &reason) {
+        switch (reason) {
+        case QSystemTrayIcon::ActivationReason::Trigger:
+        case QSystemTrayIcon::ActivationReason::DoubleClick:
+            if (window == nullptr) {
+                return;
+            }
+            if (window->isVisible()) {
+                window->hide();
+            } else {
+                window->show();
+            }
+            break;
+        case QSystemTrayIcon::ActivationReason::MiddleClick:
+            // TODO(fk): toggle tailscale
+        default:
+            break;
+        };
+    });
+    QObject::connect(tray_icon, &TrayIcon::showWindow, window, [window]() {
+        window->show();
+    });
+    QObject::connect(tray_icon, &TrayIcon::quitRequested, &app, &QCoreApplication::quit, Qt::QueuedConnection);
+    QObject::connect(tray_icon, &TrayIcon::toggleTailscale, tailscale, &TailscaleNew::toggleTailscale);
 
     return app.exec();
 }

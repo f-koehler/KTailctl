@@ -3,6 +3,7 @@
 
 #include <QBindable>
 #include <QObject>
+#include <QJsonObject>
 
 class AppConnectorPreferences : public QObject
 {
