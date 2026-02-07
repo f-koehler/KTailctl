@@ -157,6 +157,16 @@ public:
         return mItems.indexOf(item);
     }
 
+    int roleIndexForProperty(const QByteArray &propertyName) const
+    {
+        for (auto it = mRoleNames.begin(); it != mRoleNames.end(); ++it) {
+            if (it.value() == propertyName) {
+                return it.key();
+            }
+        }
+        return -1;
+    }
+
 private:
     void setupMetaRoles()
     {
