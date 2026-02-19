@@ -1,2 +1,2 @@
-target_sources(new_ktailctl PRIVATE icons.qrc)
+target_sources(ktailctl PRIVATE icons.qrc)
 add_subdirectory(country-flags)

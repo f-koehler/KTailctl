@@ -1,5 +1,5 @@
 ecm_qt_declare_logging_category(
-        new_ktailctl
+        ktailctl
         HEADER
         "logging_tailscale_preferences.hpp"
         IDENTIFIER
@@ -8,5 +8,5 @@ ecm_qt_declare_logging_category(
         "org.fkoehler.KTailctl.Tailscale.Preferences"
         DEFAULT_SEVERITY
         Info)
-target_sources(new_ktailctl PRIVATE app_connector.hpp auto_update.hpp preferences.hpp)
-target_include_directories(new_ktailctl PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+target_sources(ktailctl PRIVATE app_connector.hpp auto_update.hpp preferences.hpp)
+target_include_directories(ktailctl PRIVATE ${CMAKE_CURRENT_BINARY_DIR})

@@ -745,7 +745,7 @@ set_source_files_properties(zm.svg PROPERTIES QT_RESOURCE_ALIAS
 set_source_files_properties(zw.svg PROPERTIES QT_RESOURCE_ALIAS
         country-flag-zw.svg)
 
-qt_add_resources(new_ktailctl "flags" PREFIX "/country-flags" FILES
+qt_add_resources(ktailctl "flags" PREFIX "/country-flags" FILES
         aw.svg
         af.svg
         ao.svg

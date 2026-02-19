@@ -1,5 +1,5 @@
 ecm_qt_declare_logging_category(
-  new_ktailctl
+  ktailctl
   HEADER
   "logging_tailscale_status.hpp"
   IDENTIFIER
@@ -10,7 +10,7 @@ ecm_qt_declare_logging_category(
   Info)
 
 target_sources(
-  new_ktailctl
+  ktailctl
   PRIVATE client_version.hpp
           exit_node_status.hpp
           location.hpp
@@ -23,4 +23,4 @@ target_sources(
         mullvad_exit_node_model.hpp
         self_hosted_exit_node_model.hpp
           ${CMAKE_CURRENT_BINARY_DIR}/logging_tailscale_status.cpp)
-target_include_directories(new_ktailctl PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(ktailctl PRIVATE ${CMAKE_CURRENT_BINARY_DIR})

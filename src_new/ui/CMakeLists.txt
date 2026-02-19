@@ -1,1 +1,1 @@
-target_sources(new_ktailctl PRIVATE ui.qrc)
+target_sources(ktailctl PRIVATE ui.qrc)

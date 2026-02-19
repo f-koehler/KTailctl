@@ -10,7 +10,7 @@ execute_process(COMMAND ${GO_EXECUTABLE} version OUTPUT_VARIABLE GO_VERSION)
 message(STATUS "Go version: ${GO_VERSION}")
 
 ecm_qt_declare_logging_category(
-  new_ktailctl
+  ktailctl
   HEADER
   "logging_tailscale_wrapper.hpp"
   IDENTIFIER
@@ -90,5 +90,5 @@ add_library(KTailctl::WrapperLogging ALIAS ktailctl_wrapper_logging)
 install(FILES ${KTAILCTL_WRAPPER_LIBRARY} TYPE LIB)
 install(TARGETS ktailctl_wrapper_logging)
 
-target_link_libraries(new_ktailctl PRIVATE KTailctl::Wrapper KTailctl::WrapperLogging)
-target_sources(new_ktailctl PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/logging_tailscale_wrapper.cpp)
+target_link_libraries(ktailctl PRIVATE KTailctl::Wrapper KTailctl::WrapperLogging)
+target_sources(ktailctl PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/logging_tailscale_wrapper.cpp)
