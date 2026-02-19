@@ -61,6 +61,7 @@ public:
 
         connect(mContextMenu, &QMenu::aboutToShow, mMenuSelf, &TrayMenuSelf::rebuildMenu);
         connect(mContextMenu, &QMenu::aboutToShow, mMenuPeers, &TrayMenuPeers::rebuildMenu);
+        connect(mContextMenu, &QMenu::aboutToShow, mMenuExitNodes, &TrayMenuExitNodes::rebuildMenu);
     }
 };
 
