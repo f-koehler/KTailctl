@@ -1,0 +1,13 @@
+[
+  {
+    "label": "Debug KTailctl",
+    "build": {
+      "command": "cmake",
+      "args": ["--build", "build", "--parallel", "16"],
+      "cwd": "$ZED_WORKTREE_ROOT",
+    },
+    "program": "$ZED_WORKTREE_ROOT/build/bin/ktailctl",
+    "request": "launch",
+    "adapter": "CodeLLDB",
+  },
+]

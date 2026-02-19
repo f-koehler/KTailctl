@@ -1,0 +1,10 @@
+[
+  {
+    "label": "Start KTailctl",
+    "command": "cmake --build build --target ktailctl --parallel 16 && build/bin/ktailctl",
+    "reveal": "always",
+    "hide": "never",
+    "show_summary": true,
+    "show_command": true,
+  },
+]
