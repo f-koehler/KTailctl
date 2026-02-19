@@ -33,7 +33,7 @@ FormCard.FormCardPage {
     }
     FormCard.FormCard {
         FormCard.FormTextFieldDelegate {
-            label: Tailscale.preferences.hostname
+            label: Tailscale.preferences.hostName
         }
         FormCard.FormSwitchDelegate {
             text: "SSH"
@@ -43,7 +43,6 @@ FormCard.FormCardPage {
         }
         FormCard.FormSwitchDelegate {
             text: "Accept DNS"
-            value: true
         }
     }
 
