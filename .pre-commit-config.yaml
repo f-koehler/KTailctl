@@ -3,3 +3,8 @@ repos:
     rev: "v21.1.8"
     hooks:
       - id: clang-format
+  - repo: https://github.com/f-koehler/qml-pre-commit
+    rev: "v0.3.0"
+    hooks:
+      - id: qmlformat
+      - id: qmllint
