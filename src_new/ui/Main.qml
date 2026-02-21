@@ -37,16 +37,16 @@ Kirigami.ApplicationWindow {
                 text: i18n("Exit Nodes")
             },
             Kirigami.PagePoolAction {
-                icon.name: "help-about"
-                page: "qrc:/ui/pages/About.qml"
-                pagePool: mainPagePool
-                text: i18n("About")
-            },
-            Kirigami.PagePoolAction {
                 icon.name: "settings"
                 page: "qrc:/ui/pages/Settings.qml"
                 pagePool: mainPagePool
                 text: i18n("Settings")
+            },
+            Kirigami.PagePoolAction {
+                icon.name: "help-about"
+                page: "qrc:/ui/pages/About.qml"
+                pagePool: mainPagePool
+                text: i18n("About")
             },
             Kirigami.Action {
                 icon.name: "process-stop"
