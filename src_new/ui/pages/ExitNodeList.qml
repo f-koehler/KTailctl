@@ -127,43 +127,48 @@ FormCard.FormCardPage {
         }
     }
 
-    FormCard.FormCard {
-        visible: KTailctl.Tailscale.status.mullvadExitNodeModel.rowCount() > 0
+    Loader {
+        active: KTailctl.Tailscale.status.mullvadExitNodeModel.rowCount() > 0
+        asynchronous: true
 
-        Repeater {
-            model: KTailctl.Tailscale.status.mullvadExitNodeModel
-            delegate: ColumnLayout {
-                FormCard.FormTextDelegate {
-                    text: dnsName
-                    description: location.city + " (" + location.country + ")"
-                    leading: Kirigami.Icon {
-                        ToolTip.delay: Kirigami.Units.toolTipDelay
-                        ToolTip.text: location.city + " (" + location.country + ")"
-                        ToolTip.visible: hovered
-                        source: "qrc:/country-flags/country-flag-" + location.countryCode.toLowerCase()
-                    }
-                    trailing: RowLayout {
-                        ToolButton {
+        Layout.fillWidth: true
+
+        sourceComponent: FormCard.FormCard {
+            Repeater {
+                model: KTailctl.Tailscale.status.mullvadExitNodeModel
+                delegate: ColumnLayout {
+                    FormCard.FormTextDelegate {
+                        text: dnsName
+                        description: location.city + " (" + location.country + ")"
+                        leading: Kirigami.Icon {
                             ToolTip.delay: Kirigami.Units.toolTipDelay
-                            ToolTip.text: "Enable exit node"
+                            ToolTip.text: location.city + " (" + location.country + ")"
                             ToolTip.visible: hovered
-                            icon.name: "system-switch-user"
+                            source: "qrc:/country-flags/country-flag-" + location.countryCode.toLowerCase()
                         }
+                        trailing: RowLayout {
+                            ToolButton {
+                                ToolTip.delay: Kirigami.Units.toolTipDelay
+                                ToolTip.text: "Enable exit node"
+                                ToolTip.visible: hovered
+                                icon.name: "system-switch-user"
+                            }
 
-                        ToolButton {
-                            ToolTip.delay: Kirigami.Units.toolTipDelay
-                            ToolTip.text: "View node info"
-                            ToolTip.visible: hovered
-                            icon.name: "help-info"
-                            onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
-                                peer: KTailctl.Tailscale.status.peerWithId(id)
-                            })
+                            ToolButton {
+                                ToolTip.delay: Kirigami.Units.toolTipDelay
+                                ToolTip.text: "View node info"
+                                ToolTip.visible: hovered
+                                icon.name: "help-info"
+                                onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
+                                    peer: KTailctl.Tailscale.status.peerWithId(id)
+                                })
+                            }
                         }
                     }
-                }
 
-                FormCard.FormDelegateSeparator {
-                    visible: index < KTailctl.Tailscale.status.mullvadExitNodeModel.rowCount() - 1
+                    FormCard.FormDelegateSeparator {
+                        visible: index < KTailctl.Tailscale.status.mullvadExitNodeModel.rowCount() - 1
+                    }
                 }
             }
         }
