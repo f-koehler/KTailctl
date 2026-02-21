@@ -2,8 +2,8 @@
 #define KTAILCTL_APP_CONNECTOR_HPP
 
 #include <QBindable>
-#include <QObject>
 #include <QJsonObject>
+#include <QObject>
 
 class AppConnectorPreferences : public QObject
 {

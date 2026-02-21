@@ -16,10 +16,11 @@ FormCard.FormCardPage {
     }
     FormCard.FormCard {
         FormCard.FormSwitchDelegate {
+            id: switchStartMinimized
             text: "Start minimized"
             checked: KTailctl.Config.startMinimized
             onCheckedChanged: {
-                KTailctl.Config.startMinimized = !KTailctl.Config.startMinimized
+                KTailctl.Config.startMinimized = switchStartMinimized.checked
                 if(KTailctl.Config.startMinimized) {
                     KTailctl.Config.enableTrayIcon = true;
                 }
@@ -27,10 +28,11 @@ FormCard.FormCardPage {
         }
         FormCard.FormDelegateSeparator {}
         FormCard.FormSwitchDelegate {
+            id: switchTrayIcon
             text: "Tray icon"
             enabled: !KTailctl.Config.startMinimized
             checked: KTailctl.Config.enableTrayIcon
-            onCheckedChanged: KTailctl.Config.enableTrayIcon = !KTailctl.Config.enableTrayIcon
+            onCheckedChanged: KTailctl.Config.enableTrayIcon = switchTrayIcon.checked
         }
         FormCard.FormDelegateSeparator {}
         FormCard.FormSpinBoxDelegate {
@@ -48,20 +50,28 @@ FormCard.FormCardPage {
     }
     FormCard.FormCard {
         FormCard.FormTextFieldDelegate {
+            id: textHostname
             label: "Hostname"
             text: KTailctl.Tailscale.preferences.hostname
+            onEditingFinished: KTailctl.Tailscale.preferences.hostname = textHostname.text
         }
         FormCard.FormSwitchDelegate {
+            id: switchRunSSH
             text: "SSH"
             checked: KTailctl.Tailscale.preferences.runSSH
+            onCheckedChanged: KTailctl.Tailscale.preferences.shieldsUp = switchRunSSH.checked
         }
         FormCard.FormSwitchDelegate {
+            id: switchShieldsUp
             text: "Shields up"
             checked: KTailctl.Tailscale.preferences.shieldsUp
+            onCheckedChanged: KTailctl.Tailscale.preferences.shieldsUp = switchShieldsUp.checked
         }
         FormCard.FormSwitchDelegate {
+            id: switchCorpDns
             text: "Accept DNS"
             checked: KTailctl.Tailscale.preferences.corpDns
+            onCheckedChanged: KTailctl.Tailscale.preferences.corpDns = switchCorpDns.checked
         }
     }
 

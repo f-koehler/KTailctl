@@ -11,6 +11,7 @@
 #include <QObject>
 #include <QProperty>
 #include <QString>
+#include <QTimer>
 
 // https://pkg.go.dev/tailscale.com/ipn#Prefs
 class Preferences : public QObject
@@ -19,6 +20,7 @@ class Preferences : public QObject
 
 public:
     enum class NetfilterMode : uint8_t { Off = 0, NoDivert = 1, On = 2 };
+
     Q_ENUM(NetfilterMode)
 
     Q_PROPERTY(QString controlUrl READ controlUrl BINDABLE bindableControlUrl)
@@ -32,9 +34,9 @@ public:
     Q_PROPERTY(bool runWebClient READ runWebClient BINDABLE bindableRunWebClient)
     Q_PROPERTY(bool wantRunning READ wantRunning BINDABLE bindableWantRunning)
     Q_PROPERTY(bool loggedOut READ loggedOut BINDABLE bindableLoggedOut)
-    Q_PROPERTY(bool shieldsUp READ shieldsUp BINDABLE bindableShieldsUp)
+    Q_PROPERTY(bool shieldsUp READ shieldsUp WRITE setShieldsUp BINDABLE bindableShieldsUp)
     Q_PROPERTY(QStringList advertiseTags READ advertiseTags BINDABLE bindableAdvertiseTags)
-    Q_PROPERTY(QString hostname READ hostname BINDABLE bindableHostname)
+    Q_PROPERTY(QString hostname READ hostname WRITE setHostname BINDABLE bindableHostname)
     Q_PROPERTY(bool notepadUrls READ notepadUrls BINDABLE bindableNotepadUrls)
     Q_PROPERTY(bool forceDaemon READ forceDaemon BINDABLE bindableForceDaemon)
     Q_PROPERTY(bool egg READ egg BINDABLE bindableEgg)
@@ -89,8 +91,9 @@ private:
     QProperty<QStringList> mRelayServerStaticEndpoints;
     // persist stuff?
 
-    void _set_preference(const QString& key, const QVariant& value)
+    void _set_preference(const QString &key, const QVariant &value)
     {
+        qCInfo(Logging::Tailscale::Preferences) << "Set preference " << key << " to " << value;
         GoString string;
         const QByteArray json = QJsonDocument::fromVariant(QVariantMap{{key, value}}).toJson();
         string.n = json.size();
@@ -98,18 +101,11 @@ private:
         if (tailscale_set_preferences(&string) == 0) {
             qCCritical(Logging::Tailscale::Preferences) << "Failed to set preferences!";
         } else {
-            // trigger a refresh of the settings maybe after a short delay
+            QTimer::singleShot(200, this, &Preferences::refresh);
         }
     }
 
-public:
-    explicit Preferences(QObject *parent = nullptr)
-        : QObject(parent)
-        , mAutoUpdate(new AutoUpdatePreferences(this))
-        , mAppConnectorPreferences(new AppConnectorPreferences(this))
-    {
-    }
-
+public slots:
     Q_INVOKABLE void refresh()
     {
         QMutexLocker lock(&mMutex);
@@ -128,6 +124,14 @@ public:
         qCInfo(Logging::Tailscale::Preferences) << "Preferences refreshed";
     }
 
+public:
+    explicit Preferences(QObject *parent = nullptr)
+        : QObject(parent)
+        , mAutoUpdate(new AutoUpdatePreferences(this))
+        , mAppConnectorPreferences(new AppConnectorPreferences(this))
+    {
+    }
+
     void updateFromJson(QJsonObject &json)
     {
         mControlUrl = json.take(QStringLiteral("ControlURL")).toString();
@@ -136,7 +140,7 @@ public:
         mAutoExitNode = json.take(QStringLiteral("AutoExitNode")).toString();
         mLastUsedExitNode = json.take(QStringLiteral("InternalExitNodePrior")).toString();
         mExitNodeAllowLanAccess = json.take(QStringLiteral("ExitNodeAllowLANAccess")).toBool();
-        mCorpDns = json.take(QStringLiteral("CorpDns")).toBool();
+        mCorpDns = json.take(QStringLiteral("CorpDNS")).toBool();
         mRunSSH = json.take(QStringLiteral("RunSSH")).toBool();
         mRunWebClient = json.take(QStringLiteral("RunWebClient")).toBool();
         mWantRunning = json.take(QStringLiteral("WantRunning")).toBool();
@@ -173,122 +177,152 @@ public:
     {
         return mControlUrl;
     }
+
     [[nodiscard]] bool routeAll() const noexcept
     {
         return mRouteAll;
     }
+
     [[nodiscard]] const QString &exitNodeId() const noexcept
     {
         return mExitNodeId;
     }
+
     [[nodiscard]] const QString &autoExitNode() const noexcept
     {
         return mAutoExitNode;
     }
+
     [[nodiscard]] const QString &lastUsedExitNode() const noexcept
     {
         return mLastUsedExitNode;
     }
+
     [[nodiscard]] bool exitNodeAllowLanAccess() const noexcept
     {
         return mExitNodeAllowLanAccess;
     }
+
     [[nodiscard]] bool corpDns() const noexcept
     {
         return mCorpDns;
     }
+
     [[nodiscard]] bool runSSH() const noexcept
     {
         return mRunSSH;
     }
+
     [[nodiscard]] bool runWebClient() const noexcept
     {
         return mRunWebClient;
     }
+
     [[nodiscard]] bool wantRunning() const noexcept
     {
         return mWantRunning;
     }
+
     [[nodiscard]] bool loggedOut() const noexcept
     {
         return mLoggedOut;
     }
+
     [[nodiscard]] bool shieldsUp() const noexcept
     {
         return mShieldsUp;
     }
+
     [[nodiscard]] const QStringList &advertiseTags() const noexcept
     {
         return mAdvertiseTags;
     }
+
     [[nodiscard]] const QString &hostname() const noexcept
     {
         return mHostname;
     }
+
     [[nodiscard]] bool notepadUrls() const noexcept
     {
         return mNotepadUrls;
     }
+
     [[nodiscard]] bool forceDaemon() const noexcept
     {
         return mForceDaemon;
     }
+
     [[nodiscard]] bool egg() const noexcept
     {
         return mEgg;
     }
+
     [[nodiscard]] const QStringList &advertiseRoutes() const noexcept
     {
         return mAdvertiseRoutes;
     }
+
     [[nodiscard]] const QStringList &advertiseServices() const noexcept
     {
         return mAdvertiseServices;
     }
+
     [[nodiscard]] bool sync() const noexcept
     {
         return mSync;
     }
+
     [[nodiscard]] bool noSnat() const noexcept
     {
         return mNoSnat;
     }
+
     [[nodiscard]] bool noStatefulFiltering() const noexcept
     {
         return mNoStatefulFiltering;
     }
+
     [[nodiscard]] NetfilterMode netfilterMode() const noexcept
     {
         return mNetfilterMode;
     }
+
     [[nodiscard]] const QString &operatorUser() const noexcept
     {
         return mOperatorUser;
     }
+
     [[nodiscard]] const QString &profileName() const noexcept
     {
         return mProfileName;
     }
+
     [[nodiscard]] AutoUpdatePreferences *autoUpdate() const noexcept
     {
         return mAutoUpdate;
     }
+
     [[nodiscard]] AppConnectorPreferences *appConnectorPreferences() const noexcept
     {
         return mAppConnectorPreferences;
     }
+
     [[nodiscard]] bool postureChecking() const noexcept
     {
         return mPostureChecking;
     }
+
     [[nodiscard]] const QString &netFilterKind() const noexcept
     {
         return mNetFilterKind;
     }
+
     [[nodiscard]] quint16 relayServerPort() const noexcept
     {
         return mRelayServerPort;
     }
+
     [[nodiscard]] const QStringList &relayServerStaticEndpoints() const noexcept
     {
         return mRelayServerStaticEndpoints;
@@ -297,6 +331,11 @@ public:
     void setExitNodeAllowLanAccess(bool value)
     {
         _set_preference(QStringLiteral("ExitNodeAllowLanAccess"), value);
+    }
+
+    void setShieldsUp(bool value)
+    {
+        _set_preference(QStringLiteral("ShieldsUp"), value);
     }
 
     void setCorpDns(bool value)
@@ -309,118 +348,151 @@ public:
         _set_preference(QStringLiteral("RunSSH"), value);
     }
 
+    void setHostname(const QString &value)
+    {
+        _set_preference(QStringLiteral("Hostname"), value);
+    }
+
     [[nodiscard]] QBindable<QString> bindableControlUrl()
     {
         return {&mControlUrl};
     }
+
     [[nodiscard]] QBindable<bool> bindableRouteAll()
     {
         return {&mRouteAll};
     }
+
     [[nodiscard]] QBindable<QString> bindableExitNodeId()
     {
         return {&mExitNodeId};
     }
+
     [[nodiscard]] QBindable<QString> bindableAutoExitNode()
     {
         return {&mAutoExitNode};
     }
+
     [[nodiscard]] QBindable<QString> bindableLastUsedExitNode()
     {
         return {&mLastUsedExitNode};
     }
+
     [[nodiscard]] QBindable<bool> bindableExitNodeAllowLanAccess()
     {
         return {&mExitNodeAllowLanAccess};
     }
+
     [[nodiscard]] QBindable<bool> bindableCorpDns()
     {
         return {&mCorpDns};
     }
+
     [[nodiscard]] QBindable<bool> bindableRunSSH()
     {
         return {&mRunSSH};
     }
+
     [[nodiscard]] QBindable<bool> bindableRunWebClient()
     {
         return {&mRunWebClient};
     }
+
     [[nodiscard]] QBindable<bool> bindableWantRunning()
     {
         return {&mWantRunning};
     }
+
     [[nodiscard]] QBindable<bool> bindableLoggedOut()
     {
         return {&mLoggedOut};
     }
+
     [[nodiscard]] QBindable<bool> bindableShieldsUp()
     {
         return {&mShieldsUp};
     }
+
     [[nodiscard]] QBindable<QStringList> bindableAdvertiseTags()
     {
         return {&mAdvertiseTags};
     }
+
     [[nodiscard]] QBindable<QString> bindableHostname()
     {
         return {&mHostname};
     }
+
     [[nodiscard]] QBindable<bool> bindableNotepadUrls()
     {
         return {&mNotepadUrls};
     }
+
     [[nodiscard]] QBindable<bool> bindableForceDaemon()
     {
         return {&mForceDaemon};
     }
+
     [[nodiscard]] QBindable<bool> bindableEgg()
     {
         return {&mEgg};
     }
+
     [[nodiscard]] QBindable<QStringList> bindableAdvertiseRoutes()
     {
         return {&mAdvertiseRoutes};
     }
+
     [[nodiscard]] QBindable<QStringList> bindableAdvertiseServices()
     {
         return {&mAdvertiseServices};
     }
+
     [[nodiscard]] QBindable<bool> bindableSync()
     {
         return {&mSync};
     }
+
     [[nodiscard]] QBindable<bool> bindableNoSnat()
     {
         return {&mNoSnat};
     }
+
     [[nodiscard]] QBindable<bool> bindableNoStatefulFiltering()
     {
         return {&mNoStatefulFiltering};
     }
+
     [[nodiscard]] QBindable<NetfilterMode> bindableNetfilterMode()
     {
         return {&mNetfilterMode};
     }
+
     [[nodiscard]] QBindable<QString> bindableOperatorUser()
     {
         return {&mOperatorUser};
     }
+
     [[nodiscard]] QBindable<QString> bindableProfileName()
     {
         return {&mProfileName};
     }
+
     [[nodiscard]] QBindable<bool> bindablePostureChecking()
     {
         return {&mPostureChecking};
     }
+
     [[nodiscard]] QBindable<QString> bindableNetFilterKind()
     {
         return {&mNetFilterKind};
     }
+
     [[nodiscard]] QBindable<quint16> bindableRelayServerPort()
     {
         return {&mRelayServerPort};
     }
+
     [[nodiscard]] QBindable<QStringList> bindableRelayServerStaticEndpoints()
     {
         return {&mRelayServerStaticEndpoints};

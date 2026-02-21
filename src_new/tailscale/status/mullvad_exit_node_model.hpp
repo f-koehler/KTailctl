@@ -47,7 +47,7 @@ public:
             return false;
         }
 
-        const auto* model = sourceModel();
+        const auto *model = sourceModel();
         const QModelIndex sourceIndex = model->index(sourceRow, 0, sourceParent);
         return model->data(sourceIndex, mRoleIndexMullvadNode).toBool();
     }

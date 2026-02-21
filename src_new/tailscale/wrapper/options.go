@@ -66,6 +66,14 @@ func tailscale_set_preferences(jsonStr *string) bool {
 			}
 			maskedPrefs.CorpDNS = value
 			maskedPrefs.CorpDNSSet = true
+		case "ShieldsUp":
+			var value bool
+			if err := json.Unmarshal(raw, &value); err != nil {
+				log_critical(fmt.Sprintf("failed to parse ShieldsUp: %v", err))
+				return false
+			}
+			maskedPrefs.ShieldsUp = value
+			maskedPrefs.ShieldsUpSet = true
 		case "RunSSH":
 			var value bool
 			if err := json.Unmarshal(raw, &value); err != nil {
@@ -74,6 +82,14 @@ func tailscale_set_preferences(jsonStr *string) bool {
 			}
 			maskedPrefs.RunSSH = value
 			maskedPrefs.RunSSHSet = true
+		case "Hostname":
+            var value string
+            if err := json.Unmarshal(raw, &value); err != nil {
+                log_critical(fmt.Sprintf("failed to parse Hostname: %v", err))
+                return false
+            }
+            maskedPrefs.Hostname = value
+            maskedPrefs.HostnameSet = true
 		}
 	}
 
