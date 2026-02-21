@@ -15,8 +15,7 @@ Kirigami.ScrollablePage {
     objectName: "Statistics"
     title: i18n("Statistics")
 
-    header: KTailctlComponents.HeaderBanner {
-    }
+    header: KTailctlComponents.HeaderBanner {}
 
     Kirigami.FormLayout {
         anchors.fill: parent

@@ -8,7 +8,7 @@ FormCard.FormCardPage {
     property KTailctl.LoginProfile loginProfile: null
 
     Component.onCompleted: {
-        console.log("Login profile:", loginProfile)
+        console.log("Login profile:", loginProfile);
     }
 
     FormCard.FormHeader {

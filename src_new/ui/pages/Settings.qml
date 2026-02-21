@@ -20,8 +20,8 @@ FormCard.FormCardPage {
             text: "Start minimized"
             checked: KTailctl.Config.startMinimized
             onCheckedChanged: {
-                KTailctl.Config.startMinimized = switchStartMinimized.checked
-                if(KTailctl.Config.startMinimized) {
+                KTailctl.Config.startMinimized = switchStartMinimized.checked;
+                if (KTailctl.Config.startMinimized) {
                     KTailctl.Config.enableTrayIcon = true;
                 }
             }
@@ -124,7 +124,7 @@ FormCard.FormCardPage {
             label: "Relay server port"
         }
         Repeater {
-            model: ["[2001:db8::1]:40000","192.0.2.1:40000"]
+            model: ["[2001:db8::1]:40000", "192.0.2.1:40000"]
             FormCard.FormButtonDelegate {
                 text: modelData
                 trailingLogo.source: "remove"

@@ -36,7 +36,6 @@ Kirigami.ApplicationWindow {
 
     contextDrawer: Kirigami.ContextDrawer {
         id: contextDrawer
-
     }
     globalDrawer: Kirigami.OverlayDrawer {
         id: drawer
@@ -73,7 +72,6 @@ Kirigami.ApplicationWindow {
 
             Controls.ButtonGroup {
                 id: pageButtonGroup
-
             }
 
             Repeater {

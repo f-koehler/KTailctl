@@ -30,7 +30,7 @@ FormCard.FormCardPage {
                 id: searchField
                 onAccepted: {
                     page.filterMullvadSearchValue = searchField.text.toLowerCase();
-                    if(page.filterMullvadSearchValue) {
+                    if (page.filterMullvadSearchValue) {
                         // we need to toggle the filter to refresh it, just updating the filter value is not sufficient
                         page.filterMullvadSearchEnabled = false;
                         page.filterMullvadSearchEnabled = true;
@@ -39,11 +39,11 @@ FormCard.FormCardPage {
                     }
                 }
             }
-        },
+        }
     ]
 
     FormCard.FormHeader {
-           title: "Settings"
+        title: "Settings"
     }
 
     FormCard.FormCard {
@@ -86,7 +86,7 @@ FormCard.FormCardPage {
                         ToolTip.delay: Kirigami.Units.toolTipDelay
                         ToolTip.text: "Country"
                         ToolTip.visible: hovered
-                        source:  "network-vpn"
+                        source: "network-vpn"
                     }
                     trailing: RowLayout {
                         ToolButton {

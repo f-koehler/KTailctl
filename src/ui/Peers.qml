@@ -33,8 +33,7 @@ Kirigami.ScrollablePage {
             }
         }
     ]
-    header: KTailctlComponents.HeaderBanner {
-    }
+    header: KTailctlComponents.HeaderBanner {}
 
     Kirigami.CardsListView {
         id: listPeers

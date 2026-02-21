@@ -20,7 +20,7 @@ FormCard.FormCardPage {
             description: "Node ID"
             trailingLogo.source: "edit-copy"
             onClicked: {
-                onClicked: KTailctl.Util.setClipboardText(peer.id)
+                onClicked: KTailctl.Util.setClipboardText(peer.id);
             }
         }
 
@@ -35,7 +35,7 @@ FormCard.FormCardPage {
             description: "Public Key"
             trailingLogo.source: "edit-copy"
             onClicked: {
-                onClicked: KTailctl.Util.setClipboardText(peer.publicKey)
+                onClicked: KTailctl.Util.setClipboardText(peer.publicKey);
             }
         }
 
@@ -50,7 +50,7 @@ FormCard.FormCardPage {
             description: "DNS Name"
             trailingLogo.source: "edit-copy"
             onClicked: {
-                onClicked: KTailctl.Util.setClipboardText(peer.dnsName)
+                onClicked: KTailctl.Util.setClipboardText(peer.dnsName);
             }
         }
 
@@ -65,7 +65,7 @@ FormCard.FormCardPage {
             description: "Host Name"
             trailingLogo.source: "edit-copy"
             onClicked: {
-                onClicked: KTailctl.Util.setClipboardText(peer.hostName)
+                onClicked: KTailctl.Util.setClipboardText(peer.hostName);
             }
         }
 
@@ -76,13 +76,13 @@ FormCard.FormCardPage {
         }
 
         FormCard.FormButtonDelegate {
-            visible: peer?.os
             id: os
+            visible: peer?.os
             text: peer?.os ?? ""
             description: "Operating System"
             trailingLogo.source: "edit-copy"
             onClicked: {
-                onClicked: KTailctl.Util.setClipboardText(peer.os)
+                onClicked: KTailctl.Util.setClipboardText(peer.os);
             }
         }
     }
@@ -101,7 +101,7 @@ FormCard.FormCardPage {
                     text: modelData
                     trailingLogo.source: "edit-copy"
                     onClicked: {
-                        onClicked: KTailctl.Util.setClipboardText(modelData)
+                        onClicked: KTailctl.Util.setClipboardText(modelData);
                     }
                 }
                 FormCard.FormDelegateSeparator {
@@ -132,7 +132,7 @@ FormCard.FormCardPage {
                     text: modelData
                     trailingLogo.source: "edit-copy"
                     onClicked: {
-                        onClicked: KTailctl.Util.setClipboardText(modelData)
+                        onClicked: KTailctl.Util.setClipboardText(modelData);
                     }
                     FormCard.FormDelegateSeparator {
                         visible: index < repeaterRoutes.count - 1
@@ -156,7 +156,7 @@ FormCard.FormCardPage {
             }
             trailingLogo.source: "edit-copy"
             onClicked: {
-                onClicked: KTailctl.Util.setClipboardText(peer.location.country)
+                onClicked: KTailctl.Util.setClipboardText(peer.location.country);
             }
         }
 
@@ -171,7 +171,7 @@ FormCard.FormCardPage {
             description: "City (City Code)"
             trailingLogo.source: "edit-copy"
             onClicked: {
-                onClicked: KTailctl.Util.setClipboardText(peer.location.city)
+                onClicked: KTailctl.Util.setClipboardText(peer.location.city);
             }
         }
 
@@ -186,7 +186,7 @@ FormCard.FormCardPage {
             description: "Latitude"
             trailingLogo.source: "edit-copy"
             onClicked: {
-                onClicked: KTailctl.Util.setClipboardText(peer.location.latitude)
+                onClicked: KTailctl.Util.setClipboardText(peer.location.latitude);
             }
         }
 
@@ -201,7 +201,7 @@ FormCard.FormCardPage {
             description: "Longitude"
             trailingLogo.source: "edit-copy"
             onClicked: {
-                onClicked: KTailctl.Util.setClipboardText(peer.location.longitude)
+                onClicked: KTailctl.Util.setClipboardText(peer.location.longitude);
             }
         }
 
@@ -216,7 +216,7 @@ FormCard.FormCardPage {
             description: "Priority"
             trailingLogo.source: "edit-copy"
             onClicked: {
-                onClicked: KTailctl.Util.setClipboardText(peer.location.priority)
+                onClicked: KTailctl.Util.setClipboardText(peer.location.priority);
             }
         }
     }

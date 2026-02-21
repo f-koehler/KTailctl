@@ -19,8 +19,7 @@ Kirigami.ScrollablePage {
     objectName: "Peer"
     title: "Peer: " + peer.hostName
 
-    header: KTailctlComponents.HeaderBanner {
-    }
+    header: KTailctlComponents.HeaderBanner {}
 
     DropArea {
         anchors.fill: parent
@@ -51,24 +50,21 @@ Kirigami.ScrollablePage {
                     text: i18nc("@label", "Hostname:")
                 }
 
-                FormCard.FormDelegateSeparator {
-                }
+                FormCard.FormDelegateSeparator {}
 
                 KTailctlComponents.FormCopyLabelDelegate {
                     copyData: root.peer.dnsName
                     text: i18nc("@label", "DNS name:")
                 }
 
-                FormCard.FormDelegateSeparator {
-                }
+                FormCard.FormDelegateSeparator {}
 
                 KTailctlComponents.FormCopyLabelDelegate {
                     copyData: root.peer.tailscaleID
                     text: i18nc("@label", "Tailscale ID:")
                 }
 
-                FormCard.FormDelegateSeparator {
-                }
+                FormCard.FormDelegateSeparator {}
 
                 KTailctlComponents.FormCopyLabelDelegate {
                     copyData: {
@@ -121,8 +117,7 @@ Kirigami.ScrollablePage {
                     visible: root.peer.os != ""
                 }
 
-                FormCard.FormDelegateSeparator {
-                }
+                FormCard.FormDelegateSeparator {}
 
                 KTailctlComponents.FormCopyChipsDelegate {
                     model: root.peer.tailscaleIps
@@ -139,8 +134,7 @@ Kirigami.ScrollablePage {
                     visible: root.peer.tags.length > 0
                 }
 
-                FormCard.FormDelegateSeparator {
-                }
+                FormCard.FormDelegateSeparator {}
 
                 FormCard.FormButtonDelegate {
                     icon.name: "internet-web-browser"
@@ -169,8 +163,7 @@ Kirigami.ScrollablePage {
                     text: i18nc("@label", "Exit node:")
                 }
 
-                FormCard.FormDelegateSeparator {
-                }
+                FormCard.FormDelegateSeparator {}
 
                 FormCard.FormSwitchDelegate {
                     checked: root.peer.isCurrentExitNode
@@ -205,8 +198,7 @@ Kirigami.ScrollablePage {
                     text: i18nc("@label", "Runs Tailscale SSH:")
                 }
 
-                FormCard.FormDelegateSeparator {
-                }
+                FormCard.FormDelegateSeparator {}
 
                 KTailctlComponents.FormCopyLabelDelegate {
                     copyData: i18nc("@label", "Copy")
@@ -244,8 +236,7 @@ Kirigami.ScrollablePage {
                     }
                 }
 
-                FormCard.FormDelegateSeparator {
-                }
+                FormCard.FormDelegateSeparator {}
 
                 KTailctlComponents.FormLabelDelegate {
                     label: root.peer.location == null ? "" : peer.location.city + " (" + peer.location.cityCode + ")"

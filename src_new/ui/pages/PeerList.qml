@@ -55,7 +55,7 @@ FormCard.FormCardPage {
                 id: searchField
                 onAccepted: {
                     page.filterDnsNameValue = searchField.text.toLowerCase();
-                    if(page.filterDnsNameValue) {
+                    if (page.filterDnsNameValue) {
                         // we need to toggle the filter to refresh it, just updating the filter value is not sufficient
                         page.filterDnsNameEnabled = false;
                         page.filterDnsNameEnabled = true;
@@ -114,14 +114,14 @@ FormCard.FormCardPage {
             FunctionFilter {
                 id: functionFilterDnsName
                 enabled: page.filterDnsNameEnabled
-                component RoleData: QtObject {
-                    property string dnsName
-                }
-                function filter(data: RoleData) : bool {
+                function filter(data: RoleData): bool {
                     return data.dnsName.includes(page.filterDnsNameValue);
                 }
             }
         ]
+    }
+    component RoleData: QtObject {
+        property string dnsName
     }
 
     FormCard.FormHeader {

@@ -11,8 +11,7 @@ FormCard.FormCardPage {
     Component {
         id: pageLoginProfileInfo
 
-        LoginProfileInfo {
-        }
+        LoginProfileInfo {}
     }
 
     FormCard.FormCard {
@@ -41,11 +40,9 @@ FormCard.FormCardPage {
                             ToolTip.visible: hovered
                             icon.name: "help-info"
                             onClicked: {
-                                applicationWindow().pageStack.layers.push(pageLoginProfileInfo,
-                                    {
-                                        loginProfile: KTailctl.Tailscale.loginProfileWithId(id)
-                                    }
-                                )
+                                applicationWindow().pageStack.layers.push(pageLoginProfileInfo, {
+                                    loginProfile: KTailctl.Tailscale.loginProfileWithId(id)
+                                });
                             }
                         }
                     }
