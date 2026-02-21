@@ -197,75 +197,76 @@ FormCard.FormCardPage {
         title: "Peers"
     }
 
-    FormCard.FormCard {
-        Repeater {
-            model: peerModel
-            delegate: ColumnLayout {
-                FormCard.FormTextDelegate {
-                    text: ""
+    ListView {
+        model: peerModel
+        interactive: false
+        implicitHeight: contentHeight
+        Layout.fillWidth: true
+        reuseItems: true
 
-                    leading: RowLayout {
-                        Kirigami.Icon {
-                            ToolTip.delay: Kirigami.Units.toolTipDelay
-                            ToolTip.text: online ? "Online" : "Offline"
-                            ToolTip.visible: hovered
-                            source: online ? "online" : "offline"
-                            implicitWidth: 22
-                            implicitHeight: 22
-                        }
-                        ToolButton {
-                            ToolTip.delay: Kirigami.Units.toolTipDelay
-                            ToolTip.text: "Copy DNS name to clipboard"
-                            ToolTip.visible: hovered
-                            icon.name: "edit-copy"
-                            text: dnsName
-                            onClicked: KTailctl.Util.setClipboardText(dnsName)
-                        }
+        delegate: FormCard.FormCard {
+            width: ListView.view.width
 
-                        ToolButton {
-                            ToolTip.delay: Kirigami.Units.toolTipDelay
-                            ToolTip.text: "Copy IP address to clipboard"
-                            ToolTip.visible: hovered
-                            icon.name: "edit-copy"
-                            text: tailscaleIps[0]
-                            onClicked: KTailctl.Util.setClipboardText(tailscaleIps[0])
-                        }
+            FormCard.FormTextDelegate {
+                text: ""
+
+                leading: RowLayout {
+                    Kirigami.Icon {
+                        ToolTip.delay: Kirigami.Units.toolTipDelay
+                        ToolTip.text: online ? "Online" : "Offline"
+                        ToolTip.visible: hovered
+                        source: online ? "online" : "offline"
+                        implicitWidth: 22
+                        implicitHeight: 22
+                    }
+                    ToolButton {
+                        ToolTip.delay: Kirigami.Units.toolTipDelay
+                        ToolTip.text: "Copy DNS name to clipboard"
+                        ToolTip.visible: hovered
+                        icon.name: "edit-copy"
+                        text: dnsName
+                        onClicked: KTailctl.Util.setClipboardText(dnsName)
                     }
 
-                    trailing: RowLayout {
-                        ToolButton {
-                            ToolTip.delay: Kirigami.Units.toolTipDelay
-                            ToolTip.text: "View node info"
-                            ToolTip.visible: hovered
-                            icon.name: "help-info"
-                            onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
-                                peer: KTailctl.Tailscale.status.peerWithId(id)
-                            })
-                        }
-
-                        ToolButton {
-                            ToolTip.delay: Kirigami.Units.toolTipDelay
-                            ToolTip.text: "More actions"
-                            ToolTip.visible: hovered
-                            icon.name: "open-menu"
-                            onClicked: menu.open()
-
-                            Menu {
-                                id: menu
-                                MenuItem {
-                                    icon.name: "help-info"
-                                    text: "Node info"
-                                    onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
-                                        peer: KTailctl.Tailscale.status.peerWithId(id)
-                                    })
-                                }
-                            }
-                        }
+                    ToolButton {
+                        ToolTip.delay: Kirigami.Units.toolTipDelay
+                        ToolTip.text: "Copy IP address to clipboard"
+                        ToolTip.visible: hovered
+                        icon.name: "edit-copy"
+                        text: tailscaleIps[0]
+                        onClicked: KTailctl.Util.setClipboardText(tailscaleIps[0])
                     }
                 }
 
-                FormCard.FormDelegateSeparator {
-                    visible: index < peerModel.rowCount() - 1
+                trailing: RowLayout {
+                    ToolButton {
+                        ToolTip.delay: Kirigami.Units.toolTipDelay
+                        ToolTip.text: "View node info"
+                        ToolTip.visible: hovered
+                        icon.name: "help-info"
+                        onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
+                            peer: KTailctl.Tailscale.status.peerWithId(id)
+                        })
+                    }
+
+                    ToolButton {
+                        ToolTip.delay: Kirigami.Units.toolTipDelay
+                        ToolTip.text: "More actions"
+                        ToolTip.visible: hovered
+                        icon.name: "open-menu"
+                        onClicked: peerMenu.open()
+
+                        Menu {
+                            id: peerMenu
+                            MenuItem {
+                                icon.name: "help-info"
+                                text: "Node info"
+                                onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
+                                    peer: KTailctl.Tailscale.status.peerWithId(id)
+                                })
+                            }
+                        }
+                    }
                 }
             }
         }
