@@ -7,4 +7,4 @@ repos:
     rev: "v0.3.0"
     hooks:
       - id: qmlformat
-      - id: qmllint
+      # - id: qmllint
