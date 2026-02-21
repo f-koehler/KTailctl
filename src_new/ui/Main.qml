@@ -68,6 +68,14 @@ Kirigami.ApplicationWindow {
 
     pageStack.initialPage: "qrc:/ui/pages/PeerList.qml"
 
+    Component.onCompleted: {
+        mainPagePool.loadPage("qrc:/ui/pages/LoginProfileList.qml");
+        mainPagePool.loadPage("qrc:/ui/pages/PeerList.qml");
+        mainPagePool.loadPage("qrc:/ui/pages/ExitNodeList.qml");
+        mainPagePool.loadPage("qrc:/ui/pages/Settings.qml");
+        mainPagePool.loadPage("qrc:/ui/pages/About.qml");
+    }
+
     Timer {
         interval: KTailctl.Config.refreshInterval
         repeat: true
