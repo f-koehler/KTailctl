@@ -29,7 +29,7 @@ signals:
 
 public:
     explicit TrayIcon(TailscaleNew *tailscale, QObject *parent = nullptr)
-        : QSystemTrayIcon(QIcon::fromTheme(QStringLiteral("about_kde")), parent)
+        : QSystemTrayIcon(QIcon::fromTheme(QStringLiteral("unknown")), parent)
         , mContextMenu(new QMenu(QStringLiteral("Tray Menu")))
         , mMenuAccounts(new TrayMenuAccounts())
         , mMenuSelf(new TrayMenuSelf(tailscale))
@@ -67,6 +67,18 @@ public:
         connect(Config::self(), &Config::enableTrayIconChanged, [this]() {
             setVisible(Config::enableTrayIcon());
         });
+        setIcon(QIcon(QString(":/tray-icons/%1-%2.svg").arg(QStringLiteral("online"), QStringLiteral("colorful"))));
+
+        // QString name;
+        // if (mTailscale->backendState() == "Running") {
+        //     if (mTailscale->hasCurrentExitNode()) {
+        //         name = QStringLiteral("exit-node");
+        //     } else {
+        //         name = QStringLiteral("online");
+        //     }
+        // } else {
+        //     name = QStringLiteral("offline");
+        // }
     }
 };
 

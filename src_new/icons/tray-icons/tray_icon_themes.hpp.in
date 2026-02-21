@@ -1,0 +1,10 @@
+#ifndef KTAILCTL_ICONS_TRAY_ICONS_TRAY_ICON_THEMES_HPP
+#define KTAILCTL_ICONS_TRAY_ICONS_TRAY_ICON_THEMES_HPP
+
+#include <QStringList>
+
+static const QStringList TrayIconThemes = {
+@KTAILCTL_TRAY_ICON_THEMES_LITERAL_LIST@
+};
+
+#endif
