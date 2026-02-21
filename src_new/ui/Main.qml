@@ -69,28 +69,28 @@ Kirigami.ApplicationWindow {
     pageStack.initialPage: "qrc:/ui/pages/PeerList.qml"
 
     Timer {
-        interval: 5000
+        interval: KTailctl.Config.refreshInterval
         repeat: true
         running: true
-        triggeredOnStart: false
+        triggeredOnStart: true
 
         onTriggered: KTailctl.Tailscale.status.refresh()
     }
 
     Timer {
-        interval: 5000
+        interval: KTailctl.Config.refreshInterval
         repeat: true
         running: true
-        triggeredOnStart: false
+        triggeredOnStart: true
 
         onTriggered: KTailctl.Tailscale.preferences.refresh()
     }
 
     Timer {
-        interval: 30000
+        interval: KTailctl.Config.refreshInterval
         repeat: true
         running: true
-        triggeredOnStart: false
+        triggeredOnStart: true
 
         onTriggered: KTailctl.Tailscale.refreshLoginProfiles()
     }

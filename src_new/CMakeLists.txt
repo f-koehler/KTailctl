@@ -22,3 +22,18 @@ add_subdirectory(tailscale)
 add_subdirectory(ui)
 add_subdirectory(icons)
 add_subdirectory(tray_icon)
+add_subdirectory(config)
+
+# Must be called here, build breaks if this is done inside config/CMakeLists.txt
+kconfig_target_kcfg_file(ktailctl
+  FILE ${CMAKE_CURRENT_SOURCE_DIR}/config/ktailctl_config.kcfg
+  CLASS_NAME Config
+  MUTATORS
+  DEFAULT_VALUE_GETTERS
+  GENERATE_PROPERTIES
+  PARENT_IN_CONSTRUCTOR
+  SINGLETON
+  NOTIFIERS
+  USE_ENUM_TYPES
+  GENERATE_MOC
+)

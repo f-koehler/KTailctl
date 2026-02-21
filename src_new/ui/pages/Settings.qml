@@ -17,14 +17,29 @@ FormCard.FormCardPage {
     FormCard.FormCard {
         FormCard.FormSwitchDelegate {
             text: "Start minimized"
+            checked: KTailctl.Config.startMinimized
+            onCheckedChanged: {
+                KTailctl.Config.startMinimized = !KTailctl.Config.startMinimized
+                if(KTailctl.Config.startMinimized) {
+                    KTailctl.Config.enableTrayIcon = true;
+                }
+            }
         }
         FormCard.FormDelegateSeparator {}
         FormCard.FormSwitchDelegate {
             text: "Tray icon"
+            enabled: !KTailctl.Config.startMinimized
+            checked: KTailctl.Config.enableTrayIcon
+            onCheckedChanged: KTailctl.Config.enableTrayIcon = !KTailctl.Config.enableTrayIcon
         }
         FormCard.FormDelegateSeparator {}
         FormCard.FormSpinBoxDelegate {
+            id: spinRefreshInterval
             label: "Refresh interval"
+            value: KTailctl.Config.refreshInterval
+            from: 100
+            to: 30000
+            onValueChanged: KTailctl.Config.refreshInterval = spinRefreshInterval.value
         }
     }
 
@@ -33,16 +48,20 @@ FormCard.FormCardPage {
     }
     FormCard.FormCard {
         FormCard.FormTextFieldDelegate {
-            label: Tailscale.preferences.hostName
+            label: "Hostname"
+            text: KTailctl.Tailscale.preferences.hostname
         }
         FormCard.FormSwitchDelegate {
             text: "SSH"
+            checked: KTailctl.Tailscale.preferences.runSSH
         }
         FormCard.FormSwitchDelegate {
             text: "Shields up"
+            checked: KTailctl.Tailscale.preferences.shieldsUp
         }
         FormCard.FormSwitchDelegate {
             text: "Accept DNS"
+            checked: KTailctl.Tailscale.preferences.corpDns
         }
     }
 

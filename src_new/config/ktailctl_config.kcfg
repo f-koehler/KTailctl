@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+                          http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+  <group name="General">
+    <entry name="refreshInterval" type="Int">
+      <label>Refresh interval for the Tailscale status in milliseconds</label>
+      <default>5000</default>
+    </entry>
+  </group>
+  <group name="Interface">
+      <entry name="startMinimized" type="Bool">
+          <label>Start minimized</label>
+          <default>false</default>
+      </entry>
+      <entry name="enableTrayIcon" type="Bool">
+          <label>Enable tray icon</label>
+          <default>true</default>
+      </entry>
+      <entry name="trayIconTheme" type="String">
+          <label>Theme of the tray icon</label>
+          <default>colorful</default>
+      </entry>
+      <entry name="showTagsInPeerList" type="Bool">
+          <label>Whether to show tags in the peer list</label>
+          <default>false</default>
+      </entry>
+  </group>
+</kcfg>

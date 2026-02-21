@@ -17,6 +17,8 @@
 #include <QQuickWindow>
 #include <QtQml>
 
+#include "ktailctl_config.h"
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
@@ -75,6 +77,7 @@ int main(int argc, char *argv[])
     });
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Tailscale", tailscale);
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Util", util);
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Config", Config::self());
 
     engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
     engine.load(QStringLiteral("qrc:/Main.qml"));

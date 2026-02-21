@@ -5,6 +5,7 @@
 #include "./tray_menu_exit_nodes.hpp"
 #include "./tray_menu_peers.hpp"
 #include "./tray_menu_self.hpp"
+#include "ktailctl_config.h"
 #include <QSystemTrayIcon>
 
 class TrayIcon : public QSystemTrayIcon
@@ -62,6 +63,10 @@ public:
         connect(mContextMenu, &QMenu::aboutToShow, mMenuSelf, &TrayMenuSelf::rebuildMenu);
         connect(mContextMenu, &QMenu::aboutToShow, mMenuPeers, &TrayMenuPeers::rebuildMenu);
         connect(mContextMenu, &QMenu::aboutToShow, mMenuExitNodes, &TrayMenuExitNodes::rebuildMenu);
+
+        connect(Config::self(), &Config::enableTrayIconChanged, [this]() {
+            setVisible(Config::enableTrayIcon());
+        });
     }
 };
 
