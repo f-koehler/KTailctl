@@ -35,6 +35,14 @@ FormCard.FormCardPage {
             onCheckedChanged: KTailctl.Config.enableTrayIcon = switchTrayIcon.checked
         }
         FormCard.FormDelegateSeparator {}
+        FormCard.FormComboBoxDelegate {
+            id: comboTrayIconTheme
+            text: "Tray icon theme"
+            model: KTailctl.TrayIconThemes.themes
+            currentIndex: KTailctl.TrayIconThemes.currentIndex
+            onActivated: KTailctl.TrayIconThemes.currentIndex = comboTrayIconTheme.currentIndex
+        }
+        FormCard.FormDelegateSeparator {}
         FormCard.FormSpinBoxDelegate {
             id: spinRefreshInterval
             label: "Refresh interval"

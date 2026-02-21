@@ -67,7 +67,11 @@ public:
         connect(Config::self(), &Config::enableTrayIconChanged, [this]() {
             setVisible(Config::enableTrayIcon());
         });
-        setIcon(QIcon(QString(":/tray-icons/%1-%2.svg").arg(QStringLiteral("online"), QStringLiteral("colorful"))));
+
+        connect(Config::self(), &Config::trayIconThemeChanged, [this]() {
+            setIcon(QIcon(QString(":/tray-icons/%1-%2.svg").arg(QStringLiteral("online"), Config::trayIconTheme())));
+        });
+        setIcon(QIcon(QString(":/tray-icons/%1-%2.svg").arg(QStringLiteral("online"), Config::trayIconTheme())));
 
         // QString name;
         // if (mTailscale->backendState() == "Running") {

@@ -8,6 +8,7 @@
 #include "tailscale/status/tailnet_status.hpp"
 #include "tailscale/tailscale.hpp"
 #include "tray_icon/tray_icon.hpp"
+#include "tray_icon_themes.hpp"
 #include <KAboutData>
 #include <KDBusService>
 #include <KLocalizedContext>
@@ -72,12 +73,14 @@ int main(int argc, char *argv[])
 
     TailscaleNew *tailscale = new TailscaleNew();
     Util *util = new Util();
+    TrayIconThemes *tray_icon_themes = new TrayIconThemes();
     qmlRegisterSingletonType("org.fkoehler.KTailctl", 1, 0, "About", [](QQmlEngine *engine, QJSEngine *) -> QJSValue {
         return engine->toScriptValue(KAboutData::applicationData());
     });
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Tailscale", tailscale);
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Util", util);
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Config", Config::self());
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "TrayIconThemes", tray_icon_themes);
 
     engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
     engine.load(QStringLiteral("qrc:/Main.qml"));

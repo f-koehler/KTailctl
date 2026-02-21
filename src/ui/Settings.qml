@@ -105,6 +105,7 @@ Kirigami.ScrollablePage {
                     displayText: App.config.trayIconTheme
                     model: Preferences.trayIconThemes
                     text: i18nc("@label", "Tray icon theme:")
+                    t
 
                     onActivated: {
                         App.config.trayIconTheme = trayIconTheme.currentText;
