@@ -45,10 +45,12 @@ public slots:
                 continue;
             }
             const auto &countryCode = location->countryCode();
+            const QIcon icon(":/country-flags/country-flag-" + countryCode.toLower());
             if (mPerCountryMenus[countryCode] == nullptr) {
                 mPerCountryMenus[countryCode] = new QMenu(location->country(), this);
+                mPerCountryMenus[countryCode]->setIcon(icon);
             }
-            mPerCountryMenus[countryCode]->addAction(index.data(mRoleIndexHostName).toString());
+            mPerCountryMenus[countryCode]->addAction(icon, index.data(mRoleIndexHostName).toString());
         }
 
         for (auto menu : mPerCountryMenus.values()) {
