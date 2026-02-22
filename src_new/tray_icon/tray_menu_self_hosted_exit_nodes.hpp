@@ -28,11 +28,10 @@ public slots:
             return;
         }
         for (int row = 0; row < rows; ++row) {
-            QModelIndex index = mTailscale->status()->selfHostedExitNodeModel()->index(row, 0);
+            const QModelIndex index = mTailscale->status()->selfHostedExitNodeModel()->index(row, 0);
             if (!index.isValid()) {
                 continue;
             }
-            QPersistentModelIndex persistent_index(index);
             addAction(index.data(mRoleIndexHostName).toString());
         }
     }
@@ -44,7 +43,6 @@ public:
         , mRoleIndicesFound(true)
         , mRoleIndexHostName((tailscale->status()->peerModel()->roleIndexForProperty("hostName")))
     {
-        mRoleIndicesFound = true;
         if (mRoleIndexHostName == -1) {
             qCCritical(Logging::TrayIcon) << "Failed to find role index for hostName";
             mRoleIndicesFound = false;

@@ -29,14 +29,13 @@ public slots:
 
         const int rows = mTailscale->status()->peerModel()->rowCount(QModelIndex{});
         for (int row = 0; row < rows; ++row) {
-            QModelIndex index = mTailscale->status()->peerModel()->index(row, 0);
+            const QModelIndex index = mTailscale->status()->peerModel()->index(row, 0);
             if (!index.isValid()) {
                 continue;
             }
             if (index.data(mRoleIndexMullvadNode).toBool()) {
                 continue;
             }
-            QPersistentModelIndex persistent_index(index);
             const QString title = index.data(mRoleIndexHostName).toString();
             QMenu *subMenu = addMenu(title);
 
