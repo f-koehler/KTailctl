@@ -13,6 +13,7 @@ class TrayIcon : public QSystemTrayIcon
     Q_OBJECT
 
 private:
+    TailscaleNew *mTailscale;
     QMenu *mContextMenu;
     TrayMenuAccounts *mMenuAccounts;
     TrayMenuSelf *mMenuSelf;
@@ -25,11 +26,10 @@ private:
 signals:
     void showWindow();
     void quitRequested();
-    void toggleTailscale();
 
 public:
     explicit TrayIcon(TailscaleNew *tailscale, QObject *parent = nullptr)
-        : QSystemTrayIcon(QIcon::fromTheme(QStringLiteral("unknown")), parent)
+        : QSystemTrayIcon(QIcon::fromTheme(QStringLiteral("unknown")), parent), mTailscale(tailscale)
         , mContextMenu(new QMenu(QStringLiteral("Tray Menu")))
         , mMenuAccounts(new TrayMenuAccounts())
         , mMenuSelf(new TrayMenuSelf(tailscale))
@@ -54,7 +54,7 @@ public:
             emit showWindow();
         });
         connect(mActionToggle, &QAction::triggered, this, [this] {
-            emit toggleTailscale();
+            mTailscale->toggle();
         });
         connect(mActionQuit, &QAction::triggered, this, [this] {
             emit quitRequested();

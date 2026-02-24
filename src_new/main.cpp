@@ -116,7 +116,6 @@ int main(int argc, char *argv[])
         window->show();
     });
     QObject::connect(tray_icon, &TrayIcon::quitRequested, &app, &QCoreApplication::quit, Qt::QueuedConnection);
-    QObject::connect(tray_icon, &TrayIcon::toggleTailscale, tailscale, &TailscaleNew::toggleTailscale);
 
     return app.exec();
 }

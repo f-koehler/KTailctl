@@ -49,9 +49,9 @@ Kirigami.ApplicationWindow {
                 text: i18n("About")
             },
             Kirigami.Action {
-                icon.name: "process-stop"
+                icon.name: ((KTailctl.Tailscale.status.backendState == KTailctl.Status.Starting) || (KTailctl.Tailscale.status.backendState == KTailctl.Status.Running))? "process-stop" : "media-playback-start"
                 text: i18n("Stop tailscale")
-                onTriggered: KTailctl.Tailscale.toggleTailscale()
+                onTriggered: KTailctl.Tailscale.toggle()
             },
             Kirigami.Action {
                 icon.name: "application-exit"

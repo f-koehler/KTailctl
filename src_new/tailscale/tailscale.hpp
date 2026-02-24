@@ -29,44 +29,62 @@ public:
 private:
     QMutex mMutexLoginProfiles;
 
-    Status *mStatus;
-    Preferences *mPreferences;
-    QMap<QString, LoginProfile *> mLoginProfiles;
-    LoginProfileModel *mLoginProfileModel;
+    Status* mStatus;
+    Preferences* mPreferences;
+    QMap<QString, LoginProfile*> mLoginProfiles;
+    LoginProfileModel* mLoginProfileModel;
     QProperty<QString> mCurrentLoginProfileId;
 
 public slots:
-    Q_INVOKABLE void toggleTailscale()
+    Q_INVOKABLE static void up() noexcept
     {
-        qCInfo(Logging::TailscaleMain) << "Toggle tailscale";
+        tailscale_up();
+    }
+
+    Q_INVOKABLE static void down() noexcept
+    {
+        tailscale_down();
+    }
+
+    Q_INVOKABLE void toggle() const noexcept
+    {
+        if ((mStatus->backendState() == Status::Starting) || (mStatus->backendState() ==
+            Status::Running))
+        {
+            down();
+        }
+        else
+        {
+            up();
+        }
     }
 
 public:
-    explicit TailscaleNew(QObject *parent = nullptr)
+    explicit TailscaleNew(QObject* parent = nullptr)
         : QObject(parent)
-        , mStatus(new Status(this))
-        , mPreferences(new Preferences(this))
-        , mLoginProfileModel(new LoginProfileModel(this))
+          , mStatus(new Status(this))
+          , mPreferences(new Preferences(this))
+          , mLoginProfileModel(new LoginProfileModel(this))
     {
         refreshLoginProfiles();
     }
 
-    [[nodiscard]] Status *status() const noexcept
+    [[nodiscard]] Status* status() const noexcept
     {
         return mStatus;
     }
 
-    [[nodiscard]] Preferences *preferences() const noexcept
+    [[nodiscard]] Preferences* preferences() const noexcept
     {
         return mPreferences;
     }
 
-    [[nodiscard]] LoginProfileModel *loginProfileModel() const noexcept
+    [[nodiscard]] LoginProfileModel* loginProfileModel() const noexcept
     {
         return mLoginProfileModel;
     }
 
-    [[nodiscard]] const QString &currentLoginProfileId() const noexcept
+    [[nodiscard]] const QString& currentLoginProfileId() const noexcept
     {
         return mCurrentLoginProfileId;
     }
@@ -76,10 +94,11 @@ public:
         return {&mCurrentLoginProfileId};
     }
 
-    Q_INVOKABLE LoginProfile *loginProfileWithId(const QString &id) const noexcept
+    Q_INVOKABLE LoginProfile* loginProfileWithId(const QString& id) const noexcept
     {
         const auto pos = mLoginProfiles.find(id);
-        if (pos == mLoginProfiles.end()) [[unlikely]] {
+        if (pos == mLoginProfiles.end()) [[unlikely]]
+        {
             return nullptr;
         }
         return pos.value();
@@ -93,26 +112,32 @@ public:
         const QByteArray json_buffer(json_str.get(), ::strlen(json_str.get()));
         QJsonParseError error;
         QJsonDocument json = QJsonDocument::fromJson(json_buffer, &error);
-        if (error.error != QJsonParseError::NoError) {
+        if (error.error != QJsonParseError::NoError)
+        {
             qCCritical(Logging::TailscaleMain) << error.errorString();
             return;
         }
         QJsonObject json_obj = json.object();
 
-        if (!json_obj.contains(QStringLiteral("accounts"))) {
+        if (!json_obj.contains(QStringLiteral("accounts")))
+        {
             // no accounts found -> clear list
             mLoginProfileModel->clear();
             mLoginProfiles.clear();
-        } else {
+        }
+        else
+        {
             auto loginProfilesArray = json_obj.take(QStringLiteral("accounts")).toArray();
             QSet<QString> loginProfilesToRemove(mLoginProfiles.keyBegin(), mLoginProfiles.keyEnd());
-            for (auto entry : loginProfilesArray) {
+            for (auto entry : loginProfilesArray)
+            {
                 auto obj = entry.toObject();
                 const auto id = obj.value(QStringLiteral("ID")).toString();
                 auto pos = mLoginProfiles.find(id);
 
                 // create missing login profiles
-                if (pos == mLoginProfiles.end()) [[unlikely]] {
+                if (pos == mLoginProfiles.end()) [[unlikely]]
+                {
                     pos = mLoginProfiles.insert(id, new LoginProfile(this));
                     mLoginProfileModel->addItem(pos.value());
                 }
@@ -123,9 +148,11 @@ public:
             }
 
             // remove login profiles that are not present anymore
-            for (const auto &id : loginProfilesToRemove) {
+            for (const auto& id : loginProfilesToRemove)
+            {
                 auto pos = mLoginProfiles.find(id);
-                if (pos == mLoginProfiles.end()) [[unlikely]] {
+                if (pos == mLoginProfiles.end()) [[unlikely]]
+                {
                     // This should never happen
                     continue;
                 }
