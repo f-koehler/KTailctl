@@ -48,13 +48,9 @@ public slots:
 
     Q_INVOKABLE void toggle() const noexcept
     {
-        if ((mStatus->backendState() == Status::Starting) || (mStatus->backendState() ==
-            Status::Running))
-        {
+        if ((mStatus->backendState() == Status::BackendState::Starting) || (mStatus->backendState() == Status::BackendState::Running)) {
             down();
-        }
-        else
-        {
+        } else {
             up();
         }
     }
