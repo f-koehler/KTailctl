@@ -112,7 +112,25 @@ public:
     {
         mVersion = json.take(QStringLiteral("Version")).toString();
         mIsTun = json.take(QStringLiteral("TUN")).toBool();
-        // mBackendState =
+        {
+            const auto str = json.take(QStringLiteral("BackendState")).toString();
+            if (str == QStringLiteral("NoState")) {
+                mBackendState = BackendState::NoState;
+            } else if (str == QStringLiteral("NeedsLogin")) {
+                mBackendState = BackendState::NeedsLogin;
+            } else if (str == QStringLiteral("NeedsMachineAuth")) {
+                mBackendState = BackendState::NeedsMachineAuth;
+            } else if (str == QStringLiteral("Stopped")) {
+                mBackendState = BackendState::Stopped;
+            } else if (str == QStringLiteral("Starting")) {
+                mBackendState = BackendState::Starting;
+            } else if (str == QStringLiteral("Running")) {
+                mBackendState = BackendState::Running;
+            } else {
+                qCCritical(Logging::Tailscale::Status) << "Unknown BackendState value:" << str;
+                mBackendState = BackendState::NoState;
+            }
+        }
         mHaveNodeKey = json.take(QStringLiteral("HaveNodeKey")).toBool();
         mAuthUrl = json.take(QStringLiteral("AuthUrl")).toString();
         mTailscaleIps = json.take(QStringLiteral("TailscaleIps")).toVariant().toStringList();
