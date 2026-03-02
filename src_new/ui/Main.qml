@@ -49,9 +49,16 @@ Kirigami.ApplicationWindow {
                 text: i18n("About")
             },
             Kirigami.Action {
-                icon.name: ((KTailctl.Tailscale.status.backendState == KTailctl.Status.Starting) || (KTailctl.Tailscale.status.backendState == KTailctl.Status.Running)) ? "process-stop" : "media-playback-start"
-                text: ((KTailctl.Tailscale.status.backendState == KTailctl.Status.Starting) || (KTailctl.Tailscale.status.backendState == KTailctl.Status.Running)) ? i18n("Stop Tailscale") : i18n("Start Tailscale")
-                onTriggered: KTailctl.Tailscale.toggle()
+                visible: (KTailctl.Tailscale.status.backendState != KTailctl.Status.Starting) && (KTailctl.Tailscale.status.backendState != KTailctl.Status.Running)
+                icon.name: "media-playback-start"
+                text: i18n("Start Tailscale")
+                onTriggered: KTailctl.Tailscale.up()
+            },
+            Kirigami.Action {
+                visible: (KTailctl.Tailscale.status.backendState == KTailctl.Status.Starting) || (KTailctl.Tailscale.status.backendState == KTailctl.Status.Running)
+                icon.name: "process-stop"
+                text: i18n("Stop Tailscale")
+                onTriggered: KTailctl.Tailscale.down()
             },
             Kirigami.Action {
                 icon.name: "application-exit"
