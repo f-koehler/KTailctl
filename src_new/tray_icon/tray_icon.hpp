@@ -28,6 +28,17 @@ signals:
     void showWindow();
     void quitRequested();
 
+public slots:
+    Q_INVOKABLE void updateIcon()
+    {
+        if ((mTailscale->status()->backendState() == Status::BackendState::Starting)
+            || (mTailscale->status()->backendState() == Status::BackendState::Running)) {
+            setIcon(QIcon(QString(":/tray-icons/online-%1.svg").arg(Config::trayIconTheme())));
+        } else {
+            setIcon(QIcon(QString(":/tray-icons/offline-%1.svg").arg(Config::trayIconTheme())));
+        }
+    }
+
 public:
     explicit TrayIcon(TailscaleNew *tailscale, QObject *parent = nullptr)
         : QSystemTrayIcon(QIcon::fromTheme(QStringLiteral("unknown")), parent)
@@ -85,21 +96,9 @@ public:
             setVisible(Config::enableTrayIcon());
         });
 
-        connect(Config::self(), &Config::trayIconThemeChanged, [this]() {
-            setIcon(QIcon(QString(":/tray-icons/%1-%2.svg").arg(QStringLiteral("online"), Config::trayIconTheme())));
-        });
-        setIcon(QIcon(QString(":/tray-icons/%1-%2.svg").arg(QStringLiteral("online"), Config::trayIconTheme())));
-
-        // QString name;
-        // if (mTailscale->backendState() == "Running") {
-        //     if (mTailscale->hasCurrentExitNode()) {
-        //         name = QStringLiteral("exit-node");
-        //     } else {
-        //         name = QStringLiteral("online");
-        //     }
-        // } else {
-        //     name = QStringLiteral("offline");
-        // }
+        connect(Config::self(), &Config::trayIconThemeChanged, this, &TrayIcon::updateIcon);
+        connect(mTailscale->status(), &Status::backendStateChanged, this, &TrayIcon::updateIcon);
+        updateIcon();
     }
 };
 
