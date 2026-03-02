@@ -78,9 +78,6 @@ public:
             emit quitRequested();
         });
 
-        connect(mContextMenu, &QMenu::aboutToShow, mMenuSelf, &TrayMenuSelf::rebuildMenu);
-        connect(mContextMenu, &QMenu::aboutToShow, mMenuPeers, &TrayMenuPeers::rebuildMenu);
-        connect(mContextMenu, &QMenu::aboutToShow, mMenuExitNodes, &TrayMenuExitNodes::rebuildMenu);
         connect(mContextMenu, &QMenu::aboutToShow, [this]() {
             if ((mTailscale->status()->backendState() == Status::BackendState::Starting)
                 || (mTailscale->status()->backendState() == Status::BackendState::Running)) {

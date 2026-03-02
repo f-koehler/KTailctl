@@ -31,6 +31,7 @@ public:
         , mTailscale(tailscale)
     {
         setIcon(QIcon::fromTheme(QStringLiteral("computer")));
+        connect(this, &QMenu::aboutToShow, this, &TrayMenuSelf::rebuildMenu);
     }
 };
 

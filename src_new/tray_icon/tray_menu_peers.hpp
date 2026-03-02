@@ -66,7 +66,7 @@ public:
             qCCritical(Logging::TrayIcon) << "Failed to find role index for hostName";
             mRoleIndicesFound = false;
         }
-        if (mRoleIndexHostName == -1) {
+        if (mRoleIndexMullvadNode == -1) {
             qCCritical(Logging::TrayIcon) << "Failed to find role index for mullvadNode";
             mRoleIndicesFound = false;
         }
@@ -78,6 +78,7 @@ public:
             qCCritical(Logging::TrayIcon) << "Failed to find role index for tailscaleIps";
             mRoleIndicesFound = false;
         }
+        connect(this, &QMenu::aboutToShow, this, &TrayMenuPeers::rebuildMenu);
     }
 };
 

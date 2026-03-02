@@ -74,6 +74,7 @@ public:
             qCCritical(Logging::TrayIcon) << "Failed to find role index for location";
             mRoleIndicesFound = false;
         }
+        connect(this, &QMenu::aboutToShow, this, &TrayMenuExitNodesMullvad::rebuildMenu);
     }
 };
 

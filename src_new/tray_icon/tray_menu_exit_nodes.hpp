@@ -14,13 +14,6 @@ private:
     TrayMenuExitNodesSelfHosted *mSelfHosted;
     TrayMenuExitNodesMullvad *mMullvad;
 
-public slots:
-    Q_INVOKABLE void rebuildMenu()
-    {
-        mSelfHosted->rebuildMenu();
-        mMullvad->rebuildMenu();
-    }
-
 public:
     explicit TrayMenuExitNodes(TailscaleNew *tailscale, QWidget *parent = nullptr)
         : QMenu(QStringLiteral("Exit Nodes"), parent)
