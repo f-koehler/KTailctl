@@ -31,7 +31,7 @@ public:
 
     Q_PROPERTY(QString version READ version BINDABLE bindableVersion)
     Q_PROPERTY(bool isTun READ isTun BINDABLE bindableIsTun)
-    Q_PROPERTY(BackendState backendState READ backendState BINDABLE bindableBackendState)
+    Q_PROPERTY(BackendState backendState READ backendState BINDABLE bindableBackendState NOTIFY backendStateChanged)
     Q_PROPERTY(bool haveNodeKey READ haveNodeKey BINDABLE bindableHaveNodeKey)
     Q_PROPERTY(QString authUrl READ authUrl BINDABLE bindableAuthUrl)
     Q_PROPERTY(QStringList tailscaleIps READ tailscaleIps BINDABLE bindableTailscaleIps)
@@ -65,6 +65,9 @@ private:
 
     MullvadExitNodeModel *mMullvadExitNodeModel;
     SelfHostedExitNodeModel *mSelfHostedExitNodeModel;
+
+signals:
+    void backendStateChanged();
 
 public:
     explicit Status(QObject *parent = nullptr)
@@ -114,6 +117,7 @@ public:
         mIsTun = json.take(QStringLiteral("TUN")).toBool();
         {
             const auto str = json.take(QStringLiteral("BackendState")).toString();
+            const auto old = mBackendState.value();
             if (str == QStringLiteral("NoState")) {
                 mBackendState = BackendState::NoState;
             } else if (str == QStringLiteral("NeedsLogin")) {
@@ -129,6 +133,9 @@ public:
             } else {
                 qCCritical(Logging::Tailscale::Status) << "Unknown BackendState value:" << str;
                 mBackendState = BackendState::NoState;
+            }
+            if (mBackendState != old) {
+                emit backendStateChanged();
             }
         }
         mHaveNodeKey = json.take(QStringLiteral("HaveNodeKey")).toBool();
