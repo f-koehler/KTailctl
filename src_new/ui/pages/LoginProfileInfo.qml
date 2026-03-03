@@ -24,22 +24,12 @@ FormCard.FormCardPage {
             onClicked: KTailctl.Util.setClipboardText(loginProfile.id)
         }
 
-        FormCard.FormDelegateSeparator {
-            below: loginProfileId
-            above: name
-        }
-
         FormCard.FormButtonDelegate {
             id: name
             text: loginProfile?.name ?? ""
             description: "Name"
             trailingLogo.source: "edit-copy"
             onClicked: KTailctl.Util.setClipboardText(loginProfile.name)
-        }
-
-        FormCard.FormDelegateSeparator {
-            below: name
-            above: key
         }
 
         FormCard.FormButtonDelegate {
@@ -50,22 +40,12 @@ FormCard.FormCardPage {
             onClicked: KTailctl.Util.setClipboardText(loginProfile.key)
         }
 
-        FormCard.FormDelegateSeparator {
-            below: key
-            above: nodeId
-        }
-
         FormCard.FormButtonDelegate {
             id: nodeId
             text: loginProfile?.nodeId ?? ""
             description: "Node ID"
             trailingLogo.source: "edit-copy"
             onClicked: KTailctl.Util.setClipboardText(loginProfile.nodeId)
-        }
-
-        FormCard.FormDelegateSeparator {
-            below: nodeId
-            above: controlUrl
         }
 
         // currently only set on Windows
@@ -95,22 +75,12 @@ FormCard.FormCardPage {
             onClicked: KTailctl.Util.setClipboardText(toString(loginProfile.userProfile.userId))
         }
 
-        FormCard.FormDelegateSeparator {
-            below: userId
-            above: loginName
-        }
-
         FormCard.FormButtonDelegate {
             id: loginName
             description: "Login Name"
             text: loginProfile?.userProfile?.loginName ?? ""
             trailingLogo.source: "edit-copy"
             onClicked: KTailctl.Util.setClipboardText(loginProfile.userProfile.loginName)
-        }
-
-        FormCard.FormDelegateSeparator {
-            below: loginName
-            above: profilePic
         }
 
         FormCard.FormLinkDelegate {
@@ -140,22 +110,12 @@ FormCard.FormCardPage {
             onClicked: KTailctl.Util.setClipboardText(loginProfile.networkProfile.magicDnsName)
         }
 
-        FormCard.FormDelegateSeparator {
-            below: magicDnsName
-            above: domainName
-        }
-
         FormCard.FormButtonDelegate {
             id: domainName
             text: loginProfile?.networkProfile?.domainName ?? ""
             description: "Domain Name"
             trailingLogo.source: "edit-copy"
             onClicked: KTailctl.Util.setClipboardText(loginProfile.networkProfile.domainName)
-        }
-
-        FormCard.FormDelegateSeparator {
-            below: domainName
-            above: displayName
         }
 
         FormCard.FormButtonDelegate {
