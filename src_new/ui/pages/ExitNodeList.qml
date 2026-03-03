@@ -53,7 +53,7 @@ FormCard.FormCardPage {
         // }
         FormCard.FormSwitchDelegate {
             text: "Allow LAN access"
-            // checked: KTailctl.Tailscale.preferences.exitNodeAllowLanAccess
+            checked: KTailctl.Tailscale.preferences.exitNodeAllowLanAccesss
         }
 
         FormCard.FormTextDelegate {
