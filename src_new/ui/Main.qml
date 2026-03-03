@@ -73,14 +73,13 @@ Kirigami.ApplicationWindow {
         id: mainPagePool
     }
 
-    pageStack.initialPage: "qrc:/ui/pages/PeerList.qml"
-
     Component.onCompleted: {
         mainPagePool.loadPage("qrc:/ui/pages/LoginProfileList.qml");
         mainPagePool.loadPage("qrc:/ui/pages/PeerList.qml");
         mainPagePool.loadPage("qrc:/ui/pages/ExitNodeList.qml");
         mainPagePool.loadPage("qrc:/ui/pages/Settings.qml");
         mainPagePool.loadPage("qrc:/ui/pages/About.qml");
+        pageStack.replace(mainPagePool.loadPage("qrc:/ui/pages/PeerList.qml"));
     }
 
     Timer {
