@@ -28,7 +28,7 @@ public:
     Q_PROPERTY(QString exitNodeId READ exitNodeId BINDABLE bindableExitNodeId)
     Q_PROPERTY(QString autoExitNode READ autoExitNode BINDABLE bindableAutoExitNode)
     Q_PROPERTY(QString lastUsedExitNode READ lastUsedExitNode BINDABLE bindableLastUsedExitNode)
-    Q_PROPERTY(bool exitNodeAllowLanAccesss READ exitNodeAllowLanAccess WRITE setExitNodeAllowLanAccess BINDABLE bindableExitNodeAllowLanAccess)
+    Q_PROPERTY(bool exitNodeAllowLanAccess READ exitNodeAllowLanAccess WRITE setExitNodeAllowLanAccess BINDABLE bindableExitNodeAllowLanAccess)
     Q_PROPERTY(bool corpDns READ corpDns WRITE setCorpDns BINDABLE bindableCorpDns)
     Q_PROPERTY(bool runSSH READ runSSH WRITE setRunSSH BINDABLE bindableRunSSH)
     Q_PROPERTY(bool runWebClient READ runWebClient BINDABLE bindableRunWebClient)
