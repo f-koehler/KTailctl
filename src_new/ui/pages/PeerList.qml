@@ -197,17 +197,16 @@ FormCard.FormCardPage {
         title: "Peers"
     }
 
-    ListView {
-        model: peerModel
-        interactive: false
-        implicitHeight: contentHeight
-        Layout.fillWidth: true
-        reuseItems: true
+    FormCard.FormCard {
+        Repeater {
+            model: peerModel
 
-        delegate: FormCard.FormCard {
-            width: ListView.view.width
+            delegate: FormCard.FormTextDelegate {
+                required property string id
+                required property bool online
+                required property string dnsName
+                required property var tailscaleIps
 
-            FormCard.FormTextDelegate {
                 text: ""
 
                 leading: RowLayout {
