@@ -33,7 +33,11 @@ public slots:
     {
         if ((mTailscale->status()->backendState() == Status::BackendState::Starting)
             || (mTailscale->status()->backendState() == Status::BackendState::Running)) {
-            setIcon(QIcon(QString(":/tray-icons/online-%1.svg").arg(Config::trayIconTheme())));
+            if (mTailscale->status()->exitNodeStatus() != nullptr) {
+                setIcon(QIcon(QString(":/tray-icons/exit-node-%1.svg").arg(Config::trayIconTheme())));
+            } else {
+                setIcon(QIcon(QString(":/tray-icons/online-%1.svg").arg(Config::trayIconTheme())));
+            }
         } else {
             setIcon(QIcon(QString(":/tray-icons/offline-%1.svg").arg(Config::trayIconTheme())));
         }
@@ -95,6 +99,7 @@ public:
 
         connect(Config::self(), &Config::trayIconThemeChanged, this, &TrayIcon::updateIcon);
         connect(mTailscale->status(), &Status::backendStateChanged, this, &TrayIcon::updateIcon);
+        connect(mTailscale->status(), &Status::exitNodeStatusChanged, this, &TrayIcon::updateIcon);
         updateIcon();
     }
 };
