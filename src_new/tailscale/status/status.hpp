@@ -68,6 +68,7 @@ private:
 
 signals:
     void backendStateChanged();
+    void exitNodeStatusChanged();
 
 public:
     explicit Status(QObject *parent = nullptr)
@@ -159,12 +160,14 @@ public:
             auto exitNodeStatusJson = json.take(QStringLiteral("ExitNodeStatus")).toObject();
             if (mExitNodeStatus.value() == nullptr) [[unlikely]] {
                 mExitNodeStatus = new ExitNodeStatus(this);
+                emit exitNodeStatusChanged();
             }
             mExitNodeStatus->updateFromJson(exitNodeStatusJson);
         } else [[unlikely]] {
             if (mExitNodeStatus.value() != nullptr) {
                 mExitNodeStatus->deleteLater();
                 mExitNodeStatus = nullptr;
+                emit exitNodeStatusChanged();
             }
         }
 
