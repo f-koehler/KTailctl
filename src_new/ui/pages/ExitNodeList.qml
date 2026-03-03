@@ -80,38 +80,32 @@ FormCard.FormCardPage {
 
         Repeater {
             model: KTailctl.Tailscale.status.selfHostedExitNodeModel
-            delegate: ColumnLayout {
-                FormCard.FormTextDelegate {
-                    text: dnsName
-                    // description: mullvadNode ? "Mullvad Exit Node" : "Self-Hosted Exit Node"
-                    leading: Kirigami.Icon {
-                        ToolTip.delay: Kirigami.Units.toolTipDelay
-                        ToolTip.text: "Country"
-                        ToolTip.visible: hovered
-                        source: "network-vpn"
-                    }
-                    trailing: RowLayout {
-                        ToolButton {
-                            ToolTip.delay: Kirigami.Units.toolTipDelay
-                            ToolTip.text: "Enable exit node"
-                            ToolTip.visible: hovered
-                            icon.name: "system-switch-user"
-                        }
-
-                        ToolButton {
-                            ToolTip.delay: Kirigami.Units.toolTipDelay
-                            ToolTip.text: "View node info"
-                            ToolTip.visible: hovered
-                            icon.name: "help-info"
-                            onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
-                                peer: KTailctl.Tailscale.status.peerWithId(id)
-                            })
-                        }
-                    }
+            delegate: FormCard.FormTextDelegate {
+                text: dnsName
+                // description: mullvadNode ? "Mullvad Exit Node" : "Self-Hosted Exit Node"
+                leading: Kirigami.Icon {
+                    ToolTip.delay: Kirigami.Units.toolTipDelay
+                    ToolTip.text: "Country"
+                    ToolTip.visible: hovered
+                    source: "network-vpn"
                 }
+                trailing: RowLayout {
+                    ToolButton {
+                        ToolTip.delay: Kirigami.Units.toolTipDelay
+                        ToolTip.text: "Enable exit node"
+                        ToolTip.visible: hovered
+                        icon.name: "system-switch-user"
+                    }
 
-                FormCard.FormDelegateSeparator {
-                    visible: index < KTailctl.Tailscale.status.selfHostedExitNodeModel.rowCount() - 1
+                    ToolButton {
+                        ToolTip.delay: Kirigami.Units.toolTipDelay
+                        ToolTip.text: "View node info"
+                        ToolTip.visible: hovered
+                        icon.name: "help-info"
+                        onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
+                            peer: KTailctl.Tailscale.status.peerWithId(id)
+                        })
+                    }
                 }
             }
         }
@@ -138,38 +132,32 @@ FormCard.FormCardPage {
         sourceComponent: FormCard.FormCard {
             Repeater {
                 model: KTailctl.Tailscale.status.mullvadExitNodeModel
-                delegate: ColumnLayout {
-                    FormCard.FormTextDelegate {
-                        text: dnsName
-                        description: location.city + " (" + location.country + ")"
-                        leading: Kirigami.Icon {
-                            ToolTip.delay: Kirigami.Units.toolTipDelay
-                            ToolTip.text: location.city + " (" + location.country + ")"
-                            ToolTip.visible: hovered
-                            source: "qrc:/country-flags/country-flag-" + location.countryCode.toLowerCase()
-                        }
-                        trailing: RowLayout {
-                            ToolButton {
-                                ToolTip.delay: Kirigami.Units.toolTipDelay
-                                ToolTip.text: "Enable exit node"
-                                ToolTip.visible: hovered
-                                icon.name: "system-switch-user"
-                            }
-
-                            ToolButton {
-                                ToolTip.delay: Kirigami.Units.toolTipDelay
-                                ToolTip.text: "View node info"
-                                ToolTip.visible: hovered
-                                icon.name: "help-info"
-                                onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
-                                    peer: KTailctl.Tailscale.status.peerWithId(id)
-                                })
-                            }
-                        }
+                delegate: FormCard.FormTextDelegate {
+                    text: dnsName
+                    description: location.city + " (" + location.country + ")"
+                    leading: Kirigami.Icon {
+                        ToolTip.delay: Kirigami.Units.toolTipDelay
+                        ToolTip.text: location.city + " (" + location.country + ")"
+                        ToolTip.visible: hovered
+                        source: "qrc:/country-flags/country-flag-" + location.countryCode.toLowerCase()
                     }
+                    trailing: RowLayout {
+                        ToolButton {
+                            ToolTip.delay: Kirigami.Units.toolTipDelay
+                            ToolTip.text: "Enable exit node"
+                            ToolTip.visible: hovered
+                            icon.name: "system-switch-user"
+                        }
 
-                    FormCard.FormDelegateSeparator {
-                        visible: index < KTailctl.Tailscale.status.mullvadExitNodeModel.rowCount() - 1
+                        ToolButton {
+                            ToolTip.delay: Kirigami.Units.toolTipDelay
+                            ToolTip.text: "View node info"
+                            ToolTip.visible: hovered
+                            icon.name: "help-info"
+                            onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
+                                peer: KTailctl.Tailscale.status.peerWithId(id)
+                            })
+                        }
                     }
                 }
             }
