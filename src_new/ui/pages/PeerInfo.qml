@@ -24,11 +24,6 @@ FormCard.FormCardPage {
             }
         }
 
-        FormCard.FormDelegateSeparator {
-            below: peerId
-            above: publicKey
-        }
-
         FormCard.FormButtonDelegate {
             id: publicKey
             text: peer?.publicKey ?? ""
@@ -37,11 +32,6 @@ FormCard.FormCardPage {
             onClicked: {
                 onClicked: KTailctl.Util.setClipboardText(peer.publicKey);
             }
-        }
-
-        FormCard.FormDelegateSeparator {
-            below: publicKey
-            above: dnsName
         }
 
         FormCard.FormButtonDelegate {
@@ -54,11 +44,6 @@ FormCard.FormCardPage {
             }
         }
 
-        FormCard.FormDelegateSeparator {
-            below: dnsName
-            above: hostName
-        }
-
         FormCard.FormButtonDelegate {
             id: hostName
             text: peer?.hostName ?? ""
@@ -67,12 +52,6 @@ FormCard.FormCardPage {
             onClicked: {
                 onClicked: KTailctl.Util.setClipboardText(peer.hostName);
             }
-        }
-
-        FormCard.FormDelegateSeparator {
-            visible: peer?.os
-            below: hostName
-            above: os
         }
 
         FormCard.FormButtonDelegate {
@@ -104,9 +83,6 @@ FormCard.FormCardPage {
                         onClicked: KTailctl.Util.setClipboardText(modelData);
                     }
                 }
-                FormCard.FormDelegateSeparator {
-                    visible: index < repeaterIps.count - 1
-                }
             }
         }
     }
@@ -134,9 +110,6 @@ FormCard.FormCardPage {
                     onClicked: {
                         onClicked: KTailctl.Util.setClipboardText(modelData);
                     }
-                    FormCard.FormDelegateSeparator {
-                        visible: index < repeaterRoutes.count - 1
-                    }
                 }
             }
         }
@@ -160,11 +133,6 @@ FormCard.FormCardPage {
             }
         }
 
-        FormCard.FormDelegateSeparator {
-            below: country
-            above: city
-        }
-
         FormCard.FormButtonDelegate {
             id: city
             text: peer.location?.city + " (" + peer.location?.cityCode + ")"
@@ -173,11 +141,6 @@ FormCard.FormCardPage {
             onClicked: {
                 onClicked: KTailctl.Util.setClipboardText(peer.location.city);
             }
-        }
-
-        FormCard.FormDelegateSeparator {
-            below: city
-            above: latitude
         }
 
         FormCard.FormButtonDelegate {
@@ -190,11 +153,6 @@ FormCard.FormCardPage {
             }
         }
 
-        FormCard.FormDelegateSeparator {
-            below: latitude
-            above: longitude
-        }
-
         FormCard.FormButtonDelegate {
             id: longitude
             text: peer?.location?.longitude
@@ -203,11 +161,6 @@ FormCard.FormCardPage {
             onClicked: {
                 onClicked: KTailctl.Util.setClipboardText(peer.location.longitude);
             }
-        }
-
-        FormCard.FormDelegateSeparator {
-            below: longitude
-            above: priority
         }
 
         FormCard.FormButtonDelegate {
