@@ -26,7 +26,6 @@ FormCard.FormCardPage {
                 }
             }
         }
-        FormCard.FormDelegateSeparator {}
         FormCard.FormSwitchDelegate {
             id: switchTrayIcon
             text: "Tray icon"
@@ -34,7 +33,6 @@ FormCard.FormCardPage {
             checked: KTailctl.Config.enableTrayIcon
             onCheckedChanged: KTailctl.Config.enableTrayIcon = switchTrayIcon.checked
         }
-        FormCard.FormDelegateSeparator {}
         FormCard.FormComboBoxDelegate {
             id: comboTrayIconTheme
             text: "Tray icon theme"
@@ -42,7 +40,6 @@ FormCard.FormCardPage {
             currentIndex: KTailctl.TrayIconThemes.currentIndex
             onActivated: KTailctl.TrayIconThemes.currentIndex = comboTrayIconTheme.currentIndex
         }
-        FormCard.FormDelegateSeparator {}
         FormCard.FormSpinBoxDelegate {
             id: spinRefreshInterval
             label: "Refresh interval"
