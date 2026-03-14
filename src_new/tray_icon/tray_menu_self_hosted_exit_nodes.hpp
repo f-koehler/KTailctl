@@ -14,6 +14,7 @@ private:
     TailscaleNew *mTailscale;
     bool mRoleIndicesFound = false;
     const int mRoleIndexHostName = -1;
+    const int mRoleIndexId = -1;
 
 public slots:
     Q_INVOKABLE void rebuildMenu()
@@ -32,7 +33,10 @@ public slots:
             if (!index.isValid()) {
                 continue;
             }
-            addAction(index.data(mRoleIndexHostName).toString());
+            const QString id = index.data(mRoleIndexId).toString();
+            addAction(index.data(mRoleIndexHostName).toString(), [this, id]() {
+                mTailscale->preferences()->setExitNodeID(id);
+            });
         }
     }
 
@@ -42,9 +46,14 @@ public:
         , mTailscale(tailscale)
         , mRoleIndicesFound(true)
         , mRoleIndexHostName((tailscale->status()->peerModel()->roleIndexForProperty("hostName")))
+        , mRoleIndexId((tailscale->status()->peerModel()->roleIndexForProperty("id")))
     {
         if (mRoleIndexHostName == -1) {
             qCCritical(Logging::TrayIcon) << "Failed to find role index for hostName";
+            mRoleIndicesFound = false;
+        }
+        if (mRoleIndexId == -1) {
+            qCCritical(Logging::TrayIcon) << "Failed to find role index for id";
             mRoleIndicesFound = false;
         }
         connect(this, &QMenu::aboutToShow, this, &TrayMenuExitNodesSelfHosted::rebuildMenu);
