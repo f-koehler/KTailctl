@@ -95,6 +95,9 @@ FormCard.FormCardPage {
                         ToolTip.text: "Enable exit node"
                         ToolTip.visible: hovered
                         icon.name: "system-switch-user"
+                        onClicked: {
+                            KTailctl.Tailscale.preferences.exitNodeId = id;
+                        }
                     }
 
                     ToolButton {
@@ -147,6 +150,9 @@ FormCard.FormCardPage {
                             ToolTip.text: "Enable exit node"
                             ToolTip.visible: hovered
                             icon.name: "system-switch-user"
+                            onClicked: {
+                                KTailctl.Tailscale.preferences.exitNodeId = id;
+                            }
                         }
 
                         ToolButton {
