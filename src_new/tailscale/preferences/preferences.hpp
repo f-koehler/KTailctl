@@ -25,7 +25,7 @@ public:
 
     Q_PROPERTY(QString controlUrl READ controlUrl BINDABLE bindableControlUrl)
     Q_PROPERTY(bool routeAll READ routeAll BINDABLE bindableRouteAll)
-    Q_PROPERTY(QString exitNodeId READ exitNodeId BINDABLE bindableExitNodeId)
+    Q_PROPERTY(QString exitNodeId READ exitNodeId WRITE setExitNodeID BINDABLE bindableExitNodeId)
     Q_PROPERTY(QString autoExitNode READ autoExitNode BINDABLE bindableAutoExitNode)
     Q_PROPERTY(QString lastUsedExitNode READ lastUsedExitNode BINDABLE bindableLastUsedExitNode)
     Q_PROPERTY(bool exitNodeAllowLanAccess READ exitNodeAllowLanAccess WRITE setExitNodeAllowLanAccess BINDABLE bindableExitNodeAllowLanAccess)
@@ -326,6 +326,11 @@ public:
     [[nodiscard]] const QStringList &relayServerStaticEndpoints() const noexcept
     {
         return mRelayServerStaticEndpoints;
+    }
+
+    void setExitNodeID(const QString &id)
+    {
+        _set_preference(QStringLiteral("ExitNodeID"), id);
     }
 
     void setExitNodeAllowLanAccess(bool value)

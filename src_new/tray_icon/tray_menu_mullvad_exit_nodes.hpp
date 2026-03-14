@@ -15,6 +15,7 @@ private:
     bool mRoleIndicesFound = false;
     const int mRoleIndexHostName = -1;
     const int mRoleIndexLocation = -1;
+    const int mRoleIndexId = -1;
 
     QMap<QString, QMenu *> mPerCountryMenus;
 
@@ -50,7 +51,10 @@ public slots:
                 mPerCountryMenus[countryCode] = new QMenu(location->country(), this);
                 mPerCountryMenus[countryCode]->setIcon(icon);
             }
-            mPerCountryMenus[countryCode]->addAction(icon, index.data(mRoleIndexHostName).toString());
+            const auto id = index.data(mRoleIndexId).value<QString>();
+            mPerCountryMenus[countryCode]->addAction(icon, index.data(mRoleIndexHostName).toString(), [this, id]() {
+                mTailscale->preferences()->setExitNodeID(id);
+            });
         }
 
         for (auto menu : mPerCountryMenus.values()) {
@@ -65,6 +69,7 @@ public:
         , mRoleIndicesFound(true)
         , mRoleIndexHostName(tailscale->status()->peerModel()->roleIndexForProperty("hostName"))
         , mRoleIndexLocation(tailscale->status()->peerModel()->roleIndexForProperty("location"))
+        , mRoleIndexId(tailscale->status()->peerModel()->roleIndexForProperty("id"))
     {
         if (mRoleIndexHostName == -1) {
             qCCritical(Logging::TrayIcon) << "Failed to find role index for hostName";
@@ -72,6 +77,10 @@ public:
         }
         if (mRoleIndexLocation == -1) {
             qCCritical(Logging::TrayIcon) << "Failed to find role index for location";
+            mRoleIndicesFound = false;
+        }
+        if (mRoleIndexId == -1) {
+            qCCritical(Logging::TrayIcon) << "Failed to find role index for id";
             mRoleIndicesFound = false;
         }
         connect(this, &QMenu::aboutToShow, this, &TrayMenuExitNodesMullvad::rebuildMenu);
