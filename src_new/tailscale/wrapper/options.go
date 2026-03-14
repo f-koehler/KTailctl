@@ -7,6 +7,7 @@ import (
 	"fmt"
 
 	"tailscale.com/ipn"
+	"tailscale.com/tailcfg"
 )
 
 //export tailscale_prefs
@@ -47,7 +48,7 @@ func tailscale_set_preferences(jsonStr *string) bool {
 		log_critical(fmt.Sprintf("failed to parse preferences JSON: %v", err))
 		return false
 	}
-     log_critical(fmt.Sprintf("setting %d prefs", len(prefs)));
+	log_critical(fmt.Sprintf("setting %d prefs", len(prefs)))
 	for key, raw := range prefs {
 		switch key {
 		case "ExitNodeAllowLanAccess":
@@ -83,13 +84,21 @@ func tailscale_set_preferences(jsonStr *string) bool {
 			maskedPrefs.RunSSH = value
 			maskedPrefs.RunSSHSet = true
 		case "Hostname":
-            var value string
-            if err := json.Unmarshal(raw, &value); err != nil {
-                log_critical(fmt.Sprintf("failed to parse Hostname: %v", err))
-                return false
-            }
-            maskedPrefs.Hostname = value
-            maskedPrefs.HostnameSet = true
+			var value string
+			if err := json.Unmarshal(raw, &value); err != nil {
+				log_critical(fmt.Sprintf("failed to parse Hostname: %v", err))
+				return false
+			}
+			maskedPrefs.Hostname = value
+			maskedPrefs.HostnameSet = true
+		case "ExitNodeID":
+			var value string
+			if err := json.Unmarshal(raw, &value); err != nil {
+				log_critical(fmt.Sprintf("failed to parse ExitNodeID: %v", err))
+				return false
+			}
+			maskedPrefs.ExitNodeID = tailcfg.StableNodeID(value)
+			maskedPrefs.ExitNodeIDSet = true
 		}
 	}
 
