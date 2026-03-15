@@ -30,7 +30,14 @@ public:
         });
 
         connect(this, &QMenu::aboutToShow, this, [this]() {
-            mActionUnset->setVisible(!mTailscale->preferences()->exitNodeId().isEmpty());
+            const QString exitNodeId = mTailscale->preferences()->exitNodeId();
+            const bool hasExitNode = !exitNodeId.isEmpty();
+            mActionUnset->setVisible(hasExitNode);
+            if (hasExitNode) {
+                const auto *peer = mTailscale->status()->peerWithId(exitNodeId);
+                const QString label = peer ? peer->dnsName() : exitNodeId;
+                mActionUnset->setText(QStringLiteral("Unset: ") + label);
+            }
         });
     }
 };
