@@ -60,7 +60,7 @@ FormCard.FormCardPage {
 
         FormCard.FormButtonDelegate {
             visible: KTailctl.Tailscale.preferences.exitNodeId !== ""
-            text: "Unset current: " + KTailctl.Tailscale.preferences.exitNodeId
+            text: "Unset current: " + (KTailctl.Tailscale.status.peerWithId(KTailctl.Tailscale.preferences.exitNodeId)?.dnsName ?? KTailctl.Tailscale.preferences.exitNodeId)
             trailingLogo.source: "cancel"
             onClicked: {
                 KTailctl.Tailscale.preferences.exitNodeId = "";
