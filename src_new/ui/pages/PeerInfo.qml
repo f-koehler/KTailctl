@@ -116,10 +116,12 @@ FormCard.FormCardPage {
     }
 
     FormCard.FormHeader {
+        visible: peer.location !== null
         title: "Location"
     }
 
     FormCard.FormCard {
+        visible: peer.location !== null
         FormCard.FormButtonDelegate {
             id: country
             text: peer.location?.country + " (" + peer.location?.countryCode + ")"
