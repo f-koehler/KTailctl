@@ -58,8 +58,13 @@ FormCard.FormCardPage {
             onCheckedChanged: KTailctl.preferences.exitNodeAllowLanAccess = switchAllowLanAccess.checked
         }
 
-        FormCard.FormTextDelegate {
-            text: "Current exit node: None"
+        FormCard.FormButtonDelegate {
+            visible: KTailctl.Tailscale.preferences.exitNodeId !== ""
+            text: "Unset current: " + KTailctl.Tailscale.preferences.exitNodeId
+            trailingLogo.source: "cancel"
+            onClicked: {
+                KTailctl.Tailscale.preferences.exitNodeId = "";
+            }
         }
     }
 
