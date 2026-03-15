@@ -13,6 +13,7 @@ private:
     TailscaleNew *mTailscale;
     TrayMenuExitNodesSelfHosted *mSelfHosted;
     TrayMenuExitNodesMullvad *mMullvad;
+    QAction *mActionUnset = nullptr;
 
 public:
     explicit TrayMenuExitNodes(TailscaleNew *tailscale, QWidget *parent = nullptr)
@@ -24,6 +25,13 @@ public:
         setIcon(QIcon::fromTheme(QStringLiteral("globe")));
         addMenu(mSelfHosted);
         addMenu(mMullvad);
+        mActionUnset = addAction(QIcon::fromTheme("cancel"), "Unset", [this]() {
+            mTailscale->preferences()->setExitNodeID(QString());
+        });
+
+        connect(this, &QMenu::aboutToShow, this, [this]() {
+            mActionUnset->setVisible(!mTailscale->preferences()->exitNodeId().isEmpty());
+        });
     }
 };
 
