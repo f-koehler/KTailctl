@@ -127,7 +127,7 @@ FormCard.FormCardPage {
             text: peer.location?.country + " (" + peer.location?.countryCode + ")"
             description: "Country (Country Code)"
             leading: Kirigami.Icon {
-                source: "flag"
+                source: "qrc:/country-flags/country-flag-" + peer.location?.countryCode.toLowerCase()
             }
             trailingLogo.source: "edit-copy"
             onClicked: {
