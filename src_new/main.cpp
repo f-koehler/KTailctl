@@ -39,20 +39,14 @@ int main(int argc, char *argv[])
                          KAboutLicense::GPL,
                          i18n("(c) Fabian Koehler 2023"));
 
-    aboutData.addAuthor(i18nc("@info:credit", "Fabian Koehler"),
-                        i18nc("@info:credit", "Project Maintainer"),
-                        QStringLiteral("fabian@fkoehler.me"),
-                        QStringLiteral("https://fkoehler.org"));
-
     aboutData.setBugAddress("https://github.com/f-koehler/KTailctl/issues");
     aboutData.setDesktopFileName(QStringLiteral("org.fkoehler.KTailctl"));
     aboutData.setHomepage(QStringLiteral("https://github.com/f-koehler/KTailctl"));
     aboutData.setOrganizationDomain("fkoehler.org");
-    aboutData.addAuthor(i18nc("@info:credit", "Fabian Köhler"),
+    aboutData.addAuthor(i18nc("@info:credit", "Fabian Koehler"),
                         i18nc("@info:credit", "Project Maintainer"),
-                        QStringLiteral("me@fkoehler.org"),
+                        QStringLiteral("fabian@fkoehler.me"),
                         QStringLiteral("https://fkoehler.org"));
-    // TODO(fk): about icon
     aboutData.setProgramLogo(QIcon(QStringLiteral(":/icons/logo.svg")));
     KAboutData::setApplicationData(aboutData);
     const KDBusService service(KDBusService::Unique);
