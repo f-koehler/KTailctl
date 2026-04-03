@@ -3,6 +3,7 @@
 
 #include "app_connector.hpp"
 #include "auto_update.hpp"
+#include "ktailctl_config.h"
 #include "libktailctl_wrapper.h"
 #include "logging_tailscale_preferences.hpp"
 
@@ -330,6 +331,11 @@ public:
 
     void setExitNodeID(const QString &id)
     {
+        if (!id.isEmpty()) {
+            auto *config = Config::self();
+            config->setLastUsedExitNode(id);
+            config->save();
+        }
         _set_preference(QStringLiteral("ExitNodeID"), id);
     }
 

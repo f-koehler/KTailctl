@@ -26,5 +26,9 @@
           <label>Whether to show tags in the peer list</label>
           <default>false</default>
       </entry>
+      <entry name="lastUsedExitNode" type="String">
+          <label>Last used exit node</label>
+          <default></default>
+      </entry>
   </group>
 </kcfg>

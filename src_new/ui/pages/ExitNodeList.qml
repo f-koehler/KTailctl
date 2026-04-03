@@ -66,6 +66,15 @@ FormCard.FormCardPage {
                 KTailctl.Tailscale.preferences.exitNodeId = "";
             }
         }
+
+        FormCard.FormButtonDelegate {
+            visible: (KTailctl.Config.lastUsedExitNode !== "") && (KTailctl.Config.lastUsedExitNode !== KTailctl.Tailscale.preferences.exitNodeId)
+            text: "Last used: " + (KTailctl.Tailscale.status.peerWithId(KTailctl.Config.lastUsedExitNode)?.dnsName ?? KTailctl.Tailscale.preferences.exitNodeId)
+            trailingLogo.source: "system-switch-user"
+            onClicked: {
+                KTailctl.Tailscale.preferences.exitNodeId = KTailctl.Config.lastUsedExitNode;
+            }
+        }
     }
 
     FormCard.FormHeader {

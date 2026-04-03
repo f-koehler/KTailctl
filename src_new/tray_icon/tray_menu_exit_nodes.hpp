@@ -1,6 +1,7 @@
 #ifndef KTAILCTL_TRAY_MENU_EXIT_NODES_HPP
 #define KTAILCTL_TRAY_MENU_EXIT_NODES_HPP
 
+#include "ktailctl_config.h"
 #include "tray_menu_mullvad_exit_nodes.hpp"
 #include "tray_menu_self_hosted_exit_nodes.hpp"
 #include <QMenu>
@@ -14,6 +15,7 @@ private:
     TrayMenuExitNodesSelfHosted *mSelfHosted;
     TrayMenuExitNodesMullvad *mMullvad;
     QAction *mActionUnset = nullptr;
+    QAction *mActionLastUsed = nullptr;
 
 public:
     explicit TrayMenuExitNodes(TailscaleNew *tailscale, QWidget *parent = nullptr)
@@ -28,11 +30,21 @@ public:
         mActionUnset = addAction(QIcon::fromTheme("cancel"), "Unset", [this]() {
             mTailscale->preferences()->setExitNodeID(QString());
         });
+        mActionLastUsed = addAction(QIcon::fromTheme("document-open-recent"), "Last used", [this]() {
+            mTailscale->preferences()->setExitNodeID(Config::self()->lastUsedExitNode());
+        });
 
         connect(this, &QMenu::aboutToShow, this, [this]() {
             const QString exitNodeId = mTailscale->preferences()->exitNodeId();
             const bool hasExitNode = !exitNodeId.isEmpty();
             mActionUnset->setVisible(hasExitNode);
+
+            if (!Config::lastUsedExitNode().isEmpty() && (Config::lastUsedExitNode() != exitNodeId)) {
+                mActionLastUsed->setVisible(true);
+                mActionLastUsed->setText("Last used: " + mTailscale->status()->peerWithId(Config::lastUsedExitNode())->dnsName());
+            } else {
+                mActionLastUsed->setVisible(false);
+            }
             if (hasExitNode) {
                 const auto *peer = mTailscale->status()->peerWithId(exitNodeId);
                 const QString label = peer ? peer->dnsName() : exitNodeId;
