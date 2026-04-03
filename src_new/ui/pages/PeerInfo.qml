@@ -86,6 +86,13 @@ FormCard.FormCardPage {
                 onClicked: KTailctl.Util.setClipboardText(peer.lastSeen.toISOString());
             }
         }
+
+        FormCard.FormLinkDelegate {
+            id: adminPanelUrl
+            url: (peer?.tailscaleIps?.length ?? 0) > 0 ? "https://login.tailscale.com/admin/machines/" + peer.tailscaleIps[0] : "https://login.tailscale.com/admin/machines/"
+            text: adminPanelUrl.url
+            description: "Admin Panel"
+        }
     }
 
     FormCard.FormHeader {

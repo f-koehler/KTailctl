@@ -190,6 +190,11 @@ FormCard.FormCardPage {
                                 peer: KTailctl.Tailscale.status.peerWithId(KTailctl.Tailscale.status.self.id)
                             })
                         }
+                        MenuItem {
+                            icon.name: "internet-web-browser"
+                            text: "Open admin panel"
+                            onClicked: Qt.openUrlExternally(KTailctl.Tailscale.status.self.tailscaleIps.length > 0 ? "https://login.tailscale.com/admin/machines/" + KTailctl.Tailscale.status.self.tailscaleIps[0] : "https://login.tailscale.com/admin/machines/")
+                        }
                     }
                 }
             }
@@ -266,6 +271,11 @@ FormCard.FormCardPage {
                                 onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
                                     peer: KTailctl.Tailscale.status.peerWithId(id)
                                 })
+                            }
+                            MenuItem {
+                                icon.name: "internet-web-browser"
+                                text: "Open admin panel"
+                                onClicked: Qt.openUrlExternally(tailscaleIps.length > 0 ? "https://login.tailscale.com/admin/machines/" + tailscaleIps[0] : "https://login.tailscale.com/admin/machines/")
                             }
                         }
                     }
