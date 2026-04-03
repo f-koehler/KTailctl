@@ -46,6 +46,13 @@ public:
             qCCritical(Logging::Tailscale::Status) << "Failed to find role index for dnsName";
             mRoleIndicesFound = false;
         }
+
+        sort(0, Qt::AscendingOrder);
+    }
+
+    bool lessThan(const QModelIndex &left, const QModelIndex &right) const override
+    {
+        return sourceModel()->data(left, mRoleIndexDnsName).toString() < sourceModel()->data(right, mRoleIndexDnsName).toString();
     }
 
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override

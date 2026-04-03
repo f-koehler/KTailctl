@@ -119,6 +119,9 @@ FormCard.FormCardPage {
                 }
             }
         ]
+        sorters: RoleSorter {
+            roleName: "dnsName"
+        }
     }
     component RoleData: QtObject {
         property string dnsName
