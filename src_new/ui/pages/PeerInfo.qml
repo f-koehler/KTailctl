@@ -64,6 +64,28 @@ FormCard.FormCardPage {
                 onClicked: KTailctl.Util.setClipboardText(peer.os);
             }
         }
+
+        FormCard.FormButtonDelegate {
+            id: created
+            visible: peer?.created && !isNaN(peer.created)
+            text: KTailctl.Util.formatDurationHumanReadable(peer?.created)
+            description: "Created"
+            trailingLogo.source: "edit-copy"
+            onClicked: {
+                onClicked: KTailctl.Util.setClipboardText(peer.created.toISOString());
+            }
+        }
+
+        FormCard.FormButtonDelegate {
+            id: lastSeen
+            visible: peer?.lastSeen && !isNaN(peer.lastSeen)
+            text: KTailctl.Util.formatDurationHumanReadable(peer?.lastSeen)
+            description: "Last Seen"
+            trailingLogo.source: "edit-copy"
+            onClicked: {
+                onClicked: KTailctl.Util.setClipboardText(peer.lastSeen.toISOString());
+            }
+        }
     }
 
     FormCard.FormHeader {

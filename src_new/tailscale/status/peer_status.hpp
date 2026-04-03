@@ -140,10 +140,12 @@ public:
         mPeerRelay = json.take(QStringLiteral("PeerRelay")).toString();
         mReceivedBytes = json.take(QStringLiteral("ReceivedBytes")).toInteger();
         mTransmittedBytes = json.take(QStringLiteral("TransmittedBytes")).toInteger();
-        // mCreated = json.take(QStringLiteral("Created")).toString()
-        // mLastWrite = json.take(QStringLiteral("LastWrite")).toString()
-        // mLastSeen = json.take(QStringLiteral("LastSeen")).toString()
-        // mLastHandshake = json.take(QStringLiteral("LastHandshake")).toString()
+        mCreated = QDateTime::fromString(json.take(QStringLiteral("Created")).toString(), Qt::ISODateWithMs);
+        mLastWrite = QDateTime::fromString(json.take(QStringLiteral("LastWrite")).toString(), Qt::ISODateWithMs);
+        const QString lastSeenStr = json.take(QStringLiteral("LastSeen")).toString();
+        mLastSeen =
+            lastSeenStr == QStringLiteral("0001-01-01T00:00:00Z") ? QDateTime::currentDateTimeUtc() : QDateTime::fromString(lastSeenStr, Qt::ISODateWithMs);
+        mLastHandshake = QDateTime::fromString(json.take(QStringLiteral("LastHandshake")).toString(), Qt::ISODateWithMs);
         mOnline = json.take(QStringLiteral("Online")).toBool();
         mExitNode = json.take(QStringLiteral("ExitNode")).toBool();
         mExitNodeOption = json.take(QStringLiteral("ExitNodeOption")).toBool();
