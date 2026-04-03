@@ -1,9 +1,9 @@
 module tailscale_wrapper
 
-go 1.25.5
+go 1.25.8
 
 require (
-	golang.org/x/net v0.51.0
+	golang.org/x/net v0.52.0
 	tailscale.com v1.94.2
 )
 
@@ -57,13 +57,13 @@ require (
 	go.yaml.in/yaml/v2 v2.4.2 // indirect
 	go4.org/mem v0.0.0-20240501181205-ae6ca9944745 // indirect
 	go4.org/netipx v0.0.0-20231129151722-fdeea329fbba // indirect
-	golang.org/x/crypto v0.48.0 // indirect
+	golang.org/x/crypto v0.49.0 // indirect
 	golang.org/x/exp v0.0.0-20250620022241-b7579e27df2b // indirect
 	golang.org/x/image v0.27.0 // indirect
 	golang.org/x/oauth2 v0.32.0 // indirect
-	golang.org/x/sync v0.19.0 // indirect
-	golang.org/x/sys v0.41.0 // indirect
-	golang.org/x/text v0.34.0 // indirect
+	golang.org/x/sync v0.20.0 // indirect
+	golang.org/x/sys v0.42.0 // indirect
+	golang.org/x/text v0.35.0 // indirect
 	golang.org/x/time v0.12.0 // indirect
 	golang.zx2c4.com/wireguard/windows v0.5.3 // indirect
 	k8s.io/client-go v0.34.0 // indirect
