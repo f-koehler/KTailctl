@@ -71,6 +71,7 @@ public:
         , mRoleIndexLocation(tailscale->status()->peerModel()->roleIndexForProperty("location"))
         , mRoleIndexId(tailscale->status()->peerModel()->roleIndexForProperty("id"))
     {
+        setIcon(QIcon(QStringLiteral(":/icons/mullvad.svg")));
         if (mRoleIndexHostName == -1) {
             qCCritical(Logging::TrayIcon) << "Failed to find role index for hostName";
             mRoleIndicesFound = false;
