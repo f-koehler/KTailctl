@@ -11,6 +11,13 @@ FormCard.FormCardPage {
         console.log("Login profile:", loginProfile);
     }
 
+    Timer {
+        id: refreshLoginProfilesTimer
+        interval: 300
+        repeat: false
+        onTriggered: KTailctl.Tailscale.refreshLoginProfiles()
+    }
+
     FormCard.FormHeader {
         title: "Login Profile"
     }
@@ -24,13 +31,25 @@ FormCard.FormCardPage {
             onClicked: KTailctl.Util.setClipboardText(loginProfile.id)
         }
 
-        FormCard.FormButtonDelegate {
-            id: name
-            text: loginProfile?.name ?? ""
-            description: "Name"
-            trailingLogo.source: "edit-copy"
-            onClicked: KTailctl.Util.setClipboardText(loginProfile.name)
+        FormCard.FormTextFieldDelegate {
+            id: textName
+            label: "Name"
+            text: loginProfile?.name ?? "unknown"
+            enabled: loginProfile?.id === KTailctl.Tailscale.currentLoginProfileId
+            onEditingFinished: {
+                KTailctl.Tailscale.preferences.profileName = textName.text;
+                refreshLoginProfilesTimer.restart();
+                textName.focus = false;
+            }
         }
+
+        // FormCard.FormButtonDelegate {
+        //     id: name
+        //     text: loginProfile?.name ?? ""
+        //     description: "Name"
+        //     trailingLogo.source: "edit-copy"
+        //     onClicked: KTailctl.Util.setClipboardText(loginProfile.name)
+        // }
 
         FormCard.FormButtonDelegate {
             id: key

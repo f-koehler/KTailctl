@@ -119,6 +119,8 @@ public:
         }
         QJsonObject json_obj = json.object();
 
+        mCurrentLoginProfileId = json_obj.value(QStringLiteral("currentID")).toString();
+
         if (!json_obj.contains(QStringLiteral("accounts"))) {
             // no accounts found -> clear list
             mLoginProfileModel->clear();

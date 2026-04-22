@@ -20,12 +20,12 @@ FormCard.FormCardPage {
 
             delegate: ColumnLayout {
                 FormCard.FormTextDelegate {
-                    text: name
+                    text: self?.name ?? ""
                     leading: Kirigami.Icon {
                         ToolTip.delay: Kirigami.Units.toolTipDelay
                         ToolTip.text: "User avatar"
                         ToolTip.visible: hovered
-                        source: userProfile.profilePicUrl
+                        source: self?.userProfile?.profilePicUrl ?? ""
                     }
                     trailing: RowLayout {
                         ToolButton {

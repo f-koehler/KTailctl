@@ -99,6 +99,14 @@ func tailscale_set_preferences(jsonStr *string) bool {
 			}
 			maskedPrefs.ExitNodeID = tailcfg.StableNodeID(value)
 			maskedPrefs.ExitNodeIDSet = true
+		case "ProfileName":
+			var value string
+			if err := json.Unmarshal(raw, &value); err != nil {
+				log_critical(fmt.Sprintf("failed to parse ProfileName: %v", err))
+				return false
+			}
+			maskedPrefs.ProfileName = value
+			maskedPrefs.ProfileNameSet = true
 		}
 	}
 
@@ -215,6 +223,7 @@ func tailscale_suggest_exit_node() *C.char {
 	}
 	return C.CString(string(res.ID))
 }
+
 //
 // //export tailscale_set_accept_dns
 // func tailscale_set_accept_dns(accept_dns *bool) bool {

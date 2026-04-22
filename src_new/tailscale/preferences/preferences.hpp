@@ -46,7 +46,7 @@ public:
     Q_PROPERTY(bool noStatefulFiltering READ noStatefulFiltering BINDABLE bindableNoStatefulFiltering)
     Q_PROPERTY(NetfilterMode netfilterMode READ netfilterMode BINDABLE bindableNetfilterMode)
     Q_PROPERTY(QString operatorUser READ operatorUser BINDABLE bindableOperatorUser)
-    Q_PROPERTY(QString profileName READ profileName BINDABLE bindableProfileName)
+    Q_PROPERTY(QString profileName READ profileName WRITE setProfileName BINDABLE bindableProfileName)
     Q_PROPERTY(AutoUpdatePreferences *autoUpdate READ autoUpdate CONSTANT)
     Q_PROPERTY(AppConnectorPreferences *appConnectorPreferences READ appConnectorPreferences CONSTANT)
     Q_PROPERTY(bool postureChecking READ postureChecking BINDABLE bindablePostureChecking)
@@ -362,6 +362,11 @@ public:
     void setHostname(const QString &value)
     {
         _set_preference(QStringLiteral("Hostname"), value);
+    }
+
+    void setProfileName(const QString &value)
+    {
+        _set_preference(QStringLiteral("ProfileName"), value);
     }
 
     [[nodiscard]] QBindable<QString> bindableControlUrl()
