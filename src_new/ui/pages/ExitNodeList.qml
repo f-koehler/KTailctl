@@ -75,6 +75,25 @@ FormCard.FormCardPage {
                 KTailctl.Tailscale.preferences.exitNodeId = KTailctl.Config.lastUsedExitNode;
             }
         }
+
+        FormCard.FormDelegateSeparator {
+            visible: KTailctl.Tailscale.status.suggestedExitNodeId !== "" && KTailctl.Tailscale.status.suggestedExitNodeId !== KTailctl.Tailscale.preferences.exitNodeId
+        }
+
+        FormCard.FormButtonDelegate {
+            id: suggestedDelegate
+
+            property var suggestedPeer: KTailctl.Tailscale.status.suggestedExitNodeId !== "" ? KTailctl.Tailscale.status.peerWithId(KTailctl.Tailscale.status.suggestedExitNodeId) : null
+
+            visible: KTailctl.Tailscale.status.suggestedExitNodeId !== "" && KTailctl.Tailscale.status.suggestedExitNodeId !== KTailctl.Tailscale.preferences.exitNodeId
+            text: "Use suggested: " + (suggestedPeer?.dnsName ?? KTailctl.Tailscale.status.suggestedExitNodeId)
+            leading: Kirigami.Icon {
+                source: suggestedDelegate.suggestedPeer?.mullvadNode && suggestedDelegate.suggestedPeer?.location ? "qrc:/country-flags/country-flag-" + suggestedDelegate.suggestedPeer.location.countryCode.toLowerCase() : "network-vpn"
+            }
+            onClicked: {
+                KTailctl.Tailscale.preferences.exitNodeId = KTailctl.Tailscale.status.suggestedExitNodeId;
+            }
+        }
     }
 
     FormCard.FormHeader {

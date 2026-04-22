@@ -44,6 +44,7 @@ public:
     Q_PROPERTY(SelfHostedExitNodeModel *selfHostedExitNodeModel READ selfHostedExitNodeModel CONSTANT)
     Q_PROPERTY(QMap<qint64, UserProfile *> users READ users BINDABLE bindableUsers)
     Q_PROPERTY(ClientVersion *clientVersion READ clientVersion BINDABLE bindableClientVersion)
+    Q_PROPERTY(QString suggestedExitNodeId READ suggestedExitNodeId BINDABLE bindableSuggestedExitNodeId)
 
 private:
     QMutex mMutex;
@@ -62,6 +63,7 @@ private:
     PeerModel *mPeerModel;
     QProperty<QMap<qint64, UserProfile *>> mUsers;
     QProperty<ClientVersion *> mClientVersion;
+    QProperty<QString> mSuggestedExitNodeId;
 
     MullvadExitNodeModel *mMullvadExitNodeModel;
     SelfHostedExitNodeModel *mSelfHostedExitNodeModel;
@@ -109,6 +111,14 @@ public:
         QJsonObject json_obj = json.object();
 
         updateFromJson(json_obj);
+
+        const std::unique_ptr<char, decltype(&::free)> suggested(tailscale_suggest_exit_node(), &free);
+        if (suggested && suggested.get()[0] != '\0') {
+            mSuggestedExitNodeId = QString::fromUtf8(suggested.get());
+        } else {
+            mSuggestedExitNodeId = QString();
+        }
+
         qCInfo(Logging::Tailscale::Status) << "Status refreshed";
     }
 
@@ -291,6 +301,11 @@ public:
         return mClientVersion;
     }
 
+    [[nodiscard]] const QString &suggestedExitNodeId() const noexcept
+    {
+        return mSuggestedExitNodeId;
+    }
+
     // Bindables
     [[nodiscard]] QBindable<QString> bindableVersion()
     {
@@ -350,6 +365,11 @@ public:
     [[nodiscard]] QBindable<ClientVersion *> bindableClientVersion()
     {
         return {&mClientVersion};
+    }
+
+    [[nodiscard]] QBindable<QString> bindableSuggestedExitNodeId()
+    {
+        return {&mSuggestedExitNodeId};
     }
 };
 
