@@ -11,7 +11,7 @@
 #include "status/login_profile.hpp"
 #include "status/status.hpp"
 
-class TailscaleNew : public QObject
+class Tailscale : public QObject
 {
     Q_OBJECT
 
@@ -38,7 +38,7 @@ public slots:
     Q_INVOKABLE void toggle() noexcept;
 
 public:
-    explicit TailscaleNew(QObject *parent = nullptr)
+    explicit Tailscale(QObject *parent = nullptr)
         : QObject(parent)
         , mStatus(new Status(this))
         , mPreferences(new Preferences(this))

@@ -1,6 +1,6 @@
 #include "tray_menu_mullvad_exit_nodes.hpp"
 
-TrayMenuExitNodesMullvad::TrayMenuExitNodesMullvad(TailscaleNew *tailscale, QWidget *parent)
+TrayMenuExitNodesMullvad::TrayMenuExitNodesMullvad(Tailscale *tailscale, QWidget *parent)
     : QMenu(QStringLiteral("Mullvad"), parent)
     , mTailscale(tailscale)
     , mRoleIndicesFound(true)

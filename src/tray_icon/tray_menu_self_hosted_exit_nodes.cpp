@@ -1,6 +1,6 @@
 #include "tray_menu_self_hosted_exit_nodes.hpp"
 
-TrayMenuExitNodesSelfHosted::TrayMenuExitNodesSelfHosted(TailscaleNew *tailscale, QWidget *parent)
+TrayMenuExitNodesSelfHosted::TrayMenuExitNodesSelfHosted(Tailscale *tailscale, QWidget *parent)
     : QMenu(QStringLiteral("Self-Hosted"), parent)
     , mTailscale(tailscale)
     , mRoleIndicesFound(true)

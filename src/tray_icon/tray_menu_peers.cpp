@@ -1,7 +1,7 @@
 #include "tray_menu_peers.hpp"
 #include "logging_tray_icon.hpp"
 
-TrayMenuPeers::TrayMenuPeers(TailscaleNew *tailscale, QWidget *parent)
+TrayMenuPeers::TrayMenuPeers(Tailscale *tailscale, QWidget *parent)
     : QMenu(QStringLiteral("Peers"), parent)
     , mTailscale(tailscale)
     , mRoleIndexHostName(tailscale->status()->peerModel()->roleIndexForProperty("hostName"))

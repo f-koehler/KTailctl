@@ -7,7 +7,7 @@
 #include <QMutexLocker>
 #include <QSet>
 
-void TailscaleNew::up() noexcept
+void Tailscale::up() noexcept
 {
     tailscale_up();
     QTimer::singleShot(200, this, [this]() {
@@ -15,7 +15,7 @@ void TailscaleNew::up() noexcept
     });
 }
 
-void TailscaleNew::down() noexcept
+void Tailscale::down() noexcept
 {
     tailscale_down();
     QTimer::singleShot(200, this, [this]() {
@@ -23,7 +23,7 @@ void TailscaleNew::down() noexcept
     });
 }
 
-void TailscaleNew::toggle() noexcept
+void Tailscale::toggle() noexcept
 {
     if ((mStatus->backendState() == Status::BackendState::Starting) || (mStatus->backendState() == Status::BackendState::Running)) {
         down();
@@ -32,7 +32,7 @@ void TailscaleNew::toggle() noexcept
     }
 }
 
-LoginProfile *TailscaleNew::loginProfileWithId(const QString &id) const noexcept
+LoginProfile *Tailscale::loginProfileWithId(const QString &id) const noexcept
 {
     const auto pos = mLoginProfiles.find(id);
     if (pos == mLoginProfiles.end()) [[unlikely]] {
@@ -41,7 +41,7 @@ LoginProfile *TailscaleNew::loginProfileWithId(const QString &id) const noexcept
     return pos.value();
 }
 
-void TailscaleNew::refreshLoginProfiles()
+void Tailscale::refreshLoginProfiles()
 {
     QMutexLocker lock(&mMutexLoginProfiles);
 

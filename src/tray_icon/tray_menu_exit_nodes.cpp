@@ -1,6 +1,6 @@
 #include "tray_menu_exit_nodes.hpp"
 
-TrayMenuExitNodes::TrayMenuExitNodes(TailscaleNew *tailscale, QWidget *parent)
+TrayMenuExitNodes::TrayMenuExitNodes(Tailscale *tailscale, QWidget *parent)
     : QMenu(QStringLiteral("Exit Nodes"), parent)
     , mTailscale(tailscale)
     , mSelfHosted(new TrayMenuExitNodesSelfHosted(tailscale, this))

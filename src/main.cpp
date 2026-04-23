@@ -58,14 +58,14 @@ int main(int argc, char *argv[])
     qmlRegisterType<LoginProfile>("org.fkoehler.KTailctl", 1, 0, "LoginProfile");
     qmlRegisterType<NetworkProfile>("org.fkoehler.KTailctl", 1, 0, "NetworkProfile");
     qmlRegisterType<PeerStatus>("org.fkoehler.KTailctl", 1, 0, "PeerStatus");
-    qmlRegisterType<TailscaleNew::LoginProfileModel>("org.fkoehler.KTailctl", 1, 0, "LoginProfileModel");
+    qmlRegisterType<Tailscale::LoginProfileModel>("org.fkoehler.KTailctl", 1, 0, "LoginProfileModel");
     qmlRegisterType<Status::PeerModel>("org.fkoehler.KTailctl", 1, 0, "PeerModel");
     qmlRegisterType<Status>("org.fkoehler.KTailctl", 1, 0, "Status");
     qmlRegisterType<Preferences>("org.fkoehler.KTailctl", 1, 0, "Preferences");
     qmlRegisterType<TailnetStatus>("org.fkoehler.KTailctl", 1, 0, "TailnetStatus");
     qmlRegisterType<UserProfile>("org.fkoehler.KTailctl", 1, 0, "UserProfile");
 
-    TailscaleNew *tailscale = new TailscaleNew();
+    Tailscale *tailscale = new Tailscale();
     Util *util = new Util();
     TrayIconThemes *tray_icon_themes = new TrayIconThemes();
     qmlRegisterSingletonType("org.fkoehler.KTailctl", 1, 0, "About", [](QQmlEngine *engine, QJSEngine *) -> QJSValue {

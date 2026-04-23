@@ -11,7 +11,7 @@ class TrayMenuExitNodes : public QMenu
     Q_OBJECT
 
 private:
-    TailscaleNew *mTailscale;
+    Tailscale *mTailscale;
     TrayMenuExitNodesSelfHosted *mSelfHosted;
     TrayMenuExitNodesMullvad *mMullvad;
     QAction *mActionSuggested = nullptr;
@@ -19,7 +19,7 @@ private:
     QAction *mActionLastUsed = nullptr;
 
 public:
-    explicit TrayMenuExitNodes(TailscaleNew *tailscale, QWidget *parent = nullptr);
+    explicit TrayMenuExitNodes(Tailscale *tailscale, QWidget *parent = nullptr);
 };
 
 #endif // KTAILCTL_TRAY_MENU_EXIT_NODES_HPP

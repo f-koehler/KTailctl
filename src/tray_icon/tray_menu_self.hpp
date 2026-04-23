@@ -9,13 +9,13 @@ class TrayMenuSelf : public QMenu
     Q_OBJECT
 
 private:
-    TailscaleNew mTailscale;
+    Tailscale mTailscale;
 
 public slots:
     Q_INVOKABLE void rebuildMenu();
 
 public:
-    explicit TrayMenuSelf(TailscaleNew *tailscale, QWidget *parent = nullptr)
+    explicit TrayMenuSelf(Tailscale *tailscale, QWidget *parent = nullptr)
         : QMenu(QStringLiteral("Self"), parent)
         , mTailscale(tailscale)
     {

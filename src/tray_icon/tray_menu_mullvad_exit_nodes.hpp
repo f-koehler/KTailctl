@@ -11,7 +11,7 @@ class TrayMenuExitNodesMullvad : public QMenu
     Q_OBJECT
 
 private:
-    TailscaleNew *mTailscale;
+    Tailscale *mTailscale;
     bool mRoleIndicesFound = false;
     const int mRoleIndexHostName = -1;
     const int mRoleIndexLocation = -1;
@@ -23,7 +23,7 @@ public slots:
     Q_INVOKABLE void rebuildMenu();
 
 public:
-    explicit TrayMenuExitNodesMullvad(TailscaleNew *tailscale, QWidget *parent = nullptr);
+    explicit TrayMenuExitNodesMullvad(Tailscale *tailscale, QWidget *parent = nullptr);
 };
 
 #endif // KTAILCTL_TRAY_MENU_MULLVAD_EXIT_NODES_HPP

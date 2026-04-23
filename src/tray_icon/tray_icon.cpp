@@ -1,6 +1,6 @@
 #include "tray_icon.hpp"
 
-TrayIcon::TrayIcon(TailscaleNew *tailscale, QObject *parent)
+TrayIcon::TrayIcon(Tailscale *tailscale, QObject *parent)
     : QSystemTrayIcon(QIcon::fromTheme(QStringLiteral("unknown")), parent)
     , mTailscale(tailscale)
     , mContextMenu(new QMenu(QStringLiteral("Tray Menu")))

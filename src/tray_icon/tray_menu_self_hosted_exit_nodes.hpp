@@ -11,7 +11,7 @@ class TrayMenuExitNodesSelfHosted : public QMenu
     Q_OBJECT
 
 private:
-    TailscaleNew *mTailscale;
+    Tailscale *mTailscale;
     bool mRoleIndicesFound = false;
     const int mRoleIndexHostName = -1;
     const int mRoleIndexId = -1;
@@ -20,7 +20,7 @@ public slots:
     Q_INVOKABLE void rebuildMenu();
 
 public:
-    explicit TrayMenuExitNodesSelfHosted(TailscaleNew *tailscale, QWidget *parent = nullptr);
+    explicit TrayMenuExitNodesSelfHosted(Tailscale *tailscale, QWidget *parent = nullptr);
 };
 
 #endif // KTAILCTL_TRAY_MENU_SELF_HOSTED_EXIT_NODES_HPP

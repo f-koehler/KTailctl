@@ -12,7 +12,7 @@ class TrayMenuPeers : public QMenu
     Q_OBJECT
 
 private:
-    TailscaleNew *mTailscale;
+    Tailscale *mTailscale;
     bool mRoleIndicesFound = false;
     const int mRoleIndexHostName = -1;
     const int mRoleIndexMullvadNode = -1;
@@ -23,7 +23,7 @@ public slots:
     Q_INVOKABLE void rebuildMenu();
 
 public:
-    explicit TrayMenuPeers(TailscaleNew *tailscale, QWidget *parent = nullptr);
+    explicit TrayMenuPeers(Tailscale *tailscale, QWidget *parent = nullptr);
 };
 
 #endif // KTAILCTL_TRAY_MENU_PEERS_HPP
