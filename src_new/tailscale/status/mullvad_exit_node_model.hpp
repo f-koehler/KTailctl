@@ -43,21 +43,8 @@ public:
         sort(0, Qt::AscendingOrder);
     }
 
-    bool lessThan(const QModelIndex &left, const QModelIndex &right) const override
-    {
-        return sourceModel()->data(left, mRoleIndexDnsName).toString() < sourceModel()->data(right, mRoleIndexDnsName).toString();
-    }
-
-    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override
-    {
-        if (!mRoleIndicesFound) [[unlikely]] {
-            return false;
-        }
-
-        const auto *model = sourceModel();
-        const QModelIndex sourceIndex = model->index(sourceRow, 0, sourceParent);
-        return model->data(sourceIndex, mRoleIndexMullvadNode).toBool();
-    }
+    bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
+    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
 };
 
 #endif // KTAILCTL_MULLVAD_EXIT_NODE_MODEL_HPP

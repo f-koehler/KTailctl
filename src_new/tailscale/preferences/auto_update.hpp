@@ -1,6 +1,7 @@
 #ifndef KTAILCTL_AUTO_UPDATE_HPP
 #define KTAILCTL_AUTO_UPDATE_HPP
 
+#include <QJsonObject>
 #include <QObject>
 #include <QProperty>
 
@@ -20,11 +21,7 @@ public:
     {
     }
 
-    void updateFromJson(QJsonObject &json)
-    {
-        mCheck = json.take(QStringLiteral("Check")).toBool();
-        mApply = json.take(QStringLiteral("Apply")).toBool();
-    }
+    void updateFromJson(QJsonObject &json);
 
     [[nodiscard]] bool check() const noexcept
     {

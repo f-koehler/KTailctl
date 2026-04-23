@@ -1,9 +1,11 @@
 #ifndef KTAILCTL_EXIT_NODE_STATUS_HPP
 #define KTAILCTL_EXIT_NODE_STATUS_HPP
 
+#include <QJsonObject>
 #include <QObject>
 #include <QProperty>
 #include <QString>
+#include <QStringList>
 
 // https://pkg.go.dev/tailscale.com/ipn/ipnstate#ExitNodeStatus
 class ExitNodeStatus : public QObject
@@ -30,12 +32,7 @@ public:
         updateFromJson(json);
     }
 
-    void updateFromJson(QJsonObject &json)
-    {
-        mId = json.take(QStringLiteral("ID")).toString();
-        mIsOnline = json.take(QStringLiteral("Online")).toBool();
-        mTailscaleIps = json.take(QStringLiteral("TailscaleIPs")).toVariant().toStringList();
-    }
+    void updateFromJson(QJsonObject &json);
 
     // Getters
     [[nodiscard]] const QString &id() const noexcept

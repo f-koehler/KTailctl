@@ -11,16 +11,16 @@ ecm_qt_declare_logging_category(
 
 target_sources(
   ktailctl
-  PRIVATE client_version.hpp
-          exit_node_status.hpp
-          location.hpp
-          peer_status.hpp
-          status.hpp
-          tailnet_status.hpp
-          user_profile.hpp
-        login_profile.hpp
-        network_profile.hpp
-        mullvad_exit_node_model.hpp
-        self_hosted_exit_node_model.hpp
+  PRIVATE client_version.hpp client_version.cpp
+          exit_node_status.hpp exit_node_status.cpp
+          location.hpp location.cpp
+          peer_status.hpp peer_status.cpp
+          status.hpp status.cpp
+          tailnet_status.hpp tailnet_status.cpp
+          user_profile.hpp user_profile.cpp
+          login_profile.hpp login_profile.cpp
+          network_profile.hpp network_profile.cpp
+          mullvad_exit_node_model.hpp mullvad_exit_node_model.cpp
+          self_hosted_exit_node_model.hpp self_hosted_exit_node_model.cpp
           ${CMAKE_CURRENT_BINARY_DIR}/logging_tailscale_status.cpp)
 target_include_directories(ktailctl PRIVATE ${CMAKE_CURRENT_BINARY_DIR})

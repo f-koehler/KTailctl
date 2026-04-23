@@ -2,6 +2,7 @@
 #define KTAILCTL_TAILNET_STATUS_HPP
 
 #include <QBindable>
+#include <QJsonObject>
 #include <QObject>
 #include <QProperty>
 #include <QString>
@@ -30,12 +31,7 @@ public:
         updateFromJson(json);
     }
 
-    void updateFromJson(QJsonObject &json)
-    {
-        mName = json.take(QStringLiteral("Name")).toString();
-        mMagicDnsSuffix = json.take(QStringLiteral("MagicDnsSuffix")).toString();
-        mMagicDnsEnabled = json.take(QStringLiteral("MagicDnsEnabled")).toBool();
-    }
+    void updateFromJson(QJsonObject &json);
 
     // Getters
     [[nodiscard]] const QString &name() const noexcept

@@ -1,5 +1,7 @@
 #ifndef KTAILCTL_TRAY_MENU_SELF_HPP
 #define KTAILCTL_TRAY_MENU_SELF_HPP
+
+#include "tailscale/tailscale.hpp"
 #include <QMenu>
 
 class TrayMenuSelf : public QMenu
@@ -10,20 +12,7 @@ private:
     TailscaleNew mTailscale;
 
 public slots:
-    Q_INVOKABLE void rebuildMenu()
-    {
-        clear();
-        const QString &dnsName = mTailscale.status()->self()->dnsName();
-        addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), dnsName, [&dnsName]() {
-            Util::setClipboardText(dnsName);
-        });
-        const QStringList &tailscaleIps = mTailscale.status()->self()->tailscaleIps();
-        for (const QString &ip : tailscaleIps) {
-            addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), ip, [&ip]() {
-                Util::setClipboardText(ip);
-            });
-        }
-    }
+    Q_INVOKABLE void rebuildMenu();
 
 public:
     explicit TrayMenuSelf(TailscaleNew *tailscale, QWidget *parent = nullptr)

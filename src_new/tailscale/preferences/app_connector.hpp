@@ -19,10 +19,7 @@ public:
     {
     }
 
-    void updateFromJson(QJsonObject &json)
-    {
-        mAdvertise = json.take(QStringLiteral("advertise")).toBool();
-    }
+    void updateFromJson(QJsonObject &json);
 
     [[nodiscard]] bool advertise() const noexcept
     {

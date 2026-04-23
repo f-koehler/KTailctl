@@ -1,6 +1,7 @@
 #ifndef KTAILCTL_NETWORK_PROFILE_HPP
 #define KTAILCTL_NETWORK_PROFILE_HPP
 
+#include <QJsonObject>
 #include <QObject>
 #include <QProperty>
 
@@ -22,12 +23,7 @@ public:
     {
     }
 
-    void updateFromJson(QJsonObject &json)
-    {
-        mMagicDnsName = json.take(QStringLiteral("MagicDNSName")).toString();
-        mDomainName = json.take(QStringLiteral("DomainName")).toString();
-        mDisplayName = json.take(QStringLiteral("DisplayName")).toString();
-    }
+    void updateFromJson(QJsonObject &json);
 
     [[nodiscard]] const QString &magicDnsName() const noexcept
     {

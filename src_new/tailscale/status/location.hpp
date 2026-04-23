@@ -1,6 +1,7 @@
 #ifndef KTAILCTL_LOCATION_HPP
 #define KTAILCTL_LOCATION_HPP
 
+#include <QJsonObject>
 #include <QObject>
 #include <QProperty>
 #include <QString>
@@ -38,16 +39,7 @@ public:
         updateFromJson(json);
     }
 
-    void updateFromJson(QJsonObject &json)
-    {
-        mCountry = json.take(QStringLiteral("Country")).toString();
-        mCountryCode = json.take(QStringLiteral("CountryCode")).toString();
-        mCity = json.take(QStringLiteral("City")).toString();
-        mCityCode = json.take(QStringLiteral("CityCode")).toString();
-        mLatitude = json.take(QStringLiteral("Latitude")).toDouble();
-        mLongitude = json.take(QStringLiteral("Longitude")).toDouble();
-        mPriority = json.take(QStringLiteral("Priority")).toInt();
-    }
+    void updateFromJson(QJsonObject &json);
 
     // Getters
     [[nodiscard]] const QString &country() const noexcept

@@ -13,5 +13,5 @@ ecm_qt_declare_logging_category(
   DEFAULT_SEVERITY
   Info)
 
-target_sources(ktailctl PRIVATE tailscale.hpp ${CMAKE_CURRENT_BINARY_DIR}/logging_tailscale.cpp)
+target_sources(ktailctl PRIVATE tailscale.hpp tailscale.cpp ${CMAKE_CURRENT_BINARY_DIR}/logging_tailscale.cpp)
 target_include_directories(ktailctl PRIVATE ${CMAKE_CURRENT_BINARY_DIR})

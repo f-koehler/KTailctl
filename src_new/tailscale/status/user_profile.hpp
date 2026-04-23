@@ -2,6 +2,7 @@
 #define KTAILCTL_USER_PROFILE_HPP
 
 #include <QBindable>
+#include <QJsonObject>
 #include <QObject>
 #include <QString>
 
@@ -31,14 +32,7 @@ public:
         updateFromJson(json);
     }
 
-    void updateFromJson(QJsonObject &json)
-    {
-        QJsonDocument doc(json);
-        mUserId = json.take(QStringLiteral("ID")).toInteger();
-        mLoginName = json.take(QStringLiteral("LoginName")).toString();
-        mDisplayName = json.take(QStringLiteral("DisplayName")).toString();
-        mProfilePicUrl = json.take(QStringLiteral("ProfilePicURL")).toString();
-    }
+    void updateFromJson(QJsonObject &json);
 
     // Getters
     [[nodiscard]] qint64 userId() const noexcept

@@ -2,6 +2,7 @@
 #define KTAILCTL_CLIENT_VERSION_HPP
 
 #include <QBindable>
+#include <QJsonObject>
 #include <QObject>
 #include <QProperty>
 #include <QString>
@@ -39,15 +40,7 @@ public:
         updateFromJson(json);
     }
 
-    void updateFromJson(QJsonObject &json)
-    {
-        mRunningLatest = json.take(QStringLiteral("RunningLatest")).toBool();
-        mLatestVersion = json.take(QStringLiteral("Version")).toString();
-        mUrgentSecurityUpdate = json.take(QStringLiteral("UrgentSecurityUpdate")).toBool();
-        mNotify = json.take(QStringLiteral("Notify")).toBool();
-        mNotifyUrl = json.take(QStringLiteral("NotifyUrl")).toString();
-        mNotifyText = json.take(QStringLiteral("NotifyText")).toString();
-    }
+    void updateFromJson(QJsonObject &json);
 
     // Getters
     [[nodiscard]] bool runningLatest() const noexcept
