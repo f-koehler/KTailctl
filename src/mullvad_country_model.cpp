@@ -32,15 +32,19 @@ QVariant MullvadCountryModel::data(const QModelIndex &index, int role) const
 
 void MullvadCountryModel::update(const QMap<QString, QString> &countries)
 {
-    if (countries.size() == mCountries.size()) {
-        return;
-    }
-    beginResetModel();
+    QList<QPair<QString, QString>> newCountries;
     for (auto it = countries.cbegin(); it != countries.cend(); ++it) {
         if (it->isEmpty()) {
             continue;
         }
-        mCountries.append({it.key(), it.value()});
+        newCountries.append({it.key(), it.value()});
     }
+
+    if (newCountries == mCountries) {
+        return;
+    }
+
+    beginResetModel();
+    mCountries = newCountries;
     endResetModel();
 }
