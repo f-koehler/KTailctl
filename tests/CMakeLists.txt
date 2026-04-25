@@ -22,24 +22,9 @@ endfunction()
 add_subdirectory(tailscale)
 add_subdirectory(util)
 
-
-
-add_ktailctl_test(test_tailnet_status
-    SOURCES
-        test_tailnet_status.cpp
-        ${CMAKE_SOURCE_DIR}/src/tailscale/status/tailnet_status.cpp)
-
-
-
-
-
-
-
-
 add_ktailctl_test(test_property_list_model
     SOURCES
         test_property_list_model.cpp)
-
 
 add_ktailctl_test(test_status_json
     SOURCES
