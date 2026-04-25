@@ -24,7 +24,7 @@ class Peer : public QObject
     Q_PROPERTY(QStringList tailscaleIps READ tailscaleIps BINDABLE bindableTailscaleIps)
     Q_PROPERTY(QString relay READ relay WRITE setRelay BINDABLE bindableRelay)
     Q_PROPERTY(long receivedBytes READ receivedBytes WRITE setReceivedBytes BINDABLE bindableReceivedBytes)
-    Q_PROPERTY(long transmittedBytes WRITE transmittedBytes WRITE setTransmittedBytes BINDABLE bindableTransmittedBytes)
+    Q_PROPERTY(long transmittedBytes READ transmittedBytes WRITE setTransmittedBytes BINDABLE bindableTransmittedBytes)
     Q_PROPERTY(QDateTime created READ created WRITE setCreated BINDABLE bindableCreated)
     Q_PROPERTY(QDateTime lastSeen READ lastSeen WRITE setLastSeen BINDABLE bindableLastSeen)
     Q_PROPERTY(bool isOnline READ isOnline WRITE setIsOnline BINDABLE bindableIsOnline)
