@@ -1,5 +1,5 @@
-#ifndef KTAILCTL_TAILSCALE_NEW_HPP
-#define KTAILCTL_TAILSCALE_NEW_HPP
+#ifndef KTAILCTL_TAILSCALE_HPP
+#define KTAILCTL_TAILSCALE_HPP
 
 #include <QBindable>
 #include <QMap>
