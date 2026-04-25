@@ -19,6 +19,7 @@
 #include <QtQml>
 
 #include "ktailctl_config.h"
+#include "version-ktailctl.h"
 
 int main(int argc, char *argv[])
 {
@@ -33,8 +34,7 @@ int main(int argc, char *argv[])
 
     KAboutData aboutData(QStringLiteral("ktailctl"),
                          i18nc("@title", "KTailctl"),
-                         // TODO: version string via CMake
-                         QStringLiteral("1.0"),
+                         QStringLiteral(KTAILCTL_VERSION_STRING),
                          i18n("GUI for tailscale on the Linux desktop"),
                          KAboutLicense::GPL,
                          i18n("(c) Fabian Koehler 2023"));
