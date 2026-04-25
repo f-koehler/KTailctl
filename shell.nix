@@ -39,7 +39,7 @@ devenv.lib.mkShell {
         check-executables-have-shebangs.enable = true;
         check-merge-conflicts.enable = true;
         check-symlinks.enable = true;
-        prettier.enable = true;
+        # prettier.enable = true;
         # end-of-line-fixer.enable = true;
         # trim-trailing-whitespace = true;
         # end-of-file-fixer = true;

@@ -1,5 +1,8 @@
 # KTailctl
 
+> [!NOTE]
+> KTailctl is currently undergoing a big refactoring and redesign to make it more maintainable, efficient and modern looking. This effort is already quite advanced but will still take some time to complete. During this time, there will not be a lot of activity on the `main` branch.
+
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/f-koehler/KTailctl/ci.yml)](https://github.com/f-koehler/KTailctl/actions/workflows/ci.yml)
 [![GitHub](https://img.shields.io/github/license/f-koehler/KTailctl)](https://github.com/f-koehler/KTailctl)
 
