@@ -64,7 +64,7 @@ FormCard.FormCardPage {
             id: switchRunSSH
             text: "SSH"
             checked: KTailctl.Tailscale.preferences.runSSH
-            onCheckedChanged: KTailctl.Tailscale.preferences.shieldsUp = switchRunSSH.checked
+            onCheckedChanged: KTailctl.Tailscale.preferences.runSSH = switchRunSSH.checked
         }
         FormCard.FormSwitchDelegate {
             id: switchShieldsUp
