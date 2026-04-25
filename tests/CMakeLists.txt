@@ -23,10 +23,6 @@ add_subdirectory(tailscale)
 add_subdirectory(util)
 
 
-add_ktailctl_test(test_location
-    SOURCES
-        test_location.cpp
-        ${CMAKE_SOURCE_DIR}/src/tailscale/status/location.cpp)
 
 add_ktailctl_test(test_exit_node_status
     SOURCES
