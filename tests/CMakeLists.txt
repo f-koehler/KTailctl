@@ -79,14 +79,10 @@ add_ktailctl_test(test_property_list_model
         test_property_list_model.cpp)
 
 # --------------------------------------------------------------------------
-# Utility functions
+# Utility functions (one sub-directory per Util method)
 # --------------------------------------------------------------------------
 
-add_ktailctl_test(test_util
-    SOURCES
-        test_util.cpp
-        ${CMAKE_SOURCE_DIR}/src/util.cpp
-    LIBS KF6::GuiAddons)
+add_subdirectory(util)
 
 # --------------------------------------------------------------------------
 # Status JSON parsing (uses FFI stub so the constructor can run)
