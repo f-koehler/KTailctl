@@ -10,7 +10,7 @@ class TestNetworkProfile : public QObject
 {
     Q_OBJECT
 
-private slots:
+private Q_SLOTS:
     static void parseFullJson()
     {
         QJsonObject json{

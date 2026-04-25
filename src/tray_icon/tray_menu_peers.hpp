@@ -19,7 +19,7 @@ private:
     const int mRoleIndexDnsName = -1;
     const int mRoleIndexTailscaleIps = -1;
 
-public slots:
+public Q_SLOTS:
     Q_INVOKABLE void rebuildMenu();
 
 public:

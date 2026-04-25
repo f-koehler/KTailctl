@@ -9,7 +9,7 @@ class TestLoginProfile : public QObject
 {
     Q_OBJECT
 
-private slots:
+private Q_SLOTS:
     // NOLINTNEXTLINE(readability-function-cognitive-complexity)
     static void parseFullJson()
     {

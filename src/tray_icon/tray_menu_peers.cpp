@@ -1,5 +1,6 @@
 #include "tray_menu_peers.hpp"
 #include "logging_tray_icon.hpp"
+#include <qhashfunctions.h>
 
 TrayMenuPeers::TrayMenuPeers(Tailscale *tailscale, QWidget *parent)
     : QMenu(QStringLiteral("Peers"), parent)
@@ -49,12 +50,12 @@ void TrayMenuPeers::rebuildMenu()
         QMenu *subMenu = addMenu(title);
 
         const QString dnsName = index.data(mRoleIndexDnsName).toString();
-        subMenu->addAction(QIcon::fromTheme("edit-copy"), dnsName, [dnsName]() {
+        subMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), dnsName, [dnsName]() {
             Util::setClipboardText(dnsName);
         });
 
         for (const auto &address : index.data(mRoleIndexTailscaleIps).toStringList()) {
-            subMenu->addAction(QIcon::fromTheme("edit-copy"), address, [address]() {
+            subMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), address, [address]() {
                 Util::setClipboardText(address);
             });
         }

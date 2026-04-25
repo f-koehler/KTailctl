@@ -10,7 +10,7 @@ class TestClientVersion : public QObject
 {
     Q_OBJECT
 
-private slots:
+private Q_SLOTS:
     static void parseRunningLatest()
     {
         QJsonObject json{

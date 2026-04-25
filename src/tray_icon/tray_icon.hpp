@@ -24,11 +24,11 @@ private:
     QAction *mActionStop;
     QAction *mActionQuit;
 
-signals:
+Q_SIGNALS:
     void showWindow();
     void quitRequested();
 
-public slots:
+public Q_SLOTS:
     Q_INVOKABLE void updateIcon();
 
 public:

@@ -19,7 +19,7 @@ private:
 
     QMap<QString, QMenu *> mPerCountryMenus;
 
-public slots:
+public Q_SLOTS:
     Q_INVOKABLE void rebuildMenu();
 
 public:

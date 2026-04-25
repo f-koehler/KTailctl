@@ -11,7 +11,7 @@ class TestFormatDurationHumanReadable : public QObject
 {
     Q_OBJECT
 
-private slots:
+private Q_SLOTS:
     static void invalidDateTimeReturnsEmpty()
     {
         QCOMPARE(Util::formatDurationHumanReadable(QDateTime{}), QString{});

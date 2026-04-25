@@ -32,7 +32,7 @@ private:
     LoginProfileModel *mLoginProfileModel;
     QProperty<QString> mCurrentLoginProfileId;
 
-public slots:
+public Q_SLOTS:
     Q_INVOKABLE void up() noexcept;
     Q_INVOKABLE void down() noexcept;
     Q_INVOKABLE void toggle() noexcept;

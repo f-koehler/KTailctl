@@ -50,7 +50,7 @@ void TrayMenuExitNodesMullvad::rebuildMenu()
             continue;
         }
         const auto &countryCode = location->countryCode();
-        const QIcon icon(":/country-flags/country-flag-" + countryCode.toLower());
+        const QIcon icon(QStringLiteral(":/country-flags/country-flag-") + countryCode.toLower());
         if (mPerCountryMenus[countryCode] == nullptr) {
             mPerCountryMenus[countryCode] = new QMenu(location->country(), this);
             mPerCountryMenus[countryCode]->setIcon(icon);

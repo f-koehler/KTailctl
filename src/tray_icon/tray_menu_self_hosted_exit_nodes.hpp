@@ -16,7 +16,7 @@ private:
     const int mRoleIndexHostName = -1;
     const int mRoleIndexId = -1;
 
-public slots:
+public Q_SLOTS:
     Q_INVOKABLE void rebuildMenu();
 
 public:

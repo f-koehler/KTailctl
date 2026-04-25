@@ -80,7 +80,7 @@ void Status::updateFromJson(QJsonObject &json)
             mBackendState = BackendState::NoState;
         }
         if (mBackendState != old) {
-            emit backendStateChanged();
+            Q_EMIT backendStateChanged();
         }
     }
     mHaveNodeKey = json.take(QStringLiteral("HaveNodeKey")).toBool();
@@ -104,14 +104,14 @@ void Status::updateFromJson(QJsonObject &json)
         auto exitNodeStatusJson = json.take(QStringLiteral("ExitNodeStatus")).toObject();
         if (mExitNodeStatus.value() == nullptr) [[unlikely]] {
             mExitNodeStatus = new ExitNodeStatus(this);
-            emit exitNodeStatusChanged();
+            Q_EMIT exitNodeStatusChanged();
         }
         mExitNodeStatus->updateFromJson(exitNodeStatusJson);
     } else [[unlikely]] {
         if (mExitNodeStatus.value() != nullptr) {
             mExitNodeStatus->deleteLater();
             mExitNodeStatus = nullptr;
-            emit exitNodeStatusChanged();
+            Q_EMIT exitNodeStatusChanged();
         }
     }
 

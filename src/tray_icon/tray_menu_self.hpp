@@ -11,7 +11,7 @@ class TrayMenuSelf : public QMenu
 private:
     Tailscale *mTailscale;
 
-public slots:
+public Q_SLOTS:
     Q_INVOKABLE void rebuildMenu();
 
 public:

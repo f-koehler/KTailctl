@@ -10,7 +10,7 @@ class TestUserProfile : public QObject
 {
     Q_OBJECT
 
-private slots:
+private Q_SLOTS:
     static void parseFullJson()
     {
         static constexpr qint64 ExampleUserId = 123456789L;

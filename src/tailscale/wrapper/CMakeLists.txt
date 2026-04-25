@@ -20,7 +20,7 @@ ecm_qt_declare_logging_category(
   DEFAULT_SEVERITY
   Info)
 
-add_library(ktailctl_wrapper_logging SHARED logging.cpp)
+add_library(ktailctl_wrapper_logging SHARED logging.cpp ${CMAKE_CURRENT_BINARY_DIR}/logging_tailscale_wrapper.cpp)
 target_link_libraries(ktailctl_wrapper_logging PUBLIC Qt6::Core)
 target_compile_definitions(ktailctl_wrapper_logging PRIVATE QT_MESSAGELOGCONTEXT)
 target_include_directories(ktailctl_wrapper_logging PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
@@ -91,4 +91,3 @@ install(FILES ${KTAILCTL_WRAPPER_LIBRARY} TYPE LIB)
 install(TARGETS ktailctl_wrapper_logging)
 
 target_link_libraries(ktailctl PRIVATE KTailctl::Wrapper KTailctl::WrapperLogging)
-target_sources(ktailctl PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/logging_tailscale_wrapper.cpp)

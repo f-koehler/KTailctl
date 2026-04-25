@@ -7,7 +7,7 @@ class TestLocation : public QObject
 {
     Q_OBJECT
 
-private slots:
+private Q_SLOTS:
     static void parseFullJson()
     {
         static constexpr double latitude = 50.1109;

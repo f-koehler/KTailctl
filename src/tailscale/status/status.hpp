@@ -69,7 +69,7 @@ private:
     MullvadExitNodeModel *mMullvadExitNodeModel;
     SelfHostedExitNodeModel *mSelfHostedExitNodeModel;
 
-signals:
+Q_SIGNALS:
     void backendStateChanged();
     void exitNodeStatusChanged();
 

@@ -95,7 +95,7 @@ private:
 
     void _set_preference(const QString &key, const QVariant &value);
 
-public slots:
+public Q_SLOTS:
     Q_INVOKABLE void refresh();
 
 public:

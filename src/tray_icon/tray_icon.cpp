@@ -26,7 +26,7 @@ TrayIcon::TrayIcon(Tailscale *tailscale, QObject *parent)
     mContextMenu->addAction(mActionQuit);
 
     connect(mActionShow, &QAction::triggered, this, [this] {
-        emit showWindow();
+        Q_EMIT showWindow();
     });
     connect(mActionStart, &QAction::triggered, this, [this] {
         mTailscale->up();
@@ -35,7 +35,7 @@ TrayIcon::TrayIcon(Tailscale *tailscale, QObject *parent)
         mTailscale->down();
     });
     connect(mActionQuit, &QAction::triggered, this, [this] {
-        emit quitRequested();
+        Q_EMIT quitRequested();
     });
 
     connect(mContextMenu, &QMenu::aboutToShow, [this]() {
@@ -63,11 +63,11 @@ void TrayIcon::updateIcon()
 {
     if ((mTailscale->status()->backendState() == Status::BackendState::Starting) || (mTailscale->status()->backendState() == Status::BackendState::Running)) {
         if (mTailscale->status()->exitNodeStatus() != nullptr) {
-            setIcon(QIcon(QString(":/tray-icons/exit-node-%1.svg").arg(Config::trayIconTheme())));
+            setIcon(QIcon(QStringLiteral(":/tray-icons/exit-node-%1.svg").arg(Config::trayIconTheme())));
         } else {
-            setIcon(QIcon(QString(":/tray-icons/online-%1.svg").arg(Config::trayIconTheme())));
+            setIcon(QIcon(QStringLiteral(":/tray-icons/online-%1.svg").arg(Config::trayIconTheme())));
         }
     } else {
-        setIcon(QIcon(QString(":/tray-icons/offline-%1.svg").arg(Config::trayIconTheme())));
+        setIcon(QIcon(QStringLiteral(":/tray-icons/offline-%1.svg").arg(Config::trayIconTheme())));
     }
 }
