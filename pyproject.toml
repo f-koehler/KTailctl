@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = ["jinja2>=3.1.5", "pycountry>=26.2.16", "rich>=13.9.4"]
+dependencies = ["jinja2>=3.1.5", "pycountry>=26.2.16", "rich>=15.0.0"]
 
 [tool.pyright]
 venvPath = "."
