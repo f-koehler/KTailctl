@@ -55,7 +55,6 @@ find_package(
              Quick
              QuickControls2
              Svg
-             Test
              Widgets)
 
 qt6_policy(SET QTP0001 NEW)
@@ -77,6 +76,11 @@ find_package(
 find_package(nlohmann_json REQUIRED)
 
 add_subdirectory(src)
+
+option(KTAILCTL_ENABLE_TESTS "Enable unit tests" OFF)
+if(KTAILCTL_ENABLE_TESTS)
+  add_subdirectory(tests)
+endif()
 
 install(PROGRAMS org.fkoehler.KTailctl.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES org.fkoehler.KTailctl.metainfo.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
