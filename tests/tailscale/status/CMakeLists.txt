@@ -14,6 +14,11 @@ add_ktailctl_test(test_location
         test_location.cpp
         ${CMAKE_SOURCE_DIR}/src/tailscale/status/location.cpp)
 
+add_ktailctl_test(test_network_profile
+    SOURCES
+        test_network_profile.cpp
+        ${CMAKE_SOURCE_DIR}/src/tailscale/status/network_profile.cpp)
+
 add_ktailctl_test(test_peer_status
     SOURCES
         test_peer_status.cpp
