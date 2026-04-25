@@ -19,9 +19,9 @@ function(add_ktailctl_test NAME)
   add_test(NAME ${NAME} COMMAND ${NAME})
 endfunction()
 
-# --------------------------------------------------------------------------
-# Leaf data-model classes (no FFI, no generated logging headers)
-# --------------------------------------------------------------------------
+add_subdirectory(tailscale)
+add_subdirectory(util)
+
 
 add_ktailctl_test(test_location
     SOURCES
@@ -43,19 +43,12 @@ add_ktailctl_test(test_client_version
         test_client_version.cpp
         ${CMAKE_SOURCE_DIR}/src/tailscale/status/client_version.cpp)
 
-add_ktailctl_test(test_user_profile
-    SOURCES
-        test_user_profile.cpp
-        ${CMAKE_SOURCE_DIR}/src/tailscale/status/user_profile.cpp)
 
 add_ktailctl_test(test_network_profile
     SOURCES
         test_network_profile.cpp
         ${CMAKE_SOURCE_DIR}/src/tailscale/status/network_profile.cpp)
 
-# --------------------------------------------------------------------------
-# Composite data-model classes
-# --------------------------------------------------------------------------
 
 add_ktailctl_test(test_login_profile
     SOURCES
@@ -70,23 +63,11 @@ add_ktailctl_test(test_peer_status
         ${CMAKE_SOURCE_DIR}/src/tailscale/status/peer_status.cpp
         ${CMAKE_SOURCE_DIR}/src/tailscale/status/location.cpp)
 
-# --------------------------------------------------------------------------
-# Generic infrastructure
-# --------------------------------------------------------------------------
 
 add_ktailctl_test(test_property_list_model
     SOURCES
         test_property_list_model.cpp)
 
-# --------------------------------------------------------------------------
-# Utility functions (one sub-directory per Util method)
-# --------------------------------------------------------------------------
-
-add_subdirectory(util)
-
-# --------------------------------------------------------------------------
-# Status JSON parsing (uses FFI stub so the constructor can run)
-# --------------------------------------------------------------------------
 
 add_ktailctl_test(test_status_json
     SOURCES
