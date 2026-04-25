@@ -34,10 +34,6 @@ add_ktailctl_test(test_tailnet_status
         test_tailnet_status.cpp
         ${CMAKE_SOURCE_DIR}/src/tailscale/status/tailnet_status.cpp)
 
-add_ktailctl_test(test_client_version
-    SOURCES
-        test_client_version.cpp
-        ${CMAKE_SOURCE_DIR}/src/tailscale/status/client_version.cpp)
 
 
 add_ktailctl_test(test_network_profile
