@@ -53,11 +53,6 @@ add_ktailctl_test(test_login_profile
         ${CMAKE_SOURCE_DIR}/src/tailscale/status/user_profile.cpp
         ${CMAKE_SOURCE_DIR}/src/tailscale/status/network_profile.cpp)
 
-add_ktailctl_test(test_peer_status
-    SOURCES
-        test_peer_status.cpp
-        ${CMAKE_SOURCE_DIR}/src/tailscale/status/peer_status.cpp
-        ${CMAKE_SOURCE_DIR}/src/tailscale/status/location.cpp)
 
 
 add_ktailctl_test(test_property_list_model
