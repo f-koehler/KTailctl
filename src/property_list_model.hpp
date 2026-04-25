@@ -95,7 +95,7 @@ public:
         mItems.append(item);
 
         // Remove row automatically if item is destroyed externally
-        connect(item, &QObject::destroyed, this, [this, item]() {
+        connect(item, &QObject::destroyed, this, [this, item] {
             if (const int idx = indexOf(item); idx >= 0) {
                 beginRemoveRows({}, idx, idx);
                 mItems.removeAt(idx);
@@ -142,7 +142,7 @@ public:
         endResetModel();
     }
 
-    Type *at(int row) const
+    [[nodiscard]] Type *at(int row) const
     {
         if (row < 0 || row >= mItems.size()) {
             return nullptr;
@@ -155,7 +155,7 @@ public:
         return mItems.indexOf(item);
     }
 
-    int roleIndexForProperty(const QByteArray &propertyName) const
+    [[nodiscard]] int roleIndexForProperty(const QByteArray &propertyName) const
     {
         for (auto it = mRoleNames.begin(); it != mRoleNames.end(); ++it) {
             if (it.value() == propertyName) {

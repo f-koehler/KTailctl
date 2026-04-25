@@ -4,8 +4,9 @@
 #include <QJsonObject>
 #include <QMutexLocker>
 
-void Preferences::_set_preference(const QString &key, const QVariant &value)
+void Preferences::_set_preference(const QString &key, const QVariant &value) const
 {
+    static constexpr int preferences_update_dealy_ms = 200;
     qCInfo(Logging::Tailscale::Preferences) << "Set preference " << key << " to " << value;
     GoString string;
     const QByteArray json = QJsonDocument::fromVariant(QVariantMap{{key, value}}).toJson();
@@ -14,18 +15,18 @@ void Preferences::_set_preference(const QString &key, const QVariant &value)
     if (tailscale_set_preferences(&string) == 0) {
         qCCritical(Logging::Tailscale::Preferences) << "Failed to set preferences!";
     } else {
-        QTimer::singleShot(200, this, &Preferences::refresh);
+        QTimer::singleShot(preferences_update_dealy_ms, this, &Preferences::refresh);
     }
 }
 
 void Preferences::refresh()
 {
-    QMutexLocker lock(&mMutex);
+    const QMutexLocker lock(&mMutex);
 
-    const std::unique_ptr<char, decltype(&::free)> json_str(tailscale_prefs(), &free);
-    const QByteArray json_buffer(json_str.get(), ::strlen(json_str.get()));
+    const std::unique_ptr<char, decltype(&free)> json_str(tailscale_prefs(), &free);
+    const QByteArray json_buffer(json_str.get(), strlen(json_str.get()));
     QJsonParseError error;
-    QJsonDocument json = QJsonDocument::fromJson(json_buffer, &error);
+    const QJsonDocument json = QJsonDocument::fromJson(json_buffer, &error);
     if (error.error != QJsonParseError::NoError) {
         qCCritical(Logging::Tailscale::Preferences) << error.errorString();
         return;
@@ -77,12 +78,12 @@ void Preferences::updateFromJson(QJsonObject &json)
     mRelayServerStaticEndpoints = json.take(QStringLiteral("RelayServerStaticEndpoints")).toVariant().toStringList();
 }
 
-void Preferences::setExitNodeID(const QString &id)
+void Preferences::setExitNodeID(const QString &exitNodeId)
 {
-    if (!id.isEmpty()) {
+    if (!exitNodeId.isEmpty()) {
         auto *config = Config::self();
-        config->setLastUsedExitNode(id);
+        config->setLastUsedExitNode(exitNodeId);
         config->save();
     }
-    _set_preference(QStringLiteral("ExitNodeID"), id);
+    _set_preference(QStringLiteral("ExitNodeID"), exitNodeId);
 }

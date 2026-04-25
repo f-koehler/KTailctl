@@ -34,9 +34,9 @@ void TrayMenuExitNodesSelfHosted::rebuildMenu()
         if (!index.isValid()) {
             continue;
         }
-        const QString id = index.data(mRoleIndexId).toString();
-        addAction(index.data(mRoleIndexHostName).toString(), [this, id]() {
-            mTailscale->preferences()->setExitNodeID(id);
+        const QString exitNodeId = index.data(mRoleIndexId).toString();
+        addAction(index.data(mRoleIndexHostName).toString(), [this, exitNodeId] {
+            mTailscale->preferences()->setExitNodeID(exitNodeId);
         });
     }
 }

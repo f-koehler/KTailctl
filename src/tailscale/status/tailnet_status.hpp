@@ -14,7 +14,6 @@ class TailnetStatus : public QObject
     Q_PROPERTY(QString magicDnsSuffix READ magicDnsSuffix BINDABLE bindableMagicDnsSuffix)
     Q_PROPERTY(bool magicDnsEnabled READ magicDnsEnabled BINDABLE bindableMagicDnsEnabled)
 
-private:
     QProperty<QString> mName;
     QProperty<QString> mMagicDnsSuffix;
     QProperty<bool> mMagicDnsEnabled;

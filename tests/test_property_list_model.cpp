@@ -18,7 +18,7 @@ class SimpleItem : public QObject
     QProperty<int> mValue{0};
 
 public:
-    explicit SimpleItem(const QString &label, int value, QObject *parent = nullptr)
+    explicit SimpleItem(const QString &label, const int value, QObject *parent = nullptr)
         : QObject(parent)
         , mLabel(label)
         , mValue(value)
@@ -43,6 +43,7 @@ public:
     }
 };
 
+// ReSharper disable once CppRedundantTemplateArguments
 using OwningModel = PropertyListModel<SimpleItem, PropertyListModelOwnership::Owning>;
 using ExternalModel = PropertyListModel<SimpleItem, PropertyListModelOwnership::External>;
 
@@ -53,7 +54,7 @@ class TestPropertyListModel : public QObject
 private Q_SLOTS:
     static void emptyModelHasZeroRows()
     {
-        OwningModel model;
+        const OwningModel model;
         QCOMPARE(model.rowCount({}), 0);
     }
 
@@ -76,7 +77,7 @@ private Q_SLOTS:
 
     static void roleNamesContainPropertyNames()
     {
-        OwningModel model;
+        const OwningModel model;
         const QHash<int, QByteArray> roles = model.roleNames();
 
         QVERIFY(roles.values().contains(QByteArrayLiteral("self")));
@@ -105,7 +106,7 @@ private Q_SLOTS:
         auto *item = new SimpleItem(QStringLiteral("x"), 0);
         model.addItem(item);
 
-        const int selfRole = PropertyListModel<SimpleItem>::SelfRole;
+        constexpr int selfRole = PropertyListModel<SimpleItem>::SelfRole;
         const QModelIndex idx = model.index(0, 0);
         const QVariant selfData = model.data(idx, selfRole);
 
@@ -182,7 +183,7 @@ private Q_SLOTS:
 
     static void roleIndexForPropertyFindsCorrectRole()
     {
-        OwningModel model;
+        const OwningModel model;
         const int labelRole = model.roleIndexForProperty(QByteArrayLiteral("label"));
         const int valueRole = model.roleIndexForProperty(QByteArrayLiteral("value"));
         const int bogus = model.roleIndexForProperty(QByteArrayLiteral("doesnotexist"));
@@ -221,7 +222,7 @@ private Q_SLOTS:
     static void modelPassesAbstractItemModelTester()
     {
         OwningModel model;
-        QAbstractItemModelTester tester(&model, QAbstractItemModelTester::FailureReportingMode::Fatal);
+        const QAbstractItemModelTester tester(&model, QAbstractItemModelTester::FailureReportingMode::Fatal);
         model.addItem(new SimpleItem(QStringLiteral("a"), 1));
         model.addItem(new SimpleItem(QStringLiteral("b"), 2));
         model.removeItem(0);

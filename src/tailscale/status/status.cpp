@@ -1,7 +1,5 @@
 #include "status.hpp"
-
 #include "libktailctl_wrapper.h"
-
 #include <QJsonDocument>
 #include <QJsonParseError>
 #include <QMutexLocker>
@@ -9,21 +7,19 @@
 
 Status::Status(QObject *parent)
     : QObject(parent)
-    , mPeerModel(new PeerModel(this))
+    , mPeerModel(new PeerModel(this)), mMullvadExitNodeModel(new MullvadExitNodeModel(mPeerModel, this)), mSelfHostedExitNodeModel(new SelfHostedExitNodeModel(mPeerModel, this))
 {
     refresh();
-    mMullvadExitNodeModel = new MullvadExitNodeModel(mPeerModel, this);
-    mSelfHostedExitNodeModel = new SelfHostedExitNodeModel(mPeerModel, this);
 }
 
-PeerStatus *Status::peerWithId(const QString &id) const noexcept
+PeerStatus *Status::peerWithId(const QString &peerId) const noexcept
 {
     if (mSelf != nullptr) [[likely]] {
-        if (mSelf->id() == id) {
+        if (mSelf->id() == peerId) {
             return mSelf;
         }
     }
-    const auto pos = mPeers.find(id);
+    const auto pos = mPeers.find(peerId);
     if (pos == mPeers.end()) [[unlikely]] {
         return nullptr;
     }
@@ -32,12 +28,12 @@ PeerStatus *Status::peerWithId(const QString &id) const noexcept
 
 void Status::refresh()
 {
-    QMutexLocker lock(&mMutex);
+    const QMutexLocker lock(&mMutex);
 
-    const std::unique_ptr<char, decltype(&::free)> json_str(tailscale_status(), &free);
-    const QByteArray json_buffer(json_str.get(), ::strlen(json_str.get()));
+    const std::unique_ptr<char, decltype(&free)> json_str(tailscale_status(), &free);
+    const QByteArray json_buffer(json_str.get(), strlen(json_str.get()));
     QJsonParseError error;
-    QJsonDocument json = QJsonDocument::fromJson(json_buffer, &error);
+    const QJsonDocument json = QJsonDocument::fromJson(json_buffer, &error);
     if (error.error != QJsonParseError::NoError) {
         qCCritical(Logging::Tailscale::Status) << error.errorString();
         return;
@@ -46,7 +42,7 @@ void Status::refresh()
 
     updateFromJson(json_obj);
 
-    const std::unique_ptr<char, decltype(&::free)> suggested(tailscale_suggest_exit_node(), &free);
+    const std::unique_ptr<char, decltype(&free)> suggested(tailscale_suggest_exit_node(), &free);
     if (suggested && suggested.get()[0] != '\0') {
         mSuggestedExitNodeId = QString::fromUtf8(suggested.get());
     } else {
@@ -134,20 +130,20 @@ void Status::updateFromJson(QJsonObject &json)
         mPeers.clear();
     } else [[likely]] {
         auto peerJson = json.take(QStringLiteral("Peer")).toObject();
-        QSet<QString> peersToRemove(mPeers.keyBegin(), mPeers.keyEnd());
+        QSet peersToRemove(mPeers.keyBegin(), mPeers.keyEnd());
         for (auto [_id, data] : peerJson.asKeyValueRange()) {
             auto obj = data.toObject();
-            const auto id = obj.value(QStringLiteral("ID")).toString();
-            auto pos = mPeers.find(id);
+            const auto peerId = obj.value(QStringLiteral("ID")).toString();
+            auto pos = mPeers.find(peerId);
             if (pos == mPeers.end()) [[unlikely]] {
-                pos = mPeers.insert(id, new PeerStatus(this));
+                pos = mPeers.insert(peerId, new PeerStatus(this));
                 mPeerModel->addItem(pos.value());
             }
             pos.value()->updateFromJson(obj);
-            peersToRemove.remove(id);
+            peersToRemove.remove(peerId);
         }
-        for (const auto &id : peersToRemove) {
-            auto pos = mPeers.find(id);
+        for (const auto &peerId : peersToRemove) {
+            auto pos = mPeers.find(peerId);
             if (pos == mPeers.end()) [[unlikely]] {
                 // This should not happen
                 continue;

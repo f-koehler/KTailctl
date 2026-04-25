@@ -33,9 +33,9 @@ private:
     QProperty<QString> mCurrentLoginProfileId;
 
 public Q_SLOTS:
-    Q_INVOKABLE void up() noexcept;
-    Q_INVOKABLE void down() noexcept;
-    Q_INVOKABLE void toggle() noexcept;
+    Q_INVOKABLE void up() const noexcept;
+    Q_INVOKABLE void down() const noexcept;
+    Q_INVOKABLE void toggle() const noexcept;
 
 public:
     explicit Tailscale(QObject *parent = nullptr)
@@ -72,7 +72,7 @@ public:
         return {&mCurrentLoginProfileId};
     }
 
-    Q_INVOKABLE LoginProfile *loginProfileWithId(const QString &id) const noexcept;
+    Q_INVOKABLE LoginProfile *loginProfileWithId(const QString &loginProfileId) const noexcept;
     Q_INVOKABLE void refreshLoginProfiles();
 };
 

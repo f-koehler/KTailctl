@@ -20,7 +20,6 @@ class ClientVersion : public QObject
     Q_PROPERTY(QString notifyUrl READ notifyUrl BINDABLE bindableNotifyUrl)
     Q_PROPERTY(QString notifyText READ notifyText BINDABLE bindableNotifyText)
 
-private:
     QProperty<bool> mRunningLatest;
     QProperty<QString> mLatestVersion;
     QProperty<bool> mUrgentSecurityUpdate;

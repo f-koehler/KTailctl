@@ -11,7 +11,6 @@ class AutoUpdatePreferences : public QObject
     Q_PROPERTY(bool check READ check BINDABLE bindableCheck)
     Q_PROPERTY(bool apply READ apply BINDABLE bindableApply)
 
-private:
     QProperty<bool> mCheck;
     QProperty<bool> mApply;
 

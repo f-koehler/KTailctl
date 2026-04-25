@@ -15,7 +15,6 @@ class ExitNodeStatus : public QObject
     Q_PROPERTY(bool isOnline READ isOnline BINDABLE bindableIsOnline)
     Q_PROPERTY(QStringList tailscaleIps READ tailscaleIps BINDABLE bindableTailscaleIps)
 
-private:
     QProperty<QString> mId;
     QProperty<bool> mIsOnline;
     QProperty<QStringList> mTailscaleIps;

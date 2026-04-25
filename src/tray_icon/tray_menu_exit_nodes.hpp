@@ -10,7 +10,6 @@ class TrayMenuExitNodes : public QMenu
 {
     Q_OBJECT
 
-private:
     Tailscale *mTailscale;
     TrayMenuExitNodesSelfHosted *mSelfHosted;
     TrayMenuExitNodesMullvad *mMullvad;

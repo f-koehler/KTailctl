@@ -1,5 +1,4 @@
-#include "util.hpp"
-
+#include "ktailctl_config.h"
 #include "tailscale/preferences/preferences.hpp"
 #include "tailscale/status/client_version.hpp"
 #include "tailscale/status/exit_node_status.hpp"
@@ -9,21 +8,21 @@
 #include "tailscale/tailscale.hpp"
 #include "tray_icon/tray_icon.hpp"
 #include "tray_icon_themes.hpp"
+#include "util.hpp"
+#include "version-ktailctl.h"
 #include <KAboutData>
 #include <KDBusService>
 #include <KLocalizedContext>
 #include <KLocalizedString>
 #include <QApplication>
 #include <QIcon>
+#include <QQmlApplicationEngine>
+#include <QQmlContext>
 #include <QQuickWindow>
-#include <QtQml>
-
-#include "ktailctl_config.h"
-#include "version-ktailctl.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+    const QApplication app(argc, argv);
 
     QApplication::setWindowIcon(QIcon(QStringLiteral(":/icons/logo.svg")));
 
@@ -65,9 +64,9 @@ int main(int argc, char *argv[])
     qmlRegisterType<TailnetStatus>("org.fkoehler.KTailctl", 1, 0, "TailnetStatus");
     qmlRegisterType<UserProfile>("org.fkoehler.KTailctl", 1, 0, "UserProfile");
 
-    Tailscale *tailscale = new Tailscale();
-    Util *util = new Util();
-    TrayIconThemes *tray_icon_themes = new TrayIconThemes();
+    auto *tailscale = new Tailscale();
+    auto *util = new Util();
+    auto *tray_icon_themes = new TrayIconThemes();
     qmlRegisterSingletonType("org.fkoehler.KTailctl", 1, 0, "About", [](QQmlEngine *engine, QJSEngine *) -> QJSValue {
         return engine->toScriptValue(KAboutData::applicationData());
     });
@@ -106,7 +105,7 @@ int main(int argc, char *argv[])
             break;
         };
     });
-    QObject::connect(tray_icon, &TrayIcon::showWindow, window, [window]() {
+    QObject::connect(tray_icon, &TrayIcon::showWindow, window, [window] {
         window->show();
     });
     QObject::connect(tray_icon, &TrayIcon::quitRequested, &app, &QCoreApplication::quit, Qt::QueuedConnection);

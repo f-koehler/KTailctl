@@ -18,7 +18,6 @@ class Location : public QObject
     Q_PROPERTY(double longitude READ longitude BINDABLE bindableLongitude)
     Q_PROPERTY(int priority READ priority BINDABLE bindablePriority)
 
-private:
     QProperty<QString> mCountry;
     QProperty<QString> mCountryCode;
     QProperty<QString> mCity;

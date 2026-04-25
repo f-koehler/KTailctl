@@ -7,10 +7,10 @@ namespace
 {
 
 // Allocates a copy of a string on the heap, the caller is responsible for calling std::free() on the result.
-[[nodiscard]] char *mallocString(std::string_view string)
+[[nodiscard]] char *mallocString(const std::string_view string)
 {
     // NOLINTNEXTLINE(cppcoreguidelines-no-malloc)
-    char *buf = static_cast<char *>(std::malloc(string.size() + 1));
+    auto *buf = static_cast<char *>(std::malloc(string.size() + 1));
     if (buf != nullptr) {
         std::memcpy(buf, string.data(), string.size() + 1);
     }

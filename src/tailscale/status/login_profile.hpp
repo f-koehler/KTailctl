@@ -18,7 +18,6 @@ class LoginProfile : public QObject
     Q_PROPERTY(QString localUserId READ localUserId BINDABLE bindableLocalUserId)
     Q_PROPERTY(QString controlUrl READ controlUrl BINDABLE bindableControlUrl)
 
-private:
     QProperty<QString> mId;
     QProperty<QString> mName;
     NetworkProfile *mNetworkProfile;

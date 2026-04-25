@@ -14,7 +14,6 @@ class UserProfile : public QObject
     Q_PROPERTY(QString displayName READ displayName BINDABLE bindableDisplayName)
     Q_PROPERTY(QString profilePicUrl READ profilePicUrl BINDABLE bindableProfilePicUrl)
 
-private:
     QProperty<qint64> mUserId;
     QProperty<QString> mLoginName;
     QProperty<QString> mDisplayName;

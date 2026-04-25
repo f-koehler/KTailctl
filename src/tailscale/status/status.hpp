@@ -76,7 +76,7 @@ Q_SIGNALS:
 public:
     explicit Status(QObject *parent = nullptr);
 
-    Q_INVOKABLE PeerStatus *peerWithId(const QString &id) const noexcept;
+    Q_INVOKABLE PeerStatus *peerWithId(const QString &peerId) const noexcept;
     Q_INVOKABLE void refresh();
     void updateFromJson(QJsonObject &json);
 

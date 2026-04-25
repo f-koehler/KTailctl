@@ -93,7 +93,7 @@ private:
     QProperty<QStringList> mRelayServerStaticEndpoints;
     // persist stuff?
 
-    void _set_preference(const QString &key, const QVariant &value);
+    void _set_preference(const QString &key, const QVariant &value) const;
 
 public Q_SLOTS:
     Q_INVOKABLE void refresh();
@@ -263,34 +263,34 @@ public:
         return mRelayServerStaticEndpoints;
     }
 
-    void setExitNodeID(const QString &id);
+    void setExitNodeID(const QString &exitNodeId);
 
-    void setExitNodeAllowLanAccess(bool value)
+    void setExitNodeAllowLanAccess(const bool value) const
     {
         _set_preference(QStringLiteral("ExitNodeAllowLanAccess"), value);
     }
 
-    void setShieldsUp(bool value)
+    void setShieldsUp(const bool value) const
     {
         _set_preference(QStringLiteral("ShieldsUp"), value);
     }
 
-    void setCorpDns(bool value)
+    void setCorpDns(const bool value) const
     {
         _set_preference(QStringLiteral("CorpDNS"), value);
     }
 
-    void setRunSSH(bool value)
+    void setRunSSH(const bool value) const
     {
         _set_preference(QStringLiteral("RunSSH"), value);
     }
 
-    void setHostname(const QString &value)
+    void setHostname(const QString &value) const
     {
         _set_preference(QStringLiteral("Hostname"), value);
     }
 
-    void setProfileName(const QString &value)
+    void setProfileName(const QString &value) const
     {
         _set_preference(QStringLiteral("ProfileName"), value);
     }

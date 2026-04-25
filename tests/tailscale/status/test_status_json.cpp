@@ -75,7 +75,7 @@ private Q_SLOTS:
         QJsonObject prime{{QStringLiteral("BackendState"), QStringLiteral("Stopped")}};
         status.updateFromJson(prime);
 
-        QSignalSpy spy(&status, &Status::backendStateChanged);
+        const QSignalSpy spy(&status, &Status::backendStateChanged);
         QJsonObject json{{QStringLiteral("BackendState"), QStringLiteral("Running")}};
         status.updateFromJson(json);
 
@@ -94,7 +94,7 @@ private Q_SLOTS:
         auto prime = makeRunning();
         status.updateFromJson(prime); // NoState → Running (before spy)
 
-        QSignalSpy spy(&status, &Status::backendStateChanged);
+        const QSignalSpy spy(&status, &Status::backendStateChanged);
         auto same = makeRunning();
         status.updateFromJson(same); // Running → Running: no signal expected
 
@@ -289,10 +289,11 @@ private Q_SLOTS:
         static const QString selfId = QStringLiteral("nAAAAAAAAAAAAAAAA");
         static const QString hostName = QStringLiteral("laptop");
         static const QString dnsName = QStringLiteral("laptop.example-tailnet.ts.net.");
-        static const QString os = QStringLiteral("linux");
+        static const QString operatingSystem = QStringLiteral("linux");
         static const QString relay = QStringLiteral("sin");
         static const QString tailnetName = QStringLiteral("example-user.github");
         static const QString magicDnsSuffix = QStringLiteral("example-tailnet.ts.net");
+        static constexpr qint64 userId = 12345678901234567UL;
 
         Status status;
         QJsonObject json{
@@ -312,8 +313,8 @@ private Q_SLOTS:
                  {QStringLiteral("PublicKey"), QStringLiteral("nodekey:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")},
                  {QStringLiteral("HostName"), hostName},
                  {QStringLiteral("DNSName"), dnsName},
-                 {QStringLiteral("OS"), os},
-                 {QStringLiteral("UserId"), static_cast<qint64>(12345678901234567)},
+                 {QStringLiteral("OS"), operatingSystem},
+                 {QStringLiteral("UserId"), userId},
                  {QStringLiteral("TailscaleIPs"),
                   QJsonArray{
                       QStringLiteral("100.64.0.1"),
@@ -325,7 +326,7 @@ private Q_SLOTS:
                       QStringLiteral("fd7a:115c:a1e0::1/128"),
                   }},
                  {QStringLiteral("Relay"), relay},
-                 {QStringLiteral("PeerRelay"), QStringLiteral("")},
+                 {QStringLiteral("PeerRelay"), QString{}},
                  {QStringLiteral("ReceivedBytes"), 0},
                  {QStringLiteral("TransmittedBytes"), 0},
                  {QStringLiteral("Created"), QStringLiteral("2026-01-10T02:59:47.302705195Z")},
@@ -360,7 +361,7 @@ private Q_SLOTS:
         QCOMPARE(status.self()->id(), selfId);
         QCOMPARE(status.self()->hostName(), hostName);
         QCOMPARE(status.self()->dnsName(), dnsName);
-        QCOMPARE(status.self()->os(), os);
+        QCOMPARE(status.self()->os(), operatingSystem);
         QCOMPARE(status.self()->online(), true);
         QCOMPARE(status.self()->relay(), relay);
         QCOMPARE(status.self()->tailscaleIps().size(), 2);
@@ -379,8 +380,9 @@ private Q_SLOTS:
         static const QString publicKey = QStringLiteral("nodekey:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
         static const QString hostName = QStringLiteral("workstation");
         static const QString dnsName = QStringLiteral("workstation.example-tailnet.ts.net.");
-        static const QString os = QStringLiteral("linux");
+        static const QString operatingSystem = QStringLiteral("linux");
         static const QString relay = QStringLiteral("sin");
+        static constexpr qint64  userId = 1234567891234567UL;
 
         Status status;
         QJsonObject json{
@@ -392,8 +394,8 @@ private Q_SLOTS:
                       {QStringLiteral("PublicKey"), publicKey},
                       {QStringLiteral("HostName"), hostName},
                       {QStringLiteral("DNSName"), dnsName},
-                      {QStringLiteral("OS"), os},
-                      {QStringLiteral("UserId"), static_cast<qint64>(12345678901234567)},
+                      {QStringLiteral("OS"), operatingSystem},
+                      {QStringLiteral("UserId"), userId},
                       {QStringLiteral("TailscaleIPs"),
                        QJsonArray{
                            QStringLiteral("100.64.0.2"),
@@ -429,7 +431,7 @@ private Q_SLOTS:
         QVERIFY(peer != nullptr);
         QCOMPARE(peer->hostName(), hostName);
         QCOMPARE(peer->dnsName(), dnsName);
-        QCOMPARE(peer->os(), os);
+        QCOMPARE(peer->os(), operatingSystem);
         QCOMPARE(peer->online(), false);
         QCOMPARE(peer->exitNode(), false);
         QCOMPARE(peer->exitNodeOption(), false);
@@ -457,6 +459,7 @@ private Q_SLOTS:
         static constexpr double latitude = 57.70887;
         static constexpr double longitude = 11.97456;
         static constexpr int priority = 100;
+        static constexpr qint64 userId = 38520981566058213UL;
 
         Status status;
         QJsonObject json{
@@ -469,7 +472,7 @@ private Q_SLOTS:
                       {QStringLiteral("HostName"), hostName},
                       {QStringLiteral("DNSName"), dnsName},
                       {QStringLiteral("OS"), QStringLiteral("")},
-                      {QStringLiteral("UserId"), static_cast<qint64>(38520981566058213)},
+                      {QStringLiteral("UserId"), userId},
                       {QStringLiteral("TailscaleIPs"),
                        QJsonArray{
                            QStringLiteral("100.107.26.53"),
@@ -483,8 +486,8 @@ private Q_SLOTS:
                            QStringLiteral("::/0"),
                        }},
                       {QStringLiteral("Tags"), QJsonArray{QStringLiteral("tag:mullvad-exit-node")}},
-                      {QStringLiteral("Relay"), QStringLiteral("")},
-                      {QStringLiteral("PeerRelay"), QStringLiteral("")},
+                      {QStringLiteral("Relay"), QString{}},
+                      {QStringLiteral("PeerRelay"), QString{}},
                       {QStringLiteral("ReceivedBytes"), 0},
                       {QStringLiteral("TransmittedBytes"), 0},
                       {QStringLiteral("Created"), QStringLiteral("2025-02-19T13:29:47.031879235Z")},

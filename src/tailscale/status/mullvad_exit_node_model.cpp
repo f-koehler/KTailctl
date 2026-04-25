@@ -5,7 +5,7 @@ bool MullvadExitNodeModel::lessThan(const QModelIndex &left, const QModelIndex &
     return sourceModel()->data(left, mRoleIndexDnsName).toString() < sourceModel()->data(right, mRoleIndexDnsName).toString();
 }
 
-bool MullvadExitNodeModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
+bool MullvadExitNodeModel::filterAcceptsRow(const int sourceRow, const QModelIndex &sourceParent) const
 {
     if (!mRoleIndicesFound) [[unlikely]] {
         return false;

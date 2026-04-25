@@ -2,7 +2,6 @@
 
 void UserProfile::updateFromJson(QJsonObject &json)
 {
-    QJsonDocument doc(json);
     mUserId = json.take(QStringLiteral("ID")).toInteger();
     mLoginName = json.take(QStringLiteral("LoginName")).toString();
     mDisplayName = json.take(QStringLiteral("DisplayName")).toString();

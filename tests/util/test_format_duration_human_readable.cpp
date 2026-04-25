@@ -39,7 +39,7 @@ private Q_SLOTS:
 
     static void fiftyNineMinutesAgo()
     {
-        const QDateTime timestamp = QDateTime::currentDateTimeUtc().addSecs(-59 * 60);
+        const QDateTime timestamp = QDateTime::currentDateTimeUtc().addSecs(qint64{-59} * 60);
         QCOMPARE(Util::formatDurationHumanReadable(timestamp), QStringLiteral("59 minutes ago"));
     }
 
@@ -51,13 +51,13 @@ private Q_SLOTS:
 
     static void twentyThreeHoursAgo()
     {
-        const QDateTime timestamp = QDateTime::currentDateTimeUtc().addSecs(-23 * 3600);
+        const QDateTime timestamp = QDateTime::currentDateTimeUtc().addSecs(qint64{-23} * 3600);
         QCOMPARE(Util::formatDurationHumanReadable(timestamp), QStringLiteral("23 hours ago"));
     }
 
     static void threeDaysAgo()
     {
-        const QDateTime timestamp = QDateTime::currentDateTimeUtc().addSecs(-3 * 24 * 3600);
+        const QDateTime timestamp = QDateTime::currentDateTimeUtc().addSecs(qint64{-3} * 24 * 3600);
         QCOMPARE(Util::formatDurationHumanReadable(timestamp), QStringLiteral("3 days ago"));
     }
 

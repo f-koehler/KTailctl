@@ -10,7 +10,6 @@ class TrayMenuExitNodesMullvad : public QMenu
 {
     Q_OBJECT
 
-private:
     Tailscale *mTailscale;
     bool mRoleIndicesFound = false;
     const int mRoleIndexHostName = -1;
@@ -19,11 +18,11 @@ private:
 
     QMap<QString, QMenu *> mPerCountryMenus;
 
-public Q_SLOTS:
-    Q_INVOKABLE void rebuildMenu();
-
 public:
     explicit TrayMenuExitNodesMullvad(Tailscale *tailscale, QWidget *parent = nullptr);
+
+public Q_SLOTS:
+    Q_INVOKABLE void rebuildMenu();
 };
 
 #endif // KTAILCTL_TRAY_MENU_MULLVAD_EXIT_NODES_HPP

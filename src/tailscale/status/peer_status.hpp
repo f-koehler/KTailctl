@@ -67,7 +67,6 @@ class PeerStatus : public QObject
     Q_PROPERTY(QDateTime keyExpiry READ keyExpiry BINDABLE bindableKeyExpiry)
     Q_PROPERTY(Location *location READ location BINDABLE bindableLocation)
 
-public:
 private:
     QProperty<QString> mId;
     QProperty<QString> mPublicKey;

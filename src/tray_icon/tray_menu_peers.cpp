@@ -5,12 +5,11 @@
 TrayMenuPeers::TrayMenuPeers(Tailscale *tailscale, QWidget *parent)
     : QMenu(QStringLiteral("Peers"), parent)
     , mTailscale(tailscale)
-    , mRoleIndexHostName(tailscale->status()->peerModel()->roleIndexForProperty("hostName"))
+    , mRoleIndicesFound(true), mRoleIndexHostName(tailscale->status()->peerModel()->roleIndexForProperty("hostName"))
     , mRoleIndexMullvadNode(tailscale->status()->peerModel()->roleIndexForProperty("mullvadNode"))
     , mRoleIndexDnsName(tailscale->status()->peerModel()->roleIndexForProperty("dnsName"))
     , mRoleIndexTailscaleIps(tailscale->status()->peerModel()->roleIndexForProperty("tailscaleIps"))
 {
-    mRoleIndicesFound = true;
     if (mRoleIndexHostName == -1) {
         qCCritical(Logging::TrayIcon) << "Failed to find role index for hostName";
         mRoleIndicesFound = false;
@@ -50,12 +49,12 @@ void TrayMenuPeers::rebuildMenu()
         QMenu *subMenu = addMenu(title);
 
         const QString dnsName = index.data(mRoleIndexDnsName).toString();
-        subMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), dnsName, [dnsName]() {
+        subMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), dnsName, [dnsName] {
             Util::setClipboardText(dnsName);
         });
 
         for (const auto &address : index.data(mRoleIndexTailscaleIps).toStringList()) {
-            subMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), address, [address]() {
+            subMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), address, [address] {
                 Util::setClipboardText(address);
             });
         }

@@ -12,7 +12,6 @@ class NetworkProfile : public QObject
     Q_PROPERTY(QString domainName READ domainName BINDABLE bindableDomainName)
     Q_PROPERTY(QString displayName READ displayName BINDABLE bindableDisplayName)
 
-private:
     QProperty<QString> mMagicDnsName;
     QProperty<QString> mDomainName;
     QProperty<QString> mDisplayName;

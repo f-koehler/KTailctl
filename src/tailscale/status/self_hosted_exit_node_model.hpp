@@ -13,7 +13,6 @@ class SelfHostedExitNodeModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 
-private:
     int mRoleIndexExitNode = -1;
     int mRoleIndexMullvadNode = -1;
     int mRoleIndexDnsName = -1;
@@ -24,12 +23,10 @@ private:
 public:
     template<PropertyListModelOwnership Ownership>
     explicit SelfHostedExitNodeModel(PropertyListModel<PeerStatus, Ownership> *peerModel, QObject *parent = nullptr)
-        : QSortFilterProxyModel(parent)
+        : QSortFilterProxyModel(parent), mRoleIndexExitNode(peerModel->roleIndexForProperty("exitNode")), mRoleIndicesFound(true)
     {
         QSortFilterProxyModel::setSourceModel(reinterpret_cast<QAbstractItemModel *>(peerModel));
 
-        mRoleIndicesFound = true;
-        mRoleIndexExitNode = peerModel->roleIndexForProperty("exitNode");
         if (mRoleIndexExitNode == -1) [[unlikely]] {
             qCCritical(Logging::Tailscale::Status) << "Failed to find role index for exitNode";
             mRoleIndicesFound = false;
@@ -50,8 +47,9 @@ public:
         sort(0, Qt::AscendingOrder);
     }
 
-    bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
-    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
+protected:
+    [[nodiscard]] bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
+    [[nodiscard]] bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
 };
 
 #endif // KTAILCTL_MULLVAD_EXIT_NODE_MODEL_HPP

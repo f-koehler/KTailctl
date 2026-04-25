@@ -3,89 +3,92 @@
 
 #include "tailscale/status/location.hpp"
 
-class TestLocation : public QObject
+namespace
 {
-    Q_OBJECT
-
-private Q_SLOTS:
-    static void parseFullJson()
+    class TestLocation : public QObject
     {
-        static constexpr double latitude = 50.1109;
-        static constexpr double longitude = 8.6821;
-        static constexpr int priority = 100;
+        Q_OBJECT
 
-        QJsonObject json{
-            {QStringLiteral("Country"), QStringLiteral("Germany")},
-            {QStringLiteral("CountryCode"), QStringLiteral("DE")},
-            {QStringLiteral("City"), QStringLiteral("Frankfurt")},
-            {QStringLiteral("CityCode"), QStringLiteral("fra")},
-            {QStringLiteral("Latitude"), latitude},
-            {QStringLiteral("Longitude"), longitude},
-            {QStringLiteral("Priority"), priority},
-        };
+    private Q_SLOTS:
+        static void parseFullJson()
+        {
+            static constexpr double latitude = 50.1109;
+            static constexpr double longitude = 8.6821;
+            static constexpr int priority = 100;
 
-        Location loc;
-        loc.updateFromJson(json);
+            QJsonObject json{
+                {QStringLiteral("Country"), QStringLiteral("Germany")},
+                {QStringLiteral("CountryCode"), QStringLiteral("DE")},
+                {QStringLiteral("City"), QStringLiteral("Frankfurt")},
+                {QStringLiteral("CityCode"), QStringLiteral("fra")},
+                {QStringLiteral("Latitude"), latitude},
+                {QStringLiteral("Longitude"), longitude},
+                {QStringLiteral("Priority"), priority},
+            };
 
-        QCOMPARE(loc.country(), QStringLiteral("Germany"));
-        QCOMPARE(loc.countryCode(), QStringLiteral("DE"));
-        QCOMPARE(loc.city(), QStringLiteral("Frankfurt"));
-        QCOMPARE(loc.cityCode(), QStringLiteral("fra"));
-        QCOMPARE(loc.latitude(), latitude);
-        QCOMPARE(loc.longitude(), longitude);
-        QCOMPARE(loc.priority(), priority);
-    }
+            Location loc;
+            loc.updateFromJson(json);
 
-    static void parseMissingFields()
-    {
-        QJsonObject json;
-        Location loc;
-        loc.updateFromJson(json);
+            QCOMPARE(loc.country(), QStringLiteral("Germany"));
+            QCOMPARE(loc.countryCode(), QStringLiteral("DE"));
+            QCOMPARE(loc.city(), QStringLiteral("Frankfurt"));
+            QCOMPARE(loc.cityCode(), QStringLiteral("fra"));
+            QCOMPARE(loc.latitude(), latitude);
+            QCOMPARE(loc.longitude(), longitude);
+            QCOMPARE(loc.priority(), priority);
+        }
 
-        QCOMPARE(loc.country(), QString{});
-        QCOMPARE(loc.countryCode(), QString{});
-        QCOMPARE(loc.city(), QString{});
-        QCOMPARE(loc.cityCode(), QString{});
-        QCOMPARE(loc.latitude(), 0.0);
-        QCOMPARE(loc.longitude(), 0.0);
-        QCOMPARE(loc.priority(), 0);
-    }
+        static void parseMissingFields()
+        {
+            QJsonObject json;
+            Location loc;
+            loc.updateFromJson(json);
 
-    static void updateOverwritesPreviousValues()
-    {
-        static constexpr int old_priority = 10;
-        static constexpr int new_priority = 20;
-        QJsonObject json1{
-            {QStringLiteral("Country"), QStringLiteral("Germany")},
-            {QStringLiteral("CountryCode"), QStringLiteral("DE")},
-            {QStringLiteral("Priority"), old_priority},
-        };
-        QJsonObject json2{
-            {QStringLiteral("Country"), QStringLiteral("Sweden")},
-            {QStringLiteral("CountryCode"), QStringLiteral("SE")},
-            {QStringLiteral("Priority"), new_priority},
-        };
+            QCOMPARE(loc.country(), QString{});
+            QCOMPARE(loc.countryCode(), QString{});
+            QCOMPARE(loc.city(), QString{});
+            QCOMPARE(loc.cityCode(), QString{});
+            QCOMPARE(loc.latitude(), 0.0);
+            QCOMPARE(loc.longitude(), 0.0);
+            QCOMPARE(loc.priority(), 0);
+        }
 
-        Location loc;
-        loc.updateFromJson(json1);
-        QCOMPARE(loc.country(), QStringLiteral("Germany"));
-        QCOMPARE(loc.priority(), old_priority);
+        static void updateOverwritesPreviousValues()
+        {
+            static constexpr int old_priority = 10;
+            static constexpr int new_priority = 20;
+            QJsonObject json1{
+                {QStringLiteral("Country"), QStringLiteral("Germany")},
+                {QStringLiteral("CountryCode"), QStringLiteral("DE")},
+                {QStringLiteral("Priority"), old_priority},
+            };
+            QJsonObject json2{
+                {QStringLiteral("Country"), QStringLiteral("Sweden")},
+                {QStringLiteral("CountryCode"), QStringLiteral("SE")},
+                {QStringLiteral("Priority"), new_priority},
+            };
 
-        loc.updateFromJson(json2);
-        QCOMPARE(loc.country(), QStringLiteral("Sweden"));
-        QCOMPARE(loc.countryCode(), QStringLiteral("SE"));
-        QCOMPARE(loc.priority(), new_priority);
-    }
+            Location loc;
+            loc.updateFromJson(json1);
+            QCOMPARE(loc.country(), QStringLiteral("Germany"));
+            QCOMPARE(loc.priority(), old_priority);
 
-    static void negativePriority()
-    {
-        static constexpr int priority = -5;
-        QJsonObject json{{QStringLiteral("Priority"), priority}};
-        Location loc;
-        loc.updateFromJson(json);
-        QCOMPARE(loc.priority(), priority);
-    }
-};
+            loc.updateFromJson(json2);
+            QCOMPARE(loc.country(), QStringLiteral("Sweden"));
+            QCOMPARE(loc.countryCode(), QStringLiteral("SE"));
+            QCOMPARE(loc.priority(), new_priority);
+        }
+
+        static void negativePriority()
+        {
+            static constexpr int priority = -5;
+            QJsonObject json{{QStringLiteral("Priority"), priority}};
+            Location loc;
+            loc.updateFromJson(json);
+            QCOMPARE(loc.priority(), priority);
+        }
+    };
+}
 
 QTEST_GUILESS_MAIN(TestLocation)
 #include "test_location.moc"

@@ -12,7 +12,6 @@ class TrayIcon : public QSystemTrayIcon
 {
     Q_OBJECT
 
-private:
     Tailscale *mTailscale;
     QMenu *mContextMenu;
     TrayMenuAccounts *mMenuAccounts;
@@ -28,11 +27,11 @@ Q_SIGNALS:
     void showWindow();
     void quitRequested();
 
-public Q_SLOTS:
-    Q_INVOKABLE void updateIcon();
-
 public:
     explicit TrayIcon(Tailscale *tailscale, QObject *parent = nullptr);
+
+public Q_SLOTS:
+    Q_INVOKABLE void updateIcon();
 };
 
 #endif // KTAILCTL_TRAY_ICON_HPP

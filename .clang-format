@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: MIT
 
-# This file was originally generated using the KDEClangFormat script from ecm
+# This file got automatically created by ECM, do not edit
 # See https://clang.llvm.org/docs/ClangFormatStyleOptions.html for the config options
 # and https://community.kde.org/Policies/Frameworks_Coding_Style#Clang-format_automatic_code_formatting
 # for clang-format tips & tricks
@@ -12,11 +12,11 @@
 Language: JavaScript
 DisableFormat: true
 ---
-
----
 Language: Json
-DisableFormat: true
+DisableFormat: false
+IndentWidth: 4
 ---
+
 # Style for C++
 Language: Cpp
 
@@ -24,8 +24,8 @@ Language: Cpp
 # below are only things set that diverge from this style!
 BasedOnStyle: WebKit
 
-# enforce C++11 (e.g. for std::vector<std::vector<lala>>
-Standard: Cpp11
+# enforce C++20
+Standard: c++20
 
 # 4 spaces indent
 TabWidth: 4
@@ -39,17 +39,20 @@ SortIncludes: true
 # break before braces on function, namespace and class definitions.
 BreakBeforeBraces: Linux
 
-# CrlInstruction *a;
+# MyPointer *a;
 PointerAlignment: Right
 
 # horizontally aligns arguments after an open bracket.
-AlignAfterOpenBracket: Align
+AlignAfterOpenBracket: true
 
 # don't move all parameters to new line
 AllowAllParametersOfDeclarationOnNextLine: false
 
 # no single line functions
 AllowShortFunctionsOnASingleLine: None
+
+# no single line enums
+AllowShortEnumsOnASingleLine: false
 
 # always break before you encounter multi line strings
 AlwaysBreakBeforeMultilineStrings: true
@@ -60,7 +63,7 @@ BinPackArguments: false
 # don't move parameters to own lines if they are not all on the same
 BinPackParameters: false
 
-# In case we have an if statement with multiple lines the operator should be at the beginning of the line
+# In case we have an if statement with multiple lines the operator should be at the beginning of the line,
 # but we do not want to break assignments
 BreakBeforeBinaryOperators: NonAssignment
 
@@ -80,21 +83,10 @@ NamespaceIndentation: None
 SpaceAfterTemplateKeyword: false
 
 # Always break after template declaration
-AlwaysBreakTemplateDeclarations: true
+BreakTemplateDeclarations: Yes
 
 # macros for which the opening brace stays attached.
-ForEachMacros:
-  [
-    foreach,
-    Q_FOREACH,
-    BOOST_FOREACH,
-    forever,
-    Q_FOREVER,
-    QBENCHMARK,
-    QBENCHMARK_ONCE,
-    wl_resource_for_each,
-    wl_resource_for_each_safe,
-  ]
+ForEachMacros: [ foreach, Q_FOREACH, BOOST_FOREACH, forever, Q_FOREVER, QBENCHMARK, QBENCHMARK_ONCE , wl_resource_for_each, wl_resource_for_each_safe ]
 
 # keep lambda formatting multi-line if not empty
 AllowShortLambdasOnASingleLine: Empty

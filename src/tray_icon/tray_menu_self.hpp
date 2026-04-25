@@ -8,7 +8,6 @@ class TrayMenuSelf : public QMenu
 {
     Q_OBJECT
 
-private:
     Tailscale *mTailscale;
 
 public Q_SLOTS:

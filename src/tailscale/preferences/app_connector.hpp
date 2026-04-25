@@ -10,7 +10,6 @@ class AppConnectorPreferences : public QObject
     Q_OBJECT
     Q_PROPERTY(bool advertise READ advertise BINDABLE bindableAdvertise)
 
-private:
     QProperty<bool> mAdvertise;
 
 public:
