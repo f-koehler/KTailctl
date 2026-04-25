@@ -16,7 +16,6 @@ Language: Json
 DisableFormat: false
 IndentWidth: 4
 ---
-
 # Style for C++
 Language: Cpp
 
@@ -25,7 +24,7 @@ Language: Cpp
 BasedOnStyle: WebKit
 
 # enforce C++20
-Standard: c++20
+Standard: c++23
 
 # 4 spaces indent
 TabWidth: 4
@@ -86,7 +85,18 @@ SpaceAfterTemplateKeyword: false
 BreakTemplateDeclarations: Yes
 
 # macros for which the opening brace stays attached.
-ForEachMacros: [ foreach, Q_FOREACH, BOOST_FOREACH, forever, Q_FOREVER, QBENCHMARK, QBENCHMARK_ONCE , wl_resource_for_each, wl_resource_for_each_safe ]
+ForEachMacros:
+  [
+    foreach,
+    Q_FOREACH,
+    BOOST_FOREACH,
+    forever,
+    Q_FOREVER,
+    QBENCHMARK,
+    QBENCHMARK_ONCE,
+    wl_resource_for_each,
+    wl_resource_for_each_safe,
+  ]
 
 # keep lambda formatting multi-line if not empty
 AllowShortLambdasOnASingleLine: Empty
