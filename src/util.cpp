@@ -9,7 +9,7 @@ QString Util::formatDurationHumanReadable(const QDateTime &dateTime)
         return QString{};
     }
     const qint64 secs = dateTime.secsTo(QDateTime::currentDateTimeUtc());
-    if (secs <seconds_per_minute ) {
+    if (secs < seconds_per_minute) {
         return QStringLiteral("just now");
     }
     if (secs < seconds_per_hour) {

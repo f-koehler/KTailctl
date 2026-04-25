@@ -23,7 +23,9 @@ class SelfHostedExitNodeModel : public QSortFilterProxyModel
 public:
     template<PropertyListModelOwnership Ownership>
     explicit SelfHostedExitNodeModel(PropertyListModel<PeerStatus, Ownership> *peerModel, QObject *parent = nullptr)
-        : QSortFilterProxyModel(parent), mRoleIndexExitNode(peerModel->roleIndexForProperty("exitNode")), mRoleIndicesFound(true)
+        : QSortFilterProxyModel(parent)
+        , mRoleIndexExitNode(peerModel->roleIndexForProperty("exitNode"))
+        , mRoleIndicesFound(true)
     {
         QSortFilterProxyModel::setSourceModel(reinterpret_cast<QAbstractItemModel *>(peerModel));
 

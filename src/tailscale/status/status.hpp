@@ -26,7 +26,14 @@ class Status : public QObject
 public:
     using PeerModel = PropertyListModel<PeerStatus, PropertyListModelOwnership::External>;
 
-    enum class BackendState : uint8_t { NoState, NeedsLogin, NeedsMachineAuth, Stopped, Starting, Running };
+    enum class BackendState : uint8_t {
+        NoState,
+        NeedsLogin,
+        NeedsMachineAuth,
+        Stopped,
+        Starting,
+        Running
+    };
 
     Q_ENUM(BackendState)
 

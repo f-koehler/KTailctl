@@ -22,7 +22,9 @@ class MullvadExitNodeModel : public QSortFilterProxyModel
 public:
     template<PropertyListModelOwnership Ownership>
     explicit MullvadExitNodeModel(PropertyListModel<PeerStatus, Ownership> *peerModel, QObject *parent = nullptr)
-        : QSortFilterProxyModel(parent), mRoleIndexMullvadNode(peerModel->roleIndexForProperty("mullvadNode")), mRoleIndicesFound(true)
+        : QSortFilterProxyModel(parent)
+        , mRoleIndexMullvadNode(peerModel->roleIndexForProperty("mullvadNode"))
+        , mRoleIndicesFound(true)
     {
         QSortFilterProxyModel::setSourceModel(reinterpret_cast<QAbstractItemModel *>(peerModel));
 
@@ -41,8 +43,8 @@ public:
     }
 
 protected:
-   [[nodiscard]] bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
-   [[nodiscard]] bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
+    [[nodiscard]] bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
+    [[nodiscard]] bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
 };
 
 #endif // KTAILCTL_MULLVAD_EXIT_NODE_MODEL_HPP

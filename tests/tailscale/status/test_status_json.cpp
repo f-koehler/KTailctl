@@ -382,7 +382,7 @@ private Q_SLOTS:
         static const QString dnsName = QStringLiteral("workstation.example-tailnet.ts.net.");
         static const QString operatingSystem = QStringLiteral("linux");
         static const QString relay = QStringLiteral("sin");
-        static constexpr qint64  userId = 1234567891234567UL;
+        static constexpr qint64 userId = 1234567891234567UL;
 
         Status status;
         QJsonObject json{

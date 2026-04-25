@@ -61,7 +61,7 @@ void TrayMenuExitNodesMullvad::rebuildMenu()
         });
     }
 
-    for (auto* menu : mPerCountryMenus.values()) {
+    for (auto *menu : mPerCountryMenus.values()) {
         addMenu(menu);
     }
 }

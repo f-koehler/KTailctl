@@ -16,8 +16,8 @@ set(KTAILCTL_TRAY_ICON_THEMES
 list(LENGTH KTAILCTL_TRAY_ICON_THEMES _len)
 math(EXPR _last "${_len} - 1")
 foreach(i RANGE 0 ${_last} 3)
-    list(GET KTAILCTL_TRAY_ICON_THEMES ${i} _name)
-    list(APPEND _theme_names "QStringLiteral(\"${_name}\")")
+  list(GET KTAILCTL_TRAY_ICON_THEMES ${i} _name)
+  list(APPEND _theme_names "QStringLiteral(\"${_name}\")")
 endforeach()
 list(JOIN _theme_names ", " KTAILCTL_TRAY_ICON_THEMES_LITERAL_LIST)
 configure_file(
@@ -34,35 +34,35 @@ target_include_directories(ktailctl PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 set(_tray_icon_files)
 
 foreach(i RANGE 0 ${_last} 3)
-    list(GET KTAILCTL_TRAY_ICON_THEMES ${i} _theme_name)
+  list(GET KTAILCTL_TRAY_ICON_THEMES ${i} _theme_name)
 
-    math(EXPR online_color_index "${i} + 1")
-    math(EXPR offline_color_index "${i} + 2")
+  math(EXPR online_color_index "${i} + 1")
+  math(EXPR offline_color_index "${i} + 2")
 
-    list(GET KTAILCTL_TRAY_ICON_THEMES ${online_color_index} _theme_online_color)
-    list(GET KTAILCTL_TRAY_ICON_THEMES ${offline_color_index} _theme_offline_color)
+  list(GET KTAILCTL_TRAY_ICON_THEMES ${online_color_index} _theme_online_color)
+  list(GET KTAILCTL_TRAY_ICON_THEMES ${offline_color_index} _theme_offline_color)
 
-    set(THEME_ONLINE_COLOR  "${_theme_online_color}")
-    set(THEME_OFFLINE_COLOR "${_theme_offline_color}")
+  set(THEME_ONLINE_COLOR  "${_theme_online_color}")
+  set(THEME_OFFLINE_COLOR "${_theme_offline_color}")
 
-    set(_online_file     ${CMAKE_CURRENT_BINARY_DIR}/online-${_theme_name}.svg)
-    set(_offline_file    ${CMAKE_CURRENT_BINARY_DIR}/offline-${_theme_name}.svg)
-    set(_exit_node_file  ${CMAKE_CURRENT_BINARY_DIR}/exit-node-${_theme_name}.svg)
+  set(_online_file     ${CMAKE_CURRENT_BINARY_DIR}/online-${_theme_name}.svg)
+  set(_offline_file    ${CMAKE_CURRENT_BINARY_DIR}/offline-${_theme_name}.svg)
+  set(_exit_node_file  ${CMAKE_CURRENT_BINARY_DIR}/exit-node-${_theme_name}.svg)
 
-    configure_file(online.svg.in     ${_online_file}    @ONLY)
-    configure_file(offline.svg.in    ${_offline_file}   @ONLY)
-    configure_file(exit-node.svg.in  ${_exit_node_file} @ONLY)
+  configure_file(online.svg.in     ${_online_file}    @ONLY)
+  configure_file(offline.svg.in    ${_offline_file}   @ONLY)
+  configure_file(exit-node.svg.in  ${_exit_node_file} @ONLY)
 
-    set_source_files_properties(${_online_file}
+  set_source_files_properties(${_online_file}
         PROPERTIES QT_RESOURCE_ALIAS online-${_theme_name}.svg)
 
-    set_source_files_properties(${_offline_file}
+  set_source_files_properties(${_offline_file}
         PROPERTIES QT_RESOURCE_ALIAS offline-${_theme_name}.svg)
 
-    set_source_files_properties(${_exit_node_file}
+  set_source_files_properties(${_exit_node_file}
         PROPERTIES QT_RESOURCE_ALIAS exit-node-${_theme_name}.svg)
 
-    list(APPEND _tray_icon_files
+  list(APPEND _tray_icon_files
         ${_online_file}
         ${_offline_file}
         ${_exit_node_file}

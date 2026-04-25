@@ -21,7 +21,11 @@ class Preferences : public QObject
     Q_OBJECT
 
 public:
-    enum class NetfilterMode : uint8_t { Off = 0, NoDivert = 1, On = 2 };
+    enum class NetfilterMode : uint8_t {
+        Off = 0,
+        NoDivert = 1,
+        On = 2
+    };
 
     Q_ENUM(NetfilterMode)
 

@@ -7,7 +7,9 @@
 
 Status::Status(QObject *parent)
     : QObject(parent)
-    , mPeerModel(new PeerModel(this)), mMullvadExitNodeModel(new MullvadExitNodeModel(mPeerModel, this)), mSelfHostedExitNodeModel(new SelfHostedExitNodeModel(mPeerModel, this))
+    , mPeerModel(new PeerModel(this))
+    , mMullvadExitNodeModel(new MullvadExitNodeModel(mPeerModel, this))
+    , mSelfHostedExitNodeModel(new SelfHostedExitNodeModel(mPeerModel, this))
 {
     refresh();
 }

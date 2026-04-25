@@ -8,7 +8,7 @@ TrayMenuExitNodes::TrayMenuExitNodes(Tailscale *tailscale, QWidget *parent)
 {
     setIcon(QIcon::fromTheme(QStringLiteral("globe")));
     mActionSuggested = addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), QStringLiteral("Use suggested"), [this] {
-        if (const QString suggestedId = mTailscale->status()->suggestedExitNodeId();!suggestedId.isEmpty()) {
+        if (const QString suggestedId = mTailscale->status()->suggestedExitNodeId(); !suggestedId.isEmpty()) {
             mTailscale->preferences()->setExitNodeID(suggestedId);
         }
     });
@@ -28,7 +28,7 @@ TrayMenuExitNodes::TrayMenuExitNodes(Tailscale *tailscale, QWidget *parent)
         const bool hasSuggested = !suggestedId.isEmpty() && suggestedId != exitNodeId;
         mActionSuggested->setVisible(hasSuggested);
         if (hasSuggested) {
-            if (const auto *peer = mTailscale->status()->peerWithId(suggestedId);peer) {
+            if (const auto *peer = mTailscale->status()->peerWithId(suggestedId); peer) {
                 const QString label = peer->dnsName();
                 mActionSuggested->setText(QStringLiteral("Use suggested: ") + label);
                 if (peer->mullvadNode() && peer->location()) {
