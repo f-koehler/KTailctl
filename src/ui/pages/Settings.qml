@@ -91,7 +91,7 @@ FormCard.FormCardPage {
             id: switchAllowLanAccess
             text: "Allow LAN access"
             checked: KTailctl.Tailscale.preferences.exitNodeAllowLanAccess
-            onCheckedChanged: KTailctl.preferences.exitNodeAllowLanAccess = switchAllowLanAccess.checked
+            onCheckedChanged: KTailctl.Tailscale.preferences.exitNodeAllowLanAccess = switchAllowLanAccess.checked
         }
         FormCard.FormSwitchDelegate {
             text: "Advertise app connector"
