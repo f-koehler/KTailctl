@@ -9,7 +9,7 @@ ecm_qt_declare_logging_category(
         DEFAULT_SEVERITY
         Info)
 
-add_executable(ktailctl peer.hpp peer.cpp property_list_model.hpp main.cpp
+add_executable(ktailctl property_list_model.hpp main.cpp
         util.hpp util.cpp
         tailscale/preferences/app_connector.hpp
 )
