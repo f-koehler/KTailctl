@@ -24,11 +24,6 @@ add_subdirectory(util)
 
 
 
-add_ktailctl_test(test_exit_node_status
-    SOURCES
-        test_exit_node_status.cpp
-        ${CMAKE_SOURCE_DIR}/src/tailscale/status/exit_node_status.cpp)
-
 add_ktailctl_test(test_tailnet_status
     SOURCES
         test_tailnet_status.cpp

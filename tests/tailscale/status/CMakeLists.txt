@@ -3,6 +3,12 @@ add_ktailctl_test(test_client_version
         test_client_version.cpp
         ${CMAKE_SOURCE_DIR}/src/tailscale/status/client_version.cpp)
 
+
+add_ktailctl_test(test_exit_node_status
+    SOURCES
+        test_exit_node_status.cpp
+        ${CMAKE_SOURCE_DIR}/src/tailscale/status/exit_node_status.cpp)
+
 add_ktailctl_test(test_location
     SOURCES
         test_location.cpp
