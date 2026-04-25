@@ -33,12 +33,6 @@ add_ktailctl_test(test_tailnet_status
 
 
 
-add_ktailctl_test(test_login_profile
-    SOURCES
-        test_login_profile.cpp
-        ${CMAKE_SOURCE_DIR}/src/tailscale/status/login_profile.cpp
-        ${CMAKE_SOURCE_DIR}/src/tailscale/status/user_profile.cpp
-        ${CMAKE_SOURCE_DIR}/src/tailscale/status/network_profile.cpp)
 
 
 
