@@ -29,8 +29,6 @@ find_package(ECM ${KF6_MIN_VERSION} REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
 
 set(KDE_COMPILERSETTINGS_LEVEL 6.25)
-# add_definitions(-DQT_NO_CAST_FROM_ASCII -DQT_NO_CAST_TO_ASCII -DQT_NO_URL_CAST_FROM_STRING
-# -DQT_NO_NARROWING_CONVERSIONS_IN_CONNECT -DQT_USE_QSTRINGBUILDER )
 
 include(FeatureSummary)
 include(ECMSetupVersion)
@@ -39,7 +37,7 @@ include(ECMGenerateExportHeader)
 include(KDEInstallDirs)
 include(ECMFindQmlModule)
 include(KDECMakeSettings)
-# include(KDECompilerSettings NO_POLICY_SCOPE)
+include(KDECompilerSettings)
 include(ECMAddAppIcon)
 include(ECMDeprecationSettings)
 include(ECMQmlModule)
