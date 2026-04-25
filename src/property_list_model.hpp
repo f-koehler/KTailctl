@@ -6,8 +6,6 @@
 #include <QMetaObject>
 #include <QMetaProperty>
 #include <QModelIndex>
-#include <QPointer>
-#include <QPropertyNotifier>
 #include <QVariant>
 
 enum class PropertyListModelOwnership : bool {
@@ -26,7 +24,7 @@ public:
     static_assert(std::is_base_of_v<QObject, T>, "PropertyListModel<T> requires T to derive from QObject");
 
 private:
-    QVector<QPointer<Type>> mItems;
+    QVector<Type *> mItems;
     QHash<int, int> mRoleToPropertyIndex;
     QHash<int, QByteArray> mRoleNames;
 
@@ -53,13 +51,13 @@ public:
             return {};
         }
 
-        const QPointer<Type> &item = mItems[row];
-        if (!item) {
+        Type *const item = mItems[row];
+        if (item == nullptr) {
             return {};
         }
 
         if (role == SelfRole) {
-            return QVariant::fromValue(static_cast<QObject *>(item.data()));
+            return QVariant::fromValue(static_cast<QObject *>(item));
         }
 
         const int propertyIndex = mRoleToPropertyIndex.value(role, -1);

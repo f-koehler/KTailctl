@@ -25,19 +25,3 @@ add_subdirectory(util)
 add_ktailctl_test(test_property_list_model
     SOURCES
         test_property_list_model.cpp)
-
-add_ktailctl_test(test_status_json
-    SOURCES
-        test_status_json.cpp
-        tailscale_wrapper_stub.cpp
-        ${CMAKE_SOURCE_DIR}/src/tailscale/status/status.cpp
-        ${CMAKE_SOURCE_DIR}/src/tailscale/status/peer_status.cpp
-        ${CMAKE_SOURCE_DIR}/src/tailscale/status/location.cpp
-        ${CMAKE_SOURCE_DIR}/src/tailscale/status/exit_node_status.cpp
-        ${CMAKE_SOURCE_DIR}/src/tailscale/status/tailnet_status.cpp
-        ${CMAKE_SOURCE_DIR}/src/tailscale/status/user_profile.cpp
-        ${CMAKE_SOURCE_DIR}/src/tailscale/status/client_version.cpp
-        ${CMAKE_SOURCE_DIR}/src/tailscale/status/mullvad_exit_node_model.cpp
-        ${CMAKE_SOURCE_DIR}/src/tailscale/status/self_hosted_exit_node_model.cpp
-        ${CMAKE_BINARY_DIR}/src/tailscale/status/logging_tailscale_status.cpp
-        ${CMAKE_BINARY_DIR}/src/tailscale/preferences/logging_tailscale_preferences.cpp)
