@@ -1,3 +1,6 @@
+ci:
+  skip:
+    - qmlformat
 repos:
   - repo: https://github.com/pre-commit/mirrors-clang-format
     rev: "v22.1.4"
