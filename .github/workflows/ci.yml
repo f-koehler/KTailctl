@@ -48,7 +48,6 @@ jobs:
         run: |
           flatpak run --command=flatpak-builder-lint org.flatpak.Builder \
           builddir build-dir/
-
   native_build:
     name: Native Build (${{ matrix.compiler }})
     runs-on: ubuntu-latest
@@ -80,18 +79,19 @@ jobs:
         working-directory: src/tailscale/wrapper
       - name: Add Kitware CMake repository
         run: |
+          KEYRING=/usr/share/keyrings/kitware-archive-keyring.gpg
           wget -qO - https://apt.kitware.com/keys/kitware-archive-latest.asc \
             | gpg --dearmor - \
-            | sudo tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
-          KEYRING=/usr/share/keyrings/kitware-archive-keyring.gpg
+            | sudo tee "${KEYRING}" >/dev/null
           echo "deb [signed-by=${KEYRING}]" \
             "https://apt.kitware.com/ubuntu/ noble main" \
             | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
       - name: Add KDE Neon repository
         run: |
-          wget -qO /tmp/neon.key 'https://archive.neon.kde.org/public.key'
-          sudo gpg --dearmor -o /usr/share/keyrings/neon.gpg /tmp/neon.key
           KEYRING=/usr/share/keyrings/neon.gpg
+          wget -qO - 'https://archive.neon.kde.org/public.key' \
+            | gpg --dearmor - \
+            | sudo tee "${KEYRING}" >/dev/null
           echo "deb [signed-by=${KEYRING}]" \
             "http://archive.neon.kde.org/user noble main" \
             | sudo tee /etc/apt/sources.list.d/neon.list >/dev/null
@@ -109,7 +109,6 @@ jobs:
         run: cmake --build build --parallel
       - name: Test
         run: ctest --test-dir build --output-on-failure
-
   create_release:
     name: Create Release
     if: startsWith(github.ref, 'refs/tags/v')
