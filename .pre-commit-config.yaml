@@ -113,3 +113,10 @@ repos:
         pass_filenames: false
         files: ^src/tailscale/wrapper/
         additional_dependencies: ["honnef.co/go/tools/cmd/staticcheck@v0.7.0"]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.12
+    hooks:
+      - id: ruff-check
+        args: [--fix]
+      - id: ruff-format
