@@ -114,6 +114,15 @@ repos:
         files: ^src/tailscale/wrapper/
         additional_dependencies: ["honnef.co/go/tools/cmd/staticcheck@v0.7.0"]
 
+      - id: shfmt
+        name: shfmt
+        language: golang
+        language_version: 1.26.2
+        entry: shfmt
+        args: [-w]
+        types: [shell]
+        additional_dependencies: ["mvdan.cc/sh/v3/cmd/shfmt@v3.13.1"]
+
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.15.12
     hooks:
