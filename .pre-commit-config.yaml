@@ -130,6 +130,19 @@ repos:
         args: [--fix]
       - id: ruff-format
 
+  - repo: https://github.com/google/yamlfmt
+    rev: v0.21.0
+    hooks:
+      - id: yamlfmt
+        exclude: '\.clang-format$'
+
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.38.0
+    hooks:
+      - id: yamllint
+        args: [--strict]
+        exclude: '\.clang-format$'
+
   - repo: https://github.com/rhysd/actionlint
     rev: v1.7.12
     hooks:
