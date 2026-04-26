@@ -1,3 +1,4 @@
+---
 app-id: org.fkoehler.KTailctl
 runtime: org.kde.Platform
 runtime-version: "6.10"

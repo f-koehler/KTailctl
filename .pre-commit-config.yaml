@@ -1,7 +1,7 @@
+---
 ci:
   skip:
     - qmlformat
-
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
@@ -28,7 +28,6 @@ repos:
       - id: forbid-new-submodules
       - id: mixed-line-ending
       - id: trailing-whitespace
-
   - repo: https://github.com/pre-commit/mirrors-clang-format
     rev: "v22.1.4"
     hooks:
@@ -53,7 +52,6 @@ repos:
         entry: scripts/sync_go_versions.py
         pass_filenames: false
         files: ^(src/tailscale/wrapper/go\.mod|tools/go\.mod)$
-
       - id: gofmt
         name: gofmt
         language: golang
@@ -62,7 +60,6 @@ repos:
         args: [-l, -w]
         types: [go]
         files: ^src/tailscale/wrapper/
-
       - id: govet
         name: go vet
         language: golang
@@ -71,7 +68,6 @@ repos:
         args: ["cd src/tailscale/wrapper && go vet ./..."]
         pass_filenames: false
         files: ^src/tailscale/wrapper/
-
       - id: goimports
         name: goimports
         language: golang
@@ -80,8 +76,8 @@ repos:
         args: [-w]
         types: [go]
         files: ^src/tailscale/wrapper/
-        additional_dependencies: ["golang.org/x/tools/cmd/goimports@v0.44.0"]
-
+        additional_dependencies:
+          - "golang.org/x/tools/cmd/goimports@v0.44.0"
       - id: gosec
         name: gosec
         language: golang
@@ -91,8 +87,7 @@ repos:
         pass_filenames: false
         files: ^src/tailscale/wrapper/
         additional_dependencies:
-          ["github.com/securego/gosec/v2/cmd/gosec@v2.25.0"]
-
+          - "github.com/securego/gosec/v2/cmd/gosec@v2.25.0"
       - id: gocritic
         name: go-critic
         language: golang
@@ -102,8 +97,7 @@ repos:
         pass_filenames: false
         files: ^src/tailscale/wrapper/
         additional_dependencies:
-          ["github.com/go-critic/go-critic/cmd/gocritic@v0.14.3"]
-
+          - "github.com/go-critic/go-critic/cmd/gocritic@v0.14.3"
       - id: staticcheck
         name: staticcheck
         language_version: 1.26.2
@@ -112,8 +106,8 @@ repos:
         args: ["cd src/tailscale/wrapper && staticcheck ./..."]
         pass_filenames: false
         files: ^src/tailscale/wrapper/
-        additional_dependencies: ["honnef.co/go/tools/cmd/staticcheck@v0.7.0"]
-
+        additional_dependencies:
+          - "honnef.co/go/tools/cmd/staticcheck@v0.7.0"
       - id: shfmt
         name: shfmt
         language: golang
@@ -121,33 +115,29 @@ repos:
         entry: shfmt
         args: [-w]
         types: [shell]
-        additional_dependencies: ["mvdan.cc/sh/v3/cmd/shfmt@v3.13.1"]
-
+        additional_dependencies:
+          - "mvdan.cc/sh/v3/cmd/shfmt@v3.13.1"
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.15.12
     hooks:
       - id: ruff-check
         args: [--fix]
       - id: ruff-format
-
   - repo: https://github.com/google/yamlfmt
     rev: v0.21.0
     hooks:
       - id: yamlfmt
         exclude: '\.clang-format$'
-
   - repo: https://github.com/adrienverge/yamllint
     rev: v1.38.0
     hooks:
       - id: yamllint
         args: [--strict]
         exclude: '\.clang-format$'
-
   - repo: https://github.com/DetachHead/basedpyright-prek-mirror
     rev: "1.39.3"
     hooks:
       - id: basedpyright
-
   - repo: https://github.com/rhysd/actionlint
     rev: v1.7.12
     hooks:
