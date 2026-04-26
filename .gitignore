@@ -20,9 +20,7 @@ devenv.local.nix
 # direnv
 .direnv
 
-# pre-commit
-.pre-commit-config.yaml
-
 *.qml.bak
 /out/
 compile_commands.json
+.venv/

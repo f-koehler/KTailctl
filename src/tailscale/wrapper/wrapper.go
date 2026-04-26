@@ -81,7 +81,7 @@ func tailscale_accounts() *C.char {
 		CurrentID ipn.ProfileID      `json:"currentID"`
 	}{accounts, current.ID}, "", " ")
 	if err != nil {
-		log_critical(fmt.Sprint("failed to create JSON for tailscale accounts: %v", err))
+		log_critical(fmt.Sprintf("failed to create JSON for tailscale accounts: %v", err))
 		return nil
 	}
 	return C.CString(string(j))

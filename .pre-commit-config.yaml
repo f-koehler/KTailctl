@@ -1,17 +1,89 @@
 ci:
   skip:
     - qmlformat
+
 repos:
   - repo: https://github.com/pre-commit/mirrors-clang-format
     rev: "v22.1.4"
     hooks:
       - id: clang-format
+
   - repo: https://github.com/f-koehler/qml-pre-commit
     rev: "v0.3.0"
     hooks:
       - id: qmlformat
       # - id: qmllint
+      #
   - repo: https://github.com/neocmakelsp/neocmakelsp
     rev: v0.10.2
     hooks:
       - id: neocmakelsp-format
+
+  - repo: local
+    hooks:
+      - id: sync-go-versions
+        name: sync Go versions
+        language: python
+        entry: scripts/sync_go_versions.py
+        pass_filenames: false
+        files: ^(src/tailscale/wrapper/go\.mod|tools/go\.mod)$
+
+      - id: gofmt
+        name: gofmt
+        language: golang
+        language_version: 1.26.2
+        entry: gofmt
+        args: [-l, -w]
+        types: [go]
+        files: ^src/tailscale/wrapper/
+
+      - id: govet
+        name: go vet
+        language: golang
+        language_version: 1.26.2
+        entry: bash -c
+        args: ["cd src/tailscale/wrapper && go vet ./..."]
+        pass_filenames: false
+        files: ^src/tailscale/wrapper/
+
+      - id: goimports
+        name: goimports
+        language: golang
+        language_version: 1.26.2
+        entry: goimports
+        args: [-w]
+        types: [go]
+        files: ^src/tailscale/wrapper/
+        additional_dependencies: ["golang.org/x/tools/cmd/goimports@v0.44.0"]
+
+      - id: gosec
+        name: gosec
+        language: golang
+        language_version: 1.26.2
+        entry: bash -c
+        args: ["cd src/tailscale/wrapper && gosec -exclude=G115 ./..."]
+        pass_filenames: false
+        files: ^src/tailscale/wrapper/
+        additional_dependencies:
+          ["github.com/securego/gosec/v2/cmd/gosec@v2.25.0"]
+
+      - id: gocritic
+        name: go-critic
+        language: golang
+        language_version: 1.26.2
+        entry: bash -c
+        args: ["cd src/tailscale/wrapper && gocritic check ./..."]
+        pass_filenames: false
+        files: ^src/tailscale/wrapper/
+        additional_dependencies:
+          ["github.com/go-critic/go-critic/cmd/gocritic@v0.14.3"]
+
+      - id: staticcheck
+        name: staticcheck
+        language_version: 1.26.2
+        language: golang
+        entry: bash -c
+        args: ["cd src/tailscale/wrapper && staticcheck ./..."]
+        pass_filenames: false
+        files: ^src/tailscale/wrapper/
+        additional_dependencies: ["honnef.co/go/tools/cmd/staticcheck@v0.7.0"]

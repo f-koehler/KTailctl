@@ -28,7 +28,7 @@ func tailscale_prefs() *C.char {
 //export tailscale_set_preferences
 func tailscale_set_preferences(jsonStr *string) bool {
 	if jsonStr == nil {
-		log_warning(fmt.Sprintf("empty preferences JSON, nothing to do"))
+		log_warning("empty preferences JSON, nothing to do")
 		return false
 	}
 

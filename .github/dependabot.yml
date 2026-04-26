@@ -17,3 +17,7 @@ updates:
     directory: "src/tailscale/wrapper"
     schedule:
       interval: "weekly"
+  - package-ecosystem: gomod
+    directory: "tools"
+    schedule:
+      interval: "weekly"
