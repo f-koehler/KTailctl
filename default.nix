@@ -12,7 +12,6 @@
   git,
   go_1_24,
   kdePackages,
-  nlohmann_json,
 }:
 let
   src = ./.;
@@ -56,7 +55,6 @@ stdenv.mkDerivation {
     kdePackages.qtdeclarative
     kdePackages.qtsvg
     kdePackages.qtwayland
-    nlohmann_json
   ];
 
   postPatch = ''

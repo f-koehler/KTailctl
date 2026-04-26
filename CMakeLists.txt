@@ -71,7 +71,6 @@ find_package(
              Kirigami
              Notifications
              WindowSystem)
-find_package(nlohmann_json REQUIRED)
 
 add_subdirectory(src)
 
