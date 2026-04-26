@@ -13,31 +13,42 @@ jobs:
     name: Flatpak build
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout repository.
+      - name: Checkout repository
         uses: actions/checkout@v6
         with:
           submodules: true
-      - name: Update apt cache.
-        run: sudo apt-get update -yq
-      - name: Install flatpak-builder.
-        run: sudo apt-get install -yq flatpak-builder flatpak appstream
-      - name: Show flatpak-builder version.
-        run: flatpak-builder --version
-      - name: Install flatpak dependencies.
-        run: ./scripts/flatpak-deps.sh
-      - name: Validate manifest.
-        run: flatpak run --command=flatpak-builder-lint org.flatpak.Builder manifest org.fkoehler.KTailctl.yml
-      - name: Check external data.
-        run: flatpak run org.flathub.flatpak-external-data-checker --check-outdated org.fkoehler.KTailctl.yml
-      - name: Setup go.
+
+      - name: Set up Go
         uses: actions/setup-go@v6
         with:
-          go-version: "1.25.6"
-      - name: Vendor go dependencies.
+          go-version-file: src/tailscale/wrapper/go.mod
+          cache-dependency-path: src/tailscale/wrapper/go.sum
+
+      - name: Vendor Go dependencies.
         run: go mod vendor
-        working-directory: src/wrapper
-      - name: Build.
+        working-directory: src/tailscale/wrapper
+
+      - name: Update apt cache.
+        run: sudo apt-get update -yq
+
+      - name: Install flatpak-builder
+        run: sudo apt-get install -yq flatpak-builder flatpak appstream
+
+      - name: Show flatpak-builder version
+        run: flatpak-builder --version
+
+      - name: Install flatpak dependencies
+        run: ./scripts/flatpak-deps.sh
+
+      - name: Validate manifest
+        run: flatpak run --command=flatpak-builder-lint org.flatpak.Builder manifest org.fkoehler.KTailctl.yml
+
+      - name: Check external data
+        run: flatpak run org.flathub.flatpak-external-data-checker --check-outdated org.fkoehler.KTailctl.yml
+
+      - name: Build
         run: flatpak-builder --user --force-clean build-dir org.fkoehler.KTailctl.yml
+
       # - name: Validate build.
       #   run: flatpak run --command=flatpak-builder-lint org.flatpak.Builder builddir build-dir/
   create_release:
