@@ -6,6 +6,8 @@ project(
   LANGUAGES C CXX)
 
 option(KTAILCTL_FLATPAK_BUILD "Build for Flatpak" OFF)
+option(KTAILCTL_ENABLE_TESTS "Enable unit tests" OFF)
+option(KTAILCTL_FETCH_GO "Fetch correct version of go" OFF)
 
 set(QT_MAJOR_VERSION 6)
 set(QT6_MIN_VERSION 6.10.0)
@@ -74,7 +76,6 @@ find_package(
 
 add_subdirectory(src)
 
-option(KTAILCTL_ENABLE_TESTS "Enable unit tests" OFF)
 if(KTAILCTL_ENABLE_TESTS)
   add_subdirectory(tests)
 endif()
