@@ -2,6 +2,7 @@
 ci:
   skip:
     - qmlformat
+    - qmllint
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
@@ -32,20 +33,24 @@ repos:
     rev: "v22.1.4"
     hooks:
       - id: clang-format
-
-  - repo: https://github.com/f-koehler/qml-pre-commit
-    rev: "v0.3.0"
-    hooks:
-      - id: qmlformat
-      # - id: qmllint
-      #
   - repo: https://github.com/neocmakelsp/neocmakelsp
     rev: v0.10.2
     hooks:
       - id: neocmakelsp-format
-
   - repo: local
     hooks:
+      - id: qmlformat
+        name: qmlformat
+        description: Format QML files
+        entry: qmlformat-qt6 -i
+        types: [qml]
+        language: system
+      - id: qmllint
+        name: qmllint
+        description: Lint QML files
+        entry: qmllint-qt6
+        types: [qml]
+        language: system
       - id: sync-go-versions
         name: sync Go versions
         language: python
