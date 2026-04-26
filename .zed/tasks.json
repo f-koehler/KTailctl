@@ -5,6 +5,6 @@
         "reveal": "always",
         "hide": "never",
         "show_summary": true,
-        "show_command": true,
-    },
+        "show_command": true
+    }
 ]
