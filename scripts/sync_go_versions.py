@@ -16,13 +16,46 @@ Exit 0 if nothing changed, exit 1 if any file was modified (pre-commit conventio
 
 import re
 import sys
+from collections.abc import Iterator
 from pathlib import Path
+from typing import TypedDict
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
-WRAPPER_GO_MOD = REPO_ROOT / "src" / "tailscale" / "wrapper" / "go.mod"
-TOOLS_GO_MOD = REPO_ROOT / "tools" / "go.mod"
-PRE_COMMIT_CONFIG = REPO_ROOT / ".pre-commit-config.yaml"
+from ruamel.yaml import YAML
+
+PATH_REPO_ROOT = Path(__file__).resolve().parent.parent
+PATH_WRAPPER_GO_MOD = PATH_REPO_ROOT / "src" / "tailscale" / "wrapper" / "go.mod"
+PATH_TOOLS_GO_MOD = PATH_REPO_ROOT / "tools" / "go.mod"
+PATH_PRE_COMMIT_CONFIG = PATH_REPO_ROOT / ".pre-commit-config.yaml"
 REQUIRE_RE = re.compile(r"^\s+([\w./@\-]+)\s+(v\S+)", re.MULTILINE)
+
+
+class Hook(TypedDict, total=False):
+    id: str
+    name: str
+    description: str
+    language: str
+    language_version: str
+    entry: str
+    args: list[str]
+    types: list[str]
+    files: str
+    pass_filenames: bool
+    additional_dependencies: list[str]
+
+
+class Repo(TypedDict, total=False):
+    repo: str
+    rev: str
+    hooks: list[Hook]
+
+
+class CiConfig(TypedDict, total=False):
+    skip: list[str]
+
+
+class PreCommitConfig(TypedDict, total=False):
+    ci: CiConfig
+    repos: list[Repo]
 
 
 def parse_go_directive(path: Path) -> str:
@@ -53,62 +86,77 @@ def sync_go_directive(text: str, go_version: str) -> tuple[str, bool]:
     return new, new != text
 
 
-def sync_language_version(text: str, go_version: str) -> tuple[str, bool]:
-    new = re.sub(
-        r"(language_version:\s*)[\d.]+",
-        lambda m: m.group(1) + go_version,
-        text,
-    )
-    return new, new != text
+def golang_hooks(pre_commit_config: PreCommitConfig) -> Iterator[Hook]:
+    """Yield every hook dict whose language is 'golang'."""
+    for repo in pre_commit_config.get("repos", []):
+        for hook in repo.get("hooks", []):
+            if hook.get("language") == "golang":
+                yield hook
 
 
-def sync_additional_deps(text: str, modules: dict[str, str]) -> tuple[str, bool]:
+def sync_language_version(pre_commit_config: PreCommitConfig, go_version: str) -> bool:
+    """Update language_version on all golang hooks. Returns True if anything changed."""
     changed = False
+    for hook in golang_hooks(pre_commit_config):
+        if hook.get("language_version") != go_version:
+            hook["language_version"] = go_version
+            changed = True
+    return changed
 
-    def replace(match: re.Match[str]) -> str:
-        nonlocal changed
-        dep_path, old_ver = match.group(1), match.group(2)
-        new_ver = find_module_version(dep_path, modules)
-        if new_ver is None or new_ver == old_ver:
-            return match.group(0)
-        changed = True
-        return f'"{dep_path}@{new_ver}"'
 
-    new = re.sub(r'"([\w./@\-]+)@(v[^\s"]+)"', replace, text)
-    return new, changed
+def sync_additional_deps(
+    pre_commit_config: PreCommitConfig, modules: dict[str, str]
+) -> bool:
+    """Update additional_dependencies versions on all golang hooks. Returns True if anything changed."""
+    changed = False
+    for hook in golang_hooks(pre_commit_config):
+        additional_deps: list[str] = hook.get("additional_dependencies", [])
+        for i, dep in enumerate(additional_deps):
+            dep_path, old_ver = dep.split("@", 1)
+            new_ver = find_module_version(dep_path, modules)
+            if new_ver is None or new_ver == old_ver:
+                continue
+            additional_deps[i] = f"{dep_path}@{new_ver}"
+            changed = True
+    return changed
 
 
 def main() -> int:
-    go_version = parse_go_directive(WRAPPER_GO_MOD)
-    tool_modules = parse_requires(TOOLS_GO_MOD)
+    go_version = parse_go_directive(PATH_WRAPPER_GO_MOD)
+    tool_modules = parse_requires(PATH_TOOLS_GO_MOD)
 
     any_changed = False
 
     # Sync go directive in tools/go.mod
-    tools_text = TOOLS_GO_MOD.read_text()
+    tools_text = PATH_TOOLS_GO_MOD.read_text()
     new_tools_text, changed = sync_go_directive(tools_text, go_version)
     if changed:
-        _ = TOOLS_GO_MOD.write_text(new_tools_text)
+        _ = PATH_TOOLS_GO_MOD.write_text(new_tools_text)
         print(f"tools/go.mod: updated go directive to {go_version}")
         any_changed = True
 
     # Sync .pre-commit-config.yaml
-    pc_text = PRE_COMMIT_CONFIG.read_text()
-    pc_text, lv_changed = sync_language_version(pc_text, go_version)
-    pc_text, dep_changed = sync_additional_deps(pc_text, tool_modules)
+    yaml = YAML()  # round-trip: preserves comments and formatting
+    yaml.preserve_quotes = True
+    # ruamel.yaml's load() is untyped; cast at the boundary and suppress the warnings.
+    pre_commit_config: PreCommitConfig = yaml.load(PATH_PRE_COMMIT_CONFIG)  # pyright: ignore[reportUnknownMemberType, reportAny]
 
-    if lv_changed:
+    language_version_changed = sync_language_version(pre_commit_config, go_version)
+    dependencies_changed = sync_additional_deps(pre_commit_config, tool_modules)
+
+    if language_version_changed:
         print(f".pre-commit-config.yaml: updated language_version to {go_version}")
         any_changed = True
-    if dep_changed:
+    if dependencies_changed:
         print(".pre-commit-config.yaml: updated additional_dependencies versions")
         any_changed = True
 
-    if lv_changed or dep_changed:
-        _ = PRE_COMMIT_CONFIG.write_text(pc_text)
+    if language_version_changed or dependencies_changed:
+        with PATH_PRE_COMMIT_CONFIG.open("w") as f:
+            yaml.dump(pre_commit_config, f)  # pyright: ignore[reportUnknownMemberType]
 
     if any_changed:
-        print("Files were modified — re-stage and re-commit.")
+        print("Files were modified - re-stage and re-commit.")
         return 1
     return 0
 
