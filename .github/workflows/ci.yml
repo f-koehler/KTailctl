@@ -8,6 +8,54 @@ name: CI
     branches:
       - main
 jobs:
+  git_hooks:
+    name: Git hooks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          submodules: true
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: src/tailscale/wrapper/go.mod
+          cache-dependency-path: src/tailscale/wrapper/go.sum
+      - name: Add Kitware CMake repository
+        run: |
+          KEYRING=/usr/share/keyrings/kitware-archive-keyring.gpg
+          wget -qO - https://apt.kitware.com/keys/kitware-archive-latest.asc \
+            | gpg --dearmor - \
+            | sudo tee "${KEYRING}" >/dev/null
+          echo "deb [signed-by=${KEYRING}]" \
+            "https://apt.kitware.com/ubuntu/ noble main" \
+            | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
+      - name: Add KDE Neon repository
+        run: |
+          KEYRING=/usr/share/keyrings/neon.gpg
+          wget -qO - 'https://archive.neon.kde.org/public.key' \
+            | gpg --dearmor - \
+            | sudo tee "${KEYRING}" >/dev/null
+          echo "deb [signed-by=${KEYRING}]" \
+            "http://archive.neon.kde.org/user noble main" \
+            | sudo tee /etc/apt/sources.list.d/neon.list >/dev/null
+      - name: Update apt cache
+        run: sudo apt-get update -yq
+      - name: Install dependencies
+        run: sudo ./scripts/neon-deps.sh
+      - name: Vendor Go dependencies
+        run: go mod vendor
+        working-directory: src/tailscale/wrapper
+      - name: Configure
+        run: |
+          cmake -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DKTAILCTL_ENABLE_TESTS=OFF \
+            -DKTAILCTL_FLATPAK_BUILD=OFF
+      - name: Build
+        run: cmake --build build --parallel
+      - name: Run git hooks
+        uses: j178/prek-action@v2
   flatpak_build:
     name: Flatpak Build
     runs-on: ubuntu-latest
@@ -114,6 +162,7 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     needs:
+      - git_hooks
       - flatpak_build
       - native_build
     permissions:
