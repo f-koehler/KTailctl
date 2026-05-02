@@ -1,17 +1,17 @@
 #ifndef KTAILCTL_CLIENT_VERSION_HPP
 #define KTAILCTL_CLIENT_VERSION_HPP
 
-#include <QBindable>
 #include <QJsonObject>
 #include <QObject>
 #include <QProperty>
 #include <QString>
-#include <QUrl>
+#include <QtQmlIntegration/qqmlintegration.h>
 
 // https://pkg.go.dev/tailscale.com@v1.92.1/tailcfg#ClientVersion
 class ClientVersion : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
 
     Q_PROPERTY(bool runningLatest READ runningLatest BINDABLE bindableRunningLatest)
     Q_PROPERTY(QString latestVersion READ latestVersion BINDABLE bindableLatestVersion)

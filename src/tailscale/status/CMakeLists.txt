@@ -23,4 +23,4 @@ target_sources(
           mullvad_exit_node_model.hpp mullvad_exit_node_model.cpp
           self_hosted_exit_node_model.hpp self_hosted_exit_node_model.cpp
           ${CMAKE_CURRENT_BINARY_DIR}/logging_tailscale_status.cpp)
-target_include_directories(ktailctl PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(ktailctl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})

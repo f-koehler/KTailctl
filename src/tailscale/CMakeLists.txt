@@ -14,4 +14,4 @@ ecm_qt_declare_logging_category(
   Info)
 
 target_sources(ktailctl PRIVATE tailscale.hpp tailscale.cpp ${CMAKE_CURRENT_BINARY_DIR}/logging_tailscale.cpp)
-target_include_directories(ktailctl PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(ktailctl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})

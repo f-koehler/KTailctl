@@ -1,8 +1,6 @@
 #ifndef KTAILCTL_STATUS_HPP
 #define KTAILCTL_STATUS_HPP
 
-#include "logging_tailscale_status.hpp"
-
 #include "client_version.hpp"
 #include "exit_node_status.hpp"
 #include "mullvad_exit_node_model.hpp"
@@ -11,20 +9,28 @@
 #include "self_hosted_exit_node_model.hpp"
 #include "tailnet_status.hpp"
 #include "user_profile.hpp"
-
-#include <QJsonObject>
 #include <QMap>
 #include <QMutex>
 #include <QObject>
 #include <QString>
+#include <QtQmlIntegration/qqmlintegration.h>
+
+class PeerModel : public PropertyListModel<PeerStatus, PropertyListModelOwnership::External>
+{
+    Q_OBJECT
+    QML_ANONYMOUS
+public:
+    using PropertyListModel::PropertyListModel;
+};
 
 // https://pkg.go.dev/tailscale.com/ipn/ipnstate#Status
 class Status : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
 
 public:
-    using PeerModel = PropertyListModel<PeerStatus, PropertyListModelOwnership::External>;
+    using PeerModel = ::PeerModel;
 
     enum class BackendState : uint8_t {
         NoState,

@@ -5,10 +5,12 @@
 #include <QJsonObject>
 #include <QObject>
 #include <QString>
+#include <QtQmlIntegration/qqmlintegration.h>
 
 class UserProfile : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
     Q_PROPERTY(qint64 userId READ userId BINDABLE bindableUserId)
     Q_PROPERTY(QString loginName READ loginName BINDABLE bindableLoginName)
     Q_PROPERTY(QString displayName READ displayName BINDABLE bindableDisplayName)

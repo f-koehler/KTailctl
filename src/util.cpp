@@ -1,4 +1,6 @@
 #include "util.hpp"
+#include <KSystemClipboard>
+#include <QMimeData>
 
 QString Util::formatDurationHumanReadable(const QDateTime &dateTime)
 {

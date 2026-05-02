@@ -6,7 +6,6 @@
 #include "ktailctl_config.h"
 #include "libktailctl_wrapper.h"
 #include "logging_tailscale_preferences.hpp"
-
 #include <QJsonObject>
 #include <QMutex>
 #include <QObject>
@@ -14,11 +13,13 @@
 #include <QString>
 #include <QTimer>
 #include <QVariant>
+#include <QtQmlIntegration/qqmlintegration.h>
 
 // https://pkg.go.dev/tailscale.com/ipn#Prefs
 class Preferences : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
 
 public:
     enum class NetfilterMode : uint8_t {

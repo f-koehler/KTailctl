@@ -1,10 +1,4 @@
 #include "ktailctl_config.h"
-#include "tailscale/preferences/preferences.hpp"
-#include "tailscale/status/client_version.hpp"
-#include "tailscale/status/exit_node_status.hpp"
-#include "tailscale/status/peer_status.hpp"
-#include "tailscale/status/status.hpp"
-#include "tailscale/status/tailnet_status.hpp"
 #include "tailscale/tailscale.hpp"
 #include "tray_icon/tray_icon.hpp"
 #include "tray_icon_themes.hpp"
@@ -50,33 +44,27 @@ int main(int argc, char *argv[])
     KAboutData::setApplicationData(aboutData);
     const KDBusService service(KDBusService::Unique);
 
-    QQmlApplicationEngine engine;
-    qmlRegisterType<ClientVersion>("org.fkoehler.KTailctl", 1, 0, "ClientVersion");
-    qmlRegisterType<ExitNodeStatus>("org.fkoehler.KTailctl", 1, 0, "ExitNodeStatus");
-    qmlRegisterType<Location>("org.fkoehler.KTailctl", 1, 0, "Location");
-    qmlRegisterType<LoginProfile>("org.fkoehler.KTailctl", 1, 0, "LoginProfile");
-    qmlRegisterType<NetworkProfile>("org.fkoehler.KTailctl", 1, 0, "NetworkProfile");
-    qmlRegisterType<PeerStatus>("org.fkoehler.KTailctl", 1, 0, "PeerStatus");
-    qmlRegisterType<Tailscale::LoginProfileModel>("org.fkoehler.KTailctl", 1, 0, "LoginProfileModel");
-    qmlRegisterType<Status::PeerModel>("org.fkoehler.KTailctl", 1, 0, "PeerModel");
-    qmlRegisterType<Status>("org.fkoehler.KTailctl", 1, 0, "Status");
-    qmlRegisterType<Preferences>("org.fkoehler.KTailctl", 1, 0, "Preferences");
-    qmlRegisterType<TailnetStatus>("org.fkoehler.KTailctl", 1, 0, "TailnetStatus");
-    qmlRegisterType<UserProfile>("org.fkoehler.KTailctl", 1, 0, "UserProfile");
-
     auto *tailscale = new Tailscale();
+    Tailscale::setQmlInstance(tailscale);
     auto *util = new Util();
+    Util::setQmlInstance(util);
     auto *tray_icon_themes = new TrayIconThemes();
-    qmlRegisterSingletonType("org.fkoehler.KTailctl", 1, 0, "About", [](QQmlEngine *engine, QJSEngine *) -> QJSValue {
+    TrayIconThemes::setQmlInstance(tray_icon_themes);
+
+    // Forward-declared here; defined in the generated ktailctl_qmltyperegistrations.cpp.
+    // Called explicitly because QQmlModuleRegistration's lazy-callback is not reliably
+    // triggered when the module is loaded from a file-system qmldir without a plugin line.
+    void qml_register_types_org_fkoehler_KTailctl();
+    qml_register_types_org_fkoehler_KTailctl();
+
+    QQmlApplicationEngine engine;
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 254, 0, "Config", Config::self());
+    qmlRegisterSingletonType("org.fkoehler.KTailctl", 254, 0, "About", [](QQmlEngine *engine, QJSEngine *) -> QJSValue {
         return engine->toScriptValue(KAboutData::applicationData());
     });
-    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Tailscale", tailscale);
-    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Util", util);
-    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "Config", Config::self());
-    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 1, 0, "TrayIconThemes", tray_icon_themes);
 
     engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
-    engine.load(QStringLiteral("qrc:/Main.qml"));
+    engine.loadFromModule("org.fkoehler.KTailctl", "Main");
     if (engine.rootObjects().isEmpty()) {
         return -1;
     }

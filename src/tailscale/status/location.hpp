@@ -5,10 +5,12 @@
 #include <QObject>
 #include <QProperty>
 #include <QString>
+#include <QtQmlIntegration/qqmlintegration.h>
 
 class Location : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
 
     Q_PROPERTY(QString country READ country BINDABLE bindableCountry)
     Q_PROPERTY(QString countryCode READ countryCode BINDABLE bindableCountryCode)

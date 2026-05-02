@@ -1,22 +1,39 @@
 #ifndef KTAILCTL_TAILSCALE_HPP
 #define KTAILCTL_TAILSCALE_HPP
 
-#include <QBindable>
-#include <QMap>
-#include <QMutex>
-#include <QObject>
-
 #include "preferences/preferences.hpp"
 #include "property_list_model.hpp"
 #include "status/login_profile.hpp"
 #include "status/status.hpp"
+#include <QQmlEngine>
+#include <QtQmlIntegration/qqmlintegration.h>
+
+class LoginProfileModel : public PropertyListModel<LoginProfile, PropertyListModelOwnership::External>
+{
+    Q_OBJECT
+    QML_ANONYMOUS
+public:
+    using PropertyListModel::PropertyListModel;
+};
 
 class Tailscale : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
 
 public:
-    using LoginProfileModel = PropertyListModel<LoginProfile, PropertyListModelOwnership::External>;
+    using LoginProfileModel = ::LoginProfileModel;
+
+    inline static Tailscale *s_instance = nullptr;
+    static Tailscale *create(QQmlEngine *, QJSEngine *)
+    {
+        return s_instance;
+    }
+    static void setQmlInstance(Tailscale *instance)
+    {
+        s_instance = instance;
+    }
 
     Q_PROPERTY(Status *status READ status CONSTANT)
     Q_PROPERTY(Preferences *preferences READ preferences CONSTANT)

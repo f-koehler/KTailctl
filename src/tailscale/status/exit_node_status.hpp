@@ -6,11 +6,13 @@
 #include <QProperty>
 #include <QString>
 #include <QStringList>
+#include <QtQmlIntegration/qqmlintegration.h>
 
 // https://pkg.go.dev/tailscale.com/ipn/ipnstate#ExitNodeStatus
 class ExitNodeStatus : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
     Q_PROPERTY(QString id READ id BINDABLE bindableId)
     Q_PROPERTY(bool isOnline READ isOnline BINDABLE bindableIsOnline)
     Q_PROPERTY(QStringList tailscaleIps READ tailscaleIps BINDABLE bindableTailscaleIps)

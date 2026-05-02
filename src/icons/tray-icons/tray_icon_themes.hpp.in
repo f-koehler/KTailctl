@@ -1,10 +1,12 @@
 #ifndef KTAILCTL_ICONS_TRAY_ICONS_TRAY_ICON_THEMES_HPP
 #define KTAILCTL_ICONS_TRAY_ICONS_TRAY_ICON_THEMES_HPP
 
-#include <QStringList>
-#include <QObject>
-#include <QBindable>
 #include "ktailctl_config.h"
+#include <QBindable>
+#include <QObject>
+#include <QQmlEngine>
+#include <QStringList>
+#include <QtQmlIntegration/qqmlintegration.h>
 
 static const QStringList TrayIconThemesList = {
 @KTAILCTL_TRAY_ICON_THEMES_LITERAL_LIST@
@@ -12,6 +14,8 @@ static const QStringList TrayIconThemesList = {
 
 class TrayIconThemes : public QObject {
   Q_OBJECT
+  QML_ELEMENT
+  QML_SINGLETON
   Q_PROPERTY(QStringList themes READ themes CONSTANT)
   Q_PROPERTY(qsizetype currentIndex READ currentIndex WRITE setCurrentIndex BINDABLE bindableCurrentIndex)
 
@@ -19,6 +23,10 @@ class TrayIconThemes : public QObject {
     QProperty<qsizetype> mCurrentIndex;
 
   public:
+    inline static TrayIconThemes *s_instance = nullptr;
+    static TrayIconThemes *create(QQmlEngine *, QJSEngine *) { return s_instance; }
+    static void setQmlInstance(TrayIconThemes *instance) { s_instance = instance; }
+
     explicit TrayIconThemes(QObject* parent = nullptr) : QObject(parent) {
       mCurrentIndex = TrayIconThemesList.indexOf(Config::trayIconTheme());
       connect(Config::self(), &Config::trayIconThemeChanged, [this](){

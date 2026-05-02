@@ -3,12 +3,13 @@
 
 #include "network_profile.hpp"
 #include "user_profile.hpp"
-
 #include <QObject>
+#include <QtQmlIntegration/qqmlintegration.h>
 
 class LoginProfile : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
     Q_PROPERTY(QString id READ id BINDABLE bindableId)
     Q_PROPERTY(QString name READ name BINDABLE bindableName)
     Q_PROPERTY(NetworkProfile *networkProfile READ networkProfile CONSTANT)

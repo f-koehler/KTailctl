@@ -4,10 +4,12 @@
 #include <QJsonObject>
 #include <QObject>
 #include <QProperty>
+#include <QtQmlIntegration/qqmlintegration.h>
 
 class NetworkProfile : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
     Q_PROPERTY(QString magicDnsName READ magicDnsName BINDABLE bindableMagicDnsName)
     Q_PROPERTY(QString domainName READ domainName BINDABLE bindableDomainName)
     Q_PROPERTY(QString displayName READ displayName BINDABLE bindableDisplayName)

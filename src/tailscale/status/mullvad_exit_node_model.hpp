@@ -5,13 +5,14 @@
 #include "logging_tailscale_status.hpp"
 #include "peer_status.hpp"
 #include "property_list_model.hpp"
-
 #include <QSortFilterProxyModel>
+#include <QtQmlIntegration/qqmlintegration.h>
 #include <qloggingcategory.h>
 
 class MullvadExitNodeModel : public QSortFilterProxyModel
 {
     Q_OBJECT
+    QML_ANONYMOUS
 
     int mRoleIndexMullvadNode = -1;
     int mRoleIndexDnsName = -1;

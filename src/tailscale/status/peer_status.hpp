@@ -2,18 +2,20 @@
 #define KTAILCTL_PEER_STATUS_HPP
 
 #include "location.hpp"
-
 #include <QBindable>
 #include <QDateTime>
 #include <QObject>
 #include <QString>
 #include <QStringList>
+#include <QtQmlIntegration/qqmlintegration.h>
 
 // https://pkg.go.dev/tailscale.com/ipn/ipnstate#PeerStatus
 class PeerStatus : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
 
+public:
     enum class TaildropTargetStatus : uint8_t {
         Unknown,
         Available,

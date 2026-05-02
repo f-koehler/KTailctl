@@ -1,15 +1,16 @@
 #ifndef KTAILCTL_TAILNET_STATUS_HPP
 #define KTAILCTL_TAILNET_STATUS_HPP
 
-#include <QBindable>
 #include <QJsonObject>
 #include <QObject>
 #include <QProperty>
 #include <QString>
+#include <QtQmlIntegration/qqmlintegration.h>
 
 class TailnetStatus : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
     Q_PROPERTY(QString name READ name BINDABLE bindableName)
     Q_PROPERTY(QString magicDnsSuffix READ magicDnsSuffix BINDABLE bindableMagicDnsSuffix)
     Q_PROPERTY(bool magicDnsEnabled READ magicDnsEnabled BINDABLE bindableMagicDnsEnabled)
