@@ -13,7 +13,7 @@ add_executable(ktailctl property_list_model.hpp main.cpp
         util.hpp util.cpp
         tailscale/preferences/app_connector.hpp
 )
-target_link_libraries(ktailctl PRIVATE Qt6::Core Qt6::Quick Qt6::Widgets KF6::CoreAddons KF6::I18n KF6::DBusAddons KF6::GuiAddons)
+target_link_libraries(ktailctl PRIVATE Qt6::Core Qt6::Quick Qt6::Widgets Qt6::Qml KF6::CoreAddons KF6::I18n KF6::DBusAddons KF6::GuiAddons)
 ecm_add_qml_module(ktailctl URI org.fkoehler.KTailctl GENERATE_PLUGIN_SOURCE)
 ecm_target_qml_sources(ktailctl SOURCES ui/Main.qml)
 install(TARGETS ktailctl ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})

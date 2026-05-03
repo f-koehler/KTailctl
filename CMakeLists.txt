@@ -51,7 +51,7 @@ find_package(
   Qt6 ${QT6_MIN_VERSION} REQUIRED
   COMPONENTS Core
              Gui
-             # Qml
+             Qml
              Quick
              QuickControls2
              Svg
