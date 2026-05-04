@@ -16,6 +16,7 @@ function(add_ktailctl_test NAME)
         ${CMAKE_BINARY_DIR}/src/tailscale/preferences
         ${CMAKE_BINARY_DIR}/lib
     )
+  add_dependencies(${NAME} ktailctl_wrapper_target)
   add_test(NAME ${NAME} COMMAND ${NAME})
 endfunction()
 
