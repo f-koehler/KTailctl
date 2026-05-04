@@ -1,6 +1,6 @@
 #include "tray_menu_peers.hpp"
 #include "logging_tray_icon.hpp"
-#include <qhashfunctions.h>
+#include <QIcon>
 
 TrayMenuPeers::TrayMenuPeers(Tailscale *tailscale, QWidget *parent)
     : QMenu(QStringLiteral("Peers"), parent)
@@ -11,6 +11,7 @@ TrayMenuPeers::TrayMenuPeers(Tailscale *tailscale, QWidget *parent)
     , mRoleIndexDnsName(tailscale->status()->peerModel()->roleIndexForProperty("dnsName"))
     , mRoleIndexTailscaleIps(tailscale->status()->peerModel()->roleIndexForProperty("tailscaleIps"))
 {
+    setIcon(QIcon::fromTheme(QStringLiteral("distribute-graph-directed")));
     if (mRoleIndexHostName == -1) {
         qCCritical(Logging::TrayIcon) << "Failed to find role index for hostName";
         mRoleIndicesFound = false;
