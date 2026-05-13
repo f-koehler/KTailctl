@@ -136,7 +136,7 @@ repos:
         args: [--strict]
         exclude: '\.clang-format$'
   - repo: https://github.com/DetachHead/basedpyright-prek-mirror
-    rev: "1.39.3"
+    rev: "1.39.4"
     hooks:
       - id: basedpyright
   - repo: https://github.com/rhysd/actionlint
