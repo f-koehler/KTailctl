@@ -26,23 +26,27 @@
   <screenshots>
     <screenshot type="default">
       <image>https://raw.githubusercontent.com/f-koehler/KTailctl/main/screenshots/peerlist.png</image>
-      <caption>Tailscale peer list</caption>
+      <caption xml:lang="en-US">Tailscale peer list</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/f-koehler/KTailctl/main/screenshots/peerdetails.png</image>
-      <caption>Detailed peer information</caption>
+      <image>https://raw.githubusercontent.com/f-koehler/KTailctl/main/screenshots/peerlist-details.png</image>
+      <caption xml:lang="en-US">Tailscale peer list with selected peer details</caption>
     </screenshot>
     <screenshot>
       <image>https://raw.githubusercontent.com/f-koehler/KTailctl/main/screenshots/exitnodes.png</image>
-      <caption>Exit node management</caption>
+      <caption xml:lang="en-US">Exit node list</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/f-koehler/KTailctl/main/screenshots/mullvadnodes.png</image>
-      <caption>Mullvad exit node selection</caption>
+      <image>https://raw.githubusercontent.com/f-koehler/KTailctl/main/screenshots/exitnodes-details.png</image>
+      <caption xml:lang="en-US">Exit node list with selected node details</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/f-koehler/KTailctl/main/screenshots/loginprofiles.png</image>
+      <caption xml:lang="en-US">Login profile list for multi-account support</caption>
     </screenshot>
     <screenshot>
       <image>https://raw.githubusercontent.com/f-koehler/KTailctl/main/screenshots/settings.png</image>
-      <caption>Management of app and Tailscale settings</caption>
+      <caption xml:lang="en-US">Settings page showing app and Tailscale settings</caption>
     </screenshot>
   </screenshots>
   <releases>
