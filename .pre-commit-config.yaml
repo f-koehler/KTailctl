@@ -78,7 +78,7 @@ repos:
         types: [go]
         files: ^src/tailscale/wrapper/
         additional_dependencies:
-          - "golang.org/x/tools/cmd/goimports@v0.44.0"
+          - "golang.org/x/tools/cmd/goimports@v0.45.0"
       - id: gosec
         name: gosec
         language: golang
@@ -88,7 +88,7 @@ repos:
         pass_filenames: false
         files: ^src/tailscale/wrapper/
         additional_dependencies:
-          - "github.com/securego/gosec/v2/cmd/gosec@v2.25.0"
+          - "github.com/securego/gosec/v2/cmd/gosec@v2.26.1"
       - id: gocritic
         name: go-critic
         language: golang
