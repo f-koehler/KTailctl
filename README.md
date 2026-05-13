@@ -1,108 +1,137 @@
 # KTailctl
 
-> [!NOTE]
-> KTailctl is currently undergoing a big refactoring and redesign to make it more maintainable, efficient and modern looking. This effort is already quite advanced but will still take some time to complete. During this time, there will not be a lot of activity on the `main` branch.
-
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/f-koehler/KTailctl/ci.yml)](https://github.com/f-koehler/KTailctl/actions/workflows/ci.yml)
 [![GitHub](https://img.shields.io/github/license/f-koehler/KTailctl)](https://github.com/f-koehler/KTailctl)
+[![Flathub](https://img.shields.io/flathub/downloads/org.fkoehler.KTailctl)](https://flathub.org/apps/org.fkoehler.KTailctl)
 
-A GUI to monitor and manage Tailscale on your Linux desktop, built using KDE Frameworks and Kirigami2.
+KTailctl is a GUI for monitoring and managing [Tailscale](https://tailscale.com) on Linux, built with KDE Frameworks and Kirigami. It provides a native KDE experience for controlling your Tailscale network, including a system tray icon for quick access.
 
-> :warning: To get the most out of KTailctl (sending/receiving files, changing Tailscale settings, …) make sure you are the operator `tailscale up --operator=$USER`!
+[![Get it on Flathub](https://dl.flathub.org/assets/badges/flathub-badge-en.svg)](https://flathub.org/apps/org.fkoehler.KTailctl)
 
-[![Flathub](https://dl.flathub.org/assets/badges/flathub-badge-en.svg)](https://flathub.org/apps/org.fkoehler.KTailctl)
-
-![Tailscale peer list in KTailctl](https://raw.githubusercontent.com/f-koehler/KTailctl/main/screenshots/peerlist.png)
+![Peer list view](./screenshots/peerlist-details.png)
 
 ## Features
 
-- [x] Monitoring of tailscale status
-- [x] Monitoring of total traffic
-- [x] Monitoring of traffic per peer
-- [x] Detailed peer information
-- [x] Tray menu for quick access
-- [x] Copying of IP addresses/DNS name
-- [ ] Speed graphs
-- [ ] Pinging of peers
-- [x] Exit node management
-- [x] Toggle tailscale status
-- [x] Sending files
-- [x] Receiving files
-- [ ] Notification on tailscale status change
-- [ ] Notification on peer addition/removal
-- [x] Flatpak
-- [ ] Localization
+### Implemented
 
-## Development
+- View and monitor all peers on your Tailscale network
+- Detailed node information (node ID, public key, DNS name, IP addresses, OS, location)
+- Peer tags display with filtering (include/exclude by tag)
+- Peer filtering by online status, Mullvad membership, DNS name, and tags
+- Copy IP addresses, DNS names, public keys, and node IDs to clipboard
+- Multi-account support with login profile switching
+- Exit node management, including Mullvad VPN exit nodes with country flags
+- Suggested and last-used exit node selection
+- System tray icon with rich sub-menus (peers, accounts, exit nodes, self)
+- Configurable tray icon themes
+- Toggle Tailscale on/off from tray or sidebar
+- Configurable Tailscale preferences: hostname, SSH server, shields-up mode, DNS, routing, LAN access, stateful filtering, netfilter mode, posture checking, web management interface, and more
+- Primary routes display per peer
+- Adjustable refresh interval and startup behavior
 
-### Setup
+### Planned
 
-#### NixOS
+These features are planned for the future (no particular order):
 
-Make sure thate flake support is enabled (see [NixOS Wiki on Flakes](https://nixos.wiki/wiki/Flakes)).
-All required dependencies will be made availabe by entering the devshell via `nix develop --no-pure-eval`.
-This can be achieved automatically when using `direnv` with `direnv allow`.
+- Speed graphs
+- Internationalization support
+- Ping peers from the UI
+- Notifications on Tailscale status changes and peer additions/removals
+- Taildrop file sending/receiving
+
+> **Note:** To enable Tailscale preference changes and certain actions, register yourself as the operator first: `tailscale up --operator=$USER`
+
+## Screenshots
+
+| Peer List | Peer Details | Settings |
+|-----------|-------------|----------|
+| ![Peer list](./screenshots/peerlist.png) | ![Peer list with details](./screenshots/peerlist-details.png) | ![Settings](./screenshots/settings.png) |
+
+| Exit Nodes | Exit Node Details | Login Profiles |
+|------------|-------------------|----------------|
+| ![Exit nodes](./screenshots/exitnodes.png) | ![Exit nodes with details](./screenshots/exitnodes-details.png) | ![Login profiles](./screenshots/loginprofiles.png) |
+
+## Installation
+
+### Flatpak (recommended)
+
+The easiest way to install KTailctl is via Flathub:
+
+```shell
+flatpak install flathub org.fkoehler.KTailctl
+```
+
+### Distribution packages
+
+Distribution packages may be available for your distro - check your package manager for `ktailctl`. Please find below an automatically generated list of community build packages:
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/ktailctl.svg)](https://repology.org/project/ktailctl/versions)
+
+## Building from source
+
+### Prerequisites
+
+KTailctl requires **CMake 3.31+**, **Qt 6.10+**, **KDE Frameworks 6.24+**, **Go 1.26+**, and a **C++23** capable compiler.
 
 #### Fedora
 
-Install required packages via
+Run the provided script to install all required packages:
 
 ```shell
-sudo dnf install \
-  cmake \
-  extra-cmake-modules \
-  gcc-c++ \
-  golang \
-  json-devel \
-  kf6-breeze-icons-devel \
-  kf6-kconfig-devel \
-  kf6-kcoreaddons-devel \
-  kf6-kdbusaddons-devel \
-  kf6-kguiaddons-devel \
-  kf6-ki18n-devel \
-  kf6-kirigami-addons-devel \
-  kf6-kirigami-devel \
-  kf6-knotifications-devel \
-  kf6-kwindowsystem-devel \
-  kf6-qqc2-desktop-style \
-  qt6-qtbase-devel \
-  qt6-qtdeclarative-devel \
-  qt6-qtsvg-devel
+sudo bash scripts/fedora-deps.sh
 ```
 
-### Compiling KTailctl
+This installs via `dnf`: Go, C++ linting tools (clang-tidy, clazy, ...), Qt 6 development packages, and the required KDE Frameworks 6 development packages. See the script for the exact, up-to-date package list.
 
-1. Vendor go modules
+#### KDE Neon
+
+Add the KDE Neon apt repository and install dependencies:
 
 ```shell
-pushd src/wrapper
-go mod vendor
-popd
+sudo bash scripts/add-neon-apt-repo.sh
+sudo bash scripts/neon-deps.sh
 ```
 
-2. Configure with CMake
+This installs via `apt`: a C++ build toolchain (cmake, ninja, clang, ...), Qt 6 development packages, and the required KDE Frameworks 6 development packages. See the script for the exact, up-to-date package list.
+
+Go must be installed separately on KDE Neon (e.g. via `snap install go --classic`).
+
+### Compile
+
+1. Configure with CMake:
+
+   ```shell
+   cmake -B build
+   ```
+
+   Go modules are vendored automatically during the build. To have CMake download the Go toolchain for you, add `-DKTAILCTL_FETCH_GO=ON`.
+
+2. Build:
+
+   ```shell
+   cmake --build build --parallel $(nproc)
+   ```
+
+3. Run:
+
+   ```shell
+   ./build/bin/ktailctl
+   ```
+
+### Building the Flatpak locally
+
+Install the required Flatpak runtimes and tools:
 
 ```shell
-cmake -Bbuild
+bash scripts/flatpak-deps.sh
 ```
 
-3. Compile with CMake (change 16 to the number of thread you want to use)
+This sets up the Flathub remote, installs the KDE SDK/Platform (6.10), the Go SDK extension, and `org.flatpak.Builder`. Then build with:
 
 ```shell
-cmake --build build --parallel 16
+flatpak run org.flatpak.Builder --user --install --force-clean build-dir org.fkoehler.KTailctl.yml
 ```
 
-4. Run binary
+## License
 
-```shell
-./build/bin/ktailctl
-```
-
-### Create a release
-
-1. Create a changelog file `changelog/vX.Y.Z.md`.
-2. Add a new release to `org.fkoehler.ktailctl.metainfo.xml`.
-3. Update the version in `CMakeLists.txt`
-4. Create a commit called `Release vX.Y.Z.`.
-5. Create a tag from changelog: `git tag -s -F changelog/vX.Y.Z.md vX.Y.Z`.
-6. Push tag: `git push origin vX.Y.Z`.
+KTailctl is licensed under the [GPL-3.0](LICENSE).
