@@ -54,7 +54,7 @@ FormCard.FormCardPage {
         }
         FormCard.FormSpinBoxDelegate {
             id: spinRefreshInterval
-            label: "Refresh interval"
+            label: "Refresh interval (ms)"
             value: KTailctl.Config.refreshInterval
             from: 100
             to: 30000
@@ -107,8 +107,11 @@ FormCard.FormCardPage {
     }
     FormCard.FormCard {
         FormCard.FormSwitchDelegate {
+            id: switchRouteAll
             enabled: page.isOperator
             text: "Accept routes"
+            checked: KTailctl.Tailscale.preferences.routeAll
+            onCheckedChanged: KTailctl.Tailscale.preferences.routeAll = switchRouteAll.checked
         }
         FormCard.FormSwitchDelegate {
             id: switchAllowLanAccess
@@ -118,17 +121,25 @@ FormCard.FormCardPage {
             onCheckedChanged: KTailctl.Tailscale.preferences.exitNodeAllowLanAccess = switchAllowLanAccess.checked
         }
         FormCard.FormSwitchDelegate {
-            enabled: page.isOperator
-            text: "Advertise app connector"
-        }
-        FormCard.FormSwitchDelegate {
+            id: switchStatefulFiltering
             enabled: page.isOperator
             text: "Stateful filtering"
+            checked: !KTailctl.Tailscale.preferences.noStatefulFiltering
+            onCheckedChanged: KTailctl.Tailscale.preferences.noStatefulFiltering = !switchStatefulFiltering.checked
         }
         FormCard.FormComboBoxDelegate {
+            id: comboNetfilterMode
             enabled: page.isOperator
             text: "Netfilter mode"
-            model: ["On", "Off", "Divert"]
+            model: ["Off", "No Divert", "On"]
+            currentIndex: KTailctl.Tailscale.preferences.netfilterMode
+            onActivated: KTailctl.Tailscale.preferences.setNetfilterMode(currentIndex)
+        }
+        FormCard.FormSwitchDelegate {
+            id: switchAdvertiseAppConnector
+            text: "Advertise app connector"
+            enabled: false
+            checked: KTailctl.Tailscale.preferences.appConnectorPreferences.advertise
         }
     }
 
@@ -137,54 +148,57 @@ FormCard.FormCardPage {
     }
     FormCard.FormCard {
         FormCard.FormSwitchDelegate {
+            id: switchPostureChecking
             enabled: page.isOperator
             text: "Report device posture"
+            checked: KTailctl.Tailscale.preferences.postureChecking
+            onCheckedChanged: KTailctl.Tailscale.preferences.postureChecking = switchPostureChecking.checked
         }
         FormCard.FormSwitchDelegate {
+            id: switchRunWebClient
             enabled: page.isOperator
-            text: "Enable management web interface"
+            text: "Management web interface"
+            checked: KTailctl.Tailscale.preferences.runWebClient
+            onCheckedChanged: KTailctl.Tailscale.preferences.runWebClient = switchRunWebClient.checked
         }
         FormCard.FormLinkDelegate {
-            url: "localhost:5252"
-            text: "Go to management web interface (localhost:5252)"
+            url: "http://localhost:5252"
+            text: "Open management web interface"
+            visible: KTailctl.Tailscale.preferences.runWebClient
         }
         FormCard.FormSwitchDelegate {
-            enabled: page.isOperator
+            id: switchAutoUpdateCheck
             text: "Automatic update check"
+            enabled: false
+            checked: KTailctl.Tailscale.preferences.autoUpdate.check
         }
         FormCard.FormSwitchDelegate {
-            enabled: page.isOperator
+            id: switchAutoUpdate
             text: "Automatic updates"
+            enabled: false
+            checked: KTailctl.Tailscale.preferences.autoUpdate.apply
         }
     }
 
     FormCard.FormHeader {
         title: "Relay Server"
+        visible: KTailctl.Tailscale.preferences.relayServerPort > 0 || KTailctl.Tailscale.preferences.relayServerStaticEndpoints.length > 0
     }
     FormCard.FormCard {
+        visible: KTailctl.Tailscale.preferences.relayServerPort > 0 || KTailctl.Tailscale.preferences.relayServerStaticEndpoints.length > 0
+
         FormCard.FormSpinBoxDelegate {
-            enabled: page.isOperator
             label: "Relay server port"
+            enabled: false
+            value: KTailctl.Tailscale.preferences.relayServerPort
+            from: 0
+            to: 65535
         }
         Repeater {
-            model: ["[2001:db8::1]:40000", "192.0.2.1:40000"]
-            FormCard.FormButtonDelegate {
-                enabled: page.isOperator
+            model: KTailctl.Tailscale.preferences.relayServerStaticEndpoints
+            FormCard.FormTextDelegate {
                 text: modelData
-                trailingLogo.source: "remove"
             }
         }
-        FormCard.FormTextFieldDelegate {
-            enabled: page.isOperator
-            label: "Add new: "
-        }
     }
-
-    // TODO: advertise routes
-    // TODO: relay server endpoints and port
-    // snat subnet routes
-
-    // TODO: add to current loginprofile: FormCard.FormTextFieldDelegate {
-    //     label: "Account Nickname"
-    // }
 }
