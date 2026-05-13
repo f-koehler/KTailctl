@@ -1,9 +1,11 @@
 #ifndef KTAILCTL_TRAY_MENU_ACCOUNTS_HPP
 #define KTAILCTL_TRAY_MENU_ACCOUNTS_HPP
-#include "logging_tray_icon.hpp"
-#include "tailscale.hpp"
+
+#include "tailscale/tailscale.hpp"
+#include <QIcon>
+#include <QMap>
 #include <QMenu>
-#include <QModelIndex>
+#include <QNetworkAccessManager>
 
 class TrayMenuAccounts : public QMenu
 {
@@ -11,36 +13,18 @@ class TrayMenuAccounts : public QMenu
 
     Tailscale *mTailscale;
     bool mRoleIndicesFound = false;
-    int mRoleIndexName = -1;
+    const int mRoleIndexId = -1;
+    const int mRoleIndexName = -1;
+    QNetworkAccessManager *mNetworkManager;
+    QMap<QString, QIcon> mAvatarCache;
+
+    void fetchAvatar(const QString &url);
 
 public:
-    explicit TrayMenuAccounts(Tailscale *tailscale, QWidget *parent = nullptr)
-        : QMenu(QStringLiteral("Accounts"), parent)
-        , mTailscale(tailscale)
-        , mRoleIndexName(tailscale->loginProfileModel()->roleIndexForProperty("name"))
-    {
-        setIcon(QIcon::fromTheme(QStringLiteral("config-users")));
-        if (mRoleIndexName == -1) {
-            qCCritical(Logging::TrayIcon) << "Failed to find role index for name";
-            mRoleIndicesFound = false;
-        }
+    explicit TrayMenuAccounts(Tailscale *tailscale, QWidget *parent = nullptr);
 
-        connect(this, &QMenu::aboutToShow, this, &TrayMenuAccounts::rebuildMenu);
-    }
-
-    void rebuildMenu()
-    {
-        clear();
-        if (!mRoleIndicesFound) {
-            return;
-        }
-        const int rows = mTailscale->loginProfileModel()->rowCount(QModelIndex{});
-        for (int row = 0; row < rows; ++row) {
-            const QModelIndex index = mTailscale->loginProfileModel()->index(row, 0);
-            QAction *action = addAction(mTailscale->loginProfileModel()->data(index, mRoleIndexName).toString());
-            action->setCheckable(true);
-        }
-    }
+public Q_SLOTS:
+    Q_INVOKABLE void rebuildMenu();
 };
 
 #endif // KTAILCTL_TRAY_MENU_ACCOUNTS_HPP

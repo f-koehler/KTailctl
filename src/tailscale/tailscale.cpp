@@ -59,6 +59,20 @@ auto Tailscale::loginProfileWithId(const QString &loginProfileId) const noexcept
     return pos.value();
 }
 
+void Tailscale::switchAccount(const QString &profileId) noexcept
+{
+    const QByteArray profileIdUtf8 = profileId.toUtf8();
+    GoString goString;
+    goString.p = profileIdUtf8.constData();
+    goString.n = static_cast<GoInt>(profileIdUtf8.size());
+    if (tailscale_switch_account(&goString) == 0U) {
+        qCCritical(Logging::TailscaleMain) << "Failed to switch account to" << profileId;
+        return;
+    }
+    refreshLoginProfiles();
+    mStatus->refresh();
+}
+
 void Tailscale::refreshLoginProfiles()
 {
     const QMutexLocker lock(&mMutexLoginProfiles);
