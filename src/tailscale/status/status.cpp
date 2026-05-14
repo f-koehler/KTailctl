@@ -1,9 +1,11 @@
 #include "status.hpp"
 #include "libktailctl_wrapper.h"
+#include "logging_tailscale_status.hpp"
 #include <QJsonDocument>
 #include <QJsonParseError>
 #include <QMutexLocker>
 #include <QSet>
+#include <qloggingcategory.h>
 
 Status::Status(QObject *parent)
     : QObject(parent)
@@ -30,39 +32,60 @@ PeerStatus *Status::peerWithId(const QString &peerId) const noexcept
 
 void Status::refresh()
 {
-    const QMutexLocker lock(&mMutex);
+    bool emitBackendStateChanged = false;
+    bool emitExitNodeStatusChanged = false;
 
-    if (!tailscale_daemon_running()) {
-        mDaemonRunning = false;
-        qCWarning(Logging::Tailscale::Status) << "Failed to get tailscale status (daemon not running)";
-        return;
+    {
+        const QMutexLocker lock(&mMutex);
+
+        if (!tailscale_daemon_running()) {
+            emitBackendStateChanged = mDaemonRunning; // daemon just stopped
+            mDaemonRunning = false;
+            qCWarning(Logging::Tailscale::Status) << "Failed to get tailscale status (daemon not running)";
+        } else {
+            mDaemonRunning = true;
+
+            const std::unique_ptr<char, decltype(&free)> json_str(tailscale_status(), &free);
+            if (!json_str) {
+                qCWarning(Logging::Tailscale::Status) << "Failed to get tailscale status (access denied)";
+            } else {
+                const QByteArray json_buffer(json_str.get(), strlen(json_str.get()));
+                QJsonParseError error;
+                const QJsonDocument json = QJsonDocument::fromJson(json_buffer, &error);
+                if (error.error != QJsonParseError::NoError) {
+                    qCCritical(Logging::Tailscale::Status) << error.errorString();
+                } else {
+                    QJsonObject json_obj = json.object();
+
+                    const auto oldBackendState = mBackendState.value();
+                    const auto oldExitNodeStatus = mExitNodeStatus.value();
+
+                    updateFromJson(json_obj);
+
+                    emitBackendStateChanged = (mBackendState.value() != oldBackendState);
+                    emitExitNodeStatusChanged = (mExitNodeStatus.value() != oldExitNodeStatus);
+
+                    const std::unique_ptr<char, decltype(&free)> suggested(tailscale_suggest_exit_node(), &free);
+                    if (suggested && suggested.get()[0] != '\0') {
+                        mSuggestedExitNodeId = QString::fromUtf8(suggested.get());
+                    } else {
+                        mSuggestedExitNodeId = QString();
+                    }
+
+                    qCInfo(Logging::Tailscale::Status) << "Status refreshed";
+                }
+            }
+        }
     }
-    mDaemonRunning = true;
 
-    const std::unique_ptr<char, decltype(&free)> json_str(tailscale_status(), &free);
-    if (!json_str) {
-        qCWarning(Logging::Tailscale::Status) << "Failed to get tailscale status (access denied)";
-        return;
+    if (emitBackendStateChanged) {
+        qCDebug(Logging::Tailscale::Status) << "Emitting backendStateChanged";
+        Q_EMIT backendStateChanged();
     }
-    const QByteArray json_buffer(json_str.get(), strlen(json_str.get()));
-    QJsonParseError error;
-    const QJsonDocument json = QJsonDocument::fromJson(json_buffer, &error);
-    if (error.error != QJsonParseError::NoError) {
-        qCCritical(Logging::Tailscale::Status) << error.errorString();
-        return;
+    if (emitExitNodeStatusChanged) {
+        qCDebug(Logging::Tailscale::Status) << "Emitting exitNodeStatusChanged";
+        Q_EMIT exitNodeStatusChanged();
     }
-    QJsonObject json_obj = json.object();
-
-    updateFromJson(json_obj);
-
-    const std::unique_ptr<char, decltype(&free)> suggested(tailscale_suggest_exit_node(), &free);
-    if (suggested && suggested.get()[0] != '\0') {
-        mSuggestedExitNodeId = QString::fromUtf8(suggested.get());
-    } else {
-        mSuggestedExitNodeId = QString();
-    }
-
-    qCInfo(Logging::Tailscale::Status) << "Status refreshed";
 }
 
 void Status::updateFromJson(QJsonObject &json)
@@ -88,9 +111,7 @@ void Status::updateFromJson(QJsonObject &json)
             qCCritical(Logging::Tailscale::Status) << "Unknown BackendState value:" << str;
             mBackendState = BackendState::NoState;
         }
-        if (mBackendState != old) {
-            Q_EMIT backendStateChanged();
-        }
+        qCDebug(Logging::Tailscale::Status) << "BackendState:" << old << "->" << mBackendState.value();
     }
     mHaveNodeKey = json.take(QStringLiteral("HaveNodeKey")).toBool();
     mAuthUrl = json.take(QStringLiteral("AuthUrl")).toString();
@@ -113,14 +134,12 @@ void Status::updateFromJson(QJsonObject &json)
         auto exitNodeStatusJson = json.take(QStringLiteral("ExitNodeStatus")).toObject();
         if (mExitNodeStatus.value() == nullptr) [[unlikely]] {
             mExitNodeStatus = new ExitNodeStatus(this);
-            Q_EMIT exitNodeStatusChanged();
         }
         mExitNodeStatus->updateFromJson(exitNodeStatusJson);
     } else [[unlikely]] {
         if (mExitNodeStatus.value() != nullptr) {
             mExitNodeStatus->deleteLater();
             mExitNodeStatus = nullptr;
-            Q_EMIT exitNodeStatusChanged();
         }
     }
 
