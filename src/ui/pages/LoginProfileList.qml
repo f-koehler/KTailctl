@@ -15,6 +15,8 @@ FormCard.FormCardPage {
         LoginProfileInfo {}
     }
 
+    DaemonError {}
+
     OperatorWarning {}
 
     FormCard.FormCard {

@@ -17,6 +17,8 @@ FormCard.FormCardPage {
         return op !== "" && op === KTailctl.Util.systemUser();
     }
 
+    DaemonError {}
+
     OperatorWarning {}
 
     FormCard.FormHeader {

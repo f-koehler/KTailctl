@@ -128,6 +128,8 @@ FormCard.FormCardPage {
         property string dnsName
     }
 
+    DaemonError {}
+
     OperatorWarning {}
 
     FormCard.FormHeader {

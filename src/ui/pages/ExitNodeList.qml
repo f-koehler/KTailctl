@@ -48,6 +48,8 @@ FormCard.FormCardPage {
         }
     ]
 
+    DaemonError {}
+
     OperatorWarning {}
 
     FormCard.FormHeader {
