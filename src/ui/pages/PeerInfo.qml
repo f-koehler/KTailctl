@@ -4,10 +4,17 @@ import org.kde.kirigami as Kirigami
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import "qrc:/ui/components"
 
 FormCard.FormCardPage {
     id: page
     property KTailctl.PeerStatus peer: KTailctl.Tailscale.status.self
+
+    DaemonError {}
+
+    OperatorWarning {}
+
+    AuthError {}
 
     FormCard.FormHeader {
         title: "Identity"

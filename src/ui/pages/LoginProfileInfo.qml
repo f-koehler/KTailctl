@@ -3,6 +3,7 @@ import org.fkoehler.KTailctl as KTailctl
 import org.kde.kirigami as Kirigami
 import QtQuick
 import QtQuick.Controls
+import "qrc:/ui/components"
 
 FormCard.FormCardPage {
     property KTailctl.LoginProfile loginProfile: null
@@ -17,6 +18,12 @@ FormCard.FormCardPage {
         repeat: false
         onTriggered: KTailctl.Tailscale.refreshLoginProfiles()
     }
+
+    DaemonError {}
+
+    OperatorWarning {}
+
+    AuthError {}
 
     FormCard.FormHeader {
         title: "Login Profile"

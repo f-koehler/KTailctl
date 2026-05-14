@@ -52,6 +52,8 @@ FormCard.FormCardPage {
 
     OperatorWarning {}
 
+    AuthError {}
+
     FormCard.FormHeader {
         title: "Settings"
     }
