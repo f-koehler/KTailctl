@@ -21,6 +21,8 @@ FormCard.FormCardPage {
 
     OperatorWarning {}
 
+    AuthError {}
+
     FormCard.FormHeader {
         title: "Interface"
     }

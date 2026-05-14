@@ -19,6 +19,8 @@ FormCard.FormCardPage {
 
     OperatorWarning {}
 
+    AuthError {}
+
     FormCard.FormCard {
         Repeater {
             model: KTailctl.Tailscale.loginProfiles

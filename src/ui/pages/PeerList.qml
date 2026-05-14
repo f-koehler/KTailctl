@@ -132,6 +132,8 @@ FormCard.FormCardPage {
 
     OperatorWarning {}
 
+    AuthError {}
+
     FormCard.FormHeader {
         title: "This Node"
     }
