@@ -12,7 +12,7 @@ Kirigami.InlineMessage {
     Layout.fillWidth: true
     type: Kirigami.MessageType.Warning
     showCloseButton: true
-    visible: KTailctl.Tailscale.status.daemonRunning && !isOperator
+    visible: KTailctl.Tailscale.status.daemonRunning && KTailctl.Tailscale.status.backendState === KTailctl.Status.Running && !isOperator
     text: i18n("You are not the Tailscale operator, so changes to settings, exit nodes, and the Tailscale daemon are disabled. To grant yourself operator access, run: <tt>sudo tailscale set --operator=%1</tt>", systemUser)
     actions: [
         Kirigami.Action {

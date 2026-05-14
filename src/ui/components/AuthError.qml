@@ -7,7 +7,7 @@ Kirigami.InlineMessage {
 
     Layout.fillWidth: true
     type: Kirigami.MessageType.Error
-    visible: (KTailctl.Tailscale.status.backendState == KTailctl.Status.NeedsLogin) && (KTailctl.Tailscale.status.backendState == KTailctl.Status.NeedsMachineAuth)
+    visible: (KTailctl.Tailscale.status.backendState == KTailctl.Status.NeedsLogin) || (KTailctl.Tailscale.status.backendState == KTailctl.Status.NeedsMachineAuth)
     text: i18n("You need to login/authenticate with tailscale. Please run: <tt>sudo tailscale login --operator=%1</tt>", systemUser)
     actions: [
         Kirigami.Action {
