@@ -6,10 +6,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"os"
 
 	"tailscale.com/client/local"
 	"tailscale.com/cmd/tailscale/cli"
 	"tailscale.com/ipn"
+	"tailscale.com/paths"
 )
 
 var client local.Client
@@ -141,6 +143,12 @@ func tailscale_switch_account(account *string) bool {
 	log_info("switched account to " + *account)
 
 	return true
+}
+
+//export tailscale_daemon_running
+func tailscale_daemon_running() bool {
+	_, err := os.Stat(paths.DefaultTailscaledSocket())
+	return err == nil
 }
 
 func main() {
