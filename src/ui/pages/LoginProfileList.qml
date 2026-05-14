@@ -2,6 +2,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick
 import org.kde.kirigami as Kirigami
+import "qrc:/ui/components"
 import org.fkoehler.KTailctl as KTailctl
 import org.kde.kirigamiaddons.formcard as FormCard
 
@@ -13,6 +14,8 @@ FormCard.FormCardPage {
 
         LoginProfileInfo {}
     }
+
+    OperatorWarning {}
 
     FormCard.FormCard {
         Repeater {
