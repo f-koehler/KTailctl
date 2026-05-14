@@ -5,11 +5,19 @@ import QtQml.Models
 import org.kde.kirigami as Kirigami
 import org.fkoehler.KTailctl as KTailctl
 import org.kde.kirigamiaddons.formcard as FormCard
+import "qrc:/ui/components"
 
 FormCard.FormCardPage {
     id: page
 
     Layout.fillWidth: true
+
+    readonly property bool isOperator: {
+        const op = KTailctl.Tailscale.preferences.operatorUser;
+        return op !== "" && op === KTailctl.Util.systemUser();
+    }
+
+    OperatorWarning {}
 
     FormCard.FormHeader {
         title: "Interface"
@@ -56,24 +64,28 @@ FormCard.FormCardPage {
     FormCard.FormCard {
         FormCard.FormTextFieldDelegate {
             id: textHostname
+            enabled: page.isOperator
             label: "Hostname"
             text: KTailctl.Tailscale.preferences.hostname
             onEditingFinished: KTailctl.Tailscale.preferences.hostname = textHostname.text
         }
         FormCard.FormSwitchDelegate {
             id: switchRunSSH
+            enabled: page.isOperator
             text: "SSH"
             checked: KTailctl.Tailscale.preferences.runSSH
             onCheckedChanged: KTailctl.Tailscale.preferences.runSSH = switchRunSSH.checked
         }
         FormCard.FormSwitchDelegate {
             id: switchShieldsUp
+            enabled: page.isOperator
             text: "Shields up"
             checked: KTailctl.Tailscale.preferences.shieldsUp
             onCheckedChanged: KTailctl.Tailscale.preferences.shieldsUp = switchShieldsUp.checked
         }
         FormCard.FormSwitchDelegate {
             id: switchCorpDns
+            enabled: page.isOperator
             text: "Accept DNS"
             checked: KTailctl.Tailscale.preferences.corpDns
             onCheckedChanged: KTailctl.Tailscale.preferences.corpDns = switchCorpDns.checked
@@ -85,21 +97,26 @@ FormCard.FormCardPage {
     }
     FormCard.FormCard {
         FormCard.FormSwitchDelegate {
+            enabled: page.isOperator
             text: "Accept routes"
         }
         FormCard.FormSwitchDelegate {
             id: switchAllowLanAccess
+            enabled: page.isOperator
             text: "Allow LAN access"
             checked: KTailctl.Tailscale.preferences.exitNodeAllowLanAccess
             onCheckedChanged: KTailctl.Tailscale.preferences.exitNodeAllowLanAccess = switchAllowLanAccess.checked
         }
         FormCard.FormSwitchDelegate {
+            enabled: page.isOperator
             text: "Advertise app connector"
         }
         FormCard.FormSwitchDelegate {
+            enabled: page.isOperator
             text: "Stateful filtering"
         }
         FormCard.FormComboBoxDelegate {
+            enabled: page.isOperator
             text: "Netfilter mode"
             model: ["On", "Off", "Divert"]
         }
@@ -110,9 +127,11 @@ FormCard.FormCardPage {
     }
     FormCard.FormCard {
         FormCard.FormSwitchDelegate {
+            enabled: page.isOperator
             text: "Report device posture"
         }
         FormCard.FormSwitchDelegate {
+            enabled: page.isOperator
             text: "Enable management web interface"
         }
         FormCard.FormLinkDelegate {
@@ -120,9 +139,11 @@ FormCard.FormCardPage {
             text: "Go to management web interface (localhost:5252)"
         }
         FormCard.FormSwitchDelegate {
+            enabled: page.isOperator
             text: "Automatic update check"
         }
         FormCard.FormSwitchDelegate {
+            enabled: page.isOperator
             text: "Automatic updates"
         }
     }
@@ -132,16 +153,19 @@ FormCard.FormCardPage {
     }
     FormCard.FormCard {
         FormCard.FormSpinBoxDelegate {
+            enabled: page.isOperator
             label: "Relay server port"
         }
         Repeater {
             model: ["[2001:db8::1]:40000", "192.0.2.1:40000"]
             FormCard.FormButtonDelegate {
+                enabled: page.isOperator
                 text: modelData
                 trailingLogo.source: "remove"
             }
         }
         FormCard.FormTextFieldDelegate {
+            enabled: page.isOperator
             label: "Add new: "
         }
     }

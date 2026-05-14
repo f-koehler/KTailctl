@@ -8,6 +8,11 @@ import org.fkoehler.KTailctl as KTailctl
 Kirigami.ApplicationWindow {
     id: root
 
+    readonly property bool isOperator: {
+        const op = KTailctl.Tailscale.preferences.operatorUser;
+        return op !== "" && op === KTailctl.Util.systemUser();
+    }
+
     globalDrawer: Kirigami.GlobalDrawer {
         id: globalDrawer
 
@@ -49,13 +54,13 @@ Kirigami.ApplicationWindow {
                 text: i18n("About")
             },
             Kirigami.Action {
-                visible: (KTailctl.Tailscale.status.backendState != KTailctl.Status.Starting) && (KTailctl.Tailscale.status.backendState != KTailctl.Status.Running)
+                visible: root.isOperator && (KTailctl.Tailscale.status.backendState != KTailctl.Status.Starting) && (KTailctl.Tailscale.status.backendState != KTailctl.Status.Running)
                 icon.name: "media-playback-start"
                 text: i18n("Start Tailscale")
                 onTriggered: KTailctl.Tailscale.up()
             },
             Kirigami.Action {
-                visible: (KTailctl.Tailscale.status.backendState == KTailctl.Status.Starting) || (KTailctl.Tailscale.status.backendState == KTailctl.Status.Running)
+                visible: root.isOperator && ((KTailctl.Tailscale.status.backendState == KTailctl.Status.Starting) || (KTailctl.Tailscale.status.backendState == KTailctl.Status.Running))
                 icon.name: "process-stop"
                 text: i18n("Stop Tailscale")
                 onTriggered: KTailctl.Tailscale.down()

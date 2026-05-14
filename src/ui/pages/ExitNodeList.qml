@@ -4,11 +4,17 @@ import QtQuick
 import org.kde.kirigami as Kirigami
 import org.fkoehler.KTailctl as KTailctl
 import org.kde.kirigamiaddons.formcard as FormCard
+import "qrc:/ui/components"
 
 FormCard.FormCardPage {
     id: page
 
     Layout.fillWidth: true
+
+    readonly property bool isOperator: {
+        const op = KTailctl.Tailscale.preferences.operatorUser;
+        return op !== "" && op === KTailctl.Util.systemUser();
+    }
 
     Component {
         id: pagePeerInfo
@@ -42,6 +48,8 @@ FormCard.FormCardPage {
         }
     ]
 
+    OperatorWarning {}
+
     FormCard.FormHeader {
         title: "Settings"
     }
@@ -53,12 +61,14 @@ FormCard.FormCardPage {
         // }
         FormCard.FormSwitchDelegate {
             id: switchAllowLanAccess
+            enabled: page.isOperator
             text: "Allow LAN access"
             checked: KTailctl.Tailscale.preferences.exitNodeAllowLanAccess
             onCheckedChanged: KTailctl.Tailscale.preferences.exitNodeAllowLanAccess = switchAllowLanAccess.checked
         }
 
         FormCard.FormButtonDelegate {
+            enabled: page.isOperator
             visible: KTailctl.Tailscale.preferences.exitNodeId !== ""
             text: "Unset current: " + (KTailctl.Tailscale.status.peerWithId(KTailctl.Tailscale.preferences.exitNodeId)?.dnsName ?? KTailctl.Tailscale.preferences.exitNodeId)
             trailingLogo.source: "cancel"
@@ -68,6 +78,7 @@ FormCard.FormCardPage {
         }
 
         FormCard.FormButtonDelegate {
+            enabled: page.isOperator
             visible: (KTailctl.Config.lastUsedExitNode !== "") && (KTailctl.Config.lastUsedExitNode !== KTailctl.Tailscale.preferences.exitNodeId)
             text: "Last used: " + (KTailctl.Tailscale.status.peerWithId(KTailctl.Config.lastUsedExitNode)?.dnsName ?? KTailctl.Tailscale.preferences.exitNodeId)
             trailingLogo.source: "system-switch-user"
@@ -85,6 +96,7 @@ FormCard.FormCardPage {
 
             property var suggestedPeer: KTailctl.Tailscale.status.suggestedExitNodeId !== "" ? KTailctl.Tailscale.status.peerWithId(KTailctl.Tailscale.status.suggestedExitNodeId) : null
 
+            enabled: page.isOperator
             visible: KTailctl.Tailscale.status.suggestedExitNodeId !== "" && KTailctl.Tailscale.status.suggestedExitNodeId !== KTailctl.Tailscale.preferences.exitNodeId
             text: "Use suggested: " + (suggestedPeer?.dnsName ?? KTailctl.Tailscale.status.suggestedExitNodeId)
             leading: Kirigami.Icon {
@@ -124,6 +136,7 @@ FormCard.FormCardPage {
                 }
                 trailing: RowLayout {
                     ToolButton {
+                        enabled: page.isOperator
                         ToolTip.delay: Kirigami.Units.toolTipDelay
                         ToolTip.text: "Enable exit node"
                         ToolTip.visible: hovered
@@ -179,6 +192,7 @@ FormCard.FormCardPage {
                     }
                     trailing: RowLayout {
                         ToolButton {
+                            enabled: page.isOperator
                             ToolTip.delay: Kirigami.Units.toolTipDelay
                             ToolTip.text: "Enable exit node"
                             ToolTip.visible: hovered

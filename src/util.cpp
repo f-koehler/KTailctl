@@ -23,6 +23,15 @@ QString Util::formatDurationHumanReadable(const QDateTime &dateTime)
     return QString::number(secs / seconds_per_day) + QStringLiteral(" days ago");
 }
 
+QString Util::systemUser()
+{
+    QString user = qEnvironmentVariable("USER");
+    if (user.isEmpty()) {
+        user = qEnvironmentVariable("LOGNAME");
+    }
+    return user;
+}
+
 void Util::setClipboardText(const QString &text)
 {
     // KSystemClipboard takes ownership of the allocated QMimeData (see: https://api.kde.org/ksystemclipboard.html#setMimeData)

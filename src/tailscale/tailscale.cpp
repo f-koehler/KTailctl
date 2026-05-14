@@ -47,6 +47,10 @@ void Tailscale::refreshLoginProfiles()
     const QMutexLocker lock(&mMutexLoginProfiles);
 
     const std::unique_ptr<char, decltype(&free)> json_str(tailscale_accounts(), &free);
+    if (!json_str) {
+        qCWarning(Logging::TailscaleMain) << "Failed to get login profiles (access denied)";
+        return;
+    }
     const QByteArray json_buffer(json_str.get(), strlen(json_str.get()));
     QJsonParseError error;
     const QJsonDocument json = QJsonDocument::fromJson(json_buffer, &error);

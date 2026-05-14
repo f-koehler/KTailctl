@@ -30,6 +30,7 @@ public:
 
     Q_INVOKABLE static QString formatDurationHumanReadable(const QDateTime &dateTime);
     Q_INVOKABLE static void setClipboardText(const QString &text);
+    Q_INVOKABLE static QString systemUser();
 };
 
 #endif // KTAILCTL_UTIL_HPP

@@ -5,6 +5,7 @@ import QtQml.Models
 import org.kde.kirigami as Kirigami
 import org.fkoehler.KTailctl as KTailctl
 import org.kde.kirigamiaddons.formcard as FormCard
+import "qrc:/ui/components"
 
 FormCard.FormCardPage {
     id: page
@@ -126,6 +127,8 @@ FormCard.FormCardPage {
     component RoleData: QtObject {
         property string dnsName
     }
+
+    OperatorWarning {}
 
     FormCard.FormHeader {
         title: "This Node"

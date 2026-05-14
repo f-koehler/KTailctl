@@ -24,6 +24,10 @@ void Preferences::refresh()
     const QMutexLocker lock(&mMutex);
 
     const std::unique_ptr<char, decltype(&free)> json_str(tailscale_prefs(), &free);
+    if (!json_str) {
+        qCWarning(Logging::Tailscale::Preferences) << "Failed to get tailscale preferences (access denied)";
+        return;
+    }
     const QByteArray json_buffer(json_str.get(), strlen(json_str.get()));
     QJsonParseError error;
     const QJsonDocument json = QJsonDocument::fromJson(json_buffer, &error);
