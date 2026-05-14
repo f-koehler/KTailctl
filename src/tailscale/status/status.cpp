@@ -32,6 +32,13 @@ void Status::refresh()
 {
     const QMutexLocker lock(&mMutex);
 
+    if (!tailscale_daemon_running()) {
+        mDaemonRunning = false;
+        qCWarning(Logging::Tailscale::Status) << "Failed to get tailscale status (daemon not running)";
+        return;
+    }
+    mDaemonRunning = true;
+
     const std::unique_ptr<char, decltype(&free)> json_str(tailscale_status(), &free);
     if (!json_str) {
         qCWarning(Logging::Tailscale::Status) << "Failed to get tailscale status (access denied)";

@@ -59,6 +59,7 @@ public:
     Q_PROPERTY(QMap<qint64, UserProfile *> users READ users BINDABLE bindableUsers)
     Q_PROPERTY(ClientVersion *clientVersion READ clientVersion BINDABLE bindableClientVersion)
     Q_PROPERTY(QString suggestedExitNodeId READ suggestedExitNodeId BINDABLE bindableSuggestedExitNodeId)
+    Q_PROPERTY(bool daemonRunning READ daemonRunning BINDABLE bindableDaemonRunning)
 
 private:
     QMutex mMutex;
@@ -78,6 +79,7 @@ private:
     QProperty<QMap<qint64, UserProfile *>> mUsers;
     QProperty<ClientVersion *> mClientVersion;
     QProperty<QString> mSuggestedExitNodeId;
+    QProperty<bool> mDaemonRunning{true};
 
     MullvadExitNodeModel *mMullvadExitNodeModel;
     SelfHostedExitNodeModel *mSelfHostedExitNodeModel;
@@ -174,6 +176,11 @@ public:
         return mSuggestedExitNodeId;
     }
 
+    [[nodiscard]] bool daemonRunning() const noexcept
+    {
+        return mDaemonRunning;
+    }
+
     // Bindables
     [[nodiscard]] QBindable<QString> bindableVersion()
     {
@@ -238,6 +245,11 @@ public:
     [[nodiscard]] QBindable<QString> bindableSuggestedExitNodeId()
     {
         return {&mSuggestedExitNodeId};
+    }
+
+    [[nodiscard]] QBindable<bool> bindableDaemonRunning()
+    {
+        return {&mDaemonRunning};
     }
 };
 
