@@ -16,8 +16,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-        with:
-          submodules: true
       - name: Set up Go
         uses: actions/setup-go@v6
         with:
@@ -66,8 +64,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-        with:
-          submodules: true
       - name: Set up Go
         uses: actions/setup-go@v6
         with:
@@ -95,11 +91,11 @@ jobs:
       - name: Build
         run: |
           flatpak-builder --user --force-clean \
-          --mirror-screenshots-url=https://dl.flathub.org/media/ \
           build-dir org.fkoehler.KTailctl.yml
       - name: Validate build
         run: |
           flatpak run --command=flatpak-builder-lint org.flatpak.Builder \
+          --exceptions --user-exceptions flathub/linter-exceptions.json \
           builddir build-dir/
   native_build:
     name: Native Build (${{ matrix.compiler }})
@@ -120,8 +116,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-        with:
-          submodules: true
       - name: Set up Go
         uses: actions/setup-go@v6
         with:
@@ -175,8 +169,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-        with:
-          submodules: true
       - name: Setup go.
         uses: actions/setup-go@v6
         with:

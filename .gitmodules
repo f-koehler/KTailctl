@@ -1,3 +1,0 @@
-[submodule "flathub"]
-	path = flathub
-	url = https://github.com/flathub/org.fkoehler.KTailctl.git
