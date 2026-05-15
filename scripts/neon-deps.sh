@@ -18,6 +18,7 @@ PACKAGES=(
 	libkf6i18n-dev
 	libkf6notifications-dev
 	libkf6windowsystem-dev
+	libomp-dev
 	libqt6quickcontrols2-6
 	libqt6svg6-dev
 	ninja-build
