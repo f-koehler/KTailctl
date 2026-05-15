@@ -38,7 +38,7 @@ repos:
       - id: qmlformat
         name: qmlformat
         description: Format QML files
-        entry: qmlformat-qt6 -i
+        entry: scripts/qmlformat.sh -i
         types: [qml]
         language: system
       - id: qmllint
