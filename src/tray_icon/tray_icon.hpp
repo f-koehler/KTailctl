@@ -32,6 +32,7 @@ public:
 
 public Q_SLOTS:
     Q_INVOKABLE void updateIcon();
+    Q_INVOKABLE void updateTooltip();
 };
 
 #endif // KTAILCTL_TRAY_ICON_HPP
