@@ -11,6 +11,7 @@ ecm_qt_declare_logging_category(
 
 add_executable(ktailctl property_list_model.hpp main.cpp
         util.hpp util.cpp
+        string_filter.hpp string_filter.cpp
         tailscale/preferences/app_connector.hpp
 )
 target_link_libraries(ktailctl PRIVATE Qt6::Core Qt6::Quick Qt6::Widgets Qt6::Qml KF6::CoreAddons KF6::I18n KF6::DBusAddons KF6::GuiAddons)

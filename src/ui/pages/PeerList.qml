@@ -55,14 +55,8 @@ FormCard.FormCardPage {
             displayComponent: Kirigami.SearchField {
                 id: searchField
                 onAccepted: {
-                    page.filterDnsNameValue = searchField.text.toLowerCase();
-                    if (page.filterDnsNameValue) {
-                        // we need to toggle the filter to refresh it, just updating the filter value is not sufficient
-                        page.filterDnsNameEnabled = false;
-                        page.filterDnsNameEnabled = true;
-                    } else {
-                        page.filterDnsNameEnabled = false;
-                    }
+                    page.filterDnsNameValue = searchField.text;
+                    page.filterDnsNameEnabled = searchField.text.length > 0;
                 }
             }
         },
@@ -111,21 +105,18 @@ FormCard.FormCardPage {
                 roleName: "mullvadNode"
                 value: page.filterMullvadValue
                 enabled: page.filterMullvadEnabled
-            },
-            FunctionFilter {
-                id: functionFilterDnsName
-                enabled: page.filterDnsNameEnabled
-                function filter(data: RoleData): bool {
-                    return data.dnsName.includes(page.filterDnsNameValue);
-                }
             }
         ]
         sorters: RoleSorter {
             roleName: "dnsName"
         }
     }
-    component RoleData: QtObject {
-        property string dnsName
+
+    KTailctl.StringFilter {
+        id: dnsNameFilter
+        sourceModel: peerModel
+        filterRoleName: "dnsName"
+        filterString: page.filterDnsNameEnabled ? page.filterDnsNameValue : ""
     }
 
     DaemonError {}
@@ -214,7 +205,7 @@ FormCard.FormCardPage {
 
     FormCard.FormCard {
         Repeater {
-            model: peerModel
+            model: dnsNameFilter
 
             delegate: FormCard.FormTextDelegate {
                 required property string id
