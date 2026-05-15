@@ -23,6 +23,8 @@ jobs:
         with:
           go-version-file: src/tailscale/wrapper/go.mod
           cache-dependency-path: src/tailscale/wrapper/go.sum
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
       - name: Add Kitware CMake repository
         run: |
           KEYRING=/usr/share/keyrings/kitware-archive-keyring.gpg
