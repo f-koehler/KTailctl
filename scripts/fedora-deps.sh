@@ -16,7 +16,6 @@ PACKAGES=(
 	kf6-kdbusaddons-devel
 	kf6-kwindowsystem-devel
 	kf6-breeze-icons-devel
-	json-devel
 	go
 )
 
