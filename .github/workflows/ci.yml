@@ -93,6 +93,7 @@ jobs:
       - name: Build
         run: |
           flatpak-builder --user --force-clean \
+          --mirror-screenshots-url=https://dl.flathub.org/media/ \
           build-dir org.fkoehler.KTailctl.yml
       - name: Validate build
         run: |

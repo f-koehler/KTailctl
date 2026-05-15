@@ -9,7 +9,9 @@
   <summary>Manage and monitor Tailscale</summary>
   <metadata_license>FSFAP</metadata_license>
   <project_license>GPL-3.0+</project_license>
-  <developer_name>Fabian Köhler</developer_name>
+  <developer id="org.fkoehler">
+    <name>Fabian Koehler</name>
+  </developer>
   <content_rating type="oars-1.0" />
   <launchable type="desktop-id">org.fkoehler.KTailctl.desktop</launchable>
   <url type="homepage">https://github.com/f-koehler/KTailctl</url>
