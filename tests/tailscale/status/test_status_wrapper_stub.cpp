@@ -31,4 +31,9 @@ char *tailscale_suggest_exit_node()
     return mallocString("");
 }
 
+bool tailscale_daemon_running()
+{
+    return true;
+}
+
 } // extern "C"
