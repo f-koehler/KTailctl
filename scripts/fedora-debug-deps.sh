@@ -56,6 +56,7 @@ PACKAGES=(
 	kf6-frameworkintegration-libs
 	kf6-qqc2-desktop-style
 	kf6-sonnet
+	kf6-solid
 
 	# ── Plasma ────────────────────────────────────────────────────────────
 	plasma-breeze-qt6
