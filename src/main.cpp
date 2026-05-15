@@ -13,6 +13,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQuickWindow>
+#include <memory>
 
 int main(int argc, char *argv[])
 {
@@ -57,19 +58,19 @@ int main(int argc, char *argv[])
     void qml_register_types_org_fkoehler_KTailctl();
     qml_register_types_org_fkoehler_KTailctl();
 
-    QQmlApplicationEngine engine;
+    auto engine = std::make_unique<QQmlApplicationEngine>();
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 254, 0, "Config", Config::self());
     qmlRegisterSingletonType("org.fkoehler.KTailctl", 254, 0, "About", [](QQmlEngine *engine, QJSEngine *) -> QJSValue {
         return engine->toScriptValue(KAboutData::applicationData());
     });
 
-    engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
-    engine.loadFromModule("org.fkoehler.KTailctl", "Main");
-    if (engine.rootObjects().isEmpty()) {
+    engine->rootContext()->setContextObject(new KLocalizedContext(engine.get()));
+    engine->loadFromModule("org.fkoehler.KTailctl", "Main");
+    if (engine->rootObjects().isEmpty()) {
         return -1;
     }
 
-    auto *window = dynamic_cast<QQuickWindow *>(engine.rootObjects().first());
+    auto *window = dynamic_cast<QQuickWindow *>(engine->rootObjects().first());
 
     // clicking tray icon should toggle window
     auto *tray_icon = new TrayIcon(tailscale);
@@ -97,6 +98,10 @@ int main(int argc, char *argv[])
         window->show();
     });
     QObject::connect(tray_icon, &TrayIcon::quitRequested, &app, &QCoreApplication::quit, Qt::QueuedConnection);
+
+    QObject::connect(&app, &QCoreApplication::aboutToQuit, &app, [&engine]() {
+        engine.reset();
+    });
 
     return app.exec();
 }
