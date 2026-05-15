@@ -44,7 +44,7 @@ repos:
       - id: qmllint
         name: qmllint
         description: Lint QML files
-        entry: scripts/qmllint.sh -i
+        entry: scripts/qmllint.sh -I build/bin
         types: [qml]
         language: system
       - id: sync-go-versions
