@@ -57,12 +57,10 @@ void Status::refresh()
                 } else {
                     QJsonObject json_obj = json.object();
 
-                    const auto oldBackendState = mBackendState.value();
                     const auto oldExitNodeStatus = mExitNodeStatus.value();
 
                     updateFromJson(json_obj);
 
-                    emitBackendStateChanged = (mBackendState.value() != oldBackendState);
                     emitExitNodeStatusChanged = (mExitNodeStatus.value() != oldExitNodeStatus);
 
                     const std::unique_ptr<char, decltype(&free)> suggested(tailscale_suggest_exit_node(), &free);
@@ -112,6 +110,9 @@ void Status::updateFromJson(QJsonObject &json)
             mBackendState = BackendState::NoState;
         }
         qCDebug(Logging::Tailscale::Status) << "BackendState:" << old << "->" << mBackendState.value();
+        if (mBackendState.value() != old) {
+            Q_EMIT backendStateChanged();
+        }
     }
     mHaveNodeKey = json.take(QStringLiteral("HaveNodeKey")).toBool();
     mAuthUrl = json.take(QStringLiteral("AuthUrl")).toString();
