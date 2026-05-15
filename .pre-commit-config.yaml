@@ -49,7 +49,7 @@ repos:
         language: system
       - id: sync-go-versions
         name: sync Go versions
-        language: python
+        language: system
         entry: scripts/sync_go_versions.py
         pass_filenames: false
         files: ^(src/tailscale/wrapper/go\.mod|tools/go\.mod)$
