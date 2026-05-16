@@ -20,10 +20,10 @@ class StringFilter : public QSortFilterProxyModel
 public:
     explicit StringFilter(QObject *parent = nullptr);
 
-    [[nodiscard]] auto filterRoleName() const -> QString;
+    [[nodiscard]] auto filterRoleName() const -> const QString &;
     void setFilterRoleName(const QString &name);
 
-    [[nodiscard]] auto filterString() const -> QString;
+    [[nodiscard]] auto filterString() const -> const QString &;
     void setFilterString(const QString &str);
 
 protected:
