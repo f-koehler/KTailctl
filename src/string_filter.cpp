@@ -27,7 +27,7 @@ auto StringFilter::resolveRole() const -> int
     return -1;
 }
 
-auto StringFilter::filterRoleName() const -> QString
+auto StringFilter::filterRoleName() const -> const QString &
 {
     return m_filterRoleName;
 }
@@ -43,7 +43,7 @@ void StringFilter::setFilterRoleName(const QString &name)
     Q_EMIT filterRoleNameChanged();
 }
 
-auto StringFilter::filterString() const -> QString
+auto StringFilter::filterString() const -> const QString &
 {
     return m_filterString;
 }
