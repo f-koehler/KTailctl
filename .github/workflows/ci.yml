@@ -93,8 +93,16 @@ jobs:
           flatpak-builder --user --force-clean \
           build-dir org.fkoehler.KTailctl.yml
   lint:
-    name: Lint (clang-tidy, clazy)
+    name: Lint (${{ matrix.linter }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - linter: clang-tidy
+            script: ./scripts/clang-tidy.sh
+          - linter: clazy
+            script: ./scripts/clazy.sh
     env:
       CC: clang
       CXX: clang++
@@ -141,10 +149,8 @@ jobs:
             -DKTAILCTL_FLATPAK_BUILD=OFF
       - name: Build
         run: cmake --build build --parallel
-      - name: Run clang-tidy
-        run: ./scripts/clang-tidy.sh
-      - name: Run clazy
-        run: ./scripts/clazy.sh
+      - name: Run ${{ matrix.linter }}
+        run: ${{ matrix.script }}
   native_build:
     name: Native Build (${{ matrix.compiler }})
     runs-on: ubuntu-latest
