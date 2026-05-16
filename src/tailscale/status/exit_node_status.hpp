@@ -2,11 +2,13 @@
 #define KTAILCTL_EXIT_NODE_STATUS_HPP
 
 #include <QJsonObject>
+#include <QList>
 #include <QObject>
 #include <QObjectBindableProperty>
 #include <QString>
 #include <QStringList>
 #include <QtQmlIntegration/qqmlintegration.h>
+#include <qtmetamacros.h>
 
 // https://pkg.go.dev/tailscale.com/ipn/ipnstate#ExitNodeStatus
 class ExitNodeStatus : public QObject

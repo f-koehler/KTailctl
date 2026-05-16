@@ -1,13 +1,21 @@
 #include "tray_menu_mullvad_exit_nodes.hpp"
+
+#include <QByteArray>
+#include <QIcon>
+#include <QMessageLogger>
+#include <QModelIndex>
+#include <QStringBuilder>
+#include <QStringLiteral>
+#include <QVariant>
+#include <QtCore>
+#include <utility>
+
 #include "location.hpp"
 #include "logging_tray_icon.hpp"
+#include "mullvad_exit_node_model.hpp"
+#include "preferences.hpp"
+#include "status.hpp"
 #include "tailscale.hpp"
-#include <qhashfunctions.h>
-#include <qicon.h>
-#include <qloggingcategory.h>
-#include <qmenu.h>
-#include <qwidget.h>
-#include <utility>
 
 TrayMenuExitNodesMullvad::TrayMenuExitNodesMullvad(Tailscale *tailscale, QWidget *parent)
     : QMenu(QStringLiteral("Mullvad"), parent)

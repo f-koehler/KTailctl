@@ -1,10 +1,10 @@
 #ifndef KTAILCTL_APP_CONNECTOR_HPP
 #define KTAILCTL_APP_CONNECTOR_HPP
 
-#include <QBindable>
 #include <QJsonObject>
 #include <QObject>
 #include <QObjectBindableProperty>
+#include <qtmetamacros.h>
 
 class AppConnectorPreferences : public QObject
 {

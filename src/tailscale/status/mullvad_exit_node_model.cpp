@@ -1,5 +1,9 @@
 #include "mullvad_exit_node_model.hpp"
-#include <qabstractitemmodel.h>
+
+#include <QModelIndex>
+#include <QString>
+#include <QVariant>
+#include <compare>
 
 auto MullvadExitNodeModel::lessThan(const QModelIndex &left, const QModelIndex &right) const -> bool
 {

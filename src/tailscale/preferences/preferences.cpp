@@ -1,20 +1,26 @@
 #include "preferences.hpp"
-#include "ktailctl_config.h"
-#include "logging_tailscale_preferences.hpp"
 
+#include <QByteArray>
+#include <QDebug>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonParseError>
+#include <QJsonValue>
+#include <QLoggingCategory>
+#include <QMap>
+#include <QMessageLogger>
 #include <QMutexLocker>
+#include <QTimer>
+#include <QVariantMap>
 #include <cstdlib>
 #include <cstring>
+#include <libktailctl_wrapper.h>
 #include <memory>
-#include <qhashfunctions.h>
-#include <qjsonparseerror.h>
-#include <qloggingcategory.h>
-#include <qstringview.h>
-#include <qtimer.h>
 #include <qtypes.h>
-#include <qvariant.h>
+#include <utility>
+
+#include "ktailctl_config.h"
+#include "logging_tailscale_preferences.hpp"
 
 void Preferences::_set_preference(const QString &key, const QVariant &value) const
 {

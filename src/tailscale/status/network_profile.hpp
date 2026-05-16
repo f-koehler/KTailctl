@@ -4,7 +4,9 @@
 #include <QJsonObject>
 #include <QObject>
 #include <QObjectBindableProperty>
+#include <QString>
 #include <QtQmlIntegration/qqmlintegration.h>
+#include <qtmetamacros.h>
 
 class NetworkProfile : public QObject
 {

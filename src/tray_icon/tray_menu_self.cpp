@@ -1,8 +1,13 @@
 #include "tray_menu_self.hpp"
 
-#include "util.hpp"
 #include <QIcon>
+#include <QList>
 #include <QString>
+
+#include "peer_status.hpp"
+#include "status.hpp"
+#include "tailscale.hpp"
+#include "util.hpp"
 
 void TrayMenuSelf::rebuildMenu()
 {

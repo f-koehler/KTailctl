@@ -1,14 +1,21 @@
 #include "tray_menu_peers.hpp"
+
+#include <QByteArray>
+#include <QIcon>
+#include <QList>
+#include <QLoggingCategory>
+#include <QMessageLogger>
+#include <QModelIndex>
+#include <QString>
+#include <QStringList>
+#include <QStringLiteral>
+#include <QVariant>
+#include <utility>
+
 #include "logging_tray_icon.hpp"
+#include "status.hpp"
 #include "tailscale.hpp"
 #include "util.hpp"
-#include <QIcon>
-#include <qcontainerfwd.h>
-#include <qhashfunctions.h>
-#include <qloggingcategory.h>
-#include <qmenu.h>
-#include <qwidget.h>
-#include <utility>
 
 TrayMenuPeers::TrayMenuPeers(Tailscale *tailscale, QWidget *parent)
     : QMenu(QStringLiteral("Peers"), parent)

@@ -1,6 +1,8 @@
 #include "user_profile.hpp"
-#include <qhashfunctions.h>
-#include <qjsonobject.h>
+
+#include <QJsonValue>
+#include <QStringLiteral>
+#include <utility>
 
 void UserProfile::updateFromJson(QJsonObject &json)
 {

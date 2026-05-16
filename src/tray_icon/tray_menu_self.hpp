@@ -1,8 +1,14 @@
 #ifndef KTAILCTL_TRAY_MENU_SELF_HPP
 #define KTAILCTL_TRAY_MENU_SELF_HPP
 
-#include "tailscale/tailscale.hpp"
+#include <QIcon>
 #include <QMenu>
+#include <QString>
+#include <QStringLiteral>
+#include <QWidget>
+#include <qtmetamacros.h>
+
+#include "tailscale/tailscale.hpp"
 
 class TrayMenuSelf : public QMenu
 {

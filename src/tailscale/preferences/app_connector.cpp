@@ -1,6 +1,8 @@
 #include "app_connector.hpp"
-#include <qhashfunctions.h>
-#include <qjsonobject.h>
+
+#include <QJsonValue>
+#include <QString>
+#include <QStringLiteral>
 
 void AppConnectorPreferences::updateFromJson(QJsonObject &json)
 {

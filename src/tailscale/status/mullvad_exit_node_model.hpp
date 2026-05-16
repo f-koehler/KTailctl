@@ -1,12 +1,17 @@
 #ifndef KTAILCTL_MULLVAD_EXIT_NODE_MODEL_HPP
 #define KTAILCTL_MULLVAD_EXIT_NODE_MODEL_HPP
 
+#include <QAbstractItemModel>
+#include <QMessageLogger>
+#include <QObject>
+#include <QSortFilterProxyModel>
+#include <QtCore>
+#include <QtQmlIntegration/qqmlintegration.h>
+#include <qtmetamacros.h>
+
 #include "logging_tailscale_status.hpp"
 #include "peer_status.hpp"
 #include "property_list_model.hpp"
-#include <QSortFilterProxyModel>
-#include <QtQmlIntegration/qqmlintegration.h>
-#include <qloggingcategory.h>
 
 class MullvadExitNodeModel : public QSortFilterProxyModel
 {

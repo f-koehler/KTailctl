@@ -1,10 +1,13 @@
 #ifndef KTAILCTL_UTIL_HPP
 #define KTAILCTL_UTIL_HPP
 
-#include <QClipboard>
+#include <QDateTime>
+#include <QJSEngine>
 #include <QObject>
 #include <QQmlEngine>
+#include <QString>
 #include <QtQmlIntegration/qqmlintegration.h>
+#include <qtmetamacros.h>
 
 class Util : public QObject
 {

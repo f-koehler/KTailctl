@@ -1,12 +1,17 @@
 #ifndef KTAILCTL_TRAY_ICON_HPP
 #define KTAILCTL_TRAY_ICON_HPP
 
+#include <QAction>
+#include <QMenu>
+#include <QObject>
+#include <QSystemTrayIcon>
+#include <qtmetamacros.h>
+
 #include "./tray_menu_accounts.hpp"
 #include "./tray_menu_exit_nodes.hpp"
 #include "./tray_menu_peers.hpp"
 #include "./tray_menu_self.hpp"
-#include "ktailctl_config.h"
-#include <QSystemTrayIcon>
+#include "tailscale.hpp"
 
 class TrayIcon : public QSystemTrayIcon
 {

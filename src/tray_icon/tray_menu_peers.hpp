@@ -1,11 +1,11 @@
 #ifndef KTAILCTL_TRAY_MENU_PEERS_HPP
 #define KTAILCTL_TRAY_MENU_PEERS_HPP
 
-#include "tailscale/tailscale.hpp"
-#include "util.hpp"
-
-#include <QListView>
 #include <QMenu>
+#include <QWidget>
+#include <qtmetamacros.h>
+
+#include "tailscale/tailscale.hpp"
 
 class TrayMenuPeers : public QMenu
 {

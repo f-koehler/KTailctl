@@ -1,8 +1,11 @@
 #ifndef KTAILCTL_STRING_FILTER_HPP
 #define KTAILCTL_STRING_FILTER_HPP
 
+#include <QObject>
 #include <QSortFilterProxyModel>
+#include <QString>
 #include <QtQmlIntegration/qqmlintegration.h>
+#include <qtmetamacros.h>
 
 class StringFilter : public QSortFilterProxyModel
 {

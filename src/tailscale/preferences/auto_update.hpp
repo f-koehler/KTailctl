@@ -4,6 +4,7 @@
 #include <QJsonObject>
 #include <QObject>
 #include <QObjectBindableProperty>
+#include <qtmetamacros.h>
 
 class AutoUpdatePreferences : public QObject
 {

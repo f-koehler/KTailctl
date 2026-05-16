@@ -1,12 +1,13 @@
 #ifndef KTAILCTL_USER_PROFILE_HPP
 #define KTAILCTL_USER_PROFILE_HPP
 
-#include <QBindable>
 #include <QJsonObject>
 #include <QObject>
 #include <QObjectBindableProperty>
 #include <QString>
 #include <QtQmlIntegration/qqmlintegration.h>
+#include <qtmetamacros.h>
+#include <qtypes.h>
 
 class UserProfile : public QObject
 {

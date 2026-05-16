@@ -1,6 +1,8 @@
 #include "auto_update.hpp"
-#include <qhashfunctions.h>
-#include <qjsonobject.h>
+
+#include <QJsonValue>
+#include <QString>
+#include <QStringLiteral>
 
 void AutoUpdatePreferences::updateFromJson(QJsonObject &json)
 {

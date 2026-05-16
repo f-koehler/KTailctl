@@ -1,7 +1,9 @@
 #include "logging.h"
-#include "logging_tailscale_wrapper.hpp"
+
 #include <QLoggingCategory>
-#include <QMessageLogContext>
+#include <QMessageLogger>
+
+#include "logging_tailscale_wrapper.hpp"
 
 extern "C" {
 

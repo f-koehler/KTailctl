@@ -1,18 +1,23 @@
 #include "tray_icon.hpp"
+
+#include <QChar>
+#include <QIcon>
+#include <QLatin1Char>
+#include <QList>
+#include <QString>
+#include <QStringList>
+#include <QStringLiteral>
+#include <qtmetamacros.h>
+
+#include "exit_node_status.hpp"
 #include "ktailctl_config.h"
+#include "peer_status.hpp"
+#include "status.hpp"
 #include "tailscale.hpp"
 #include "tray_icon/tray_menu_accounts.hpp"
 #include "tray_icon/tray_menu_exit_nodes.hpp"
 #include "tray_icon/tray_menu_peers.hpp"
 #include "tray_icon/tray_menu_self.hpp"
-#include <qaction.h>
-#include <qcontainerfwd.h>
-#include <qhashfunctions.h>
-#include <qicon.h>
-#include <qmenu.h>
-#include <qobject.h>
-#include <qsystemtrayicon.h>
-#include <qtmetamacros.h>
 
 TrayIcon::TrayIcon(Tailscale *tailscale, QObject *parent)
     : QSystemTrayIcon(QIcon::fromTheme(QStringLiteral("unknown")), parent)

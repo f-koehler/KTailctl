@@ -1,28 +1,32 @@
+#include <KAboutData>
+#include <KDBusService>
+#include <KLocalizedContext>
+#include <KLocalizedString>
+#include <QApplication>
+#include <QByteArray>
+#include <QCoreApplication>
+#include <QIcon>
+#include <QJSEngine>
+#include <QJSValue>
+#include <QList>
+#include <QObject>
+#include <QQmlApplicationEngine>
+#include <QQmlContext>
+#include <QQmlEngine>
+#include <QQuickWindow>
+#include <QString>
+#include <QStringLiteral>
+#include <QSystemTrayIcon>
+#include <Qt>
+#include <QtQml>
+#include <memory>
+
 #include "ktailctl_config.h"
 #include "tailscale/tailscale.hpp"
 #include "tray_icon/tray_icon.hpp"
 #include "tray_icon_themes.hpp"
 #include "util.hpp"
 #include "version-ktailctl.h"
-#include <KAboutData>
-#include <KDBusService>
-#include <KLocalizedContext>
-#include <KLocalizedString>
-#include <QApplication>
-#include <QIcon>
-#include <QQmlApplicationEngine>
-#include <QQmlContext>
-#include <QQuickWindow>
-#include <memory>
-#include <qcoreapplication.h>
-#include <qhashfunctions.h>
-#include <qjsengine.h>
-#include <qjsvalue.h>
-#include <qnamespace.h>
-#include <qobject.h>
-#include <qqml.h>
-#include <qstringview.h>
-#include <qsystemtrayicon.h>
 
 auto main(int argc, char *argv[]) -> int
 {

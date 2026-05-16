@@ -1,6 +1,8 @@
 #include "network_profile.hpp"
-#include <qhashfunctions.h>
-#include <qjsonobject.h>
+
+#include <QJsonValue>
+#include <QStringLiteral>
+#include <utility>
 
 void NetworkProfile::updateFromJson(QJsonObject &json)
 {

@@ -1,11 +1,15 @@
 #ifndef KTAILCTL_LOGIN_PROFILE_HPP
 #define KTAILCTL_LOGIN_PROFILE_HPP
 
-#include "network_profile.hpp"
-#include "user_profile.hpp"
+#include <QJsonObject>
 #include <QObject>
 #include <QObjectBindableProperty>
+#include <QString>
 #include <QtQmlIntegration/qqmlintegration.h>
+#include <qtmetamacros.h>
+
+#include "network_profile.hpp"
+#include "user_profile.hpp"
 
 class LoginProfile : public QObject
 {

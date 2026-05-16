@@ -1,21 +1,27 @@
 #include "tailscale.hpp"
-#include "logging_tailscale.hpp"
-#include "login_profile.hpp"
-#include "preferences.hpp"
+
+#include <QByteArray>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QJsonObject>
 #include <QJsonParseError>
+#include <QJsonValue>
+#include <QLoggingCategory>
+#include <QMessageLogger>
 #include <QMutexLocker>
 #include <QSet>
+#include <QStringLiteral>
+#include <QTimer>
 #include <cstdlib>
 #include <cstring>
+#include <libktailctl_wrapper.h>
 #include <memory>
-#include <qhashfunctions.h>
-#include <qloggingcategory.h>
-#include <qstringview.h>
-#include <qtimer.h>
 #include <qtypes.h>
 #include <utility>
+
+#include "logging_tailscale.hpp"
+#include "login_profile.hpp"
+#include "status.hpp"
 
 static constexpr int tailscale_toggle_refresh_delay_ms = 200;
 

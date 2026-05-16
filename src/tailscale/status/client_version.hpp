@@ -6,6 +6,7 @@
 #include <QObjectBindableProperty>
 #include <QString>
 #include <QtQmlIntegration/qqmlintegration.h>
+#include <qtmetamacros.h>
 
 // https://pkg.go.dev/tailscale.com@v1.92.1/tailcfg#ClientVersion
 class ClientVersion : public QObject

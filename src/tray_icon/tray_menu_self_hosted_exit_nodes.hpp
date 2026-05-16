@@ -1,10 +1,11 @@
 #ifndef KTAILCTL_TRAY_MENU_SELF_HOSTED_EXIT_NODES_HPP
 #define KTAILCTL_TRAY_MENU_SELF_HOSTED_EXIT_NODES_HPP
 
-#include "logging_tray_icon.hpp"
-#include "tailscale/tailscale.hpp"
 #include <QMenu>
-#include <QObject>
+#include <QWidget>
+#include <qtmetamacros.h>
+
+#include "tailscale/tailscale.hpp"
 
 class TrayMenuExitNodesSelfHosted : public QMenu
 {
