@@ -4,29 +4,21 @@
 #include "network_profile.hpp"
 #include "user_profile.hpp"
 #include <QObject>
+#include <QObjectBindableProperty>
 #include <QtQmlIntegration/qqmlintegration.h>
 
 class LoginProfile : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
-    Q_PROPERTY(QString id READ id BINDABLE bindableId)
-    Q_PROPERTY(QString name READ name BINDABLE bindableName)
+    Q_PROPERTY(QString id READ id BINDABLE bindableId NOTIFY idChanged)
+    Q_PROPERTY(QString name READ name BINDABLE bindableName NOTIFY nameChanged)
     Q_PROPERTY(NetworkProfile *networkProfile READ networkProfile CONSTANT)
-    Q_PROPERTY(QString key READ key BINDABLE bindableKey)
+    Q_PROPERTY(QString key READ key BINDABLE bindableKey NOTIFY keyChanged)
     Q_PROPERTY(UserProfile *userProfile READ userProfile CONSTANT)
-    Q_PROPERTY(QString nodeId READ nodeId BINDABLE bindableNodeId)
-    Q_PROPERTY(QString localUserId READ localUserId BINDABLE bindableLocalUserId)
-    Q_PROPERTY(QString controlUrl READ controlUrl BINDABLE bindableControlUrl)
-
-    QProperty<QString> mId;
-    QProperty<QString> mName;
-    NetworkProfile *mNetworkProfile;
-    QProperty<QString> mKey;
-    UserProfile *mUserProfile;
-    QProperty<QString> mNodeId;
-    QProperty<QString> mLocalUserId;
-    QProperty<QString> mControlUrl;
+    Q_PROPERTY(QString nodeId READ nodeId BINDABLE bindableNodeId NOTIFY nodeIdChanged)
+    Q_PROPERTY(QString localUserId READ localUserId BINDABLE bindableLocalUserId NOTIFY localUserIdChanged)
+    Q_PROPERTY(QString controlUrl READ controlUrl BINDABLE bindableControlUrl NOTIFY controlUrlChanged)
 
 public:
     explicit LoginProfile(QObject *parent = nullptr)
@@ -95,6 +87,24 @@ public:
     {
         return {&mControlUrl};
     }
+
+Q_SIGNALS:
+    void idChanged();
+    void nameChanged();
+    void keyChanged();
+    void nodeIdChanged();
+    void localUserIdChanged();
+    void controlUrlChanged();
+
+private:
+    Q_OBJECT_BINDABLE_PROPERTY(LoginProfile, QString, mId, &LoginProfile::idChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(LoginProfile, QString, mName, &LoginProfile::nameChanged)
+    NetworkProfile *mNetworkProfile;
+    Q_OBJECT_BINDABLE_PROPERTY(LoginProfile, QString, mKey, &LoginProfile::keyChanged)
+    UserProfile *mUserProfile;
+    Q_OBJECT_BINDABLE_PROPERTY(LoginProfile, QString, mNodeId, &LoginProfile::nodeIdChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(LoginProfile, QString, mLocalUserId, &LoginProfile::localUserIdChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(LoginProfile, QString, mControlUrl, &LoginProfile::controlUrlChanged)
 };
 
 #endif // KTAILCTL_LOGIN_PROFILE_HPP

@@ -3,16 +3,13 @@
 
 #include <QJsonObject>
 #include <QObject>
-#include <QProperty>
+#include <QObjectBindableProperty>
 
 class AutoUpdatePreferences : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(bool check READ check BINDABLE bindableCheck)
-    Q_PROPERTY(bool apply READ apply BINDABLE bindableApply)
-
-    QProperty<bool> mCheck;
-    QProperty<bool> mApply;
+    Q_PROPERTY(bool check READ check BINDABLE bindableCheck NOTIFY checkChanged)
+    Q_PROPERTY(bool apply READ apply BINDABLE bindableApply NOTIFY applyChanged)
 
 public:
     explicit AutoUpdatePreferences(QObject *parent = nullptr)
@@ -39,6 +36,14 @@ public:
     {
         return {&mApply};
     }
+
+Q_SIGNALS:
+    void checkChanged();
+    void applyChanged();
+
+private:
+    Q_OBJECT_BINDABLE_PROPERTY(AutoUpdatePreferences, bool, mCheck, &AutoUpdatePreferences::checkChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(AutoUpdatePreferences, bool, mApply, &AutoUpdatePreferences::applyChanged)
 };
 
 #endif // KTAILCTL_AUTO_UPDATE_HPP

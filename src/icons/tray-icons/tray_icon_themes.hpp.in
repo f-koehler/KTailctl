@@ -8,19 +8,26 @@
 #include <QStringList>
 #include <QtQmlIntegration/qqmlintegration.h>
 
-static const QStringList TrayIconThemesList = {
+[[nodiscard]] inline const QStringList &trayIconThemesList()
+{
+    static const QStringList list = {
 @KTAILCTL_TRAY_ICON_THEMES_LITERAL_LIST@
-};
+    };
+    return list;
+}
 
 class TrayIconThemes : public QObject {
   Q_OBJECT
   QML_ELEMENT
   QML_SINGLETON
   Q_PROPERTY(QStringList themes READ themes CONSTANT)
-  Q_PROPERTY(qsizetype currentIndex READ currentIndex WRITE setCurrentIndex BINDABLE bindableCurrentIndex)
+  Q_PROPERTY(qsizetype currentIndex READ currentIndex WRITE setCurrentIndex BINDABLE bindableCurrentIndex NOTIFY currentIndexChanged)
+
+  Q_SIGNALS:
+    void currentIndexChanged();
 
   private:
-    QProperty<qsizetype> mCurrentIndex;
+    Q_OBJECT_BINDABLE_PROPERTY(TrayIconThemes, qsizetype, mCurrentIndex, &TrayIconThemes::currentIndexChanged)
 
   public:
     inline static TrayIconThemes *s_instance = nullptr;
@@ -28,23 +35,23 @@ class TrayIconThemes : public QObject {
     static void setQmlInstance(TrayIconThemes *instance) { s_instance = instance; }
 
     explicit TrayIconThemes(QObject* parent = nullptr) : QObject(parent) {
-      mCurrentIndex = TrayIconThemesList.indexOf(Config::trayIconTheme());
-      connect(Config::self(), &Config::trayIconThemeChanged, [this](){
-      mCurrentIndex = TrayIconThemesList.indexOf(Config::trayIconTheme());
+      mCurrentIndex = trayIconThemesList().indexOf(Config::trayIconTheme());
+      connect(Config::self(), &Config::trayIconThemeChanged, this, [this](){
+      mCurrentIndex = trayIconThemesList().indexOf(Config::trayIconTheme());
       });
     }
 
     [[nodiscard]] const QStringList& themes() const noexcept {
-        return ::TrayIconThemesList;
+        return trayIconThemesList();
     }
 
     [[nodiscard]] int currentIndex() const noexcept { return mCurrentIndex; }
 
     void setCurrentIndex(int index) {
-      if(index < TrayIconThemesList.size()) {
-          Config::setTrayIconTheme(TrayIconThemesList.at(index));
+      if(index < trayIconThemesList().size()) {
+          Config::setTrayIconTheme(trayIconThemesList().at(index));
           Config::self()->save();
-          mCurrentIndex = TrayIconThemesList.indexOf(Config::trayIconTheme());
+          mCurrentIndex = trayIconThemesList().indexOf(Config::trayIconTheme());
       }
     }
 

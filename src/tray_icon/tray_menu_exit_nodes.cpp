@@ -7,7 +7,7 @@ TrayMenuExitNodes::TrayMenuExitNodes(Tailscale *tailscale, QWidget *parent)
     , mMullvad(new TrayMenuExitNodesMullvad(tailscale, this))
 {
     setIcon(QIcon::fromTheme(QStringLiteral("globe")));
-    mActionSuggested = addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), QStringLiteral("Use suggested"), [this] {
+    mActionSuggested = addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), QStringLiteral("Use suggested"), this, [this] {
         if (const QString suggestedId = mTailscale->status()->suggestedExitNodeId(); !suggestedId.isEmpty()) {
             mTailscale->preferences()->setExitNodeID(suggestedId);
         }
@@ -15,10 +15,10 @@ TrayMenuExitNodes::TrayMenuExitNodes(Tailscale *tailscale, QWidget *parent)
     addSeparator();
     addMenu(mSelfHosted);
     addMenu(mMullvad);
-    mActionUnset = addAction(QIcon::fromTheme(QStringLiteral("cancel")), QStringLiteral("Unset"), [this] {
+    mActionUnset = addAction(QIcon::fromTheme(QStringLiteral("cancel")), QStringLiteral("Unset"), this, [this] {
         mTailscale->preferences()->setExitNodeID(QString());
     });
-    mActionLastUsed = addAction(QIcon::fromTheme(QStringLiteral("document-open-recent")), QStringLiteral("Last used"), [this] {
+    mActionLastUsed = addAction(QIcon::fromTheme(QStringLiteral("document-open-recent")), QStringLiteral("Last used"), this, [this] {
         mTailscale->preferences()->setExitNodeID(Config::self()->lastUsedExitNode());
     });
 

@@ -51,12 +51,13 @@ void TrayMenuPeers::rebuildMenu()
         QMenu *subMenu = addMenu(title);
 
         const QString dnsName = index.data(mRoleIndexDnsName).toString();
-        subMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), dnsName, [dnsName] {
+        subMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), dnsName, this, [dnsName] {
             Util::setClipboardText(dnsName);
         });
 
-        for (const auto &address : index.data(mRoleIndexTailscaleIps).toStringList()) {
-            subMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), address, [address] {
+        const QStringList addresses = index.data(mRoleIndexTailscaleIps).toStringList();
+        for (const auto &address : std::as_const(addresses)) {
+            subMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), address, this, [address] {
                 Util::setClipboardText(address);
             });
         }

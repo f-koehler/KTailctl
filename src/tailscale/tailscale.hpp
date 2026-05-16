@@ -8,12 +8,14 @@
 #include <QQmlEngine>
 #include <QtQmlIntegration/qqmlintegration.h>
 
-class LoginProfileModel : public PropertyListModel<LoginProfile, PropertyListModelOwnership::External>
+using LoginProfileModelBase = PropertyListModel<LoginProfile, PropertyListModelOwnership::External>;
+
+class LoginProfileModel : public LoginProfileModelBase
 {
     Q_OBJECT
     QML_ANONYMOUS
 public:
-    using PropertyListModel::PropertyListModel;
+    using LoginProfileModelBase::LoginProfileModelBase;
 };
 
 class Tailscale : public QObject
@@ -38,7 +40,10 @@ public:
     Q_PROPERTY(Status *status READ status CONSTANT)
     Q_PROPERTY(Preferences *preferences READ preferences CONSTANT)
     Q_PROPERTY(LoginProfileModel *loginProfiles READ loginProfileModel CONSTANT)
-    Q_PROPERTY(QString currentLoginProfileId READ currentLoginProfileId BINDABLE bindableCurrentLoginProfileId)
+    Q_PROPERTY(QString currentLoginProfileId READ currentLoginProfileId BINDABLE bindableCurrentLoginProfileId NOTIFY currentLoginProfileIdChanged)
+
+Q_SIGNALS:
+    void currentLoginProfileIdChanged();
 
 private:
     QMutex mMutexLoginProfiles;
@@ -47,7 +52,7 @@ private:
     Preferences *mPreferences;
     QMap<QString, LoginProfile *> mLoginProfiles;
     LoginProfileModel *mLoginProfileModel;
-    QProperty<QString> mCurrentLoginProfileId;
+    Q_OBJECT_BINDABLE_PROPERTY(Tailscale, QString, mCurrentLoginProfileId, &Tailscale::currentLoginProfileIdChanged)
 
 public Q_SLOTS:
     Q_INVOKABLE void up() const noexcept;

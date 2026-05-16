@@ -3,7 +3,7 @@
 
 #include <QJsonObject>
 #include <QObject>
-#include <QProperty>
+#include <QObjectBindableProperty>
 #include <QString>
 #include <QtQmlIntegration/qqmlintegration.h>
 
@@ -11,13 +11,9 @@ class TailnetStatus : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
-    Q_PROPERTY(QString name READ name BINDABLE bindableName)
-    Q_PROPERTY(QString magicDnsSuffix READ magicDnsSuffix BINDABLE bindableMagicDnsSuffix)
-    Q_PROPERTY(bool magicDnsEnabled READ magicDnsEnabled BINDABLE bindableMagicDnsEnabled)
-
-    QProperty<QString> mName;
-    QProperty<QString> mMagicDnsSuffix;
-    QProperty<bool> mMagicDnsEnabled;
+    Q_PROPERTY(QString name READ name BINDABLE bindableName NOTIFY nameChanged)
+    Q_PROPERTY(QString magicDnsSuffix READ magicDnsSuffix BINDABLE bindableMagicDnsSuffix NOTIFY magicDnsSuffixChanged)
+    Q_PROPERTY(bool magicDnsEnabled READ magicDnsEnabled BINDABLE bindableMagicDnsEnabled NOTIFY magicDnsEnabledChanged)
 
 public:
     explicit TailnetStatus(QObject *parent = nullptr)
@@ -64,6 +60,16 @@ public:
     {
         return {&mMagicDnsEnabled};
     }
+
+Q_SIGNALS:
+    void nameChanged();
+    void magicDnsSuffixChanged();
+    void magicDnsEnabledChanged();
+
+private:
+    Q_OBJECT_BINDABLE_PROPERTY(TailnetStatus, QString, mName, &TailnetStatus::nameChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(TailnetStatus, QString, mMagicDnsSuffix, &TailnetStatus::magicDnsSuffixChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(TailnetStatus, bool, mMagicDnsEnabled, &TailnetStatus::magicDnsEnabledChanged)
 };
 
 #endif // KTAILCTL_TAILNET_STATUS_HPP

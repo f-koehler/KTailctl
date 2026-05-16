@@ -3,7 +3,7 @@
 
 #include <QJsonObject>
 #include <QObject>
-#include <QProperty>
+#include <QObjectBindableProperty>
 #include <QString>
 #include <QStringList>
 #include <QtQmlIntegration/qqmlintegration.h>
@@ -13,13 +13,9 @@ class ExitNodeStatus : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
-    Q_PROPERTY(QString id READ id BINDABLE bindableId)
-    Q_PROPERTY(bool isOnline READ isOnline BINDABLE bindableIsOnline)
-    Q_PROPERTY(QStringList tailscaleIps READ tailscaleIps BINDABLE bindableTailscaleIps)
-
-    QProperty<QString> mId;
-    QProperty<bool> mIsOnline;
-    QProperty<QStringList> mTailscaleIps;
+    Q_PROPERTY(QString id READ id BINDABLE bindableId NOTIFY idChanged)
+    Q_PROPERTY(bool isOnline READ isOnline BINDABLE bindableIsOnline NOTIFY isOnlineChanged)
+    Q_PROPERTY(QStringList tailscaleIps READ tailscaleIps BINDABLE bindableTailscaleIps NOTIFY tailscaleIpsChanged)
 
 public:
     explicit ExitNodeStatus(QObject *parent = nullptr)
@@ -50,19 +46,29 @@ public:
     }
 
     // Bindables
-    [[nodiscard]] QBindable<QString> bindableId() const
+    [[nodiscard]] QBindable<QString> bindableId()
     {
         return {&mId};
     }
 
-    [[nodiscard]] QBindable<bool> bindableIsOnline() const
+    [[nodiscard]] QBindable<bool> bindableIsOnline()
     {
         return {&mIsOnline};
     }
-    [[nodiscard]] QBindable<QStringList> bindableTailscaleIps() const
+    [[nodiscard]] QBindable<QStringList> bindableTailscaleIps()
     {
         return {&mTailscaleIps};
     }
+
+Q_SIGNALS:
+    void idChanged();
+    void isOnlineChanged();
+    void tailscaleIpsChanged();
+
+private:
+    Q_OBJECT_BINDABLE_PROPERTY(ExitNodeStatus, QString, mId, &ExitNodeStatus::idChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(ExitNodeStatus, bool, mIsOnline, &ExitNodeStatus::isOnlineChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(ExitNodeStatus, QStringList, mTailscaleIps, &ExitNodeStatus::tailscaleIpsChanged)
 };
 
 #endif // KTAILCTL_EXIT_NODE_STATUS_HPP

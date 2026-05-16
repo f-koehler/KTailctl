@@ -3,7 +3,7 @@
 
 #include <QJsonObject>
 #include <QObject>
-#include <QProperty>
+#include <QObjectBindableProperty>
 #include <QString>
 #include <QtQmlIntegration/qqmlintegration.h>
 
@@ -13,19 +13,12 @@ class ClientVersion : public QObject
     Q_OBJECT
     QML_ELEMENT
 
-    Q_PROPERTY(bool runningLatest READ runningLatest BINDABLE bindableRunningLatest)
-    Q_PROPERTY(QString latestVersion READ latestVersion BINDABLE bindableLatestVersion)
-    Q_PROPERTY(bool urgentSecurityUpdate READ urgentSecurityUpdate BINDABLE bindableUrgentSecurityUpdate)
-    Q_PROPERTY(bool notify READ notify BINDABLE bindableNotify)
-    Q_PROPERTY(QString notifyUrl READ notifyUrl BINDABLE bindableNotifyUrl)
-    Q_PROPERTY(QString notifyText READ notifyText BINDABLE bindableNotifyText)
-
-    QProperty<bool> mRunningLatest;
-    QProperty<QString> mLatestVersion;
-    QProperty<bool> mUrgentSecurityUpdate;
-    QProperty<bool> mNotify;
-    QProperty<QString> mNotifyUrl;
-    QProperty<QString> mNotifyText;
+    Q_PROPERTY(bool runningLatest READ runningLatest BINDABLE bindableRunningLatest NOTIFY runningLatestChanged)
+    Q_PROPERTY(QString latestVersion READ latestVersion BINDABLE bindableLatestVersion NOTIFY latestVersionChanged)
+    Q_PROPERTY(bool urgentSecurityUpdate READ urgentSecurityUpdate BINDABLE bindableUrgentSecurityUpdate NOTIFY urgentSecurityUpdateChanged)
+    Q_PROPERTY(bool notify READ notify BINDABLE bindableNotify NOTIFY notifyChanged)
+    Q_PROPERTY(QString notifyUrl READ notifyUrl BINDABLE bindableNotifyUrl NOTIFY notifyUrlChanged)
+    Q_PROPERTY(QString notifyText READ notifyText BINDABLE bindableNotifyText NOTIFY notifyTextChanged)
 
 public:
     explicit ClientVersion(QObject *parent = nullptr)
@@ -102,6 +95,22 @@ public:
     {
         return {&mNotifyText};
     }
+
+Q_SIGNALS:
+    void runningLatestChanged();
+    void latestVersionChanged();
+    void urgentSecurityUpdateChanged();
+    void notifyChanged();
+    void notifyUrlChanged();
+    void notifyTextChanged();
+
+private:
+    Q_OBJECT_BINDABLE_PROPERTY(ClientVersion, bool, mRunningLatest, &ClientVersion::runningLatestChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(ClientVersion, QString, mLatestVersion, &ClientVersion::latestVersionChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(ClientVersion, bool, mUrgentSecurityUpdate, &ClientVersion::urgentSecurityUpdateChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(ClientVersion, bool, mNotify, &ClientVersion::notifyChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(ClientVersion, QString, mNotifyUrl, &ClientVersion::notifyUrlChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(ClientVersion, QString, mNotifyText, &ClientVersion::notifyTextChanged)
 };
 
 #endif // KTAILCTL_CLIENT_VERSION_HPP
