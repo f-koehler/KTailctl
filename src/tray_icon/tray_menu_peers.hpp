@@ -21,7 +21,6 @@ class TrayMenuPeers : public QMenu
 public:
     explicit TrayMenuPeers(Tailscale *tailscale, QWidget *parent = nullptr);
 
-public Q_SLOTS:
     Q_INVOKABLE void rebuildMenu();
 };
 

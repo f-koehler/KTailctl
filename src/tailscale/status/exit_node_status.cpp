@@ -1,4 +1,6 @@
 #include "exit_node_status.hpp"
+#include <qhashfunctions.h>
+#include <qjsonobject.h>
 
 void ExitNodeStatus::updateFromJson(QJsonObject &json)
 {

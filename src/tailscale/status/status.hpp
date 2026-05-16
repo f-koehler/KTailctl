@@ -111,158 +111,158 @@ Q_SIGNALS:
 public:
     explicit Status(QObject *parent = nullptr);
 
-    Q_INVOKABLE PeerStatus *peerWithId(const QString &peerId) const noexcept;
+    Q_INVOKABLE PeerStatus *peerWithId(const QString &peerId) const noexcept; // NOLINT(modernize-use-trailing-return-type)
     Q_INVOKABLE void refresh();
     void updateFromJson(QJsonObject &json);
 
     // Getters
-    [[nodiscard]] const QString &version() const noexcept
+    [[nodiscard]] auto version() const noexcept -> const QString &
     {
         return mVersion;
     }
 
-    [[nodiscard]] bool isTun() const noexcept
+    [[nodiscard]] auto isTun() const noexcept -> bool
     {
         return mIsTun;
     }
 
-    [[nodiscard]] BackendState backendState() const noexcept
+    [[nodiscard]] auto backendState() const noexcept -> BackendState
     {
         return mBackendState;
     }
 
-    [[nodiscard]] bool haveNodeKey() const noexcept
+    [[nodiscard]] auto haveNodeKey() const noexcept -> bool
     {
         return mHaveNodeKey;
     }
 
-    [[nodiscard]] const QString &authUrl() const noexcept
+    [[nodiscard]] auto authUrl() const noexcept -> const QString &
     {
         return mAuthUrl;
     }
 
-    [[nodiscard]] const QStringList &tailscaleIps() const noexcept
+    [[nodiscard]] auto tailscaleIps() const noexcept -> const QStringList &
     {
         return mTailscaleIps;
     }
 
-    [[nodiscard]] PeerStatus *self() const noexcept
+    [[nodiscard]] auto self() const noexcept -> PeerStatus *
     {
         return mSelf;
     }
 
-    [[nodiscard]] ExitNodeStatus *exitNodeStatus() const noexcept
+    [[nodiscard]] auto exitNodeStatus() const noexcept -> ExitNodeStatus *
     {
         return mExitNodeStatus;
     }
 
-    [[nodiscard]] const QStringList &health() const noexcept
+    [[nodiscard]] auto health() const noexcept -> const QStringList &
     {
         return mHealth;
     }
 
-    [[nodiscard]] TailnetStatus *currentTailnet() const noexcept
+    [[nodiscard]] auto currentTailnet() const noexcept -> TailnetStatus *
     {
         return mCurrentTailnet;
     }
 
-    [[nodiscard]] PeerModel *peerModel() const noexcept
+    [[nodiscard]] auto peerModel() const noexcept -> PeerModel *
     {
         return mPeerModel;
     }
 
-    [[nodiscard]] MullvadExitNodeModel *mullvadExitNodeModel() const noexcept
+    [[nodiscard]] auto mullvadExitNodeModel() const noexcept -> MullvadExitNodeModel *
     {
         return mMullvadExitNodeModel;
     }
 
-    [[nodiscard]] SelfHostedExitNodeModel *selfHostedExitNodeModel() const noexcept
+    [[nodiscard]] auto selfHostedExitNodeModel() const noexcept -> SelfHostedExitNodeModel *
     {
         return mSelfHostedExitNodeModel;
     }
 
-    [[nodiscard]] const QMap<qint64, UserProfile *> &users() const noexcept
+    [[nodiscard]] auto users() const noexcept -> const QMap<qint64, UserProfile *> &
     {
         return mUsers;
     }
 
-    [[nodiscard]] ClientVersion *clientVersion() const noexcept
+    [[nodiscard]] auto clientVersion() const noexcept -> ClientVersion *
     {
         return mClientVersion;
     }
 
-    [[nodiscard]] const QString &suggestedExitNodeId() const noexcept
+    [[nodiscard]] auto suggestedExitNodeId() const noexcept -> const QString &
     {
         return mSuggestedExitNodeId;
     }
 
-    [[nodiscard]] bool daemonRunning() const noexcept
+    [[nodiscard]] auto daemonRunning() const noexcept -> bool
     {
         return mDaemonRunning;
     }
 
     // Bindables
-    [[nodiscard]] QBindable<QString> bindableVersion()
+    [[nodiscard]] auto bindableVersion() -> QBindable<QString>
     {
         return {&mVersion};
     }
 
-    [[nodiscard]] QBindable<bool> bindableIsTun()
+    [[nodiscard]] auto bindableIsTun() -> QBindable<bool>
     {
         return {&mIsTun};
     }
 
-    [[nodiscard]] QBindable<BackendState> bindableBackendState()
+    [[nodiscard]] auto bindableBackendState() -> QBindable<BackendState>
     {
         return {&mBackendState};
     }
 
-    [[nodiscard]] QBindable<bool> bindableHaveNodeKey()
+    [[nodiscard]] auto bindableHaveNodeKey() -> QBindable<bool>
     {
         return {&mHaveNodeKey};
     }
 
-    [[nodiscard]] QBindable<QString> bindableAuthUrl()
+    [[nodiscard]] auto bindableAuthUrl() -> QBindable<QString>
     {
         return {&mAuthUrl};
     }
 
-    [[nodiscard]] QBindable<QStringList> bindableTailscaleIps()
+    [[nodiscard]] auto bindableTailscaleIps() -> QBindable<QStringList>
     {
         return {&mTailscaleIps};
     }
 
-    [[nodiscard]] QBindable<PeerStatus *> bindableSelf()
+    [[nodiscard]] auto bindableSelf() -> QBindable<PeerStatus *>
     {
         return {&mSelf};
     }
 
-    [[nodiscard]] QBindable<ExitNodeStatus *> bindableExitNodeStatus()
+    [[nodiscard]] auto bindableExitNodeStatus() -> QBindable<ExitNodeStatus *>
     {
         return {&mExitNodeStatus};
     }
 
-    [[nodiscard]] QBindable<QStringList> bindableHealth()
+    [[nodiscard]] auto bindableHealth() -> QBindable<QStringList>
     {
         return {&mHealth};
     }
 
-    [[nodiscard]] QBindable<TailnetStatus *> bindableCurrentTailnet()
+    [[nodiscard]] auto bindableCurrentTailnet() -> QBindable<TailnetStatus *>
     {
         return {&mCurrentTailnet};
     }
 
-    [[nodiscard]] QBindable<ClientVersion *> bindableClientVersion()
+    [[nodiscard]] auto bindableClientVersion() -> QBindable<ClientVersion *>
     {
         return {&mClientVersion};
     }
 
-    [[nodiscard]] QBindable<QString> bindableSuggestedExitNodeId()
+    [[nodiscard]] auto bindableSuggestedExitNodeId() -> QBindable<QString>
     {
         return {&mSuggestedExitNodeId};
     }
 
-    [[nodiscard]] QBindable<bool> bindableDaemonRunning()
+    [[nodiscard]] auto bindableDaemonRunning() -> QBindable<bool>
     {
         return {&mDaemonRunning};
     }

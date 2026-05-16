@@ -35,73 +35,73 @@ public:
     void updateFromJson(QJsonObject &json);
 
     // Getters
-    [[nodiscard]] const QString &country() const noexcept
+    [[nodiscard]] auto country() const noexcept -> const QString &
     {
         return mCountry;
     }
 
-    [[nodiscard]] const QString &countryCode() const noexcept
+    [[nodiscard]] auto countryCode() const noexcept -> const QString &
     {
         return mCountryCode;
     }
 
-    [[nodiscard]] const QString &city() const noexcept
+    [[nodiscard]] auto city() const noexcept -> const QString &
     {
         return mCity;
     }
 
-    [[nodiscard]] const QString &cityCode() const noexcept
+    [[nodiscard]] auto cityCode() const noexcept -> const QString &
     {
         return mCityCode;
     }
 
-    [[nodiscard]] double latitude() const noexcept
+    [[nodiscard]] auto latitude() const noexcept -> double
     {
         return mLatitude;
     }
 
-    [[nodiscard]] double longitude() const noexcept
+    [[nodiscard]] auto longitude() const noexcept -> double
     {
         return mLongitude;
     }
 
-    [[nodiscard]] int priority() const noexcept
+    [[nodiscard]] auto priority() const noexcept -> int
     {
         return mPriority;
     }
 
     // Bindables
-    [[nodiscard]] QBindable<QString> bindableCountry()
+    [[nodiscard]] auto bindableCountry() -> QBindable<QString>
     {
         return {&mCountry};
     }
 
-    [[nodiscard]] QBindable<QString> bindableCountryCode()
+    [[nodiscard]] auto bindableCountryCode() -> QBindable<QString>
     {
         return {&mCountryCode};
     }
 
-    [[nodiscard]] QBindable<QString> bindableCity()
+    [[nodiscard]] auto bindableCity() -> QBindable<QString>
     {
         return {&mCity};
     }
 
-    [[nodiscard]] QBindable<QString> bindableCityCode()
+    [[nodiscard]] auto bindableCityCode() -> QBindable<QString>
     {
         return {&mCityCode};
     }
 
-    [[nodiscard]] QBindable<double> bindableLatitude()
+    [[nodiscard]] auto bindableLatitude() -> QBindable<double>
     {
         return {&mLatitude};
     }
 
-    [[nodiscard]] QBindable<double> bindableLongitude()
+    [[nodiscard]] auto bindableLongitude() -> QBindable<double>
     {
         return {&mLongitude};
     }
 
-    [[nodiscard]] QBindable<int> bindablePriority()
+    [[nodiscard]] auto bindablePriority() -> QBindable<int>
     {
         return {&mPriority};
     }

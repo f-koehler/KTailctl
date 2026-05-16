@@ -1,4 +1,12 @@
 #include "tray_menu_exit_nodes.hpp"
+#include "ktailctl_config.h"
+#include "tailscale.hpp"
+#include "tray_icon/tray_menu_mullvad_exit_nodes.hpp"
+#include "tray_icon/tray_menu_self_hosted_exit_nodes.hpp"
+#include <qhashfunctions.h>
+#include <qicon.h>
+#include <qmenu.h>
+#include <qwidget.h>
 
 TrayMenuExitNodes::TrayMenuExitNodes(Tailscale *tailscale, QWidget *parent)
     : QMenu(QStringLiteral("Exit Nodes"), parent)
@@ -7,7 +15,7 @@ TrayMenuExitNodes::TrayMenuExitNodes(Tailscale *tailscale, QWidget *parent)
     , mMullvad(new TrayMenuExitNodesMullvad(tailscale, this))
 {
     setIcon(QIcon::fromTheme(QStringLiteral("globe")));
-    mActionSuggested = addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), QStringLiteral("Use suggested"), this, [this] {
+    mActionSuggested = addAction(QIcon::fromTheme(QStringLiteral("network-vpn")), QStringLiteral("Use suggested"), this, [this] -> void {
         if (const QString suggestedId = mTailscale->status()->suggestedExitNodeId(); !suggestedId.isEmpty()) {
             mTailscale->preferences()->setExitNodeID(suggestedId);
         }
@@ -15,14 +23,14 @@ TrayMenuExitNodes::TrayMenuExitNodes(Tailscale *tailscale, QWidget *parent)
     addSeparator();
     addMenu(mSelfHosted);
     addMenu(mMullvad);
-    mActionUnset = addAction(QIcon::fromTheme(QStringLiteral("cancel")), QStringLiteral("Unset"), this, [this] {
+    mActionUnset = addAction(QIcon::fromTheme(QStringLiteral("cancel")), QStringLiteral("Unset"), this, [this] -> void {
         mTailscale->preferences()->setExitNodeID(QString());
     });
-    mActionLastUsed = addAction(QIcon::fromTheme(QStringLiteral("document-open-recent")), QStringLiteral("Last used"), this, [this] {
-        mTailscale->preferences()->setExitNodeID(Config::self()->lastUsedExitNode());
+    mActionLastUsed = addAction(QIcon::fromTheme(QStringLiteral("document-open-recent")), QStringLiteral("Last used"), this, [this] -> void {
+        mTailscale->preferences()->setExitNodeID(Config::lastUsedExitNode());
     });
 
-    connect(this, &QMenu::aboutToShow, this, [this] {
+    connect(this, &QMenu::aboutToShow, this, [this] -> void {
         const QString suggestedId = mTailscale->status()->suggestedExitNodeId();
         const QString exitNodeId = mTailscale->preferences()->exitNodeId();
         const bool hasSuggested = !suggestedId.isEmpty() && suggestedId != exitNodeId;

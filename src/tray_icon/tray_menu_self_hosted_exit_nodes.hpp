@@ -18,7 +18,6 @@ class TrayMenuExitNodesSelfHosted : public QMenu
 public:
     explicit TrayMenuExitNodesSelfHosted(Tailscale *tailscale, QWidget *parent = nullptr);
 
-public Q_SLOTS:
     Q_INVOKABLE void rebuildMenu();
 };
 

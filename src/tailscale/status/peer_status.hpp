@@ -70,7 +70,6 @@ public:
     Q_PROPERTY(QDateTime keyExpiry READ keyExpiry BINDABLE bindableKeyExpiry NOTIFY keyExpiryChanged)
     Q_PROPERTY(Location *location READ location BINDABLE bindableLocation NOTIFY locationChanged)
 
-public:
     explicit PeerStatus(QObject *parent = nullptr)
         : QObject(parent)
     {
@@ -85,373 +84,373 @@ public:
     void updateFromJson(QJsonObject &json);
 
     // Getters
-    [[nodiscard]] const QString &id() const noexcept
+    [[nodiscard]] auto id() const noexcept -> const QString &
     {
         return mId;
     }
 
-    [[nodiscard]] const QString &publicKey() const noexcept
+    [[nodiscard]] auto publicKey() const noexcept -> const QString &
     {
         return mPublicKey;
     }
 
-    [[nodiscard]] const QString &hostName() const noexcept
+    [[nodiscard]] auto hostName() const noexcept -> const QString &
     {
         return mHostName;
     }
 
-    [[nodiscard]] const QString &dnsName() const noexcept
+    [[nodiscard]] auto dnsName() const noexcept -> const QString &
     {
         return mDnsName;
     }
 
-    [[nodiscard]] const QString &os() const noexcept
+    [[nodiscard]] auto os() const noexcept -> const QString &
     {
         return mOs;
     }
 
-    [[nodiscard]] qint64 userId() const noexcept
+    [[nodiscard]] auto userId() const noexcept -> qint64
     {
         return mUserId;
     }
 
-    [[nodiscard]] qint64 sharerUserId() const noexcept
+    [[nodiscard]] auto sharerUserId() const noexcept -> qint64
     {
         return mSharerUserId;
     }
 
-    [[nodiscard]] const QStringList &tailscaleIps() const noexcept
+    [[nodiscard]] auto tailscaleIps() const noexcept -> const QStringList &
     {
         return mTailscaleIps;
     }
 
-    [[nodiscard]] const QStringList &allowedIps() const noexcept
+    [[nodiscard]] auto allowedIps() const noexcept -> const QStringList &
     {
         return mAllowedIps;
     }
 
-    [[nodiscard]] const QStringList &tags() const noexcept
+    [[nodiscard]] auto tags() const noexcept -> const QStringList &
     {
         return mTags;
     }
 
-    [[nodiscard]] bool mullvadNode() const noexcept
+    [[nodiscard]] auto mullvadNode() const noexcept -> bool
     {
         return mMullvadNode;
     }
 
-    [[nodiscard]] const QStringList &primaryRoutes() const noexcept
+    [[nodiscard]] auto primaryRoutes() const noexcept -> const QStringList &
     {
         return mPrimaryRoutes;
     }
 
-    [[nodiscard]] const QStringList &addresses() const noexcept
+    [[nodiscard]] auto addresses() const noexcept -> const QStringList &
     {
         return mAddresses;
     }
 
-    [[nodiscard]] const QString &currentAddress() const noexcept
+    [[nodiscard]] auto currentAddress() const noexcept -> const QString &
     {
         return mCurrentAddress;
     }
 
-    [[nodiscard]] const QString &relay() const noexcept
+    [[nodiscard]] auto relay() const noexcept -> const QString &
     {
         return mRelay;
     }
 
-    [[nodiscard]] const QString &peerRelay() const noexcept
+    [[nodiscard]] auto peerRelay() const noexcept -> const QString &
     {
         return mPeerRelay;
     }
 
-    [[nodiscard]] qint64 receivedBytes() const noexcept
+    [[nodiscard]] auto receivedBytes() const noexcept -> qint64
     {
         return mReceivedBytes;
     }
 
-    [[nodiscard]] qint64 transmittedBytes() const noexcept
+    [[nodiscard]] auto transmittedBytes() const noexcept -> qint64
     {
         return mTransmittedBytes;
     }
 
-    [[nodiscard]] const QDateTime &created() const noexcept
+    [[nodiscard]] auto created() const noexcept -> const QDateTime &
     {
         return mCreated;
     }
 
-    [[nodiscard]] const QDateTime &lastWrite() const noexcept
+    [[nodiscard]] auto lastWrite() const noexcept -> const QDateTime &
     {
         return mLastWrite;
     }
 
-    [[nodiscard]] const QDateTime &lastSeen() const noexcept
+    [[nodiscard]] auto lastSeen() const noexcept -> const QDateTime &
     {
         return mLastSeen;
     }
 
-    [[nodiscard]] const QDateTime &lastHandshake() const noexcept
+    [[nodiscard]] auto lastHandshake() const noexcept -> const QDateTime &
     {
         return mLastHandshake;
     }
 
-    [[nodiscard]] bool online() const noexcept
+    [[nodiscard]] auto online() const noexcept -> bool
     {
         return mOnline;
     }
 
-    [[nodiscard]] bool exitNode() const noexcept
+    [[nodiscard]] auto exitNode() const noexcept -> bool
     {
         return mExitNode;
     }
 
-    [[nodiscard]] bool exitNodeOption() const noexcept
+    [[nodiscard]] auto exitNodeOption() const noexcept -> bool
     {
         return mExitNodeOption;
     }
 
-    [[nodiscard]] bool active() const noexcept
+    [[nodiscard]] auto active() const noexcept -> bool
     {
         return mActive;
     }
 
-    [[nodiscard]] const QStringList &peerApiUrls() const noexcept
+    [[nodiscard]] auto peerApiUrls() const noexcept -> const QStringList &
     {
         return mPeerApiUrls;
     }
 
-    [[nodiscard]] TaildropTargetStatus taildropTargetStatus() const noexcept
+    [[nodiscard]] auto taildropTargetStatus() const noexcept -> TaildropTargetStatus
     {
         return mTaildropTargetStatus;
     }
 
-    [[nodiscard]] const QString &noFileSharingReason() const noexcept
+    [[nodiscard]] auto noFileSharingReason() const noexcept -> const QString &
     {
         return mNoFileSharingReason;
     }
 
-    [[nodiscard]] const QStringList &sshHostKeys() const noexcept
+    [[nodiscard]] auto sshHostKeys() const noexcept -> const QStringList &
     {
         return mSshHostKeys;
     }
 
-    [[nodiscard]] bool shareeNode() const noexcept
+    [[nodiscard]] auto shareeNode() const noexcept -> bool
     {
         return mShareeNode;
     }
 
-    [[nodiscard]] bool inNetworkMap() const noexcept
+    [[nodiscard]] auto inNetworkMap() const noexcept -> bool
     {
         return mInNetworkMap;
     }
 
-    [[nodiscard]] bool inMagicSock() const noexcept
+    [[nodiscard]] auto inMagicSock() const noexcept -> bool
     {
         return mInMagicSock;
     }
 
-    [[nodiscard]] bool inEngine() const noexcept
+    [[nodiscard]] auto inEngine() const noexcept -> bool
     {
         return mInEngine;
     }
 
-    [[nodiscard]] bool expired() const noexcept
+    [[nodiscard]] auto expired() const noexcept -> bool
     {
         return mExpired;
     }
 
-    [[nodiscard]] const QDateTime &keyExpiry() const noexcept
+    [[nodiscard]] auto keyExpiry() const noexcept -> const QDateTime &
     {
         return mKeyExpiry;
     }
 
-    [[nodiscard]] Location *location() const noexcept
+    [[nodiscard]] auto location() const noexcept -> Location *
     {
         return mLocation;
     }
 
     // Bindables
-    [[nodiscard]] QBindable<QString> bindableId()
+    [[nodiscard]] auto bindableId() -> QBindable<QString>
     {
         return {&mId};
     }
 
-    [[nodiscard]] QBindable<QString> bindablePublicKey()
+    [[nodiscard]] auto bindablePublicKey() -> QBindable<QString>
     {
         return {&mPublicKey};
     }
 
-    [[nodiscard]] QBindable<QString> bindableHostName()
+    [[nodiscard]] auto bindableHostName() -> QBindable<QString>
     {
         return {&mHostName};
     }
 
-    [[nodiscard]] QBindable<QString> bindableDnsName()
+    [[nodiscard]] auto bindableDnsName() -> QBindable<QString>
     {
         return {&mDnsName};
     }
 
-    [[nodiscard]] QBindable<QString> bindableOs()
+    [[nodiscard]] auto bindableOs() -> QBindable<QString>
     {
         return {&mOs};
     }
 
-    [[nodiscard]] QBindable<qint64> bindableUserId()
+    [[nodiscard]] auto bindableUserId() -> QBindable<qint64>
     {
         return {&mUserId};
     }
 
-    [[nodiscard]] QBindable<qint64> bindableSharerUserId()
+    [[nodiscard]] auto bindableSharerUserId() -> QBindable<qint64>
     {
         return {&mSharerUserId};
     }
 
-    [[nodiscard]] QBindable<QStringList> bindableTailscaleIps()
+    [[nodiscard]] auto bindableTailscaleIps() -> QBindable<QStringList>
     {
         return {&mTailscaleIps};
     }
 
-    [[nodiscard]] QBindable<QStringList> bindableAllowedIps()
+    [[nodiscard]] auto bindableAllowedIps() -> QBindable<QStringList>
     {
         return {&mAllowedIps};
     }
 
-    [[nodiscard]] QBindable<QStringList> bindableTags()
+    [[nodiscard]] auto bindableTags() -> QBindable<QStringList>
     {
         return {&mTags};
     }
 
-    [[nodiscard]] QBindable<bool> bindableMullvadNode()
+    [[nodiscard]] auto bindableMullvadNode() -> QBindable<bool>
     {
         return {&mMullvadNode};
     }
 
-    [[nodiscard]] QBindable<QStringList> bindablePrimaryRoutes()
+    [[nodiscard]] auto bindablePrimaryRoutes() -> QBindable<QStringList>
     {
         return {&mPrimaryRoutes};
     }
 
-    [[nodiscard]] QBindable<QStringList> bindableAddresses()
+    [[nodiscard]] auto bindableAddresses() -> QBindable<QStringList>
     {
         return {&mAddresses};
     }
 
-    [[nodiscard]] QBindable<QString> bindableCurrentAddress()
+    [[nodiscard]] auto bindableCurrentAddress() -> QBindable<QString>
     {
         return {&mCurrentAddress};
     }
 
-    [[nodiscard]] QBindable<QString> bindableRelay()
+    [[nodiscard]] auto bindableRelay() -> QBindable<QString>
     {
         return {&mRelay};
     }
 
-    [[nodiscard]] QBindable<QString> bindablePeerRelay()
+    [[nodiscard]] auto bindablePeerRelay() -> QBindable<QString>
     {
         return {&mPeerRelay};
     }
 
-    [[nodiscard]] QBindable<qint64> bindableReceivedBytes()
+    [[nodiscard]] auto bindableReceivedBytes() -> QBindable<qint64>
     {
         return {&mReceivedBytes};
     }
 
-    [[nodiscard]] QBindable<qint64> bindableTransmittedBytes()
+    [[nodiscard]] auto bindableTransmittedBytes() -> QBindable<qint64>
     {
         return {&mTransmittedBytes};
     }
 
-    [[nodiscard]] QBindable<QDateTime> bindableCreated()
+    [[nodiscard]] auto bindableCreated() -> QBindable<QDateTime>
     {
         return {&mCreated};
     }
 
-    [[nodiscard]] QBindable<QDateTime> bindableLastWrite()
+    [[nodiscard]] auto bindableLastWrite() -> QBindable<QDateTime>
     {
         return {&mLastWrite};
     }
 
-    [[nodiscard]] QBindable<QDateTime> bindableLastSeen()
+    [[nodiscard]] auto bindableLastSeen() -> QBindable<QDateTime>
     {
         return {&mLastSeen};
     }
 
-    [[nodiscard]] QBindable<QDateTime> bindableLastHandshake()
+    [[nodiscard]] auto bindableLastHandshake() -> QBindable<QDateTime>
     {
         return {&mLastHandshake};
     }
 
-    [[nodiscard]] QBindable<bool> bindableOnline()
+    [[nodiscard]] auto bindableOnline() -> QBindable<bool>
     {
         return {&mOnline};
     }
 
-    [[nodiscard]] QBindable<bool> bindableExitNode()
+    [[nodiscard]] auto bindableExitNode() -> QBindable<bool>
     {
         return {&mExitNode};
     }
 
-    [[nodiscard]] QBindable<bool> bindableExitNodeOption()
+    [[nodiscard]] auto bindableExitNodeOption() -> QBindable<bool>
     {
         return {&mExitNodeOption};
     }
 
-    [[nodiscard]] QBindable<bool> bindableActive()
+    [[nodiscard]] auto bindableActive() -> QBindable<bool>
     {
         return {&mActive};
     }
 
-    [[nodiscard]] QBindable<QStringList> bindablePeerApiUrls()
+    [[nodiscard]] auto bindablePeerApiUrls() -> QBindable<QStringList>
     {
         return {&mPeerApiUrls};
     }
 
-    [[nodiscard]] QBindable<TaildropTargetStatus> bindableTaildropTargetStatus()
+    [[nodiscard]] auto bindableTaildropTargetStatus() -> QBindable<TaildropTargetStatus>
     {
         return {&mTaildropTargetStatus};
     }
 
-    [[nodiscard]] QBindable<QString> bindableNoFileSharingReason()
+    [[nodiscard]] auto bindableNoFileSharingReason() -> QBindable<QString>
     {
         return {&mNoFileSharingReason};
     }
 
-    [[nodiscard]] QBindable<QStringList> bindableSshHostKeys()
+    [[nodiscard]] auto bindableSshHostKeys() -> QBindable<QStringList>
     {
         return {&mSshHostKeys};
     }
 
-    [[nodiscard]] QBindable<bool> bindableShareeNode()
+    [[nodiscard]] auto bindableShareeNode() -> QBindable<bool>
     {
         return {&mShareeNode};
     }
 
-    [[nodiscard]] QBindable<bool> bindableInNetworkMap()
+    [[nodiscard]] auto bindableInNetworkMap() -> QBindable<bool>
     {
         return {&mInNetworkMap};
     }
 
-    [[nodiscard]] QBindable<bool> bindableInMagicSock()
+    [[nodiscard]] auto bindableInMagicSock() -> QBindable<bool>
     {
         return {&mInMagicSock};
     }
 
-    [[nodiscard]] QBindable<bool> bindableInEngine()
+    [[nodiscard]] auto bindableInEngine() -> QBindable<bool>
     {
         return {&mInEngine};
     }
 
-    [[nodiscard]] QBindable<bool> bindableExpired()
+    [[nodiscard]] auto bindableExpired() -> QBindable<bool>
     {
         return {&mExpired};
     }
 
-    [[nodiscard]] QBindable<QDateTime> bindableKeyExpiry()
+    [[nodiscard]] auto bindableKeyExpiry() -> QBindable<QDateTime>
     {
         return {&mKeyExpiry};
     }
 
-    [[nodiscard]] QBindable<Location *> bindableLocation()
+    [[nodiscard]] auto bindableLocation() -> QBindable<Location *>
     {
         return {&mLocation};
     }

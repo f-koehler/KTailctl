@@ -21,7 +21,6 @@ class TrayMenuExitNodesMullvad : public QMenu
 public:
     explicit TrayMenuExitNodesMullvad(Tailscale *tailscale, QWidget *parent = nullptr);
 
-public Q_SLOTS:
     Q_INVOKABLE void rebuildMenu();
 };
 

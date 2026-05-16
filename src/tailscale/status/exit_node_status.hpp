@@ -32,30 +32,30 @@ public:
     void updateFromJson(QJsonObject &json);
 
     // Getters
-    [[nodiscard]] const QString &id() const noexcept
+    [[nodiscard]] auto id() const noexcept -> const QString &
     {
         return mId;
     }
-    [[nodiscard]] bool isOnline() const noexcept
+    [[nodiscard]] auto isOnline() const noexcept -> bool
     {
         return mIsOnline;
     }
-    [[nodiscard]] const QStringList &tailscaleIps() const noexcept
+    [[nodiscard]] auto tailscaleIps() const noexcept -> const QStringList &
     {
         return mTailscaleIps;
     }
 
     // Bindables
-    [[nodiscard]] QBindable<QString> bindableId()
+    [[nodiscard]] auto bindableId() -> QBindable<QString>
     {
         return {&mId};
     }
 
-    [[nodiscard]] QBindable<bool> bindableIsOnline()
+    [[nodiscard]] auto bindableIsOnline() -> QBindable<bool>
     {
         return {&mIsOnline};
     }
-    [[nodiscard]] QBindable<QStringList> bindableTailscaleIps()
+    [[nodiscard]] auto bindableTailscaleIps() -> QBindable<QStringList>
     {
         return {&mTailscaleIps};
     }

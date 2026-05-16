@@ -15,19 +15,19 @@ class StringFilter : public QSortFilterProxyModel
     QString m_filterRoleName;
     QString m_filterString;
 
-    [[nodiscard]] int resolveRole() const;
+    [[nodiscard]] auto resolveRole() const -> int;
 
 public:
     explicit StringFilter(QObject *parent = nullptr);
 
-    [[nodiscard]] QString filterRoleName() const;
+    [[nodiscard]] auto filterRoleName() const -> QString;
     void setFilterRoleName(const QString &name);
 
-    [[nodiscard]] QString filterString() const;
+    [[nodiscard]] auto filterString() const -> QString;
     void setFilterString(const QString &str);
 
 protected:
-    [[nodiscard]] bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
+    [[nodiscard]] auto filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const -> bool override;
 
 Q_SIGNALS:
     void filterRoleNameChanged();

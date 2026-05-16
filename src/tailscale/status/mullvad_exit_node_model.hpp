@@ -1,7 +1,6 @@
 #ifndef KTAILCTL_MULLVAD_EXIT_NODE_MODEL_HPP
 #define KTAILCTL_MULLVAD_EXIT_NODE_MODEL_HPP
 
-#include "logging_tailscale_preferences.hpp"
 #include "logging_tailscale_status.hpp"
 #include "peer_status.hpp"
 #include "property_list_model.hpp"
@@ -27,7 +26,7 @@ public:
         , mRoleIndexMullvadNode(peerModel->roleIndexForProperty("mullvadNode"))
         , mRoleIndicesFound(true)
     {
-        QSortFilterProxyModel::setSourceModel(reinterpret_cast<QAbstractItemModel *>(peerModel));
+        QSortFilterProxyModel::setSourceModel(static_cast<QAbstractItemModel *>(peerModel));
 
         if (mRoleIndexMullvadNode == -1) [[unlikely]] {
             qCCritical(Logging::Tailscale::Status) << "Failed to find role index for mullvadNode";
@@ -44,8 +43,8 @@ public:
     }
 
 protected:
-    [[nodiscard]] bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
-    [[nodiscard]] bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
+    [[nodiscard]] auto lessThan(const QModelIndex &left, const QModelIndex &right) const -> bool override;
+    [[nodiscard]] auto filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const -> bool override;
 };
 
 #endif // KTAILCTL_MULLVAD_EXIT_NODE_MODEL_HPP

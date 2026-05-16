@@ -1,4 +1,6 @@
 #include "tailnet_status.hpp"
+#include <qhashfunctions.h>
+#include <qjsonobject.h>
 
 void TailnetStatus::updateFromJson(QJsonObject &json)
 {

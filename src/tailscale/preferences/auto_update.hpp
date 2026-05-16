@@ -19,20 +19,20 @@ public:
 
     void updateFromJson(QJsonObject &json);
 
-    [[nodiscard]] bool check() const noexcept
+    [[nodiscard]] auto check() const noexcept -> bool
     {
         return mCheck;
     }
-    [[nodiscard]] bool apply() const noexcept
+    [[nodiscard]] auto apply() const noexcept -> bool
     {
         return mApply;
     }
 
-    [[nodiscard]] QBindable<bool> bindableCheck()
+    [[nodiscard]] auto bindableCheck() -> QBindable<bool>
     {
         return {&mCheck};
     }
-    [[nodiscard]] QBindable<bool> bindableApply()
+    [[nodiscard]] auto bindableApply() -> QBindable<bool>
     {
         return {&mApply};
     }

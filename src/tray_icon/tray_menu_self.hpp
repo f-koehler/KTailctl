@@ -10,9 +10,6 @@ class TrayMenuSelf : public QMenu
 
     Tailscale *mTailscale;
 
-public Q_SLOTS:
-    Q_INVOKABLE void rebuildMenu();
-
 public:
     explicit TrayMenuSelf(Tailscale *tailscale, QWidget *parent = nullptr)
         : QMenu(QStringLiteral("Self"), parent)
@@ -21,6 +18,8 @@ public:
         setIcon(QIcon::fromTheme(QStringLiteral("computer")));
         connect(this, &QMenu::aboutToShow, this, &TrayMenuSelf::rebuildMenu);
     }
+
+    Q_SLOT Q_INVOKABLE void rebuildMenu();
 };
 
 #endif // KTAILCTL_TRAY_MENU_SELF_HPP

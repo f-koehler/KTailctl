@@ -22,28 +22,28 @@ public:
 
     void updateFromJson(QJsonObject &json);
 
-    [[nodiscard]] const QString &magicDnsName() const noexcept
+    [[nodiscard]] auto magicDnsName() const noexcept -> const QString &
     {
         return mMagicDnsName;
     }
-    [[nodiscard]] const QString &domainName() const noexcept
+    [[nodiscard]] auto domainName() const noexcept -> const QString &
     {
         return mDomainName;
     }
-    [[nodiscard]] const QString &displayName() const noexcept
+    [[nodiscard]] auto displayName() const noexcept -> const QString &
     {
         return mDisplayName;
     }
 
-    [[nodiscard]] QBindable<QString> bindableMagicDnsName()
+    [[nodiscard]] auto bindableMagicDnsName() -> QBindable<QString>
     {
         return {&mMagicDnsName};
     }
-    [[nodiscard]] QBindable<QString> bindableDomainName()
+    [[nodiscard]] auto bindableDomainName() -> QBindable<QString>
     {
         return {&mDomainName};
     }
-    [[nodiscard]] QBindable<QString> bindableDisplayName()
+    [[nodiscard]] auto bindableDisplayName() -> QBindable<QString>
     {
         return {&mDisplayName};
     }

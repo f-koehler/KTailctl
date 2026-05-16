@@ -1,11 +1,24 @@
 #include "status.hpp"
+#include "exit_node_status.hpp"
 #include "libktailctl_wrapper.h"
 #include "logging_tailscale_status.hpp"
+#include "mullvad_exit_node_model.hpp"
+#include "peer_status.hpp"
+#include "self_hosted_exit_node_model.hpp"
+#include "tailnet_status.hpp"
+#include <QByteArray>
 #include <QJsonDocument>
 #include <QJsonParseError>
 #include <QMutexLocker>
 #include <QSet>
+#include <cstdlib>
+#include <cstring>
+#include <memory>
+#include <qhashfunctions.h>
 #include <qloggingcategory.h>
+#include <qobject.h>
+#include <qtmetamacros.h>
+#include <qtypes.h>
 
 Status::Status(QObject *parent)
     : QObject(parent)
@@ -16,7 +29,7 @@ Status::Status(QObject *parent)
     refresh();
 }
 
-PeerStatus *Status::peerWithId(const QString &peerId) const noexcept
+auto Status::peerWithId(const QString &peerId) const noexcept -> PeerStatus *
 {
     if (mSelf != nullptr) [[likely]] {
         if (mSelf->id() == peerId) {
@@ -30,7 +43,7 @@ PeerStatus *Status::peerWithId(const QString &peerId) const noexcept
     return pos.value();
 }
 
-void Status::refresh()
+void Status::refresh() // NOLINT(readability-function-cognitive-complexity)
 {
     bool emitBackendStateChanged = false;
     bool emitExitNodeStatusChanged = false;
@@ -38,7 +51,7 @@ void Status::refresh()
     {
         const QMutexLocker lock(&mMutex);
 
-        if (!tailscale_daemon_running()) {
+        if (tailscale_daemon_running() == 0) {
             emitBackendStateChanged = mDaemonRunning; // daemon just stopped
             mDaemonRunning = false;
             qCWarning(Logging::Tailscale::Status) << "Failed to get tailscale status (daemon not running)";
@@ -49,7 +62,7 @@ void Status::refresh()
             if (!json_str) {
                 qCWarning(Logging::Tailscale::Status) << "Failed to get tailscale status (access denied)";
             } else {
-                const QByteArray json_buffer(json_str.get(), strlen(json_str.get()));
+                const QByteArray json_buffer(json_str.get(), static_cast<qsizetype>(strlen(json_str.get())));
                 QJsonParseError error;
                 const QJsonDocument json = QJsonDocument::fromJson(json_buffer, &error);
                 if (error.error != QJsonParseError::NoError) {
@@ -57,14 +70,14 @@ void Status::refresh()
                 } else {
                     QJsonObject json_obj = json.object();
 
-                    const auto oldExitNodeStatus = mExitNodeStatus.value();
+                    auto *const oldExitNodeStatus = mExitNodeStatus.value();
 
                     updateFromJson(json_obj);
 
                     emitExitNodeStatusChanged = (mExitNodeStatus.value() != oldExitNodeStatus);
 
                     const std::unique_ptr<char, decltype(&free)> suggested(tailscale_suggest_exit_node(), &free);
-                    if (suggested && suggested.get()[0] != '\0') {
+                    if (suggested && *suggested != '\0') {
                         mSuggestedExitNodeId = QString::fromUtf8(suggested.get());
                     } else {
                         mSuggestedExitNodeId = QString();
@@ -86,7 +99,7 @@ void Status::refresh()
     }
 }
 
-void Status::updateFromJson(QJsonObject &json)
+void Status::updateFromJson(QJsonObject &json) // NOLINT(readability-function-cognitive-complexity)
 {
     mVersion = json.take(QStringLiteral("Version")).toString();
     mIsTun = json.take(QStringLiteral("TUN")).toBool();

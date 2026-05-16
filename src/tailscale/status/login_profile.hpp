@@ -30,60 +30,60 @@ public:
 
     void updateFromJson(QJsonObject &json);
 
-    [[nodiscard]] const QString &id() const noexcept
+    [[nodiscard]] auto id() const noexcept -> const QString &
     {
         return mId;
     }
-    [[nodiscard]] const QString &name() const noexcept
+    [[nodiscard]] auto name() const noexcept -> const QString &
     {
         return mName;
     }
-    [[nodiscard]] NetworkProfile *networkProfile() const noexcept
+    [[nodiscard]] auto networkProfile() const noexcept -> NetworkProfile *
     {
         return mNetworkProfile;
     }
-    [[nodiscard]] const QString &key() const noexcept
+    [[nodiscard]] auto key() const noexcept -> const QString &
     {
         return mKey;
     }
-    [[nodiscard]] UserProfile *userProfile() const noexcept
+    [[nodiscard]] auto userProfile() const noexcept -> UserProfile *
     {
         return mUserProfile;
     }
-    [[nodiscard]] const QString &nodeId() const noexcept
+    [[nodiscard]] auto nodeId() const noexcept -> const QString &
     {
         return mNodeId;
     }
-    [[nodiscard]] const QString &localUserId() const noexcept
+    [[nodiscard]] auto localUserId() const noexcept -> const QString &
     {
         return mLocalUserId;
     }
-    [[nodiscard]] const QString &controlUrl() const noexcept
+    [[nodiscard]] auto controlUrl() const noexcept -> const QString &
     {
         return mControlUrl;
     }
 
-    [[nodiscard]] QBindable<QString> bindableId()
+    [[nodiscard]] auto bindableId() -> QBindable<QString>
     {
         return {&mId};
     }
-    [[nodiscard]] QBindable<QString> bindableName()
+    [[nodiscard]] auto bindableName() -> QBindable<QString>
     {
         return {&mName};
     }
-    [[nodiscard]] QBindable<QString> bindableKey()
+    [[nodiscard]] auto bindableKey() -> QBindable<QString>
     {
         return {&mKey};
     }
-    [[nodiscard]] QBindable<QString> bindableNodeId()
+    [[nodiscard]] auto bindableNodeId() -> QBindable<QString>
     {
         return {&mNodeId};
     }
-    [[nodiscard]] QBindable<QString> bindableLocalUserId()
+    [[nodiscard]] auto bindableLocalUserId() -> QBindable<QString>
     {
         return {&mLocalUserId};
     }
-    [[nodiscard]] QBindable<QString> bindableControlUrl()
+    [[nodiscard]] auto bindableControlUrl() -> QBindable<QString>
     {
         return {&mControlUrl};
     }

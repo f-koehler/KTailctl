@@ -28,7 +28,6 @@ public:
         connect(this, &QMenu::aboutToShow, this, &TrayMenuAccounts::rebuildMenu);
     }
 
-public Q_SLOTS:
     void rebuildMenu()
     {
         clear();

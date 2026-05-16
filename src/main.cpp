@@ -14,8 +14,17 @@
 #include <QQmlContext>
 #include <QQuickWindow>
 #include <memory>
+#include <qcoreapplication.h>
+#include <qhashfunctions.h>
+#include <qjsengine.h>
+#include <qjsvalue.h>
+#include <qnamespace.h>
+#include <qobject.h>
+#include <qqml.h>
+#include <qstringview.h>
+#include <qsystemtrayicon.h>
 
-int main(int argc, char *argv[])
+auto main(int argc, char *argv[]) -> int
 {
     const QApplication app(argc, argv);
 
@@ -59,8 +68,9 @@ int main(int argc, char *argv[])
     qml_register_types_org_fkoehler_KTailctl();
 
     auto engine = std::make_unique<QQmlApplicationEngine>();
-    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", 254, 0, "Config", Config::self());
-    qmlRegisterSingletonType("org.fkoehler.KTailctl", 254, 0, "About", [](QQmlEngine *engine, QJSEngine *) -> QJSValue {
+    static constexpr int qmlMajorVersion = 254;
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", qmlMajorVersion, 0, "Config", Config::self());
+    qmlRegisterSingletonType("org.fkoehler.KTailctl", qmlMajorVersion, 0, "About", [](QQmlEngine *engine, QJSEngine *) -> QJSValue {
         return engine->toScriptValue(KAboutData::applicationData());
     });
 
@@ -75,7 +85,7 @@ int main(int argc, char *argv[])
     // clicking tray icon should toggle window
     auto *tray_icon = new TrayIcon(tailscale);
     tray_icon->show();
-    QObject::connect(tray_icon, &QSystemTrayIcon::activated, tray_icon, [window](const QSystemTrayIcon::ActivationReason &reason) {
+    QObject::connect(tray_icon, &QSystemTrayIcon::activated, tray_icon, [window](const QSystemTrayIcon::ActivationReason &reason) -> void {
         switch (reason) {
         case QSystemTrayIcon::ActivationReason::Trigger:
         case QSystemTrayIcon::ActivationReason::DoubleClick:
@@ -94,14 +104,14 @@ int main(int argc, char *argv[])
             break;
         };
     });
-    QObject::connect(tray_icon, &TrayIcon::showWindow, window, [window] {
+    QObject::connect(tray_icon, &TrayIcon::showWindow, window, [window] -> void {
         window->show();
     });
     QObject::connect(tray_icon, &TrayIcon::quitRequested, &app, &QCoreApplication::quit, Qt::QueuedConnection);
 
-    QObject::connect(&app, &QCoreApplication::aboutToQuit, &app, [&engine]() {
+    QObject::connect(&app, &QCoreApplication::aboutToQuit, &app, [&engine]() -> void {
         engine.reset();
     });
 
-    return app.exec();
+    return QApplication::exec();
 }

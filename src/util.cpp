@@ -1,8 +1,13 @@
 #include "util.hpp"
 #include <KSystemClipboard>
 #include <QMimeData>
+#include <qclipboard.h>
+#include <qdatetime.h>
+#include <qobject.h>
+#include <qtenvironmentvariables.h>
+#include <qtypes.h>
 
-QString Util::formatDurationHumanReadable(const QDateTime &dateTime)
+auto Util::formatDurationHumanReadable(const QDateTime &dateTime) -> QString
 {
     static constexpr qint64 seconds_per_minute = 60UL;
     static constexpr qint64 seconds_per_hour = 3600UL;
@@ -23,7 +28,7 @@ QString Util::formatDurationHumanReadable(const QDateTime &dateTime)
     return QString::number(secs / seconds_per_day) + QStringLiteral(" days ago");
 }
 
-QString Util::systemUser()
+auto Util::systemUser() -> QString
 {
     QString user = qEnvironmentVariable("USER");
     if (user.isEmpty()) {
