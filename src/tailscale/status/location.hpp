@@ -3,7 +3,7 @@
 
 #include <QJsonObject>
 #include <QObject>
-#include <QProperty>
+#include <QObjectBindableProperty>
 #include <QString>
 #include <QtQmlIntegration/qqmlintegration.h>
 
@@ -12,21 +12,13 @@ class Location : public QObject
     Q_OBJECT
     QML_ELEMENT
 
-    Q_PROPERTY(QString country READ country BINDABLE bindableCountry)
-    Q_PROPERTY(QString countryCode READ countryCode BINDABLE bindableCountryCode)
-    Q_PROPERTY(QString city READ city BINDABLE bindableCity)
-    Q_PROPERTY(QString cityCode READ cityCode BINDABLE bindableCityCode)
-    Q_PROPERTY(double latitude READ latitude BINDABLE bindableLatitude)
-    Q_PROPERTY(double longitude READ longitude BINDABLE bindableLongitude)
-    Q_PROPERTY(int priority READ priority BINDABLE bindablePriority)
-
-    QProperty<QString> mCountry;
-    QProperty<QString> mCountryCode;
-    QProperty<QString> mCity;
-    QProperty<QString> mCityCode;
-    QProperty<double> mLatitude;
-    QProperty<double> mLongitude;
-    QProperty<int> mPriority;
+    Q_PROPERTY(QString country READ country BINDABLE bindableCountry NOTIFY countryChanged)
+    Q_PROPERTY(QString countryCode READ countryCode BINDABLE bindableCountryCode NOTIFY countryCodeChanged)
+    Q_PROPERTY(QString city READ city BINDABLE bindableCity NOTIFY cityChanged)
+    Q_PROPERTY(QString cityCode READ cityCode BINDABLE bindableCityCode NOTIFY cityCodeChanged)
+    Q_PROPERTY(double latitude READ latitude BINDABLE bindableLatitude NOTIFY latitudeChanged)
+    Q_PROPERTY(double longitude READ longitude BINDABLE bindableLongitude NOTIFY longitudeChanged)
+    Q_PROPERTY(int priority READ priority BINDABLE bindablePriority NOTIFY priorityChanged)
 
 public:
     explicit Location(QObject *parent = nullptr)
@@ -113,6 +105,24 @@ public:
     {
         return {&mPriority};
     }
+
+Q_SIGNALS:
+    void countryChanged();
+    void countryCodeChanged();
+    void cityChanged();
+    void cityCodeChanged();
+    void latitudeChanged();
+    void longitudeChanged();
+    void priorityChanged();
+
+private:
+    Q_OBJECT_BINDABLE_PROPERTY(Location, QString, mCountry, &Location::countryChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(Location, QString, mCountryCode, &Location::countryCodeChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(Location, QString, mCity, &Location::cityChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(Location, QString, mCityCode, &Location::cityCodeChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(Location, double, mLatitude, &Location::latitudeChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(Location, double, mLongitude, &Location::longitudeChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(Location, int, mPriority, &Location::priorityChanged)
 };
 
 #endif // KTAILCTL_LOCATION_HPP

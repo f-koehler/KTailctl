@@ -3,20 +3,16 @@
 
 #include <QJsonObject>
 #include <QObject>
-#include <QProperty>
+#include <QObjectBindableProperty>
 #include <QtQmlIntegration/qqmlintegration.h>
 
 class NetworkProfile : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
-    Q_PROPERTY(QString magicDnsName READ magicDnsName BINDABLE bindableMagicDnsName)
-    Q_PROPERTY(QString domainName READ domainName BINDABLE bindableDomainName)
-    Q_PROPERTY(QString displayName READ displayName BINDABLE bindableDisplayName)
-
-    QProperty<QString> mMagicDnsName;
-    QProperty<QString> mDomainName;
-    QProperty<QString> mDisplayName;
+    Q_PROPERTY(QString magicDnsName READ magicDnsName BINDABLE bindableMagicDnsName NOTIFY magicDnsNameChanged)
+    Q_PROPERTY(QString domainName READ domainName BINDABLE bindableDomainName NOTIFY domainNameChanged)
+    Q_PROPERTY(QString displayName READ displayName BINDABLE bindableDisplayName NOTIFY displayNameChanged)
 
 public:
     explicit NetworkProfile(QObject *parent = nullptr)
@@ -51,6 +47,16 @@ public:
     {
         return {&mDisplayName};
     }
+
+Q_SIGNALS:
+    void magicDnsNameChanged();
+    void domainNameChanged();
+    void displayNameChanged();
+
+private:
+    Q_OBJECT_BINDABLE_PROPERTY(NetworkProfile, QString, mMagicDnsName, &NetworkProfile::magicDnsNameChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(NetworkProfile, QString, mDomainName, &NetworkProfile::domainNameChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(NetworkProfile, QString, mDisplayName, &NetworkProfile::displayNameChanged)
 };
 
 #endif // KTAILCTL_NETWORK_PROFILE_HPP

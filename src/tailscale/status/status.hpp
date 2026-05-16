@@ -12,15 +12,18 @@
 #include <QMap>
 #include <QMutex>
 #include <QObject>
+#include <QProperty>
 #include <QString>
 #include <QtQmlIntegration/qqmlintegration.h>
 
-class PeerModel : public PropertyListModel<PeerStatus, PropertyListModelOwnership::External>
+using PeerModelBase = PropertyListModel<PeerStatus, PropertyListModelOwnership::External>;
+
+class PeerModel : public PeerModelBase
 {
     Q_OBJECT
     QML_ANONYMOUS
 public:
-    using PropertyListModel::PropertyListModel;
+    using PeerModelBase::PeerModelBase;
 };
 
 // https://pkg.go.dev/tailscale.com/ipn/ipnstate#Status
@@ -43,25 +46,30 @@ public:
 
     Q_ENUM(BackendState)
 
-    Q_PROPERTY(QString version READ version BINDABLE bindableVersion)
-    Q_PROPERTY(bool isTun READ isTun BINDABLE bindableIsTun)
+    Q_PROPERTY(QString version READ version BINDABLE bindableVersion NOTIFY versionChanged)
+    Q_PROPERTY(bool isTun READ isTun BINDABLE bindableIsTun NOTIFY isTunChanged)
     Q_PROPERTY(BackendState backendState READ backendState BINDABLE bindableBackendState NOTIFY backendStateChanged)
-    Q_PROPERTY(bool haveNodeKey READ haveNodeKey BINDABLE bindableHaveNodeKey)
-    Q_PROPERTY(QString authUrl READ authUrl BINDABLE bindableAuthUrl)
-    Q_PROPERTY(QStringList tailscaleIps READ tailscaleIps BINDABLE bindableTailscaleIps)
-    Q_PROPERTY(PeerStatus *self READ self BINDABLE bindableSelf)
-    Q_PROPERTY(ExitNodeStatus *exitNodeStatus READ exitNodeStatus BINDABLE bindableExitNodeStatus)
-    Q_PROPERTY(QStringList health READ health BINDABLE bindableHealth)
-    Q_PROPERTY(TailnetStatus *currentTailnet READ currentTailnet BINDABLE bindableCurrentTailnet)
+    Q_PROPERTY(bool haveNodeKey READ haveNodeKey BINDABLE bindableHaveNodeKey NOTIFY haveNodeKeyChanged)
+    Q_PROPERTY(QString authUrl READ authUrl BINDABLE bindableAuthUrl NOTIFY authUrlChanged)
+    Q_PROPERTY(QStringList tailscaleIps READ tailscaleIps BINDABLE bindableTailscaleIps NOTIFY tailscaleIpsChanged)
+    Q_PROPERTY(PeerStatus *self READ self BINDABLE bindableSelf NOTIFY selfChanged)
+    Q_PROPERTY(ExitNodeStatus *exitNodeStatus READ exitNodeStatus BINDABLE bindableExitNodeStatus NOTIFY exitNodeStatusChanged)
+    Q_PROPERTY(QStringList health READ health BINDABLE bindableHealth NOTIFY healthChanged)
+    Q_PROPERTY(TailnetStatus *currentTailnet READ currentTailnet BINDABLE bindableCurrentTailnet NOTIFY currentTailnetChanged)
     Q_PROPERTY(PeerModel *peers READ peerModel CONSTANT)
     Q_PROPERTY(MullvadExitNodeModel *mullvadExitNodeModel READ mullvadExitNodeModel CONSTANT)
     Q_PROPERTY(SelfHostedExitNodeModel *selfHostedExitNodeModel READ selfHostedExitNodeModel CONSTANT)
-    Q_PROPERTY(QMap<qint64, UserProfile *> users READ users BINDABLE bindableUsers)
-    Q_PROPERTY(ClientVersion *clientVersion READ clientVersion BINDABLE bindableClientVersion)
-    Q_PROPERTY(QString suggestedExitNodeId READ suggestedExitNodeId BINDABLE bindableSuggestedExitNodeId)
-    Q_PROPERTY(bool daemonRunning READ daemonRunning BINDABLE bindableDaemonRunning)
+    // QMap is not compatible with QBindable — BINDABLE is intentionally omitted here
+    Q_PROPERTY(QMap<qint64, UserProfile *> users READ users NOTIFY usersChanged)
+    Q_PROPERTY(ClientVersion *clientVersion READ clientVersion BINDABLE bindableClientVersion NOTIFY clientVersionChanged)
+    Q_PROPERTY(QString suggestedExitNodeId READ suggestedExitNodeId BINDABLE bindableSuggestedExitNodeId NOTIFY suggestedExitNodeIdChanged)
+    Q_PROPERTY(bool daemonRunning READ daemonRunning BINDABLE bindableDaemonRunning NOTIFY daemonRunningChanged)
 
 private:
+    // NOTE: signals are emitted manually *outside* the mutex lock in refresh() /
+    // updateFromJson() to avoid deadlocks. Do NOT convert these to
+    // Q_OBJECT_BINDABLE_PROPERTY, which would emit signals on assignment (inside
+    // the lock).
     QMutex mMutex;
 
     QProperty<QString> mVersion;
@@ -76,7 +84,7 @@ private:
     QProperty<TailnetStatus *> mCurrentTailnet;
     QMap<QString, PeerStatus *> mPeers;
     PeerModel *mPeerModel;
-    QProperty<QMap<qint64, UserProfile *>> mUsers;
+    QMap<qint64, UserProfile *> mUsers;
     QProperty<ClientVersion *> mClientVersion;
     QProperty<QString> mSuggestedExitNodeId;
     QProperty<bool> mDaemonRunning{true};
@@ -85,8 +93,20 @@ private:
     SelfHostedExitNodeModel *mSelfHostedExitNodeModel;
 
 Q_SIGNALS:
+    void versionChanged();
+    void isTunChanged();
     void backendStateChanged();
+    void haveNodeKeyChanged();
+    void authUrlChanged();
+    void tailscaleIpsChanged();
+    void selfChanged();
     void exitNodeStatusChanged();
+    void healthChanged();
+    void currentTailnetChanged();
+    void usersChanged();
+    void clientVersionChanged();
+    void suggestedExitNodeIdChanged();
+    void daemonRunningChanged();
 
 public:
     explicit Status(QObject *parent = nullptr);
@@ -230,11 +250,6 @@ public:
     [[nodiscard]] QBindable<TailnetStatus *> bindableCurrentTailnet()
     {
         return {&mCurrentTailnet};
-    }
-
-    [[nodiscard]] QBindable<QMap<qint64, UserProfile *>> bindableUsers()
-    {
-        return {&mUsers};
     }
 
     [[nodiscard]] QBindable<ClientVersion *> bindableClientVersion()

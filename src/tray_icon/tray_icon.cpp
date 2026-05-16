@@ -38,7 +38,7 @@ TrayIcon::TrayIcon(Tailscale *tailscale, QObject *parent)
         Q_EMIT quitRequested();
     });
 
-    connect(mContextMenu, &QMenu::aboutToShow, [this] {
+    connect(mContextMenu, &QMenu::aboutToShow, this, [this] {
         if ((mTailscale->status()->backendState() == Status::BackendState::Starting)
             || (mTailscale->status()->backendState() == Status::BackendState::Running)) {
             mActionStart->setVisible(false);
@@ -49,7 +49,7 @@ TrayIcon::TrayIcon(Tailscale *tailscale, QObject *parent)
         }
     });
 
-    connect(Config::self(), &Config::enableTrayIconChanged, [this] {
+    connect(Config::self(), &Config::enableTrayIconChanged, this, [this] {
         setVisible(Config::enableTrayIcon());
     });
 

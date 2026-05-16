@@ -5,6 +5,7 @@
 #include <QBindable>
 #include <QDateTime>
 #include <QObject>
+#include <QObjectBindableProperty>
 #include <QString>
 #include <QStringList>
 #include <QtQmlIntegration/qqmlintegration.h>
@@ -31,83 +32,43 @@ public:
 
     Q_ENUM(TaildropTargetStatus)
 
-    Q_PROPERTY(QString id READ id BINDABLE bindableId)
-    Q_PROPERTY(QString publicKey READ publicKey BINDABLE bindablePublicKey)
-    Q_PROPERTY(QString hostName READ hostName BINDABLE bindableHostName)
-    Q_PROPERTY(QString dnsName READ dnsName BINDABLE bindableDnsName)
-    Q_PROPERTY(QString os READ os BINDABLE bindableOs)
-    Q_PROPERTY(qint64 userId READ userId BINDABLE bindableUserId)
-    Q_PROPERTY(qint64 sharerUserId READ sharerUserId BINDABLE bindableSharerUserId)
-    Q_PROPERTY(QStringList tailscaleIps READ tailscaleIps BINDABLE bindableTailscaleIps)
-    Q_PROPERTY(QStringList allowedIps READ allowedIps BINDABLE bindableAllowedIps)
-    Q_PROPERTY(QStringList tags READ tags BINDABLE bindableTags)
-    Q_PROPERTY(bool mullvadNode READ mullvadNode BINDABLE bindableMullvadNode)
-    Q_PROPERTY(QStringList primaryRoutes READ primaryRoutes BINDABLE bindablePrimaryRoutes)
-    Q_PROPERTY(QStringList addresses READ addresses BINDABLE bindableAddresses)
-    Q_PROPERTY(QString currentAddress READ currentAddress BINDABLE bindableCurrentAddress)
-    Q_PROPERTY(QString relay READ relay BINDABLE bindableRelay)
-    Q_PROPERTY(QString peerRelay READ peerRelay BINDABLE bindablePeerRelay)
-    Q_PROPERTY(qint64 receivedBytes READ receivedBytes BINDABLE bindableReceivedBytes)
-    Q_PROPERTY(qint64 transmittedBytes READ transmittedBytes BINDABLE bindableTransmittedBytes)
-    Q_PROPERTY(QDateTime created READ created BINDABLE bindableCreated)
-    Q_PROPERTY(QDateTime lastWrite READ lastWrite BINDABLE bindableLastWrite)
-    Q_PROPERTY(QDateTime lastSeen READ lastSeen BINDABLE bindableLastSeen)
-    Q_PROPERTY(QDateTime lastHandshake READ lastHandshake BINDABLE bindableLastHandshake)
-    Q_PROPERTY(bool online READ online BINDABLE bindableOnline)
-    Q_PROPERTY(bool exitNode READ exitNode BINDABLE bindableExitNode)
-    Q_PROPERTY(bool exitNodeOption READ exitNodeOption BINDABLE bindableExitNodeOption)
-    Q_PROPERTY(bool active READ active BINDABLE bindableActive)
-    Q_PROPERTY(QStringList peerApiUrls READ peerApiUrls BINDABLE bindablePeerApiUrls)
-    Q_PROPERTY(TaildropTargetStatus taildropTargetStatus READ taildropTargetStatus BINDABLE bindableTaildropTargetStatus)
-    Q_PROPERTY(QString noFileSharingReason READ noFileSharingReason BINDABLE bindableNoFileSharingReason)
-    Q_PROPERTY(QStringList sshHostKeys READ sshHostKeys BINDABLE bindableSshHostKeys)
-    Q_PROPERTY(bool shareeNode READ shareeNode BINDABLE bindableShareeNode)
-    Q_PROPERTY(bool inNetworkMap READ inNetworkMap BINDABLE bindableInNetworkMap)
-    Q_PROPERTY(bool inMagicSock READ inMagicSock BINDABLE bindableInMagicSock)
-    Q_PROPERTY(bool inEngine READ inEngine BINDABLE bindableInEngine)
-    Q_PROPERTY(bool expired READ expired BINDABLE bindableExpired)
-    Q_PROPERTY(QDateTime keyExpiry READ keyExpiry BINDABLE bindableKeyExpiry)
-    Q_PROPERTY(Location *location READ location BINDABLE bindableLocation)
-
-private:
-    QProperty<QString> mId;
-    QProperty<QString> mPublicKey;
-    QProperty<QString> mHostName;
-    QProperty<QString> mDnsName;
-    QProperty<QString> mOs; // TODO(fk): replace with enum?
-    QProperty<qint64> mUserId;
-    QProperty<qint64> mSharerUserId;
-    QProperty<QStringList> mTailscaleIps;
-    QProperty<QStringList> mAllowedIps;
-    QProperty<QStringList> mTags;
-    QProperty<bool> mMullvadNode;
-    QProperty<QStringList> mPrimaryRoutes;
-    QProperty<QStringList> mAddresses;
-    QProperty<QString> mCurrentAddress;
-    QProperty<QString> mRelay;
-    QProperty<QString> mPeerRelay;
-    QProperty<qint64> mReceivedBytes;
-    QProperty<qint64> mTransmittedBytes;
-    QProperty<QDateTime> mCreated;
-    QProperty<QDateTime> mLastWrite;
-    QProperty<QDateTime> mLastSeen;
-    QProperty<QDateTime> mLastHandshake;
-    QProperty<bool> mOnline;
-    QProperty<bool> mExitNode;
-    QProperty<bool> mExitNodeOption;
-    QProperty<bool> mActive;
-    QProperty<QStringList> mPeerApiUrls;
-    QProperty<TaildropTargetStatus> mTaildropTargetStatus;
-    QProperty<QString> mNoFileSharingReason;
-    // TODO(fk): capmap
-    QProperty<QStringList> mSshHostKeys;
-    QProperty<bool> mShareeNode;
-    QProperty<bool> mInNetworkMap;
-    QProperty<bool> mInMagicSock;
-    QProperty<bool> mInEngine;
-    QProperty<bool> mExpired;
-    QProperty<QDateTime> mKeyExpiry;
-    QProperty<Location *> mLocation;
+    Q_PROPERTY(QString id READ id BINDABLE bindableId NOTIFY idChanged)
+    Q_PROPERTY(QString publicKey READ publicKey BINDABLE bindablePublicKey NOTIFY publicKeyChanged)
+    Q_PROPERTY(QString hostName READ hostName BINDABLE bindableHostName NOTIFY hostNameChanged)
+    Q_PROPERTY(QString dnsName READ dnsName BINDABLE bindableDnsName NOTIFY dnsNameChanged)
+    Q_PROPERTY(QString os READ os BINDABLE bindableOs NOTIFY osChanged)
+    Q_PROPERTY(qint64 userId READ userId BINDABLE bindableUserId NOTIFY userIdChanged)
+    Q_PROPERTY(qint64 sharerUserId READ sharerUserId BINDABLE bindableSharerUserId NOTIFY sharerUserIdChanged)
+    Q_PROPERTY(QStringList tailscaleIps READ tailscaleIps BINDABLE bindableTailscaleIps NOTIFY tailscaleIpsChanged)
+    Q_PROPERTY(QStringList allowedIps READ allowedIps BINDABLE bindableAllowedIps NOTIFY allowedIpsChanged)
+    Q_PROPERTY(QStringList tags READ tags BINDABLE bindableTags NOTIFY tagsChanged)
+    Q_PROPERTY(bool mullvadNode READ mullvadNode BINDABLE bindableMullvadNode NOTIFY mullvadNodeChanged)
+    Q_PROPERTY(QStringList primaryRoutes READ primaryRoutes BINDABLE bindablePrimaryRoutes NOTIFY primaryRoutesChanged)
+    Q_PROPERTY(QStringList addresses READ addresses BINDABLE bindableAddresses NOTIFY addressesChanged)
+    Q_PROPERTY(QString currentAddress READ currentAddress BINDABLE bindableCurrentAddress NOTIFY currentAddressChanged)
+    Q_PROPERTY(QString relay READ relay BINDABLE bindableRelay NOTIFY relayChanged)
+    Q_PROPERTY(QString peerRelay READ peerRelay BINDABLE bindablePeerRelay NOTIFY peerRelayChanged)
+    Q_PROPERTY(qint64 receivedBytes READ receivedBytes BINDABLE bindableReceivedBytes NOTIFY receivedBytesChanged)
+    Q_PROPERTY(qint64 transmittedBytes READ transmittedBytes BINDABLE bindableTransmittedBytes NOTIFY transmittedBytesChanged)
+    Q_PROPERTY(QDateTime created READ created BINDABLE bindableCreated NOTIFY createdChanged)
+    Q_PROPERTY(QDateTime lastWrite READ lastWrite BINDABLE bindableLastWrite NOTIFY lastWriteChanged)
+    Q_PROPERTY(QDateTime lastSeen READ lastSeen BINDABLE bindableLastSeen NOTIFY lastSeenChanged)
+    Q_PROPERTY(QDateTime lastHandshake READ lastHandshake BINDABLE bindableLastHandshake NOTIFY lastHandshakeChanged)
+    Q_PROPERTY(bool online READ online BINDABLE bindableOnline NOTIFY onlineChanged)
+    Q_PROPERTY(bool exitNode READ exitNode BINDABLE bindableExitNode NOTIFY exitNodeChanged)
+    Q_PROPERTY(bool exitNodeOption READ exitNodeOption BINDABLE bindableExitNodeOption NOTIFY exitNodeOptionChanged)
+    Q_PROPERTY(bool active READ active BINDABLE bindableActive NOTIFY activeChanged)
+    Q_PROPERTY(QStringList peerApiUrls READ peerApiUrls BINDABLE bindablePeerApiUrls NOTIFY peerApiUrlsChanged)
+    Q_PROPERTY(TaildropTargetStatus taildropTargetStatus READ taildropTargetStatus BINDABLE bindableTaildropTargetStatus NOTIFY taildropTargetStatusChanged)
+    Q_PROPERTY(QString noFileSharingReason READ noFileSharingReason BINDABLE bindableNoFileSharingReason NOTIFY noFileSharingReasonChanged)
+    Q_PROPERTY(QStringList sshHostKeys READ sshHostKeys BINDABLE bindableSshHostKeys NOTIFY sshHostKeysChanged)
+    Q_PROPERTY(bool shareeNode READ shareeNode BINDABLE bindableShareeNode NOTIFY shareeNodeChanged)
+    Q_PROPERTY(bool inNetworkMap READ inNetworkMap BINDABLE bindableInNetworkMap NOTIFY inNetworkMapChanged)
+    Q_PROPERTY(bool inMagicSock READ inMagicSock BINDABLE bindableInMagicSock NOTIFY inMagicSockChanged)
+    Q_PROPERTY(bool inEngine READ inEngine BINDABLE bindableInEngine NOTIFY inEngineChanged)
+    Q_PROPERTY(bool expired READ expired BINDABLE bindableExpired NOTIFY expiredChanged)
+    Q_PROPERTY(QDateTime keyExpiry READ keyExpiry BINDABLE bindableKeyExpiry NOTIFY keyExpiryChanged)
+    Q_PROPERTY(Location *location READ location BINDABLE bindableLocation NOTIFY locationChanged)
 
 public:
     explicit PeerStatus(QObject *parent = nullptr)
@@ -494,6 +455,85 @@ public:
     {
         return {&mLocation};
     }
+
+Q_SIGNALS:
+    void idChanged();
+    void publicKeyChanged();
+    void hostNameChanged();
+    void dnsNameChanged();
+    void osChanged();
+    void userIdChanged();
+    void sharerUserIdChanged();
+    void tailscaleIpsChanged();
+    void allowedIpsChanged();
+    void tagsChanged();
+    void mullvadNodeChanged();
+    void primaryRoutesChanged();
+    void addressesChanged();
+    void currentAddressChanged();
+    void relayChanged();
+    void peerRelayChanged();
+    void receivedBytesChanged();
+    void transmittedBytesChanged();
+    void createdChanged();
+    void lastWriteChanged();
+    void lastSeenChanged();
+    void lastHandshakeChanged();
+    void onlineChanged();
+    void exitNodeChanged();
+    void exitNodeOptionChanged();
+    void activeChanged();
+    void peerApiUrlsChanged();
+    void taildropTargetStatusChanged();
+    void noFileSharingReasonChanged();
+    void sshHostKeysChanged();
+    void shareeNodeChanged();
+    void inNetworkMapChanged();
+    void inMagicSockChanged();
+    void inEngineChanged();
+    void expiredChanged();
+    void keyExpiryChanged();
+    void locationChanged();
+
+private:
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, QString, mId, &PeerStatus::idChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, QString, mPublicKey, &PeerStatus::publicKeyChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, QString, mHostName, &PeerStatus::hostNameChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, QString, mDnsName, &PeerStatus::dnsNameChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, QString, mOs, &PeerStatus::osChanged) // TODO(fk): replace with enum?
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, qint64, mUserId, &PeerStatus::userIdChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, qint64, mSharerUserId, &PeerStatus::sharerUserIdChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, QStringList, mTailscaleIps, &PeerStatus::tailscaleIpsChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, QStringList, mAllowedIps, &PeerStatus::allowedIpsChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, QStringList, mTags, &PeerStatus::tagsChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, bool, mMullvadNode, &PeerStatus::mullvadNodeChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, QStringList, mPrimaryRoutes, &PeerStatus::primaryRoutesChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, QStringList, mAddresses, &PeerStatus::addressesChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, QString, mCurrentAddress, &PeerStatus::currentAddressChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, QString, mRelay, &PeerStatus::relayChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, QString, mPeerRelay, &PeerStatus::peerRelayChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, qint64, mReceivedBytes, &PeerStatus::receivedBytesChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, qint64, mTransmittedBytes, &PeerStatus::transmittedBytesChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, QDateTime, mCreated, &PeerStatus::createdChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, QDateTime, mLastWrite, &PeerStatus::lastWriteChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, QDateTime, mLastSeen, &PeerStatus::lastSeenChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, QDateTime, mLastHandshake, &PeerStatus::lastHandshakeChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, bool, mOnline, &PeerStatus::onlineChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, bool, mExitNode, &PeerStatus::exitNodeChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, bool, mExitNodeOption, &PeerStatus::exitNodeOptionChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, bool, mActive, &PeerStatus::activeChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, QStringList, mPeerApiUrls, &PeerStatus::peerApiUrlsChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, TaildropTargetStatus, mTaildropTargetStatus, &PeerStatus::taildropTargetStatusChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, QString, mNoFileSharingReason, &PeerStatus::noFileSharingReasonChanged)
+    // TODO(fk): capmap
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, QStringList, mSshHostKeys, &PeerStatus::sshHostKeysChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, bool, mShareeNode, &PeerStatus::shareeNodeChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, bool, mInNetworkMap, &PeerStatus::inNetworkMapChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, bool, mInMagicSock, &PeerStatus::inMagicSockChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, bool, mInEngine, &PeerStatus::inEngineChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, bool, mExpired, &PeerStatus::expiredChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, QDateTime, mKeyExpiry, &PeerStatus::keyExpiryChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(PeerStatus, Location *, mLocation, &PeerStatus::locationChanged)
 };
 
 #endif // KTAILCTL_PEER_STATUS_HPP

@@ -56,12 +56,12 @@ void TrayMenuExitNodesMullvad::rebuildMenu()
             mPerCountryMenus[countryCode]->setIcon(icon);
         }
         const auto id = index.data(mRoleIndexId).value<QString>();
-        mPerCountryMenus[countryCode]->addAction(icon, index.data(mRoleIndexHostName).toString(), [this, id] {
+        mPerCountryMenus[countryCode]->addAction(icon, index.data(mRoleIndexHostName).toString(), this, [this, id] {
             mTailscale->preferences()->setExitNodeID(id);
         });
     }
 
-    for (auto *menu : mPerCountryMenus.values()) {
+    for (auto *menu : std::as_const(mPerCountryMenus)) {
         addMenu(menu);
     }
 }

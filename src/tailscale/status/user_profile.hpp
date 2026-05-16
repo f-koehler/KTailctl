@@ -4,6 +4,7 @@
 #include <QBindable>
 #include <QJsonObject>
 #include <QObject>
+#include <QObjectBindableProperty>
 #include <QString>
 #include <QtQmlIntegration/qqmlintegration.h>
 
@@ -11,15 +12,10 @@ class UserProfile : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
-    Q_PROPERTY(qint64 userId READ userId BINDABLE bindableUserId)
-    Q_PROPERTY(QString loginName READ loginName BINDABLE bindableLoginName)
-    Q_PROPERTY(QString displayName READ displayName BINDABLE bindableDisplayName)
-    Q_PROPERTY(QString profilePicUrl READ profilePicUrl BINDABLE bindableProfilePicUrl)
-
-    QProperty<qint64> mUserId;
-    QProperty<QString> mLoginName;
-    QProperty<QString> mDisplayName;
-    QProperty<QString> mProfilePicUrl;
+    Q_PROPERTY(qint64 userId READ userId BINDABLE bindableUserId NOTIFY userIdChanged)
+    Q_PROPERTY(QString loginName READ loginName BINDABLE bindableLoginName NOTIFY loginNameChanged)
+    Q_PROPERTY(QString displayName READ displayName BINDABLE bindableDisplayName NOTIFY displayNameChanged)
+    Q_PROPERTY(QString profilePicUrl READ profilePicUrl BINDABLE bindableProfilePicUrl NOTIFY profilePicUrlChanged)
 
 public:
     explicit UserProfile(QObject *parent = nullptr)
@@ -76,6 +72,18 @@ public:
     {
         return {&mProfilePicUrl};
     }
+
+Q_SIGNALS:
+    void userIdChanged();
+    void loginNameChanged();
+    void displayNameChanged();
+    void profilePicUrlChanged();
+
+private:
+    Q_OBJECT_BINDABLE_PROPERTY(UserProfile, qint64, mUserId, &UserProfile::userIdChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(UserProfile, QString, mLoginName, &UserProfile::loginNameChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(UserProfile, QString, mDisplayName, &UserProfile::displayNameChanged)
+    Q_OBJECT_BINDABLE_PROPERTY(UserProfile, QString, mProfilePicUrl, &UserProfile::profilePicUrlChanged)
 };
 
 #endif // KTAILCTL_USER_PROFILE_HPP

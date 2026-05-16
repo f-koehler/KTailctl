@@ -4,13 +4,12 @@
 #include <QBindable>
 #include <QJsonObject>
 #include <QObject>
+#include <QObjectBindableProperty>
 
 class AppConnectorPreferences : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(bool advertise READ advertise BINDABLE bindableAdvertise)
-
-    QProperty<bool> mAdvertise;
+    Q_PROPERTY(bool advertise READ advertise BINDABLE bindableAdvertise NOTIFY advertiseChanged)
 
 public:
     explicit AppConnectorPreferences(QObject *parent = nullptr)
@@ -29,6 +28,12 @@ public:
     {
         return {&mAdvertise};
     }
+
+Q_SIGNALS:
+    void advertiseChanged();
+
+private:
+    Q_OBJECT_BINDABLE_PROPERTY(AppConnectorPreferences, bool, mAdvertise, &AppConnectorPreferences::advertiseChanged)
 };
 
 #endif // KTAILCTL_APP_CONNECTOR_HPP

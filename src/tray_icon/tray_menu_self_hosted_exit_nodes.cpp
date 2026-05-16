@@ -35,7 +35,7 @@ void TrayMenuExitNodesSelfHosted::rebuildMenu()
             continue;
         }
         const QString exitNodeId = index.data(mRoleIndexId).toString();
-        addAction(index.data(mRoleIndexHostName).toString(), [this, exitNodeId] {
+        addAction(index.data(mRoleIndexHostName).toString(), this, [this, exitNodeId] {
             mTailscale->preferences()->setExitNodeID(exitNodeId);
         });
     }
