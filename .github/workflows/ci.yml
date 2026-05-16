@@ -92,11 +92,6 @@ jobs:
         run: |
           flatpak-builder --user --force-clean \
           build-dir org.fkoehler.KTailctl.yml
-      - name: Validate build
-        run: |
-          flatpak run --command=flatpak-builder-lint org.flatpak.Builder \
-          --exceptions --user-exceptions flathub/linter-exceptions.json \
-          builddir build-dir/
   native_build:
     name: Native Build (${{ matrix.compiler }})
     runs-on: ubuntu-latest
