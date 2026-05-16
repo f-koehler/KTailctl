@@ -18,11 +18,11 @@ done
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SOURCE_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
-for cmd in run-clang-tidy run-clang-tidy-20 run-clang-tidy-19 run-clang-tidy-18; do
+for cmd in run-clang-tidy-22 run-clang-tidy-21; do
 	if command -v "${cmd}" >/dev/null 2>&1; then
 		exec "${cmd}" -p "${BUILD_DIR}" "$@" "^${SOURCE_DIR}/src/"
 	fi
 done
 
-echo "Error: no run-clang-tidy binary found (tried run-clang-tidy, run-clang-tidy-20, run-clang-tidy-19, run-clang-tidy-18)" >&2
+echo "Error: no run-clang-tidy binary found" >&2
 exit 1

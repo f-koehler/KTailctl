@@ -143,8 +143,20 @@ jobs:
         run: sudo apt-get update -yq
       - name: Install dependencies
         run: sudo ./scripts/neon-deps.sh
+      - name: Add LLVM apt repository
+        if: matrix.linter == 'clang-tidy'
+        run: |
+          KEYRING=/usr/share/keyrings/llvm-archive-keyring.gpg
+          wget -qO - https://apt.llvm.org/llvm-snapshot.gpg.key \
+            | gpg --dearmor - \
+            | sudo tee "${KEYRING}" >/dev/null
+          echo "deb [signed-by=${KEYRING}]" \
+            "http://apt.llvm.org/noble/ llvm-toolchain-noble-22 main" \
+            | sudo tee /etc/apt/sources.list.d/llvm.list >/dev/null
+          sudo apt-get update -yq
+          sudo apt-get install -yq clang-tidy-22
       - name: Install lint dependencies
-        run: sudo apt-get install -yq clang-tidy clang-tools clazy cppcheck iwyu
+        run: sudo apt-get install -yq clang-tools clazy cppcheck iwyu
       - name: Configure
         run: |
           cmake -B build -G Ninja \
