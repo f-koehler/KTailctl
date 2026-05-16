@@ -1,9 +1,10 @@
 #include "util.hpp"
+
 #include <KSystemClipboard>
+#include <QClipboard>
 #include <QMimeData>
-#include <qclipboard.h>
-#include <qdatetime.h>
-#include <qobject.h>
+#include <QStringBuilder>
+#include <QStringLiteral>
 #include <qtenvironmentvariables.h>
 #include <qtypes.h>
 

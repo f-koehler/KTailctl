@@ -1,12 +1,21 @@
 #ifndef KTAILCTL_TAILSCALE_HPP
 #define KTAILCTL_TAILSCALE_HPP
 
+#include <QJSEngine>
+#include <QMap>
+#include <QMutex>
+#include <QObject>
+#include <QQmlEngine>
+#include <QString>
+#include <QtQmlIntegration/qqmlintegration.h>
+#include <qproperty.h>
+#include <qtmetamacros.h>
+#include <qttypetraits.h>
+
 #include "preferences/preferences.hpp"
 #include "property_list_model.hpp"
 #include "status/login_profile.hpp"
 #include "status/status.hpp"
-#include <QQmlEngine>
-#include <QtQmlIntegration/qqmlintegration.h>
 
 using LoginProfileModelBase = PropertyListModel<LoginProfile, PropertyListModelOwnership::External>;
 

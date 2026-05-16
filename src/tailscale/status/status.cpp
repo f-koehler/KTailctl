@@ -1,4 +1,24 @@
 #include "status.hpp"
+
+#include <QByteArray>
+#include <QDebug>
+#include <QJsonDocument>
+#include <QJsonParseError>
+#include <QJsonValue>
+#include <QJsonValueRef>
+#include <QMessageLogger>
+#include <QMutexLocker>
+#include <QSet>
+#include <QStringLiteral>
+#include <QVariant>
+#include <QtCore>
+#include <cstdlib>
+#include <cstring>
+#include <memory>
+#include <qtmetamacros.h>
+#include <qtypes.h>
+#include <utility>
+
 #include "exit_node_status.hpp"
 #include "libktailctl_wrapper.h"
 #include "logging_tailscale_status.hpp"
@@ -6,19 +26,6 @@
 #include "peer_status.hpp"
 #include "self_hosted_exit_node_model.hpp"
 #include "tailnet_status.hpp"
-#include <QByteArray>
-#include <QJsonDocument>
-#include <QJsonParseError>
-#include <QMutexLocker>
-#include <QSet>
-#include <cstdlib>
-#include <cstring>
-#include <memory>
-#include <qhashfunctions.h>
-#include <qloggingcategory.h>
-#include <qobject.h>
-#include <qtmetamacros.h>
-#include <qtypes.h>
 
 Status::Status(QObject *parent)
     : QObject(parent)

@@ -1,10 +1,18 @@
 #include "tray_menu_self_hosted_exit_nodes.hpp"
+
+#include <QByteArray>
+#include <QLoggingCategory>
+#include <QMessageLogger>
+#include <QModelIndex>
+#include <QString>
+#include <QStringLiteral>
+#include <QVariant>
+
 #include "logging_tray_icon.hpp"
+#include "preferences.hpp"
+#include "self_hosted_exit_node_model.hpp"
+#include "status.hpp"
 #include "tailscale.hpp"
-#include <qhashfunctions.h>
-#include <qloggingcategory.h>
-#include <qmenu.h>
-#include <qwidget.h>
 
 TrayMenuExitNodesSelfHosted::TrayMenuExitNodesSelfHosted(Tailscale *tailscale, QWidget *parent)
     : QMenu(QStringLiteral("Self-Hosted"), parent)

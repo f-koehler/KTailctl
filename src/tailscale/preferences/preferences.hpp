@@ -1,18 +1,22 @@
 #ifndef KTAILCTL_PREFERENCES_PREFERENCES_HPP
 #define KTAILCTL_PREFERENCES_PREFERENCES_HPP
 
-#include "app_connector.hpp"
-#include "auto_update.hpp"
-#include "libktailctl_wrapper.h"
 #include <QJsonObject>
+#include <QList>
 #include <QMutex>
 #include <QObject>
-#include <QObjectBindableProperty>
 #include <QProperty>
 #include <QString>
-#include <QTimer>
+#include <QStringList>
+#include <QStringLiteral>
 #include <QVariant>
 #include <QtQmlIntegration/qqmlintegration.h>
+#include <qtmetamacros.h>
+#include <qtypes.h>
+#include <stdint.h>
+
+#include "app_connector.hpp"
+#include "auto_update.hpp"
 
 // https://pkg.go.dev/tailscale.com/ipn#Prefs
 class Preferences : public QObject

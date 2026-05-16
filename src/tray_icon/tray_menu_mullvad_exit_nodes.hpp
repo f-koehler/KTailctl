@@ -1,10 +1,13 @@
 #ifndef KTAILCTL_TRAY_MENU_MULLVAD_EXIT_NODES_HPP
 #define KTAILCTL_TRAY_MENU_MULLVAD_EXIT_NODES_HPP
 
-#include "logging_tray_icon.hpp"
-#include "tailscale/status/location.hpp"
-#include "tailscale/tailscale.hpp"
+#include <QMap>
 #include <QMenu>
+#include <QString>
+#include <QWidget>
+#include <qtmetamacros.h>
+
+#include "tailscale/tailscale.hpp"
 
 class TrayMenuExitNodesMullvad : public QMenu
 {

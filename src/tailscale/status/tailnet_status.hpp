@@ -6,6 +6,7 @@
 #include <QObjectBindableProperty>
 #include <QString>
 #include <QtQmlIntegration/qqmlintegration.h>
+#include <qtmetamacros.h>
 
 class TailnetStatus : public QObject
 {

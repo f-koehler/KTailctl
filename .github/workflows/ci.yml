@@ -105,6 +105,8 @@ jobs:
             script: ./scripts/clazy.sh
           - linter: cppcheck
             script: ./scripts/cppcheck.sh
+          - linter: iwyu
+            script: ./scripts/iwyu.sh
     env:
       CC: clang
       CXX: clang++
@@ -142,7 +144,7 @@ jobs:
       - name: Install dependencies
         run: sudo ./scripts/neon-deps.sh
       - name: Install lint dependencies
-        run: sudo apt-get install -yq clang-tidy clang-tools clazy cppcheck
+        run: sudo apt-get install -yq clang-tidy clang-tools clazy cppcheck iwyu
       - name: Configure
         run: |
           cmake -B build -G Ninja \

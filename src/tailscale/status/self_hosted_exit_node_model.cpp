@@ -1,5 +1,9 @@
 #include "self_hosted_exit_node_model.hpp"
-#include <qabstractitemmodel.h>
+
+#include <QModelIndex>
+#include <QString>
+#include <QVariant>
+#include <compare>
 
 auto SelfHostedExitNodeModel::lessThan(const QModelIndex &left, const QModelIndex &right) const -> bool
 {

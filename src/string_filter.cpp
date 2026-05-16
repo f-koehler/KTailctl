@@ -1,9 +1,10 @@
 #include "string_filter.hpp"
-#include <qabstractitemmodel.h>
-#include <qnamespace.h>
-#include <qobject.h>
-#include <qsortfilterproxymodel.h>
-#include <qstringview.h>
+
+#include <QAbstractItemModel>
+#include <QByteArray>
+#include <QModelIndex>
+#include <QVariant>
+#include <QtCore>
 #include <qtmetamacros.h>
 
 StringFilter::StringFilter(QObject *parent)

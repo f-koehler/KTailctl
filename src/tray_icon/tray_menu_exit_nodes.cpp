@@ -1,12 +1,18 @@
 #include "tray_menu_exit_nodes.hpp"
+
+#include <QIcon>
+#include <QString>
+#include <QStringBuilder>
+#include <QStringLiteral>
+
 #include "ktailctl_config.h"
+#include "location.hpp"
+#include "peer_status.hpp"
+#include "preferences.hpp"
+#include "status.hpp"
 #include "tailscale.hpp"
 #include "tray_icon/tray_menu_mullvad_exit_nodes.hpp"
 #include "tray_icon/tray_menu_self_hosted_exit_nodes.hpp"
-#include <qhashfunctions.h>
-#include <qicon.h>
-#include <qmenu.h>
-#include <qwidget.h>
 
 TrayMenuExitNodes::TrayMenuExitNodes(Tailscale *tailscale, QWidget *parent)
     : QMenu(QStringLiteral("Exit Nodes"), parent)

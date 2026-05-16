@@ -1,12 +1,17 @@
 #ifndef KTAILCTL_SELF_HOSTED_EXIT_NODE_MODEL_HPP_
 #define KTAILCTL_SELF_HOSTED_EXIT_NODE_MODEL_HPP_
 
+#include <QAbstractItemModel>
+#include <QMessageLogger>
+#include <QObject>
+#include <QSortFilterProxyModel>
+#include <QtCore>
+#include <QtQmlIntegration/qqmlintegration.h>
+#include <qtmetamacros.h>
+
 #include "logging_tailscale_status.hpp"
 #include "peer_status.hpp"
 #include "property_list_model.hpp"
-#include <QSortFilterProxyModel>
-#include <QtQmlIntegration/qqmlintegration.h>
-#include <qloggingcategory.h>
 
 class SelfHostedExitNodeModel : public QSortFilterProxyModel
 {

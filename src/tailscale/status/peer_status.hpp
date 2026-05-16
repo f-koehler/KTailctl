@@ -1,14 +1,19 @@
 #ifndef KTAILCTL_PEER_STATUS_HPP
 #define KTAILCTL_PEER_STATUS_HPP
 
-#include "location.hpp"
-#include <QBindable>
 #include <QDateTime>
+#include <QJsonObject>
+#include <QList>
 #include <QObject>
 #include <QObjectBindableProperty>
 #include <QString>
 #include <QStringList>
 #include <QtQmlIntegration/qqmlintegration.h>
+#include <qtmetamacros.h>
+#include <qtypes.h>
+#include <stdint.h>
+
+#include "location.hpp"
 
 // https://pkg.go.dev/tailscale.com/ipn/ipnstate#PeerStatus
 class PeerStatus : public QObject

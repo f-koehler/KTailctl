@@ -1,6 +1,8 @@
 #include "location.hpp"
-#include <qhashfunctions.h>
-#include <qjsonobject.h>
+
+#include <QJsonValue>
+#include <QStringLiteral>
+#include <utility>
 
 void Location::updateFromJson(QJsonObject &json)
 {

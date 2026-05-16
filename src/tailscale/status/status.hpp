@@ -1,6 +1,19 @@
 #ifndef KTAILCTL_STATUS_HPP
 #define KTAILCTL_STATUS_HPP
 
+#include <QJsonObject>
+#include <QList>
+#include <QMap>
+#include <QMutex>
+#include <QObject>
+#include <QProperty>
+#include <QString>
+#include <QStringList>
+#include <QtQmlIntegration/qqmlintegration.h>
+#include <qtmetamacros.h>
+#include <qtypes.h>
+#include <stdint.h>
+
 #include "client_version.hpp"
 #include "exit_node_status.hpp"
 #include "mullvad_exit_node_model.hpp"
@@ -9,12 +22,6 @@
 #include "self_hosted_exit_node_model.hpp"
 #include "tailnet_status.hpp"
 #include "user_profile.hpp"
-#include <QMap>
-#include <QMutex>
-#include <QObject>
-#include <QProperty>
-#include <QString>
-#include <QtQmlIntegration/qqmlintegration.h>
 
 using PeerModelBase = PropertyListModel<PeerStatus, PropertyListModelOwnership::External>;
 

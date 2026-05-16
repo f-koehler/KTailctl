@@ -1,6 +1,8 @@
 #include "login_profile.hpp"
-#include <qhashfunctions.h>
-#include <qjsonobject.h>
+
+#include <QJsonValue>
+#include <QStringLiteral>
+#include <utility>
 
 void LoginProfile::updateFromJson(QJsonObject &json)
 {
