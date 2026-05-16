@@ -1,4 +1,13 @@
 #include "tray_menu_mullvad_exit_nodes.hpp"
+#include "location.hpp"
+#include "logging_tray_icon.hpp"
+#include "tailscale.hpp"
+#include <qhashfunctions.h>
+#include <qicon.h>
+#include <qloggingcategory.h>
+#include <qmenu.h>
+#include <qwidget.h>
+#include <utility>
 
 TrayMenuExitNodesMullvad::TrayMenuExitNodesMullvad(Tailscale *tailscale, QWidget *parent)
     : QMenu(QStringLiteral("Mullvad"), parent)
@@ -51,13 +60,15 @@ void TrayMenuExitNodesMullvad::rebuildMenu()
         }
         const auto &countryCode = location->countryCode();
         const QIcon icon(QStringLiteral(":/country-flags/country-flag-") + countryCode.toLower());
-        if (mPerCountryMenus[countryCode] == nullptr) {
-            mPerCountryMenus[countryCode] = new QMenu(location->country(), this);
-            mPerCountryMenus[countryCode]->setIcon(icon);
+        auto menuIt = mPerCountryMenus.find(countryCode);
+        if (menuIt == mPerCountryMenus.end()) {
+            auto *newMenu = new QMenu(location->country(), this);
+            newMenu->setIcon(icon);
+            menuIt = mPerCountryMenus.insert(countryCode, newMenu);
         }
-        const auto id = index.data(mRoleIndexId).value<QString>();
-        mPerCountryMenus[countryCode]->addAction(icon, index.data(mRoleIndexHostName).toString(), this, [this, id] {
-            mTailscale->preferences()->setExitNodeID(id);
+        const auto exitNodeId = index.data(mRoleIndexId).value<QString>();
+        menuIt.value()->addAction(icon, index.data(mRoleIndexHostName).toString(), this, [this, exitNodeId] -> void {
+            mTailscale->preferences()->setExitNodeID(exitNodeId);
         });
     }
 

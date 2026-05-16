@@ -14,7 +14,7 @@ class Util : public QObject
 
 public:
     inline static Util *s_instance = nullptr;
-    static Util *create(QQmlEngine *, QJSEngine *)
+    static auto create(QQmlEngine * /*engine*/, QJSEngine * /*jsEngine*/) -> Util *
     {
         return s_instance;
     }
@@ -28,9 +28,9 @@ public:
     {
     }
 
-    Q_INVOKABLE static QString formatDurationHumanReadable(const QDateTime &dateTime);
+    Q_INVOKABLE static QString formatDurationHumanReadable(const QDateTime &dateTime); // NOLINT(modernize-use-trailing-return-type)
     Q_INVOKABLE static void setClipboardText(const QString &text);
-    Q_INVOKABLE static QString systemUser();
+    Q_INVOKABLE static QString systemUser(); // NOLINT(modernize-use-trailing-return-type)
 };
 
 #endif // KTAILCTL_UTIL_HPP

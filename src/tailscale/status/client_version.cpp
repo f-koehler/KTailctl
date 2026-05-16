@@ -1,4 +1,6 @@
 #include "client_version.hpp"
+#include <qhashfunctions.h>
+#include <qjsonobject.h>
 
 void ClientVersion::updateFromJson(QJsonObject &json)
 {

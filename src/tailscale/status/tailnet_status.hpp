@@ -30,33 +30,33 @@ public:
     void updateFromJson(QJsonObject &json);
 
     // Getters
-    [[nodiscard]] const QString &name() const noexcept
+    [[nodiscard]] auto name() const noexcept -> const QString &
     {
         return mName;
     }
 
-    [[nodiscard]] const QString &magicDnsSuffix() const noexcept
+    [[nodiscard]] auto magicDnsSuffix() const noexcept -> const QString &
     {
         return mMagicDnsSuffix;
     }
 
-    [[nodiscard]] bool magicDnsEnabled() const noexcept
+    [[nodiscard]] auto magicDnsEnabled() const noexcept -> bool
     {
         return mMagicDnsEnabled;
     }
 
     // Bindables
-    [[nodiscard]] QBindable<QString> bindableName()
+    [[nodiscard]] auto bindableName() -> QBindable<QString>
     {
         return {&mName};
     }
 
-    [[nodiscard]] QBindable<QString> bindableMagicDnsSuffix()
+    [[nodiscard]] auto bindableMagicDnsSuffix() -> QBindable<QString>
     {
         return {&mMagicDnsSuffix};
     }
 
-    [[nodiscard]] QBindable<bool> bindableMagicDnsEnabled()
+    [[nodiscard]] auto bindableMagicDnsEnabled() -> QBindable<bool>
     {
         return {&mMagicDnsEnabled};
     }

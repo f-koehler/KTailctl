@@ -11,5 +11,8 @@ Checks:
   - "performance-*"
   - "portability-*"
   - "readability-*"
+  # clashes with Qt's memory management paradigm
+  - "-cppcoreguidelines-owning-memory"
+HeaderFilterRegex: ".*KTailctl/src/.*"
 WarningsAsErrors: true
 UseColor: true

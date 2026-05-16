@@ -1,11 +1,12 @@
 #include "self_hosted_exit_node_model.hpp"
+#include <qabstractitemmodel.h>
 
-bool SelfHostedExitNodeModel::lessThan(const QModelIndex &left, const QModelIndex &right) const
+auto SelfHostedExitNodeModel::lessThan(const QModelIndex &left, const QModelIndex &right) const -> bool
 {
     return sourceModel()->data(left, mRoleIndexDnsName).toString() < sourceModel()->data(right, mRoleIndexDnsName).toString();
 }
 
-bool SelfHostedExitNodeModel::filterAcceptsRow(const int sourceRow, const QModelIndex &sourceParent) const
+auto SelfHostedExitNodeModel::filterAcceptsRow(const int sourceRow, const QModelIndex &sourceParent) const -> bool
 {
     if (!mRoleIndicesFound) [[unlikely]] {
         return false;

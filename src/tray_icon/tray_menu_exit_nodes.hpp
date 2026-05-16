@@ -1,7 +1,6 @@
 #ifndef KTAILCTL_TRAY_MENU_EXIT_NODES_HPP
 #define KTAILCTL_TRAY_MENU_EXIT_NODES_HPP
 
-#include "ktailctl_config.h"
 #include "tray_menu_mullvad_exit_nodes.hpp"
 #include "tray_menu_self_hosted_exit_nodes.hpp"
 #include <QMenu>

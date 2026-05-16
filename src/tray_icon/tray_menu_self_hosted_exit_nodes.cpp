@@ -1,4 +1,10 @@
 #include "tray_menu_self_hosted_exit_nodes.hpp"
+#include "logging_tray_icon.hpp"
+#include "tailscale.hpp"
+#include <qhashfunctions.h>
+#include <qloggingcategory.h>
+#include <qmenu.h>
+#include <qwidget.h>
 
 TrayMenuExitNodesSelfHosted::TrayMenuExitNodesSelfHosted(Tailscale *tailscale, QWidget *parent)
     : QMenu(QStringLiteral("Self-Hosted"), parent)
@@ -35,7 +41,7 @@ void TrayMenuExitNodesSelfHosted::rebuildMenu()
             continue;
         }
         const QString exitNodeId = index.data(mRoleIndexId).toString();
-        addAction(index.data(mRoleIndexHostName).toString(), this, [this, exitNodeId] {
+        addAction(index.data(mRoleIndexHostName).toString(), this, [this, exitNodeId] -> void {
             mTailscale->preferences()->setExitNodeID(exitNodeId);
         });
     }

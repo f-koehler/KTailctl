@@ -1,6 +1,14 @@
 #include "tray_menu_peers.hpp"
 #include "logging_tray_icon.hpp"
+#include "tailscale.hpp"
+#include "util.hpp"
 #include <QIcon>
+#include <qcontainerfwd.h>
+#include <qhashfunctions.h>
+#include <qloggingcategory.h>
+#include <qmenu.h>
+#include <qwidget.h>
+#include <utility>
 
 TrayMenuPeers::TrayMenuPeers(Tailscale *tailscale, QWidget *parent)
     : QMenu(QStringLiteral("Peers"), parent)
@@ -51,13 +59,13 @@ void TrayMenuPeers::rebuildMenu()
         QMenu *subMenu = addMenu(title);
 
         const QString dnsName = index.data(mRoleIndexDnsName).toString();
-        subMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), dnsName, this, [dnsName] {
+        subMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), dnsName, this, [dnsName] -> void {
             Util::setClipboardText(dnsName);
         });
 
         const QStringList addresses = index.data(mRoleIndexTailscaleIps).toStringList();
         for (const auto &address : std::as_const(addresses)) {
-            subMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), address, this, [address] {
+            subMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), address, this, [address] -> void {
                 Util::setClipboardText(address);
             });
         }

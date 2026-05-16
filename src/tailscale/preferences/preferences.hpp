@@ -3,9 +3,7 @@
 
 #include "app_connector.hpp"
 #include "auto_update.hpp"
-#include "ktailctl_config.h"
 #include "libktailctl_wrapper.h"
-#include "logging_tailscale_preferences.hpp"
 #include <QJsonObject>
 #include <QMutex>
 #include <QObject>
@@ -63,10 +61,8 @@ public:
     Q_PROPERTY(QStringList relayServerStaticEndpoints READ relayServerStaticEndpoints BINDABLE bindableRelayServerStaticEndpoints NOTIFY
                    relayServerStaticEndpointsChanged)
 
-public Q_SLOTS:
     Q_INVOKABLE void refresh();
 
-public:
     explicit Preferences(QObject *parent = nullptr)
         : QObject(parent)
         , mAutoUpdate(new AutoUpdatePreferences(this))
@@ -76,157 +72,157 @@ public:
 
     void updateFromJson(QJsonObject &json);
 
-    [[nodiscard]] const QString &controlUrl() const noexcept
+    [[nodiscard]] auto controlUrl() const noexcept -> const QString &
     {
         return mControlUrl;
     }
 
-    [[nodiscard]] bool routeAll() const noexcept
+    [[nodiscard]] auto routeAll() const noexcept -> bool
     {
         return mRouteAll;
     }
 
-    [[nodiscard]] const QString &exitNodeId() const noexcept
+    [[nodiscard]] auto exitNodeId() const noexcept -> const QString &
     {
         return mExitNodeId;
     }
 
-    [[nodiscard]] const QString &autoExitNode() const noexcept
+    [[nodiscard]] auto autoExitNode() const noexcept -> const QString &
     {
         return mAutoExitNode;
     }
 
-    [[nodiscard]] const QString &lastUsedExitNode() const noexcept
+    [[nodiscard]] auto lastUsedExitNode() const noexcept -> const QString &
     {
         return mLastUsedExitNode;
     }
 
-    [[nodiscard]] bool exitNodeAllowLanAccess() const noexcept
+    [[nodiscard]] auto exitNodeAllowLanAccess() const noexcept -> bool
     {
         return mExitNodeAllowLanAccess;
     }
 
-    [[nodiscard]] bool corpDns() const noexcept
+    [[nodiscard]] auto corpDns() const noexcept -> bool
     {
         return mCorpDns;
     }
 
-    [[nodiscard]] bool runSSH() const noexcept
+    [[nodiscard]] auto runSSH() const noexcept -> bool
     {
         return mRunSSH;
     }
 
-    [[nodiscard]] bool runWebClient() const noexcept
+    [[nodiscard]] auto runWebClient() const noexcept -> bool
     {
         return mRunWebClient;
     }
 
-    [[nodiscard]] bool wantRunning() const noexcept
+    [[nodiscard]] auto wantRunning() const noexcept -> bool
     {
         return mWantRunning;
     }
 
-    [[nodiscard]] bool loggedOut() const noexcept
+    [[nodiscard]] auto loggedOut() const noexcept -> bool
     {
         return mLoggedOut;
     }
 
-    [[nodiscard]] bool shieldsUp() const noexcept
+    [[nodiscard]] auto shieldsUp() const noexcept -> bool
     {
         return mShieldsUp;
     }
 
-    [[nodiscard]] const QStringList &advertiseTags() const noexcept
+    [[nodiscard]] auto advertiseTags() const noexcept -> const QStringList &
     {
         return mAdvertiseTags;
     }
 
-    [[nodiscard]] const QString &hostname() const noexcept
+    [[nodiscard]] auto hostname() const noexcept -> const QString &
     {
         return mHostname;
     }
 
-    [[nodiscard]] bool notepadUrls() const noexcept
+    [[nodiscard]] auto notepadUrls() const noexcept -> bool
     {
         return mNotepadUrls;
     }
 
-    [[nodiscard]] bool forceDaemon() const noexcept
+    [[nodiscard]] auto forceDaemon() const noexcept -> bool
     {
         return mForceDaemon;
     }
 
-    [[nodiscard]] bool egg() const noexcept
+    [[nodiscard]] auto egg() const noexcept -> bool
     {
         return mEgg;
     }
 
-    [[nodiscard]] const QStringList &advertiseRoutes() const noexcept
+    [[nodiscard]] auto advertiseRoutes() const noexcept -> const QStringList &
     {
         return mAdvertiseRoutes;
     }
 
-    [[nodiscard]] const QStringList &advertiseServices() const noexcept
+    [[nodiscard]] auto advertiseServices() const noexcept -> const QStringList &
     {
         return mAdvertiseServices;
     }
 
-    [[nodiscard]] bool sync() const noexcept
+    [[nodiscard]] auto sync() const noexcept -> bool
     {
         return mSync;
     }
 
-    [[nodiscard]] bool noSnat() const noexcept
+    [[nodiscard]] auto noSnat() const noexcept -> bool
     {
         return mNoSnat;
     }
 
-    [[nodiscard]] bool noStatefulFiltering() const noexcept
+    [[nodiscard]] auto noStatefulFiltering() const noexcept -> bool
     {
         return mNoStatefulFiltering;
     }
 
-    [[nodiscard]] NetfilterMode netfilterMode() const noexcept
+    [[nodiscard]] auto netfilterMode() const noexcept -> NetfilterMode
     {
         return mNetfilterMode;
     }
 
-    [[nodiscard]] const QString &operatorUser() const noexcept
+    [[nodiscard]] auto operatorUser() const noexcept -> const QString &
     {
         return mOperatorUser;
     }
 
-    [[nodiscard]] const QString &profileName() const noexcept
+    [[nodiscard]] auto profileName() const noexcept -> const QString &
     {
         return mProfileName;
     }
 
-    [[nodiscard]] AutoUpdatePreferences *autoUpdate() const noexcept
+    [[nodiscard]] auto autoUpdate() const noexcept -> AutoUpdatePreferences *
     {
         return mAutoUpdate;
     }
 
-    [[nodiscard]] AppConnectorPreferences *appConnectorPreferences() const noexcept
+    [[nodiscard]] auto appConnectorPreferences() const noexcept -> AppConnectorPreferences *
     {
         return mAppConnectorPreferences;
     }
 
-    [[nodiscard]] bool postureChecking() const noexcept
+    [[nodiscard]] auto postureChecking() const noexcept -> bool
     {
         return mPostureChecking;
     }
 
-    [[nodiscard]] const QString &netFilterKind() const noexcept
+    [[nodiscard]] auto netFilterKind() const noexcept -> const QString &
     {
         return mNetFilterKind;
     }
 
-    [[nodiscard]] quint16 relayServerPort() const noexcept
+    [[nodiscard]] auto relayServerPort() const noexcept -> quint16
     {
         return mRelayServerPort;
     }
 
-    [[nodiscard]] const QStringList &relayServerStaticEndpoints() const noexcept
+    [[nodiscard]] auto relayServerStaticEndpoints() const noexcept -> const QStringList &
     {
         return mRelayServerStaticEndpoints;
     }
@@ -263,147 +259,147 @@ public:
         _set_preference(QStringLiteral("ProfileName"), value);
     }
 
-    [[nodiscard]] QBindable<QString> bindableControlUrl()
+    [[nodiscard]] auto bindableControlUrl() -> QBindable<QString>
     {
         return {&mControlUrl};
     }
 
-    [[nodiscard]] QBindable<bool> bindableRouteAll()
+    [[nodiscard]] auto bindableRouteAll() -> QBindable<bool>
     {
         return {&mRouteAll};
     }
 
-    [[nodiscard]] QBindable<QString> bindableExitNodeId()
+    [[nodiscard]] auto bindableExitNodeId() -> QBindable<QString>
     {
         return {&mExitNodeId};
     }
 
-    [[nodiscard]] QBindable<QString> bindableAutoExitNode()
+    [[nodiscard]] auto bindableAutoExitNode() -> QBindable<QString>
     {
         return {&mAutoExitNode};
     }
 
-    [[nodiscard]] QBindable<QString> bindableLastUsedExitNode()
+    [[nodiscard]] auto bindableLastUsedExitNode() -> QBindable<QString>
     {
         return {&mLastUsedExitNode};
     }
 
-    [[nodiscard]] QBindable<bool> bindableExitNodeAllowLanAccess()
+    [[nodiscard]] auto bindableExitNodeAllowLanAccess() -> QBindable<bool>
     {
         return {&mExitNodeAllowLanAccess};
     }
 
-    [[nodiscard]] QBindable<bool> bindableCorpDns()
+    [[nodiscard]] auto bindableCorpDns() -> QBindable<bool>
     {
         return {&mCorpDns};
     }
 
-    [[nodiscard]] QBindable<bool> bindableRunSSH()
+    [[nodiscard]] auto bindableRunSSH() -> QBindable<bool>
     {
         return {&mRunSSH};
     }
 
-    [[nodiscard]] QBindable<bool> bindableRunWebClient()
+    [[nodiscard]] auto bindableRunWebClient() -> QBindable<bool>
     {
         return {&mRunWebClient};
     }
 
-    [[nodiscard]] QBindable<bool> bindableWantRunning()
+    [[nodiscard]] auto bindableWantRunning() -> QBindable<bool>
     {
         return {&mWantRunning};
     }
 
-    [[nodiscard]] QBindable<bool> bindableLoggedOut()
+    [[nodiscard]] auto bindableLoggedOut() -> QBindable<bool>
     {
         return {&mLoggedOut};
     }
 
-    [[nodiscard]] QBindable<bool> bindableShieldsUp()
+    [[nodiscard]] auto bindableShieldsUp() -> QBindable<bool>
     {
         return {&mShieldsUp};
     }
 
-    [[nodiscard]] QBindable<QStringList> bindableAdvertiseTags()
+    [[nodiscard]] auto bindableAdvertiseTags() -> QBindable<QStringList>
     {
         return {&mAdvertiseTags};
     }
 
-    [[nodiscard]] QBindable<QString> bindableHostname()
+    [[nodiscard]] auto bindableHostname() -> QBindable<QString>
     {
         return {&mHostname};
     }
 
-    [[nodiscard]] QBindable<bool> bindableNotepadUrls()
+    [[nodiscard]] auto bindableNotepadUrls() -> QBindable<bool>
     {
         return {&mNotepadUrls};
     }
 
-    [[nodiscard]] QBindable<bool> bindableForceDaemon()
+    [[nodiscard]] auto bindableForceDaemon() -> QBindable<bool>
     {
         return {&mForceDaemon};
     }
 
-    [[nodiscard]] QBindable<bool> bindableEgg()
+    [[nodiscard]] auto bindableEgg() -> QBindable<bool>
     {
         return {&mEgg};
     }
 
-    [[nodiscard]] QBindable<QStringList> bindableAdvertiseRoutes()
+    [[nodiscard]] auto bindableAdvertiseRoutes() -> QBindable<QStringList>
     {
         return {&mAdvertiseRoutes};
     }
 
-    [[nodiscard]] QBindable<QStringList> bindableAdvertiseServices()
+    [[nodiscard]] auto bindableAdvertiseServices() -> QBindable<QStringList>
     {
         return {&mAdvertiseServices};
     }
 
-    [[nodiscard]] QBindable<bool> bindableSync()
+    [[nodiscard]] auto bindableSync() -> QBindable<bool>
     {
         return {&mSync};
     }
 
-    [[nodiscard]] QBindable<bool> bindableNoSnat()
+    [[nodiscard]] auto bindableNoSnat() -> QBindable<bool>
     {
         return {&mNoSnat};
     }
 
-    [[nodiscard]] QBindable<bool> bindableNoStatefulFiltering()
+    [[nodiscard]] auto bindableNoStatefulFiltering() -> QBindable<bool>
     {
         return {&mNoStatefulFiltering};
     }
 
-    [[nodiscard]] QBindable<NetfilterMode> bindableNetfilterMode()
+    [[nodiscard]] auto bindableNetfilterMode() -> QBindable<NetfilterMode>
     {
         return {&mNetfilterMode};
     }
 
-    [[nodiscard]] QBindable<QString> bindableOperatorUser()
+    [[nodiscard]] auto bindableOperatorUser() -> QBindable<QString>
     {
         return {&mOperatorUser};
     }
 
-    [[nodiscard]] QBindable<QString> bindableProfileName()
+    [[nodiscard]] auto bindableProfileName() -> QBindable<QString>
     {
         return {&mProfileName};
     }
 
-    [[nodiscard]] QBindable<bool> bindablePostureChecking()
+    [[nodiscard]] auto bindablePostureChecking() -> QBindable<bool>
     {
         return {&mPostureChecking};
     }
 
-    [[nodiscard]] QBindable<QString> bindableNetFilterKind()
+    [[nodiscard]] auto bindableNetFilterKind() -> QBindable<QString>
     {
         return {&mNetFilterKind};
     }
 
-    [[nodiscard]] QBindable<quint16> bindableRelayServerPort()
+    [[nodiscard]] auto bindableRelayServerPort() -> QBindable<quint16>
     {
         return {&mRelayServerPort};
     }
 
-    [[nodiscard]] QBindable<QStringList> bindableRelayServerStaticEndpoints()
+    [[nodiscard]] auto bindableRelayServerStaticEndpoints() -> QBindable<QStringList>
     {
         return {&mRelayServerStaticEndpoints};
     }

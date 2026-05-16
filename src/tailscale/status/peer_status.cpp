@@ -1,4 +1,9 @@
 #include "peer_status.hpp"
+#include "location.hpp"
+#include <qdatetime.h>
+#include <qhashfunctions.h>
+#include <qjsonobject.h>
+#include <qnamespace.h>
 
 void PeerStatus::updateFromJson(QJsonObject &json)
 {

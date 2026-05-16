@@ -35,12 +35,14 @@ public:
         setupMetaRoles();
     }
 
-    [[nodiscard]] int rowCount([[maybe_unused]] const QModelIndex &parent) const noexcept override
+    // NOLINTNEXTLINE(portability-template-virtual-member-function)
+    [[nodiscard]] auto rowCount([[maybe_unused]] const QModelIndex &parent) const noexcept -> int override
     {
         return mItems.size();
     }
 
-    [[nodiscard]] QVariant data(const QModelIndex &index, const int role) const override
+    // NOLINTNEXTLINE(portability-template-virtual-member-function)
+    [[nodiscard]] auto data(const QModelIndex &index, const int role) const -> QVariant override
     {
         if (!index.isValid()) {
             return {};
@@ -51,7 +53,7 @@ public:
             return {};
         }
 
-        Type *const item = mItems[row];
+        Type *const item = at(row);
         if (item == nullptr) {
             return {};
         }
@@ -70,14 +72,15 @@ public:
         return property.read(item);
     }
 
-    [[nodiscard]] QHash<int, QByteArray> roleNames() const noexcept override
+    // NOLINTNEXTLINE(portability-template-virtual-member-function)
+    [[nodiscard]] auto roleNames() const noexcept -> QHash<int, QByteArray> override
     {
         return mRoleNames;
     }
 
     // --- API ----------------------------------------------------------------
 
-    int addItem(Type *item)
+    auto addItem(Type *item) -> int
     {
         if (item == nullptr) {
             return -1;
@@ -95,7 +98,7 @@ public:
         mItems.append(item);
 
         // Remove row automatically if item is destroyed externally
-        connect(item, &QObject::destroyed, this, [this, item] {
+        connect(item, &QObject::destroyed, this, [this, item] -> auto {
             if (const int idx = indexOf(item); idx >= 0) {
                 beginRemoveRows({}, idx, idx);
                 mItems.removeAt(idx);
@@ -107,7 +110,7 @@ public:
         return row;
     }
 
-    bool removeItem(int row)
+    auto removeItem(int row) -> bool
     {
         if (row < 0 || row >= mItems.size()) {
             return false;
@@ -142,20 +145,20 @@ public:
         endResetModel();
     }
 
-    [[nodiscard]] Type *at(int row) const
+    [[nodiscard]] auto at(int row) const -> Type *
     {
         if (row < 0 || row >= mItems.size()) {
             return nullptr;
         }
-        return mItems[row];
+        return mItems[row]; // NOLINT(cppcoreguidelines-pro-bounds-avoid-unchecked-container-access)
     }
 
-    int indexOf(Type *item) const
+    auto indexOf(Type *item) const -> int
     {
         return mItems.indexOf(item);
     }
 
-    [[nodiscard]] int roleIndexForProperty(const QByteArray &propertyName) const
+    [[nodiscard]] auto roleIndexForProperty(const QByteArray &propertyName) const -> int
     {
         for (auto it = mRoleNames.begin(); it != mRoleNames.end(); ++it) {
             if (it.value() == propertyName) {

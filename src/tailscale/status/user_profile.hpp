@@ -32,43 +32,43 @@ public:
     void updateFromJson(QJsonObject &json);
 
     // Getters
-    [[nodiscard]] qint64 userId() const noexcept
+    [[nodiscard]] auto userId() const noexcept -> qint64
     {
         return mUserId;
     }
 
-    [[nodiscard]] const QString &loginName() const noexcept
+    [[nodiscard]] auto loginName() const noexcept -> const QString &
     {
         return mLoginName;
     }
 
-    [[nodiscard]] const QString &displayName() const noexcept
+    [[nodiscard]] auto displayName() const noexcept -> const QString &
     {
         return mDisplayName;
     }
 
-    [[nodiscard]] const QString &profilePicUrl() const noexcept
+    [[nodiscard]] auto profilePicUrl() const noexcept -> const QString &
     {
         return mProfilePicUrl;
     }
 
     // Bindables
-    [[nodiscard]] QBindable<qint64> bindableUserId()
+    [[nodiscard]] auto bindableUserId() -> QBindable<qint64>
     {
         return {&mUserId};
     }
 
-    [[nodiscard]] QBindable<QString> bindableLoginName()
+    [[nodiscard]] auto bindableLoginName() -> QBindable<QString>
     {
         return {&mLoginName};
     }
 
-    [[nodiscard]] QBindable<QString> bindableDisplayName()
+    [[nodiscard]] auto bindableDisplayName() -> QBindable<QString>
     {
         return {&mDisplayName};
     }
 
-    [[nodiscard]] QBindable<QString> bindableProfilePicUrl()
+    [[nodiscard]] auto bindableProfilePicUrl() -> QBindable<QString>
     {
         return {&mProfilePicUrl};
     }

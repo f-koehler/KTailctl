@@ -35,63 +35,63 @@ public:
     void updateFromJson(QJsonObject &json);
 
     // Getters
-    [[nodiscard]] bool runningLatest() const noexcept
+    [[nodiscard]] auto runningLatest() const noexcept -> bool
     {
         return mRunningLatest;
     }
 
-    [[nodiscard]] const QString &latestVersion() const noexcept
+    [[nodiscard]] auto latestVersion() const noexcept -> const QString &
     {
         return mLatestVersion;
     }
 
-    [[nodiscard]] bool urgentSecurityUpdate() const noexcept
+    [[nodiscard]] auto urgentSecurityUpdate() const noexcept -> bool
     {
         return mUrgentSecurityUpdate;
     }
 
-    [[nodiscard]] bool notify() const noexcept
+    [[nodiscard]] auto notify() const noexcept -> bool
     {
         return mNotify;
     }
 
-    [[nodiscard]] const QString &notifyUrl() const noexcept
+    [[nodiscard]] auto notifyUrl() const noexcept -> const QString &
     {
         return mNotifyUrl;
     }
 
-    [[nodiscard]] const QString &notifyText() const noexcept
+    [[nodiscard]] auto notifyText() const noexcept -> const QString &
     {
         return mNotifyText;
     }
 
     // Bindables
-    [[nodiscard]] QBindable<bool> bindableRunningLatest()
+    [[nodiscard]] auto bindableRunningLatest() -> QBindable<bool>
     {
         return {&mRunningLatest};
     }
 
-    [[nodiscard]] QBindable<QString> bindableLatestVersion()
+    [[nodiscard]] auto bindableLatestVersion() -> QBindable<QString>
     {
         return {&mLatestVersion};
     }
 
-    [[nodiscard]] QBindable<bool> bindableUrgentSecurityUpdate()
+    [[nodiscard]] auto bindableUrgentSecurityUpdate() -> QBindable<bool>
     {
         return {&mUrgentSecurityUpdate};
     }
 
-    [[nodiscard]] QBindable<bool> bindableNotify()
+    [[nodiscard]] auto bindableNotify() -> QBindable<bool>
     {
         return {&mNotify};
     }
 
-    [[nodiscard]] QBindable<QString> bindableNotifyUrl()
+    [[nodiscard]] auto bindableNotifyUrl() -> QBindable<QString>
     {
         return {&mNotifyUrl};
     }
 
-    [[nodiscard]] QBindable<QString> bindableNotifyText()
+    [[nodiscard]] auto bindableNotifyText() -> QBindable<QString>
     {
         return {&mNotifyText};
     }

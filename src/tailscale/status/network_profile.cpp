@@ -1,4 +1,6 @@
 #include "network_profile.hpp"
+#include <qhashfunctions.h>
+#include <qjsonobject.h>
 
 void NetworkProfile::updateFromJson(QJsonObject &json)
 {

@@ -30,7 +30,6 @@ Q_SIGNALS:
 public:
     explicit TrayIcon(Tailscale *tailscale, QObject *parent = nullptr);
 
-public Q_SLOTS:
     Q_INVOKABLE void updateIcon();
     Q_INVOKABLE void updateTooltip();
 };

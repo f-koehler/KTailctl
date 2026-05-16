@@ -1,17 +1,28 @@
 #include "tailscale.hpp"
 #include "logging_tailscale.hpp"
+#include "login_profile.hpp"
+#include "preferences.hpp"
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonParseError>
 #include <QMutexLocker>
 #include <QSet>
+#include <cstdlib>
+#include <cstring>
+#include <memory>
+#include <qhashfunctions.h>
+#include <qloggingcategory.h>
+#include <qstringview.h>
+#include <qtimer.h>
+#include <qtypes.h>
+#include <utility>
 
 static constexpr int tailscale_toggle_refresh_delay_ms = 200;
 
 void Tailscale::up() const noexcept
 {
     tailscale_up();
-    QTimer::singleShot(tailscale_toggle_refresh_delay_ms, this, [this] {
+    QTimer::singleShot(tailscale_toggle_refresh_delay_ms, this, [this] -> void {
         mStatus->refresh();
     });
 }
@@ -19,7 +30,7 @@ void Tailscale::up() const noexcept
 void Tailscale::down() const noexcept
 {
     tailscale_down();
-    QTimer::singleShot(tailscale_toggle_refresh_delay_ms, this, [this] {
+    QTimer::singleShot(tailscale_toggle_refresh_delay_ms, this, [this] -> void {
         mStatus->refresh();
     });
 }
@@ -33,7 +44,7 @@ void Tailscale::toggle() const noexcept
     }
 }
 
-LoginProfile *Tailscale::loginProfileWithId(const QString &loginProfileId) const noexcept
+auto Tailscale::loginProfileWithId(const QString &loginProfileId) const noexcept -> LoginProfile *
 {
     const auto pos = mLoginProfiles.find(loginProfileId);
     if (pos == mLoginProfiles.end()) [[unlikely]] {
@@ -51,7 +62,7 @@ void Tailscale::refreshLoginProfiles()
         qCWarning(Logging::TailscaleMain) << "Failed to get login profiles (access denied)";
         return;
     }
-    const QByteArray json_buffer(json_str.get(), strlen(json_str.get()));
+    const QByteArray json_buffer(json_str.get(), static_cast<qsizetype>(strlen(json_str.get())));
     QJsonParseError error;
     const QJsonDocument json = QJsonDocument::fromJson(json_buffer, &error);
     if (error.error != QJsonParseError::NoError) {
@@ -71,23 +82,23 @@ void Tailscale::refreshLoginProfiles()
         QSet loginProfilesToRemove(mLoginProfiles.keyBegin(), mLoginProfiles.keyEnd());
         for (const auto entry : std::as_const(loginProfilesArray)) {
             auto obj = entry.toObject();
-            const auto id = obj.value(QStringLiteral("ID")).toString();
-            auto pos = mLoginProfiles.find(id);
+            const auto profileId = obj.value(QStringLiteral("ID")).toString();
+            auto pos = mLoginProfiles.find(profileId);
 
             // create missing login profiles
             if (pos == mLoginProfiles.end()) [[unlikely]] {
-                pos = mLoginProfiles.insert(id, new LoginProfile(this));
+                pos = mLoginProfiles.insert(profileId, new LoginProfile(this));
                 mLoginProfileModel->addItem(pos.value());
             }
 
             // update login profile
             pos.value()->updateFromJson(obj);
-            loginProfilesToRemove.remove(id);
+            loginProfilesToRemove.remove(profileId);
         }
 
         // remove login profiles that are not present anymore
-        for (const auto &id : loginProfilesToRemove) {
-            auto pos = mLoginProfiles.find(id);
+        for (const auto &profileId : loginProfilesToRemove) {
+            auto pos = mLoginProfiles.find(profileId);
             if (pos == mLoginProfiles.end()) [[unlikely]] {
                 // This should never happen
                 continue;

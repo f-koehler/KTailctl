@@ -19,12 +19,12 @@ public:
 
     void updateFromJson(QJsonObject &json);
 
-    [[nodiscard]] bool advertise() const noexcept
+    [[nodiscard]] auto advertise() const noexcept -> bool
     {
         return mAdvertise;
     }
 
-    [[nodiscard]] QBindable<bool> bindableAdvertise()
+    [[nodiscard]] auto bindableAdvertise() -> QBindable<bool>
     {
         return {&mAdvertise};
     }

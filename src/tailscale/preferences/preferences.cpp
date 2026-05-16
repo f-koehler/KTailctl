@@ -1,8 +1,20 @@
 #include "preferences.hpp"
+#include "ktailctl_config.h"
+#include "logging_tailscale_preferences.hpp"
 
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QMutexLocker>
+#include <cstdlib>
+#include <cstring>
+#include <memory>
+#include <qhashfunctions.h>
+#include <qjsonparseerror.h>
+#include <qloggingcategory.h>
+#include <qstringview.h>
+#include <qtimer.h>
+#include <qtypes.h>
+#include <qvariant.h>
 
 void Preferences::_set_preference(const QString &key, const QVariant &value) const
 {
@@ -28,7 +40,7 @@ void Preferences::refresh()
         qCWarning(Logging::Tailscale::Preferences) << "Failed to get tailscale preferences (access denied)";
         return;
     }
-    const QByteArray json_buffer(json_str.get(), strlen(json_str.get()));
+    const QByteArray json_buffer(json_str.get(), static_cast<qsizetype>(strlen(json_str.get())));
     QJsonParseError error;
     const QJsonDocument json = QJsonDocument::fromJson(json_buffer, &error);
     if (error.error != QJsonParseError::NoError) {
@@ -86,7 +98,7 @@ void Preferences::setExitNodeID(const QString &exitNodeId)
 {
     if (!exitNodeId.isEmpty()) {
         auto *config = Config::self();
-        config->setLastUsedExitNode(exitNodeId);
+        Config::setLastUsedExitNode(exitNodeId);
         config->save();
     }
     _set_preference(QStringLiteral("ExitNodeID"), exitNodeId);

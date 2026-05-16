@@ -1,11 +1,12 @@
 #include "mullvad_exit_node_model.hpp"
+#include <qabstractitemmodel.h>
 
-bool MullvadExitNodeModel::lessThan(const QModelIndex &left, const QModelIndex &right) const
+auto MullvadExitNodeModel::lessThan(const QModelIndex &left, const QModelIndex &right) const -> bool
 {
     return sourceModel()->data(left, mRoleIndexDnsName).toString() < sourceModel()->data(right, mRoleIndexDnsName).toString();
 }
 
-bool MullvadExitNodeModel::filterAcceptsRow(const int sourceRow, const QModelIndex &sourceParent) const
+auto MullvadExitNodeModel::filterAcceptsRow(const int sourceRow, const QModelIndex &sourceParent) const -> bool
 {
     if (!mRoleIndicesFound) [[unlikely]] {
         return false;

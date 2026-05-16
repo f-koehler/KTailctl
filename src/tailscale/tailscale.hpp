@@ -28,7 +28,7 @@ public:
     using LoginProfileModel = ::LoginProfileModel;
 
     inline static Tailscale *s_instance = nullptr;
-    static Tailscale *create(QQmlEngine *, QJSEngine *)
+    static auto create(QQmlEngine * /*engine*/, QJSEngine * /*jsEngine*/) -> Tailscale *
     {
         return s_instance;
     }
@@ -54,11 +54,6 @@ private:
     LoginProfileModel *mLoginProfileModel;
     Q_OBJECT_BINDABLE_PROPERTY(Tailscale, QString, mCurrentLoginProfileId, &Tailscale::currentLoginProfileIdChanged)
 
-public Q_SLOTS:
-    Q_INVOKABLE void up() const noexcept;
-    Q_INVOKABLE void down() const noexcept;
-    Q_INVOKABLE void toggle() const noexcept;
-
 public:
     explicit Tailscale(QObject *parent = nullptr)
         : QObject(parent)
@@ -69,33 +64,37 @@ public:
         refreshLoginProfiles();
     }
 
-    [[nodiscard]] Status *status() const noexcept
+    [[nodiscard]] auto status() const noexcept -> Status *
     {
         return mStatus;
     }
 
-    [[nodiscard]] Preferences *preferences() const noexcept
+    [[nodiscard]] auto preferences() const noexcept -> Preferences *
     {
         return mPreferences;
     }
 
-    [[nodiscard]] LoginProfileModel *loginProfileModel() const noexcept
+    [[nodiscard]] auto loginProfileModel() const noexcept -> LoginProfileModel *
     {
         return mLoginProfileModel;
     }
 
-    [[nodiscard]] const QString &currentLoginProfileId() const noexcept
+    [[nodiscard]] auto currentLoginProfileId() const noexcept -> const QString &
     {
         return mCurrentLoginProfileId;
     }
 
-    [[nodiscard]] QBindable<QString> bindableCurrentLoginProfileId()
+    [[nodiscard]] auto bindableCurrentLoginProfileId() -> QBindable<QString>
     {
         return {&mCurrentLoginProfileId};
     }
 
-    Q_INVOKABLE LoginProfile *loginProfileWithId(const QString &loginProfileId) const noexcept;
+    Q_INVOKABLE LoginProfile *loginProfileWithId(const QString &loginProfileId) const noexcept; // NOLINT(modernize-use-trailing-return-type)
     Q_INVOKABLE void refreshLoginProfiles();
+
+    Q_SLOT Q_INVOKABLE void up() const noexcept;
+    Q_SLOT Q_INVOKABLE void down() const noexcept;
+    Q_SLOT Q_INVOKABLE void toggle() const noexcept;
 };
 
 #endif // KTAILCTL_TAILSCALE_HPP

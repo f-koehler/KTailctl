@@ -1,4 +1,18 @@
 #include "tray_icon.hpp"
+#include "ktailctl_config.h"
+#include "tailscale.hpp"
+#include "tray_icon/tray_menu_accounts.hpp"
+#include "tray_icon/tray_menu_exit_nodes.hpp"
+#include "tray_icon/tray_menu_peers.hpp"
+#include "tray_icon/tray_menu_self.hpp"
+#include <qaction.h>
+#include <qcontainerfwd.h>
+#include <qhashfunctions.h>
+#include <qicon.h>
+#include <qmenu.h>
+#include <qobject.h>
+#include <qsystemtrayicon.h>
+#include <qtmetamacros.h>
 
 TrayIcon::TrayIcon(Tailscale *tailscale, QObject *parent)
     : QSystemTrayIcon(QIcon::fromTheme(QStringLiteral("unknown")), parent)
@@ -25,20 +39,20 @@ TrayIcon::TrayIcon(Tailscale *tailscale, QObject *parent)
     mContextMenu->addSeparator();
     mContextMenu->addAction(mActionQuit);
 
-    connect(mActionShow, &QAction::triggered, this, [this] {
+    connect(mActionShow, &QAction::triggered, this, [this] -> void {
         Q_EMIT showWindow();
     });
-    connect(mActionStart, &QAction::triggered, this, [this] {
+    connect(mActionStart, &QAction::triggered, this, [this] -> void {
         mTailscale->up();
     });
-    connect(mActionStop, &QAction::triggered, this, [this] {
+    connect(mActionStop, &QAction::triggered, this, [this] -> void {
         mTailscale->down();
     });
-    connect(mActionQuit, &QAction::triggered, this, [this] {
+    connect(mActionQuit, &QAction::triggered, this, [this] -> void {
         Q_EMIT quitRequested();
     });
 
-    connect(mContextMenu, &QMenu::aboutToShow, this, [this] {
+    connect(mContextMenu, &QMenu::aboutToShow, this, [this] -> void {
         if ((mTailscale->status()->backendState() == Status::BackendState::Starting)
             || (mTailscale->status()->backendState() == Status::BackendState::Running)) {
             mActionStart->setVisible(false);
@@ -49,7 +63,7 @@ TrayIcon::TrayIcon(Tailscale *tailscale, QObject *parent)
         }
     });
 
-    connect(Config::self(), &Config::enableTrayIconChanged, this, [this] {
+    connect(Config::self(), &Config::enableTrayIconChanged, this, [this] -> void {
         setVisible(Config::enableTrayIcon());
     });
 
@@ -66,7 +80,7 @@ TrayIcon::TrayIcon(Tailscale *tailscale, QObject *parent)
 
 namespace
 {
-QString backendStateToString(Status::BackendState state)
+auto backendStateToString(Status::BackendState state) -> QString
 {
     switch (state) {
     case Status::BackendState::NoState:
