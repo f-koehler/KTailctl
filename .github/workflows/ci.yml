@@ -92,6 +92,59 @@ jobs:
         run: |
           flatpak-builder --user --force-clean \
           build-dir org.fkoehler.KTailctl.yml
+  lint:
+    name: Lint (clang-tidy, clazy)
+    runs-on: ubuntu-latest
+    env:
+      CC: clang
+      CXX: clang++
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: src/tailscale/wrapper/go.mod
+          cache-dependency-path: src/tailscale/wrapper/go.sum
+      - name: Vendor Go dependencies
+        run: go mod vendor
+        working-directory: src/tailscale/wrapper
+      - name: Add Kitware CMake repository
+        run: |
+          KEYRING=/usr/share/keyrings/kitware-archive-keyring.gpg
+          wget -qO - https://apt.kitware.com/keys/kitware-archive-latest.asc \
+            | gpg --dearmor - \
+            | sudo tee "${KEYRING}" >/dev/null
+          echo "deb [signed-by=${KEYRING}]" \
+            "https://apt.kitware.com/ubuntu/ noble main" \
+            | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
+      - name: Add KDE Neon repository
+        run: |
+          KEYRING=/usr/share/keyrings/neon.gpg
+          wget -qO - 'https://archive.neon.kde.org/public.key' \
+            | gpg --dearmor - \
+            | sudo tee "${KEYRING}" >/dev/null
+          echo "deb [signed-by=${KEYRING}]" \
+            "http://archive.neon.kde.org/user noble main" \
+            | sudo tee /etc/apt/sources.list.d/neon.list >/dev/null
+      - name: Update apt cache
+        run: sudo apt-get update -yq
+      - name: Install dependencies
+        run: sudo ./scripts/neon-deps.sh
+      - name: Install lint dependencies
+        run: sudo apt-get install -yq clang-tidy clang-tools clazy
+      - name: Configure
+        run: |
+          cmake -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DKTAILCTL_ENABLE_TESTS=OFF \
+            -DKTAILCTL_FLATPAK_BUILD=OFF
+      - name: Build
+        run: cmake --build build --parallel
+      - name: Run clang-tidy
+        run: ./scripts/clang-tidy.sh
+      - name: Run clazy
+        run: ./scripts/clazy.sh
   native_build:
     name: Native Build (${{ matrix.compiler }})
     runs-on: ubuntu-latest
@@ -158,6 +211,7 @@ jobs:
     needs:
       - git_hooks
       - flatpak_build
+      - lint
       - native_build
     permissions:
       contents: write
