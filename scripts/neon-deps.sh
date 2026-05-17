@@ -29,4 +29,4 @@ PACKAGES=(
 )
 
 apt-get update -y
-apt-get install -y ${PACKAGES[@]}
+apt-get install -y "${PACKAGES[@]}"

@@ -30,16 +30,15 @@ if [ "${#SOURCE_FILES[@]}" -eq 0 ]; then
 	exit 1
 fi
 
-for cmd in clazy-standalone; do
-	if command -v "${cmd}" >/dev/null 2>&1; then
-		exec "${cmd}" \
-			-p "${BUILD_DIR}" \
-			--checks="${CHECKS}" \
-			-extra-arg=-Werror \
-			"$@" \
-			"${SOURCE_FILES[@]}"
-	fi
-done
+cmd=clazy-standalone
+if command -v "${cmd}" >/dev/null 2>&1; then
+	exec "${cmd}" \
+		-p "${BUILD_DIR}" \
+		--checks="${CHECKS}" \
+		-extra-arg=-Werror \
+		"$@" \
+		"${SOURCE_FILES[@]}"
+fi
 
 echo "Error: clazy-standalone not found" >&2
 exit 1
