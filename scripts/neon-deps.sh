@@ -11,6 +11,7 @@ PACKAGES=(
 	kf6-breeze-icon-theme-dev
 	kf6-kirigami-addons-dev
 	kf6-kirigami-dev
+	libclang-rt-dev
 	libkf6config-dev
 	libkf6coreaddons-dev
 	libkf6dbusaddons-dev
