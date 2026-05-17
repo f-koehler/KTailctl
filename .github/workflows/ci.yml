@@ -156,7 +156,17 @@ jobs:
           sudo apt-get update -yq
           sudo apt-get install -yq clang-tidy-22
       - name: Install lint dependencies
-        run: sudo apt-get install -yq clang-tools clazy cppcheck iwyu
+        run: sudo apt-get install -yq clang-tools clazy iwyu
+      - name: Build cppcheck from source
+        if: matrix.linter == 'cppcheck'
+        run: |
+          sudo apt-get install -yq libpcre3-dev
+          git clone --depth 1 --branch 2.20.0 \
+            https://github.com/danmar/cppcheck.git /tmp/cppcheck
+          cmake -B /tmp/cppcheck/build -S /tmp/cppcheck \
+            -G Ninja -DCMAKE_BUILD_TYPE=Release -DHAVE_RULES=ON
+          cmake --build /tmp/cppcheck/build --parallel
+          sudo cmake --install /tmp/cppcheck/build
       - name: Configure
         run: |
           cmake -B build -G Ninja \
