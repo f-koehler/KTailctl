@@ -1,0 +1,21 @@
+---
+version: "2"
+linters:
+  default: standard
+  enable:
+    - gosec
+    - gocritic
+    - errorlint
+    - nilerr
+    - bodyclose
+    - unconvert
+    - misspell
+    - staticcheck
+    - errcheck
+    - govet
+    - ineffassign
+    - unused
+formatters:
+  enable:
+    - gofmt
+    - goimports
