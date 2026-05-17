@@ -53,62 +53,26 @@ repos:
         entry: scripts/sync_go_versions.py
         pass_filenames: false
         files: ^(src/tailscale/wrapper/go\.mod|tools/go\.mod)$
-      - id: gofmt
-        name: gofmt
-        language: golang
-        language_version: 1.26.3
-        entry: gofmt
-        args: [-l, -w]
-        types: [go]
-        files: ^src/tailscale/wrapper/
-      - id: govet
-        name: go vet
+      - id: golangci-lint
+        name: golangci-lint
         language: golang
         language_version: 1.26.3
         entry: bash -c
-        args: ["cd src/tailscale/wrapper && go vet ./..."]
+        args: ["cd src/tailscale/wrapper && golangci-lint run --fix"]
         pass_filenames: false
         files: ^src/tailscale/wrapper/
-      - id: goimports
-        name: goimports
-        language: golang
-        language_version: 1.26.3
-        entry: goimports
-        args: [-w]
-        types: [go]
-        files: ^src/tailscale/wrapper/
         additional_dependencies:
-          - "golang.org/x/tools/cmd/goimports@v0.45.0"
-      - id: gosec
-        name: gosec
+          - "github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.12.2"
+      - id: golangci-lint-fmt
+        name: golangci-lint fmt
         language: golang
         language_version: 1.26.3
         entry: bash -c
-        args: ["cd src/tailscale/wrapper && gosec -exclude=G115 ./..."]
+        args: ["cd src/tailscale/wrapper && golangci-lint fmt"]
         pass_filenames: false
         files: ^src/tailscale/wrapper/
         additional_dependencies:
-          - "github.com/securego/gosec/v2/cmd/gosec@v2.26.1"
-      - id: gocritic
-        name: go-critic
-        language: golang
-        language_version: 1.26.3
-        entry: bash -c
-        args: ["cd src/tailscale/wrapper && gocritic check ./..."]
-        pass_filenames: false
-        files: ^src/tailscale/wrapper/
-        additional_dependencies:
-          - "github.com/go-critic/go-critic/cmd/gocritic@v0.14.3"
-      - id: staticcheck
-        name: staticcheck
-        language_version: 1.26.3
-        language: golang
-        entry: bash -c
-        args: ["cd src/tailscale/wrapper && staticcheck ./..."]
-        pass_filenames: false
-        files: ^src/tailscale/wrapper/
-        additional_dependencies:
-          - "honnef.co/go/tools/cmd/staticcheck@v0.7.0"
+          - "github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.12.2"
       - id: govulncheck
         name: govulncheck
         language: golang
@@ -157,3 +121,9 @@ repos:
     rev: v0.11.0.1
     hooks:
       - id: shellcheck
+  - repo: https://github.com/golangci/golangci-lint
+    rev: v2.12.2
+    hooks:
+      - id: golangci-lint-config-verify
+        args:
+          - --config=src/tailscale/wrapper/.golangci.yml

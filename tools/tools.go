@@ -3,10 +3,7 @@
 package tools
 
 import (
-	_ "github.com/go-critic/go-critic/cmd/gocritic"
-	_ "github.com/securego/gosec/v2/cmd/gosec"
-	_ "golang.org/x/tools/cmd/goimports"
+	_ "github.com/golangci/golangci-lint/v2/cmd/golangci-lint"
 	_ "golang.org/x/vuln/cmd/govulncheck"
-	_ "honnef.co/go/tools/cmd/staticcheck"
 	_ "mvdan.cc/sh/v3/cmd/shfmt"
 )
