@@ -5,6 +5,8 @@ find_package(
 
 find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS GuiAddons)
 
+set(KTAILCTL_LSAN_SUPPRESSIONS "${CMAKE_CURRENT_SOURCE_DIR}/lsan.supp")
+
 function(add_ktailctl_test NAME)
   cmake_parse_arguments(PARSE_ARGV 1 ARG "" "" "SOURCES;LIBS")
   add_executable(${NAME} ${ARG_SOURCES})
@@ -18,6 +20,10 @@ function(add_ktailctl_test NAME)
     )
   add_dependencies(${NAME} ktailctl_wrapper_target)
   add_test(NAME ${NAME} COMMAND ${NAME})
+  if(KTAILCTL_ENABLE_ASAN)
+    set_property(TEST ${NAME} APPEND PROPERTY ENVIRONMENT
+        "LSAN_OPTIONS=suppressions=${KTAILCTL_LSAN_SUPPRESSIONS}:print_suppressions=0")
+  endif()
 endfunction()
 
 add_subdirectory(tailscale)

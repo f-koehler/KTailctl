@@ -180,6 +180,11 @@ jobs:
           - compiler: clang
             cc: clang
             cxx: clang++
+          - compiler: clang-sanitizers
+            cc: clang
+            cxx: clang++
+            cmake_flags: >-
+              -DKTAILCTL_ENABLE_ASAN=ON -DKTAILCTL_ENABLE_UBSAN=ON
     env:
       CC: ${{ matrix.cc }}
       CXX: ${{ matrix.cxx }}
@@ -221,7 +226,8 @@ jobs:
           cmake -B build -G Ninja \
             -DCMAKE_BUILD_TYPE=Debug \
             -DKTAILCTL_ENABLE_TESTS=ON \
-            -DKTAILCTL_FLATPAK_BUILD=OFF
+            -DKTAILCTL_FLATPAK_BUILD=OFF \
+            ${{ matrix.cmake_flags }}
       - name: Build
         run: cmake --build build --parallel
       - name: Test
