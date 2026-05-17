@@ -1,0 +1,14 @@
+---
+name: OSV-Scanner Scheduled Scan
+"on":
+  schedule:
+    - cron: "30 12 * * 1"
+  push:
+    branches: [main]
+permissions:
+  actions: read
+  security-events: write
+  contents: read
+jobs:
+  scan-scheduled:
+    uses: "google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@v2.3.8" # yamllint disable-line rule:line-length
