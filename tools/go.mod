@@ -6,6 +6,7 @@ require (
 	github.com/go-critic/go-critic v0.14.3
 	github.com/securego/gosec/v2 v2.26.1
 	golang.org/x/tools v0.45.0
+	golang.org/x/vuln v1.3.0
 	honnef.co/go/tools v0.7.0
 	mvdan.cc/sh/v3 v3.13.1
 )

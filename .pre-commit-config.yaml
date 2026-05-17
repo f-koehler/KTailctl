@@ -109,6 +109,16 @@ repos:
         files: ^src/tailscale/wrapper/
         additional_dependencies:
           - "honnef.co/go/tools/cmd/staticcheck@v0.7.0"
+      - id: govulncheck
+        name: govulncheck
+        language: golang
+        language_version: 1.26.2
+        entry: bash -c
+        args: ["cd src/tailscale/wrapper && govulncheck ./..."]
+        pass_filenames: false
+        files: ^src/tailscale/wrapper/
+        additional_dependencies:
+          - "golang.org/x/vuln/cmd/govulncheck@v1.3.0"
       - id: shfmt
         name: shfmt
         language: golang
