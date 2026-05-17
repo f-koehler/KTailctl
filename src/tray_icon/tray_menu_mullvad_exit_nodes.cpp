@@ -7,7 +7,7 @@
 #include <QStringBuilder>
 #include <QStringLiteral>
 #include <QVariant>
-#include <QtCore>
+#include <Qt>
 #include <utility>
 
 #include "location.hpp"

@@ -18,7 +18,6 @@
 #include <QStringLiteral>
 #include <QSystemTrayIcon>
 #include <Qt>
-#include <QtQml>
 #include <memory>
 
 #include "ktailctl_config.h"

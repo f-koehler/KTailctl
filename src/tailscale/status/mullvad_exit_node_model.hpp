@@ -2,10 +2,11 @@
 #define KTAILCTL_MULLVAD_EXIT_NODE_MODEL_HPP
 
 #include <QAbstractItemModel>
+#include <QLoggingCategory>
 #include <QMessageLogger>
 #include <QObject>
 #include <QSortFilterProxyModel>
-#include <QtCore>
+#include <Qt>
 #include <QtQmlIntegration/qqmlintegration.h>
 #include <qtmetamacros.h>
 

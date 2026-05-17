@@ -3,6 +3,7 @@ set -euf -o pipefail
 
 BUILD_DIR="build"
 DRY_RUN=true
+VERBOSE=false
 
 while [ $# -gt 0 ]; do
 	case "$1" in
@@ -14,6 +15,10 @@ while [ $# -gt 0 ]; do
 		DRY_RUN=false
 		shift
 		;;
+	--verbose | -v)
+		VERBOSE=true
+		shift
+		;;
 	*)
 		break
 		;;
@@ -23,14 +28,31 @@ done
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SOURCE_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
-for cmd in iwyu_tool.py fix_includes.py; do
-	if ! command -v "${cmd}" >/dev/null 2>&1; then
-		echo "Error: ${cmd} not found" >&2
-		exit 1
+# Find iwyu_tool.py and fix_includes.py - they may live outside PATH on some distros
+# (e.g. Ubuntu 22.04 places them under /usr/share/doc/iwyu/ instead of /usr/bin/)
+_find_tool() {
+	local name="$1"
+	if command -v "${name}" >/dev/null 2>&1; then
+		command -v "${name}"
+		return
 	fi
-done
+	for dir in \
+		/usr/share/include-what-you-use \
+		/usr/share/doc/iwyu \
+		/usr/lib/include-what-you-use; do
+		if [ -x "${dir}/${name}" ]; then
+			echo "${dir}/${name}"
+			return
+		fi
+	done
+	echo "Error: ${name} not found" >&2
+	exit 1
+}
 
-# Find the Qt IWYU mapping file (path differs between distros)
+IWYU_TOOL="$(_find_tool iwyu_tool.py)"
+FIX_INCLUDES="$(_find_tool fix_includes.py)"
+
+# Find the Qt IWYU mapping files (path differs between distros)
 QT_IMP=""
 for path in \
 	/usr/share/include-what-you-use/qt5_11.imp \
@@ -53,16 +75,20 @@ if [ "${#SOURCE_FILES[@]}" -eq 0 ]; then
 	exit 1
 fi
 
-IWYU_ARGS=(-Xiwyu --no_fwd_decls)
+IWYU_ARGS=(-Xiwyu --no_fwd_decls -Xiwyu --mapping_file="${SCRIPT_DIR}/qt6.imp")
 if [ -n "${QT_IMP}" ]; then
 	IWYU_ARGS+=(-Xiwyu --mapping_file="${QT_IMP}")
 fi
 
-IWYU_OUTPUT=$(iwyu_tool.py -p "${BUILD_DIR}" "${SOURCE_FILES[@]}" -- "${IWYU_ARGS[@]}" 2>&1) || true
+IWYU_OUTPUT=$("${IWYU_TOOL}" -p "${BUILD_DIR}" "${SOURCE_FILES[@]}" -- "${IWYU_ARGS[@]}" 2>&1) || true
 
 FIX_ARGS=(--nosafe_headers)
 if $DRY_RUN; then
 	FIX_ARGS+=(-n)
 fi
 
-printf '%s\n' "${IWYU_OUTPUT}" | fix_includes.py "${FIX_ARGS[@]}"
+if $VERBOSE; then
+	printf '%s\n' "${IWYU_OUTPUT}" >&2
+fi
+
+printf '%s\n' "${IWYU_OUTPUT}" | "${FIX_INCLUDES}" "${FIX_ARGS[@]}"
