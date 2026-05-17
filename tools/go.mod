@@ -1,6 +1,6 @@
 module github.com/f-koehler/ktailctl/tools
 
-go 1.26.2
+go 1.26.3
 
 require (
 	github.com/go-critic/go-critic v0.14.3

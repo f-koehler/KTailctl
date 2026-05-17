@@ -56,7 +56,7 @@ repos:
       - id: gofmt
         name: gofmt
         language: golang
-        language_version: 1.26.2
+        language_version: 1.26.3
         entry: gofmt
         args: [-l, -w]
         types: [go]
@@ -64,7 +64,7 @@ repos:
       - id: govet
         name: go vet
         language: golang
-        language_version: 1.26.2
+        language_version: 1.26.3
         entry: bash -c
         args: ["cd src/tailscale/wrapper && go vet ./..."]
         pass_filenames: false
@@ -72,7 +72,7 @@ repos:
       - id: goimports
         name: goimports
         language: golang
-        language_version: 1.26.2
+        language_version: 1.26.3
         entry: goimports
         args: [-w]
         types: [go]
@@ -82,7 +82,7 @@ repos:
       - id: gosec
         name: gosec
         language: golang
-        language_version: 1.26.2
+        language_version: 1.26.3
         entry: bash -c
         args: ["cd src/tailscale/wrapper && gosec -exclude=G115 ./..."]
         pass_filenames: false
@@ -92,7 +92,7 @@ repos:
       - id: gocritic
         name: go-critic
         language: golang
-        language_version: 1.26.2
+        language_version: 1.26.3
         entry: bash -c
         args: ["cd src/tailscale/wrapper && gocritic check ./..."]
         pass_filenames: false
@@ -101,7 +101,7 @@ repos:
           - "github.com/go-critic/go-critic/cmd/gocritic@v0.14.3"
       - id: staticcheck
         name: staticcheck
-        language_version: 1.26.2
+        language_version: 1.26.3
         language: golang
         entry: bash -c
         args: ["cd src/tailscale/wrapper && staticcheck ./..."]
@@ -112,7 +112,7 @@ repos:
       - id: govulncheck
         name: govulncheck
         language: golang
-        language_version: 1.26.2
+        language_version: 1.26.3
         entry: bash -c
         args: ["cd src/tailscale/wrapper && govulncheck ./..."]
         pass_filenames: false
@@ -122,7 +122,7 @@ repos:
       - id: shfmt
         name: shfmt
         language: golang
-        language_version: 1.26.2
+        language_version: 1.26.3
         entry: shfmt
         args: [-w]
         types: [shell]
