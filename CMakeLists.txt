@@ -15,19 +15,21 @@ if(KTAILCTL_ENABLE_ASAN OR KTAILCTL_ENABLE_UBSAN)
   if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     message(FATAL_ERROR "Sanitizers are only available when using Clang")
   endif()
+
   add_link_options(-shared-libsan)
 
-  # The shared sanitizer runtimes live in clang's resource directory, which
-  # isn't on the default loader search path. Embed it into RPATH so binaries
-  # can find libclang_rt.*.so without LD_LIBRARY_PATH.
   execute_process(
     COMMAND ${CMAKE_CXX_COMPILER} -print-file-name=libclang_rt.ubsan_standalone.so
     OUTPUT_VARIABLE _clang_rt_lib
     OUTPUT_STRIP_TRAILING_WHITESPACE)
   get_filename_component(_clang_rt_lib_dir "${_clang_rt_lib}" DIRECTORY)
   if(NOT _clang_rt_lib_dir OR _clang_rt_lib_dir STREQUAL "")
-    message(FATAL_ERROR "Could not locate clang sanitizer runtime directory")
+    message(
+      FATAL_ERROR
+        "Could not locate the shared clang sanitizer runtime. "
+        "On Debian/Ubuntu install libclang-rt-dev.")
   endif()
+  message(STATUS "Clang sanitizer runtime directory: ${_clang_rt_lib_dir}")
   add_link_options("-Wl,-rpath,${_clang_rt_lib_dir}")
 endif()
 
