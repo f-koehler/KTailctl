@@ -88,7 +88,7 @@ auto main(int argc, char *argv[]) -> int
     // clicking tray icon should toggle window
     auto *tray_icon = new TrayIcon(tailscale);
     tray_icon->show();
-    QObject::connect(tray_icon, &QSystemTrayIcon::activated, tray_icon, [window](const QSystemTrayIcon::ActivationReason &reason) -> void {
+    QObject::connect(tray_icon, &QSystemTrayIcon::activated, tray_icon, [window](const QSystemTrayIcon::ActivationReason &reason) {
         switch (reason) {
         case QSystemTrayIcon::ActivationReason::Trigger:
         case QSystemTrayIcon::ActivationReason::DoubleClick:
@@ -107,12 +107,12 @@ auto main(int argc, char *argv[]) -> int
             break;
         };
     });
-    QObject::connect(tray_icon, &TrayIcon::showWindow, window, [window] -> void {
+    QObject::connect(tray_icon, &TrayIcon::showWindow, window, [window] {
         window->show();
     });
     QObject::connect(tray_icon, &TrayIcon::quitRequested, &app, &QCoreApplication::quit, Qt::QueuedConnection);
 
-    QObject::connect(&app, &QCoreApplication::aboutToQuit, &app, [&engine]() -> void {
+    QObject::connect(&app, &QCoreApplication::aboutToQuit, &app, [&engine]() {
         engine.reset();
     });
 
