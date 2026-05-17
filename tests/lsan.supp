@@ -1,0 +1,7 @@
+leak:libEGL_nvidia
+leak:libGLX_nvidia
+leak:libnvidia-glcore
+leak:libdbus-1
+leak:libQt6DBus
+leak:libqwayland
+leak:libQt6WaylandClient

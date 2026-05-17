@@ -8,6 +8,40 @@ project(
 option(KTAILCTL_FLATPAK_BUILD "Build for Flatpak" OFF)
 option(KTAILCTL_ENABLE_TESTS "Enable unit tests" OFF)
 option(KTAILCTL_FETCH_GO "Fetch correct version of go" OFF)
+option(KTAILCTL_ENABLE_ASAN "Enable Clang's address sanitizer" OFF)
+option(KTAILCTL_ENABLE_UBSAN "Enable Clang's undefined behavior sanitizer" OFF)
+
+if(KTAILCTL_ENABLE_ASAN OR KTAILCTL_ENABLE_UBSAN)
+  if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    message(FATAL_ERROR "Sanitizers are only available when using Clang")
+  endif()
+  add_link_options(-shared-libsan)
+
+  # The shared sanitizer runtimes live in clang's resource directory, which
+  # isn't on the default loader search path. Embed it into RPATH so binaries
+  # can find libclang_rt.*.so without LD_LIBRARY_PATH.
+  execute_process(
+    COMMAND ${CMAKE_CXX_COMPILER} -print-file-name=libclang_rt.ubsan_standalone.so
+    OUTPUT_VARIABLE _clang_rt_lib
+    OUTPUT_STRIP_TRAILING_WHITESPACE)
+  get_filename_component(_clang_rt_lib_dir "${_clang_rt_lib}" DIRECTORY)
+  if(NOT _clang_rt_lib_dir OR _clang_rt_lib_dir STREQUAL "")
+    message(FATAL_ERROR "Could not locate clang sanitizer runtime directory")
+  endif()
+  add_link_options("-Wl,-rpath,${_clang_rt_lib_dir}")
+endif()
+
+if(KTAILCTL_ENABLE_ASAN)
+  message(STATUS "Enabling address sanitizer")
+  add_compile_options(-fsanitize=address -fno-omit-frame-pointer)
+  add_link_options(-fsanitize=address)
+endif()
+
+if(KTAILCTL_ENABLE_UBSAN)
+  message(STATUS "Enabling undefined behavior sanitizer")
+  add_compile_options(-fsanitize=undefined)
+  add_link_options(-fsanitize=undefined)
+endif()
 
 set(QT_MAJOR_VERSION 6)
 set(QT6_MIN_VERSION 6.10.0)
@@ -75,6 +109,14 @@ find_package(
              WindowSystem)
 
 add_subdirectory(src)
+
+add_custom_target(run
+  COMMAND ${CMAKE_COMMAND} -E env
+          "LSAN_OPTIONS=suppressions=${CMAKE_SOURCE_DIR}/tests/lsan.supp:print_suppressions=0"
+          $<TARGET_FILE:ktailctl>
+  DEPENDS ktailctl
+  USES_TERMINAL
+  COMMENT "Launching ktailctl with LSan suppressions")
 
 if(KTAILCTL_ENABLE_TESTS)
   add_subdirectory(tests)
