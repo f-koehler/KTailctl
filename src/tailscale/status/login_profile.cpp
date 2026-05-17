@@ -4,6 +4,9 @@
 #include <QStringLiteral>
 #include <utility>
 
+#include "tailscale/status/network_profile.hpp"
+#include "tailscale/status/user_profile.hpp"
+
 void LoginProfile::updateFromJson(QJsonObject &json)
 {
     mId = json.take(QStringLiteral("ID")).toString();
