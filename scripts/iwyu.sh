@@ -28,8 +28,6 @@ done
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SOURCE_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
-# Find iwyu_tool.py and fix_includes.py - they may live outside PATH on some distros
-# (e.g. Ubuntu 22.04 places them under /usr/share/doc/iwyu/ instead of /usr/bin/)
 _find_tool() {
 	local name="$1"
 	if command -v "${name}" >/dev/null 2>&1; then
@@ -39,8 +37,9 @@ _find_tool() {
 	for dir in \
 		/usr/share/include-what-you-use \
 		/usr/share/doc/iwyu \
-		/usr/lib/include-what-you-use; do
-		if [ -x "${dir}/${name}" ]; then
+		/usr/lib/include-what-you-use \
+		/usr/lib/iwyu; do
+		if [ -f "${dir}/${name}" ]; then
 			echo "${dir}/${name}"
 			return
 		fi
@@ -49,8 +48,20 @@ _find_tool() {
 	exit 1
 }
 
-IWYU_TOOL="$(_find_tool iwyu_tool.py)"
-FIX_INCLUDES="$(_find_tool fix_includes.py)"
+# Build a command array: use python3 prefix when the script lacks execute permission.
+_tool_cmd() {
+	local path="$1"
+	if [ -x "${path}" ]; then
+		echo "${path}"
+	else
+		echo "python3 ${path}"
+	fi
+}
+
+_IWYU_TOOL_PATH="$(_find_tool iwyu_tool.py)"
+_FIX_INCLUDES_PATH="$(_find_tool fix_includes.py)"
+read -ra IWYU_TOOL <<<"$(_tool_cmd "${_IWYU_TOOL_PATH}")"
+read -ra FIX_INCLUDES <<<"$(_tool_cmd "${_FIX_INCLUDES_PATH}")"
 
 # Find the Qt IWYU mapping files (path differs between distros)
 QT_IMP=""
@@ -80,7 +91,7 @@ if [ -n "${QT_IMP}" ]; then
 	IWYU_ARGS+=(-Xiwyu --mapping_file="${QT_IMP}")
 fi
 
-IWYU_OUTPUT=$("${IWYU_TOOL}" -p "${BUILD_DIR}" "${SOURCE_FILES[@]}" -- "${IWYU_ARGS[@]}" 2>&1) || true
+IWYU_OUTPUT=$("${IWYU_TOOL[@]}" -p "${BUILD_DIR}" "${SOURCE_FILES[@]}" -- "${IWYU_ARGS[@]}" 2>&1) || true
 
 FIX_ARGS=(--nosafe_headers)
 if $DRY_RUN; then
@@ -91,4 +102,4 @@ if $VERBOSE; then
 	printf '%s\n' "${IWYU_OUTPUT}" >&2
 fi
 
-printf '%s\n' "${IWYU_OUTPUT}" | "${FIX_INCLUDES}" "${FIX_ARGS[@]}"
+printf '%s\n' "${IWYU_OUTPUT}" | "${FIX_INCLUDES[@]}" "${FIX_ARGS[@]}"
