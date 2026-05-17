@@ -2,10 +2,11 @@
 #define KTAILCTL_SELF_HOSTED_EXIT_NODE_MODEL_HPP_
 
 #include <QAbstractItemModel>
+#include <QLoggingCategory>
 #include <QMessageLogger>
 #include <QObject>
 #include <QSortFilterProxyModel>
-#include <QtCore>
+#include <Qt>
 #include <QtQmlIntegration/qqmlintegration.h>
 #include <qtmetamacros.h>
 

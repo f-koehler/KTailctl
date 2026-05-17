@@ -2,9 +2,10 @@
 
 #include <QAbstractItemModel>
 #include <QByteArray>
+#include <QHash>
 #include <QModelIndex>
 #include <QVariant>
-#include <QtCore>
+#include <Qt>
 #include <qtmetamacros.h>
 
 StringFilter::StringFilter(QObject *parent)

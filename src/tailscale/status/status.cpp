@@ -6,17 +6,16 @@
 #include <QJsonParseError>
 #include <QJsonValue>
 #include <QJsonValueRef>
+#include <QKeyValueIterator>
+#include <QLoggingCategory>
 #include <QMessageLogger>
 #include <QMutexLocker>
 #include <QSet>
 #include <QStringLiteral>
 #include <QVariant>
-#include <QtCore>
 #include <cstdlib>
 #include <cstring>
 #include <memory>
-#include <qtmetamacros.h>
-#include <qtypes.h>
 #include <utility>
 
 #include "exit_node_status.hpp"

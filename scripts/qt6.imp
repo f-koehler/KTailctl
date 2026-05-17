@@ -1,0 +1,25 @@
+[
+  { "symbol": ["QHash", "public", "<QHash>", "public"] },
+  { "symbol": ["QMap", "public", "<QMap>", "public"] },
+  { "symbol": ["QSet", "public", "<QSet>", "public"] },
+  { "symbol": ["Qt::AlignmentFlag", "public", "<Qt>", "public"] },
+  { "symbol": ["Qt::AscendingOrder", "public", "<Qt>", "public"] },
+  { "symbol": ["Qt::CaseSensitive", "public", "<Qt>", "public"] },
+  { "symbol": ["Qt::CaseInsensitive", "public", "<Qt>", "public"] },
+  { "symbol": ["Qt::CaseSensitivity", "public", "<Qt>", "public"] },
+  { "symbol": ["Qt::ConnectionType", "public", "<Qt>", "public"] },
+  { "symbol": ["Qt::DescendingOrder", "public", "<Qt>", "public"] },
+  { "symbol": ["Qt::ItemDataRole", "public", "<Qt>", "public"] },
+  { "symbol": ["Qt::MatchFlag", "public", "<Qt>", "public"] },
+  { "symbol": ["Qt::Orientation", "public", "<Qt>", "public"] },
+  { "symbol": ["Qt::SortOrder", "public", "<Qt>", "public"] },
+  { "symbol": ["Qt::UserRole", "public", "<Qt>", "public"] },
+  {
+    "symbol": ["qmlRegisterSingletonInstance", "public", "<qqml.h>", "public"]
+  },
+  { "symbol": ["qmlRegisterSingletonType", "public", "<qqml.h>", "public"] },
+  { "symbol": ["qCDebug", "public", "<QLoggingCategory>", "public"] },
+  { "symbol": ["qCWarning", "public", "<QLoggingCategory>", "public"] },
+  { "symbol": ["qCCritical", "public", "<QLoggingCategory>", "public"] },
+  { "symbol": ["qCInfo", "public", "<QLoggingCategory>", "public"] }
+]
