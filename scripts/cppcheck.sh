@@ -25,7 +25,7 @@ fi
 
 exec cppcheck \
 	--project="${BUILD_DIR}/compile_commands.json" \
-	--file-filter="${SOURCE_DIR}/src/" \
+	--file-filter="${SOURCE_DIR}/src/*" \
 	--library=qt \
 	--enable=warning,style,performance,portability \
 	--error-exitcode=1 \
