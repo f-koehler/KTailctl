@@ -1,0 +1,45 @@
+---
+name: CodeQL
+"on":
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+  pull_request:
+    branches:
+      - main
+  schedule:
+    - cron: "0 6 * * 1"
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language:
+          - c-cpp
+          - go
+          - python
+    steps:
+      - uses: actions/checkout@v6
+      - name: Add KDE Neon repository
+        run: |
+          KEYRING=/usr/share/keyrings/neon.gpg
+          wget -qO - 'https://archive.neon.kde.org/public.key' \
+            | gpg --dearmor - \
+            | sudo tee "${KEYRING}" >/dev/null
+          echo "deb [signed-by=${KEYRING}]" \
+            "http://archive.neon.kde.org/user noble main" \
+            | sudo tee /etc/apt/sources.list.d/neon.list >/dev/null
+      - name: Update apt cache
+        run: sudo apt-get update -yq
+      - name: Install dependencies
+        run: sudo ./scripts/neon-deps.sh
+      - uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+      - uses: github/codeql-action/autobuild@v4
+      - uses: github/codeql-action/analyze@v4
