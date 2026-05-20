@@ -19,11 +19,11 @@ if(KTAILCTL_ENABLE_ASAN OR KTAILCTL_ENABLE_UBSAN)
   add_link_options(-shared-libsan)
 
   execute_process(
-    COMMAND ${CMAKE_CXX_COMPILER} -print-file-name=libclang_rt.ubsan_standalone.so
-    OUTPUT_VARIABLE _clang_rt_lib
-    OUTPUT_STRIP_TRAILING_WHITESPACE)
-  get_filename_component(_clang_rt_lib_dir "${_clang_rt_lib}" DIRECTORY)
-  if(NOT _clang_rt_lib_dir OR _clang_rt_lib_dir STREQUAL "")
+    COMMAND ${CMAKE_CXX_COMPILER} --print-runtime-dir
+    OUTPUT_VARIABLE _clang_rt_lib_dir
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    RESULT_VARIABLE _clang_rt_result)
+  if(_clang_rt_result OR NOT _clang_rt_lib_dir OR NOT EXISTS "${_clang_rt_lib_dir}")
     message(
       FATAL_ERROR
         "Could not locate the shared clang sanitizer runtime. "
