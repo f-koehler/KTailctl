@@ -26,14 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Add KDE Neon repository
-        run: |
-          KEYRING=/usr/share/keyrings/neon.gpg
-          wget -qO - 'https://archive.neon.kde.org/public.key' \
-            | gpg --dearmor - \
-            | sudo tee "${KEYRING}" >/dev/null
-          echo "deb [signed-by=${KEYRING}]" \
-            "http://archive.neon.kde.org/user noble main" \
-            | sudo tee /etc/apt/sources.list.d/neon.list >/dev/null
+        run: ./scripts/ci/apt-add-kde-neon-repo.sh
       - name: Update apt cache
         run: sudo apt-get update -yq
       - name: Install dependencies
