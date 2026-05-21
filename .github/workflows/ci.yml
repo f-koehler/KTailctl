@@ -124,7 +124,7 @@ jobs:
           sudo apt-get update -yq
       - name: Install clang-tidy
         if: matrix.linter == 'clang-tidy'
-        run: sudo apt-get install -yq clang-tidy-${LLVM_VERSION}
+        run: sudo apt-get install -yq "clang-tidy-${LLVM_VERSION}"
       - name: Install lint dependencies
         run: sudo apt-get install -yq clang-tools clazy
       - name: Build iwyu from source
