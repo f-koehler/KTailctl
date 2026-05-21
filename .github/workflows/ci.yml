@@ -118,13 +118,18 @@ jobs:
       - name: Install dependencies
         run: sudo ./scripts/neon-deps.sh
       - name: Add LLVM apt repository
-        if: matrix.linter == 'clang-tidy'
+        if: matrix.linter == 'clang-tidy' || matrix.linter == 'iwyu'
         run: |
           sudo ./scripts/ci/apt-add-llvm-repo.sh
           sudo apt-get update -yq
-          sudo apt-get install -yq clang-tidy-22
+      - name: Install clang-tidy
+        if: matrix.linter == 'clang-tidy'
+        run: sudo apt-get install -yq clang-tidy-${LLVM_VERSION}
       - name: Install lint dependencies
-        run: sudo apt-get install -yq clang-tools clazy iwyu
+        run: sudo apt-get install -yq clang-tools clazy
+      - name: Build iwyu from source
+        if: matrix.linter == 'iwyu'
+        run: ./scripts/ci/build-iwyu.sh
       - name: Build cppcheck from source
         if: matrix.linter == 'cppcheck'
         run: |
