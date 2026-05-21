@@ -23,24 +23,10 @@ jobs:
           cache-dependency-path: src/tailscale/wrapper/go.sum
       - name: Set up uv
         uses: astral-sh/setup-uv@v6
-      - name: Add Kitware CMake repository
-        run: |
-          KEYRING=/usr/share/keyrings/kitware-archive-keyring.gpg
-          wget -qO - https://apt.kitware.com/keys/kitware-archive-latest.asc \
-            | gpg --dearmor - \
-            | sudo tee "${KEYRING}" >/dev/null
-          echo "deb [signed-by=${KEYRING}]" \
-            "https://apt.kitware.com/ubuntu/ noble main" \
-            | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
+      - name: Add Kitware repository
+        run: ./scripts/ci/apt-add-kitware-repo.sh
       - name: Add KDE Neon repository
-        run: |
-          KEYRING=/usr/share/keyrings/neon.gpg
-          wget -qO - 'https://archive.neon.kde.org/public.key' \
-            | gpg --dearmor - \
-            | sudo tee "${KEYRING}" >/dev/null
-          echo "deb [signed-by=${KEYRING}]" \
-            "http://archive.neon.kde.org/user noble main" \
-            | sudo tee /etc/apt/sources.list.d/neon.list >/dev/null
+        run: ./scripts/ci/apt-add-kde-neon-repo.sh
       - name: Update apt cache
         run: sudo apt-get update -yq
       - name: Install dependencies
@@ -110,6 +96,8 @@ jobs:
     env:
       CC: clang
       CXX: clang++
+      LLVM_VERSION: 22
+      CPPCHECK_VERSION: 2.20.0
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -121,24 +109,10 @@ jobs:
       - name: Vendor Go dependencies
         run: go mod vendor
         working-directory: src/tailscale/wrapper
-      - name: Add Kitware CMake repository
-        run: |
-          KEYRING=/usr/share/keyrings/kitware-archive-keyring.gpg
-          wget -qO - https://apt.kitware.com/keys/kitware-archive-latest.asc \
-            | gpg --dearmor - \
-            | sudo tee "${KEYRING}" >/dev/null
-          echo "deb [signed-by=${KEYRING}]" \
-            "https://apt.kitware.com/ubuntu/ noble main" \
-            | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
+      - name: Add Kitware repository
+        run: ./scripts/ci/apt-add-kitware-repo.sh
       - name: Add KDE Neon repository
-        run: |
-          KEYRING=/usr/share/keyrings/neon.gpg
-          wget -qO - 'https://archive.neon.kde.org/public.key' \
-            | gpg --dearmor - \
-            | sudo tee "${KEYRING}" >/dev/null
-          echo "deb [signed-by=${KEYRING}]" \
-            "http://archive.neon.kde.org/user noble main" \
-            | sudo tee /etc/apt/sources.list.d/neon.list >/dev/null
+        run: ./scripts/ci/apt-add-kde-neon-repo.sh
       - name: Update apt cache
         run: sudo apt-get update -yq
       - name: Install dependencies
@@ -146,13 +120,7 @@ jobs:
       - name: Add LLVM apt repository
         if: matrix.linter == 'clang-tidy'
         run: |
-          KEYRING=/usr/share/keyrings/llvm-archive-keyring.gpg
-          wget -qO - https://apt.llvm.org/llvm-snapshot.gpg.key \
-            | gpg --dearmor - \
-            | sudo tee "${KEYRING}" >/dev/null
-          echo "deb [signed-by=${KEYRING}]" \
-            "http://apt.llvm.org/noble/ llvm-toolchain-noble-22 main" \
-            | sudo tee /etc/apt/sources.list.d/llvm.list >/dev/null
+          sudo ./scripts/ci/apt-add-llvm-repo.sh
           sudo apt-get update -yq
           sudo apt-get install -yq clang-tidy-22
       - name: Install lint dependencies
@@ -161,12 +129,7 @@ jobs:
         if: matrix.linter == 'cppcheck'
         run: |
           sudo apt-get install -yq libpcre3-dev
-          git clone --depth 1 --branch 2.20.0 \
-            https://github.com/danmar/cppcheck.git /tmp/cppcheck
-          cmake -B /tmp/cppcheck/build -S /tmp/cppcheck \
-            -G Ninja -DCMAKE_BUILD_TYPE=Release -DHAVE_RULES=ON
-          cmake --build /tmp/cppcheck/build --parallel
-          sudo cmake --install /tmp/cppcheck/build
+          ./scripts/ci/build-cppcheck.sh
       - name: Configure
         run: |
           cmake -B build -G Ninja \
@@ -209,24 +172,10 @@ jobs:
       - name: Vendor Go dependencies
         run: go mod vendor
         working-directory: src/tailscale/wrapper
-      - name: Add Kitware CMake repository
-        run: |
-          KEYRING=/usr/share/keyrings/kitware-archive-keyring.gpg
-          wget -qO - https://apt.kitware.com/keys/kitware-archive-latest.asc \
-            | gpg --dearmor - \
-            | sudo tee "${KEYRING}" >/dev/null
-          echo "deb [signed-by=${KEYRING}]" \
-            "https://apt.kitware.com/ubuntu/ noble main" \
-            | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
+      - name: Add Kitware repository
+        run: ./scripts/ci/apt-add-kitware-repo.sh
       - name: Add KDE Neon repository
-        run: |
-          KEYRING=/usr/share/keyrings/neon.gpg
-          wget -qO - 'https://archive.neon.kde.org/public.key' \
-            | gpg --dearmor - \
-            | sudo tee "${KEYRING}" >/dev/null
-          echo "deb [signed-by=${KEYRING}]" \
-            "http://archive.neon.kde.org/user noble main" \
-            | sudo tee /etc/apt/sources.list.d/neon.list >/dev/null
+        run: ./scripts/ci/apt-add-kde-neon-repo.sh
       - name: Update apt cache
         run: sudo apt-get update -yq
       - name: Install dependencies
