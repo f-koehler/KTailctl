@@ -524,7 +524,7 @@ private Q_SLOTS:
         QCOMPARE(peer->exitNode(), false);
         QCOMPARE(peer->exitNodeOption(), true);
         QCOMPARE(peer->mullvadNode(), true);
-        QCOMPARE(peer->tags(), QStringList{QStringLiteral("tag:mullvad-exit-node")});
+        QCOMPARE(peer->tags(), QStringList{QStringLiteral("mullvad-exit-node")});
         QCOMPARE(peer->allowedIps().size(), 4);
 
         QVERIFY(peer->location() != nullptr);
