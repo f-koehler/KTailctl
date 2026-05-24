@@ -3,7 +3,10 @@ set -euf -o pipefail
 
 for cmd in qmlformat-qt6 qmlformat6 qmlformat; do
 	if command -v "${cmd}" >/dev/null 2>&1; then
-		exec "${cmd}" "$@"
+		bin="$(command -v "${cmd}")"
+		version="$("${bin}" --version 2>&1 || true)"
+		echo "qmlformat: ${bin} (${version})" >&2
+		exec "${bin}" "$@"
 	fi
 done
 
