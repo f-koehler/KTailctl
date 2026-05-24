@@ -60,6 +60,12 @@ FormCard.FormCardPage {
             to: 30000
             onValueChanged: KTailctl.Config.refreshInterval = spinRefreshInterval.value
         }
+        FormCard.FormSwitchDelegate {
+            id: switchShowTagsInPeerList
+            text: "Show tags in peer list"
+            checked: KTailctl.Config.showTagsInPeerList
+            onCheckedChanged: KTailctl.Config.showTagsInPeerList = !KTailctl.Config.showTagsInPeerList
+        }
     }
 
     FormCard.FormHeader {
