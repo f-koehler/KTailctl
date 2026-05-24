@@ -90,7 +90,7 @@ auto main(int argc, char *argv[]) -> int
 
     // clicking tray icon should toggle window
     auto *tray_icon = new TrayIcon(tailscale);
-    tray_icon->show();
+    tray_icon->setVisible(Config::enableTrayIcon());
     QObject::connect(tray_icon, &QSystemTrayIcon::activated, tray_icon, [window](const QSystemTrayIcon::ActivationReason &reason) {
         switch (reason) {
         case QSystemTrayIcon::ActivationReason::Trigger:
