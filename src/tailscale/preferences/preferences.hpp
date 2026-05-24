@@ -11,9 +11,9 @@
 #include <QStringLiteral>
 #include <QVariant>
 #include <QtQmlIntegration/qqmlintegration.h>
+#include <cstdint>
 #include <qtmetamacros.h>
 #include <qtypes.h>
-#include <stdint.h>
 
 #include "app_connector.hpp"
 #include "auto_update.hpp"

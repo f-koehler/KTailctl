@@ -1,15 +1,17 @@
 #include "peer_status.hpp"
+// IWYU pragma: no_include <utility>
 
 #include <QJsonValue>
 #include <QStringLiteral>
 #include <QVariant>
 #include <Qt>
-#include <utility>
 
 #include "location.hpp"
 
 void PeerStatus::updateFromJson(QJsonObject &json)
 {
+    static const auto tagPrefix = QStringLiteral("tag:");
+
     mId = json.take(QStringLiteral("ID")).toString();
     mPublicKey = json.take(QStringLiteral("PublicKey")).toString();
     mHostName = json.take(QStringLiteral("HostName")).toString();
@@ -20,7 +22,6 @@ void PeerStatus::updateFromJson(QJsonObject &json)
     mTailscaleIps = json.take(QStringLiteral("TailscaleIPs")).toVariant().toStringList();
     mAllowedIps = json.take(QStringLiteral("AllowedIPs")).toVariant().toStringList();
     const auto rawTags = json.take(QStringLiteral("Tags")).toVariant().toStringList();
-    static const QString tagPrefix = QStringLiteral("tag:");
     QStringList strippedTags;
     strippedTags.reserve(rawTags.size());
     for (const QString &tag : rawTags) {
