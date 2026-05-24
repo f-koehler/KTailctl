@@ -1,4 +1,5 @@
 #include "preferences.hpp"
+// IWYU pragma: no_include <utility>
 
 #include <QByteArray>
 #include <QDebug>
