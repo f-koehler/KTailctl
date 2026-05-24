@@ -19,8 +19,15 @@ void PeerStatus::updateFromJson(QJsonObject &json)
     mSharerUserId = json.take(QStringLiteral("AltSharerUserId")).toInteger();
     mTailscaleIps = json.take(QStringLiteral("TailscaleIPs")).toVariant().toStringList();
     mAllowedIps = json.take(QStringLiteral("AllowedIPs")).toVariant().toStringList();
-    mTags = json.take(QStringLiteral("Tags")).toVariant().toStringList();
-    mMullvadNode = mTags.value().contains(QStringLiteral("tag:mullvad-exit-node"));
+    const auto rawTags = json.take(QStringLiteral("Tags")).toVariant().toStringList();
+    static const QString tagPrefix = QStringLiteral("tag:");
+    QStringList strippedTags;
+    strippedTags.reserve(rawTags.size());
+    for (const QString &tag : rawTags) {
+        strippedTags.append(tag.startsWith(tagPrefix) ? tag.sliced(tagPrefix.size()) : tag);
+    }
+    mTags = strippedTags;
+    mMullvadNode = mTags.value().contains(QStringLiteral("mullvad-exit-node"));
     mPrimaryRoutes = json.take(QStringLiteral("PrimaryRoutes")).toVariant().toStringList();
     mAddresses = json.take(QStringLiteral("Addresses")).toVariant().toStringList();
     mCurrentAddress = json.take(QStringLiteral("CurrentAddress")).toString();
