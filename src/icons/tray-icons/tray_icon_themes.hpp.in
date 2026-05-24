@@ -50,7 +50,6 @@ class TrayIconThemes : public QObject {
     void setCurrentIndex(int index) {
       if (index >= 0 && index < static_cast<int>(trayIconThemesList().size())) {
           Config::setTrayIconTheme(trayIconThemesList().at(index));
-          Config::self()->save();
           mCurrentIndex = static_cast<int>(trayIconThemesList().indexOf(Config::trayIconTheme()));
       }
     }

@@ -20,6 +20,7 @@
 #include <Qt>
 #include <memory>
 
+#include "config/config_auto_save.hpp"
 #include "ktailctl_config.h"
 #include "tailscale/tailscale.hpp"
 #include "tray_icon/tray_icon.hpp"
@@ -72,7 +73,9 @@ auto main(int argc, char *argv[]) -> int
 
     auto engine = std::make_unique<QQmlApplicationEngine>();
     static constexpr int qmlMajorVersion = 254;
-    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", qmlMajorVersion, 0, "Config", Config::self());
+    auto *config = Config::self();
+    qmlRegisterSingletonInstance("org.fkoehler.KTailctl", qmlMajorVersion, 0, "Config", config);
+    new ConfigAutoSave(config, config);
     qmlRegisterSingletonType("org.fkoehler.KTailctl", qmlMajorVersion, 0, "About", [](QQmlEngine *engine, QJSEngine *) -> QJSValue {
         return engine->toScriptValue(KAboutData::applicationData());
     });

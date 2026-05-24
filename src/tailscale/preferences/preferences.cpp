@@ -17,7 +17,6 @@
 #include <libktailctl_wrapper.h>
 #include <memory>
 #include <qtypes.h>
-#include <utility>
 
 #include "ktailctl_config.h"
 #include "logging_tailscale_preferences.hpp"
@@ -103,9 +102,7 @@ void Preferences::updateFromJson(QJsonObject &json)
 void Preferences::setExitNodeID(const QString &exitNodeId)
 {
     if (!exitNodeId.isEmpty()) {
-        auto *config = Config::self();
         Config::setLastUsedExitNode(exitNodeId);
-        config->save();
     }
     _set_preference(QStringLiteral("ExitNodeID"), exitNodeId);
 }
