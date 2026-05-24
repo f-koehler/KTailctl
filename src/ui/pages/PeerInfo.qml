@@ -103,6 +103,30 @@ FormCard.FormCardPage {
     }
 
     FormCard.FormHeader {
+        visible: (peer?.tags?.length ?? 0) > 0
+        title: "Tags"
+    }
+
+    FormCard.FormCard {
+        visible: (peer?.tags?.length ?? 0) > 0
+
+        FormCard.AbstractFormDelegate {
+            background: null
+            contentItem: Flow {
+                spacing: Kirigami.Units.smallSpacing
+                Repeater {
+                    model: peer?.tags ?? []
+                    Kirigami.Chip {
+                        text: modelData
+                        closable: false
+                        onClicked: KTailctl.Util.setClipboardText(modelData)
+                    }
+                }
+            }
+        }
+    }
+
+    FormCard.FormHeader {
         title: "Addresses"
     }
 
