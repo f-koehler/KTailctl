@@ -75,7 +75,7 @@ auto main(int argc, char *argv[]) -> int
     static constexpr int qmlMajorVersion = 254;
     auto *config = Config::self();
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", qmlMajorVersion, 0, "Config", config);
-    new ConfigAutoSave(config, config);
+    new ConfigAutoSave(config, config); // cleaned up throug QObject ownership model
     qmlRegisterSingletonType("org.fkoehler.KTailctl", qmlMajorVersion, 0, "About", [](QQmlEngine *engine, QJSEngine *) -> QJSValue {
         return engine->toScriptValue(KAboutData::applicationData());
     });
