@@ -1,7 +1,9 @@
-#pragma once
+#ifndef KTAILCTL_CONFIG_AUTO_SAVE_HPP
+#define KTAILCTL_CONFIG_AUTO_SAVE_HPP
 
 #include "ktailctl_config.h"
 #include <QObject>
+#include <qtmetamacros.h>
 
 class ConfigAutoSave : public QObject
 {
@@ -9,7 +11,7 @@ class ConfigAutoSave : public QObject
 
 public:
     explicit ConfigAutoSave(Config *config, QObject *parent = nullptr);
-
-public Q_SLOTS:
-    static void save();
+    Q_SLOT static void save();
 };
+
+#endif // KTAILCTL_CONFIG_AUTO_SAVE_HPP
