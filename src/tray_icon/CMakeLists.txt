@@ -10,7 +10,7 @@ ecm_qt_declare_logging_category(
         Info)
 
 target_sources(ktailctl PRIVATE tray_icon.hpp tray_icon.cpp
-        tray_menu_accounts.hpp
+        tray_menu_accounts.hpp tray_menu_accounts.cpp
         tray_menu_exit_nodes.hpp tray_menu_exit_nodes.cpp
         tray_menu_peers.hpp tray_menu_peers.cpp
         tray_menu_self.hpp tray_menu_self.cpp

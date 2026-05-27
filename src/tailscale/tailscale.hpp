@@ -104,6 +104,7 @@ public:
     Q_SLOT Q_INVOKABLE void up() const noexcept;
     Q_SLOT Q_INVOKABLE void down() const noexcept;
     Q_SLOT Q_INVOKABLE void toggle() const noexcept;
+    Q_INVOKABLE void switchAccount(const QString &profileId) noexcept;
 };
 
 #endif // KTAILCTL_TAILSCALE_HPP

@@ -32,7 +32,7 @@ FormCard.FormCardPage {
                         ToolTip.delay: Kirigami.Units.toolTipDelay
                         ToolTip.text: "User avatar"
                         ToolTip.visible: hovered
-                        source: self?.userProfile?.profilePicUrl ?? ""
+                        source: self?.userProfile?.profilePicUrl || "user"
                     }
                     trailing: RowLayout {
                         ToolButton {
@@ -40,6 +40,8 @@ FormCard.FormCardPage {
                             ToolTip.text: "Switch to this account"
                             ToolTip.visible: hovered
                             icon.name: "system-switch-user"
+                            visible: id !== KTailctl.Tailscale.currentLoginProfileId
+                            onClicked: KTailctl.Tailscale.switchAccount(id)
                         }
                         ToolButton {
                             ToolTip.delay: Kirigami.Units.toolTipDelay
