@@ -46,6 +46,18 @@ void TrayMenuAccounts::fetchAvatar(const QString &url)
     });
 }
 
+QIcon TrayMenuAccounts::resolveIcon(const QString &picUrl)
+{
+    if (picUrl.isEmpty()) {
+        return QIcon::fromTheme(QStringLiteral("user"));
+    }
+    if (mAvatarCache.contains(picUrl)) {
+        return mAvatarCache[picUrl];
+    }
+    fetchAvatar(picUrl);
+    return QIcon::fromTheme(QStringLiteral("user"));
+}
+
 void TrayMenuAccounts::rebuildMenu()
 {
     clear();
@@ -61,14 +73,7 @@ void TrayMenuAccounts::rebuildMenu()
 
         QIcon icon = QIcon::fromTheme(QStringLiteral("user"));
         if (const LoginProfile *profile = mTailscale->loginProfileWithId(profileId)) {
-            const QString picUrl = profile->userProfile()->profilePicUrl();
-            if (!picUrl.isEmpty()) {
-                if (mAvatarCache.contains(picUrl)) {
-                    icon = mAvatarCache[picUrl];
-                } else {
-                    fetchAvatar(picUrl);
-                }
-            }
+            icon = resolveIcon(profile->userProfile()->profilePicUrl());
         }
 
         QAction *action = addAction(icon, name);

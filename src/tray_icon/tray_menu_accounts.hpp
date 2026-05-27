@@ -19,6 +19,7 @@ class TrayMenuAccounts : public QMenu
     QMap<QString, QIcon> mAvatarCache;
 
     void fetchAvatar(const QString &url);
+    QIcon resolveIcon(const QString &picUrl);
 
 public:
     explicit TrayMenuAccounts(Tailscale *tailscale, QWidget *parent = nullptr);
