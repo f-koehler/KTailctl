@@ -22,7 +22,7 @@ jobs:
           go-version-file: src/tailscale/wrapper/go.mod
           cache-dependency-path: src/tailscale/wrapper/go.sum
       - name: Set up uv
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@v7
       - name: Add Kitware repository
         run: ./scripts/ci/apt-add-kitware-repo.sh
       - name: Add KDE Neon repository
