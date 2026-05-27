@@ -17,5 +17,5 @@ else
 fi
 
 # Attach vendored go dependencies
-./scripts/vendor.sh
+./scripts/vendor.sh "${TAG}"
 gh release upload "${TAG}" "ktailctl-wrapper-vendor-${TAG}.tar.gz"
