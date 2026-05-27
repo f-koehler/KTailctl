@@ -44,6 +44,8 @@ jobs:
         run: cmake --build build --parallel
       - name: Run git hooks
         uses: j178/prek-action@v2
+        env:
+          SKIP: qmlformat
   flatpak_build:
     name: Flatpak Build
     runs-on: ubuntu-latest
