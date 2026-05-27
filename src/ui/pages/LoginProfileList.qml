@@ -32,7 +32,7 @@ FormCard.FormCardPage {
                         ToolTip.delay: Kirigami.Units.toolTipDelay
                         ToolTip.text: "User avatar"
                         ToolTip.visible: hovered
-                        source: self?.userProfile?.profilePicUrl ?? "user"
+                        source: self?.userProfile?.profilePicUrl || "user"
                     }
                     trailing: RowLayout {
                         ToolButton {

@@ -118,7 +118,7 @@ FormCard.FormCardPage {
                 ToolTip.delay: Kirigami.Units.toolTipDelay
                 ToolTip.text: "Profile Picture"
                 ToolTip.visible: hovered
-                source: loginProfile?.userProfile?.profilePicUrl
+                source: loginProfile?.userProfile?.profilePicUrl || "user"
             }
         }
     }
