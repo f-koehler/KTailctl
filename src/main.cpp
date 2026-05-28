@@ -19,6 +19,7 @@
 #include <QSystemTrayIcon>
 #include <Qt>
 #include <memory>
+#include <qlogging.h>
 
 #include "config/config_auto_save.hpp"
 #include "ktailctl_config.h"
@@ -39,7 +40,7 @@ auto main(int argc, char *argv[]) -> int
     QCoreApplication::setApplicationName(QStringLiteral("KTailctl"));
     QCoreApplication::setOrganizationName(QStringLiteral("fkoehler.org"));
 
-    KAboutData aboutData(QStringLiteral("ktailctl"),
+    KAboutData aboutData(QStringLiteral("KTailctl"),
                          i18nc("@title", "KTailctl"),
                          QStringLiteral(KTAILCTL_VERSION_STRING),
                          i18n("GUI for tailscale on the Linux desktop"),
@@ -57,6 +58,7 @@ auto main(int argc, char *argv[]) -> int
     aboutData.setProgramLogo(QIcon(QStringLiteral(":/icons/logo.svg")));
     KAboutData::setApplicationData(aboutData);
     const KDBusService service(KDBusService::Unique);
+    qInfo() << "KDBusService name:" << service.serviceName();
 
     auto *tailscale = new Tailscale();
     Tailscale::setQmlInstance(tailscale);
