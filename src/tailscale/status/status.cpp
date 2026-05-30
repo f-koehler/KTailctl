@@ -187,11 +187,14 @@ void Status::updateFromJson(QJsonObject &json) // NOLINT(readability-function-co
             auto obj = data.toObject();
             const auto peerId = obj.value(QStringLiteral("ID")).toString();
             auto pos = mPeers.find(peerId);
-            if (pos == mPeers.end()) [[unlikely]] {
+            const bool isNew = pos == mPeers.end();
+            if (isNew) [[unlikely]] {
                 pos = mPeers.insert(peerId, new PeerStatus(this));
-                mPeerModel->addItem(pos.value());
             }
             pos.value()->updateFromJson(obj);
+            if (isNew) [[unlikely]] {
+                mPeerModel->addItem(pos.value());
+            }
             peersToRemove.remove(peerId);
         }
         for (const auto &peerId : peersToRemove) {
