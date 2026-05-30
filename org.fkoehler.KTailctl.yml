@@ -11,6 +11,7 @@ finish-args:
   - --socket=wayland
   - --device=dri
   - --share=ipc
+  - --share=network
   - --talk-name=org.kde.StatusNotifierWatcher
   - --filesystem=/run/tailscale:ro
   - --filesystem=/sys/class/net:ro
