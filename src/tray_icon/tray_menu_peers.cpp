@@ -10,6 +10,7 @@
 #include <QStringList>
 #include <QStringLiteral>
 #include <QVariant>
+#include <qobject.h>
 #include <utility>
 
 #include "logging_tray_icon.hpp"
@@ -25,6 +26,7 @@ TrayMenuPeers::TrayMenuPeers(Tailscale *tailscale, QWidget *parent)
     , mRoleIndexMullvadNode(tailscale->status()->peerModel()->roleIndexForProperty("mullvadNode"))
     , mRoleIndexDnsName(tailscale->status()->peerModel()->roleIndexForProperty("dnsName"))
     , mRoleIndexTailscaleIps(tailscale->status()->peerModel()->roleIndexForProperty("tailscaleIps"))
+    , mRoleIndexOs(tailscale->status()->peerModel()->roleIndexForProperty("os"))
 {
     setIcon(QIcon::fromTheme(QStringLiteral("distribute-graph-directed")));
     if (mRoleIndexHostName == -1) {
@@ -41,6 +43,10 @@ TrayMenuPeers::TrayMenuPeers(Tailscale *tailscale, QWidget *parent)
     }
     if (mRoleIndexTailscaleIps == -1) {
         qCCritical(Logging::TrayIcon) << "Failed to find role index for tailscaleIps";
+        mRoleIndicesFound = false;
+    }
+    if (mRoleIndexOs == -1) {
+        qCCritical(Logging::TrayIcon) << "Failed to find role index for os";
         mRoleIndicesFound = false;
     }
     connect(this, &QMenu::aboutToShow, this, &TrayMenuPeers::rebuildMenu);
@@ -64,6 +70,13 @@ void TrayMenuPeers::rebuildMenu()
         }
         const QString title = index.data(mRoleIndexHostName).toString();
         QMenu *subMenu = addMenu(title);
+
+        const auto os = index.data(mRoleIndexOs).toString().toLower();
+        if ((os == QStringLiteral("android")) || (os == QStringLiteral("ios"))) {
+            subMenu->setIcon(QIcon::fromTheme(QStringLiteral("smartphone")));
+        } else {
+            subMenu->setIcon(QIcon::fromTheme(QStringLiteral("computer")));
+        }
 
         const QString dnsName = index.data(mRoleIndexDnsName).toString();
         subMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), dnsName, this, [dnsName] -> void {

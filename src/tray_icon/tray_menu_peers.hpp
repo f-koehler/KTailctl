@@ -17,6 +17,7 @@ class TrayMenuPeers : public QMenu
     const int mRoleIndexMullvadNode = -1;
     const int mRoleIndexDnsName = -1;
     const int mRoleIndexTailscaleIps = -1;
+    const int mRoleIndexOs = -1;
 
 public:
     explicit TrayMenuPeers(Tailscale *tailscale, QWidget *parent = nullptr);
