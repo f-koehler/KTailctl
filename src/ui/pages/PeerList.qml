@@ -166,7 +166,7 @@ FormCard.FormCardPage {
                     ToolTip.delay: Kirigami.Units.toolTipDelay
                     ToolTip.text: "View node info"
                     ToolTip.visible: hovered
-                    icon.name: "help-info"
+                    icon.name: "info"
                     onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
                         peer: KTailctl.Tailscale.status.peerWithId(KTailctl.Tailscale.status.self.id)
                     })
@@ -176,13 +176,13 @@ FormCard.FormCardPage {
                     ToolTip.delay: Kirigami.Units.toolTipDelay
                     ToolTip.text: "More actions"
                     ToolTip.visible: hovered
-                    icon.name: "open-menu"
+                    icon.name: "application-menu"
                     onClicked: menu.open()
 
                     Menu {
                         id: menu
                         MenuItem {
-                            icon.name: "help-info"
+                            icon.name: "info"
                             text: "Node info"
                             onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
                                 peer: KTailctl.Tailscale.status.peerWithId(KTailctl.Tailscale.status.self.id)
@@ -258,7 +258,7 @@ FormCard.FormCardPage {
                             ToolTip.delay: Kirigami.Units.toolTipDelay
                             ToolTip.text: "View node info"
                             ToolTip.visible: hovered
-                            icon.name: "help-info"
+                            icon.name: "info"
                             onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
                                 peer: KTailctl.Tailscale.status.peerWithId(id)
                             })
@@ -268,13 +268,13 @@ FormCard.FormCardPage {
                             ToolTip.delay: Kirigami.Units.toolTipDelay
                             ToolTip.text: "More actions"
                             ToolTip.visible: hovered
-                            icon.name: "open-menu"
+                            icon.name: "application-menu"
                             onClicked: peerMenu.open()
 
                             Menu {
                                 id: peerMenu
                                 MenuItem {
-                                    icon.name: "help-info"
+                                    icon.name: "info"
                                     text: "Node info"
                                     onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
                                         peer: KTailctl.Tailscale.status.peerWithId(id)

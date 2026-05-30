@@ -154,7 +154,7 @@ FormCard.FormCardPage {
                         ToolTip.delay: Kirigami.Units.toolTipDelay
                         ToolTip.text: "View node info"
                         ToolTip.visible: hovered
-                        icon.name: "help-info"
+                        icon.name: "info"
                         onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
                             peer: KTailctl.Tailscale.status.peerWithId(id)
                         })
@@ -210,7 +210,7 @@ FormCard.FormCardPage {
                             ToolTip.delay: Kirigami.Units.toolTipDelay
                             ToolTip.text: "View node info"
                             ToolTip.visible: hovered
-                            icon.name: "help-info"
+                            icon.name: "info"
                             onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
                                 peer: KTailctl.Tailscale.status.peerWithId(id)
                             })

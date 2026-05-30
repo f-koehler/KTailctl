@@ -47,7 +47,7 @@ FormCard.FormCardPage {
                             ToolTip.delay: Kirigami.Units.toolTipDelay
                             ToolTip.text: "View account information"
                             ToolTip.visible: hovered
-                            icon.name: "help-info"
+                            icon.name: "info"
                             onClicked: {
                                 applicationWindow().pageStack.layers.push(pageLoginProfileInfo, {
                                     loginProfile: KTailctl.Tailscale.loginProfileWithId(id)

@@ -24,7 +24,7 @@ Kirigami.ApplicationWindow {
 
         actions: [
             Kirigami.PagePoolAction {
-                icon.name: "config-users"
+                icon.name: "system-users"
                 page: "qrc:/ui/pages/LoginProfileList.qml"
                 pagePool: mainPagePool
                 text: i18n("Login Profiles")
@@ -42,7 +42,7 @@ Kirigami.ApplicationWindow {
                 text: i18n("Exit Nodes")
             },
             Kirigami.PagePoolAction {
-                icon.name: "settings"
+                icon.name: "settings-configure"
                 page: "qrc:/ui/pages/Settings.qml"
                 pagePool: mainPagePool
                 text: i18n("Settings")

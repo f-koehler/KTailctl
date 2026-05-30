@@ -14,7 +14,7 @@ TrayMenuAccounts::TrayMenuAccounts(Tailscale *tailscale, QWidget *parent)
     , mRoleIndexName(tailscale->loginProfileModel()->roleIndexForProperty("name"))
     , mNetworkManager(new QNetworkAccessManager(this))
 {
-    setIcon(QIcon::fromTheme(QStringLiteral("config-users")));
+    setIcon(QIcon::fromTheme(QStringLiteral("system-users")));
     if (mRoleIndexId == -1) {
         qCCritical(Logging::TrayIcon) << "Failed to find role index for id";
         mRoleIndicesFound = false;
