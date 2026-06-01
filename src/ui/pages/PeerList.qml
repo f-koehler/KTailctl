@@ -85,11 +85,14 @@ Kirigami.ScrollablePage {
                 implicitWidth: Kirigami.Units.iconSizes.small
                 implicitHeight: Kirigami.Units.iconSizes.small
 
-                QQC2.ToolTip.delay: Kirigami.Units.toolTipDelay
-                QQC2.ToolTip.text: row.isOnline ? "Online" : "Offline"
-                QQC2.ToolTip.visible: hoverHandler.hovered
                 HoverHandler {
                     id: hoverHandler
+                }
+
+                QQC2.ToolTip {
+                    visible: hoverHandler.hovered
+                    delay: Kirigami.Units.toolTipDelay
+                    text: row.isOnline ? "Online" : "Offline"
                 }
             }
         }
