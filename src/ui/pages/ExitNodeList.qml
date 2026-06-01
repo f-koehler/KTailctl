@@ -133,7 +133,9 @@ Kirigami.ScrollablePage {
     KTailctl.StringFilter {
         id: mullvadFilter
         sourceModel: KTailctl.Tailscale.status.mullvadExitNodeModel
-        filterRoleName: "dnsName"
+        // Match the DNS name as well as the location's city/country names, so a
+        // node can be found without knowing its city/country code.
+        filterRoleNames: ["dnsName", "location"]
         filterString: page.filterDnsNameEnabled ? page.filterDnsNameValue : ""
     }
 

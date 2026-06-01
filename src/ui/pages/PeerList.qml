@@ -188,7 +188,7 @@ Kirigami.ScrollablePage {
     KTailctl.StringFilter {
         id: dnsNameFilter
         sourceModel: peerModel
-        filterRoleName: "dnsName"
+        filterRoleNames: ["dnsName"]
         filterString: page.filterDnsNameEnabled ? page.filterDnsNameValue : ""
     }
 

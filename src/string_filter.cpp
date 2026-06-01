@@ -3,9 +3,13 @@
 #include <QAbstractItemModel>
 #include <QByteArray>
 #include <QHash>
+#include <QMetaObject>
+#include <QMetaProperty>
+#include <QMetaType>
 #include <QModelIndex>
 #include <QVariant>
 #include <Qt>
+#include <algorithm>
 #include <qtmetamacros.h>
 
 StringFilter::StringFilter(QObject *parent)
@@ -14,35 +18,57 @@ StringFilter::StringFilter(QObject *parent)
     setFilterCaseSensitivity(Qt::CaseInsensitive);
 }
 
-auto StringFilter::resolveRole() const -> int
+auto StringFilter::resolveRoles() const -> QList<int>
 {
-    if ((sourceModel() == nullptr) || m_filterRoleName.isEmpty()) {
-        return -1;
+    QList<int> roles;
+    if ((sourceModel() == nullptr) || m_filterRoleNames.isEmpty()) {
+        return roles;
     }
-    const QByteArray roleUtf8 = m_filterRoleName.toUtf8();
     const auto roleNames = sourceModel()->roleNames();
-    for (auto it = roleNames.cbegin(); it != roleNames.cend(); ++it) {
-        if (it.value() == roleUtf8) {
-            return it.key();
+    for (const QString &name : m_filterRoleNames) {
+        const QByteArray roleUtf8 = name.toUtf8();
+        for (auto it = roleNames.cbegin(); it != roleNames.cend(); ++it) {
+            if (it.value() == roleUtf8) {
+                roles.append(it.key());
+                break;
+            }
         }
     }
-    return -1;
+    return roles;
 }
 
-auto StringFilter::filterRoleName() const -> const QString &
+auto StringFilter::valueMatches(const QVariant &value) const -> bool
 {
-    return m_filterRoleName;
+    // Nested object roles (e.g. a peer's location) carry their searchable text
+    // in string sub-properties, so match against those rather than the object
+    // itself. This lets a search hit e.g. a Mullvad node's city/country name.
+    if (auto *object = value.value<QObject *>(); object != nullptr) {
+        const QMetaObject *meta = object->metaObject();
+        for (int i = 0; i < meta->propertyCount(); ++i) {
+            const QVariant property = meta->property(i).read(object);
+            if (property.typeId() == QMetaType::QString && property.toString().contains(m_filterString, Qt::CaseInsensitive)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    return value.toString().contains(m_filterString, Qt::CaseInsensitive);
 }
 
-void StringFilter::setFilterRoleName(const QString &name)
+auto StringFilter::filterRoleNames() const -> const QStringList &
 {
-    if (m_filterRoleName == name) {
+    return m_filterRoleNames;
+}
+
+void StringFilter::setFilterRoleNames(const QStringList &names)
+{
+    if (m_filterRoleNames == names) {
         return;
     }
-    m_filterRoleName = name;
+    m_filterRoleNames = names;
     beginFilterChange();
     endFilterChange();
-    Q_EMIT filterRoleNameChanged();
+    Q_EMIT filterRoleNamesChanged();
 }
 
 auto StringFilter::filterString() const -> const QString &
@@ -66,10 +92,12 @@ auto StringFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourcePare
     if (m_filterString.isEmpty()) {
         return true;
     }
-    const int role = resolveRole();
-    if (role < 0) {
+    const QList<int> roles = resolveRoles();
+    if (roles.isEmpty()) {
         return true;
     }
     const QModelIndex idx = sourceModel()->index(sourceRow, 0, sourceParent);
-    return sourceModel()->data(idx, role).toString().contains(m_filterString, Qt::CaseInsensitive);
+    return std::ranges::any_of(roles, [&](const int role) -> bool {
+        return valueMatches(sourceModel()->data(idx, role));
+    });
 }
