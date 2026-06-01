@@ -29,6 +29,52 @@ FormCard.FormCardPage {
     AuthError {}
 
     FormCard.FormHeader {
+        title: "Addresses"
+    }
+
+    FormCard.FormCard {
+        Repeater {
+            id: repeaterIps
+            model: page.peer.tailscaleIps
+
+            ColumnLayout {
+                FormCard.FormButtonDelegate {
+                    text: modelData
+                    trailingLogo.source: "edit-copy"
+                    onClicked: {
+                        KTailctl.Util.setClipboardText(modelData);
+                    }
+                }
+            }
+        }
+    }
+
+    FormCard.FormHeader {
+        visible: (peer?.tags?.length ?? 0) > 0
+        title: "Tags"
+    }
+
+    FormCard.FormCard {
+
+        visible: (peer?.tags?.length ?? 0) > 0
+
+        FormCard.AbstractFormDelegate {
+            background: null
+            contentItem: Flow {
+                spacing: Kirigami.Units.smallSpacing
+                Repeater {
+                    model: peer?.tags ?? []
+                    Kirigami.Chip {
+                        text: modelData
+                        closable: false
+                        onClicked: KTailctl.Util.setClipboardText(modelData)
+                    }
+                }
+            }
+        }
+    }
+
+    FormCard.FormHeader {
         title: "Identity"
     }
 
@@ -111,51 +157,6 @@ FormCard.FormCardPage {
             url: (peer?.tailscaleIps?.length ?? 0) > 0 ? "https://login.tailscale.com/admin/machines/" + peer.tailscaleIps[0] : "https://login.tailscale.com/admin/machines/"
             text: adminPanelUrl.url
             description: "Admin Panel"
-        }
-    }
-
-    FormCard.FormHeader {
-        visible: (peer?.tags?.length ?? 0) > 0
-        title: "Tags"
-    }
-
-    FormCard.FormCard {
-        visible: (peer?.tags?.length ?? 0) > 0
-
-        FormCard.AbstractFormDelegate {
-            background: null
-            contentItem: Flow {
-                spacing: Kirigami.Units.smallSpacing
-                Repeater {
-                    model: peer?.tags ?? []
-                    Kirigami.Chip {
-                        text: modelData
-                        closable: false
-                        onClicked: KTailctl.Util.setClipboardText(modelData)
-                    }
-                }
-            }
-        }
-    }
-
-    FormCard.FormHeader {
-        title: "Addresses"
-    }
-
-    FormCard.FormCard {
-        Repeater {
-            id: repeaterIps
-            model: page.peer.tailscaleIps
-
-            ColumnLayout {
-                FormCard.FormButtonDelegate {
-                    text: modelData
-                    trailingLogo.source: "edit-copy"
-                    onClicked: {
-                        KTailctl.Util.setClipboardText(modelData);
-                    }
-                }
-            }
         }
     }
 
