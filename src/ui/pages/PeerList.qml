@@ -138,7 +138,7 @@ Kirigami.ScrollablePage {
         },
         Kirigami.Action {
             id: actionFilter
-            icon.name: "filter"
+            icon.name: "dialog-filters"
 
             Kirigami.Action {
                 text: "Online"
