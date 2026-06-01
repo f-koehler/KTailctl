@@ -1,14 +1,17 @@
-import QtQuick.Controls
+pragma ComponentBehavior: Bound
+
+import QtQuick.Controls as QQC2
 import QtQuick.Layouts
 import QtQuick
 import QtQml.Models
 import org.kde.kirigami as Kirigami
 import org.fkoehler.KTailctl as KTailctl
-import org.kde.kirigamiaddons.formcard as FormCard
 import "qrc:/ui/components"
 
-FormCard.FormCardPage {
+Kirigami.ScrollablePage {
     id: page
+
+    title: "Peers"
 
     Layout.fillWidth: true
 
@@ -18,6 +21,79 @@ FormCard.FormCardPage {
     property bool filterOnlineValue: true
     property bool filterDnsNameEnabled: false
     property string filterDnsNameValue: ""
+
+    // Id of the peer currently shown in the detail column (empty == none).
+    property string selectedId: ""
+
+    function deviceIcon(os: string): string {
+        const o = (os ?? "").toLowerCase();
+        return (o === "android" || o === "ios") ? "smartphone" : "computer";
+    }
+
+    // Close the detail column and clear the selection in the list.
+    function closeDetail(): void {
+        applicationWindow().pageStack.pop(page);
+        page.selectedId = "";
+    }
+
+    // Open (or replace) the detail column for the given peer.
+    function showPeer(peerId: string): void {
+        const stack = applicationWindow().pageStack;
+        page.selectedId = peerId;
+        // Drop any existing detail column so we always have exactly one.
+        stack.pop(page);
+        const detail = stack.push(peerInfoComponent, {
+            peer: KTailctl.Tailscale.status.peerWithId(peerId)
+        });
+        detail.closeRequested.connect(page.closeDetail);
+    }
+
+    Component {
+        id: peerInfoComponent
+        PeerInfo {}
+    }
+
+    // A single row: device icon + host name on the left, online dot on the right.
+    component PeerRow: QQC2.ItemDelegate {
+        id: row
+
+        property string peerId: ""
+        property string hostLabel: ""
+        property bool isOnline: false
+        property string osName: ""
+
+        highlighted: page.selectedId === peerId
+        onClicked: page.showPeer(peerId)
+
+        contentItem: RowLayout {
+            spacing: Kirigami.Units.largeSpacing
+
+            Kirigami.Icon {
+                source: page.deviceIcon(row.osName)
+                implicitWidth: Kirigami.Units.iconSizes.smallMedium
+                implicitHeight: Kirigami.Units.iconSizes.smallMedium
+            }
+
+            QQC2.Label {
+                Layout.fillWidth: true
+                text: row.hostLabel
+                elide: Text.ElideRight
+            }
+
+            Kirigami.Icon {
+                source: row.isOnline ? "online" : "offline"
+                implicitWidth: Kirigami.Units.iconSizes.small
+                implicitHeight: Kirigami.Units.iconSizes.small
+
+                QQC2.ToolTip.delay: Kirigami.Units.toolTipDelay
+                QQC2.ToolTip.text: row.isOnline ? "Online" : "Offline"
+                QQC2.ToolTip.visible: hoverHandler.hovered
+                HoverHandler {
+                    id: hoverHandler
+                }
+            }
+        }
+    }
 
     actions: [
         Kirigami.Action {
@@ -86,12 +162,6 @@ FormCard.FormCardPage {
         }
     ]
 
-    Component {
-        id: pagePeerInfo
-
-        PeerInfo {}
-    }
-
     SortFilterProxyModel {
         id: peerModel
         model: KTailctl.Tailscale.status.peers
@@ -108,7 +178,7 @@ FormCard.FormCardPage {
             }
         ]
         sorters: RoleSorter {
-            roleName: "dnsName"
+            roleName: "hostName"
         }
     }
 
@@ -119,191 +189,59 @@ FormCard.FormCardPage {
         filterString: page.filterDnsNameEnabled ? page.filterDnsNameValue : ""
     }
 
-    DaemonError {}
+    ListView {
+        id: peerListView
 
-    OperatorWarning {}
+        model: dnsNameFilter
 
-    AuthError {}
+        header: ColumnLayout {
+            width: peerListView.width
+            spacing: 0
 
-    FormCard.FormHeader {
-        title: "This Node"
-    }
+            DaemonError {}
+            OperatorWarning {}
+            AuthError {}
 
-    FormCard.FormCard {
-        FormCard.FormTextDelegate {
-            text: ""
-
-            leading: RowLayout {
-                Kirigami.Icon {
-                    ToolTip.delay: Kirigami.Units.toolTipDelay
-                    ToolTip.text: KTailctl.Tailscale.status.self.online ? "Online" : "Offline"
-                    ToolTip.visible: hovered
-                    source: KTailctl.Tailscale.status.self.online ? "online" : "offline"
-                    implicitWidth: 22
-                    implicitHeight: 22
-                }
-                ToolButton {
-                    ToolTip.delay: Kirigami.Units.toolTipDelay
-                    ToolTip.text: "Copy DNS name to clipboard"
-                    ToolTip.visible: hovered
-                    icon.name: "edit-copy"
-                    text: KTailctl.Tailscale.status.self.dnsName
-                    onClicked: KTailctl.Util.setClipboardText(KTailctl.Tailscale.status.self.dnsName)
-                }
-
-                ToolButton {
-                    ToolTip.delay: Kirigami.Units.toolTipDelay
-                    ToolTip.text: "Copy IP address to clipboard"
-                    ToolTip.visible: hovered
-                    icon.name: "edit-copy"
-                    text: KTailctl.Tailscale.status.self.tailscaleIps[0]
-                    onClicked: KTailctl.Util.setClipboardText(KTailctl.Tailscale.status.self.tailscaleIps[0])
-                }
+            Kirigami.ListSectionHeader {
+                Layout.fillWidth: true
+                text: "This Node"
             }
 
-            trailing: RowLayout {
-                ToolButton {
-                    ToolTip.delay: Kirigami.Units.toolTipDelay
-                    ToolTip.text: "View node info"
-                    ToolTip.visible: hovered
-                    icon.name: "info"
-                    onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
-                        peer: KTailctl.Tailscale.status.peerWithId(KTailctl.Tailscale.status.self.id)
-                    })
-                }
+            PeerRow {
+                Layout.fillWidth: true
+                peerId: KTailctl.Tailscale.status.self.id
+                hostLabel: KTailctl.Tailscale.status.self.hostName
+                isOnline: KTailctl.Tailscale.status.self.online
+                osName: KTailctl.Tailscale.status.self.os
+            }
 
-                ToolButton {
-                    ToolTip.delay: Kirigami.Units.toolTipDelay
-                    ToolTip.text: "More actions"
-                    ToolTip.visible: hovered
-                    icon.name: "application-menu"
-                    onClicked: menu.open()
-
-                    Menu {
-                        id: menu
-                        MenuItem {
-                            icon.name: "info"
-                            text: "Node info"
-                            onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
-                                peer: KTailctl.Tailscale.status.peerWithId(KTailctl.Tailscale.status.self.id)
-                            })
-                        }
-                        MenuItem {
-                            icon.name: "internet-web-browser"
-                            text: "Open admin panel"
-                            onClicked: Qt.openUrlExternally(KTailctl.Tailscale.status.self.tailscaleIps.length > 0 ? "https://login.tailscale.com/admin/machines/" + KTailctl.Tailscale.status.self.tailscaleIps[0] : "https://login.tailscale.com/admin/machines/")
-                        }
-                    }
-                }
+            Kirigami.ListSectionHeader {
+                Layout.fillWidth: true
+                text: "Peers"
             }
         }
-    }
 
-    FormCard.FormHeader {
-        title: "Peers"
-    }
+        delegate: PeerRow {
+            id: delegate
 
-    FormCard.FormCard {
-        Repeater {
-            model: dnsNameFilter
+            required property string id
+            required property bool online
+            required property string hostName
+            required property string os
 
-            delegate: FormCard.AbstractFormDelegate {
-                required property string id
-                required property bool online
-                required property string dnsName
-                required property var tailscaleIps
-                required property var tags
+            width: ListView.view.width
+            peerId: id
+            hostLabel: hostName
+            isOnline: online
+            osName: os
+        }
 
-                background: null
-
-                contentItem: ColumnLayout {
-                    spacing: Kirigami.Units.smallSpacing
-
-                    RowLayout {
-                        Layout.fillWidth: true
-                        spacing: 0
-
-                        Kirigami.Icon {
-                            ToolTip.delay: Kirigami.Units.toolTipDelay
-                            ToolTip.text: online ? "Online" : "Offline"
-                            ToolTip.visible: hovered
-                            source: online ? "online" : "offline"
-                            implicitWidth: 22
-                            implicitHeight: 22
-                        }
-
-                        ToolButton {
-                            ToolTip.delay: Kirigami.Units.toolTipDelay
-                            ToolTip.text: "Copy DNS name to clipboard"
-                            ToolTip.visible: hovered
-                            icon.name: "edit-copy"
-                            text: dnsName
-                            onClicked: KTailctl.Util.setClipboardText(dnsName)
-                        }
-
-                        ToolButton {
-                            ToolTip.delay: Kirigami.Units.toolTipDelay
-                            ToolTip.text: "Copy IP address to clipboard"
-                            ToolTip.visible: hovered
-                            icon.name: "edit-copy"
-                            text: tailscaleIps[0]
-                            onClicked: KTailctl.Util.setClipboardText(tailscaleIps[0])
-                        }
-
-                        Item {
-                            Layout.fillWidth: true
-                        }
-
-                        ToolButton {
-                            ToolTip.delay: Kirigami.Units.toolTipDelay
-                            ToolTip.text: "View node info"
-                            ToolTip.visible: hovered
-                            icon.name: "info"
-                            onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
-                                peer: KTailctl.Tailscale.status.peerWithId(id)
-                            })
-                        }
-
-                        ToolButton {
-                            ToolTip.delay: Kirigami.Units.toolTipDelay
-                            ToolTip.text: "More actions"
-                            ToolTip.visible: hovered
-                            icon.name: "application-menu"
-                            onClicked: peerMenu.open()
-
-                            Menu {
-                                id: peerMenu
-                                MenuItem {
-                                    icon.name: "info"
-                                    text: "Node info"
-                                    onClicked: applicationWindow().pageStack.layers.push(pagePeerInfo, {
-                                        peer: KTailctl.Tailscale.status.peerWithId(id)
-                                    })
-                                }
-                                MenuItem {
-                                    icon.name: "internet-web-browser"
-                                    text: "Open admin panel"
-                                    onClicked: Qt.openUrlExternally(tailscaleIps.length > 0 ? "https://login.tailscale.com/admin/machines/" + tailscaleIps[0] : "https://login.tailscale.com/admin/machines/")
-                                }
-                            }
-                        }
-                    }
-
-                    Flow {
-                        visible: KTailctl.Config.showTagsInPeerList && tags.length > 0
-                        Layout.fillWidth: true
-                        spacing: Kirigami.Units.smallSpacing
-                        Repeater {
-                            model: tags
-                            Kirigami.Chip {
-                                text: modelData
-                                closable: false
-                                onClicked: KTailctl.Util.setClipboardText(modelData)
-                            }
-                        }
-                    }
-                }
-            }
+        Kirigami.PlaceholderMessage {
+            anchors.centerIn: parent
+            width: parent.width - Kirigami.Units.gridUnit * 4
+            visible: peerListView.count === 0
+            icon.name: "distribute-graph-directed"
+            text: "No peers match the current filters"
         }
     }
 }

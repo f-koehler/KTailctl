@@ -10,6 +10,18 @@ FormCard.FormCardPage {
     id: page
     property KTailctl.PeerStatus peer: KTailctl.Tailscale.status.self
 
+    title: peer?.hostName ?? ""
+
+    signal closeRequested
+
+    actions: [
+        Kirigami.Action {
+            icon.name: "dialog-close"
+            text: "Close"
+            onTriggered: page.closeRequested()
+        }
+    ]
+
     DaemonError {}
 
     OperatorWarning {}
