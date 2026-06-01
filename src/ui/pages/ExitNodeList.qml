@@ -71,24 +71,30 @@ FormCard.FormCardPage {
             onCheckedChanged: KTailctl.Tailscale.preferences.exitNodeAllowLanAccess = switchAllowLanAccess.checked
         }
 
-        FormCard.FormButtonDelegate {
+        FormCard.FormSwitchDelegate {
+            id: switchExitNode
+
+            readonly property string currentId: KTailctl.Tailscale.preferences.exitNodeId
+            readonly property string lastUsedId: KTailctl.Config.lastUsedExitNode
+
             enabled: page.isOperator
-            visible: KTailctl.Tailscale.preferences.exitNodeId !== ""
-            text: "Unset current: " + (KTailctl.Tailscale.status.peerWithId(KTailctl.Tailscale.preferences.exitNodeId)?.dnsName ?? KTailctl.Tailscale.preferences.exitNodeId)
-            trailingLogo.source: "cancel"
-            onClicked: {
-                KTailctl.Tailscale.preferences.exitNodeId = "";
+            // When an exit node is active, show it. Otherwise fall back to the
+            // last used one; hide entirely if there is neither.
+            visible: currentId !== "" || lastUsedId !== ""
+            text: currentId !== "" ? (KTailctl.Tailscale.status.peerWithId(currentId)?.dnsName ?? currentId) : (KTailctl.Tailscale.status.peerWithId(lastUsedId)?.dnsName ?? lastUsedId)
+            description: currentId !== "" ? "Current exit node" : "Last used exit node"
+            onToggled: {
+                // `checked` has already been flipped by the control.
+                KTailctl.Tailscale.preferences.exitNodeId = checked ? switchExitNode.lastUsedId : "";
             }
         }
 
-        FormCard.FormButtonDelegate {
-            enabled: page.isOperator
-            visible: (KTailctl.Config.lastUsedExitNode !== "") && (KTailctl.Config.lastUsedExitNode !== KTailctl.Tailscale.preferences.exitNodeId)
-            text: "Last used: " + (KTailctl.Tailscale.status.peerWithId(KTailctl.Config.lastUsedExitNode)?.dnsName ?? KTailctl.Tailscale.preferences.exitNodeId)
-            trailingLogo.source: "system-switch-user"
-            onClicked: {
-                KTailctl.Tailscale.preferences.exitNodeId = KTailctl.Config.lastUsedExitNode;
-            }
+        // Keep the switch in sync with the active exit node even when it is
+        // changed elsewhere (other delegates, tray, another client).
+        Binding {
+            target: switchExitNode
+            property: "checked"
+            value: KTailctl.Tailscale.preferences.exitNodeId !== ""
         }
 
         FormCard.FormDelegateSeparator {
