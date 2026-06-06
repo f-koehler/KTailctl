@@ -19,7 +19,7 @@ class SelfHostedExitNodeModel : public QSortFilterProxyModel
     Q_OBJECT
     QML_ANONYMOUS
 
-    int mRoleIndexExitNode = -1;
+    int mRoleIndexExitNodeOption = -1;
     int mRoleIndexMullvadNode = -1;
     int mRoleIndexDnsName = -1;
     bool mRoleIndicesFound = false;
@@ -30,13 +30,13 @@ public:
     template<PropertyListModelOwnership Ownership>
     explicit SelfHostedExitNodeModel(PropertyListModel<PeerStatus, Ownership> *peerModel, QObject *parent = nullptr)
         : QSortFilterProxyModel(parent)
-        , mRoleIndexExitNode(peerModel->roleIndexForProperty("exitNode"))
+        , mRoleIndexExitNodeOption(peerModel->roleIndexForProperty("exitNodeOption"))
         , mRoleIndicesFound(true)
     {
         QSortFilterProxyModel::setSourceModel(static_cast<QAbstractItemModel *>(peerModel));
 
-        if (mRoleIndexExitNode == -1) [[unlikely]] {
-            qCCritical(Logging::Tailscale::Status) << "Failed to find role index for exitNode";
+        if (mRoleIndexExitNodeOption == -1) [[unlikely]] {
+            qCCritical(Logging::Tailscale::Status) << "Failed to find role index for exitNodeOption";
             mRoleIndicesFound = false;
         }
 
