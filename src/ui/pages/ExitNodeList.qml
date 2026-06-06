@@ -71,21 +71,24 @@ Kirigami.ScrollablePage {
                 implicitHeight: Kirigami.Units.iconSizes.smallMedium
             }
 
-            // Host name, with the (City, Country) right behind it, dimmed.
             QQC2.Label {
                 text: row.label
                 elide: Text.ElideRight
                 Layout.maximumWidth: Kirigami.Units.gridUnit * 18
             }
 
+            // Location sublabel: fills remaining space and elides when too long.
             QQC2.Label {
                 visible: row.sublabel !== ""
                 text: row.sublabel
                 elide: Text.ElideRight
                 opacity: 0.7
+                Layout.fillWidth: true
             }
 
+            // Spacer when there is no sublabel, to keep the switch right-aligned.
             Item {
+                visible: row.sublabel === ""
                 Layout.fillWidth: true
             }
 
