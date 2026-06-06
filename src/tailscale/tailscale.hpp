@@ -77,12 +77,12 @@ public:
         refreshLoginProfiles();
 
         mRefreshTimer->setInterval(Config::refreshInterval());
-        connect(mRefreshTimer, &QTimer::timeout, this, [this] -> void {
+        connect(mRefreshTimer, &QTimer::timeout, this, [this] {
             mStatus->refresh();
             mPreferences->refresh();
             refreshLoginProfiles();
         });
-        connect(Config::self(), &Config::refreshIntervalChanged, this, [this] -> void {
+        connect(Config::self(), &Config::refreshIntervalChanged, this, [this] {
             mRefreshTimer->setInterval(Config::refreshInterval());
         });
         mRefreshTimer->start();
