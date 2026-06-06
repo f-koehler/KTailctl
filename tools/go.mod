@@ -1,6 +1,6 @@
 module github.com/f-koehler/ktailctl/tools
 
-go 1.26.3
+go 1.26.4
 
 require (
 	github.com/golangci/golangci-lint/v2 v2.12.2
