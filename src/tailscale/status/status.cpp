@@ -16,7 +16,6 @@
 #include <cstdlib>
 #include <cstring>
 #include <memory>
-#include <qloggingcategory.h>
 #include <utility>
 
 #include "exit_node_status.hpp"
@@ -129,7 +128,7 @@ void Status::updateFromJson(QJsonObject &json) // NOLINT(readability-function-co
             qCCritical(Logging::Tailscale::Status) << "Unknown BackendState value:" << str;
             mBackendState = BackendState::NoState;
         }
-        qCCritical(Logging::Tailscale::Status) << "BackendState:" << old << "->" << mBackendState.value();
+        qCDebug(Logging::Tailscale::Status) << "BackendState:" << old << "->" << mBackendState.value();
         if (mBackendState.value() != old) {
             Q_EMIT backendStateChanged();
         }
