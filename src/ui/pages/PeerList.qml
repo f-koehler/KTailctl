@@ -21,6 +21,9 @@ Kirigami.ScrollablePage {
     property bool filterOnlineValue: true
     property bool filterDnsNameEnabled: false
     property string filterDnsNameValue: ""
+    property bool filterTagEnabled: false
+    property string filterTagValue: ""
+    property bool filterTagInclude: true
 
     // Id of the peer currently shown in the detail column (empty == none).
     property string selectedId: ""
@@ -54,6 +57,7 @@ Kirigami.ScrollablePage {
     }
 
     // A single row: device icon + host name on the left, online dot on the right.
+    // Optionally a second row of tag chips when the setting is enabled.
     component PeerRow: QQC2.ItemDelegate {
         id: row
 
@@ -61,38 +65,67 @@ Kirigami.ScrollablePage {
         property string hostLabel: ""
         property bool isOnline: false
         property string osName: ""
+        property var peerTags: []
 
         highlighted: page.selectedId === peerId
         onClicked: page.showPeer(peerId)
 
-        contentItem: RowLayout {
-            spacing: Kirigami.Units.largeSpacing
+        contentItem: ColumnLayout {
+            spacing: Kirigami.Units.smallSpacing
 
-            Kirigami.Icon {
-                source: page.deviceIcon(row.osName)
-                implicitWidth: Kirigami.Units.iconSizes.smallMedium
-                implicitHeight: Kirigami.Units.iconSizes.smallMedium
-            }
+            RowLayout {
+                spacing: Kirigami.Units.largeSpacing
 
-            QQC2.Label {
-                Layout.fillWidth: true
-                text: row.hostLabel
-                elide: Text.ElideRight
-            }
-
-            Kirigami.Icon {
-                source: row.isOnline ? "online" : "offline"
-                implicitWidth: Kirigami.Units.iconSizes.small
-                implicitHeight: Kirigami.Units.iconSizes.small
-
-                HoverHandler {
-                    id: hoverHandler
+                Kirigami.Icon {
+                    source: page.deviceIcon(row.osName)
+                    implicitWidth: Kirigami.Units.iconSizes.smallMedium
+                    implicitHeight: Kirigami.Units.iconSizes.smallMedium
                 }
 
-                QQC2.ToolTip {
-                    visible: hoverHandler.hovered
-                    delay: Kirigami.Units.toolTipDelay
-                    text: row.isOnline ? "Online" : "Offline"
+                QQC2.Label {
+                    Layout.fillWidth: true
+                    text: row.hostLabel
+                    elide: Text.ElideRight
+                }
+
+                Kirigami.Icon {
+                    source: row.isOnline ? "online" : "offline"
+                    implicitWidth: Kirigami.Units.iconSizes.small
+                    implicitHeight: Kirigami.Units.iconSizes.small
+
+                    HoverHandler {
+                        id: hoverHandler
+                    }
+
+                    QQC2.ToolTip {
+                        visible: hoverHandler.hovered
+                        delay: Kirigami.Units.toolTipDelay
+                        text: row.isOnline ? "Online" : "Offline"
+                    }
+                }
+            }
+
+            Flow {
+                Layout.fillWidth: true
+                spacing: Kirigami.Units.smallSpacing
+                visible: KTailctl.Config.showTagsInPeerList && row.peerTags.length > 0
+
+                Repeater {
+                    model: row.peerTags
+                    Kirigami.Chip {
+                        required property string modelData
+                        text: modelData
+                        closable: false
+                        onClicked: {
+                            if (page.filterTagEnabled && page.filterTagValue === modelData) {
+                                page.filterTagEnabled = false;
+                            } else {
+                                page.filterTagValue = modelData;
+                                page.filterTagInclude = true;
+                                page.filterTagEnabled = true;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -122,6 +155,19 @@ Kirigami.ScrollablePage {
                 }
                 onClicked: {
                     page.filterMullvadValue = !page.filterMullvadValue;
+                }
+            }
+        },
+        Kirigami.Action {
+            id: actionFilterTag
+            visible: page.filterTagEnabled
+            displayComponent: Kirigami.Chip {
+                text: (page.filterTagInclude ? "" : "Not ") + page.filterTagValue
+                onRemoved: {
+                    page.filterTagEnabled = false;
+                }
+                onClicked: {
+                    page.filterTagInclude = !page.filterTagInclude;
                 }
             }
         },
@@ -188,14 +234,22 @@ Kirigami.ScrollablePage {
     KTailctl.StringFilter {
         id: dnsNameFilter
         sourceModel: peerModel
-        filterRoleNames: ["dnsName"]
+        filterRoleNames: ["dnsName", "tags"]
         filterString: page.filterDnsNameEnabled ? page.filterDnsNameValue : ""
+    }
+
+    KTailctl.StringFilter {
+        id: tagFilter
+        sourceModel: dnsNameFilter
+        filterRoleNames: ["tags"]
+        filterString: page.filterTagEnabled ? page.filterTagValue : ""
+        inverted: !page.filterTagInclude
     }
 
     ListView {
         id: peerListView
 
-        model: dnsNameFilter
+        model: tagFilter
 
         header: ColumnLayout {
             width: peerListView.width
@@ -216,6 +270,7 @@ Kirigami.ScrollablePage {
                 hostLabel: KTailctl.Tailscale.status.self.hostName
                 isOnline: KTailctl.Tailscale.status.self.online
                 osName: KTailctl.Tailscale.status.self.os
+                peerTags: KTailctl.Tailscale.status.self.tags
             }
 
             Kirigami.ListSectionHeader {
@@ -231,12 +286,14 @@ Kirigami.ScrollablePage {
             required property bool online
             required property string hostName
             required property string os
+            required property list<string> tags
 
             width: ListView.view.width
             peerId: id
             hostLabel: hostName
             isOnline: online
             osName: os
+            peerTags: tags
         }
 
         Kirigami.PlaceholderMessage {

@@ -64,7 +64,7 @@ FormCard.FormCardPage {
             id: switchShowTagsInPeerList
             text: "Show tags in peer list"
             checked: KTailctl.Config.showTagsInPeerList
-            onCheckedChanged: KTailctl.Config.showTagsInPeerList = !KTailctl.Config.showTagsInPeerList
+            onCheckedChanged: KTailctl.Config.showTagsInPeerList = switchShowTagsInPeerList.checked
         }
     }
 
