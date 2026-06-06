@@ -18,5 +18,5 @@ auto SelfHostedExitNodeModel::filterAcceptsRow(const int sourceRow, const QModel
 
     const auto *model = sourceModel();
     const QModelIndex sourceIndex = model->index(sourceRow, 0, sourceParent);
-    return !model->data(sourceIndex, mRoleIndexMullvadNode).toBool() && model->data(sourceIndex, mRoleIndexExitNode).toBool();
+    return !model->data(sourceIndex, mRoleIndexMullvadNode).toBool() && model->data(sourceIndex, mRoleIndexExitNodeOption).toBool();
 }
