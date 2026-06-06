@@ -7,11 +7,13 @@
 #include <QObject>
 #include <QQmlEngine>
 #include <QString>
+#include <QTimer>
 #include <QtQmlIntegration/qqmlintegration.h>
 #include <qproperty.h>
 #include <qtmetamacros.h>
 #include <qttypetraits.h>
 
+#include "ktailctl_config.h"
 #include "preferences/preferences.hpp"
 #include "property_list_model.hpp"
 #include "status/login_profile.hpp"
@@ -61,6 +63,7 @@ private:
     Preferences *mPreferences;
     QMap<QString, LoginProfile *> mLoginProfiles;
     LoginProfileModel *mLoginProfileModel;
+    QTimer *mRefreshTimer;
     Q_OBJECT_BINDABLE_PROPERTY(Tailscale, QString, mCurrentLoginProfileId, &Tailscale::currentLoginProfileIdChanged)
 
 public:
@@ -69,8 +72,20 @@ public:
         , mStatus(new Status(this))
         , mPreferences(new Preferences(this))
         , mLoginProfileModel(new LoginProfileModel(this))
+        , mRefreshTimer(new QTimer(this))
     {
         refreshLoginProfiles();
+
+        mRefreshTimer->setInterval(Config::refreshInterval());
+        connect(mRefreshTimer, &QTimer::timeout, this, [this] {
+            mStatus->refresh();
+            mPreferences->refresh();
+            refreshLoginProfiles();
+        });
+        connect(Config::self(), &Config::refreshIntervalChanged, this, [this] {
+            mRefreshTimer->setInterval(Config::refreshInterval());
+        });
+        mRefreshTimer->start();
     }
 
     [[nodiscard]] auto status() const noexcept -> Status *

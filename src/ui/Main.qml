@@ -54,16 +54,10 @@ Kirigami.ApplicationWindow {
                 text: i18n("About")
             },
             Kirigami.Action {
-                visible: root.isOperator && (KTailctl.Tailscale.status.backendState != KTailctl.Status.Starting) && (KTailctl.Tailscale.status.backendState != KTailctl.Status.Running)
-                icon.name: "media-playback-start"
-                text: i18n("Start Tailscale")
-                onTriggered: KTailctl.Tailscale.up()
-            },
-            Kirigami.Action {
-                visible: root.isOperator && ((KTailctl.Tailscale.status.backendState == KTailctl.Status.Starting) || (KTailctl.Tailscale.status.backendState == KTailctl.Status.Running))
-                icon.name: "process-stop"
-                text: i18n("Stop Tailscale")
-                onTriggered: KTailctl.Tailscale.down()
+                visible: root.isOperator
+                icon.name: ((KTailctl.Tailscale.status.backendState == KTailctl.Status.Starting) || (KTailctl.Tailscale.status.backendState == KTailctl.Status.Running)) ? "process-stop" : "media-playback-start"
+                text: ((KTailctl.Tailscale.status.backendState == KTailctl.Status.Starting) || (KTailctl.Tailscale.status.backendState == KTailctl.Status.Running)) ? "Stop Tailscale" : "Start Tailscale"
+                onTriggered: KTailctl.Tailscale.toggle()
             },
             Kirigami.Action {
                 icon.name: "application-exit"
@@ -85,32 +79,5 @@ Kirigami.ApplicationWindow {
         mainPagePool.loadPage("qrc:/ui/pages/Settings.qml");
         mainPagePool.loadPage("qrc:/ui/pages/About.qml");
         pageStack.replace(mainPagePool.loadPage("qrc:/ui/pages/PeerList.qml"));
-    }
-
-    Timer {
-        interval: KTailctl.Config.refreshInterval
-        repeat: true
-        running: true
-        triggeredOnStart: true
-
-        onTriggered: KTailctl.Tailscale.status.refresh()
-    }
-
-    Timer {
-        interval: KTailctl.Config.refreshInterval
-        repeat: true
-        running: true
-        triggeredOnStart: true
-
-        onTriggered: KTailctl.Tailscale.preferences.refresh()
-    }
-
-    Timer {
-        interval: KTailctl.Config.refreshInterval
-        repeat: true
-        running: true
-        triggeredOnStart: true
-
-        onTriggered: KTailctl.Tailscale.refreshLoginProfiles()
     }
 }
