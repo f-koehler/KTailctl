@@ -72,21 +72,27 @@ Kirigami.ScrollablePage {
             }
 
             // Host name, with the (City, Country) right behind it, dimmed.
-            QQC2.Label {
-                text: row.label
-                elide: Text.ElideRight
-                Layout.maximumWidth: Kirigami.Units.gridUnit * 18
-            }
-
-            QQC2.Label {
-                visible: row.sublabel !== ""
-                text: row.sublabel
-                elide: Text.ElideRight
-                opacity: 0.7
-            }
-
-            Item {
+            RowLayout {
                 Layout.fillWidth: true
+                spacing: Kirigami.Units.smallSpacing
+
+                QQC2.Label {
+                    text: row.label
+                    elide: Text.ElideRight
+                    // Without a location, let the host name take the remaining
+                    // space; otherwise keep it at its natural size (capped) so
+                    // the location stays visible right behind it.
+                    Layout.fillWidth: row.sublabel === ""
+                    Layout.maximumWidth: Kirigami.Units.gridUnit * 18
+                }
+
+                QQC2.Label {
+                    visible: row.sublabel !== ""
+                    text: row.sublabel
+                    elide: Text.ElideRight
+                    opacity: 0.7
+                    Layout.fillWidth: true
+                }
             }
 
             QQC2.Switch {
