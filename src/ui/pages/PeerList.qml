@@ -116,6 +116,7 @@ Kirigami.ScrollablePage {
                         required property string modelData
                         text: modelData
                         closable: false
+                        checkable: false
                         onClicked: {
                             if (page.filterTagEnabled && page.filterTagValue === modelData) {
                                 page.filterTagEnabled = false;

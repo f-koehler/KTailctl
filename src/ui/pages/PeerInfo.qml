@@ -68,6 +68,7 @@ FormCard.FormCardPage {
                         text: modelData
                         closable: false
                         onClicked: KTailctl.Util.setClipboardText(modelData)
+                        checkable: false
                     }
                 }
             }
