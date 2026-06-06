@@ -120,7 +120,7 @@ auto StringFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourcePare
         return true;
     }
     const QModelIndex idx = sourceModel()->index(sourceRow, 0, sourceParent);
-    const bool matches = std::ranges::any_of(roles, [&](const int role) -> bool {
+    const bool matches = std::ranges::any_of(roles, [&](const int role) {
         return valueMatches(sourceModel()->data(idx, role));
     });
     return m_inverted ? !matches : matches;
