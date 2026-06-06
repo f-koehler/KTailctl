@@ -80,31 +80,4 @@ Kirigami.ApplicationWindow {
         mainPagePool.loadPage("qrc:/ui/pages/About.qml");
         pageStack.replace(mainPagePool.loadPage("qrc:/ui/pages/PeerList.qml"));
     }
-
-    Timer {
-        interval: KTailctl.Config.refreshInterval
-        repeat: true
-        running: true
-        triggeredOnStart: true
-
-        onTriggered: KTailctl.Tailscale.status.refresh()
-    }
-
-    Timer {
-        interval: KTailctl.Config.refreshInterval
-        repeat: true
-        running: true
-        triggeredOnStart: true
-
-        onTriggered: KTailctl.Tailscale.preferences.refresh()
-    }
-
-    Timer {
-        interval: KTailctl.Config.refreshInterval
-        repeat: true
-        running: true
-        triggeredOnStart: true
-
-        onTriggered: KTailctl.Tailscale.refreshLoginProfiles()
-    }
 }
