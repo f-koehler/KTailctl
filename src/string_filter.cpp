@@ -52,6 +52,13 @@ auto StringFilter::valueMatches(const QVariant &value) const -> bool
         }
         return false;
     }
+    // QStringList roles (e.g. tags): match if any element contains the filter string.
+    if (value.typeId() == QMetaType::QStringList) {
+        const QStringList list = value.toStringList();
+        return std::ranges::any_of(list, [&](const QString &item) {
+            return item.contains(m_filterString, Qt::CaseInsensitive);
+        });
+    }
     return value.toString().contains(m_filterString, Qt::CaseInsensitive);
 }
 
@@ -87,6 +94,22 @@ void StringFilter::setFilterString(const QString &str)
     Q_EMIT filterStringChanged();
 }
 
+auto StringFilter::inverted() const -> bool
+{
+    return m_inverted;
+}
+
+void StringFilter::setInverted(bool inverted)
+{
+    if (m_inverted == inverted) {
+        return;
+    }
+    m_inverted = inverted;
+    beginFilterChange();
+    endFilterChange();
+    Q_EMIT invertedChanged();
+}
+
 auto StringFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const -> bool
 {
     if (m_filterString.isEmpty()) {
@@ -97,7 +120,8 @@ auto StringFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourcePare
         return true;
     }
     const QModelIndex idx = sourceModel()->index(sourceRow, 0, sourceParent);
-    return std::ranges::any_of(roles, [&](const int role) -> bool {
+    const bool matches = std::ranges::any_of(roles, [&](const int role) {
         return valueMatches(sourceModel()->data(idx, role));
     });
+    return m_inverted ? !matches : matches;
 }

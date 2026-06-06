@@ -34,7 +34,7 @@ public:
     Q_ENUM(NetfilterMode)
 
     Q_PROPERTY(QString controlUrl READ controlUrl BINDABLE bindableControlUrl NOTIFY controlUrlChanged)
-    Q_PROPERTY(bool routeAll READ routeAll BINDABLE bindableRouteAll NOTIFY routeAllChanged)
+    Q_PROPERTY(bool routeAll READ routeAll WRITE setRouteAll BINDABLE bindableRouteAll NOTIFY routeAllChanged)
     Q_PROPERTY(QString exitNodeId READ exitNodeId WRITE setExitNodeID BINDABLE bindableExitNodeId NOTIFY exitNodeIdChanged)
     Q_PROPERTY(QString autoExitNode READ autoExitNode BINDABLE bindableAutoExitNode NOTIFY autoExitNodeChanged)
     Q_PROPERTY(QString lastUsedExitNode READ lastUsedExitNode BINDABLE bindableLastUsedExitNode NOTIFY lastUsedExitNodeChanged)
@@ -42,7 +42,7 @@ public:
                    exitNodeAllowLanAccessChanged)
     Q_PROPERTY(bool corpDns READ corpDns WRITE setCorpDns BINDABLE bindableCorpDns NOTIFY corpDnsChanged)
     Q_PROPERTY(bool runSSH READ runSSH WRITE setRunSSH BINDABLE bindableRunSSH NOTIFY runSSHChanged)
-    Q_PROPERTY(bool runWebClient READ runWebClient BINDABLE bindableRunWebClient NOTIFY runWebClientChanged)
+    Q_PROPERTY(bool runWebClient READ runWebClient WRITE setRunWebClient BINDABLE bindableRunWebClient NOTIFY runWebClientChanged)
     Q_PROPERTY(bool wantRunning READ wantRunning BINDABLE bindableWantRunning NOTIFY wantRunningChanged)
     Q_PROPERTY(bool loggedOut READ loggedOut BINDABLE bindableLoggedOut NOTIFY loggedOutChanged)
     Q_PROPERTY(bool shieldsUp READ shieldsUp WRITE setShieldsUp BINDABLE bindableShieldsUp NOTIFY shieldsUpChanged)
@@ -53,13 +53,14 @@ public:
     Q_PROPERTY(bool egg READ egg BINDABLE bindableEgg NOTIFY eggChanged)
     Q_PROPERTY(QStringList advertiseRoutes READ advertiseRoutes BINDABLE bindableAdvertiseRoutes NOTIFY advertiseRoutesChanged)
     Q_PROPERTY(QStringList advertiseServices READ advertiseServices BINDABLE bindableAdvertiseServices NOTIFY advertiseServicesChanged)
-    Q_PROPERTY(bool noStatefulFiltering READ noStatefulFiltering BINDABLE bindableNoStatefulFiltering NOTIFY noStatefulFilteringChanged)
+    Q_PROPERTY(
+        bool noStatefulFiltering READ noStatefulFiltering WRITE setNoStatefulFiltering BINDABLE bindableNoStatefulFiltering NOTIFY noStatefulFilteringChanged)
     Q_PROPERTY(NetfilterMode netfilterMode READ netfilterMode BINDABLE bindableNetfilterMode NOTIFY netfilterModeChanged)
     Q_PROPERTY(QString operatorUser READ operatorUser BINDABLE bindableOperatorUser NOTIFY operatorUserChanged)
     Q_PROPERTY(QString profileName READ profileName WRITE setProfileName BINDABLE bindableProfileName NOTIFY profileNameChanged)
     Q_PROPERTY(AutoUpdatePreferences *autoUpdate READ autoUpdate CONSTANT)
     Q_PROPERTY(AppConnectorPreferences *appConnectorPreferences READ appConnectorPreferences CONSTANT)
-    Q_PROPERTY(bool postureChecking READ postureChecking BINDABLE bindablePostureChecking NOTIFY postureCheckingChanged)
+    Q_PROPERTY(bool postureChecking READ postureChecking WRITE setPostureChecking BINDABLE bindablePostureChecking NOTIFY postureCheckingChanged)
     Q_PROPERTY(QString netFilterKind READ netFilterKind BINDABLE bindableNetFilterKind NOTIFY netFilterKindChanged)
     Q_PROPERTY(quint16 relayServerPort READ relayServerPort BINDABLE bindableRelayServerPort NOTIFY relayServerPortChanged)
     Q_PROPERTY(QStringList relayServerStaticEndpoints READ relayServerStaticEndpoints BINDABLE bindableRelayServerStaticEndpoints NOTIFY
@@ -233,9 +234,14 @@ public:
 
     void setExitNodeID(const QString &exitNodeId);
 
+    void setRouteAll(const bool value) const
+    {
+        _set_preference(QStringLiteral("RouteAll"), value);
+    }
+
     void setExitNodeAllowLanAccess(const bool value) const
     {
-        _set_preference(QStringLiteral("ExitNodeAllowLanAccess"), value);
+        _set_preference(QStringLiteral("ExitNodeAllowLANAccess"), value);
     }
 
     void setShieldsUp(const bool value) const
@@ -261,6 +267,26 @@ public:
     void setProfileName(const QString &value) const
     {
         _set_preference(QStringLiteral("ProfileName"), value);
+    }
+
+    void setRunWebClient(const bool value) const
+    {
+        _set_preference(QStringLiteral("RunWebClient"), value);
+    }
+
+    void setNoStatefulFiltering(const bool value) const
+    {
+        _set_preference(QStringLiteral("NoStatefulFiltering"), value);
+    }
+
+    void setPostureChecking(const bool value) const
+    {
+        _set_preference(QStringLiteral("PostureChecking"), value);
+    }
+
+    Q_INVOKABLE void setNetfilterMode(int value) const
+    {
+        _set_preference(QStringLiteral("NetfilterMode"), value);
     }
 
     [[nodiscard]] auto bindableControlUrl() -> QBindable<QString>

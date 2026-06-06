@@ -8,6 +8,7 @@ import (
 
 	"tailscale.com/ipn"
 	"tailscale.com/tailcfg"
+	"tailscale.com/types/preftype"
 )
 
 //export tailscale_prefs
@@ -51,14 +52,54 @@ func tailscale_set_preferences(jsonStr *string) bool {
 	log_critical(fmt.Sprintf("setting %d prefs", len(prefs)))
 	for key, raw := range prefs {
 		switch key {
-		case "ExitNodeAllowLanAccess":
+		case "ExitNodeAllowLANAccess":
 			var value bool
 			if err := json.Unmarshal(raw, &value); err != nil {
-				log_critical(fmt.Sprintf("failed to parse ExitNodeAllowLanAccess: %v", err))
+				log_critical(fmt.Sprintf("failed to parse ExitNodeAllowLANAccess: %v", err))
 				return false
 			}
 			maskedPrefs.ExitNodeAllowLANAccess = value
 			maskedPrefs.ExitNodeAllowLANAccessSet = true
+		case "RouteAll":
+			var value bool
+			if err := json.Unmarshal(raw, &value); err != nil {
+				log_critical(fmt.Sprintf("failed to parse RouteAll: %v", err))
+				return false
+			}
+			maskedPrefs.RouteAll = value
+			maskedPrefs.RouteAllSet = true
+		case "RunWebClient":
+			var value bool
+			if err := json.Unmarshal(raw, &value); err != nil {
+				log_critical(fmt.Sprintf("failed to parse RunWebClient: %v", err))
+				return false
+			}
+			maskedPrefs.RunWebClient = value
+			maskedPrefs.RunWebClientSet = true
+		case "NoStatefulFiltering":
+			var value bool
+			if err := json.Unmarshal(raw, &value); err != nil {
+				log_critical(fmt.Sprintf("failed to parse NoStatefulFiltering: %v", err))
+				return false
+			}
+			maskedPrefs.NoStatefulFiltering.Set(value)
+			maskedPrefs.NoStatefulFilteringSet = true
+		case "PostureChecking":
+			var value bool
+			if err := json.Unmarshal(raw, &value); err != nil {
+				log_critical(fmt.Sprintf("failed to parse PostureChecking: %v", err))
+				return false
+			}
+			maskedPrefs.PostureChecking = value
+			maskedPrefs.PostureCheckingSet = true
+		case "NetfilterMode":
+			var value int
+			if err := json.Unmarshal(raw, &value); err != nil {
+				log_critical(fmt.Sprintf("failed to parse NetfilterMode: %v", err))
+				return false
+			}
+			maskedPrefs.NetfilterMode = preftype.NetfilterMode(value)
+			maskedPrefs.NetfilterModeSet = true
 		case "CorpDNS":
 			var value bool
 			if err := json.Unmarshal(raw, &value); err != nil {
