@@ -53,7 +53,8 @@ public:
     Q_PROPERTY(bool egg READ egg BINDABLE bindableEgg NOTIFY eggChanged)
     Q_PROPERTY(QStringList advertiseRoutes READ advertiseRoutes BINDABLE bindableAdvertiseRoutes NOTIFY advertiseRoutesChanged)
     Q_PROPERTY(QStringList advertiseServices READ advertiseServices BINDABLE bindableAdvertiseServices NOTIFY advertiseServicesChanged)
-    Q_PROPERTY(bool noStatefulFiltering READ noStatefulFiltering WRITE setNoStatefulFiltering BINDABLE bindableNoStatefulFiltering NOTIFY noStatefulFilteringChanged)
+    Q_PROPERTY(
+        bool noStatefulFiltering READ noStatefulFiltering WRITE setNoStatefulFiltering BINDABLE bindableNoStatefulFiltering NOTIFY noStatefulFilteringChanged)
     Q_PROPERTY(NetfilterMode netfilterMode READ netfilterMode BINDABLE bindableNetfilterMode NOTIFY netfilterModeChanged)
     Q_PROPERTY(QString operatorUser READ operatorUser BINDABLE bindableOperatorUser NOTIFY operatorUserChanged)
     Q_PROPERTY(QString profileName READ profileName WRITE setProfileName BINDABLE bindableProfileName NOTIFY profileNameChanged)
