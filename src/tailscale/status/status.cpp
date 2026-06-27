@@ -25,6 +25,7 @@
 #include "peer_status.hpp"
 #include "self_hosted_exit_node_model.hpp"
 #include "tailnet_status.hpp"
+#include <KNotification>
 
 Status::Status(QObject *parent)
     : QObject(parent)
@@ -33,6 +34,29 @@ Status::Status(QObject *parent)
     , mSelfHostedExitNodeModel(new SelfHostedExitNodeModel(mPeerModel, this))
 {
     refresh();
+
+    connect(this, &Status::backendStateChanged, this, [this] {
+        if (mBackendState == Status::BackendState::Running) {
+            KNotification *notification = new KNotification(QStringLiteral("tailscaleOnline"));
+            notification->setText(QStringLiteral("Tailscale is online"));
+            notification->sendEvent();
+            return;
+        }
+        KNotification *notification = new KNotification(QStringLiteral("tailscaleOffline"));
+        notification->setText(QStringLiteral("Tailscale is offline"));
+        notification->sendEvent();
+    });
+    connect(this, &Status::exitNodeStatusChanged, this, [this] {
+        if (mExitNodeStatus == nullptr) {
+            KNotification *notification = new KNotification(QStringLiteral("exitNodeDisabled"));
+            notification->setText(QStringLiteral("Exit node disabled"));
+            notification->sendEvent();
+        } else {
+            KNotification *notification = new KNotification(QStringLiteral("exitNodeEnabled"));
+            notification->setText(QStringLiteral("Exit node enabled"));
+            notification->sendEvent();
+        }
+    });
 }
 
 auto Status::peerWithId(const QString &peerId) const noexcept -> PeerStatus *

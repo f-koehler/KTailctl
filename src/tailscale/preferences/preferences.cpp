@@ -1,6 +1,7 @@
 #include "preferences.hpp"
 // IWYU pragma: no_include <utility>
 
+#include <KNotification>
 #include <QByteArray>
 #include <QDebug>
 #include <QJsonDocument>

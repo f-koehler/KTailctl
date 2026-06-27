@@ -1,6 +1,7 @@
 #ifndef KTAILCTL_EXIT_NODE_STATUS_HPP
 #define KTAILCTL_EXIT_NODE_STATUS_HPP
 
+#include <KNotification>
 #include <QJsonObject>
 #include <QList>
 #include <QObject>
@@ -23,6 +24,11 @@ public:
     explicit ExitNodeStatus(QObject *parent = nullptr)
         : QObject(parent)
     {
+        connect(this, &ExitNodeStatus::idChanged, this, [this] {
+            KNotification *notification = new KNotification(QStringLiteral("exitNodeEnabled"));
+            notification->setText(QStringLiteral("Exit node enabled"));
+            notification->sendEvent();
+        });
     }
 
     explicit ExitNodeStatus(QJsonObject &json, QObject *parent = nullptr)
