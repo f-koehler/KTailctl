@@ -82,7 +82,7 @@ repos:
         pass_filenames: false
         files: ^src/tailscale/wrapper/
         additional_dependencies:
-          - "golang.org/x/vuln/cmd/govulncheck@v1.3.0"
+          - "golang.org/x/vuln/cmd/govulncheck@v1.4.0"
       - id: shfmt
         name: shfmt
         language: golang
