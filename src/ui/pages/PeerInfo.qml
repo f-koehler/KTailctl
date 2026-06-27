@@ -21,6 +21,16 @@ FormCard.FormCardPage {
     // Lazily created, cached per-address Pinger (see Tailscale::pinger).
     readonly property var pinger: pingAvailable ? KTailctl.Tailscale.pinger(pingAddress) : null
 
+    // Bumped on the status-refresh cadence so the relative ping timestamp keeps
+    // reformatting (e.g. "just now" → "1 minutes ago") even while paused.
+    property int pingClock: 0
+    Timer {
+        interval: KTailctl.Config.refreshInterval
+        running: page.pingAvailable
+        repeat: true
+        onTriggered: page.pingClock += 1
+    }
+
     signal closeRequested
 
     actions: [
@@ -90,12 +100,15 @@ FormCard.FormCardPage {
                         horizontalAlignment: Text.AlignRight
                         elide: Text.ElideRight
                         color: (page.pinger && page.pinger.hasResult && !page.pinger.lastSuccess) ? Kirigami.Theme.negativeTextColor : Kirigami.Theme.textColor
-                        text: {
+                        // The pingClock argument forces this binding to re-run on the
+                        // refresh cadence so the relative timestamp stays current.
+                        text: formatPingStatus(page.pingClock)
+
+                        function formatPingStatus(clock: int): string {
                             const p = page.pinger;
                             if (!p) {
                                 return "";
                             }
-                            KTailctl.Tailscale.lastRefresh;
                             if (!p.hasResult) {
                                 return p.running ? "Pinging…" : "Not pinged yet";
                             }
