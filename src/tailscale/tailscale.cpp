@@ -59,6 +59,15 @@ auto Tailscale::loginProfileWithId(const QString &loginProfileId) const noexcept
     return pos.value();
 }
 
+auto Tailscale::pinger(const QString &address) -> Pinger *
+{
+    auto pos = mPingers.find(address);
+    if (pos == mPingers.end()) {
+        pos = mPingers.insert(address, new Pinger(address, this));
+    }
+    return pos.value();
+}
+
 void Tailscale::switchAccount(const QString &profileId) noexcept
 {
     const QByteArray profileIdUtf8 = profileId.toUtf8();
