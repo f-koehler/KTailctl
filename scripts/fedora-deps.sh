@@ -12,6 +12,7 @@ PACKAGES=(
 	kf6-kdbusaddons-devel
 	kf6-kguiaddons-devel
 	kf6-ki18n-devel
+	kf6-kiconthemes-devel
 	kf6-kirigami2-devel
 	kf6-knotifications-devel
 	kf6-kwindowsystem-devel
