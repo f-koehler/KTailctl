@@ -106,6 +106,7 @@ find_package(
              DBusAddons
              GuiAddons
              I18n
+             IconThemes
              Kirigami
              Notifications
              WindowSystem)
