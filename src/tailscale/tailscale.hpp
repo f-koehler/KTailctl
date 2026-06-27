@@ -1,6 +1,7 @@
 #ifndef KTAILCTL_TAILSCALE_HPP
 #define KTAILCTL_TAILSCALE_HPP
 
+#include <QDateTime>
 #include <QJSEngine>
 #include <QMap>
 #include <QMutex>
@@ -14,6 +15,7 @@
 #include <qttypetraits.h>
 
 #include "ktailctl_config.h"
+#include "ping/pinger.hpp"
 #include "preferences/preferences.hpp"
 #include "property_list_model.hpp"
 #include "status/login_profile.hpp"
@@ -52,9 +54,14 @@ public:
     Q_PROPERTY(Preferences *preferences READ preferences CONSTANT)
     Q_PROPERTY(LoginProfileModel *loginProfiles READ loginProfileModel CONSTANT)
     Q_PROPERTY(QString currentLoginProfileId READ currentLoginProfileId BINDABLE bindableCurrentLoginProfileId NOTIFY currentLoginProfileIdChanged)
+    // Bumped on every periodic refresh tick. QML can depend on this to keep
+    // relative-time displays (e.g. "x minutes ago") current without each value
+    // needing its own timer.
+    Q_PROPERTY(QDateTime lastRefresh READ lastRefresh NOTIFY lastRefreshChanged)
 
 Q_SIGNALS:
     void currentLoginProfileIdChanged();
+    void lastRefreshChanged();
 
 private:
     QMutex mMutexLoginProfiles;
@@ -63,7 +70,9 @@ private:
     Preferences *mPreferences;
     QMap<QString, LoginProfile *> mLoginProfiles;
     LoginProfileModel *mLoginProfileModel;
+    QMap<QString, Pinger *> mPingers;
     QTimer *mRefreshTimer;
+    QDateTime mLastRefresh;
     Q_OBJECT_BINDABLE_PROPERTY(Tailscale, QString, mCurrentLoginProfileId, &Tailscale::currentLoginProfileIdChanged)
 
 public:
@@ -81,6 +90,8 @@ public:
             mStatus->refresh();
             mPreferences->refresh();
             refreshLoginProfiles();
+            mLastRefresh = QDateTime::currentDateTimeUtc();
+            Q_EMIT lastRefreshChanged();
         });
         connect(Config::self(), &Config::refreshIntervalChanged, this, [this] {
             mRefreshTimer->setInterval(Config::refreshInterval());
@@ -108,6 +119,11 @@ public:
         return mCurrentLoginProfileId;
     }
 
+    [[nodiscard]] auto lastRefresh() const noexcept -> const QDateTime &
+    {
+        return mLastRefresh;
+    }
+
     [[nodiscard]] auto bindableCurrentLoginProfileId() -> QBindable<QString>
     {
         return {&mCurrentLoginProfileId};
@@ -115,6 +131,11 @@ public:
 
     Q_INVOKABLE LoginProfile *loginProfileWithId(const QString &loginProfileId) const noexcept; // NOLINT(modernize-use-trailing-return-type)
     Q_INVOKABLE void refreshLoginProfiles();
+
+    // Returns the (lazily created, cached) Pinger for the given Tailscale
+    // address. Pingers live for the lifetime of the application so their
+    // history survives navigating away from and back to a peer.
+    Q_INVOKABLE Pinger *pinger(const QString &address); // NOLINT(modernize-use-trailing-return-type)
 
     Q_SLOT Q_INVOKABLE void up() const noexcept;
     Q_SLOT Q_INVOKABLE void down() const noexcept;

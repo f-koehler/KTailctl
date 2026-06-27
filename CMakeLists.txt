@@ -109,6 +109,7 @@ find_package(
              IconThemes
              Kirigami
              Notifications
+             ThreadWeaver
              WindowSystem)
 
 add_subdirectory(src)
