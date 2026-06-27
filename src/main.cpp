@@ -1,10 +1,15 @@
 #include <KAboutData>
+#include <KConfigGroup>
 #include <KDBusService>
+#include <KIconTheme>
 #include <KLocalizedContext>
 #include <KLocalizedString>
+#include <KSharedConfig>
 #include <QApplication>
 #include <QByteArray>
 #include <QCoreApplication>
+#include <QFileInfo>
+#include <QGuiApplication>
 #include <QIcon>
 #include <QJSEngine>
 #include <QJSValue>
@@ -16,6 +21,7 @@
 #include <QQuickWindow>
 #include <QString>
 #include <QStringLiteral>
+#include <QStyleHints>
 #include <QSystemTrayIcon>
 #include <Qt>
 #include <memory>
@@ -39,6 +45,16 @@ auto main(int argc, char *argv[]) -> int
     QCoreApplication::setOrganizationDomain(QStringLiteral("fkoehler.org"));
     QCoreApplication::setApplicationName(QStringLiteral("KTailctl"));
     QCoreApplication::setOrganizationName(QStringLiteral("fkoehler.org"));
+
+    if (QFileInfo::exists(QStringLiteral("/.flatpak-info"))) {
+        // custom icon themes are not visible in the flatpak sandbox by default, fallback to breeze/breeze-dark which ships with the runtime
+        const bool darkColorScheme = QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark;
+        const QString theme = darkColorScheme ? QStringLiteral("breeze-dark") : QStringLiteral("breeze");
+        qInfo() << "Flatpak detected, forcing icon theme:" << theme;
+        KConfigGroup(KSharedConfig::openConfig(QString(), KConfig::NoGlobals), QStringLiteral("Icons")).writeEntry("Theme", theme);
+        KIconTheme::reconfigure();
+        QIcon::setThemeName(theme);
+    }
 
     KAboutData aboutData(QStringLiteral("KTailctl"),
                          i18nc("@title", "KTailctl"),
