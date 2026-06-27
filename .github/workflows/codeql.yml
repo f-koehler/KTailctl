@@ -24,7 +24,7 @@ jobs:
           - go
           - python
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Add KDE Neon repository
         run: ./scripts/ci/apt-add-kde-neon-repo.sh
       - name: Update apt cache
