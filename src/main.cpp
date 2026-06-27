@@ -26,9 +26,11 @@
 #include <Qt>
 #include <memory>
 #include <qlogging.h>
+#include <qloggingcategory.h>
 
 #include "config/config_auto_save.hpp"
 #include "ktailctl_config.h"
+#include "logging_tailscale.hpp"
 #include "tailscale/tailscale.hpp"
 #include "tray_icon/tray_icon.hpp"
 #include "tray_icon_themes.hpp"
@@ -50,7 +52,7 @@ auto main(int argc, char *argv[]) -> int
         // custom icon themes are not visible in the flatpak sandbox by default, fallback to breeze/breeze-dark which ships with the runtime
         const bool darkColorScheme = QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark;
         const QString theme = darkColorScheme ? QStringLiteral("breeze-dark") : QStringLiteral("breeze");
-        qInfo() << "Flatpak detected, forcing icon theme:" << theme;
+        qCInfo(Logging::TailscaleMain) << "Flatpak detected, forcing icon theme:" << theme;
         KConfigGroup(KSharedConfig::openConfig(QString(), KConfig::NoGlobals), QStringLiteral("Icons")).writeEntry("Theme", theme);
         KIconTheme::reconfigure();
         QIcon::setThemeName(theme);
@@ -74,7 +76,7 @@ auto main(int argc, char *argv[]) -> int
     aboutData.setProgramLogo(QIcon(QStringLiteral(":/icons/logo.svg")));
     KAboutData::setApplicationData(aboutData);
     const KDBusService service(KDBusService::Unique);
-    qInfo() << "KDBusService name:" << service.serviceName();
+    qCInfo(Logging::TailscaleMain) << "KDBusService name:" << service.serviceName();
 
     auto *tailscale = new Tailscale();
     Tailscale::setQmlInstance(tailscale);
