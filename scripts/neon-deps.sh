@@ -17,6 +17,7 @@ PACKAGES=(
 	libkf6dbusaddons-dev
 	libkf6guiaddons-dev
 	libkf6i18n-dev
+	libkf6iconthemes-dev
 	libkf6notifications-dev
 	libkf6windowsystem-dev
 	libomp-dev
