@@ -162,7 +162,7 @@ FormCard.FormCardPage {
             onCheckedChanged: KTailctl.Tailscale.preferences.runWebClient = switchRunWebClient.checked
         }
         FormCard.FormLinkDelegate {
-            url: "http://localhost:5252"
+            url: "http://" + KTailctl.Tailscale.status.self.tailscaleIps[0] + ":5252"
             text: "Open management web interface"
             visible: KTailctl.Tailscale.preferences.runWebClient
         }
