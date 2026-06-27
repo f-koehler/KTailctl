@@ -12,6 +12,15 @@ FormCard.FormCardPage {
 
     title: peer?.hostName ?? ""
 
+    // Whether this page shows our own node; pinging your own Tailscale IP is a
+    // local no-op, so the ping section is hidden in that case.
+    readonly property bool isSelf: (peer && KTailctl.Tailscale.status.self) ? (peer.id === KTailctl.Tailscale.status.self.id) : false
+    // First Tailscale IP of the peer; the target for pinging.
+    readonly property string pingAddress: (peer?.tailscaleIps?.length ?? 0) > 0 ? peer.tailscaleIps[0] : ""
+    readonly property bool pingAvailable: !isSelf && pingAddress !== ""
+    // Lazily created, cached per-address Pinger (see Tailscale::pinger).
+    readonly property var pinger: pingAvailable ? KTailctl.Tailscale.pinger(pingAddress) : null
+
     signal closeRequested
 
     actions: [
@@ -44,6 +53,66 @@ FormCard.FormCardPage {
                     onClicked: {
                         KTailctl.Util.setClipboardText(modelData);
                     }
+                }
+            }
+        }
+    }
+
+    FormCard.FormHeader {
+        visible: page.pingAvailable
+        title: "Ping"
+    }
+
+    FormCard.FormCard {
+        visible: page.pingAvailable
+
+        FormCard.AbstractFormDelegate {
+            background: null
+            contentItem: ColumnLayout {
+                spacing: Kirigami.Units.largeSpacing
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: Kirigami.Units.largeSpacing
+
+                    Button {
+                        icon.name: (page.pinger && page.pinger.running) ? "media-playback-stop" : "media-playback-start"
+                        text: (page.pinger && page.pinger.running) ? "Stop" : "Start"
+                        onClicked: {
+                            if (page.pinger) {
+                                page.pinger.toggle();
+                            }
+                        }
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        horizontalAlignment: Text.AlignRight
+                        elide: Text.ElideRight
+                        color: (page.pinger && page.pinger.hasResult && !page.pinger.lastSuccess) ? Kirigami.Theme.negativeTextColor : Kirigami.Theme.textColor
+                        text: {
+                            const p = page.pinger;
+                            if (!p) {
+                                return "";
+                            }
+                            KTailctl.Tailscale.lastRefresh;
+                            if (!p.hasResult) {
+                                return p.running ? "Pinging…" : "Not pinged yet";
+                            }
+                            const when = KTailctl.Util.formatDurationHumanReadable(p.lastTime);
+                            if (p.lastSuccess) {
+                                return p.lastLatencyMs.toFixed(1) + " ms via " + p.lastVia + " · " + when;
+                            }
+                            return (p.lastError !== "" ? p.lastError : "no reply") + " · " + when;
+                        }
+                    }
+                }
+
+                PingGraph {
+                    Layout.fillWidth: true
+                    implicitHeight: Kirigami.Units.gridUnit * 5
+                    pinger: page.pinger
+                    visible: page.pinger && (page.pinger.running || page.pinger.hasResult)
                 }
             }
         }
