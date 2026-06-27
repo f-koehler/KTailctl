@@ -1,7 +1,6 @@
 #ifndef KTAILCTL_TAILSCALE_HPP
 #define KTAILCTL_TAILSCALE_HPP
 
-#include <QDateTime>
 #include <QJSEngine>
 #include <QMap>
 #include <QMutex>
@@ -54,14 +53,9 @@ public:
     Q_PROPERTY(Preferences *preferences READ preferences CONSTANT)
     Q_PROPERTY(LoginProfileModel *loginProfiles READ loginProfileModel CONSTANT)
     Q_PROPERTY(QString currentLoginProfileId READ currentLoginProfileId BINDABLE bindableCurrentLoginProfileId NOTIFY currentLoginProfileIdChanged)
-    // Bumped on every periodic refresh tick. QML can depend on this to keep
-    // relative-time displays (e.g. "x minutes ago") current without each value
-    // needing its own timer.
-    Q_PROPERTY(QDateTime lastRefresh READ lastRefresh NOTIFY lastRefreshChanged)
 
 Q_SIGNALS:
     void currentLoginProfileIdChanged();
-    void lastRefreshChanged();
 
 private:
     QMutex mMutexLoginProfiles;
@@ -72,7 +66,6 @@ private:
     LoginProfileModel *mLoginProfileModel;
     QMap<QString, Pinger *> mPingers;
     QTimer *mRefreshTimer;
-    QDateTime mLastRefresh;
     Q_OBJECT_BINDABLE_PROPERTY(Tailscale, QString, mCurrentLoginProfileId, &Tailscale::currentLoginProfileIdChanged)
 
 public:
@@ -90,8 +83,6 @@ public:
             mStatus->refresh();
             mPreferences->refresh();
             refreshLoginProfiles();
-            mLastRefresh = QDateTime::currentDateTimeUtc();
-            Q_EMIT lastRefreshChanged();
         });
         connect(Config::self(), &Config::refreshIntervalChanged, this, [this] {
             mRefreshTimer->setInterval(Config::refreshInterval());
@@ -117,11 +108,6 @@ public:
     [[nodiscard]] auto currentLoginProfileId() const noexcept -> const QString &
     {
         return mCurrentLoginProfileId;
-    }
-
-    [[nodiscard]] auto lastRefresh() const noexcept -> const QDateTime &
-    {
-        return mLastRefresh;
     }
 
     [[nodiscard]] auto bindableCurrentLoginProfileId() -> QBindable<QString>

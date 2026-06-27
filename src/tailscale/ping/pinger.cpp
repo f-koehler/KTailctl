@@ -97,6 +97,7 @@ void Pinger::toggle()
 void Pinger::clearHistory()
 {
     mHistory.clear();
+    mHistoryTimes.clear();
     mMaxLatencyMs = 0.0;
     mHasResult = false;
     Q_EMIT historyChanged();
@@ -134,8 +135,10 @@ void Pinger::onSampleReady(const PingSample &sample)
     Q_EMIT lastResultChanged();
 
     mHistory.append(sample.success ? sample.latencyMs : -1.0);
+    mHistoryTimes.append(static_cast<double>(sample.time.toMSecsSinceEpoch()));
     while (mHistory.size() > MaxHistory) {
         mHistory.removeFirst();
+        mHistoryTimes.removeFirst();
     }
 
     double maxLatency = 0.0;

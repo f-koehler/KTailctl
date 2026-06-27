@@ -45,7 +45,12 @@ class Pinger : public QObject
     // Latency samples in milliseconds, oldest first. A value of -1 marks a
     // failed/timed-out sample so the graph can render a gap.
     Q_PROPERTY(QVariantList history READ history NOTIFY historyChanged)
+    // Epoch-millisecond timestamps parallel to history, so the graph can plot
+    // samples against wall-clock time and show gaps for paused periods.
+    Q_PROPERTY(QVariantList historyTimes READ historyTimes NOTIFY historyChanged)
     Q_PROPERTY(double maxLatencyMs READ maxLatencyMs NOTIFY historyChanged)
+    // Milliseconds between consecutive pings while running.
+    Q_PROPERTY(int intervalMs READ intervalMs CONSTANT)
 
 public:
     // Maximum number of samples retained for the live graph.
@@ -92,9 +97,17 @@ public:
     {
         return mHistory;
     }
+    [[nodiscard]] auto historyTimes() const noexcept -> const QVariantList &
+    {
+        return mHistoryTimes;
+    }
     [[nodiscard]] auto maxLatencyMs() const noexcept -> double
     {
         return mMaxLatencyMs;
+    }
+    [[nodiscard]] auto intervalMs() const noexcept -> int
+    {
+        return mIntervalMs;
     }
 
     Q_SLOT Q_INVOKABLE void start();
@@ -121,6 +134,7 @@ private:
     int mIntervalMs = DefaultIntervalMs;
     PingSample mLast;
     QVariantList mHistory;
+    QVariantList mHistoryTimes;
     double mMaxLatencyMs = 0.0;
     QTimer *mTimer;
 };
