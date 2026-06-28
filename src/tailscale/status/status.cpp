@@ -36,6 +36,8 @@ Status::Status(QObject *parent)
     refresh();
 
     connect(this, &Status::backendStateChanged, this, [this] {
+        if(!Config::enableNotifications()) {return;}
+        if(!Config::enableTailscaleStatusNotifications()) {return;}
         if (mBackendState == Status::BackendState::Running) {
             KNotification *notification = new KNotification(QStringLiteral("tailscaleOnline"));
             notification->setText(QStringLiteral("Tailscale is online"));
@@ -47,6 +49,8 @@ Status::Status(QObject *parent)
         notification->sendEvent();
     });
     connect(this, &Status::exitNodeStatusChanged, this, [this] {
+        if(!Config::enableNotifications()) {return;}
+        if(!Config::enableExitNodeNotifications()) {return;}
         if (mExitNodeStatus == nullptr) {
             KNotification *notification = new KNotification(QStringLiteral("exitNodeDisabled"));
             notification->setText(QStringLiteral("Exit node disabled"));

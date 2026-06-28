@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
-                          http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+<?xml version="1.0" encoding="UTF-8" ?>
+<kcfg
+    xmlns="http://www.kde.org/standards/kcfg/1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+                          http://www.kde.org/standards/kcfg/1.0/kcfg.xsd"
+>
   <group name="General">
     <entry name="refreshInterval" type="Int">
       <label>Refresh interval for the Tailscale status in milliseconds</label>
@@ -28,7 +30,21 @@
       </entry>
       <entry name="lastUsedExitNode" type="String">
           <label>Last used exit node</label>
-          <default></default>
+          <default />
+      </entry>
+  </group>
+  <group name="Notifications">
+      <entry name="enableNotifications" type="Bool">
+          <label>Enable all notifications</label>
+          <default>true</default>
+      </entry>
+      <entry name="enableTailscaleStatusNotifications" type="Bool">
+          <label>Enable Tailscale online/offline notifications</label>
+          <default>true</default>
+      </entry>
+      <entry name="enableExitNodeNotifications" type="Bool">
+          <label>Enable exit node notifications</label>
+          <default>true</default>
       </entry>
   </group>
 </kcfg>

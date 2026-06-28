@@ -10,6 +10,7 @@
 #include <QStringList>
 #include <QtQmlIntegration/qqmlintegration.h>
 #include <qtmetamacros.h>
+#include "ktailctl_config.h"
 
 // https://pkg.go.dev/tailscale.com/ipn/ipnstate#ExitNodeStatus
 class ExitNodeStatus : public QObject
@@ -25,6 +26,8 @@ public:
         : QObject(parent)
     {
         connect(this, &ExitNodeStatus::idChanged, this, [this] {
+            if(!Config::enableNotifications()) {return;}
+            if(!Config::enableExitNodeNotifications()) {return;}
             KNotification *notification = new KNotification(QStringLiteral("exitNodeEnabled"));
             notification->setText(QStringLiteral("Exit node enabled"));
             notification->sendEvent();
