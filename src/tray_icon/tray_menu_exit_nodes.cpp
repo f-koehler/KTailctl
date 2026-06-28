@@ -36,36 +36,41 @@ TrayMenuExitNodes::TrayMenuExitNodes(Tailscale *tailscale, QWidget *parent)
         mTailscale->preferences()->setExitNodeID(Config::lastUsedExitNode());
     });
 
-    connect(this, &QMenu::aboutToShow, this, [this] -> void {
-        const QString suggestedId = mTailscale->status()->suggestedExitNodeId();
-        const QString exitNodeId = mTailscale->preferences()->exitNodeId();
-        const bool hasSuggested = !suggestedId.isEmpty() && suggestedId != exitNodeId;
-        mActionSuggested->setVisible(hasSuggested);
-        if (hasSuggested) {
-            if (const auto *peer = mTailscale->status()->peerWithId(suggestedId); peer) {
-                const QString label = peer->dnsName();
-                mActionSuggested->setText(QStringLiteral("Use suggested: ") + label);
-                if (peer->mullvadNode() && peer->location()) {
-                    mActionSuggested->setIcon(QIcon(QStringLiteral(":/country-flags/country-flag-%1").arg(peer->location()->countryCode().toLower())));
-                }
-            } else {
-                mActionSuggested->setText(QStringLiteral("Use suggested: ") + suggestedId);
+    connect(this, &QMenu::aboutToShow, this, &TrayMenuExitNodes::updateDynamicActions);
+}
+
+void TrayMenuExitNodes::updateDynamicActions()
+{
+    const QString suggestedId = mTailscale->status()->suggestedExitNodeId();
+    const QString exitNodeId = mTailscale->preferences()->exitNodeId();
+    const bool hasSuggested = !suggestedId.isEmpty() && suggestedId != exitNodeId;
+    mActionSuggested->setVisible(hasSuggested);
+    if (hasSuggested) {
+        if (const auto *peer = mTailscale->status()->peerWithId(suggestedId); peer) {
+            const QString label = peer->dnsName();
+            mActionSuggested->setText(QStringLiteral("Use suggested: ") + label);
+            if (peer->mullvadNode() && (peer->location() != nullptr)) {
+                mActionSuggested->setIcon(QIcon(QStringLiteral(":/country-flags/country-flag-%1").arg(peer->location()->countryCode().toLower())));
             }
-        }
-
-        const bool hasExitNode = !exitNodeId.isEmpty();
-        mActionUnset->setVisible(hasExitNode);
-
-        if (!Config::lastUsedExitNode().isEmpty() && (Config::lastUsedExitNode() != exitNodeId)) {
-            mActionLastUsed->setVisible(true);
-            mActionLastUsed->setText(QStringLiteral("Last used: ") + mTailscale->status()->peerWithId(Config::lastUsedExitNode())->dnsName());
         } else {
-            mActionLastUsed->setVisible(false);
+            mActionSuggested->setText(QStringLiteral("Use suggested: ") + suggestedId);
         }
-        if (hasExitNode) {
-            const auto *peer = mTailscale->status()->peerWithId(exitNodeId);
-            const QString label = peer ? peer->dnsName() : exitNodeId;
-            mActionUnset->setText(QStringLiteral("Unset: ") + label);
-        }
-    });
+    }
+
+    const bool hasExitNode = !exitNodeId.isEmpty();
+    mActionUnset->setVisible(hasExitNode);
+
+    if (!Config::lastUsedExitNode().isEmpty() && (Config::lastUsedExitNode() != exitNodeId)) {
+        mActionLastUsed->setVisible(true);
+        const auto *lastUsedPeer = mTailscale->status()->peerWithId(Config::lastUsedExitNode());
+        const QString lastUsedLabel = lastUsedPeer != nullptr ? lastUsedPeer->dnsName() : Config::lastUsedExitNode();
+        mActionLastUsed->setText(QStringLiteral("Last used: ") + lastUsedLabel);
+    } else {
+        mActionLastUsed->setVisible(false);
+    }
+    if (hasExitNode) {
+        const auto *peer = mTailscale->status()->peerWithId(exitNodeId);
+        const QString label = peer != nullptr ? peer->dnsName() : exitNodeId;
+        mActionUnset->setText(QStringLiteral("Unset: ") + label);
+    }
 }

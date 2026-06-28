@@ -21,6 +21,8 @@ class TrayMenuExitNodes : public QMenu
     QAction *mActionUnset = nullptr;
     QAction *mActionLastUsed = nullptr;
 
+    void updateDynamicActions();
+
 public:
     explicit TrayMenuExitNodes(Tailscale *tailscale, QWidget *parent = nullptr);
 };
