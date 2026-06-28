@@ -8,6 +8,7 @@
 #include <QStringLiteral>
 #include <QVariant>
 #include <Qt>
+#include <QtAlgorithms>
 #include <utility>
 
 #include "location.hpp"
@@ -44,9 +45,8 @@ TrayMenuExitNodesMullvad::TrayMenuExitNodesMullvad(Tailscale *tailscale, QWidget
 void TrayMenuExitNodesMullvad::rebuildMenu()
 {
     clear();
-    for (auto [key, value] : mPerCountryMenus.asKeyValueRange()) {
-        value->clear();
-    }
+    qDeleteAll(mPerCountryMenus);
+    mPerCountryMenus.clear();
 
     if (!mRoleIndicesFound) {
         return;
@@ -56,6 +56,7 @@ void TrayMenuExitNodesMullvad::rebuildMenu()
         setEnabled(false);
         return;
     }
+    setEnabled(true);
 
     for (int row = 0; row < rows; ++row) {
         const QModelIndex index = mTailscale->status()->mullvadExitNodeModel()->index(row, 0);
