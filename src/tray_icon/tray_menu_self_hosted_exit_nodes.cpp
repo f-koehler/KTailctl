@@ -43,6 +43,7 @@ void TrayMenuExitNodesSelfHosted::rebuildMenu()
         setEnabled(false);
         return;
     }
+    setEnabled(true);
     for (int row = 0; row < rows; ++row) {
         const QModelIndex index = mTailscale->status()->selfHostedExitNodeModel()->index(row, 0);
         if (!index.isValid()) {
