@@ -5,6 +5,7 @@
 #include <KLocalizedContext>
 #include <KLocalizedString>
 #include <KSharedConfig>
+#include <KWindowSystem>
 #include <QApplication>
 #include <QByteArray>
 #include <QCoreApplication>
@@ -108,6 +109,15 @@ auto main(int argc, char *argv[]) -> int
 
     auto *window = dynamic_cast<QQuickWindow *>(engine->rootObjects().constFirst());
 
+    // honor the "Start minimized" setting on startup
+    if (window != nullptr) {
+        if (Config::startMinimized()) {
+            window->hide();
+        } else {
+            window->show();
+        }
+    }
+
     // clicking tray icon should toggle window
     auto *tray_icon = new TrayIcon(tailscale);
     tray_icon->setVisible(Config::enableTrayIcon());
@@ -134,6 +144,17 @@ auto main(int argc, char *argv[]) -> int
         window->show();
     });
     QObject::connect(tray_icon, &TrayIcon::quitRequested, &app, &QCoreApplication::quit, Qt::QueuedConnection);
+
+    // re-launching the unique instance should reveal and focus the window
+    QObject::connect(&service, &KDBusService::activateRequested, window, [window](const QStringList &, const QString &) {
+        if (window == nullptr) {
+            return;
+        }
+        window->show();
+        KWindowSystem::updateStartupId(window);
+        window->raise();
+        KWindowSystem::activateWindow(window);
+    });
 
     QObject::connect(&app, &QCoreApplication::aboutToQuit, &app, [&engine]() {
         engine.reset();
