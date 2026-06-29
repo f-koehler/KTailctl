@@ -164,14 +164,6 @@ Kirigami.ScrollablePage {
                 Layout.fillWidth: true
 
                 FormCard.FormSwitchDelegate {
-                    id: switchAllowLanAccess
-                    enabled: page.isOperator
-                    text: "Allow LAN access"
-                    checked: KTailctl.Tailscale.preferences.exitNodeAllowLanAccess
-                    onCheckedChanged: KTailctl.Tailscale.preferences.exitNodeAllowLanAccess = switchAllowLanAccess.checked
-                }
-
-                FormCard.FormSwitchDelegate {
                     id: switchExitNode
 
                     readonly property string currentId: KTailctl.Tailscale.preferences.exitNodeId
