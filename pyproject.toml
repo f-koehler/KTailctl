@@ -10,7 +10,7 @@ dependencies = [
     "pycountry>=26.2.16",
     "rich>=15.0.0",
     "ruamel-yaml>=0.19.1",
-    "ruff>=0.15.20",
+    "ruff>=0.15.22",
 ]
 
 [tool.pyright]
