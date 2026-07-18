@@ -56,7 +56,7 @@ repos:
       - id: golangci-lint
         name: golangci-lint
         language: golang
-        language_version: 1.26.4
+        language_version: 1.26.5
         entry: bash -c
         args: ["cd src/tailscale/wrapper && golangci-lint run --fix"]
         pass_filenames: false
@@ -66,7 +66,7 @@ repos:
       - id: golangci-lint-fmt
         name: golangci-lint fmt
         language: golang
-        language_version: 1.26.4
+        language_version: 1.26.5
         entry: bash -c
         args: ["cd src/tailscale/wrapper && golangci-lint fmt"]
         pass_filenames: false
@@ -76,7 +76,7 @@ repos:
       - id: govulncheck
         name: govulncheck
         language: golang
-        language_version: 1.26.4
+        language_version: 1.26.5
         entry: bash -c
         args: ["cd src/tailscale/wrapper && govulncheck ./..."]
         pass_filenames: false
@@ -86,7 +86,7 @@ repos:
       - id: shfmt
         name: shfmt
         language: golang
-        language_version: 1.26.4
+        language_version: 1.26.5
         entry: shfmt
         args: [-w]
         types: [shell]
