@@ -188,37 +188,38 @@ jobs:
 
       - name: Build Pacman package in Arch Linux container
         run: |
-          docker run --rm -v "${{ github.workspace }}":/work -e VERSION="${VERSION}" archlinux/archlinux:latest bash -c "
+          docker run --rm -v "${{ github.workspace }}":/work -e VERSION="${VERSION}" archlinux/archlinux:latest bash -c '
+            set -e
             pacman -Syu --noconfirm base-devel
             cd /work
-            cat > PKGBUILD << 'PKGBUILD_EOF'
+            cat > PKGBUILD << PKGBUILD_EOF
             # Maintainer: Fabian Koehler <f-koehler@users.noreply.github.com>
             pkgname=ktailctl
-            pkgver=\${VERSION}
+            pkgver=${VERSION}
             pkgrel=1
-            pkgdesc=\"GUI to monitor and manage Tailscale on Linux\"
+            pkgdesc="GUI to monitor and manage Tailscale on Linux"
             arch=('x86_64')
-            url=\"https://github.com/f-koehler/KTailctl\"
+            url="https://github.com/f-koehler/KTailctl"
             license=('GPL-3.0-or-later')
             depends=('tailscale' 'qt6-base' 'qt6-declarative' 'qt6-svg' 'qt6-wayland' 'kirigami' 'kirigami-addons' 'kconfig' 'kcoreaddons' 'kdbusaddons' 'kguiaddons' 'ki18n' 'knotifications' 'kwindowsystem' 'nlohmann-json')
             makedepends=('cmake' 'extra-cmake-modules' 'go')
-            source=(\"https://github.com/f-koehler/KTailctl/archive/v\${pkgver}/KTailctl-\${pkgver}.tar.gz\")
+            source=("https://github.com/f-koehler/KTailctl/archive/v\${pkgver}/KTailctl-\${pkgver}.tar.gz")
             sha256sums=('SKIP')
 
             build() {
-              cd \"\${srcdir}/KTailctl-\${pkgver}\"
+              cd "\${srcdir}/KTailctl-\${pkgver}"
               cmake -B builddir -DCMAKE_INSTALL_PREFIX=/usr -DKTAILCTL_FLATPAK_BUILD=ON
               cmake --build builddir
             }
 
             package() {
-              cd \"\${srcdir}/KTailctl-\${pkgver}\"
-              DESTDIR=\"\${pkgdir}\" cmake --install builddir
+              cd "\${srcdir}/KTailctl-\${pkgver}"
+              DESTDIR="\${pkgdir}" cmake --install builddir
             }
             PKGBUILD_EOF
             chown -R builduser:builduser .
             su builduser -c 'makepkg -f --noconfirm --skippgpcheck'
-          "
+          '
 
       - name: Upload Pacman artifact
         uses: actions/upload-artifact@v4
