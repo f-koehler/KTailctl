@@ -6,34 +6,49 @@ on:
       - 'v*'
   pull_request:
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to build (overrides the git tag)'
+        required: false
 
 permissions:
   contents: write
+
+env:
+  VERSION: ${{ inputs.version != '' && inputs.version || (github.ref_type == 'tag' && github.ref_name || '') }}
 
 jobs:
   deb:
     name: "Debian Package (amd64)"
     runs-on: ubuntu-24.04
-    container: ubuntu:latest
+    container: ubuntu:26.04
     steps:
       - uses: actions/checkout@v4
+
+      - name: Resolve version
+        run: |
+          if [ -z "$VERSION" ]; then
+            VERSION=$(grep -m1 '^  VERSION' CMakeLists.txt | grep -o '[0-9.]*')
+          fi
+          VERSION=${VERSION#v}
+          echo "Building version $VERSION"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
 
       - name: Install build dependencies
         run: |
           apt-get update
           apt-get install -y git devscripts debhelper cmake extra-cmake-modules pkg-config qt6-base-dev qt6-declarative-dev qt6-svg-dev qt6-wayland-dev libkf6config-dev libkf6coreaddons-dev libkf6dbusaddons-dev libkf6guiaddons-dev libkf6i18n-dev libkirigami-dev kirigami-addons-dev libkf6notifications-dev libkf6windowsystem-dev libkf6breezeicons-dev libkf6iconthemes-dev kf6-breeze-icon-theme nlohmann-json3-dev golang-go appstream desktop-file-utils build-essential
 
-      - name: Clone upstream source
-        run: |
-          git clone --depth 1 --branch v0.22.0 https://github.com/f-koehler/KTailctl.git ktailctl-src
-
       - name: Prepare source
         run: |
-          cp -r debian ktailctl-src/
+          mkdir -p ktailctl-${VERSION}
+          git archive HEAD | tar -x -C ktailctl-${VERSION}
+          cp -r debian ktailctl-${VERSION}/
+          sed -i "1s/\(.*\)(\([^)]*\))\(.*\)/\1(${VERSION}-1)\3/" ktailctl-${VERSION}/debian/changelog
 
       - name: Build Debian package
         run: |
-          cd ktailctl-src
+          cd ktailctl-${VERSION}
           cd src/tailscale/wrapper && go mod vendor && cd ../../..
           debuild -us -uc -b
 
@@ -43,85 +58,40 @@ jobs:
           name: ktailctl-deb
           path: ktailctl_*.deb
 
-      - name: Generate release notes
-        if: startsWith(github.ref, 'refs/tags/')
-        run: |
-          TAG=${GITHUB_REF#refs/tags/}
-          echo "# KTailctl $TAG" > release_notes.md
-          echo "" >> release_notes.md
-          echo "A GUI to monitor and manage Tailscale on your Linux desktop." >> release_notes.md
-          echo "" >> release_notes.md
-          echo "## Installation" >> release_notes.md
-          echo "" >> release_notes.md
-          echo "### AppImage (Universal)" >> release_notes.md
-          echo '```bash' >> release_notes.md
-          echo "chmod +x ktailctl-x86_64.AppImage" >> release_notes.md
-          echo "./ktailctl-x86_64.AppImage" >> release_notes.md
-          echo '```' >> release_notes.md
-          echo "" >> release_notes.md
-          echo "### Debian/Ubuntu" >> release_notes.md
-          echo '```bash' >> release_notes.md
-          echo "sudo dpkg -i ktailctl_*.deb" >> release_notes.md
-          echo "sudo apt-get install -f" >> release_notes.md
-          echo '```' >> release_notes.md
-          echo "" >> release_notes.md
-          echo "### RPM (Fedora/RHEL/openSUSE)" >> release_notes.md
-          echo '```bash' >> release_notes.md
-          echo "sudo rpm -i ktailctl-*.rpm" >> release_notes.md
-          echo '```' >> release_notes.md
-          echo "" >> release_notes.md
-          echo "### Pacman (Arch/Manjaro)" >> release_notes.md
-          echo '```bash' >> release_notes.md
-          echo "sudo pacman -U ktailctl-*.pkg.tar.zst" >> release_notes.md
-          echo '```' >> release_notes.md
-          echo "" >> release_notes.md
-          echo "## Required Dependencies" >> release_notes.md
-          echo "- Tailscale (must be installed and running)" >> release_notes.md
-          echo "- KDE Frameworks 6, Qt 6, Kirigami" >> release_notes.md
-          echo "" >> release_notes.md
-          echo "_Generated with AI assistance_" >> release_notes.md
-
-      - name: Release Debian package
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v1
-        with:
-          files: ktailctl_*.deb
-          body_path: release_notes.md
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   appimage:
     name: "AppImage (amd64)"
     runs-on: ubuntu-24.04
-    container: ubuntu:latest
+    container: ubuntu:26.04
     steps:
       - uses: actions/checkout@v4
+
+      - name: Resolve version
+        run: |
+          if [ -z "$VERSION" ]; then
+            VERSION=$(grep -m1 '^  VERSION' CMakeLists.txt | grep -o '[0-9.]*')
+          fi
+          VERSION=${VERSION#v}
+          echo "Building version $VERSION"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
 
       - name: Install system dependencies
         run: |
           apt-get update
           DEBIAN_FRONTEND=noninteractive apt-get install -y git wget fuse libfuse2 file cmake extra-cmake-modules pkg-config qt6-base-dev qt6-declarative-dev qt6-svg-dev qt6-wayland-dev libkf6config-dev libkf6coreaddons-dev libkf6dbusaddons-dev libkf6guiaddons-dev libkf6i18n-dev libkirigami-dev kirigami-addons-dev libkf6notifications-dev libkf6windowsystem-dev libkf6breezeicons-dev libkf6iconthemes-dev kf6-breeze-icon-theme nlohmann-json3-dev golang-go appstream desktop-file-utils build-essential
 
-      - name: Clone upstream source
-        run: |
-          git clone --depth 1 --branch v0.22.0 https://github.com/f-koehler/KTailctl.git ktailctl-src
-
       - name: Build ktailctl
         run: |
-          cd ktailctl-src
-          cd src/tailscale/wrapper && go mod vendor && cd ../../..
+          cd src/tailscale/wrapper && go mod vendor && cd ../..
           cmake -B builddir -DCMAKE_INSTALL_PREFIX=/usr -DKTAILCTL_FLATPAK_BUILD=ON
           cmake --build builddir
-          DESTDIR=$(pwd)/../appdir cmake --install builddir
+          DESTDIR=$(pwd)/appdir cmake --install builddir
 
       - name: Create AppDir structure
         run: |
           mkdir -p appdir/usr/share/applications appdir/usr/share/icons/hicolor/scalable/apps appdir/usr/share/metainfo
-          cp ktailctl-src/org.fkoehler.KTailctl.desktop appdir/org.fkoehler.KTailctl.desktop
-          cp ktailctl-src/org.fkoehler.KTailctl.svg appdir/org.fkoehler.KTailctl.svg
-          cp ktailctl-src/org.fkoehler.KTailctl.metainfo.xml appdir/usr/share/metainfo/
+          cp org.fkoehler.KTailctl.desktop appdir/org.fkoehler.KTailctl.desktop
+          cp org.fkoehler.KTailctl.svg appdir/org.fkoehler.KTailctl.svg
+          cp org.fkoehler.KTailctl.metainfo.xml appdir/usr/share/metainfo/
           sed -i 's|Exec=.*|Exec=ktailctl|' appdir/org.fkoehler.KTailctl.desktop
           sed -i 's|Icon=.*|Icon=org.fkoehler.KTailctl|' appdir/org.fkoehler.KTailctl.desktop
 
@@ -160,76 +130,32 @@ jobs:
           name: ktailctl-appimage
           path: ktailctl-x86_64.AppImage
 
-      - name: Generate release notes
-        if: startsWith(github.ref, 'refs/tags/')
-        run: |
-          TAG=${GITHUB_REF#refs/tags/}
-          echo "# KTailctl $TAG" > release_notes.md
-          echo "" >> release_notes.md
-          echo "A GUI to monitor and manage Tailscale on your Linux desktop." >> release_notes.md
-          echo "" >> release_notes.md
-          echo "## Installation" >> release_notes.md
-          echo "" >> release_notes.md
-          echo "### AppImage (Universal)" >> release_notes.md
-          echo '```bash' >> release_notes.md
-          echo "chmod +x ktailctl-x86_64.AppImage" >> release_notes.md
-          echo "./ktailctl-x86_64.AppImage" >> release_notes.md
-          echo '```' >> release_notes.md
-          echo "" >> release_notes.md
-          echo "### Debian/Ubuntu" >> release_notes.md
-          echo '```bash' >> release_notes.md
-          echo "sudo dpkg -i ktailctl_*.deb" >> release_notes.md
-          echo "sudo apt-get install -f" >> release_notes.md
-          echo '```' >> release_notes.md
-          echo "" >> release_notes.md
-          echo "### RPM (Fedora/RHEL/openSUSE)" >> release_notes.md
-          echo '```bash' >> release_notes.md
-          echo "sudo rpm -i ktailctl-*.rpm" >> release_notes.md
-          echo '```' >> release_notes.md
-          echo "" >> release_notes.md
-          echo "### Pacman (Arch/Manjaro)" >> release_notes.md
-          echo '```bash' >> release_notes.md
-          echo "sudo pacman -U ktailctl-*.pkg.tar.zst" >> release_notes.md
-          echo '```' >> release_notes.md
-          echo "" >> release_notes.md
-          echo "## Required Dependencies" >> release_notes.md
-          echo "- Tailscale (must be installed and running)" >> release_notes.md
-          echo "- KDE Frameworks 6, Qt 6, Kirigami" >> release_notes.md
-          echo "" >> release_notes.md
-          echo "_Generated with AI assistance_" >> release_notes.md
-
-      - name: Release AppImage
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v1
-        with:
-          files: ktailctl-x86_64.AppImage
-          body_path: release_notes.md
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   rpm:
     name: "RPM Package (amd64)"
     runs-on: ubuntu-24.04
-    container: ubuntu:latest
+    container: ubuntu:26.04
     steps:
       - uses: actions/checkout@v4
+
+      - name: Resolve version
+        run: |
+          if [ -z "$VERSION" ]; then
+            VERSION=$(grep -m1 '^  VERSION' CMakeLists.txt | grep -o '[0-9.]*')
+          fi
+          VERSION=${VERSION#v}
+          echo "Building version $VERSION"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
 
       - name: Install build dependencies
         run: |
           apt-get update
           apt-get install -y git rpm cmake extra-cmake-modules qt6-base-dev qt6-declarative-dev qt6-svg-dev qt6-wayland-dev libkf6config-dev libkf6coreaddons-dev libkf6dbusaddons-dev libkf6guiaddons-dev libkf6i18n-dev libkirigami-dev kirigami-addons-dev libkf6notifications-dev libkf6windowsystem-dev libkf6breezeicons-dev libkf6iconthemes-dev kf6-breeze-icon-theme nlohmann-json3-dev golang-go pkg-config appstream desktop-file-utils build-essential
 
-      - name: Clone upstream source
-        run: |
-          git clone --depth 1 --branch v0.22.0 https://github.com/f-koehler/KTailctl.git ktailctl-src
-
       - name: Prepare RPM source
         run: |
           mkdir -p /tmp/rpmbuild/BUILD /tmp/rpmbuild/RPMS /tmp/rpmbuild/SOURCES /tmp/rpmbuild/SPECS /tmp/rpmbuild/SRPMS
-          cp rpmbuild/SPECS/ktailctl.spec /tmp/rpmbuild/SPECS/
-          cd ktailctl-src && git archive --prefix=KTailctl-0.22.0/ --format=tar.gz HEAD > /tmp/rpmbuild/SOURCES/KTailctl-0.22.0.tar.gz
+          sed -E "s/^(Version:).*/\1        ${VERSION}/" rpmbuild/SPECS/ktailctl.spec > /tmp/rpmbuild/SPECS/ktailctl.spec
+          git archive --prefix=KTailctl-${VERSION}/ --format=tar.gz HEAD > /tmp/rpmbuild/SOURCES/KTailctl-${VERSION}.tar.gz
 
       - name: Build RPM
         run: |
@@ -245,70 +171,30 @@ jobs:
           name: ktailctl-rpm
           path: ktailctl-*.rpm
 
-      - name: Generate release notes
-        if: startsWith(github.ref, 'refs/tags/')
-        run: |
-          TAG=${GITHUB_REF#refs/tags/}
-          echo "# KTailctl $TAG" > release_notes.md
-          echo "" >> release_notes.md
-          echo "A GUI to monitor and manage Tailscale on your Linux desktop." >> release_notes.md
-          echo "" >> release_notes.md
-          echo "## Installation" >> release_notes.md
-          echo "" >> release_notes.md
-          echo "### AppImage (Universal)" >> release_notes.md
-          echo '```bash' >> release_notes.md
-          echo "chmod +x ktailctl-x86_64.AppImage" >> release_notes.md
-          echo "./ktailctl-x86_64.AppImage" >> release_notes.md
-          echo '```' >> release_notes.md
-          echo "" >> release_notes.md
-          echo "### Debian/Ubuntu" >> release_notes.md
-          echo '```bash' >> release_notes.md
-          echo "sudo dpkg -i ktailctl_*.deb" >> release_notes.md
-          echo "sudo apt-get install -f" >> release_notes.md
-          echo '```' >> release_notes.md
-          echo "" >> release_notes.md
-          echo "### RPM (Fedora/RHEL/openSUSE)" >> release_notes.md
-          echo '```bash' >> release_notes.md
-          echo "sudo rpm -i ktailctl-*.rpm" >> release_notes.md
-          echo '```' >> release_notes.md
-          echo "" >> release_notes.md
-          echo "### Pacman (Arch/Manjaro)" >> release_notes.md
-          echo '```bash' >> release_notes.md
-          echo "sudo pacman -U ktailctl-*.pkg.tar.zst" >> release_notes.md
-          echo '```' >> release_notes.md
-          echo "" >> release_notes.md
-          echo "## Required Dependencies" >> release_notes.md
-          echo "- Tailscale (must be installed and running)" >> release_notes.md
-          echo "- KDE Frameworks 6, Qt 6, Kirigami" >> release_notes.md
-          echo "" >> release_notes.md
-          echo "_Generated with AI assistance_" >> release_notes.md
-
-      - name: Release RPM
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v1
-        with:
-          files: ktailctl-*.rpm
-          body_path: release_notes.md
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   pacman:
     name: "Pacman Package (amd64)"
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
+      - name: Resolve version
+        run: |
+          if [ -z "$VERSION" ]; then
+            VERSION=$(grep -m1 '^  VERSION' CMakeLists.txt | grep -o '[0-9.]*')
+          fi
+          VERSION=${VERSION#v}
+          echo "Building version $VERSION"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+
       - name: Build Pacman package in Arch Linux container
         run: |
-          docker run --rm -v "${{ github.workspace }}":/work archlinux/archlinux:latest bash -c "
+          docker run --rm -v "${{ github.workspace }}":/work -e VERSION="${VERSION}" archlinux/archlinux:latest bash -c "
             pacman -Syu --noconfirm base-devel
             cd /work
             cat > PKGBUILD << 'PKGBUILD_EOF'
             # Maintainer: Fabian Koehler <f-koehler@users.noreply.github.com>
             pkgname=ktailctl
-            pkgver=0.22.0
+            pkgver=\${VERSION}
             pkgrel=1
             pkgdesc=\"GUI to monitor and manage Tailscale on Linux\"
             arch=('x86_64')
@@ -340,8 +226,19 @@ jobs:
           name: ktailctl-pacman
           path: ktailctl-*.pkg.tar.zst
 
+  release:
+    name: "Create Release"
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: [deb, appimage, rpm, pacman]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
       - name: Generate release notes
-        if: startsWith(github.ref, 'refs/tags/')
         run: |
           TAG=${GITHUB_REF#refs/tags/}
           echo "# KTailctl $TAG" > release_notes.md
@@ -378,11 +275,10 @@ jobs:
           echo "" >> release_notes.md
           echo "_Generated with AI assistance_" >> release_notes.md
 
-      - name: Release Pacman package
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: ktailctl-*.pkg.tar.zst
+          files: artifacts/*
           body_path: release_notes.md
           draft: false
           prerelease: false
