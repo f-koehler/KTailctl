@@ -81,7 +81,7 @@ jobs:
 
       - name: Build ktailctl
         run: |
-          cd src/tailscale/wrapper && go mod vendor && cd ../..
+          cd src/tailscale/wrapper && go mod vendor && cd ../../..
           cmake -B builddir -DCMAKE_INSTALL_PREFIX=/usr -DKTAILCTL_FLATPAK_BUILD=ON
           cmake --build builddir
           DESTDIR=$(pwd)/appdir cmake --install builddir
