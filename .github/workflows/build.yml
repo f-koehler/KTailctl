@@ -179,17 +179,26 @@ jobs:
       - name: Clone upstream source
         run: |
           git clone https://github.com/f-koehler/KTailctl.git ktailctl-src
-          git -C ktailctl-src checkout -q "${VERSION}" 2>/dev/null || git -C ktailctl-src checkout -q "v${VERSION}"
-          git -C ktailctl-src archive --prefix=ktailctl-${VERSION}/ --format=tar.gz HEAD > ktailctl-src.tar.gz
 
       - name: Resolve version
         run: |
+          if [ -z "$VERSION" ]; then
+            VERSION=$(grep -m1 "version:" ktailctl-src/meson.build | grep -o '[0-9.]*' 2>/dev/null)
+          fi
+          if [ -z "$VERSION" ]; then
+            VERSION=$(grep -m1 '^version' ktailctl-src/Cargo.toml | sed -E 's/.*"([^"]+)".*/\1/' 2>/dev/null)
+          fi
           if [ -z "$VERSION" ]; then
             VERSION=$(grep -m1 '^  VERSION' ktailctl-src/CMakeLists.txt | grep -o '[0-9.]*')
           fi
           VERSION=${VERSION#v}
           echo "Building version $VERSION"
           echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+
+      - name: Checkout version and create source tarball
+        run: |
+          git -C ktailctl-src checkout -q "${VERSION}" 2>/dev/null || git -C ktailctl-src checkout -q "v${VERSION}"
+          git -C ktailctl-src archive --prefix=ktailctl-${VERSION}/ --format=tar.gz HEAD > ktailctl-src.tar.gz
 
       - name: Prepare PKGBUILD
         run: |
@@ -208,14 +217,13 @@ jobs:
           sha256sums=('SKIP')
 
           build() {
-            cd "${srcdir}/ktailctl-${pkgver}"
-              cmake -B builddir -DCMAKE_INSTALL_PREFIX=/usr
-              cmake --build builddir
+            cd "\${srcdir}/ktailctl-\${pkgver}"
+            cmake -B builddir -DCMAKE_INSTALL_PREFIX=/usr -DKTAILCTL_FLATPAK_BUILD=ON && cmake --build builddir
           }
 
           package() {
-            cd "${srcdir}/ktailctl-${pkgver}"
-              DESTDIR="${pkgdir}" cmake --install builddir
+            cd "\${srcdir}/ktailctl-\${pkgver}"
+            DESTDIR="\${pkgdir}" cmake --install builddir
           }
           PKGBUILD_EOF
 
@@ -223,7 +231,7 @@ jobs:
         run: |
           docker run --rm -v "${{ github.workspace }}":/work archlinux/archlinux:latest bash -c '
             set -ex
-            pacman -Syu --noconfirm base-devel sudo cmake extra-cmake-modules go
+            pacman -Syu --noconfirm base-devel sudo
             useradd -m builduser
             echo "builduser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
             cd /work
