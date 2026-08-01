@@ -176,49 +176,59 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+      - name: Clone upstream source
+        run: |
+          git clone https://github.com/f-koehler/KTailctl.git ktailctl-src
+          git -C ktailctl-src checkout -q "${VERSION}" 2>/dev/null || git -C ktailctl-src checkout -q "v${VERSION}"
+          git -C ktailctl-src archive --prefix=ktailctl-${VERSION}/ --format=tar.gz HEAD > ktailctl-src.tar.gz
 
       - name: Resolve version
         run: |
           if [ -z "$VERSION" ]; then
-            VERSION=$(grep -m1 '^  VERSION' CMakeLists.txt | grep -o '[0-9.]*')
+            VERSION=$(grep -m1 '^  VERSION' ktailctl-src/CMakeLists.txt | grep -o '[0-9.]*')
           fi
           VERSION=${VERSION#v}
           echo "Building version $VERSION"
           echo "VERSION=$VERSION" >> "$GITHUB_ENV"
 
+      - name: Prepare PKGBUILD
+        run: |
+          cat > PKGBUILD << PKGBUILD_EOF
+          # Maintainer: TheRealFame <packaging>
+          pkgname=ktailctl
+          pkgver=${VERSION}
+          pkgrel=1
+          pkgdesc="GUI to monitor and manage Tailscale on Linux"
+          arch=('x86_64')
+          url="https://github.com/f-koehler/KTailctl"
+          license=('GPL-3.0-or-later')
+          depends=('tailscale' 'qt6-base' 'qt6-declarative' 'qt6-svg' 'qt6-wayland' 'kirigami' 'kirigami-addons' 'kconfig' 'kcoreaddons' 'kdbusaddons' 'kguiaddons' 'ki18n' 'knotifications' 'kwindowsystem' 'nlohmann-json')
+          makedepends=('cmake' 'extra-cmake-modules' 'go')
+          source=("ktailctl-src.tar.gz")
+          sha256sums=('SKIP')
+
+          build() {
+            cd "${srcdir}/ktailctl-${pkgver}"
+              cmake -B builddir -DCMAKE_INSTALL_PREFIX=/usr
+              cmake --build builddir
+          }
+
+          package() {
+            cd "${srcdir}/ktailctl-${pkgver}"
+              DESTDIR="${pkgdir}" cmake --install builddir
+          }
+          PKGBUILD_EOF
+
       - name: Build Pacman package in Arch Linux container
         run: |
-          docker run --rm -v "${{ github.workspace }}":/work -e VERSION="${VERSION}" archlinux/archlinux:latest bash -c '
-            set -e
-            pacman -Syu --noconfirm base-devel
+          docker run --rm -v "${{ github.workspace }}":/work archlinux/archlinux:latest bash -c '
+            set -ex
+            pacman -Syu --noconfirm base-devel sudo cmake extra-cmake-modules go
+            useradd -m builduser
+            echo "builduser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
             cd /work
-            cat > PKGBUILD << PKGBUILD_EOF
-            # Maintainer: Fabian Koehler <f-koehler@users.noreply.github.com>
-            pkgname=ktailctl
-            pkgver=${VERSION}
-            pkgrel=1
-            pkgdesc="GUI to monitor and manage Tailscale on Linux"
-            arch=('x86_64')
-            url="https://github.com/f-koehler/KTailctl"
-            license=('GPL-3.0-or-later')
-            depends=('tailscale' 'qt6-base' 'qt6-declarative' 'qt6-svg' 'qt6-wayland' 'kirigami' 'kirigami-addons' 'kconfig' 'kcoreaddons' 'kdbusaddons' 'kguiaddons' 'ki18n' 'knotifications' 'kwindowsystem' 'nlohmann-json')
-            makedepends=('cmake' 'extra-cmake-modules' 'go')
-            source=("https://github.com/f-koehler/KTailctl/archive/v\${pkgver}/KTailctl-\${pkgver}.tar.gz")
-            sha256sums=('SKIP')
-
-            build() {
-              cd "\${srcdir}/KTailctl-\${pkgver}"
-              cmake -B builddir -DCMAKE_INSTALL_PREFIX=/usr -DKTAILCTL_FLATPAK_BUILD=ON
-              cmake --build builddir
-            }
-
-            package() {
-              cd "\${srcdir}/KTailctl-\${pkgver}"
-              DESTDIR="\${pkgdir}" cmake --install builddir
-            }
-            PKGBUILD_EOF
             chown -R builduser:builduser .
-            su builduser -c 'makepkg -f --noconfirm --skippgpcheck'
+            su builduser -c "makepkg -f --noconfirm --skippgpcheck"
           '
 
       - name: Upload Pacman artifact
