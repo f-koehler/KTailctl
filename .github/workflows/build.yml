@@ -217,6 +217,8 @@ jobs:
           sha256sums=('SKIP')
 
           build() {
+            cd "\${srcdir}/ktailctl-\${pkgver}/src/tailscale/wrapper"
+            go mod vendor
             cd "\${srcdir}/ktailctl-\${pkgver}"
             cmake -B builddir -DCMAKE_INSTALL_PREFIX=/usr -DKTAILCTL_FLATPAK_BUILD=ON && cmake --build builddir
           }
