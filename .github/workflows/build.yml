@@ -42,7 +42,7 @@ jobs:
       - name: Prepare source
         run: |
           mkdir -p ktailctl-${VERSION}
-          git archive HEAD | tar -x -C ktailctl-${VERSION}
+          tar --exclude-vcs -cf - . | tar -x -C ktailctl-${VERSION}
           cp -r debian ktailctl-${VERSION}/
           sed -i "1s/\(.*\)(\([^)]*\))\(.*\)/\1(${VERSION}-1)\3/" ktailctl-${VERSION}/debian/changelog
 
@@ -155,7 +155,7 @@ jobs:
         run: |
           mkdir -p /tmp/rpmbuild/BUILD /tmp/rpmbuild/RPMS /tmp/rpmbuild/SOURCES /tmp/rpmbuild/SPECS /tmp/rpmbuild/SRPMS
           sed -E "s/^(Version:).*/\1        ${VERSION}/" rpmbuild/SPECS/ktailctl.spec > /tmp/rpmbuild/SPECS/ktailctl.spec
-          git archive --prefix=KTailctl-${VERSION}/ --format=tar.gz HEAD > /tmp/rpmbuild/SOURCES/KTailctl-${VERSION}.tar.gz
+          tar --exclude-vcs -czf /tmp/rpmbuild/SOURCES/KTailctl-${VERSION}.tar.gz --transform "s,^\./,KTailctl-${VERSION}/," .
 
       - name: Build RPM
         run: |
