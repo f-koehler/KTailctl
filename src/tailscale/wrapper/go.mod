@@ -2,7 +2,7 @@ module tailscale_wrapper
 
 go 1.26.5
 
-require tailscale.com v1.100.0
+require tailscale.com v1.102.0
 
 require (
 	filippo.io/edwards25519 v1.2.0 // indirect
@@ -26,8 +26,10 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.37.1 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.44.1 // indirect
 	github.com/aws/smithy-go v1.27.4 // indirect
+	github.com/bradfitz/monogok v0.0.0-20260630033929-b1eef977b41f // indirect
 	github.com/coder/websocket v1.8.15 // indirect
 	github.com/dblohm7/wingoes v0.0.0-20260526185140-fb298caac7ca // indirect
+	github.com/diskfs/go-diskfs v1.9.3 // indirect
 	github.com/fogleman/gg v1.3.0 // indirect
 	github.com/fxamacker/cbor/v2 v2.9.2 // indirect
 	github.com/gaissmai/bart v0.28.1 // indirect
