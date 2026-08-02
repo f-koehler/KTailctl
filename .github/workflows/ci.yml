@@ -17,7 +17,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
       - name: Set up Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v7
         with:
           go-version-file: src/tailscale/wrapper/go.mod
           cache-dependency-path: src/tailscale/wrapper/go.sum
@@ -53,7 +53,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
       - name: Set up Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v7
         with:
           go-version-file: src/tailscale/wrapper/go.mod
           cache-dependency-path: src/tailscale/wrapper/go.sum
@@ -104,7 +104,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
       - name: Set up Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v7
         with:
           go-version-file: src/tailscale/wrapper/go.mod
           cache-dependency-path: src/tailscale/wrapper/go.sum
@@ -172,7 +172,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
       - name: Set up Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v7
         with:
           go-version-file: src/tailscale/wrapper/go.mod
           cache-dependency-path: src/tailscale/wrapper/go.sum
@@ -213,7 +213,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
       - name: Setup go.
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v7
         with:
           go-version-file: src/tailscale/wrapper/go.mod
           cache-dependency-path: src/tailscale/wrapper/go.sum
