@@ -75,9 +75,10 @@ def find_module_version(dep_path: str, modules: dict[str, str]) -> str | None:
     """Find the version for the longest module path that is a prefix of dep_path."""
     best_mod: str | None = None
     for mod in modules:
-        if dep_path == mod or dep_path.startswith(mod + "/"):
-            if best_mod is None or len(mod) > len(best_mod):
-                best_mod = mod
+        if (dep_path == mod or dep_path.startswith(mod + "/")) and (
+            best_mod is None or len(mod) > len(best_mod)
+        ):
+            best_mod = mod
     return modules[best_mod] if best_mod is not None else None
 
 
