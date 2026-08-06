@@ -89,7 +89,7 @@ void Status::refresh() // NOLINT(readability-function-cognitive-complexity)
                         mSuggestedExitNodeId = QString();
                     }
 
-                    qCInfo(Logging::Tailscale::Status) << "Status refreshed";
+                    qCDebug(Logging::Tailscale::Status) << "Status refreshed";
                 }
             }
         }

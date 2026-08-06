@@ -129,5 +129,5 @@ void Tailscale::refreshLoginProfiles()
         }
     }
 
-    qCInfo(Logging::TailscaleMain) << "LoginProfileModel refreshed";
+    qCDebug(Logging::TailscaleMain) << "LoginProfileModel refreshed";
 }

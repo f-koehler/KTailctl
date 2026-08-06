@@ -69,6 +69,19 @@ FormCard.FormCardPage {
     }
 
     FormCard.FormHeader {
+        title: "Debugging"
+    }
+    FormCard.FormCard {
+        FormCard.FormSwitchDelegate {
+            id: switchVerboseLogging
+            text: "Verbose logging"
+            description: "Log additional details, useful when troubleshooting or filing a bug report"
+            checked: KTailctl.Config.verboseLogging
+            onCheckedChanged: KTailctl.Config.verboseLogging = switchVerboseLogging.checked
+        }
+    }
+
+    FormCard.FormHeader {
         title: "Tailscale"
     }
     FormCard.FormCard {
