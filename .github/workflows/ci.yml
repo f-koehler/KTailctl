@@ -13,24 +13,24 @@ jobs:
   git_hooks:
     name: Git hooks
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/f-koehler/ktailctl-ci:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: read
+      packages: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: Set up Go
-        uses: actions/setup-go@v7
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7
         with:
           go-version-file: src/tailscale/wrapper/go.mod
           cache-dependency-path: src/tailscale/wrapper/go.sum
       - name: Set up uv
-        uses: astral-sh/setup-uv@v7
-      - name: Add Kitware repository
-        run: ./scripts/ci/apt-add-kitware-repo.sh
-      - name: Add KDE Neon repository
-        run: ./scripts/ci/apt-add-kde-neon-repo.sh
-      - name: Update apt cache
-        run: sudo apt-get update -yq
-      - name: Install dependencies
-        run: sudo ./scripts/neon-deps.sh
+        uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
       - name: Vendor Go dependencies
         run: go mod vendor
         working-directory: src/tailscale/wrapper
@@ -43,7 +43,7 @@ jobs:
       - name: Build
         run: cmake --build build --parallel
       - name: Run git hooks
-        uses: j178/prek-action@v2
+        uses: j178/prek-action@5337cb91e0fa35a7ff31b9ca345126d8bbbcdf16 # v2
         env:
           SKIP: qmlformat
   flatpak_build:
@@ -51,9 +51,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: Set up Go
-        uses: actions/setup-go@v7
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7
         with:
           go-version-file: src/tailscale/wrapper/go.mod
           cache-dependency-path: src/tailscale/wrapper/go.sum
@@ -83,6 +83,14 @@ jobs:
   lint:
     name: Lint (${{ matrix.linter }})
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/f-koehler/ktailctl-ci:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: read
+      packages: read
     strategy:
       fail-fast: false
       matrix:
@@ -98,45 +106,17 @@ jobs:
     env:
       CC: clang
       CXX: clang++
-      LLVM_VERSION: 22
-      CPPCHECK_VERSION: 2.20.0
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: Set up Go
-        uses: actions/setup-go@v7
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7
         with:
           go-version-file: src/tailscale/wrapper/go.mod
           cache-dependency-path: src/tailscale/wrapper/go.sum
       - name: Vendor Go dependencies
         run: go mod vendor
         working-directory: src/tailscale/wrapper
-      - name: Add Kitware repository
-        run: ./scripts/ci/apt-add-kitware-repo.sh
-      - name: Add KDE Neon repository
-        run: ./scripts/ci/apt-add-kde-neon-repo.sh
-      - name: Update apt cache
-        run: sudo apt-get update -yq
-      - name: Install dependencies
-        run: sudo ./scripts/neon-deps.sh
-      - name: Add LLVM apt repository
-        if: matrix.linter == 'clang-tidy' || matrix.linter == 'iwyu'
-        run: |
-          sudo ./scripts/ci/apt-add-llvm-repo.sh
-          sudo apt-get update -yq
-      - name: Install clang-tidy
-        if: matrix.linter == 'clang-tidy'
-        run: sudo apt-get install -yq "clang-tidy-${LLVM_VERSION}"
-      - name: Install lint dependencies
-        run: sudo apt-get install -yq clang-tools clazy
-      - name: Build iwyu from source
-        if: matrix.linter == 'iwyu'
-        run: ./scripts/ci/build-iwyu.sh
-      - name: Build cppcheck from source
-        if: matrix.linter == 'cppcheck'
-        run: |
-          sudo apt-get install -yq libpcre3-dev
-          ./scripts/ci/build-cppcheck.sh
       - name: Configure
         run: |
           cmake -B build -G Ninja \
@@ -150,6 +130,14 @@ jobs:
   native_build:
     name: Native Build (${{ matrix.compiler }})
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/f-koehler/ktailctl-ci:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: read
+      packages: read
     strategy:
       fail-fast: false
       matrix:
@@ -170,23 +158,15 @@ jobs:
       CXX: ${{ matrix.cxx }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: Set up Go
-        uses: actions/setup-go@v7
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7
         with:
           go-version-file: src/tailscale/wrapper/go.mod
           cache-dependency-path: src/tailscale/wrapper/go.sum
       - name: Vendor Go dependencies
         run: go mod vendor
         working-directory: src/tailscale/wrapper
-      - name: Add Kitware repository
-        run: ./scripts/ci/apt-add-kitware-repo.sh
-      - name: Add KDE Neon repository
-        run: ./scripts/ci/apt-add-kde-neon-repo.sh
-      - name: Update apt cache
-        run: sudo apt-get update -yq
-      - name: Install dependencies
-        run: sudo ./scripts/neon-deps.sh
       - name: Configure
         run: |
           cmake -B build -G Ninja \
@@ -211,9 +191,9 @@ jobs:
       contents: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: Setup go.
-        uses: actions/setup-go@v7
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7
         with:
           go-version-file: src/tailscale/wrapper/go.mod
           cache-dependency-path: src/tailscale/wrapper/go.sum

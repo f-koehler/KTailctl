@@ -24,15 +24,15 @@ jobs:
           - go
           - python
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: Add KDE Neon repository
         run: ./scripts/ci/apt-add-kde-neon-repo.sh
       - name: Update apt cache
         run: sudo apt-get update -yq
       - name: Install dependencies
         run: sudo ./scripts/neon-deps.sh
-      - uses: github/codeql-action/init@v4
+      - uses: github/codeql-action/init@5595ccaf912efad79be6eef63a5619ff05969be3 # v4
         with:
           languages: ${{ matrix.language }}
-      - uses: github/codeql-action/autobuild@v4
-      - uses: github/codeql-action/analyze@v4
+      - uses: github/codeql-action/autobuild@5595ccaf912efad79be6eef63a5619ff05969be3 # v4
+      - uses: github/codeql-action/analyze@5595ccaf912efad79be6eef63a5619ff05969be3 # v4

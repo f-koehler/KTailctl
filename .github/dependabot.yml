@@ -5,6 +5,10 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "docker"
+    directory: "/.github/ci-image"
+    schedule:
+      interval: "weekly"
   - package-ecosystem: pre-commit
     directory: "/"
     schedule:

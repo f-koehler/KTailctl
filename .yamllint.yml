@@ -2,3 +2,5 @@
 extends: default
 rules:
   comments: disable
+  line-length:
+    max: 200
