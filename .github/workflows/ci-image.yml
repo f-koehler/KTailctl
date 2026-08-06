@@ -1,0 +1,59 @@
+---
+name: CI Image
+"on":
+  push:
+    branches:
+      - main
+    paths: &ci-image-paths
+      - .github/ci-image/Dockerfile
+      - .github/workflows/ci-image.yml
+      - scripts/neon-deps.sh
+      - scripts/ci/apt-add-kde-neon-repo.sh
+      - scripts/ci/apt-add-kitware-repo.sh
+      - scripts/ci/apt-add-llvm-repo.sh
+      - scripts/ci/build-cppcheck.sh
+      - scripts/ci/build-iwyu.sh
+  # So a PR that touches the image can publish and use it (via the same
+  # :latest tag) before it's merged -- ci.yml's jobs would otherwise have
+  # no image to pull. Same-repo PRs only: forked PRs get a read-only
+  # GITHUB_TOKEN and the GHCR push would just fail.
+  pull_request:
+    branches:
+      - main
+    paths: *ci-image-paths
+  schedule:
+    # Weekly, so the image picks up upstream package/security updates even
+    # when nothing in this repo changes.
+    - cron: "17 3 * * 1"
+  workflow_dispatch: {}
+jobs:
+  build:
+    name: Build & publish CI image
+    runs-on: ubuntu-latest
+    if: >-
+      github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Log in to GHCR
+        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+      - name: Build and push
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
+        with:
+          context: .
+          file: .github/ci-image/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/f-koehler/ktailctl-ci:latest
+            ghcr.io/f-koehler/ktailctl-ci:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
