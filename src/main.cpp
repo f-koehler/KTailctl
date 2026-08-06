@@ -2,7 +2,7 @@
 #include <KConfigGroup>
 #include <KDBusService>
 #include <KIconTheme>
-#include <KLocalizedContext>
+#include <KLocalizedQmlContext>
 #include <KLocalizedString>
 #include <KSharedConfig>
 #include <KWindowSystem>
@@ -17,7 +17,6 @@
 #include <QList>
 #include <QObject>
 #include <QQmlApplicationEngine>
-#include <QQmlContext>
 #include <QQmlEngine>
 #include <QQuickWindow>
 #include <QString>
@@ -101,7 +100,7 @@ auto main(int argc, char *argv[]) -> int
         return engine->toScriptValue(KAboutData::applicationData());
     });
 
-    engine->rootContext()->setContextObject(new KLocalizedContext(engine.get()));
+    KLocalization::setupLocalizedContext(engine.get());
     engine->loadFromModule("org.fkoehler.KTailctl", "Main");
     if (engine->rootObjects().isEmpty()) {
         return -1;
