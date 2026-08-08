@@ -67,10 +67,3 @@ RUN ./scripts/ci/apt-add-kitware-repo.sh \
 # actions/checkout leaves the workspace owned by a different uid than the
 # container runs as; git otherwise refuses to touch it ("dubious ownership").
 RUN git config --system --add safe.directory '*'
-
-# Nothing at container-runtime needs root -- all package installs above run
-# at image-build time -- so run as a non-root user by default. The ubuntu:*
-# base image already ships a passwordless "ubuntu" user (uid/gid 1000) for
-# exactly this purpose.
-USER ubuntu
-WORKDIR /home/ubuntu
