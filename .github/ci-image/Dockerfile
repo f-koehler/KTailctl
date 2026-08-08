@@ -68,9 +68,14 @@ RUN ./scripts/ci/apt-add-kitware-repo.sh \
 # container runs as; git otherwise refuses to touch it ("dubious ownership").
 RUN git config --system --add safe.directory '*'
 
-# Nothing at container-runtime needs root -- all package installs above run
-# at image-build time -- so run as a non-root user by default. The ubuntu:*
-# base image already ships a passwordless "ubuntu" user (uid/gid 1000) for
-# exactly this purpose.
-USER ubuntu
-WORKDIR /home/ubuntu
+# CodeQL flags this image running as root by default. Tried switching to
+# the ubuntu:* base's built-in non-root "ubuntu" user (uid/gid 1000), but
+# GitHub Actions' own runner-internal tooling breaks under it: job
+# containers get /__w/_temp/_runner_file_commands bind-mounted with
+# permissions that only work for the user the runner itself expects
+# (effectively root), and actions/checkout fails with EACCES writing its
+# save-state file there before a single workflow step even runs. That's
+# GitHub Actions' own container plumbing, not something fixable from in
+# here. Staying root is intentional: this image is only ever pulled by
+# ephemeral, GitHub-hosted runners to build/lint this repo's own trusted
+# source, never exposed to untrusted input at container-runtime.
