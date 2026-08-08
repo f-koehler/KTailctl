@@ -2,7 +2,7 @@
 #include <KConfigGroup>
 #include <KDBusService>
 #include <KIconTheme>
-#include <KLocalizedContext>
+#include <KLocalizedQmlContext>
 #include <KLocalizedString>
 #include <KSharedConfig>
 #include <KWindowSystem>
@@ -17,7 +17,6 @@
 #include <QList>
 #include <QObject>
 #include <QQmlApplicationEngine>
-#include <QQmlContext>
 #include <QQmlEngine>
 #include <QQuickWindow>
 #include <QString>
@@ -38,6 +37,25 @@
 #include "util.hpp"
 #include "version-ktailctl.h"
 
+namespace
+{
+// Debug-level messages are suppressed by default (see DEFAULT_SEVERITY in the
+// ecm_qt_declare_logging_category() calls). This turns them on for our own
+// categories when the user enables verbose logging in the settings, without
+// clobbering any rules the user already set via QT_LOGGING_RULES.
+void applyLoggingRules()
+{
+    QString rules = qEnvironmentVariable("QT_LOGGING_RULES");
+    if (Config::verboseLogging()) {
+        if (!rules.isEmpty()) {
+            rules += QStringLiteral("\n");
+        }
+        rules += QStringLiteral("org.fkoehler.KTailctl*.debug=true");
+    }
+    QLoggingCategory::setFilterRules(rules);
+}
+}
+
 auto main(int argc, char *argv[]) -> int
 {
     const QApplication app(argc, argv);
@@ -48,6 +66,10 @@ auto main(int argc, char *argv[]) -> int
     QCoreApplication::setOrganizationDomain(QStringLiteral("fkoehler.org"));
     QCoreApplication::setApplicationName(QStringLiteral("KTailctl"));
     QCoreApplication::setOrganizationName(QStringLiteral("fkoehler.org"));
+
+    auto *config = Config::self();
+    applyLoggingRules();
+    QObject::connect(config, &Config::verboseLoggingChanged, &app, &applyLoggingRules);
 
     if (QFileInfo::exists(QStringLiteral("/.flatpak-info"))) {
         // custom icon themes are not visible in the flatpak sandbox by default, fallback to breeze/breeze-dark which ships with the runtime
@@ -94,14 +116,13 @@ auto main(int argc, char *argv[]) -> int
 
     auto engine = std::make_unique<QQmlApplicationEngine>();
     static constexpr int qmlMajorVersion = 254;
-    auto *config = Config::self();
     qmlRegisterSingletonInstance("org.fkoehler.KTailctl", qmlMajorVersion, 0, "Config", config);
     new ConfigAutoSave(config, config); // cleaned up throug QObject ownership model
     qmlRegisterSingletonType("org.fkoehler.KTailctl", qmlMajorVersion, 0, "About", [](QQmlEngine *engine, QJSEngine *) -> QJSValue {
         return engine->toScriptValue(KAboutData::applicationData());
     });
 
-    engine->rootContext()->setContextObject(new KLocalizedContext(engine.get()));
+    KLocalization::setupLocalizedContext(engine.get());
     engine->loadFromModule("org.fkoehler.KTailctl", "Main");
     if (engine->rootObjects().isEmpty()) {
         return -1;

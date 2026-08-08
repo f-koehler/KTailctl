@@ -56,7 +56,7 @@ void Preferences::refresh()
     QJsonObject json_obj = json.object();
 
     updateFromJson(json_obj);
-    qCInfo(Logging::Tailscale::Preferences) << "Preferences refreshed";
+    qCDebug(Logging::Tailscale::Preferences) << "Preferences refreshed";
 }
 
 void Preferences::updateFromJson(QJsonObject &json)

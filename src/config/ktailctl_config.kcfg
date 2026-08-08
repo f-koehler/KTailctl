@@ -31,4 +31,10 @@
           <default></default>
       </entry>
   </group>
+  <group name="Debugging">
+      <entry name="verboseLogging" type="Bool">
+          <label>Enable verbose (debug) logging, useful for troubleshooting</label>
+          <default>false</default>
+      </entry>
+  </group>
 </kcfg>
