@@ -110,6 +110,20 @@ public:
         return row;
     }
 
+    // Call after mutating an item that is already in the model (e.g. updating
+    // a peer's fields from a fresh status snapshot) so that views bound to its
+    // roles pick up the change. Mutating a QObject's properties in place does
+    // not by itself emit dataChanged() for this model.
+    void notifyItemChanged(Type *item)
+    {
+        const int row = indexOf(item);
+        if (row < 0) {
+            return;
+        }
+        const QModelIndex modelIndex = index(row, 0);
+        Q_EMIT dataChanged(modelIndex, modelIndex);
+    }
+
     auto removeItem(int row) -> bool
     {
         if (row < 0 || row >= mItems.size()) {
