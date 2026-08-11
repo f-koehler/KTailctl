@@ -194,6 +194,8 @@ void Status::updateFromJson(QJsonObject &json) // NOLINT(readability-function-co
             pos.value()->updateFromJson(obj);
             if (isNew) [[unlikely]] {
                 mPeerModel->addItem(pos.value());
+            } else {
+                mPeerModel->notifyItemChanged(pos.value());
             }
             peersToRemove.remove(peerId);
         }

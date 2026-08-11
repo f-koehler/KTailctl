@@ -219,6 +219,41 @@ private Q_SLOTS:
         QCOMPARE(model.rowCount({}), 0);
     }
 
+    static void notifyItemChangedEmitsDataChangedForItsRow()
+    {
+        OwningModel model;
+        auto *item1 = new SimpleItem(QStringLiteral("a"), 1);
+        auto *item2 = new SimpleItem(QStringLiteral("b"), 2);
+        model.addItem(item1);
+        model.addItem(item2);
+
+        QSignalSpy spy(&model, &OwningModel::dataChanged);
+
+        item2->bindableValue().setValue(42);
+        model.notifyItemChanged(item2);
+
+        QCOMPARE(spy.count(), 1);
+        const QList<QVariant> signalArgs = spy.takeFirst();
+        QCOMPARE(signalArgs.at(0).toModelIndex(), model.index(1, 0));
+        QCOMPARE(signalArgs.at(1).toModelIndex(), model.index(1, 0));
+
+        const QHash<int, QByteArray> roles = model.roleNames();
+        const int valueRole = roles.key(QByteArrayLiteral("value"));
+        QCOMPARE(model.data(model.index(1, 0), valueRole).toInt(), 42);
+    }
+
+    static void notifyItemChangedForUnknownItemIsNoOp()
+    {
+        OwningModel model;
+        model.addItem(new SimpleItem(QStringLiteral("a"), 1));
+
+        QSignalSpy spy(&model, &OwningModel::dataChanged);
+        SimpleItem foreignItem(QStringLiteral("foreign"), 0);
+        model.notifyItemChanged(&foreignItem);
+
+        QCOMPARE(spy.count(), 0);
+    }
+
     static void modelPassesAbstractItemModelTester()
     {
         OwningModel model;

@@ -106,13 +106,18 @@ void Tailscale::refreshLoginProfiles()
             auto pos = mLoginProfiles.find(profileId);
 
             // create missing login profiles
-            if (pos == mLoginProfiles.end()) [[unlikely]] {
+            const bool isNew = pos == mLoginProfiles.end();
+            if (isNew) [[unlikely]] {
                 pos = mLoginProfiles.insert(profileId, new LoginProfile(this));
-                mLoginProfileModel->addItem(pos.value());
             }
 
             // update login profile
             pos.value()->updateFromJson(obj);
+            if (isNew) [[unlikely]] {
+                mLoginProfileModel->addItem(pos.value());
+            } else {
+                mLoginProfileModel->notifyItemChanged(pos.value());
+            }
             loginProfilesToRemove.remove(profileId);
         }
 
