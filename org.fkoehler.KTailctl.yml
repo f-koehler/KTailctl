@@ -3,8 +3,6 @@ app-id: org.fkoehler.KTailctl
 runtime: org.kde.Platform
 runtime-version: "6.10"
 sdk: org.kde.Sdk
-sdk-extensions:
-  - org.freedesktop.Sdk.Extension.golang
 command: ktailctl
 finish-args:
   - --socket=fallback-x11
@@ -16,13 +14,34 @@ finish-args:
   - --filesystem=/run/tailscale:ro
   - --filesystem=/sys/class/net:ro
 build-options:
-  prepend-path: /usr/lib/sdk/golang/bin
+  env:
+    GOTOOLCHAIN: local
+    GOPROXY: "off"
+cleanup:
+  - /tools
 modules:
+  - name: go-toolchain
+    buildsystem: simple
+    build-commands:
+      - mkdir -p /app/tools/go
+      - cp -r . /app/tools/go
+    sources:
+      - type: archive
+        only-arches:
+          - x86_64
+        url: https://go.dev/dl/go1.26.5.linux-amd64.tar.gz
+        sha256: 5c2c3b16caefa1d968a94c1daca04a7ca301a496d9b086e17ad77bb81393f053
+      - type: archive
+        only-arches:
+          - aarch64
+        url: https://go.dev/dl/go1.26.5.linux-arm64.tar.gz
+        sha256: fe4789e92b1f33358680864bbe8704289e7bb5fc207d80623c308935bd696d49
   - name: ktailctl
     buildsystem: cmake-ninja
     config-opts:
       - "-DKTAILCTL_FLATPAK_BUILD=ON"
       - "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+      - "-DGO_EXECUTABLE=/app/tools/go/bin/go"
     sources:
       - type: dir
         path: .
