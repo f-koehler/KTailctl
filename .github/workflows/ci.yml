@@ -24,22 +24,24 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - name: Set up Go
-        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7
-        with:
-          go-version-file: src/tailscale/wrapper/go.mod
-          cache-dependency-path: src/tailscale/wrapper/go.sum
       - name: Set up uv
         uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
-      - name: Vendor Go dependencies
-        run: go mod vendor
-        working-directory: src/tailscale/wrapper
       - name: Configure
+        shell: bash
         run: |
+          set -o pipefail
           cmake -B build -G Ninja \
             -DCMAKE_BUILD_TYPE=Debug \
             -DKTAILCTL_ENABLE_TESTS=OFF \
-            -DKTAILCTL_FLATPAK_BUILD=OFF
+            -DKTAILCTL_FLATPAK_BUILD=OFF \
+            -DKTAILCTL_FETCH_GO=ON \
+            | tee cmake-configure.log
+      - name: Add fetched Go toolchain to PATH
+        shell: bash
+        run: |
+          set -o pipefail
+          go_bin=$(grep -m1 '^-- Go executable:' cmake-configure.log | sed 's/^-- Go executable: //')
+          dirname "${go_bin}" >> "${GITHUB_PATH}"
       - name: Build
         run: cmake --build build --parallel
       - name: Run git hooks
@@ -109,20 +111,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - name: Set up Go
-        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7
-        with:
-          go-version-file: src/tailscale/wrapper/go.mod
-          cache-dependency-path: src/tailscale/wrapper/go.sum
-      - name: Vendor Go dependencies
-        run: go mod vendor
-        working-directory: src/tailscale/wrapper
       - name: Configure
         run: |
           cmake -B build -G Ninja \
             -DCMAKE_BUILD_TYPE=Debug \
             -DKTAILCTL_ENABLE_TESTS=OFF \
-            -DKTAILCTL_FLATPAK_BUILD=OFF
+            -DKTAILCTL_FLATPAK_BUILD=OFF \
+            -DKTAILCTL_FETCH_GO=ON
       - name: Build
         run: cmake --build build --parallel
       - name: Run ${{ matrix.linter }}
@@ -159,20 +154,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - name: Set up Go
-        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7
-        with:
-          go-version-file: src/tailscale/wrapper/go.mod
-          cache-dependency-path: src/tailscale/wrapper/go.sum
-      - name: Vendor Go dependencies
-        run: go mod vendor
-        working-directory: src/tailscale/wrapper
       - name: Configure
         run: |
           cmake -B build -G Ninja \
             -DCMAKE_BUILD_TYPE=Debug \
             -DKTAILCTL_ENABLE_TESTS=ON \
             -DKTAILCTL_FLATPAK_BUILD=OFF \
+            -DKTAILCTL_FETCH_GO=ON \
             ${{ matrix.cmake_flags }}
       - name: Build
         run: cmake --build build --parallel
