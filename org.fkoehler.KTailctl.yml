@@ -31,11 +31,21 @@ modules:
           - x86_64
         url: https://go.dev/dl/go1.26.5.linux-amd64.tar.gz
         sha256: 5c2c3b16caefa1d968a94c1daca04a7ca301a496d9b086e17ad77bb81393f053
+        x-checker-data:
+          type: json
+          url: https://go.dev/dl/?mode=json
+          version-query: .[0].version
+          url-query: '"https://go.dev/dl/" + (.[0].files[] | select(.os=="linux" and .arch=="amd64" and .kind=="archive") | .filename)'
       - type: archive
         only-arches:
           - aarch64
         url: https://go.dev/dl/go1.26.5.linux-arm64.tar.gz
         sha256: fe4789e92b1f33358680864bbe8704289e7bb5fc207d80623c308935bd696d49
+        x-checker-data:
+          type: json
+          url: https://go.dev/dl/?mode=json
+          version-query: .[0].version
+          url-query: '"https://go.dev/dl/" + (.[0].files[] | select(.os=="linux" and .arch=="arm64" and .kind=="archive") | .filename)'
   - name: ktailctl
     buildsystem: cmake-ninja
     config-opts:
