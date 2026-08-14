@@ -56,37 +56,37 @@ repos:
       - id: golangci-lint
         name: golangci-lint
         language: golang
-        language_version: 1.26.5
+        language_version: 1.27.0
         entry: bash -c
         args: ["cd src/tailscale/wrapper && golangci-lint run --fix"]
         pass_filenames: false
         files: ^src/tailscale/wrapper/
         additional_dependencies:
-          - "github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.12.2"
+          - "github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.13.1"
       - id: golangci-lint-fmt
         name: golangci-lint fmt
         language: golang
-        language_version: 1.26.5
+        language_version: 1.27.0
         entry: bash -c
         args: ["cd src/tailscale/wrapper && golangci-lint fmt"]
         pass_filenames: false
         files: ^src/tailscale/wrapper/
         additional_dependencies:
-          - "github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.12.2"
+          - "github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.13.1"
       - id: govulncheck
         name: govulncheck
         language: golang
-        language_version: 1.26.5
+        language_version: 1.27.0
         entry: bash -c
         args: ["cd src/tailscale/wrapper && govulncheck ./..."]
         pass_filenames: false
         files: ^src/tailscale/wrapper/
         additional_dependencies:
-          - "golang.org/x/vuln/cmd/govulncheck@v1.6.0"
+          - "golang.org/x/vuln/cmd/govulncheck@v1.7.0"
       - id: shfmt
         name: shfmt
         language: golang
-        language_version: 1.26.5
+        language_version: 1.27.0
         entry: shfmt
         args: [-w]
         types: [shell]
