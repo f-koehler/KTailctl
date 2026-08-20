@@ -1,7 +1,7 @@
 ---
 app-id: org.fkoehler.KTailctl
 runtime: org.kde.Platform
-runtime-version: "6.11"
+runtime-version: '6.11'
 sdk: org.kde.Sdk
 command: ktailctl
 finish-args:
@@ -16,7 +16,7 @@ finish-args:
 build-options:
   env:
     GOTOOLCHAIN: local
-    GOPROXY: "off"
+    GOPROXY: off
 cleanup:
   - /tools
 modules:
@@ -29,29 +29,31 @@ modules:
       - type: archive
         only-arches:
           - x86_64
-        url: https://go.dev/dl/go1.26.6.linux-amd64.tar.gz
-        sha256: 708effb774be8237570d0add163225abbdfaf4fca28b2611df167beba4feef89
+        url: https://go.dev/dl/go1.27.0.linux-amd64.tar.gz
+        sha256: 675c26c449cbb18fc24b74650de1eabbae6e16f64326fd85a283fb3b58280685
         x-checker-data:
           type: json
           url: https://go.dev/dl/?mode=json
           version-query: .[0].version
-          url-query: '"https://go.dev/dl/" + (.[0].files[] | select(.os=="linux" and .arch=="amd64" and .kind=="archive") | .filename)'
+          url-query: '"https://go.dev/dl/" + (.[0].files[] | select(.os=="linux" and
+            .arch=="amd64" and .kind=="archive") | .filename)'
       - type: archive
         only-arches:
           - aarch64
-        url: https://go.dev/dl/go1.26.6.linux-arm64.tar.gz
-        sha256: d0507e9e9d7fe012aae570108cbd76c15de879e17130ab8cb90d4d7445cb1f2e
+        url: https://go.dev/dl/go1.27.0.linux-arm64.tar.gz
+        sha256: 51798d2c42d0e1c6ed7fd9f48728b4193abac9e8aad6dbac2fe96a81f5909bda
         x-checker-data:
           type: json
           url: https://go.dev/dl/?mode=json
           version-query: .[0].version
-          url-query: '"https://go.dev/dl/" + (.[0].files[] | select(.os=="linux" and .arch=="arm64" and .kind=="archive") | .filename)'
+          url-query: '"https://go.dev/dl/" + (.[0].files[] | select(.os=="linux" and
+            .arch=="arm64" and .kind=="archive") | .filename)'
   - name: ktailctl
     buildsystem: cmake-ninja
     config-opts:
-      - "-DKTAILCTL_FLATPAK_BUILD=ON"
-      - "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
-      - "-DGO_EXECUTABLE=/app/tools/go/bin/go"
+      - -DKTAILCTL_FLATPAK_BUILD=ON
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DGO_EXECUTABLE=/app/tools/go/bin/go
     sources:
       - type: dir
         path: .
