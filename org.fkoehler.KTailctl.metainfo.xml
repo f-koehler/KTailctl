@@ -50,6 +50,25 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.22.2" date="2026-08-21" urgency="medium">
+      <description>
+        <p>A patch release with a couple of fixes and a new logging option.</p>
+        <p>Fixes:</p>
+        <ul>
+          <li>Fix peers and login profiles not refreshing in the UI when their details change</li>
+          <li>Make logging verbosity configurable via a new "Verbose logging" toggle in Settings, useful for troubleshooting and bug reports</li>
+        </ul>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.22.2</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.22.2.tar.gz</location>
+        </artifact>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.22.2/ktailctl-wrapper-vendor-v0.22.2.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.22.1" date="2026-06-29" urgency="medium">
       <description>
         <p>A patch release fixing several issues introduced in v0.22.0.</p>
