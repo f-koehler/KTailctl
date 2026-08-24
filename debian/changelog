@@ -1,0 +1,5 @@
+ktailctl (0.22.0-1) unstable; urgency=medium
+
+  * Initial Debian package release.
+
+ -- Fame <fame@famelinuxpc>  Wed, 30 Jul 2026 00:00:00 +0000
