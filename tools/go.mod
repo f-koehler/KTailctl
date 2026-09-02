@@ -5,7 +5,7 @@ go 1.27.0
 require (
 	github.com/golangci/golangci-lint/v2 v2.13.1
 	golang.org/x/vuln v1.7.0
-	mvdan.cc/sh/v3 v3.13.1
+	mvdan.cc/sh/v3 v3.14.0
 )
 
 require (
