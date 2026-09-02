@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
   SPDX-License-Identifier: FSFAP
   SPDX-FileCopyrightText: 2023 Fabian Köhler <me@fkoehler.org>
@@ -12,7 +12,7 @@
   <developer id="org.fkoehler">
     <name>Fabian Koehler</name>
   </developer>
-  <content_rating type="oars-1.0" />
+  <content_rating type="oars-1.0"/>
   <launchable type="desktop-id">org.fkoehler.KTailctl.desktop</launchable>
   <url type="homepage">https://github.com/f-koehler/KTailctl</url>
   <url type="bugtracker">https://github.com/f-koehler/KTailctl/issues</url>
@@ -50,6 +50,9 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="go1.27.1" date="2026-09-01">
+      <description></description>
+    </release>
     <release version="0.22.2" date="2026-08-21" urgency="medium">
       <description>
         <p>A patch release with a couple of fixes and a new logging option.</p>
