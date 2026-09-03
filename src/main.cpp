@@ -5,6 +5,7 @@
 #include <KLocalizedQmlContext>
 #include <KLocalizedString>
 #include <KSharedConfig>
+#include <KStartupInfo>
 #include <KWindowSystem>
 #include <QApplication>
 #include <QByteArray>
@@ -134,6 +135,7 @@ auto main(int argc, char *argv[]) -> int
     if (window != nullptr) {
         if (Config::startMinimized()) {
             window->hide();
+            KStartupInfo::appStarted();
         } else {
             window->show();
         }
