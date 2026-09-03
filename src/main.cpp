@@ -18,6 +18,7 @@
 #include <QObject>
 #include <QQmlApplicationEngine>
 #include <QQmlEngine>
+#include <QQuickStyle>
 #include <QQuickWindow>
 #include <QString>
 #include <QStringLiteral>
@@ -25,8 +26,14 @@
 #include <QSystemTrayIcon>
 #include <Qt>
 #include <memory>
+#include <optional>
 #include <qlogging.h>
 #include <qloggingcategory.h>
+// Q_OS_MACOS is defined transitively by the Qt headers above; BreezeIcons must come after them.
+#ifdef Q_OS_MACOS
+#include <BreezeIcons>
+#include <KColorSchemeManager>
+#endif
 
 #include "config/config_auto_save.hpp"
 #include "ktailctl_config.h"
@@ -58,6 +65,15 @@ void applyLoggingRules()
 
 auto main(int argc, char *argv[]) -> int
 {
+#ifdef Q_OS_MACOS
+    // Without a desktop shell to supply one, Qt Quick Controls falls back to its native "macOS"
+    // style, which doesn't support the pixel-level customization Kirigami/FormCard controls rely
+    // on (see the "current style does not support customization" QML warnings) and reports very
+    // different implicit control sizes than the desktop style KTailctl is designed around (e.g.
+    // an oversized collapsed sidebar). org.kde.desktop (qqc2-desktop-style) fixes both. Must be
+    // set before QGuiApplication/QApplication is constructed.
+    QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
+#endif
     const QApplication app(argc, argv);
 
     QApplication::setWindowIcon(QIcon(QStringLiteral(":/icons/logo.svg")));
@@ -71,11 +87,34 @@ auto main(int argc, char *argv[]) -> int
     applyLoggingRules();
     QObject::connect(config, &Config::verboseLoggingChanged, &app, &applyLoggingRules);
 
-    if (QFileInfo::exists(QStringLiteral("/.flatpak-info"))) {
-        // custom icon themes are not visible in the flatpak sandbox by default, fallback to breeze/breeze-dark which ships with the runtime
+#ifdef Q_OS_MACOS
+    // macOS has no desktop icon theme mechanism at all (Craft's breeze-icons build for macOS
+    // skips installing a real theme directory, matching how apps are meant to consume it there:
+    // QIcon::fromTheme() would otherwise only resolve the handful of names Qt's Cocoa platform
+    // theme happens to map to native symbols). BreezeIcons::initIcons() unpacks the icons the
+    // library carries into the :/icons resource root and registers that as QIcon's fallback
+    // theme. Also making it the *current* theme name (rather than leaving it fallback-only) is
+    // what gets KIconLoader-based lookups (used by qqc2-desktop-style controls, not just plain
+    // QIcon::fromTheme()) to resolve against it too.
+    BreezeIcons::initIcons();
+    QIcon::setThemeName(QIcon::fallbackThemeName());
+
+    // Without a real kdeglobals set up by System Settings, KColorScheme has no color scheme to
+    // read and falls back to hardcoded (light) defaults regardless of the actual system
+    // appearance -- which is how widgets like search/text fields end up with a dark background
+    // (correctly picked up from the native macOS palette) but near-black default text (from
+    // KColorScheme's light-scheme fallback). Instantiating KColorSchemeManager makes it follow
+    // and apply the system light/dark scheme instead.
+    KColorSchemeManager::instance();
+#endif
+
+    // Custom/system icon themes aren't discoverable in the Flatpak sandbox either; force breeze/
+    // breeze-dark by name there so KIconThemes falls back to the bundled KF6::BreezeIcons library.
+    const bool forceIconTheme = QFileInfo::exists(QStringLiteral("/.flatpak-info"));
+    if (forceIconTheme) {
         const bool darkColorScheme = QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark;
         const QString theme = darkColorScheme ? QStringLiteral("breeze-dark") : QStringLiteral("breeze");
-        qCInfo(Logging::TailscaleMain) << "Flatpak detected, forcing icon theme:" << theme;
+        qCInfo(Logging::TailscaleMain) << "Forcing icon theme:" << theme;
         KConfigGroup(KSharedConfig::openConfig(QString(), KConfig::NoGlobals), QStringLiteral("Icons")).writeEntry("Theme", theme);
         KIconTheme::reconfigure();
         QIcon::setThemeName(theme);
@@ -98,8 +137,14 @@ auto main(int argc, char *argv[]) -> int
                         QStringLiteral("https://fkoehler.org"));
     aboutData.setProgramLogo(QIcon(QStringLiteral(":/icons/logo.svg")));
     KAboutData::setApplicationData(aboutData);
-    const KDBusService service(KDBusService::Unique);
-    qCInfo(Logging::TailscaleMain) << "KDBusService name:" << service.serviceName();
+    // KDBusService needs a running D-Bus session bus. Linux desktops always have one, but macOS
+    // does not ship one by default, and QDBusConnection::sessionBus() blocks indefinitely trying
+    // to reach it, so single-instance activation is skipped there for now (see KTAILCTL-macOS).
+    std::optional<KDBusService> service;
+#ifndef Q_OS_MACOS
+    service.emplace(KDBusService::Unique);
+    qCInfo(Logging::TailscaleMain) << "KDBusService name:" << service->serviceName();
+#endif
 
     auto *tailscale = new Tailscale();
     Tailscale::setQmlInstance(tailscale);
@@ -167,15 +212,17 @@ auto main(int argc, char *argv[]) -> int
     QObject::connect(tray_icon, &TrayIcon::quitRequested, &app, &QCoreApplication::quit, Qt::QueuedConnection);
 
     // re-launching the unique instance should reveal and focus the window
-    QObject::connect(&service, &KDBusService::activateRequested, window, [window](const QStringList &, const QString &) {
-        if (window == nullptr) {
-            return;
-        }
-        window->show();
-        KWindowSystem::updateStartupId(window);
-        window->raise();
-        KWindowSystem::activateWindow(window);
-    });
+    if (service) {
+        QObject::connect(&service.value(), &KDBusService::activateRequested, window, [window](const QStringList &, const QString &) {
+            if (window == nullptr) {
+                return;
+            }
+            window->show();
+            KWindowSystem::updateStartupId(window);
+            window->raise();
+            KWindowSystem::activateWindow(window);
+        });
+    }
 
     QObject::connect(&app, &QCoreApplication::aboutToQuit, &app, [&engine]() {
         engine.reset();

@@ -13,6 +13,7 @@ _build/
 .DS_Store
 .cache/
 result
+build-macos/
 # Devenv
 .devenv*
 devenv.local.nix

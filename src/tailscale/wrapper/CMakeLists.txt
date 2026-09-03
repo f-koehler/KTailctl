@@ -148,6 +148,11 @@ set_target_properties(ktailctl_wrapper PROPERTIES INTERFACE_INCLUDE_DIRECTORIES 
 set_target_properties(ktailctl_wrapper PROPERTIES INTERFACE_LINK_DIRECTORIES ${CMAKE_BINARY_DIR}/lib)
 set_target_properties(ktailctl_wrapper PROPERTIES INTERFACE_LINK_LIBRARIES_DIRECT ktailctl_wrapper_logging)
 add_dependencies(ktailctl_wrapper ktailctl_wrapper_target)
+if(APPLE)
+  # The vendored tailscale.com Go archive uses crypto/x509 with the darwin
+  # cgo resolver, which needs the system certificate/keychain APIs.
+  target_link_libraries(ktailctl_wrapper INTERFACE "-framework Security")
+endif()
 add_library(KTailctl::Wrapper ALIAS ktailctl_wrapper)
 add_library(KTailctl::WrapperLogging ALIAS ktailctl_wrapper_logging)
 

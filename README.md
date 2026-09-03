@@ -132,6 +132,32 @@ This sets up the Flathub remote, installs the KDE SDK/Platform (6.10), the Go SD
 flatpak run org.flatpak.Builder --user --install --force-clean build-dir org.fkoehler.KTailctl.yml
 ```
 
+### macOS (experimental, via KDE Craft)
+
+KTailctl also builds on macOS using [KDE Craft](https://community.kde.org/Craft), which provides Qt 6 and KDE Frameworks 6 outside of Linux. This is community-supported and not yet packaged for distribution.
+
+1. Bootstrap Craft (only needed once):
+
+   ```shell
+   curl https://raw.githubusercontent.com/KDE/craft/master/setup/CraftBootstrap.py -o setup.py
+   python3 setup.py --prefix ~/CraftRoot
+   ```
+
+2. Install [Go](https://go.dev) 1.26+ (e.g. `brew install go`), then source Craft's environment and run the build script:
+
+   ```shell
+   source ~/CraftRoot/craft/craftenv.sh
+   ./scripts/build-macos.sh
+   ```
+
+   This installs the Kirigami/KF6 Craft packages KTailctl needs (mostly served from Craft's binary cache) and builds into `build-macos/`. Pass `--clean` to rebuild from scratch, or `--help` for more options.
+
+3. Run:
+
+   ```shell
+   ./build-macos/bin/ktailctl.app/Contents/MacOS/ktailctl
+   ```
+
 ## License
 
 KTailctl is licensed under the [GPL-3.0](LICENSE).
