@@ -56,27 +56,27 @@ repos:
       - id: golangci-lint
         name: golangci-lint
         language: golang
-        language_version: 1.27.0
+        language_version: 1.27.1
         entry: bash -c
         args: ["cd src/tailscale/wrapper && golangci-lint run --fix"]
         pass_filenames: false
         files: ^src/tailscale/wrapper/
         additional_dependencies:
-          - "github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.13.1"
+          - "github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.13.2"
       - id: golangci-lint-fmt
         name: golangci-lint fmt
         language: golang
-        language_version: 1.27.0
+        language_version: 1.27.1
         entry: bash -c
         args: ["cd src/tailscale/wrapper && golangci-lint fmt"]
         pass_filenames: false
         files: ^src/tailscale/wrapper/
         additional_dependencies:
-          - "github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.13.1"
+          - "github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.13.2"
       - id: govulncheck
         name: govulncheck
         language: golang
-        language_version: 1.27.0
+        language_version: 1.27.1
         entry: bash -c
         args: ["cd src/tailscale/wrapper && govulncheck ./..."]
         pass_filenames: false
@@ -86,12 +86,12 @@ repos:
       - id: shfmt
         name: shfmt
         language: golang
-        language_version: 1.27.0
+        language_version: 1.27.1
         entry: shfmt
         args: [-w]
         types: [shell]
         additional_dependencies:
-          - "mvdan.cc/sh/v3/cmd/shfmt@v3.13.1"
+          - "mvdan.cc/sh/v3/cmd/shfmt@v3.14.0"
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.16.3
     hooks:
