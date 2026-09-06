@@ -28,8 +28,8 @@ modules:
       - type: archive
         only-arches:
           - x86_64
-        url: https://go.dev/dl/go1.27.0.linux-amd64.tar.gz
-        sha256: 675c26c449cbb18fc24b74650de1eabbae6e16f64326fd85a283fb3b58280685
+        url: https://go.dev/dl/go1.27.1.linux-amd64.tar.gz
+        sha256: 63d339f0da5ab53635a56f2490a7984dfe12dfcff22ad749f63edaf590168445
         x-checker-data:
           type: json
           url: https://go.dev/dl/?mode=json
@@ -38,8 +38,8 @@ modules:
       - type: archive
         only-arches:
           - aarch64
-        url: https://go.dev/dl/go1.27.0.linux-arm64.tar.gz
-        sha256: 51798d2c42d0e1c6ed7fd9f48728b4193abac9e8aad6dbac2fe96a81f5909bda
+        url: https://go.dev/dl/go1.27.1.linux-arm64.tar.gz
+        sha256: 3450b45a3f9ee8568792736a5c5e70a1f2e9b36c35a8f74958c03e51d7d92bec
         x-checker-data:
           type: json
           url: https://go.dev/dl/?mode=json
