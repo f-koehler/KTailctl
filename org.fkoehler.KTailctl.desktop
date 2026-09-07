@@ -8,4 +8,5 @@ Exec=ktailctl
 Icon=org.fkoehler.KTailctl
 Type=Application
 Terminal=false
+StartupNotify=false
 Categories=Qt;KDE;System;
