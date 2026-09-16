@@ -2,7 +2,7 @@ module tailscale_wrapper
 
 go 1.27.1
 
-require tailscale.com v1.102.3
+require tailscale.com v1.102.4
 
 require (
 	filippo.io/edwards25519 v1.2.0 // indirect
