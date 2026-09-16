@@ -91,7 +91,7 @@ repos:
         args: [-w]
         types: [shell]
         additional_dependencies:
-          - "mvdan.cc/sh/v3/cmd/shfmt@v3.14.0"
+          - "mvdan.cc/sh/v3/cmd/shfmt@v3.14.1"
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.16.6
     hooks:
