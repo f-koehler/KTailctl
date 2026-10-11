@@ -1,6 +1,6 @@
 module tailscale_wrapper
 
-go 1.27.1
+go 1.27.2
 
 require tailscale.com v1.102.3
 
