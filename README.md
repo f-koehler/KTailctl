@@ -135,3 +135,33 @@ flatpak run org.flatpak.Builder --user --install --force-clean build-dir org.fko
 ## License
 
 KTailctl is licensed under the [GPL-3.0](LICENSE).
+
+## Installation via Linux Packages
+
+Linux packages are built automatically via GitHub Actions for each release.
+
+### Debian / Ubuntu
+
+```bash
+sudo dpkg -i ktailctl_*.deb
+sudo apt-get install -f
+```
+
+### Fedora / RHEL / openSUSE
+
+```bash
+sudo rpm -i ktailctl-*.rpm
+```
+
+### AppImage (universal)
+
+```bash
+chmod +x ktailctl-x86_64.AppImage
+./ktailctl-x86_64.AppImage
+```
+
+### Arch / Manjaro
+
+```bash
+sudo pacman -U ktailctl-*.pkg.tar.zst
+```
