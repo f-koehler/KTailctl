@@ -96,6 +96,16 @@ This installs via `apt`: a C++ build toolchain (cmake, ninja, clang, ...), Qt 6 
 
 Go must be installed separately on KDE Neon (e.g. via `snap install go --classic`).
 
+#### Nix / NixOS
+
+A flake providing a development shell (toolchain, Qt, KDE Frameworks, Go, linters) is included:
+
+```shell
+nix develop
+```
+
+Go modules are fetched by the `go` command; if `go.mod` requires a newer Go than your nixpkgs provides, the shell sets `GOTOOLCHAIN=auto` so the right toolchain is downloaded automatically.
+
 ### Compile
 
 1. Configure with CMake:
