@@ -78,6 +78,6 @@ Kirigami.ApplicationWindow {
         mainPagePool.loadPage("qrc:/ui/pages/ExitNodeList.qml");
         mainPagePool.loadPage("qrc:/ui/pages/Settings.qml");
         mainPagePool.loadPage("qrc:/ui/pages/About.qml");
-        pageStack.replace(mainPagePool.loadPage("qrc:/ui/pages/PeerList.qml"));
+        pageStack.push(mainPagePool.loadPage("qrc:/ui/pages/PeerList.qml"));
     }
 }
