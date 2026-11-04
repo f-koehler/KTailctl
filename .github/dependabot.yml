@@ -17,6 +17,10 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "nix"
+    directory: "/"
+    schedule:
+      interval: "weekly"
   - package-ecosystem: gomod
     directory: "src/tailscale/wrapper"
     schedule:
