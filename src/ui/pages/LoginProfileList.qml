@@ -7,7 +7,13 @@ import org.fkoehler.KTailctl as KTailctl
 import org.kde.kirigamiaddons.formcard as FormCard
 
 FormCard.FormCardPage {
+    id: page
+
     Layout.fillWidth: true
+
+    function closeDetail(): void {
+        applicationWindow().pageStack.pop(page);
+    }
 
     Component {
         id: pageLoginProfileInfo
@@ -49,9 +55,12 @@ FormCard.FormCardPage {
                             ToolTip.visible: hovered
                             icon.name: "info"
                             onClicked: {
-                                applicationWindow().pageStack.layers.push(pageLoginProfileInfo, {
+                                const stack = applicationWindow().pageStack;
+                                stack.pop(page);
+                                const detail = stack.push(pageLoginProfileInfo, {
                                     loginProfile: KTailctl.Tailscale.loginProfileWithId(id)
                                 });
+                                detail.closeRequested.connect(page.closeDetail);
                             }
                         }
                     }

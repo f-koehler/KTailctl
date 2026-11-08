@@ -6,7 +6,19 @@ import QtQuick.Controls
 import "qrc:/ui/components"
 
 FormCard.FormCardPage {
+    id: page
+
     property KTailctl.LoginProfile loginProfile: null
+
+    signal closeRequested
+
+    actions: [
+        Kirigami.Action {
+            icon.name: "dialog-close"
+            text: "Close"
+            onTriggered: page.closeRequested()
+        }
+    ]
 
     Component.onCompleted: {
         console.log("Login profile:", loginProfile);
