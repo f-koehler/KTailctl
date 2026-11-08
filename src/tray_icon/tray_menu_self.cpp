@@ -12,11 +12,17 @@
 void TrayMenuSelf::rebuildMenu()
 {
     clear();
-    const QString &dnsName = mTailscale->status()->self()->dnsName();
+    const PeerStatus *self = mTailscale->status()->self();
+    if (self == nullptr) {
+        // Not logged in / daemon not running: there is no self node
+        addAction(tr("Not connected"))->setEnabled(false);
+        return;
+    }
+    const QString dnsName = self->dnsName();
     addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), dnsName, this, [dnsName] -> void {
         Util::setClipboardText(dnsName);
     });
-    for (const QString &tailscaleIp : mTailscale->status()->self()->tailscaleIps()) {
+    for (const QString &tailscaleIp : self->tailscaleIps()) {
         addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), tailscaleIp, this, [tailscaleIp] -> void {
             Util::setClipboardText(tailscaleIp);
         });
