@@ -35,6 +35,7 @@
               kf.kwindowsystem
               kf.kirigami-addons
               kf.qqc2-desktop-style
+              kf.sonnet
             ];
           in
           pkgs.mkShell {
