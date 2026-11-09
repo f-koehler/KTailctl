@@ -19,6 +19,7 @@
             kf = pkgs.kdePackages;
             qtPath = sub: pkgs.lib.makeSearchPath "lib/qt-6/${sub}" qtDeps;
             qtDeps = [
+              kf.threadweaver
               kf.qtbase
               kf.qtdeclarative
               kf.qtsvg
