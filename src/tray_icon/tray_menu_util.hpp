@@ -26,7 +26,7 @@ auto makeRebuildTimer(QMenu *menu, Fn rebuild) -> QTimer *
 }
 
 /// Schedules `timer` whenever the contents of `model` change.
-inline void rebuildOnModelChange(QAbstractItemModel *model, QTimer *timer)
+inline void rebuildOnModelChange(const QAbstractItemModel *model, QTimer *timer)
 {
     const auto schedule = [timer] -> void {
         timer->start();
