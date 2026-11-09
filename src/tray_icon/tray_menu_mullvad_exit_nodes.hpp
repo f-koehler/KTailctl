@@ -15,6 +15,8 @@ class TrayMenuExitNodesMullvad : public QMenu
 
     Tailscale *mTailscale;
     bool mRoleIndicesFound = false;
+    QString mLastSignature;
+    bool mBuilt = false;
     const int mRoleIndexHostName = -1;
     const int mRoleIndexLocation = -1;
     const int mRoleIndexId = -1;

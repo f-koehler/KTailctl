@@ -16,6 +16,7 @@
 #include "logging_tray_icon.hpp"
 #include "status.hpp"
 #include "tailscale.hpp"
+#include "tray_icon/tray_menu_util.hpp"
 #include "util.hpp"
 
 TrayMenuPeers::TrayMenuPeers(Tailscale *tailscale, QWidget *parent)
@@ -49,15 +50,28 @@ TrayMenuPeers::TrayMenuPeers(Tailscale *tailscale, QWidget *parent)
         qCCritical(Logging::TrayIcon) << "Failed to find role index for os";
         mRoleIndicesFound = false;
     }
-    connect(this, &QMenu::aboutToShow, this, &TrayMenuPeers::rebuildMenu);
+    // Populate eagerly and rebuild only when the data changes (see TrayMenuUtil::makeRebuildTimer)
+    QTimer *timer = TrayMenuUtil::makeRebuildTimer(this, [this] -> void {
+        rebuildMenu();
+    });
+    TrayMenuUtil::rebuildOnModelChange(mTailscale->status()->peerModel(), timer);
+    rebuildMenu();
 }
 
 void TrayMenuPeers::rebuildMenu()
 {
-    clear();
     if (!mRoleIndicesFound) {
         return;
     }
+
+    struct Entry {
+        QString title;
+        QString os;
+        QString dnsName;
+        QStringList addresses;
+    };
+    QList<Entry> entries;
+    QString signature;
 
     const int rows = mTailscale->status()->peerModel()->rowCount(QModelIndex{});
     for (int row = 0; row < rows; ++row) {
@@ -68,23 +82,41 @@ void TrayMenuPeers::rebuildMenu()
         if (index.data(mRoleIndexMullvadNode).toBool()) {
             continue;
         }
-        const QString title = index.data(mRoleIndexHostName).toString();
-        QMenu *subMenu = addMenu(title);
+        Entry entry{.title = index.data(mRoleIndexHostName).toString(),
+                    .os = index.data(mRoleIndexOs).toString().toLower(),
+                    .dnsName = index.data(mRoleIndexDnsName).toString(),
+                    .addresses = index.data(mRoleIndexTailscaleIps).toStringList()};
+        signature += entry.title + QLatin1Char('\x1f') + entry.os + QLatin1Char('\x1f') + entry.dnsName + QLatin1Char('\x1f')
+            + entry.addresses.join(QLatin1Char(',')) + QLatin1Char('\x1e');
+        entries.append(std::move(entry));
+    }
 
-        const auto os = index.data(mRoleIndexOs).toString().toLower();
-        if ((os == QStringLiteral("android")) || (os == QStringLiteral("ios"))) {
+    if (mBuilt && signature == mLastSignature) {
+        return;
+    }
+    mBuilt = true;
+    mLastSignature = signature;
+
+    clear();
+    if (entries.isEmpty()) {
+        addAction(tr("No peers"))->setEnabled(false);
+        return;
+    }
+    for (const Entry &entry : std::as_const(entries)) {
+        QMenu *subMenu = addMenu(entry.title);
+
+        if ((entry.os == QStringLiteral("android")) || (entry.os == QStringLiteral("ios"))) {
             subMenu->setIcon(QIcon::fromTheme(QStringLiteral("smartphone")));
         } else {
             subMenu->setIcon(QIcon::fromTheme(QStringLiteral("computer")));
         }
 
-        const QString dnsName = index.data(mRoleIndexDnsName).toString();
+        // Populate the submenu completely *before* it is exported, so hosts see children and a stable structure
+        const QString dnsName = entry.dnsName;
         subMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), dnsName, this, [dnsName] -> void {
             Util::setClipboardText(dnsName);
         });
-
-        const QStringList addresses = index.data(mRoleIndexTailscaleIps).toStringList();
-        for (const auto &address : std::as_const(addresses)) {
+        for (const auto &address : std::as_const(entry.addresses)) {
             subMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-copy")), address, this, [address] -> void {
                 Util::setClipboardText(address);
             });
