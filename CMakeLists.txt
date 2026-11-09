@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.31)
 
 project(
   ktailctl
-  VERSION 0.22.3
+  VERSION 0.22.4
   LANGUAGES C CXX)
 
 option(KTAILCTL_FLATPAK_BUILD "Build for Flatpak" OFF)

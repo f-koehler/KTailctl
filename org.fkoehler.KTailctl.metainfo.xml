@@ -50,6 +50,29 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.22.4" date="2026-11-09" urgency="medium">
+      <description>
+        <p>A patch release improving tray menu compatibility and stability, plus internal
+          dependency and tooling updates.</p>
+        <p>Fixes:</p>
+        <ul>
+          <li>Fix tray menus and submenus not opening or closing immediately on Ubuntu/GNOME with the
+            AppIndicator extension</li>
+          <li>Fix a crash in the tray menu when logged out or when the Tailscale daemon is not
+            running</li>
+          <li>Show login profile details as a regular page</li>
+        </ul>
+      </description>
+      <url>https://github.com/f-koehler/KTailctl/releases/tag/v0.22.4</url>
+      <artifacts>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/archive/refs/tags/v0.22.4.tar.gz</location>
+        </artifact>
+        <artifact type="source">
+          <location>https://github.com/f-koehler/KTailctl/releases/download/v0.22.4/ktailctl-wrapper-vendor-v0.22.4.tar.gz</location>
+        </artifact>
+      </artifacts>
+    </release>
     <release version="0.22.3" date="2026-09-14" urgency="medium">
       <description>
         <p>A small patch release fixing stale startup feedback, plus internal dependency and tooling
