@@ -9,7 +9,7 @@ ecm_qt_declare_logging_category(
         DEFAULT_SEVERITY
         Info)
 
-target_sources(ktailctl PRIVATE tray_icon.hpp tray_icon.cpp
+target_sources(ktailctl PRIVATE tray_icon.hpp tray_icon.cpp tray_menu_util.hpp
         tray_menu_accounts.hpp tray_menu_accounts.cpp
         tray_menu_exit_nodes.hpp tray_menu_exit_nodes.cpp
         tray_menu_peers.hpp tray_menu_peers.cpp

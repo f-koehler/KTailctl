@@ -2,6 +2,7 @@
 
 #include <QByteArray>
 #include <QIcon>
+#include <QList>
 #include <QMessageLogger>
 #include <QModelIndex>
 #include <QStringBuilder>
@@ -17,6 +18,7 @@
 #include "preferences.hpp"
 #include "status.hpp"
 #include "tailscale.hpp"
+#include "tray_icon/tray_menu_util.hpp"
 
 TrayMenuExitNodesMullvad::TrayMenuExitNodesMullvad(Tailscale *tailscale, QWidget *parent)
     : QMenu(QStringLiteral("Mullvad"), parent)
@@ -39,25 +41,28 @@ TrayMenuExitNodesMullvad::TrayMenuExitNodesMullvad(Tailscale *tailscale, QWidget
         qCCritical(Logging::TrayIcon) << "Failed to find role index for id";
         mRoleIndicesFound = false;
     }
-    connect(this, &QMenu::aboutToShow, this, &TrayMenuExitNodesMullvad::rebuildMenu);
+    QTimer *timer = TrayMenuUtil::makeRebuildTimer(this, [this] -> void {
+        rebuildMenu();
+    });
+    TrayMenuUtil::rebuildOnModelChange(mTailscale->status()->mullvadExitNodeModel(), timer);
+    rebuildMenu();
 }
 
 void TrayMenuExitNodesMullvad::rebuildMenu()
 {
-    clear();
-    qDeleteAll(mPerCountryMenus);
-    mPerCountryMenus.clear();
-
     if (!mRoleIndicesFound) {
         return;
     }
-    const int rows = mTailscale->status()->mullvadExitNodeModel()->rowCount(QModelIndex{});
-    if (rows <= 0) {
-        setEnabled(false);
-        return;
-    }
-    setEnabled(true);
 
+    struct Node {
+        QString id;
+        QString hostName;
+        QString countryCode;
+        QString country;
+    };
+    QList<Node> nodes;
+    QString signature;
+    const int rows = mTailscale->status()->mullvadExitNodeModel()->rowCount(QModelIndex{});
     for (int row = 0; row < rows; ++row) {
         const QModelIndex index = mTailscale->status()->mullvadExitNodeModel()->index(row, 0);
         if (!index.isValid()) {
@@ -67,20 +72,45 @@ void TrayMenuExitNodesMullvad::rebuildMenu()
         if (location == nullptr) {
             continue;
         }
-        const auto &countryCode = location->countryCode();
-        const QIcon icon(QStringLiteral(":/country-flags/country-flag-") + countryCode.toLower());
-        auto menuIt = mPerCountryMenus.find(countryCode);
+        Node node{.id = index.data(mRoleIndexId).value<QString>(),
+                  .hostName = index.data(mRoleIndexHostName).toString(),
+                  .countryCode = location->countryCode(),
+                  .country = location->country()};
+        signature +=
+            node.id + QLatin1Char('\x1f') + node.hostName + QLatin1Char('\x1f') + node.countryCode + QLatin1Char('\x1f') + node.country + QLatin1Char('\x1e');
+        nodes.append(std::move(node));
+    }
+    if (mBuilt && signature == mLastSignature) {
+        return;
+    }
+    mBuilt = true;
+    mLastSignature = signature;
+
+    clear();
+    qDeleteAll(mPerCountryMenus);
+    mPerCountryMenus.clear();
+
+    setEnabled(!nodes.isEmpty());
+    if (nodes.isEmpty()) {
+        addAction(tr("No Mullvad exit nodes"))->setEnabled(false);
+        return;
+    }
+
+    for (const Node &node : std::as_const(nodes)) {
+        const QIcon icon(QStringLiteral(":/country-flags/country-flag-") + node.countryCode.toLower());
+        auto menuIt = mPerCountryMenus.find(node.countryCode);
         if (menuIt == mPerCountryMenus.end()) {
-            auto *newMenu = new QMenu(location->country(), this);
+            auto *newMenu = new QMenu(node.country, this);
             newMenu->setIcon(icon);
-            menuIt = mPerCountryMenus.insert(countryCode, newMenu);
+            menuIt = mPerCountryMenus.insert(node.countryCode, newMenu);
         }
-        const auto exitNodeId = index.data(mRoleIndexId).value<QString>();
-        menuIt.value()->addAction(icon, index.data(mRoleIndexHostName).toString(), this, [this, exitNodeId] -> void {
+        const QString exitNodeId = node.id;
+        menuIt.value()->addAction(icon, node.hostName, this, [this, exitNodeId] -> void {
             mTailscale->preferences()->setExitNodeID(exitNodeId);
         });
     }
 
+    // Country submenus are fully populated before they are added (and thereby exported)
     for (auto *menu : std::as_const(mPerCountryMenus)) {
         addMenu(menu);
     }

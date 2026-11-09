@@ -6,6 +6,7 @@
 #include <QMap>
 #include <QMenu>
 #include <QNetworkAccessManager>
+#include <QString>
 
 class TrayMenuAccounts : public QMenu
 {
@@ -13,6 +14,8 @@ class TrayMenuAccounts : public QMenu
 
     Tailscale *mTailscale;
     bool mRoleIndicesFound = false;
+    QString mLastSignature;
+    bool mBuilt = false;
     const int mRoleIndexId = -1;
     const int mRoleIndexName = -1;
     QNetworkAccessManager *mNetworkManager;
@@ -23,6 +26,9 @@ class TrayMenuAccounts : public QMenu
 
 public:
     explicit TrayMenuAccounts(Tailscale *tailscale, QWidget *parent = nullptr);
+
+Q_SIGNALS:
+    void avatarLoaded();
 
 public Q_SLOTS:
     Q_INVOKABLE void rebuildMenu();

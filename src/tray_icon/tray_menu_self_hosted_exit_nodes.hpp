@@ -2,6 +2,7 @@
 #define KTAILCTL_TRAY_MENU_SELF_HOSTED_EXIT_NODES_HPP
 
 #include <QMenu>
+#include <QString>
 #include <QWidget>
 #include <qtmetamacros.h>
 
@@ -13,6 +14,8 @@ class TrayMenuExitNodesSelfHosted : public QMenu
 
     Tailscale *mTailscale;
     bool mRoleIndicesFound = false;
+    QString mLastSignature;
+    bool mBuilt = false;
     const int mRoleIndexHostName = -1;
     const int mRoleIndexId = -1;
 

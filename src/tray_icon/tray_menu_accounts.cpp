@@ -6,6 +6,8 @@
 #include <QNetworkRequest>
 #include <QPixmap>
 
+#include "tray_icon/tray_menu_util.hpp"
+
 TrayMenuAccounts::TrayMenuAccounts(Tailscale *tailscale, QWidget *parent)
     : QMenu(QStringLiteral("Accounts"), parent)
     , mTailscale(tailscale)
@@ -23,7 +25,17 @@ TrayMenuAccounts::TrayMenuAccounts(Tailscale *tailscale, QWidget *parent)
         qCCritical(Logging::TrayIcon) << "Failed to find role index for name";
         mRoleIndicesFound = false;
     }
-    connect(this, &QMenu::aboutToShow, this, &TrayMenuAccounts::rebuildMenu);
+    QTimer *timer = TrayMenuUtil::makeRebuildTimer(this, [this] -> void {
+        rebuildMenu();
+    });
+    TrayMenuUtil::rebuildOnModelChange(mTailscale->loginProfileModel(), timer);
+    connect(mTailscale, &Tailscale::currentLoginProfileIdChanged, timer, [timer] -> void {
+        timer->start();
+    });
+    connect(this, &TrayMenuAccounts::avatarLoaded, timer, [timer] -> void {
+        timer->start();
+    });
+    rebuildMenu();
 }
 
 void TrayMenuAccounts::fetchAvatar(const QString &url)
@@ -42,6 +54,7 @@ void TrayMenuAccounts::fetchAvatar(const QString &url)
         pixmap.loadFromData(reply->readAll());
         if (!pixmap.isNull()) {
             mAvatarCache[url] = QIcon(pixmap);
+            Q_EMIT avatarLoaded();
         }
     });
 }
@@ -60,26 +73,49 @@ QIcon TrayMenuAccounts::resolveIcon(const QString &picUrl)
 
 void TrayMenuAccounts::rebuildMenu()
 {
-    clear();
     if (!mRoleIndicesFound) {
         return;
     }
+
+    struct Account {
+        QString id;
+        QString name;
+        QIcon icon;
+    };
+    QList<Account> accounts;
+    QString signature;
     const QString currentId = mTailscale->currentLoginProfileId();
+    signature += currentId + QLatin1Char('\x1e');
     const int rows = mTailscale->loginProfileModel()->rowCount(QModelIndex{});
     for (int row = 0; row < rows; ++row) {
         const QModelIndex index = mTailscale->loginProfileModel()->index(row, 0);
-        const QString profileId = mTailscale->loginProfileModel()->data(index, mRoleIndexId).toString();
-        const QString name = mTailscale->loginProfileModel()->data(index, mRoleIndexName).toString();
+        QString profileId = mTailscale->loginProfileModel()->data(index, mRoleIndexId).toString();
+        QString name = mTailscale->loginProfileModel()->data(index, mRoleIndexName).toString();
 
         QIcon icon = QIcon::fromTheme(QStringLiteral("user"));
         if (const LoginProfile *profile = mTailscale->loginProfileWithId(profileId)) {
             icon = resolveIcon(profile->userProfile()->profilePicUrl());
         }
+        signature += profileId + QLatin1Char('\x1f') + name + QLatin1Char('\x1f') + QString::number(icon.cacheKey()) + QLatin1Char('\x1e');
+        accounts.append({.id = std::move(profileId), .name = std::move(name), .icon = std::move(icon)});
+    }
+    if (mBuilt && signature == mLastSignature) {
+        return;
+    }
+    mBuilt = true;
+    mLastSignature = signature;
 
-        QAction *action = addAction(icon, name);
+    clear();
+    if (accounts.isEmpty()) {
+        addAction(tr("No accounts"))->setEnabled(false);
+        return;
+    }
+    for (const Account &account : std::as_const(accounts)) {
+        QAction *action = addAction(account.icon, account.name);
         action->setCheckable(true);
-        action->setChecked(profileId == currentId);
-        if (profileId != currentId) {
+        action->setChecked(account.id == currentId);
+        if (account.id != currentId) {
+            const QString profileId = account.id;
             connect(action, &QAction::triggered, this, [this, profileId] {
                 mTailscale->switchAccount(profileId);
             });

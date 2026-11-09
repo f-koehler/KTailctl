@@ -2,6 +2,7 @@
 #define KTAILCTL_TRAY_MENU_PEERS_HPP
 
 #include <QMenu>
+#include <QString>
 #include <QWidget>
 #include <qtmetamacros.h>
 
@@ -13,6 +14,8 @@ class TrayMenuPeers : public QMenu
 
     Tailscale *mTailscale;
     bool mRoleIndicesFound = false;
+    QString mLastSignature;
+    bool mBuilt = false;
     const int mRoleIndexHostName = -1;
     const int mRoleIndexMullvadNode = -1;
     const int mRoleIndexDnsName = -1;
