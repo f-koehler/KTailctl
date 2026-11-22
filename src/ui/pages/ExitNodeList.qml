@@ -228,11 +228,11 @@ Kirigami.ScrollablePage {
                 id: selfHostedRepeater
                 model: KTailctl.Tailscale.status.selfHostedExitNodeModel
                 delegate: ExitNodeRow {
-                    required property string id
+                    required property string peerId
                     required property string hostName
 
                     Layout.fillWidth: true
-                    nodeId: id
+                    nodeId: peerId
                     label: hostName
                     iconSource: "network-vpn"
                 }
@@ -256,12 +256,12 @@ Kirigami.ScrollablePage {
         delegate: ExitNodeRow {
             id: delegate
 
-            required property string id
+            required property string peerId
             required property string hostName
             required property var location
 
             width: ListView.view.width
-            nodeId: id
+            nodeId: peerId
             label: hostName
             sublabel: location ? "(" + location.city + ", " + location.country + ")" : ""
             iconSource: location ? "qrc:/country-flags/country-flag-" + location.countryCode.toLowerCase() : "network-vpn"

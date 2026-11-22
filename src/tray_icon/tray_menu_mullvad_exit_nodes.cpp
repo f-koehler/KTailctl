@@ -26,7 +26,7 @@ TrayMenuExitNodesMullvad::TrayMenuExitNodesMullvad(Tailscale *tailscale, QWidget
     , mRoleIndicesFound(true)
     , mRoleIndexHostName(tailscale->status()->peerModel()->roleIndexForProperty("hostName"))
     , mRoleIndexLocation(tailscale->status()->peerModel()->roleIndexForProperty("location"))
-    , mRoleIndexId(tailscale->status()->peerModel()->roleIndexForProperty("id"))
+    , mRoleIndexId(tailscale->status()->peerModel()->roleIndexForProperty("peerId"))
 {
     setIcon(QIcon(QStringLiteral(":/icons/mullvad.svg")));
     if (mRoleIndexHostName == -1) {
