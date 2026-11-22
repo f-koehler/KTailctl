@@ -21,6 +21,27 @@ FormCard.FormCardPage {
     // Lazily created, cached per-address Pinger (see Tailscale::pinger).
     readonly property var pinger: pingAvailable ? KTailctl.Tailscale.pinger(pingAddress) : null
 
+    property var activePinger: null
+    onPingerChanged: {
+        if (activePinger && activePinger !== pinger) {
+            activePinger.stop();
+        }
+        activePinger = pinger;
+    }
+    Component.onDestruction: {
+        if (activePinger) {
+            activePinger.stop();
+        }
+    }
+    Connections {
+        target: page.Window.window
+        function onVisibleChanged(): void {
+            if (!page.Window.window.visible && page.activePinger) {
+                page.activePinger.stop();
+            }
+        }
+    }
+
     // Bumped on the status-refresh cadence so the relative ping timestamp keeps
     // reformatting (e.g. "just now" → "1 minutes ago") even while paused.
     property int pingClock: 0
