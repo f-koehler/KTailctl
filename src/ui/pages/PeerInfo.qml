@@ -144,7 +144,7 @@ FormCard.FormCardPage {
 
                 PingGraph {
                     Layout.fillWidth: true
-                    implicitHeight: Kirigami.Units.gridUnit * 5
+                    implicitHeight: Kirigami.Units.gridUnit * 6
                     pinger: page.pinger
                     visible: page.pinger && (page.pinger.running || page.pinger.hasResult)
                 }

@@ -40,7 +40,7 @@ Canvas {
     // scrolled out of the window); stops the per-frame repaint.
     property bool idle: false
 
-    implicitHeight: Kirigami.Units.gridUnit * 5
+    implicitHeight: Kirigami.Units.gridUnit * 6
 
     onPingerChanged: {
         idle = false;
@@ -80,6 +80,25 @@ Canvas {
         return niceFraction * base;
     }
 
+    // Pick a "nice" x-axis tick step (in ms) giving roughly four intervals
+    // across the visible window.
+    function niceTimeStep(spanMs: real): real {
+        const candidates = [1000, 2000, 5000, 10000, 15000, 30000, 60000, 120000, 300000, 600000];
+        for (const step of candidates) {
+            if (spanMs / step <= 5) {
+                return step;
+            }
+        }
+        return candidates[candidates.length - 1];
+    }
+
+    function formatAge(ms: real): string {
+        if (ms === 0) {
+            return "now";
+        }
+        return ms % 60000 === 0 ? "-" + (ms / 60000) + " min" : "-" + (ms / 1000) + " s";
+    }
+
     onPaint: {
         const ctx = getContext("2d");
         ctx.reset();
@@ -93,14 +112,15 @@ Canvas {
         const maxMs = Math.max(scaleMaxMs, 1e-6);
         const decimals = labelMax < 10 ? 1 : 0;
 
-        // Reserve a left gutter for the y-axis labels and vertical padding so
-        // the top/bottom labels are not clipped.
+        // Reserve a left gutter for the y-axis labels, a bottom strip for the
+        // x-axis labels, and top padding so the top y label is not clipped.
         const padV = fontPx;
         const gutter = ctx.measureText(labelMax.toFixed(decimals) + " ms").width + Kirigami.Units.smallSpacing * 2;
+        const xAxisHeight = fontPx + Kirigami.Units.smallSpacing;
         const plotLeft = gutter;
         const plotRight = width;
         const plotTop = padV / 2;
-        const plotBottom = height - padV / 2;
+        const plotBottom = height - xAxisHeight - padV / 2;
         const plotHeight = Math.max(1, plotBottom - plotTop);
         const plotWidth = Math.max(1, plotRight - plotLeft);
 
@@ -116,6 +136,35 @@ Canvas {
             ctx.stroke();
             ctx.fillStyle = Qt.rgba(axisColor.r, axisColor.g, axisColor.b, 0.7);
             ctx.fillText((level * labelMax).toFixed(decimals) + " ms", gutter - Kirigami.Units.smallSpacing, y);
+        }
+
+        // Vertical gridlines and x-axis labels at fixed ages ("now" on the
+        // right). The ticks stay put while the samples scroll past them. The
+        // outermost labels are aligned inwards so they are never clipped, and
+        // labels that would collide with the previously drawn one are skipped.
+        const timeStep = niceTimeStep(windowMs);
+        const labelY = height - xAxisHeight / 2;
+        let lastLabelLeft = Infinity;
+        for (let age = 0; age <= windowMs + 0.5; age += timeStep) {
+            const x = plotRight - (age / windowMs) * plotWidth;
+            ctx.strokeStyle = Qt.rgba(axisColor.r, axisColor.g, axisColor.b, 0.1);
+            ctx.beginPath();
+            ctx.moveTo(Math.round(x) - 0.5, plotTop);
+            ctx.lineTo(Math.round(x) - 0.5, plotBottom);
+            ctx.stroke();
+
+            const label = formatAge(age);
+            const labelWidth = ctx.measureText(label).width;
+            let left = x - labelWidth / 2;
+            left = Math.min(left, plotRight - labelWidth);
+            left = Math.max(left, plotLeft);
+            if (left + labelWidth + Kirigami.Units.smallSpacing > lastLabelLeft) {
+                continue;
+            }
+            ctx.textAlign = "left";
+            ctx.fillStyle = Qt.rgba(axisColor.r, axisColor.g, axisColor.b, 0.7);
+            ctx.fillText(label, left, labelY);
+            lastLabelLeft = left;
         }
 
         if (!pinger) {
@@ -141,7 +190,7 @@ Canvas {
         // off cleanly at the axis instead of overlapping the labels.
         ctx.save();
         ctx.beginPath();
-        ctx.rect(plotLeft, 0, plotWidth, height);
+        ctx.rect(plotLeft, 0, plotWidth, plotBottom + padV / 2);
         ctx.clip();
 
         // Failed samples: faint full-height band.
