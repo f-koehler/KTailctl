@@ -11,28 +11,85 @@ name: CodeQL
       - main
   schedule:
     - cron: "0 6 * * 1"
+  workflow_dispatch: {}
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+permissions:
+  contents: read
 jobs:
-  analyze:
+  analyze-compiled:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/f-koehler/ktailctl-ci:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: read
+      packages: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - language: c-cpp
+            build-target: all
+          - language: go
+            build-target: ktailctl_wrapper_target
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Configure
+        shell: bash
+        run: |
+          set -o pipefail
+          cmake -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DKTAILCTL_ENABLE_TESTS=OFF \
+            -DKTAILCTL_FLATPAK_BUILD=OFF \
+            -DKTAILCTL_FETCH_GO=ON \
+            | tee cmake-configure.log
+      - name: Add fetched Go toolchain to PATH
+        shell: bash
+        run: |
+          go_bin=$(grep -m1 '^-- Go executable:' cmake-configure.log | sed 's/^-- Go executable: //')
+          dirname "${go_bin}" >> "${GITHUB_PATH}"
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@33d7b85da1a04171e211befe2c739303b9a4c066 # v4.39.3
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: manual
+          queries: security-and-quality
+      - name: Build
+        run: cmake --build build --parallel --target ${{ matrix.build-target }}
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@33d7b85da1a04171e211befe2c739303b9a4c066 # v4.39.3
+        with:
+          category: /language:${{ matrix.language }}
+  analyze-interpreted:
+    name: Analyze (${{ matrix.language }})
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       security-events: write
     strategy:
       fail-fast: false
       matrix:
         language:
-          - c-cpp
-          - go
+          - actions
           - python
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - name: Add KDE Neon repository
-        run: ./scripts/ci/apt-add-kde-neon-repo.sh
-      - name: Update apt cache
-        run: sudo apt-get update -yq
-      - name: Install dependencies
-        run: sudo ./scripts/neon-deps.sh
-      - uses: github/codeql-action/init@33d7b85da1a04171e211befe2c739303b9a4c066 # v4
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@33d7b85da1a04171e211befe2c739303b9a4c066 # v4.39.3
         with:
           languages: ${{ matrix.language }}
-      - uses: github/codeql-action/autobuild@5595ccaf912efad79be6eef63a5619ff05969be3 # v4
-      - uses: github/codeql-action/analyze@5595ccaf912efad79be6eef63a5619ff05969be3 # v4
+          build-mode: none
+          queries: security-and-quality
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@33d7b85da1a04171e211befe2c739303b9a4c066 # v4.39.3
+        with:
+          category: /language:${{ matrix.language }}
