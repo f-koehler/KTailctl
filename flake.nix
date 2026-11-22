@@ -66,6 +66,8 @@
             shellHook = ''
               unset CMAKE_TOOLCHAIN_FILE
 
+              export SSL_CERT_FILE="''${SSL_CERT_FILE:-${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt}"
+
               export QML2_IMPORT_PATH="${qtPath "qml"}"
               export QT_PLUGIN_PATH="${qtPath "plugins"}"
               export XDG_DATA_DIRS="${pkgs.lib.makeSearchPath "share" qtDeps}''${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}"
