@@ -20,6 +20,7 @@ PACKAGES=(
 	libkf6iconthemes-dev
 	libkf6notifications-dev
 	libkf6windowsystem-dev
+	libkf6threadweaver-dev
 	libomp-dev
 	libqt6quickcontrols2-6
 	libqt6svg6-dev
