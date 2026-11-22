@@ -46,7 +46,10 @@ void PeerStatus::updateFromJson(QJsonObject &json)
     mExitNodeOption = json.take(QStringLiteral("ExitNodeOption")).toBool();
     mActive = json.take(QStringLiteral("Active")).toBool();
     mPeerApiUrls = json.take(QStringLiteral("PeerApiUrls")).toVariant().toStringList();
-    // mTaildropTargetStatus
+    const int taildropTarget = json.take(QStringLiteral("TaildropTarget")).toInt();
+    mTaildropTargetStatus = (taildropTarget >= 0 && taildropTarget <= static_cast<int>(TaildropTargetStatus::OwnedByOtherUser))
+        ? static_cast<TaildropTargetStatus>(taildropTarget)
+        : TaildropTargetStatus::Unknown;
     mNoFileSharingReason = json.take(QStringLiteral("NoFileSharingReason")).toString();
     mSshHostKeys = json.take(QStringLiteral("sshHostKeys")).toVariant().toStringList();
     mShareeNode = json.take(QStringLiteral("ShareeNode")).toBool();

@@ -18,6 +18,7 @@
 #include "property_list_model.hpp"
 #include "status/login_profile.hpp"
 #include "status/status.hpp"
+#include "taildrop/taildrop_sender.hpp"
 
 using LoginProfileModelBase = PropertyListModel<LoginProfile, PropertyListModelOwnership::External>;
 
@@ -50,6 +51,7 @@ public:
 
     Q_PROPERTY(Status *status READ status CONSTANT)
     Q_PROPERTY(Preferences *preferences READ preferences CONSTANT)
+    Q_PROPERTY(TaildropSender *taildropSender READ taildropSender CONSTANT)
     Q_PROPERTY(LoginProfileModel *loginProfiles READ loginProfileModel CONSTANT)
     Q_PROPERTY(QString currentLoginProfileId READ currentLoginProfileId BINDABLE bindableCurrentLoginProfileId NOTIFY currentLoginProfileIdChanged)
 
@@ -61,6 +63,7 @@ private:
 
     Status *mStatus;
     Preferences *mPreferences;
+    TaildropSender *mTaildropSender;
     QMap<QString, LoginProfile *> mLoginProfiles;
     LoginProfileModel *mLoginProfileModel;
     QTimer *mRefreshTimer;
@@ -71,6 +74,7 @@ public:
         : QObject(parent)
         , mStatus(new Status(this))
         , mPreferences(new Preferences(this))
+        , mTaildropSender(new TaildropSender(this))
         , mLoginProfileModel(new LoginProfileModel(this))
         , mRefreshTimer(new QTimer(this))
     {
@@ -96,6 +100,11 @@ public:
     [[nodiscard]] auto preferences() const noexcept -> Preferences *
     {
         return mPreferences;
+    }
+
+    [[nodiscard]] auto taildropSender() const noexcept -> TaildropSender *
+    {
+        return mTaildropSender;
     }
 
     [[nodiscard]] auto loginProfileModel() const noexcept -> LoginProfileModel *

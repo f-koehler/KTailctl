@@ -21,11 +21,16 @@ class TrayMenuPeers : public QMenu
     const int mRoleIndexDnsName = -1;
     const int mRoleIndexTailscaleIps = -1;
     const int mRoleIndexOs = -1;
+    const int mRoleIndexId = -1;
+    const int mRoleIndexTaildropTargetStatus = -1;
 
 public:
     explicit TrayMenuPeers(Tailscale *tailscale, QWidget *parent = nullptr);
 
     Q_INVOKABLE void rebuildMenu();
+
+private:
+    void openSendFilesDialog(const QString &peerId, const QString &peerName);
 };
 
 #endif // KTAILCTL_TRAY_MENU_PEERS_HPP
