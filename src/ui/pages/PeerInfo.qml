@@ -14,7 +14,7 @@ FormCard.FormCardPage {
 
     // Whether this page shows our own node; pinging your own Tailscale IP is a
     // local no-op, so the ping section is hidden in that case.
-    readonly property bool isSelf: (peer && KTailctl.Tailscale.status.self) ? (peer.id === KTailctl.Tailscale.status.self.id) : false
+    readonly property bool isSelf: (peer && KTailctl.Tailscale.status.self) ? (peer.peerId === KTailctl.Tailscale.status.self.peerId) : false
     // First Tailscale IP of the peer; the target for pinging.
     readonly property string pingAddress: (peer?.tailscaleIps?.length ?? 0) > 0 ? peer.tailscaleIps[0] : ""
     readonly property bool pingAvailable: !isSelf && pingAddress !== ""
