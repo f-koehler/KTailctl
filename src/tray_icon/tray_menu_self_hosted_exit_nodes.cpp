@@ -22,7 +22,7 @@ TrayMenuExitNodesSelfHosted::TrayMenuExitNodesSelfHosted(Tailscale *tailscale, Q
     , mTailscale(tailscale)
     , mRoleIndicesFound(true)
     , mRoleIndexHostName((tailscale->status()->peerModel()->roleIndexForProperty("hostName")))
-    , mRoleIndexId((tailscale->status()->peerModel()->roleIndexForProperty("id")))
+    , mRoleIndexId((tailscale->status()->peerModel()->roleIndexForProperty("peerId")))
 {
     if (mRoleIndexHostName == -1) {
         qCCritical(Logging::TrayIcon) << "Failed to find role index for hostName";

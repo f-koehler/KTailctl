@@ -267,7 +267,7 @@ Kirigami.ScrollablePage {
 
             PeerRow {
                 Layout.fillWidth: true
-                peerId: KTailctl.Tailscale.status.self.id
+                peerId: KTailctl.Tailscale.status.self.peerId
                 hostLabel: KTailctl.Tailscale.status.self.hostName
                 isOnline: KTailctl.Tailscale.status.self.online
                 osName: KTailctl.Tailscale.status.self.os
@@ -283,14 +283,13 @@ Kirigami.ScrollablePage {
         delegate: PeerRow {
             id: delegate
 
-            required property string id
+            required peerId
             required property bool online
             required property string hostName
             required property string os
             required property list<string> tags
 
             width: ListView.view.width
-            peerId: id
             hostLabel: hostName
             isOnline: online
             osName: os

@@ -37,7 +37,7 @@ public:
 
     Q_ENUM(TaildropTargetStatus)
 
-    Q_PROPERTY(QString id READ id BINDABLE bindableId NOTIFY idChanged)
+    Q_PROPERTY(QString peerId READ id BINDABLE bindableId NOTIFY idChanged)
     Q_PROPERTY(QString publicKey READ publicKey BINDABLE bindablePublicKey NOTIFY publicKeyChanged)
     Q_PROPERTY(QString hostName READ hostName BINDABLE bindableHostName NOTIFY hostNameChanged)
     Q_PROPERTY(QString dnsName READ dnsName BINDABLE bindableDnsName NOTIFY dnsNameChanged)

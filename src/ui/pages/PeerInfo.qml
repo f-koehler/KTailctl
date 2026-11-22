@@ -82,11 +82,11 @@ FormCard.FormCardPage {
     FormCard.FormCard {
         FormCard.FormButtonDelegate {
             id: peerId
-            text: peer?.id ?? ""
+            text: peer?.peerId ?? ""
             description: "Node ID"
             trailingLogo.source: "edit-copy"
             onClicked: {
-                KTailctl.Util.setClipboardText(peer.id);
+                KTailctl.Util.setClipboardText(peer.peerId);
             }
         }
 
