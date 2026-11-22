@@ -14,6 +14,7 @@
 #include <qttypetraits.h>
 
 #include "ktailctl_config.h"
+#include "ping/pinger.hpp"
 #include "preferences/preferences.hpp"
 #include "property_list_model.hpp"
 #include "status/login_profile.hpp"
@@ -63,6 +64,7 @@ private:
     Preferences *mPreferences;
     QMap<QString, LoginProfile *> mLoginProfiles;
     LoginProfileModel *mLoginProfileModel;
+    QMap<QString, Pinger *> mPingers;
     QTimer *mRefreshTimer;
     Q_OBJECT_BINDABLE_PROPERTY(Tailscale, QString, mCurrentLoginProfileId, &Tailscale::currentLoginProfileIdChanged)
 
@@ -115,6 +117,11 @@ public:
 
     Q_INVOKABLE LoginProfile *loginProfileWithId(const QString &loginProfileId) const noexcept; // NOLINT(modernize-use-trailing-return-type)
     Q_INVOKABLE void refreshLoginProfiles();
+
+    // Returns the (lazily created, cached) Pinger for the given Tailscale
+    // address. Pingers live for the lifetime of the application so their
+    // history survives navigating away from and back to a peer.
+    Q_INVOKABLE Pinger *pinger(const QString &address); // NOLINT(modernize-use-trailing-return-type)
 
     Q_SLOT Q_INVOKABLE void up() const noexcept;
     Q_SLOT Q_INVOKABLE void down() const noexcept;

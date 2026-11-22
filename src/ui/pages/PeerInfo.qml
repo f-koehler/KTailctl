@@ -12,6 +12,46 @@ FormCard.FormCardPage {
 
     title: peer?.hostName ?? ""
 
+    // Whether this page shows our own node; pinging your own Tailscale IP is a
+    // local no-op, so the ping section is hidden in that case.
+    readonly property bool isSelf: (peer && KTailctl.Tailscale.status.self) ? (peer.peerId === KTailctl.Tailscale.status.self.peerId) : false
+    // First Tailscale IP of the peer; the target for pinging.
+    readonly property string pingAddress: (peer?.tailscaleIps?.length ?? 0) > 0 ? peer.tailscaleIps[0] : ""
+    readonly property bool pingAvailable: !isSelf && pingAddress !== ""
+    // Lazily created, cached per-address Pinger (see Tailscale::pinger).
+    readonly property var pinger: pingAvailable ? KTailctl.Tailscale.pinger(pingAddress) : null
+
+    property var activePinger: null
+    onPingerChanged: {
+        if (activePinger && activePinger !== pinger) {
+            activePinger.stop();
+        }
+        activePinger = pinger;
+    }
+    Component.onDestruction: {
+        if (activePinger) {
+            activePinger.stop();
+        }
+    }
+    Connections {
+        target: page.Window.window
+        function onVisibleChanged(): void {
+            if (!page.Window.window.visible && page.activePinger) {
+                page.activePinger.stop();
+            }
+        }
+    }
+
+    // Bumped on the status-refresh cadence so the relative ping timestamp keeps
+    // reformatting (e.g. "just now" → "1 minutes ago") even while paused.
+    property int pingClock: 0
+    Timer {
+        interval: KTailctl.Config.refreshInterval
+        running: page.pingAvailable
+        repeat: true
+        onTriggered: page.pingClock += 1
+    }
+
     signal closeRequested
 
     actions: [
@@ -44,6 +84,69 @@ FormCard.FormCardPage {
                     onClicked: {
                         KTailctl.Util.setClipboardText(modelData);
                     }
+                }
+            }
+        }
+    }
+
+    FormCard.FormHeader {
+        visible: page.pingAvailable
+        title: "Ping"
+    }
+
+    FormCard.FormCard {
+        visible: page.pingAvailable
+
+        FormCard.AbstractFormDelegate {
+            background: null
+            contentItem: ColumnLayout {
+                spacing: Kirigami.Units.largeSpacing
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: Kirigami.Units.largeSpacing
+
+                    Button {
+                        icon.name: (page.pinger && page.pinger.running) ? "media-playback-stop" : "media-playback-start"
+                        text: (page.pinger && page.pinger.running) ? "Stop" : "Start"
+                        onClicked: {
+                            if (page.pinger) {
+                                page.pinger.toggle();
+                            }
+                        }
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        horizontalAlignment: Text.AlignRight
+                        elide: Text.ElideRight
+                        color: (page.pinger && page.pinger.hasResult && !page.pinger.lastSuccess) ? Kirigami.Theme.negativeTextColor : Kirigami.Theme.textColor
+                        // The pingClock argument forces this binding to re-run on the
+                        // refresh cadence so the relative timestamp stays current.
+                        text: formatPingStatus(page.pingClock)
+
+                        function formatPingStatus(clock: int): string {
+                            const p = page.pinger;
+                            if (!p) {
+                                return "";
+                            }
+                            if (!p.hasResult) {
+                                return p.running ? "Pinging…" : "Not pinged yet";
+                            }
+                            const when = KTailctl.Util.formatDurationHumanReadable(p.lastTime);
+                            if (p.lastSuccess) {
+                                return p.lastLatencyMs.toFixed(1) + " ms via " + p.lastVia + " · " + when;
+                            }
+                            return (p.lastError !== "" ? p.lastError : "no reply") + " · " + when;
+                        }
+                    }
+                }
+
+                PingGraph {
+                    Layout.fillWidth: true
+                    implicitHeight: Kirigami.Units.gridUnit * 6
+                    pinger: page.pinger
+                    visible: page.pinger && (page.pinger.running || page.pinger.hasResult)
                 }
             }
         }
