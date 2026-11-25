@@ -1,0 +1,14 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	cd src/tailscale/wrapper && go mod vendor && cd ../../..
+	dh_auto_configure -- -DKTAILCTL_FLATPAK_BUILD=ON
+
+override_dh_dwz:
+	true
+
+override_dh_auto_clean:
+	rm -rf builddir

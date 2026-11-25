@@ -1,0 +1,36 @@
+Source: ktailctl
+Section: kde
+Priority: optional
+Maintainer: Fame <fame@famelinuxpc>
+Build-Depends: debhelper-compat (= 13),
+               cmake,
+               extra-cmake-modules,
+               pkg-config,
+               qt6-base-dev,
+               qt6-declarative-dev,
+               qt6-svg-dev,
+               qt6-wayland-dev,
+               libkf6config-dev,
+               libkf6coreaddons-dev,
+               libkf6dbusaddons-dev,
+               libkf6guiaddons-dev,
+               libkf6i18n-dev,
+               libkirigami-dev,
+               kirigami-addons-dev,
+               libkf6notifications-dev,
+               libkf6windowsystem-dev,
+               nlohmann-json3-dev,
+               golang-go,
+               appstream,
+               desktop-file-utils
+Standards-Version: 4.6.2
+Homepage: https://github.com/f-koehler/KTailctl
+
+Package: ktailctl
+Architecture: any
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         tailscale
+Description: GUI to monitor and manage Tailscale on Linux
+ A native KDE desktop client for monitoring and managing
+ your Tailscale mesh network. Built with Kirigami.
